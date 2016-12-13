@@ -15,6 +15,9 @@
 		A27820731E001503009F83DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A27820711E001503009F83DB /* LaunchScreen.storyboard */; };
 		A278207E1E001503009F83DB /* CoreKPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A278207D1E001503009F83DB /* CoreKPITests.swift */; };
 		A27820891E001503009F83DB /* CoreKPIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27820881E001503009F83DB /* CoreKPIUITests.swift */; };
+		A27820971E001530009F83DB /* RequestServise.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27820961E001530009F83DB /* RequestServise.swift */; };
+		A27820A11E001A0B009F83DB /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A278209F1E001A0B009F83DB /* Alamofire.framework */; };
+		A27820A21E001A0B009F83DB /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A27820A01E001A0B009F83DB /* SwiftyJSON.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +52,9 @@
 		A27820841E001503009F83DB /* CoreKPIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreKPIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A27820881E001503009F83DB /* CoreKPIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreKPIUITests.swift; sourceTree = "<group>"; };
 		A278208A1E001503009F83DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A27820961E001530009F83DB /* RequestServise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestServise.swift; path = ../RequestServise.swift; sourceTree = "<group>"; };
+		A278209F1E001A0B009F83DB /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		A27820A01E001A0B009F83DB /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +62,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A27820A11E001A0B009F83DB /* Alamofire.framework in Frameworks */,
+				A27820A21E001A0B009F83DB /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +91,7 @@
 				A278207C1E001503009F83DB /* CoreKPITests */,
 				A27820871E001503009F83DB /* CoreKPIUITests */,
 				A27820631E001503009F83DB /* Products */,
+				A278209E1E001A0B009F83DB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -100,12 +109,12 @@
 			isa = PBXGroup;
 			children = (
 				A27820651E001503009F83DB /* AppDelegate.swift */,
-				A27820671E001503009F83DB /* ViewController.swift */,
-				A27820691E001503009F83DB /* Main.storyboard */,
+				A278209B1E0015A3009F83DB /* ViewControllers */,
+				A278209D1E0015D5009F83DB /* Views */,
+				A278209A1E001581009F83DB /* SupportingFiles */,
+				A27820991E001568009F83DB /* CoreData */,
+				A27820981E001539009F83DB /* Services */,
 				A278206F1E001503009F83DB /* Assets.xcassets */,
-				A27820711E001503009F83DB /* LaunchScreen.storyboard */,
-				A27820741E001503009F83DB /* Info.plist */,
-				A278206C1E001503009F83DB /* CoreKPI.xcdatamodeld */,
 			);
 			path = CoreKPI;
 			sourceTree = "<group>";
@@ -128,6 +137,64 @@
 			path = CoreKPIUITests;
 			sourceTree = "<group>";
 		};
+		A27820981E001539009F83DB /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A27820961E001530009F83DB /* RequestServise.swift */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
+		A27820991E001568009F83DB /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				A278206C1E001503009F83DB /* CoreKPI.xcdatamodeld */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
+		A278209A1E001581009F83DB /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				A27820741E001503009F83DB /* Info.plist */,
+			);
+			name = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		A278209B1E0015A3009F83DB /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				A27820671E001503009F83DB /* ViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		A278209C1E0015BA009F83DB /* StoryBoards */ = {
+			isa = PBXGroup;
+			children = (
+				A27820711E001503009F83DB /* LaunchScreen.storyboard */,
+				A27820691E001503009F83DB /* Main.storyboard */,
+			);
+			name = StoryBoards;
+			sourceTree = "<group>";
+		};
+		A278209D1E0015D5009F83DB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A278209C1E0015BA009F83DB /* StoryBoards */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		A278209E1E001A0B009F83DB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A278209F1E001A0B009F83DB /* Alamofire.framework */,
+				A27820A01E001A0B009F83DB /* SwiftyJSON.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -138,6 +205,7 @@
 				A278205E1E001503009F83DB /* Sources */,
 				A278205F1E001503009F83DB /* Frameworks */,
 				A27820601E001503009F83DB /* Resources */,
+				A27820A31E001A16009F83DB /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -257,12 +325,31 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		A27820A31E001A16009F83DB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SwiftyJSON.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		A278205E1E001503009F83DB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				A27820681E001503009F83DB /* ViewController.swift in Sources */,
+				A27820971E001530009F83DB /* RequestServise.swift in Sources */,
 				A278206E1E001503009F83DB /* CoreKPI.xcdatamodeld in Sources */,
 				A27820661E001503009F83DB /* AppDelegate.swift in Sources */,
 			);
@@ -414,6 +501,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = CoreKPI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = CoreKPI.CoreKPI;
@@ -426,6 +517,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = CoreKPI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = CoreKPI.CoreKPI;
@@ -507,6 +602,7 @@
 				A278208F1E001503009F83DB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A27820901E001503009F83DB /* Build configuration list for PBXNativeTarget "CoreKPITests" */ = {
 			isa = XCConfigurationList;
@@ -515,6 +611,7 @@
 				A27820921E001503009F83DB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A27820931E001503009F83DB /* Build configuration list for PBXNativeTarget "CoreKPIUITests" */ = {
 			isa = XCConfigurationList;
@@ -523,6 +620,7 @@
 				A27820951E001503009F83DB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

@@ -10,9 +10,25 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    let request = Request()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+       
+        let backgroundQueue = DispatchQueue(label: "load", qos: .background, target: nil)
+        
+        backgroundQueue.async() {
+            self.request.getJsonTest(
+                success: { (json) in
+                    print(json)
+                    
+            },
+                failure: { (error) in
+                    print(error)
+            })
+        }
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
