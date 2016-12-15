@@ -22,6 +22,7 @@ class RegisterViewController: UIViewController {
         
         self.registerButton.layer.borderColor = UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0).cgColor
 
+        self.emailTextField.keyboardType = UIKeyboardType.emailAddress
         // Do any additional setup after loading the view.
     }
 

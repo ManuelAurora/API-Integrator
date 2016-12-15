@@ -10,12 +10,15 @@ import UIKit
 
 class RecoveryPasswordViewController: UIViewController {
     @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var emailTextField: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.sendButton.layer.borderWidth = 1.0
         self.sendButton.layer.borderColor = UIColor(red: 124.0/255.0, green: 77.0/255.0, blue: 255.0/255.0, alpha: 1.0).cgColor
+        
+        self.emailTextField.keyboardType = UIKeyboardType.emailAddress
     }
 
     override func didReceiveMemoryWarning() {
@@ -23,6 +26,12 @@ class RecoveryPasswordViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func tapSendButton(_ sender: Any) {
+        
+        
+        
+        self.dismiss(animated: true, completion: nil)
+    }
 
     /*
     // MARK: - Navigation
@@ -33,5 +42,4 @@ class RecoveryPasswordViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
 }

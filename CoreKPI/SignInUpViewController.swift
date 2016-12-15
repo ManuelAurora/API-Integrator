@@ -9,6 +9,9 @@
 import UIKit
 
 class SignInUpViewController: UIViewController {
+    
+    
+    
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
 
