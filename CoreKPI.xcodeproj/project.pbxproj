@@ -7,8 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25B4A561E0275B400F315F9 /* CustomTextField.swift */; };
+		A25B4A591E027ABD00F315F9 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25B4A581E027ABD00F315F9 /* RegisterViewController.swift */; };
+		A25B4A5B1E027E9100F315F9 /* NewProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25B4A5A1E027E9100F315F9 /* NewProfileViewController.swift */; };
+		A25B4A5D1E028F7D00F315F9 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25B4A5C1E028F7D00F315F9 /* SignInViewController.swift */; };
+		A25B4A5F1E0291E000F315F9 /* RecoveryPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25B4A5E1E0291E000F315F9 /* RecoveryPasswordViewController.swift */; };
+		A25B4A631E029AFC00F315F9 /* InviteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25B4A621E029AFC00F315F9 /* InviteTableViewController.swift */; };
 		A27820661E001503009F83DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27820651E001503009F83DB /* AppDelegate.swift */; };
-		A27820681E001503009F83DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27820671E001503009F83DB /* ViewController.swift */; };
 		A278206B1E001503009F83DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A27820691E001503009F83DB /* Main.storyboard */; };
 		A278206E1E001503009F83DB /* CoreKPI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A278206C1E001503009F83DB /* CoreKPI.xcdatamodeld */; };
 		A27820701E001503009F83DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A278206F1E001503009F83DB /* Assets.xcassets */; };
@@ -18,7 +23,6 @@
 		A27820971E001530009F83DB /* RequestServise.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27820961E001530009F83DB /* RequestServise.swift */; };
 		A27820A11E001A0B009F83DB /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A278209F1E001A0B009F83DB /* Alamofire.framework */; };
 		A27820A21E001A0B009F83DB /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A27820A01E001A0B009F83DB /* SwiftyJSON.framework */; };
-		A2FFC3121E013C64000B80B8 /* SignInTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FFC3111E013C64000B80B8 /* SignInTableViewController.swift */; };
 		A2FFC3141E0146A8000B80B8 /* SignInUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FFC3131E0146A8000B80B8 /* SignInUpViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,9 +44,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A25B4A561E0275B400F315F9 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		A25B4A581E027ABD00F315F9 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		A25B4A5A1E027E9100F315F9 /* NewProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewProfileViewController.swift; sourceTree = "<group>"; };
+		A25B4A5C1E028F7D00F315F9 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		A25B4A5E1E0291E000F315F9 /* RecoveryPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecoveryPasswordViewController.swift; sourceTree = "<group>"; };
+		A25B4A621E029AFC00F315F9 /* InviteTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InviteTableViewController.swift; path = ../InviteTableViewController.swift; sourceTree = "<group>"; };
 		A27820621E001503009F83DB /* CoreKPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreKPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A27820651E001503009F83DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A27820671E001503009F83DB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A278206A1E001503009F83DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A278206D1E001503009F83DB /* CoreKPI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreKPI.xcdatamodel; sourceTree = "<group>"; };
 		A278206F1E001503009F83DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -57,7 +66,6 @@
 		A27820961E001530009F83DB /* RequestServise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestServise.swift; path = ../RequestServise.swift; sourceTree = "<group>"; };
 		A278209F1E001A0B009F83DB /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		A27820A01E001A0B009F83DB /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
-		A2FFC3111E013C64000B80B8 /* SignInTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInTableViewController.swift; sourceTree = "<group>"; };
 		A2FFC3131E0146A8000B80B8 /* SignInUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInUpViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -160,6 +168,7 @@
 		A278209A1E001581009F83DB /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				A25B4A561E0275B400F315F9 /* CustomTextField.swift */,
 				A27820741E001503009F83DB /* Info.plist */,
 			);
 			name = SupportingFiles;
@@ -168,9 +177,12 @@
 		A278209B1E0015A3009F83DB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				A27820671E001503009F83DB /* ViewController.swift */,
 				A2FFC3131E0146A8000B80B8 /* SignInUpViewController.swift */,
-				A2FFC3111E013C64000B80B8 /* SignInTableViewController.swift */,
+				A25B4A581E027ABD00F315F9 /* RegisterViewController.swift */,
+				A25B4A5A1E027E9100F315F9 /* NewProfileViewController.swift */,
+				A25B4A5C1E028F7D00F315F9 /* SignInViewController.swift */,
+				A25B4A5E1E0291E000F315F9 /* RecoveryPasswordViewController.swift */,
+				A25B4A621E029AFC00F315F9 /* InviteTableViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -354,11 +366,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A2FFC3121E013C64000B80B8 /* SignInTableViewController.swift in Sources */,
-				A27820681E001503009F83DB /* ViewController.swift in Sources */,
+				A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */,
+				A25B4A591E027ABD00F315F9 /* RegisterViewController.swift in Sources */,
+				A25B4A5B1E027E9100F315F9 /* NewProfileViewController.swift in Sources */,
 				A27820971E001530009F83DB /* RequestServise.swift in Sources */,
+				A25B4A5D1E028F7D00F315F9 /* SignInViewController.swift in Sources */,
 				A2FFC3141E0146A8000B80B8 /* SignInUpViewController.swift in Sources */,
+				A25B4A631E029AFC00F315F9 /* InviteTableViewController.swift in Sources */,
 				A278206E1E001503009F83DB /* CoreKPI.xcdatamodeld in Sources */,
+				A25B4A5F1E0291E000F315F9 /* RecoveryPasswordViewController.swift in Sources */,
 				A27820661E001503009F83DB /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

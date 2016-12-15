@@ -1,18 +1,21 @@
 //
-//  SignInTableViewController.swift
+//  InviteTableViewController.swift
 //  CoreKPI
 //
-//  Created by Семен on 14.12.16.
+//  Created by Семен on 15.12.16.
 //  Copyright © 2016 SmiChrisSoft. All rights reserved.
 //
 
 import UIKit
 
-class SignInTableViewController: UITableViewController {
+class InviteTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
