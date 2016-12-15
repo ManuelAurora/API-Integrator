@@ -18,6 +18,8 @@
 		A27820971E001530009F83DB /* RequestServise.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27820961E001530009F83DB /* RequestServise.swift */; };
 		A27820A11E001A0B009F83DB /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A278209F1E001A0B009F83DB /* Alamofire.framework */; };
 		A27820A21E001A0B009F83DB /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A27820A01E001A0B009F83DB /* SwiftyJSON.framework */; };
+		A2FFC3121E013C64000B80B8 /* SignInTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FFC3111E013C64000B80B8 /* SignInTableViewController.swift */; };
+		A2FFC3141E0146A8000B80B8 /* SignInUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FFC3131E0146A8000B80B8 /* SignInUpViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,8 @@
 		A27820961E001530009F83DB /* RequestServise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestServise.swift; path = ../RequestServise.swift; sourceTree = "<group>"; };
 		A278209F1E001A0B009F83DB /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		A27820A01E001A0B009F83DB /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
+		A2FFC3111E013C64000B80B8 /* SignInTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInTableViewController.swift; sourceTree = "<group>"; };
+		A2FFC3131E0146A8000B80B8 /* SignInUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInUpViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +169,8 @@
 			isa = PBXGroup;
 			children = (
 				A27820671E001503009F83DB /* ViewController.swift */,
+				A2FFC3131E0146A8000B80B8 /* SignInUpViewController.swift */,
+				A2FFC3111E013C64000B80B8 /* SignInTableViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -348,8 +354,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2FFC3121E013C64000B80B8 /* SignInTableViewController.swift in Sources */,
 				A27820681E001503009F83DB /* ViewController.swift in Sources */,
 				A27820971E001530009F83DB /* RequestServise.swift in Sources */,
+				A2FFC3141E0146A8000B80B8 /* SignInUpViewController.swift in Sources */,
 				A278206E1E001503009F83DB /* CoreKPI.xcdatamodeld in Sources */,
 				A27820661E001503009F83DB /* AppDelegate.swift in Sources */,
 			);
