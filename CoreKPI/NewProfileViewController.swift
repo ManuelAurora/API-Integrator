@@ -13,20 +13,21 @@ enum TypeOfAccount: String {
     case Manager
 }
 
-class NewProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class NewProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var newProfileTableView: UITableView!
     
-    var typeOfAccout: TypeOfAccount!
+    @IBOutlet weak var profilePhotoImageView: UIImageView!
     
+    var typeOfAccout: TypeOfAccount!
+    let imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
-//        navigationItem.rightBarButtonItem?.tintColor = UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)
         
-        // Do any additional setup after loading the view.
+        imagePicker.delegate = self
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -75,5 +76,31 @@ class NewProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
+    
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        profilePhotoImageView.image = info[UIImagePickerControllerOriginalImage] as! UIImage?
+        profilePhotoImageView.contentMode = UIViewContentMode.scaleAspectFill
+        profilePhotoImageView.clipsToBounds = true
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func tapProfilePhoto(_ sender: Any) {
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            
+            imagePicker.allowsEditing = false
+            imagePicker.sourceType = .photoLibrary
+            
+            self.present(imagePicker, animated: true, completion: nil)
+        } else {
+            let alertController = UIAlertController(title: "Oops", message: "Access is denied", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            
+        }
+    }
+
     
 }

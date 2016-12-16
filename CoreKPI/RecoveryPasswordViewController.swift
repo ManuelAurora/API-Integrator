@@ -28,9 +28,21 @@ class RecoveryPasswordViewController: UIViewController {
     
     @IBAction func tapSendButton(_ sender: Any) {
         
+        let email = emailTextField.text
         
+        if email == "" || email?.range(of: "@") == nil || (email?.components(separatedBy: "@")[0].isEmpty)! ||  (email?.components(separatedBy: "@")[1].isEmpty)!{
+            let alertController = UIAlertController(title: "Oops", message: "Invalid E-mail adress", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            return
+        } else {
+            
+            //Отправка запроса на восстановление
+            
+            self.dismiss(animated: true, completion: nil)
+            
+        }
         
-        self.dismiss(animated: true, completion: nil)
     }
 
     /*

@@ -31,7 +31,7 @@ class TypeOfAccountTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -55,6 +55,21 @@ class TypeOfAccountTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TypeAccount", for: indexPath)
+        
+        switch indexPath.row {
+        case 0:
+            typeOfAccount = TypeOfAccount.Admin
+            cell.accessoryType = .checkmark
+        case 1:
+            typeOfAccount = TypeOfAccount.Manager
+            cell.accessoryType = .checkmark
+        default:
+            break
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.reloadData()
         
     }
     
