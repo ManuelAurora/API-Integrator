@@ -23,6 +23,11 @@
 		A27820971E001530009F83DB /* RequestServise.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27820961E001530009F83DB /* RequestServise.swift */; };
 		A27820A11E001A0B009F83DB /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A278209F1E001A0B009F83DB /* Alamofire.framework */; };
 		A27820A21E001A0B009F83DB /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A27820A01E001A0B009F83DB /* SwiftyJSON.framework */; };
+		A2C5176F1E03C6B500D09237 /* NewProfileInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C5176E1E03C6B500D09237 /* NewProfileInfoTableViewCell.swift */; };
+		A2C517721E03C74800D09237 /* NewProfileTypeAccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C517711E03C74800D09237 /* NewProfileTypeAccountTableViewCell.swift */; };
+		A2C517741E03D44500D09237 /* TypeOfAccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C517731E03D44500D09237 /* TypeOfAccountTableViewController.swift */; };
+		A2C517761E03D51D00D09237 /* TypeAccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C517751E03D51D00D09237 /* TypeAccountTableViewCell.swift */; };
+		A2C517781E03E49100D09237 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C517771E03E49100D09237 /* MainTabBarViewController.swift */; };
 		A2FFC3141E0146A8000B80B8 /* SignInUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FFC3131E0146A8000B80B8 /* SignInUpViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +71,11 @@
 		A27820961E001530009F83DB /* RequestServise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestServise.swift; path = ../RequestServise.swift; sourceTree = "<group>"; };
 		A278209F1E001A0B009F83DB /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		A27820A01E001A0B009F83DB /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
+		A2C5176E1E03C6B500D09237 /* NewProfileInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewProfileInfoTableViewCell.swift; sourceTree = "<group>"; };
+		A2C517711E03C74800D09237 /* NewProfileTypeAccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewProfileTypeAccountTableViewCell.swift; sourceTree = "<group>"; };
+		A2C517731E03D44500D09237 /* TypeOfAccountTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeOfAccountTableViewController.swift; sourceTree = "<group>"; };
+		A2C517751E03D51D00D09237 /* TypeAccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeAccountTableViewCell.swift; sourceTree = "<group>"; };
+		A2C517771E03E49100D09237 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		A2FFC3131E0146A8000B80B8 /* SignInUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInUpViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -182,7 +192,10 @@
 				A25B4A5E1E0291E000F315F9 /* RecoveryPasswordViewController.swift */,
 				A25B4A581E027ABD00F315F9 /* RegisterViewController.swift */,
 				A25B4A5A1E027E9100F315F9 /* NewProfileViewController.swift */,
+				A2C517731E03D44500D09237 /* TypeOfAccountTableViewController.swift */,
 				A25B4A621E029AFC00F315F9 /* InviteTableViewController.swift */,
+				A2C517771E03E49100D09237 /* MainTabBarViewController.swift */,
+				A2C517701E03C6D500D09237 /* CustomTableViewCells */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -211,6 +224,16 @@
 				A27820A01E001A0B009F83DB /* SwiftyJSON.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A2C517701E03C6D500D09237 /* CustomTableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				A2C5176E1E03C6B500D09237 /* NewProfileInfoTableViewCell.swift */,
+				A2C517711E03C74800D09237 /* NewProfileTypeAccountTableViewCell.swift */,
+				A2C517751E03D51D00D09237 /* TypeAccountTableViewCell.swift */,
+			);
+			name = CustomTableViewCells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -366,16 +389,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2C517781E03E49100D09237 /* MainTabBarViewController.swift in Sources */,
 				A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */,
 				A25B4A591E027ABD00F315F9 /* RegisterViewController.swift in Sources */,
 				A25B4A5B1E027E9100F315F9 /* NewProfileViewController.swift in Sources */,
 				A27820971E001530009F83DB /* RequestServise.swift in Sources */,
+				A2C517721E03C74800D09237 /* NewProfileTypeAccountTableViewCell.swift in Sources */,
 				A25B4A5D1E028F7D00F315F9 /* SignInViewController.swift in Sources */,
 				A2FFC3141E0146A8000B80B8 /* SignInUpViewController.swift in Sources */,
+				A2C517761E03D51D00D09237 /* TypeAccountTableViewCell.swift in Sources */,
 				A25B4A631E029AFC00F315F9 /* InviteTableViewController.swift in Sources */,
 				A278206E1E001503009F83DB /* CoreKPI.xcdatamodeld in Sources */,
+				A2C517741E03D44500D09237 /* TypeOfAccountTableViewController.swift in Sources */,
 				A25B4A5F1E0291E000F315F9 /* RecoveryPasswordViewController.swift in Sources */,
 				A27820661E001503009F83DB /* AppDelegate.swift in Sources */,
+				A2C5176F1E03C6B500D09237 /* NewProfileInfoTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

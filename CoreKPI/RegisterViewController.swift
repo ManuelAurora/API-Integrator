@@ -31,6 +31,35 @@ class RegisterViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func tapRegisterButton(_ sender: Any) {
+        
+        let email = emailTextField.text
+        let password = passwordTextField.text
+        let repeatPassword = repeatPasswordTextField.text
+        
+        if email == "" || password == "" || repeatPassword == "" {
+            
+            let alertController = UIAlertController(title: "Oops", message: "All fields must be filled!", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            
+            return
+        }
+        
+        if email?.range(of: "@") == nil || (email?.components(separatedBy: "@")[0].isEmpty)! ||  (email?.components(separatedBy: "@")[1].isEmpty)!{
+            let alertController = UIAlertController(title: "Oops", message: "Invalid E-mail adress", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            return
+        }
+        
+        if password != repeatPassword {
+            let alertController = UIAlertController(title: "Oops", message: "Entered passwords are different!", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+        }
+        
+    }
 
     /*
     // MARK: - Navigation

@@ -10,8 +10,6 @@ import UIKit
 
 class SignInViewController: UIViewController {
 
-    var email: String!
-    var password: String!
     
     @IBOutlet weak var passwordTextField: BottomBorderTextField!
     @IBOutlet weak var emailTextField: BottomBorderTextField!
@@ -28,8 +26,6 @@ class SignInViewController: UIViewController {
         
         self.emailTextField.keyboardType = UIKeyboardType.emailAddress
         
-        
-//        self.present(alertController, animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,22 +34,29 @@ class SignInViewController: UIViewController {
     }
     
     
-    @IBAction func tapSignInButton(_ sender: Any) {
-        if emailTextField.text != nil && passwordTextField != nil {
-            email = emailTextField.text
-            password = passwordTextField.text
-            //Отправка запроса на сервер
+    @IBAction func tapSignInButton(_ sender: UIButton) {
+        
+        let email = emailTextField.text
+        let password = passwordTextField.text
+        
+        if email == "" || password == "" {
             
-        } else {
             let alertController = UIAlertController(title: "Oops", message: "Email/Password field is empty!", preferredStyle: UIAlertControllerStyle.alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alertController, animated: true, completion: nil)
+            
+            return
         }
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "SignIn" {
+        
+        if email?.range(of: "@") == nil || (email?.components(separatedBy: "@")[0].isEmpty)! ||  (email?.components(separatedBy: "@")[1].isEmpty)!{
+            let alertController = UIAlertController(title: "Oops", message: "Invalid E-mail adress", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            return
         }
+        
+        //self.show(MainTabBarViewController, sender: nil)
+        
     }
     
     /*
