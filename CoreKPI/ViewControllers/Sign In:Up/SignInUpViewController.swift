@@ -15,8 +15,11 @@ class SignInUpViewController: UIViewController {
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
     
+    let request = Request()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         //Set border for buttons
         self.signInButton.layer.borderWidth = 1.0
@@ -26,12 +29,23 @@ class SignInUpViewController: UIViewController {
         
         //MARK: -Test Request
         
-        let request = Request()
+        //let request = Request()
+        let data: [String : Any] = ["username" : "Ivan76@mail", "password" : "12345678" ,"first_name" : "Ivan", "last_name" : "Petrov", "position" : "CEO", "photo" : ""]
         
-        let data: [String : Any] = ["username" : "Ivan767", "password" : "12345678" ,"first_name" : "Ivan", "last_name" : "Petrov", "position" : "CEO", "photo" : ""]
+        request.getJson(category: "/auth/createAccount", data: data,
+                        success: { json in
+                            print(json)
+                           
+        },
+                        failure: { (error) in
+                            print(error)
+        }
+        )
+
         
-        request.getJson(category: "/auth/createAccount", data: data)
+        //MARK: - Check local user_id/token and segue to TabBarView
         
     }
+    
     
 }

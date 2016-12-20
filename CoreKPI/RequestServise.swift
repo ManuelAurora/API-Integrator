@@ -8,7 +8,6 @@
 
 import Foundation
 import Alamofire
-import UIKit
 
 
 enum RequestError: Error {
@@ -17,6 +16,9 @@ enum RequestError: Error {
 }
 
 class Request {
+    
+    typealias success = (_ json: NSDictionary) -> ()
+    typealias failure = (_ error: String) -> ()
     
     let serverIp = "http://192.168.0.118:8888"
     
@@ -30,7 +32,7 @@ class Request {
     
     init(){}
     
-    func getJson(category: String, data: [String : Any]) {
+    func getJson(category: String, data: [String : Any], success: @escaping success, failure: @escaping failure) {
         
         let http = "\(serverIp)\(category)"
         
@@ -41,17 +43,23 @@ class Request {
             params = ["user_id" : "", "token" : tokenLocal, "data" : data]
         } else {
             params = ["user_id" : userID, "token" : tokenLocal, "data" : data]
-
+            
         }
-
+        
         request(http, method: .post, parameters: params, encoding: JSONEncoding.default).responseJSON { response in
             if let data = response.data {
                 do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: [])
-                    print(json)
+                    let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
+                    if let jsonDictionary = json {
+                        success(jsonDictionary)
+                    } else {
+                        failure("Load failed")
+                    }
+                    
                 } catch {
-                    print("Error convert data to Json")
+                    failure("Server not found")
                 }
+                
             }
         }
     }

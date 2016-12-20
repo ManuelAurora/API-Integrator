@@ -10,6 +10,8 @@ import UIKit
 
 class SignInViewController: UIViewController {
     
+    let request = Request()
+    //let model: ModelCoreKPI!
     
     @IBOutlet weak var passwordTextField: BottomBorderTextField!
     @IBOutlet weak var emailTextField: BottomBorderTextField!
@@ -55,8 +57,25 @@ class SignInViewController: UIViewController {
             return
         }
         
+        loginRequest()
+        
         //self.show(MainTabBarViewController, sender: nil)
         
+    }
+    
+    func loginRequest() {
+        
+        let data: [String : Any] = ["username" : "Ivan76@mail", "password" : "12345678"]
+        
+        request.getJson(category: "/auth/auth", data: data,
+                        success: { json in
+                            print(json)
+                            
+        },
+                        failure: { (error) in
+                            print(error)
+        }
+        )
     }
     
     /*
