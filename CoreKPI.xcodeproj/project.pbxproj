@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A22EF0661E0901A20004DDB7 /* ModelCoreKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */; };
 		A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25B4A561E0275B400F315F9 /* CustomTextField.swift */; };
 		A274DC0F1E0825DF008CBF36 /* InviteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A274DC0E1E0825DF008CBF36 /* InviteTableViewController.swift */; };
 		A274DC111E082617008CBF36 /* MemberListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A274DC101E082617008CBF36 /* MemberListTableViewController.swift */; };
@@ -60,6 +61,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelCoreKPI.swift; sourceTree = "<group>"; };
 		A25B4A561E0275B400F315F9 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		A274DC0E1E0825DF008CBF36 /* InviteTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InviteTableViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/InviteTableViewController.swift"; sourceTree = "<group>"; };
 		A274DC101E082617008CBF36 /* MemberListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberListTableViewController.swift; path = CoreKPI/ViewControllers/Team/MemberListTableViewController.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				A27820651E001503009F83DB /* AppDelegate.swift */,
+				A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */,
 				A297F5D31E08241D00F85963 /* CustomTableViewCells */,
 				A297F5BD1E08234C00F85963 /* ViewControllers */,
 				A278209D1E0015D5009F83DB /* Views */,
@@ -510,6 +513,7 @@
 				A297F5D11E08241900F85963 /* MemberInfoTableViewCell.swift in Sources */,
 				A297F5DF1E08248000F85963 /* NewProfileTableViewCell.swift in Sources */,
 				A297F5B01E08233100F85963 /* MainTabBarViewController.swift in Sources */,
+				A22EF0661E0901A20004DDB7 /* ModelCoreKPI.swift in Sources */,
 				A297F5B41E08233A00F85963 /* MemberInfoViewController.swift in Sources */,
 				A297F5BC1E08234500F85963 /* SupportMainTableViewController.swift in Sources */,
 				A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */,

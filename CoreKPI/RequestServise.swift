@@ -8,7 +8,7 @@
 
 import Foundation
 import Alamofire
-//import SwiftyJSON
+import UIKit
 
 
 enum RequestError: Error {
@@ -18,44 +18,39 @@ enum RequestError: Error {
 
 class Request {
     
-    typealias success = (_ json: NSDictionary) -> ()
-    typealias failure = (_ error: String) -> ()
+    let serverIp = "http://192.168.0.118:8888"
     
-    let serverIp = "http://192.168.0.118:8888/ping" //!
-    //var category = "category" //!
-    //var method = "method" //!
+    var userID: Int!
+    var token: String!
     
-    let userID = 123
-    let token = "blablabla"
-    let data: [String] = []
-    
-    func getJSON(success: @escaping success, failure: @escaping failure) {
-        
-        let params: [String : Any] = ["user_id" : userID, "token" : token, "data" : data]
-        
-        request(serverIp, method: .post, parameters: params).responseJSON { response in
-            if let data = response.data {
-                let json = try! JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
-                if let jsonDictionary  = json {
-                    success(jsonDictionary)
-                } else {
-                    failure("Load Failed")
-                }
-            }
-        }
+    init(userID: Int, token: String) {
+        self.userID = userID
+        self.token = token
     }
     
-    func getJsonTest(success: @escaping success, failure: @escaping failure) {
+    init(){}
+    
+    func getJson(category: String, data: [String : Any]) {
         
-        let params: [String : Any] = ["user_id" : userID, "token" : token, "data" : data]
+        let http = "\(serverIp)\(category)"
         
-        request(serverIp, method: .post, parameters: params, encoding: JSONEncoding.default).responseJSON{ response in
+        let tokenLocal = token ?? ""
+        let params: [String : Any]!
+        
+        if userID == nil {
+            params = ["user_id" : "", "token" : tokenLocal, "data" : data]
+        } else {
+            params = ["user_id" : userID, "token" : tokenLocal, "data" : data]
+
+        }
+
+        request(http, method: .post, parameters: params, encoding: JSONEncoding.default).responseJSON { response in
             if let data = response.data {
-                let json = try! JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
-                if let jsonDictionary  = json {
-                    success(jsonDictionary)
-                } else {
-                    failure("Load Failed")
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    print(json)
+                } catch {
+                    print("Error convert data to Json")
                 }
             }
         }
