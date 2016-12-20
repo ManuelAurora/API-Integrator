@@ -32,8 +32,6 @@ class SignInUpViewController: UIViewController {
         
         request.getJson(category: "/auth/createAccount", data: data)
         
-        //request.createAccount(username: "Ivan777", password: "12345678", first_name: "Ivan", last_name: "Ivanov", position: "CEO", photo: nil)
-        
     }
     
 }
