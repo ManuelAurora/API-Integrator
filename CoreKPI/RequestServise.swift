@@ -48,6 +48,7 @@ class Request {
         
         request(http, method: .post, parameters: params, encoding: JSONEncoding.default).responseJSON { response in
             if let data = response.data {
+            
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
                     if let jsonDictionary = json {

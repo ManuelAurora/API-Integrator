@@ -290,8 +290,8 @@
 			children = (
 				A297F5C51E0823D400F85963 /* SignInUpViewController.swift */,
 				A297F5C61E0823D400F85963 /* SignInViewController.swift */,
-				A297F5C31E0823D400F85963 /* RecoveryPasswordViewController.swift */,
 				A297F5C41E0823D400F85963 /* RegisterViewController.swift */,
+				A297F5C31E0823D400F85963 /* RecoveryPasswordViewController.swift */,
 				A297F5C21E0823D400F85963 /* NewProfileTableViewController.swift */,
 				A297F5C71E0823D400F85963 /* TypeOfAccountTableViewController.swift */,
 				A274DC0E1E0825DF008CBF36 /* InviteTableViewController.swift */,

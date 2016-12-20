@@ -17,6 +17,9 @@ class RegisterViewController: UIViewController {
     
     @IBOutlet weak var registerButton: UIButton!
     
+    let request = Request()
+    var model: ModelCoreKPI!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,6 +61,8 @@ class RegisterViewController: UIViewController {
             alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
             self.present(alertController, animated: true, completion: nil)
         }
+        
+        
         
     }
     

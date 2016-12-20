@@ -11,14 +11,12 @@ import UIKit
 class SignInViewController: UIViewController {
     
     let request = Request()
-    //let model: ModelCoreKPI!
+    var model: ModelCoreKPI!
     
     @IBOutlet weak var passwordTextField: BottomBorderTextField!
     @IBOutlet weak var emailTextField: BottomBorderTextField!
     
     @IBOutlet weak var signInButton: UIButton!
-    
-    let alertController = UIAlertController(title: "Oops", message: "Email/Password field is empty!", preferredStyle: UIAlertControllerStyle.alert)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +32,6 @@ class SignInViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
     
     @IBAction func tapSignInButton(_ sender: UIButton) {
         
@@ -60,22 +57,55 @@ class SignInViewController: UIViewController {
         loginRequest()
         
         //self.show(MainTabBarViewController, sender: nil)
-        
     }
     
     func loginRequest() {
         
-        let data: [String : Any] = ["username" : "Ivan76@mail", "password" : "12345678"]
-        
-        request.getJson(category: "/auth/auth", data: data,
-                        success: { json in
-                            print(json)
-                            
-        },
-                        failure: { (error) in
-                            print(error)
+        if let username = self.emailTextField.text {
+            if let password = self.passwordTextField.text {
+                
+                let data: [String : Any] = ["username" : username, "password" : password]
+                
+                request.getJson(category: "/auth/auth", data: data,
+                                success: { json in
+                                    self.parsingJson(json: json)
+                                    
+                },
+                                failure: { (error) in
+                                    print(error)
+                }
+                )
+            }
         }
-        )
+    }
+    
+    func parsingJson(json: NSDictionary) {
+        var userId: Int
+        var token: String
+        
+        if let successKey = json["success"] as? Int {
+            if successKey == 1 {
+                if let dataKey = json["data"] as? NSDictionary {
+                    userId = dataKey["user_id"] as! Int
+                    token = dataKey["token"] as! String
+                    model = ModelCoreKPI(userId: userId, token: token, profile: nil)
+                } else {
+                    print("Json data is broken")
+                }
+            } else {
+                let errorMessage = json["message"] as! String
+                print("Json error message: \(errorMessage)")
+                showAlert(errorMessage: errorMessage)
+            }
+        } else {
+            print("Json file is broken!")
+        }
+    }
+    
+    func showAlert(errorMessage: String) {
+        let alertController = UIAlertController(title: "Authorization error", message: errorMessage, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
     }
     
     /*
