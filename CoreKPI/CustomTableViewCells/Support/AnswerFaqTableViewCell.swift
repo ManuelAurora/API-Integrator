@@ -1,16 +1,15 @@
 //
-//  NewProfileInfoTableViewCell.swift
+//  AnswerFaqTableViewCell.swift
 //  CoreKPI
 //
-//  Created by Семен on 16.12.16.
+//  Created by Семен on 19.12.16.
 //  Copyright © 2016 SmiChrisSoft. All rights reserved.
 //
 
 import UIKit
 
-class NewProfileInfoTableViewCell: UITableViewCell {
-    
-    @IBOutlet weak var newProfileTextField: UITextField!
+class AnswerFaqTableViewCell: UITableViewCell {
+    @IBOutlet weak var answerFaqTextView: UITextView!
 
     override func awakeFromNib() {
         super.awakeFromNib()

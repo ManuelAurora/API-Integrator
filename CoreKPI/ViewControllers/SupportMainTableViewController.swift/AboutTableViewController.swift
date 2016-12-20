@@ -1,17 +1,16 @@
 //
-//  TypeOfAccountTableViewController.swift
+//  AboutTableViewController.swift
 //  CoreKPI
 //
-//  Created by Семен on 16.12.16.
+//  Created by Семен on 19.12.16.
 //  Copyright © 2016 SmiChrisSoft. All rights reserved.
 //
 
 import UIKit
+import MessageUI
 
-class TypeOfAccountTableViewController: UITableViewController {
+class AboutTableViewController: UITableViewController, MFMailComposeViewControllerDelegate {
 
-    var typeOfAccount: TypeOfAccount!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,48 +30,83 @@ class TypeOfAccountTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 2
-    }
-
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TypeAccount", for: indexPath) as! TypeAccountTableViewCell
-
-        switch indexPath.row {
-        case 0:
-            cell.typeAccountLabel.text = "Admin"
-        case 1:
-            cell.typeAccountLabel.text = "Manager"
-        default:
-            cell.typeAccountLabel.text = ""
+        if  section == 0 {
+            return 3
+        } else {
+            return 2
         }
-        return cell
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TypeAccount", for: indexPath)
-        
-        switch indexPath.row {
+        switch indexPath.section {
         case 0:
-            typeOfAccount = TypeOfAccount.Admin
-            cell.accessoryType = .checkmark
+            switch indexPath.row {
+            case 0:
+               sendEmail()
+            case 1:
+                if let url = URL(string: "http://facebook.com") {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            case 2:
+                if let url = URL(string: "http://twitter.com") {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            default:
+                break
+                
+            }
         case 1:
-            typeOfAccount = TypeOfAccount.Manager
-            cell.accessoryType = .checkmark
+            switch indexPath.row {
+            case 0:
+                let defaultText = "CoreKPI in AppStore"
+                let activityController = UIActivityViewController(activityItems: [defaultText], applicationActivities: nil)
+                self.present(activityController, animated: true, completion: nil)
+            case 1:
+                if let url = URL(string: "http://apple.com") {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            default:
+                break
+            }
         default:
             break
         }
-        tableView.deselectRow(at: indexPath, animated: true)
-        tableView.reloadData()
-        
     }
     
+    //MARK: -Send Email
+    
+    func sendEmail() {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients(["info@smichrisgroup.com"])
+            mail.setMessageBody("<p>You're so awesome!</p>", isHTML: true)
+            
+            present(mail, animated: true)
+        } else {
+            print("Email error")
+        }
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    }
+    
+    
+    /*
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+
+        // Configure the cell...
+
+        return cell
+    }
+    */
 
     /*
     // Override to support conditional editing of the table view.

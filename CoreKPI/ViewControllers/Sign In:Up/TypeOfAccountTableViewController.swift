@@ -1,21 +1,20 @@
 //
-//  InviteTableViewController.swift
+//  TypeOfAccountTableViewController.swift
 //  CoreKPI
 //
-//  Created by Семен on 15.12.16.
+//  Created by Семен on 16.12.16.
 //  Copyright © 2016 SmiChrisSoft. All rights reserved.
 //
 
 import UIKit
 
-class InviteTableViewController: UITableViewController {
+class TypeOfAccountTableViewController: UITableViewController {
 
+    var typeOfAccount: TypeOfAccount!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
-        navigationItem.rightBarButtonItem?.tintColor = UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)
-        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -32,23 +31,50 @@ class InviteTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return 2
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TypeAccount", for: indexPath) as! TypeAccountTableViewCell
 
-        // Configure the cell...
-
+        switch indexPath.row {
+        case 0:
+            cell.typeAccountLabel.text = "Admin"
+            typeOfAccount == TypeOfAccount.Admin ? (cell.accessoryType = .checkmark) : (cell.accessoryType = .none)
+        case 1:
+            cell.typeAccountLabel.text = "Manager"
+            typeOfAccount == TypeOfAccount.Manager ? (cell.accessoryType = .checkmark) : (cell.accessoryType = .none)
+        default:
+            cell.typeAccountLabel.text = ""
+        }
         return cell
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TypeAccount", for: indexPath)
+        
+        switch indexPath.row {
+        case 0:
+            typeOfAccount = TypeOfAccount.Admin
+            cell.accessoryType = .checkmark
+        case 1:
+            typeOfAccount = TypeOfAccount.Manager
+            cell.accessoryType = .checkmark
+        default:
+            break
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.reloadData()
+        
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.

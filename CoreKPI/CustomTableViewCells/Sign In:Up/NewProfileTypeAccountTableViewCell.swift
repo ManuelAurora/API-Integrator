@@ -11,6 +11,7 @@ import UIKit
 class NewProfileTypeAccountTableViewCell: UITableViewCell {
 
     @IBOutlet weak var typeAccountLabel: UILabel!
+    @IBOutlet weak var cellNameLabel: UILabel!
     
     
     override func awakeFromNib() {
