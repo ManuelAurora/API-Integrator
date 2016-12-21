@@ -43,7 +43,6 @@ class SignInViewController: UIViewController {
             let alertController = UIAlertController(title: "Oops", message: "Email/Password field is empty!", preferredStyle: UIAlertControllerStyle.alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alertController, animated: true, completion: nil)
-            
             return
         }
         
@@ -55,8 +54,6 @@ class SignInViewController: UIViewController {
         }
         
         loginRequest()
-        
-        //self.show(MainTabBarViewController, sender: nil)
     }
     
     func loginRequest() {
@@ -73,8 +70,7 @@ class SignInViewController: UIViewController {
                 },
                                 failure: { (error) in
                                     print(error)
-                }
-                )
+                })
             }
         }
     }
@@ -91,8 +87,6 @@ class SignInViewController: UIViewController {
                     model = ModelCoreKPI(userId: userId, token: token, profile: nil)
                     let vc = storyboard?.instantiateViewController(withIdentifier: "TabBarVC")
                     present(vc!, animated: true, completion: nil)
-                    //navigationController?.pushViewController(vc!, animated: true)
-
                 } else {
                     print("Json data is broken")
                 }
@@ -111,15 +105,5 @@ class SignInViewController: UIViewController {
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 }

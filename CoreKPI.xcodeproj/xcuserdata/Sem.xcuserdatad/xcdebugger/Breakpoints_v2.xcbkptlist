@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CoreKPI/RequestServise.swift"
-            timestampString = "503999141.328908"
+            filePath = "CoreKPI/ViewControllers/Sign In:Up/RegisterViewController.swift"
+            timestampString = "504012397.646598"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "getJson(category:data:success:failure:)"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "tapRegisterButton(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

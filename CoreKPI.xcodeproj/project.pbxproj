@@ -263,10 +263,10 @@
 		A297F5BF1E08238A00F85963 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				A297F5B51E08234500F85963 /* AboutTableViewController.swift */,
-				A297F5B61E08234500F85963 /* faqDetailViewController.swift */,
-				A297F5B71E08234500F85963 /* faqTableViewController.swift */,
 				A297F5B81E08234500F85963 /* SupportMainTableViewController.swift */,
+				A297F5B51E08234500F85963 /* AboutTableViewController.swift */,
+				A297F5B71E08234500F85963 /* faqTableViewController.swift */,
+				A297F5B61E08234500F85963 /* faqDetailViewController.swift */,
 			);
 			name = Support;
 			sourceTree = "<group>";

@@ -14,7 +14,6 @@ protocol registerDelegate {
 
 class RegisterViewController: UIViewController {
     
-    
     @IBOutlet weak var passwordTextField: BottomBorderTextField!
     @IBOutlet weak var emailTextField: BottomBorderTextField!
     @IBOutlet weak var repeatPasswordTextField: BottomBorderTextField!
@@ -29,17 +28,8 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
         self.registerButton.layer.borderColor = UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0).cgColor
-        
         self.emailTextField.keyboardType = UIKeyboardType.emailAddress
-        // Do any additional setup after loading the view.
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func tapRegisterButton(_ sender: Any) {
@@ -49,11 +39,9 @@ class RegisterViewController: UIViewController {
         let repeatPassword = repeatPasswordTextField.text
         
         if email == "" || password == "" || repeatPassword == "" {
-            
             let alertController = UIAlertController(title: "Oops", message: "All fields must be filled!", preferredStyle: UIAlertControllerStyle.alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alertController, animated: true, completion: nil)
-            
             return
         }
         
@@ -70,28 +58,10 @@ class RegisterViewController: UIViewController {
             self.present(alertController, animated: true, completion: nil)
         }
         
-        
-        
-        let vc = storyboard?.instantiateViewController(withIdentifier: "RegistrationCreateProfileVC")
-        //self.delegate.updateLoginAndPassword(email: email, password: password)
-        navigationController?.pushViewController(vc!, animated: true)
-        
+        let vc = storyboard?.instantiateViewController(withIdentifier: "RegistrationCreateProfileVC") as! NewProfileTableViewController
+        delegate = vc
+        delegate.updateLoginAndPassword(email: email, password: password)
+        navigationController?.pushViewController(vc, animated: true)
     }
-    
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-    }
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 }
