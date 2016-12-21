@@ -89,6 +89,10 @@ class SignInViewController: UIViewController {
                     userId = dataKey["user_id"] as! Int
                     token = dataKey["token"] as! String
                     model = ModelCoreKPI(userId: userId, token: token, profile: nil)
+                    let vc = storyboard?.instantiateViewController(withIdentifier: "TabBarVC")
+                    present(vc!, animated: true, completion: nil)
+                    //navigationController?.pushViewController(vc!, animated: true)
+
                 } else {
                     print("Json data is broken")
                 }

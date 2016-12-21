@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol registerDelegate {
+    func updateLoginAndPassword(email: String, password: String)
+}
+
 class RegisterViewController: UIViewController {
     
     
@@ -17,11 +21,15 @@ class RegisterViewController: UIViewController {
     
     @IBOutlet weak var registerButton: UIButton!
     
-    let request = Request()
-    var model: ModelCoreKPI!
+    var email: String!
+    var password: String!
+    
+    var delegate: registerDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         
         self.registerButton.layer.borderColor = UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0).cgColor
         
@@ -36,8 +44,8 @@ class RegisterViewController: UIViewController {
     
     @IBAction func tapRegisterButton(_ sender: Any) {
         
-        let email = emailTextField.text
-        let password = passwordTextField.text
+        email = emailTextField.text
+        password = passwordTextField.text
         let repeatPassword = repeatPasswordTextField.text
         
         if email == "" || password == "" || repeatPassword == "" {
@@ -64,7 +72,17 @@ class RegisterViewController: UIViewController {
         
         
         
+        let vc = storyboard?.instantiateViewController(withIdentifier: "RegistrationCreateProfileVC")
+        //self.delegate.updateLoginAndPassword(email: email, password: password)
+        navigationController?.pushViewController(vc!, animated: true)
+        
     }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+    }
+    
     
     /*
      // MARK: - Navigation

@@ -26,15 +26,15 @@ class ModelCoreKPI {
 class Profile {
     var userName: String
     var firstName: String
-    var middleName: String
+    //var middleName: String
     var lastName: String
     var position: String?
-    var photo: Data?
+    var photo: String?
     
-    init(userName: String, firstName: String, middleName: String, lastName: String, position: String?, photo: Data?) {
+    init(userName: String, firstName: String, /*middleName: String,*/ lastName: String, position: String?, photo: String?) {
         self.userName = userName
         self.firstName = firstName
-        self.middleName = middleName
+        //self.middleName = middleName
         self.lastName = lastName
         self.position = position
         self.photo = photo
@@ -43,7 +43,7 @@ class Profile {
     init(profile: Profile) {
         self.userName = profile.userName
         self.firstName = profile.firstName
-        self.middleName = profile.middleName
+        //self.middleName = profile.middleName
         self.lastName = profile.lastName
         self.position = profile.position
         self.photo = profile.photo

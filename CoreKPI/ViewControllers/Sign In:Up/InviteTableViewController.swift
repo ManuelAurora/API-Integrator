@@ -10,6 +10,13 @@ import UIKit
 
 class InviteTableViewController: UITableViewController {
 
+    @IBOutlet weak var typeOfAccountLabel: UILabel!
+    @IBOutlet weak var firstNameTextField: UITextField!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var positionTextField: UITextField!
+    @IBOutlet weak var numberOfInvationsLAbel: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,18 +37,18 @@ class InviteTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 2
-    }
+//    override func numberOfSections(in tableView: UITableView) -> Int {
+//        // #warning Incomplete implementation, return the number of sections
+//        return 2
+//    }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        if  section == 0 {
-            return 5
-        } else {
-            return 1
-        }    }
+//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        // #warning Incomplete implementation, return the number of rows
+//        if  section == 0 {
+//            return 5
+//        } else {
+//            return 1
+//        }    }
 
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.00001
@@ -58,6 +65,7 @@ class InviteTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 4 {
+            
             let alertController = UIAlertController(title: "Send invation", message: "We’ll send an invation to Alan Been a.been@mail.com", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             alertController.addAction(UIAlertAction(title: "Send", style: .default, handler: nil))

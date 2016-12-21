@@ -37,7 +37,7 @@ class Request {
         let http = "\(serverIp)\(category)"
         
         let tokenLocal = token ?? ""
-        let params: [String : Any]!
+        var params: [String : Any]!
         
         if userID == nil {
             params = ["user_id" : "", "token" : tokenLocal, "data" : data]
