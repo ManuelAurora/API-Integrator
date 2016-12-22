@@ -20,7 +20,7 @@ class Request {
     typealias success = (_ json: NSDictionary) -> ()
     typealias failure = (_ error: String) -> ()
     
-    let serverIp = "http://192.168.0.118:8888"
+    let serverIp = "http://dashmob.smichrissoft.com:8888"
     
     var userID: Int!
     var token: String!

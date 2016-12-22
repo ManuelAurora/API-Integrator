@@ -12,9 +12,10 @@ class faqDetailViewController: UIViewController, UITableViewDelegate, UITableVie
 
     @IBOutlet weak var tableView: UITableView!
 
-    var headersOfQestion: [String]!
-    var descriptionsOfQuestion: [String]!
-    var ansversForQuestion: [String]!
+    var numberOfQuestion: String = ""
+    var headerOfQestion: String = ""
+    var descriptionOfQuestion: String = ""
+    var ansverForQuestion: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,10 +39,10 @@ class faqDetailViewController: UIViewController, UITableViewDelegate, UITableVie
           let titleCell = tableView.dequeueReusableCell(withIdentifier: "FAQTitle", for: indexPath) as! faqListTableViewCell
         let descriptionCell = tableView.dequeueReusableCell(withIdentifier: "FAQDescription", for: indexPath) as! AnswerFaqTableViewCell
         
-        titleCell.headerOfQuestionLabel.text = headersOfQestion[indexPath.row]
+        titleCell.headerOfQuestionLabel.text = headerOfQestion
         titleCell.numberOfQuestionLabel.text = String(indexPath.row)
         
-        switch headersOfQestion[indexPath.row] {
+        switch headerOfQestion {
         case "Question: Dashboards":
             titleCell.numberOfQuestionLabel.backgroundColor = UIColor(red: 154.0/255.0, green: 18.0/255.0, blue: 179.0/255.0, alpha: 1.0)
         case "Question: Alerts":
@@ -53,8 +54,8 @@ class faqDetailViewController: UIViewController, UITableViewDelegate, UITableVie
             break
         }
         
-        titleCell.describeOfQuestionLabel.text = descriptionsOfQuestion[indexPath.row]
-        descriptionCell.answerFaqTextView.text = ansversForQuestion[indexPath.row]
+        titleCell.describeOfQuestionLabel.text = descriptionOfQuestion
+        descriptionCell.answerFaqTextView.text = ansverForQuestion
         
         if indexPath.row == 0 {
             return titleCell
@@ -63,14 +64,5 @@ class faqDetailViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A22EF0661E0901A20004DDB7 /* ModelCoreKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */; };
+		A235CB321E0ACD5200636888 /* AllertSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A235CB311E0ACD5100636888 /* AllertSettingsTableViewController.swift */; };
 		A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25B4A561E0275B400F315F9 /* CustomTextField.swift */; };
 		A274DC0F1E0825DF008CBF36 /* InviteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A274DC0E1E0825DF008CBF36 /* InviteTableViewController.swift */; };
 		A274DC111E082617008CBF36 /* MemberListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A274DC101E082617008CBF36 /* MemberListTableViewController.swift */; };
@@ -21,6 +22,7 @@
 		A27820971E001530009F83DB /* RequestServise.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27820961E001530009F83DB /* RequestServise.swift */; };
 		A27820A11E001A0B009F83DB /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A278209F1E001A0B009F83DB /* Alamofire.framework */; };
 		A27820A21E001A0B009F83DB /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A27820A01E001A0B009F83DB /* SwiftyJSON.framework */; };
+		A2844B3C1E0BC842002E297A /* MemberEditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2844B3B1E0BC842002E297A /* MemberEditTableViewCell.swift */; };
 		A297F5B01E08233100F85963 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5AF1E08233100F85963 /* MainTabBarViewController.swift */; };
 		A297F5B31E08233A00F85963 /* MemberEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5B11E08233A00F85963 /* MemberEditViewController.swift */; };
 		A297F5B41E08233A00F85963 /* MemberInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5B21E08233A00F85963 /* MemberInfoViewController.swift */; };
@@ -62,6 +64,7 @@
 
 /* Begin PBXFileReference section */
 		A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelCoreKPI.swift; sourceTree = "<group>"; };
+		A235CB311E0ACD5100636888 /* AllertSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllertSettingsTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AllertSettingsTableViewController.swift; sourceTree = "<group>"; };
 		A25B4A561E0275B400F315F9 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		A274DC0E1E0825DF008CBF36 /* InviteTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InviteTableViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/InviteTableViewController.swift"; sourceTree = "<group>"; };
 		A274DC101E082617008CBF36 /* MemberListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberListTableViewController.swift; path = CoreKPI/ViewControllers/Team/MemberListTableViewController.swift; sourceTree = "<group>"; };
@@ -81,6 +84,7 @@
 		A27820961E001530009F83DB /* RequestServise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestServise.swift; sourceTree = "<group>"; };
 		A278209F1E001A0B009F83DB /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		A27820A01E001A0B009F83DB /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
+		A2844B3B1E0BC842002E297A /* MemberEditTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberEditTableViewCell.swift; path = CustomTableViewCells/Team/MemberEditTableViewCell.swift; sourceTree = "<group>"; };
 		A297F5AF1E08233100F85963 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainTabBarViewController.swift; path = CoreKPI/ViewControllers/MainTabBarViewController.swift; sourceTree = "<group>"; };
 		A297F5B11E08233A00F85963 /* MemberEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberEditViewController.swift; path = CoreKPI/ViewControllers/Team/MemberEditViewController.swift; sourceTree = "<group>"; };
 		A297F5B21E08233A00F85963 /* MemberInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberInfoViewController.swift; path = CoreKPI/ViewControllers/Team/MemberInfoViewController.swift; sourceTree = "<group>"; };
@@ -254,8 +258,8 @@
 			isa = PBXGroup;
 			children = (
 				A274DC101E082617008CBF36 /* MemberListTableViewController.swift */,
-				A297F5B11E08233A00F85963 /* MemberEditViewController.swift */,
 				A297F5B21E08233A00F85963 /* MemberInfoViewController.swift */,
+				A297F5B11E08233A00F85963 /* MemberEditViewController.swift */,
 			);
 			name = Team;
 			sourceTree = "<group>";
@@ -274,6 +278,7 @@
 		A297F5C01E08239B00F85963 /* Alerts */ = {
 			isa = PBXGroup;
 			children = (
+				A235CB311E0ACD5100636888 /* AllertSettingsTableViewController.swift */,
 			);
 			name = Alerts;
 			sourceTree = "<group>";
@@ -316,6 +321,7 @@
 			children = (
 				A297F5CF1E08241900F85963 /* MemberInfoTableViewCell.swift */,
 				A297F5D01E08241900F85963 /* MemberListTableViewCell.swift */,
+				A2844B3B1E0BC842002E297A /* MemberEditTableViewCell.swift */,
 			);
 			name = Team;
 			sourceTree = "<group>";
@@ -516,6 +522,7 @@
 				A22EF0661E0901A20004DDB7 /* ModelCoreKPI.swift in Sources */,
 				A297F5B41E08233A00F85963 /* MemberInfoViewController.swift in Sources */,
 				A297F5BC1E08234500F85963 /* SupportMainTableViewController.swift in Sources */,
+				A235CB321E0ACD5200636888 /* AllertSettingsTableViewController.swift in Sources */,
 				A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */,
 				A297F5B91E08234500F85963 /* AboutTableViewController.swift in Sources */,
 				A297F5C91E0823D400F85963 /* RecoveryPasswordViewController.swift in Sources */,
@@ -530,6 +537,7 @@
 				A297F5E11E08248000F85963 /* TypeAccountTableViewCell.swift in Sources */,
 				A297F5B31E08233A00F85963 /* MemberEditViewController.swift in Sources */,
 				A274DC0F1E0825DF008CBF36 /* InviteTableViewController.swift in Sources */,
+				A2844B3C1E0BC842002E297A /* MemberEditTableViewCell.swift in Sources */,
 				A27820661E001503009F83DB /* AppDelegate.swift in Sources */,
 				A297F5CD1E0823D400F85963 /* TypeOfAccountTableViewController.swift in Sources */,
 				A297F5D21E08241900F85963 /* MemberListTableViewCell.swift in Sources */,

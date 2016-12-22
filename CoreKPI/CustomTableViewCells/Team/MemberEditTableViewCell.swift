@@ -1,18 +1,17 @@
 //
-//  AnswerFaqTableViewCell.swift
+//  MemberEditTableViewCell.swift
 //  CoreKPI
 //
-//  Created by Семен on 19.12.16.
+//  Created by Семен on 22.12.16.
 //  Copyright © 2016 SmiChrisSoft. All rights reserved.
 //
 
 import UIKit
 
-class AnswerFaqTableViewCell: UITableViewCell {
-    @IBOutlet weak var answerFaqTextView: UITextView!
+class MemberEditTableViewCell: UITableViewCell {
+    @IBOutlet weak var headerOfCell: UILabel!
 
-    
-    
+    @IBOutlet weak var textFieldOfCell: UITextField!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

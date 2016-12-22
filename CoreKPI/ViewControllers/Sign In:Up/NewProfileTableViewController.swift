@@ -8,12 +8,13 @@
 
 import UIKit
 
-enum TypeOfAccount: String {
-    case Admin
-    case Manager
+protocol updateModelDelegate {
+    func updateModel(model: ModelCoreKPI)
 }
 
 class NewProfileTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, registerDelegate {
+    
+    var delegate: updateModelDelegate!
     
     var typeOfAccount: TypeOfAccount!
     var model: ModelCoreKPI!
@@ -49,7 +50,7 @@ class NewProfileTableViewController: UITableViewController, UIImagePickerControl
                 (action: UIAlertAction!) -> Void in
                 self.imagePickerFromCamera()
             }))
-            actionViewController.addAction(UIAlertAction(title: "Pick from Photo Library", style: .default, handler: {
+            actionViewController.addAction(UIAlertAction(title: "Choose from gallery", style: .default, handler: {
                 (action: UIAlertAction!) -> Void in
                 self.imagePickerFromPhotoLibrary()
             }))
@@ -102,18 +103,20 @@ class NewProfileTableViewController: UITableViewController, UIImagePickerControl
     }
     
     func parsingJson(json: NSDictionary) {
-        var userId: Int!
-        var token: String!
+        var userId: Int
+        var token: String
         
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
                 if let dataKey = json["data"] as? NSDictionary {
                     userId = dataKey["user_id"] as! Int
-                    token = "123456789"//dataKey["token"] as! String
-                    let profile = Profile(userName: email, firstName: firstName, lastName: lastName, position: position, photo: profileImageBase64String)
+                    token = "no token!"//dataKey["token"] as! String
+                    let profile = Profile(userName: email, firstName: firstName, lastName: lastName, position: position, photo: profileImageBase64String, phone: nil, typeOfAccount: .Admin)
                     model = ModelCoreKPI(userId: userId, token: token, profile: profile)
-                    let vc = storyboard?.instantiateViewController(withIdentifier: "InviteVC")
-                    navigationController?.pushViewController(vc!, animated: true)
+                    let vc = storyboard?.instantiateViewController(withIdentifier: "InviteVC") as! InviteTableViewController
+                    self.delegate = vc
+                    delegate.updateModel(model: model)
+                    navigationController?.pushViewController(vc, animated: true)
                     
                 } else {
                     print("Json data is broken")

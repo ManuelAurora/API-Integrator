@@ -10,105 +10,71 @@ import UIKit
 
 class MemberListTableViewController: UITableViewController {
 
-    
-    let memberListNames = ["Jim Carrey", "Jackie Chan", "Kim Chan"]
-    let memberProfilePhoto: [UIImage] = [#imageLiteral(resourceName: "Jim Carrey"), #imageLiteral(resourceName: "Jackie Chan"), #imageLiteral(resourceName: "Kim Chan")]
-    let memberPosition = ["CEO", "Sales Manager", "Sales Manager"]
-    
+    var model: ModelCoreKPI = ModelCoreKPI(userId: 1, token: "1234", profile: Profile(userName: "user@mail.ru", firstName: "User", lastName: "User", position: "CEO", photo: nil, phone: "123456789", typeOfAccount: .Admin))
+    var memberList: [Profile]!
+    @IBOutlet weak var addButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Admin permission check!
+        if model.profile?.typeOfAccount != TypeOfAccount.Admin {
+            self.navigationItem.rightBarButtonItem = nil
+        }
         
+        let jimPhoto = UIImagePNGRepresentation(#imageLiteral(resourceName: "Jim Carrey"))?.base64EncodedString(options: .lineLength64Characters)
+        let jackiePhoto = UIImagePNGRepresentation(#imageLiteral(resourceName: "Jackie Chan"))?.base64EncodedString(options: .lineLength64Characters)
+        let kimPhoto = UIImagePNGRepresentation(#imageLiteral(resourceName: "Kim Chan"))?.base64EncodedString(options: .lineLength64Characters)
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        let jimProfile = Profile(userName: "Jim@mail.ru", firstName: "Jim", lastName: "Carrey", position: "CEO", photo: jimPhoto, phone: "8-800-555-35-35", typeOfAccount: .Admin)
+        let jackieProfile = Profile(userName: "jackie@mail.ru", firstName: "Jackie", lastName: "Chan", position: "Sales Manager", photo: jackiePhoto, phone: "8-800-555-08-35", typeOfAccount: .Manager)
+        let kimProfile = Profile(userName: "kim@mail.ru", firstName: "Kim", lastName: "Chan", position: "Sales Manager", photo: kimPhoto, phone: "8-800-635-05-85", typeOfAccount: .Manager)
+        
+        memberList = [jimProfile, jackieProfile, kimProfile]
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return memberListNames.count
+        return memberList.count
     }
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TeamListCell", for: indexPath) as! MemberListTableViewCell
-        cell.userNameLabel.text = memberListNames[indexPath.row]
-        cell.userPosition.text = memberPosition[indexPath.row]
-        cell.userProfilePhotoImage.image = memberProfilePhoto[indexPath.row]
-
-        // Configure the cell...
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MemberListCell", for: indexPath) as! MemberListTableViewCell
+        cell.userNameLabel.text = "\(memberList[indexPath.row].firstName) \(memberList[indexPath.row].lastName)"
+        cell.userPosition.text = memberList[indexPath.row].position
+        
+        //decode from base64 string
+        let imageData = memberList[indexPath.row].photo
+        let dataDecode: NSData = NSData(base64Encoded: imageData!, options: .ignoreUnknownCharacters)!
+        let avatarImage: UIImage = UIImage(data: dataDecode as Data)!
+        cell.userProfilePhotoImage.image = avatarImage
 
         return cell
     }
     
+    // MARK: - Navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "MemberInfo" {
-            let destinatiomViewController = segue.destination as! MemberInfoViewController
-//            destinatiomViewController.memberListName = memberListNames[indexPath.row]
-//            destinatiomViewController.memberPosition = memberPosition[indexPath.row]
-//            destinatiomViewController.memberProfilePhoto = memberProfilePhoto[indexPath.row]
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let destinationController = segue.destination as! MemberInfoViewController
+                destinationController.profile = self.memberList[indexPath.row]
+                destinationController.model = self.model
+            }
+        }
+        if segue.identifier == "MemberListInvite" {
+            let destinationViewController = segue.destination as! InviteTableViewController
+            destinationViewController.navigationItem.rightBarButtonItem = nil
         }
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
