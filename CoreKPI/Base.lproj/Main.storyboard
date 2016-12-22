@@ -915,7 +915,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FUu-XW-dE4">
-                                <rect key="frame" x="0.0" y="210" width="375" height="408"/>
+                                <rect key="frame" x="0.0" y="210" width="375" height="457"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TypeOfAccount" id="BYN-Sx-lX5" customClass="TypeAccountTableViewCell" customModule="CoreKPI" customModuleProvider="target">
@@ -1364,7 +1364,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="dRL-aO-8Z0" kind="show" id="D3G-sp-fTt"/>
+                                            <segue destination="dRL-aO-8Z0" kind="show" identifier="TypeOfAccount" id="D3G-sp-fTt"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -1410,7 +1410,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="egQ-yk-hH8" id="1X4-TS-Ktb">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Uet-ZN-Hwi">
@@ -1434,7 +1434,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="A0U-EU-08j" id="WC1-wk-Xkh">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hft-u6-95y">
@@ -1458,7 +1458,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                         <rect key="frame" x="0.0" y="88" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Jz9-tb-nB6" id="kvE-UF-wCX">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Position" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Co7-Ht-Elv">
@@ -1484,7 +1484,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                         <rect key="frame" x="0.0" y="132" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="e0U-L3-e0l" id="rvG-98-sPv">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type of account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1TZ-5X-8xP">
@@ -1526,7 +1526,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                         <rect key="frame" x="0.0" y="176" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Fjp-7H-g2q" id="fIk-Se-LUt">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invite" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KRU-ag-6vc">
@@ -1554,7 +1554,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                         <rect key="frame" x="0.0" y="220" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AOL-iJ-3ta" id="Ckt-sq-4jv">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 invitations left" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dJJ-z8-IkV">
@@ -1600,7 +1600,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                     <navigationItem key="navigationItem" title="Invite" id="5fo-98-js4">
                         <barButtonItem key="rightBarButtonItem" title="Later" id="dKR-Uu-lCL">
                             <connections>
-                                <segue destination="udg-mv-H6B" kind="presentation" id="2ts-IQ-pe6"/>
+                                <segue destination="udg-mv-H6B" kind="presentation" identifier="TabBarFromInvite" id="2ts-IQ-pe6"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -2272,9 +2272,9 @@ The main advantage of a computer audio player is that you can play your audio CD
         <image name="teamsIcons1" width="25" height="26"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="DdY-vZ-46a"/>
-        <segue reference="b7M-Dv-TzG"/>
-        <segue reference="Xff-M0-iKw"/>
         <segue reference="qv2-gM-Bl2"/>
+        <segue reference="Xff-M0-iKw"/>
+        <segue reference="b7M-Dv-TzG"/>
+        <segue reference="D3G-sp-fTt"/>
     </inferredMetricsTieBreakers>
 </document>

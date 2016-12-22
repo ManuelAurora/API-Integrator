@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol updateModelDelegate {
-    func updateModel(model: ModelCoreKPI)
-}
-
 class NewProfileTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, registerDelegate {
     
     var delegate: updateModelDelegate!
@@ -138,7 +134,7 @@ class NewProfileTableViewController: UITableViewController, UIImagePickerControl
     }
     
     //MARK: registerDelegate
-
+    
     func updateLoginAndPassword(email: String, password: String) {
         self.email = email
         self.password = password

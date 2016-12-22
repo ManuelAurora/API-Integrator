@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol registerDelegate {
-    func updateLoginAndPassword(email: String, password: String)
-}
-
 class RegisterViewController: UIViewController {
     
     @IBOutlet weak var passwordTextField: BottomBorderTextField!

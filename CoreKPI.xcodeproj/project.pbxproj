@@ -43,6 +43,7 @@
 		A297F5DF1E08248000F85963 /* NewProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5DC1E08248000F85963 /* NewProfileTableViewCell.swift */; };
 		A297F5E01E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5DD1E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift */; };
 		A297F5E11E08248000F85963 /* TypeAccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5DE1E08248000F85963 /* TypeAccountTableViewCell.swift */; };
+		A2F0B1181E0C1B110095580B /* CoreKPIDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F0B1171E0C1B110095580B /* CoreKPIDelegates.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +106,7 @@
 		A297F5DC1E08248000F85963 /* NewProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewProfileTableViewCell.swift; path = "CustomTableViewCells/Sign In:Up/NewProfileTableViewCell.swift"; sourceTree = "<group>"; };
 		A297F5DD1E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewProfileTypeAccountTableViewCell.swift; path = "CustomTableViewCells/Sign In:Up/NewProfileTypeAccountTableViewCell.swift"; sourceTree = "<group>"; };
 		A297F5DE1E08248000F85963 /* TypeAccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TypeAccountTableViewCell.swift; path = "CustomTableViewCells/Sign In:Up/TypeAccountTableViewCell.swift"; sourceTree = "<group>"; };
+		A2F0B1171E0C1B110095580B /* CoreKPIDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreKPIDelegates.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +162,7 @@
 			children = (
 				A27820651E001503009F83DB /* AppDelegate.swift */,
 				A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */,
+				A2F0B1171E0C1B110095580B /* CoreKPIDelegates.swift */,
 				A297F5D31E08241D00F85963 /* CustomTableViewCells */,
 				A297F5BD1E08234C00F85963 /* ViewControllers */,
 				A278209D1E0015D5009F83DB /* Views */,
@@ -526,6 +529,7 @@
 				A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */,
 				A297F5B91E08234500F85963 /* AboutTableViewController.swift in Sources */,
 				A297F5C91E0823D400F85963 /* RecoveryPasswordViewController.swift in Sources */,
+				A2F0B1181E0C1B110095580B /* CoreKPIDelegates.swift in Sources */,
 				A297F5D71E08244800F85963 /* AnswerFaqTableViewCell.swift in Sources */,
 				A297F5CA1E0823D400F85963 /* RegisterViewController.swift in Sources */,
 				A27820971E001530009F83DB /* RequestServise.swift in Sources */,

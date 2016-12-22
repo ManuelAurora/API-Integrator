@@ -8,8 +8,10 @@
 
 import UIKit
 
-class MainTabBarViewController: UITabBarController {
+class MainTabBarViewController: UITabBarController, updateModelDelegate {
 
+    var model: ModelCoreKPI!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,15 +23,23 @@ class MainTabBarViewController: UITabBarController {
         // Dispose of any resources that can be recreated.
     }
     
+    func updateModel(model: ModelCoreKPI) {
+        self.model = model
+    }
+    
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        //let destinationDashboardViewController = segue.destination
+        //let destinationAlertsViewController = segue.destination
+        let destinationTeamViewControler = segue.destination as!  MemberListTableViewController
+        //let destinationSupportViewController = segue.destination as! SupportMainTableViewController
+     
+        destinationTeamViewControler.model = ModelCoreKPI(model: self.model)
     }
-    */
+ 
 
 }

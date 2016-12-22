@@ -101,7 +101,14 @@ class InviteTableViewController: UITableViewController, updateModelDelegate {
     func updateModel(model: ModelCoreKPI) {
         self.model = ModelCoreKPI(model: model)
     }
-
     
+    //MARK: - prepare for navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "TabBarFromInvite" {
+            let destinationViewController = segue.destination as! MainTabBarViewController
+            destinationViewController.model = ModelCoreKPI(model: self.model)
+        }
+    }
     
 }

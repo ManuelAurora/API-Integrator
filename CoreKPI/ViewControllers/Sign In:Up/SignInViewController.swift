@@ -10,8 +10,9 @@ import UIKit
 
 class SignInViewController: UIViewController {
     
-    let request = Request()
+    var request = Request()
     var model: ModelCoreKPI!
+    var delegate: updateModelDelegate!
     
     @IBOutlet weak var passwordTextField: BottomBorderTextField!
     @IBOutlet weak var emailTextField: BottomBorderTextField!
@@ -84,9 +85,8 @@ class SignInViewController: UIViewController {
                 if let dataKey = json["data"] as? NSDictionary {
                     userId = dataKey["user_id"] as! Int
                     token = dataKey["token"] as! String
-                    model = ModelCoreKPI(userId: userId, token: token, profile: nil)
-                    let vc = storyboard?.instantiateViewController(withIdentifier: "TabBarVC")
-                    present(vc!, animated: true, completion: nil)
+                    self.request = Request(userID: userId, token: token)
+                    getUserProfileFromServer()
                 } else {
                     print("Json data is broken")
                 }
@@ -100,10 +100,68 @@ class SignInViewController: UIViewController {
         }
     }
     
+    func getUserProfileFromServer() {
+        request.getJson(category: "/account/contactData", data: [:],
+                        success: { json in
+                            self.createModel(json: json)
+                            
+        },
+                        failure: { (error) in
+                            print(error)
+        })
+        
+        
+    }
+    
+    func createModel(json: NSDictionary) {
+        
+        var profile: Profile!
+        var userName: String!
+        var firstName: String!
+        var lastName: String!
+        var position: String!
+        var photo: String!
+        
+        if let successKey = json["success"] as? Int {
+            if successKey == 1 {
+                if let dataKey = json["data"] as? NSDictionary {
+                    userName = dataKey["username"] as! String
+                    firstName = dataKey["first_name"] as! String
+                    lastName = dataKey["last_name"] as! String
+                    position = dataKey["position"] as! String
+                    photo = dataKey["photo"] as! String
+                    
+                    profile = Profile(userName: userName, firstName: firstName, lastName: lastName, position: position, photo: photo, phone: nil, typeOfAccount: .Admin)
+                    
+                    self.model = ModelCoreKPI(userId: request.userID, token: request.token, profile: profile)
+                    self.saveData()
+                    let vc = storyboard?.instantiateViewController(withIdentifier: "TabBarVC") as! MainTabBarViewController
+                    delegate = vc
+                    delegate.updateModel(model: model)
+                    present(vc, animated: true, completion: nil)
+                    
+                } else {
+                    print("Json data is broken")
+                }
+            } else {
+                let errorMessage = json["message"] as! String
+                print("Json error message: \(errorMessage)")
+                showAlert(errorMessage: errorMessage)
+            }
+        } else {
+            print("Json file is broken!")
+        }
+    }
+    //MARK: - show alert function
     func showAlert(errorMessage: String) {
         let alertController = UIAlertController(title: "Authorization error", message: errorMessage, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    //MARK: - Save data
+    func saveData() {
+        print("Data not save")
     }
     
 }
