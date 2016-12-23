@@ -15,3 +15,7 @@ protocol registerDelegate {
 protocol updateModelDelegate {
     func updateModel(model: ModelCoreKPI)
 }
+
+protocol updateTypeOfAccountDelegate {
+    func updateTypeOfAccount(typeOfAccount: TypeOfAccount)
+}

@@ -11,6 +11,7 @@ import UIKit
 class TypeOfAccountTableViewController: UITableViewController {
     
     var typeOfAccount: TypeOfAccount!
+    var delegate: updateTypeOfAccountDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,12 +24,10 @@ class TypeOfAccountTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return 2
     }
     
@@ -66,5 +65,4 @@ class TypeOfAccountTableViewController: UITableViewController {
         tableView.reloadData()
         
     }
-    
 }

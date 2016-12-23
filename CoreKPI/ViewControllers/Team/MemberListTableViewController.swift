@@ -74,7 +74,10 @@ class MemberListTableViewController: UITableViewController {
         if segue.identifier == "MemberListInvite" {
             let destinationViewController = segue.destination as! InviteTableViewController
             destinationViewController.navigationItem.rightBarButtonItem = nil
+            destinationViewController.model = ModelCoreKPI(model: model)
         }
     }
+    
+    //MARK: - load team list from server
 
 }

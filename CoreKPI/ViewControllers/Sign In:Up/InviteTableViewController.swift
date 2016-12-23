@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InviteTableViewController: UITableViewController, updateModelDelegate {
+class InviteTableViewController: UITableViewController, updateModelDelegate, updateTypeOfAccountDelegate {
     
     @IBOutlet weak var typeOfAccountLabel: UILabel!
     @IBOutlet weak var firstNameTextField: UITextField!
@@ -19,13 +19,15 @@ class InviteTableViewController: UITableViewController, updateModelDelegate {
     var model: ModelCoreKPI!
     var invitePerson: Profile!
     
+    var typeOfAccount = TypeOfAccount.Manager
+    
     var numberOfInvations = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.numberOfInvations = 3 //Test
         self.numberOfInvationsLAbel.text = "\(numberOfInvations) invitations left"
-        self.typeOfAccountLabel.text = TypeOfAccount.Manager.rawValue
+        self.typeOfAccountLabel.text = self.typeOfAccount.rawValue
     }
     
     override func didReceiveMemoryWarning() {
@@ -102,12 +104,23 @@ class InviteTableViewController: UITableViewController, updateModelDelegate {
         self.model = ModelCoreKPI(model: model)
     }
     
+    //MARK: - updateTypeOfAccountDelegate method
+    
+    func updateTypeOfAccount(typeOfAccount: TypeOfAccount) {
+        self.typeOfAccount = typeOfAccount
+        tableView.reloadData()
+    }
+    
     //MARK: - prepare for navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "TabBarFromInvite" {
             let destinationViewController = segue.destination as! MainTabBarViewController
             destinationViewController.model = ModelCoreKPI(model: self.model)
+        }
+        if segue.identifier == "TypeOfNewAccount" {
+            let destinationViewController = segue.destination as! TypeOfAccountTableViewController
+            destinationViewController.typeOfAccount = self.typeOfAccount
         }
     }
     

@@ -87,7 +87,9 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         
     }
     @IBAction func tapSaveButton(_ sender: Any) {
-        
+        //let name = self.memberNameTextField.text
+        //let position = self.memberPositionTextField.text
+        //let photo = self.memberProfilePhotoImage.image
     }
     
     /*
