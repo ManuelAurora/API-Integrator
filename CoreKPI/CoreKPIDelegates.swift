@@ -19,3 +19,7 @@ protocol updateModelDelegate {
 protocol updateTypeOfAccountDelegate {
     func updateTypeOfAccount(typeOfAccount: TypeOfAccount)
 }
+
+protocol updateProfileDelegate {
+    func updateProfile(profile: Profile)
+}

@@ -28,6 +28,8 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
         self.numberOfInvations = 3 //Test
         self.numberOfInvationsLAbel.text = "\(numberOfInvations) invitations left"
         self.typeOfAccountLabel.text = self.typeOfAccount.rawValue
+        
+        tableView.tableFooterView = UIView(frame: .zero)
     }
     
     override func didReceiveMemoryWarning() {

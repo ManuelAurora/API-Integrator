@@ -10,8 +10,9 @@ import UIKit
 
 class MemberListTableViewController: UITableViewController {
 
-    var model: ModelCoreKPI = ModelCoreKPI(userId: 1, token: "1234", profile: Profile(userName: "user@mail.ru", firstName: "User", lastName: "User", position: "CEO", photo: nil, phone: "123456789", typeOfAccount: .Admin))
+    var model: ModelCoreKPI = ModelCoreKPI(userId: 1, token: "1234", profile: Profile(userName: "Jim@mail.ru", firstName: "User", lastName: "User", position: "CEO", photo: nil, phone: "123456789", typeOfAccount: .Admin))
     var memberList: [Profile]!
+    
     @IBOutlet weak var addButton: UIBarButtonItem!
     
     override func viewDidLoad() {
@@ -22,6 +23,9 @@ class MemberListTableViewController: UITableViewController {
             self.navigationItem.rightBarButtonItem = nil
         }
         
+        self.loadTeamListFromServer()
+        
+        //Debug only!
         let jimPhoto = UIImagePNGRepresentation(#imageLiteral(resourceName: "Jim Carrey"))?.base64EncodedString(options: .lineLength64Characters)
         let jackiePhoto = UIImagePNGRepresentation(#imageLiteral(resourceName: "Jackie Chan"))?.base64EncodedString(options: .lineLength64Characters)
         let kimPhoto = UIImagePNGRepresentation(#imageLiteral(resourceName: "Kim Chan"))?.base64EncodedString(options: .lineLength64Characters)
@@ -31,6 +35,12 @@ class MemberListTableViewController: UITableViewController {
         let kimProfile = Profile(userName: "kim@mail.ru", firstName: "Kim", lastName: "Chan", position: "Sales Manager", photo: kimPhoto, phone: "8-800-635-05-85", typeOfAccount: .Manager)
         
         memberList = [jimProfile, jackieProfile, kimProfile]
+        
+        tableView.tableFooterView = UIView(frame: .zero)
+        
+        self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        self.navigationController?.navigationBar.shadowImage = nil
+        self.navigationController?.navigationBar.isTranslucent = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -79,5 +89,9 @@ class MemberListTableViewController: UITableViewController {
     }
     
     //MARK: - load team list from server
+    
+    func loadTeamListFromServer() {
+        print("Coming soon...")
+    }
 
 }

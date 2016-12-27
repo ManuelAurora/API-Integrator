@@ -14,15 +14,35 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var memberProfilePhotoImage: UIImageView!
     @IBOutlet weak var memberProfileNameLabel: UILabel!
     @IBOutlet weak var memberProfilePositionLabel: UILabel!
+    @IBOutlet weak var responsibleForButton: UIButton!
+    @IBOutlet weak var myKPIsButton: UIButton!
+    @IBOutlet weak var securityButton: UIButton!
+    
+    @IBOutlet weak var tableView: UITableView!
     
     var model: ModelCoreKPI!
     var profile: Profile!
+    
+    var updateModelDelegate: updateModelDelegate!
+    var updateProfileDelegate: updateProfileDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //Check admin permission!!
         if model.profile?.typeOfAccount == TypeOfAccount.Admin {
+            //responsibleForButton.isHidden = false
+            
+            //Check is it my account
+            if profile.userName == model.profile?.userName {
+                responsibleForButton.isHidden = true
+                myKPIsButton.isHidden = false
+                securityButton.isHidden = false
+            }
+        } else {
+            responsibleForButton.isHidden = true
+            myKPIsButton.isHidden = true
+            securityButton.isHidden = true
         }
         
         self.memberProfileNameLabel.text = "\(profile.firstName) \(profile.lastName)"
@@ -32,12 +52,18 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         let dataDecode: NSData = NSData(base64Encoded: imageData!, options: .ignoreUnknownCharacters)!
         let avatarImage: UIImage = UIImage(data: dataDecode as Data)!
         self.memberProfilePhotoImage.image = avatarImage
+        
+        self.tableView.tableFooterView = UIView(frame: .zero)
+        //Set Navigation Bar transparent
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+    
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
     
     @IBAction func tapPhoneButton(_ sender: UIButton) {
         let alertController = UIAlertController(title: "Sorry!", message: "Calls are not available now...", preferredStyle: .alert)
@@ -46,18 +72,17 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     @IBAction func tapMailButton(_ sender: UIButton) {
-        
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
             mail.setToRecipients([profile.userName])
             mail.setMessageBody("<p>Hello, \(profile.firstName) \(profile.lastName)</p>", isHTML: true)
-            
             present(mail, animated: true)
         } else {
             print("Email error")
         }
     }
+    
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true)
     }
@@ -106,21 +131,41 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         return cell
     }
     
-    
-    @IBAction func tapResponsibleForButton(_ sender: UIButton) {
-    }
-    
-    // MARK: - Navigation
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "EditMember" {
-            
-            let destinationController = segue.destination as! MemberEditViewController
-            destinationController.profile = self.profile
-            destinationController.model = self.model
-            
+    @IBAction func tapEditBautton(_ sender: UIBarButtonItem) {
+        if model.profile?.typeOfAccount != TypeOfAccount.Admin {
+            if model.profile?.userName != profile.userName {
+                let vc = storyboard?.instantiateViewController(withIdentifier: "ChangeName") as! ChageNameTableViewController
+                updateModelDelegate = vc
+                updateProfileDelegate = vc
+                updateModelDelegate.updateModel(model: self.model)
+                updateProfileDelegate.updateProfile(profile: self.profile)
+                self.navigationController?.show(vc, sender: nil)
+            } else {
+                let vc = storyboard?.instantiateViewController(withIdentifier: "EditMember") as! MemberEditViewController
+                updateModelDelegate = vc
+                updateProfileDelegate = vc
+                updateModelDelegate.updateModel(model: self.model)
+                updateProfileDelegate.updateProfile(profile: self.profile)
+                self.navigationController?.show(vc, sender: nil)
+            }
+        } else {
+            let vc = storyboard?.instantiateViewController(withIdentifier: "EditMember") as! MemberEditViewController
+            updateModelDelegate = vc
+            updateProfileDelegate = vc
+            updateModelDelegate.updateModel(model: self.model)
+            updateProfileDelegate.updateProfile(profile: self.profile)
+            self.navigationController?.show(vc, sender: nil)
         }
     }
     
+    @IBAction func tapResponsibleForButton(_ sender: UIButton) {
+        print("Responsible for was taped")
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        self.navigationController?.navigationBar.shadowImage = nil
+        self.navigationController?.navigationBar.isTranslucent = false
+    }
     
 }

@@ -13,6 +13,8 @@ class AboutTableViewController: UITableViewController, MFMailComposeViewControll
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.tableFooterView = UIView(frame: .zero)
     }
 
     override func didReceiveMemoryWarning() {
@@ -70,6 +72,22 @@ class AboutTableViewController: UITableViewController, MFMailComposeViewControll
         default:
             break
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        
+        let header = view as! UITableViewHeaderFooterView
+        
+        switch section {
+        case 0:
+             header.textLabel?.text = "Get in touch"
+        case 1:
+            header.textLabel?.text = "I like CoreKPI"
+        default:
+            break
+        }
+        header.textLabel?.font = UIFont(name: "Helvetica Neue", size: 13)
+        header.textLabel?.textColor = UIColor.lightGray
     }
     
     //MARK: - Send Email

@@ -1,35 +1,61 @@
 //
-//  AddNewKPITableViewController.swift
+//  ChageNameTableViewController.swift
 //  CoreKPI
 //
-//  Created by Семен on 23.12.16.
+//  Created by Семен on 26.12.16.
 //  Copyright © 2016 SmiChrisSoft. All rights reserved.
 //
 
 import UIKit
 
-class AddNewKPITableViewController: UITableViewController {
+class ChageNameTableViewController: UITableViewController, updateModelDelegate, updateProfileDelegate {
 
+    var model: ModelCoreKPI!
+    var profile: Profile!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
         tableView.tableFooterView = UIView(frame: .zero)
+        
+        self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        self.navigationController?.navigationBar.shadowImage = nil
+        self.navigationController?.navigationBar.isTranslucent = false
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        // #warning Incomplete implementation, return the number of rows
+        return 1
     }
 
+    //MARK: - updateModelDelegate method 
+    func updateModel(model: ModelCoreKPI) {
+        self.model = ModelCoreKPI(model: model)
+    }
+    
+    //MARK: - updateProfileDelegate method
+    func updateProfile(profile: Profile) {
+        self.profile = Profile(profile: profile)
+    }
+    
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)

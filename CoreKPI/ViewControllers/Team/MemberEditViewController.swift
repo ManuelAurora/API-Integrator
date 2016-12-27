@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MemberEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class MemberEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, updateModelDelegate, updateProfileDelegate {
     
     var model: ModelCoreKPI!
     var profile: Profile!
@@ -33,6 +33,12 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         let avatarImage: UIImage = UIImage(data: dataDecode as Data)!
         self.memberProfilePhotoImage.image = avatarImage
         
+        tableView.tableFooterView = UIView(frame: .zero)
+        
+        self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        self.navigationController?.navigationBar.shadowImage = nil
+        self.navigationController?.navigationBar.isTranslucent = false
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -47,28 +53,82 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        if model.profile?.typeOfAccount == TypeOfAccount.Admin {
+            if model.profile?.userName == profile.userName {
+                return 2
+            } else {
+                return 3
+            }
+        } else {
+            if model.profile?.userName == profile.userName {
+                return 2
+            } else {
+                return 1
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellTypeOfAccount = tableView.dequeueReusableCell(withIdentifier: "TypeOfAccount", for: indexPath) as! TypeAccountTableViewCell
+        //let cellTypeOfAccount = tableView.dequeueReusableCell(withIdentifier: "TypeOfAccount", for: indexPath) as! TypeAccountTableViewCell
         let cellMemberEdit = tableView.dequeueReusableCell(withIdentifier: "MemberInfoEdit", for: indexPath) as! MemberEditTableViewCell
-        switch indexPath.row {
-        case 0:
-            let temp = profile.typeOfAccount.rawValue
-            cellTypeOfAccount.typeAccountLabel.text = temp
-            return cellTypeOfAccount
-        case 1:
-            cellMemberEdit.headerOfCell.text = "Phone"
-            cellMemberEdit.textFieldOfCell.text = profile.phone
-        case 2:
-            cellMemberEdit.headerOfCell.text = "E-mail"
-            cellMemberEdit.textFieldOfCell.text = profile.userName
-        default:
-            cellMemberEdit.headerOfCell.text = ""
-            cellMemberEdit.textFieldOfCell.text = ""
-            print("Cell create by default case")
+        
+        if model.profile?.typeOfAccount == TypeOfAccount.Admin {
+            if model.profile?.userName == profile.userName {
+                switch indexPath.row {
+                case 0:
+                    cellMemberEdit.headerOfCell.text = "Phone"
+                    cellMemberEdit.textFieldOfCell.text = profile.phone
+                case 1:
+                    cellMemberEdit.headerOfCell.text = "E-mail"
+                    cellMemberEdit.textFieldOfCell.text = profile.userName
+                    cellMemberEdit.textFieldOfCell.placeholder = "No E-mail"
+                default:
+                    cellMemberEdit.headerOfCell.text = ""
+                    cellMemberEdit.textFieldOfCell.text = ""
+                    print("Cell create by default case")
+                }
+            } else {
+                switch indexPath.row {
+                case 0:
+                    let stringTypeOfAccount = profile.typeOfAccount.rawValue
+                    //cellTypeOfAccount.typeAccountLabel.text = stringTypeOfAccount
+                    //return cellTypeOfAccount
+                case 1:
+                    cellMemberEdit.headerOfCell.text = "Phone"
+                    cellMemberEdit.textFieldOfCell.text = profile.phone
+                case 2:
+                    cellMemberEdit.headerOfCell.text = "E-mail"
+                    cellMemberEdit.textFieldOfCell.text = profile.userName
+                    cellMemberEdit.textFieldOfCell.placeholder = "No E-mail"
+                default:
+                    cellMemberEdit.headerOfCell.text = ""
+                    cellMemberEdit.textFieldOfCell.text = ""
+                    print("Cell create by default case")
+                }
+            }
+        } else {
+            if model.profile?.userName == profile.userName {
+                switch indexPath.row {
+                case 0:
+                    cellMemberEdit.headerOfCell.text = "Phone"
+                    cellMemberEdit.textFieldOfCell.text = profile.phone
+                case 1:
+                    cellMemberEdit.headerOfCell.text = "E-mail"
+                    cellMemberEdit.textFieldOfCell.text = profile.userName
+                    cellMemberEdit.textFieldOfCell.placeholder = "No E-mail"
+                default:
+                    cellMemberEdit.headerOfCell.text = ""
+                    cellMemberEdit.textFieldOfCell.text = ""
+                    print("Cell create by default case")
+                }
+            } else {
+                self.navigationItem.title = "Change Name"
+                cellMemberEdit.headerOfCell.text = "Change Name"
+                cellMemberEdit.textFieldOfCell.text = "\(profile.firstName) \(profile.lastName)"
+            }
+            
         }
+        
         return cellMemberEdit
     }
     
@@ -133,5 +193,14 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         dismiss(animated: true, completion: nil)
     }
     
-
+    //MARK: - updateModelDelegate method
+    func updateModel(model: ModelCoreKPI) {
+        self.model = ModelCoreKPI(model: model)
+    }
+    
+    //MARK: - updateProfileDelegate method
+    func updateProfile(profile: Profile) {
+        self.profile = Profile(profile: profile)
+    }
+    
 }

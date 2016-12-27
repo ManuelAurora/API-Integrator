@@ -24,6 +24,8 @@ class faqDetailViewController: UIViewController, UITableViewDelegate, UITableVie
         
         tableView.estimatedRowHeight = 44.0
         tableView.rowHeight = UITableViewAutomaticDimension
+        
+        tableView.tableFooterView = UIView(frame: .zero)
     }
 
     override func didReceiveMemoryWarning() {

@@ -1,14 +1,14 @@
 //
-//  AddNewKPITableViewController.swift
+//  CreateNewKPITableViewController.swift
 //  CoreKPI
 //
-//  Created by Семен on 23.12.16.
+//  Created by Семен on 27.12.16.
 //  Copyright © 2016 SmiChrisSoft. All rights reserved.
 //
 
 import UIKit
 
-class AddNewKPITableViewController: UITableViewController {
+class CreateNewKPITableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,11 +23,15 @@ class AddNewKPITableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        if section == 0 {
+            return 9
+        } else {
+            return 1
+        }
     }
 
     /*
