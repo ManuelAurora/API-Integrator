@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A2028E6E1E12B66400F1EED6 /* WebViewTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2028E6D1E12B66400F1EED6 /* WebViewTestViewController.swift */; };
+		A2028E701E12B74300F1EED6 /* Точечный in Resources */ = {isa = PBXBuildFile; fileRef = A2028E6F1E12B74300F1EED6 /* Точечный */; };
 		A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340901E110CF200208EAB /* ChageNameTableViewController.swift */; };
 		A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340921E110D1C00208EAB /* NewNameViewController.swift */; };
 		A218EBBD1E0D4D1A00C1DB5A /* AddNewKPITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A218EBBC1E0D4D1A00C1DB5A /* AddNewKPITableViewController.swift */; };
@@ -78,6 +80,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A2028E6D1E12B66400F1EED6 /* WebViewTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewTestViewController.swift; sourceTree = "<group>"; };
+		A2028E6F1E12B74300F1EED6 /* Точечный */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Точечный"; sourceTree = "<group>"; };
 		A20340901E110CF200208EAB /* ChageNameTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChageNameTableViewController.swift; path = CoreKPI/ViewControllers/Team/ChageNameTableViewController.swift; sourceTree = "<group>"; };
 		A20340921E110D1C00208EAB /* NewNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewNameViewController.swift; path = CoreKPI/ViewControllers/Team/NewNameViewController.swift; sourceTree = "<group>"; };
 		A218EBBC1E0D4D1A00C1DB5A /* AddNewKPITableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddNewKPITableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/AddNewKPITableViewController.swift; sourceTree = "<group>"; };
@@ -164,6 +168,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A2028E711E12B74D00F1EED6 /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				A2028E6F1E12B74300F1EED6 /* Точечный */,
+			);
+			name = Graphics;
+			sourceTree = "<group>";
+		};
 		A27820591E001503009F83DB = {
 			isa = PBXGroup;
 			children = (
@@ -191,12 +203,14 @@
 				A27820651E001503009F83DB /* AppDelegate.swift */,
 				A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */,
 				A2F0B1171E0C1B110095580B /* CoreKPIDelegates.swift */,
+				A2028E6D1E12B66400F1EED6 /* WebViewTestViewController.swift */,
 				A297F5D31E08241D00F85963 /* CustomTableViewCells */,
 				A297F5BD1E08234C00F85963 /* ViewControllers */,
 				A278209D1E0015D5009F83DB /* Views */,
 				A27820991E001568009F83DB /* CoreData */,
 				A27820981E001539009F83DB /* Services */,
 				A278206F1E001503009F83DB /* Assets.xcassets */,
+				A2028E711E12B74D00F1EED6 /* Graphics */,
 				A278209A1E001581009F83DB /* SupportingFiles */,
 			);
 			path = CoreKPI;
@@ -514,6 +528,7 @@
 			files = (
 				A27820731E001503009F83DB /* LaunchScreen.storyboard in Resources */,
 				A27820701E001503009F83DB /* Assets.xcassets in Resources */,
+				A2028E701E12B74300F1EED6 /* Точечный in Resources */,
 				A278206B1E001503009F83DB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -571,6 +586,7 @@
 				A22EF0661E0901A20004DDB7 /* ModelCoreKPI.swift in Sources */,
 				A297F5B41E08233A00F85963 /* MemberInfoViewController.swift in Sources */,
 				A297F5BC1E08234500F85963 /* SupportMainTableViewController.swift in Sources */,
+				A2028E6E1E12B66400F1EED6 /* WebViewTestViewController.swift in Sources */,
 				A235CB321E0ACD5200636888 /* AllertSettingsTableViewController.swift in Sources */,
 				A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */,
 				A297F5B91E08234500F85963 /* AboutTableViewController.swift in Sources */,

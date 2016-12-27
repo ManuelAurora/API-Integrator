@@ -67,4 +67,10 @@ class TypeOfAccountTableViewController: UITableViewController {
         tableView.reloadData()
         
     }
+    
+    override func didMove(toParentViewController parent: UIViewController?) {
+        if(!(parent?.isEqual(self.parent) ?? false)) {
+            print("Back button Pressed!")
+    }
+    }
 }
