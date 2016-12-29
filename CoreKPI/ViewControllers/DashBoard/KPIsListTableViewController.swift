@@ -16,7 +16,7 @@ class KPIsListTableViewController: UITableViewController {
         var managedBy: String?
     }
     
-    var model = ModelCoreKPI(userId: 1, token: "123", profile: Profile(userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, typeOfAccount: .Admin))   //: ModelCoreKPI!
+    var model = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin))   //: ModelCoreKPI!
     
     var kpiList: [KPIs]!
     

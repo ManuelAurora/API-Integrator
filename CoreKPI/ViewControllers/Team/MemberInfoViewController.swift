@@ -31,7 +31,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         
         //Check admin permission!!
         if model.profile?.typeOfAccount == TypeOfAccount.Admin {
-            //responsibleForButton.isHidden = false
+            responsibleForButton.isHidden = false
             
             //Check is it my account
             if profile.userName == model.profile?.userName {
@@ -47,11 +47,14 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         
         self.memberProfileNameLabel.text = "\(profile.firstName) \(profile.lastName)"
         self.memberProfilePositionLabel.text = profile.position
-        //Add profile photo from base64 string
-        let imageData = profile.photo
-        let dataDecode: NSData = NSData(base64Encoded: imageData!, options: .ignoreUnknownCharacters)!
-        let avatarImage: UIImage = UIImage(data: dataDecode as Data)!
-        self.memberProfilePhotoImage.image = avatarImage
+        
+        if profile.photo != nil {
+            //Add profile photo from base64 string
+            let imageData = profile.photo
+            let dataDecode: NSData = NSData(base64Encoded: imageData!, options: .ignoreUnknownCharacters)!
+            let avatarImage: UIImage = UIImage(data: dataDecode as Data)!
+            self.memberProfilePhotoImage.image = avatarImage
+        }
         
         self.tableView.tableFooterView = UIView(frame: .zero)
         //Set Navigation Bar transparent
@@ -105,7 +108,12 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                 cell.dataCellLabel.text = profile.typeOfAccount.rawValue
             case 1:
                 cell.headerCellLabel.text = "Phone"
-                cell.dataCellLabel.text = profile.phone
+                if profile.phone == nil {
+                    cell.dataCellLabel.text = "No Phone Number"
+                    cell.dataCellLabel.textColor = UIColor(red: 143/255, green: 142/255, blue: 148/255, alpha: 1.0)
+                } else {
+                    cell.dataCellLabel.text = profile.phone
+                }
             case 2:
                 cell.headerCellLabel.text = "E-mail"
                 cell.dataCellLabel.text = profile.userName
@@ -118,7 +126,12 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             switch indexPath.row {
             case 0:
                 cell.headerCellLabel.text = "Phone"
-                cell.dataCellLabel.text = profile.phone
+                if profile.phone == nil {
+                    cell.dataCellLabel.text = "No Phone Number"
+                    cell.dataCellLabel.textColor = UIColor(red: 143/255, green: 142/255, blue: 148/255, alpha: 1.0)
+                } else {
+                    cell.dataCellLabel.text = profile.phone
+                }
             case 1:
                 cell.headerCellLabel.text = "E-mail"
                 cell.dataCellLabel.text = profile.userName

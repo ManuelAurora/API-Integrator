@@ -20,14 +20,21 @@ class Request {
     typealias success = (_ json: NSDictionary) -> ()
     typealias failure = (_ error: String) -> ()
     
-    let serverIp = "http://dashmob.smichrissoft.com:8888"
+    //let serverIp = "http://dashmob.smichrissoft.com:8888"
+    //debug!
+    let serverIp = "http://192.168.0.118:8888"
     
     var userID: Int!
     var token: String!
     
-    init(userID: Int, token: String) {
-        self.userID = userID
+    init(userId: Int, token: String) {
+        self.userID = userId
         self.token = token
+    }
+    
+    init(model: ModelCoreKPI) {
+        self.token = model.token
+        self.userID = model.profile?.userId
     }
     
     init(){}
@@ -60,7 +67,6 @@ class Request {
                 } catch {
                     failure("Server not found")
                 }
-                
             }
         }
     }

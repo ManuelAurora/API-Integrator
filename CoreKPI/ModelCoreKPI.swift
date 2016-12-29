@@ -14,18 +14,15 @@ enum TypeOfAccount: String {
 }
 
 class ModelCoreKPI {
-    let userId: Int
     let token: String
     
     let profile: Profile?
     
-    init(userId: Int, token: String, profile: Profile?) {
-        self.userId = userId
+    init(token: String, profile: Profile?) {
         self.token = token
         self.profile = profile
     }
     init(model: ModelCoreKPI) {
-        self.userId = model.userId
         self.token = model.token
         self.profile = model.profile
     }
@@ -34,31 +31,37 @@ class ModelCoreKPI {
 
 
 class Profile {
+    let userId: Int
     var userName: String
     var firstName: String
     var lastName: String
     var position: String?
     var photo: String?
     var phone: String?
+    var nickname: String?
     var typeOfAccount: TypeOfAccount
     
-    init(userName: String, firstName: String, lastName: String, position: String?, photo: String?, phone: String?, typeOfAccount: TypeOfAccount) {
+    init(userId: Int, userName: String, firstName: String, lastName: String, position: String?, photo: String?, phone: String?, nickname: String?, typeOfAccount: TypeOfAccount) {
+        self.userId = userId
         self.userName = userName
         self.firstName = firstName
         self.lastName = lastName
         self.position = position
         self.photo = photo
         self.phone = phone
+        self.nickname = nickname
         self.typeOfAccount = typeOfAccount
     }
     
     init(profile: Profile) {
+        self.userId = profile.userId
         self.userName = profile.userName
         self.firstName = profile.firstName
         self.lastName = profile.lastName
         self.position = profile.position
         self.photo = profile.photo
         self.phone = profile.phone
+        self.nickname = profile.nickname
         self.typeOfAccount = profile.typeOfAccount
     }
     

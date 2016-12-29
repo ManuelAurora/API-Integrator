@@ -116,10 +116,24 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
     //MARK: - prepare for navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if segue.identifier == "TabBarFromInvite" {
-            let destinationViewController = segue.destination as! MainTabBarViewController
-            destinationViewController.model = ModelCoreKPI(model: self.model)
+            
+            let tabBarController = segue.destination as! MainTabBarViewController
+            
+            let dashboardNavigationViewController = tabBarController.viewControllers?[0] as! DashboardsNavigationViewController
+            let dashboardViewController = dashboardNavigationViewController.childViewControllers[0] as! KPIsListTableViewController
+            dashboardViewController.model = ModelCoreKPI(model: model)
+            
+            let alertsNavigationViewController = tabBarController.viewControllers?[1] as! AlertsNavigationViewController
+            let alertsViewController = alertsNavigationViewController.childViewControllers[0] as! AlertsListTableViewController
+            alertsViewController.model = ModelCoreKPI(model: model)
+            
+            let teamListNavigationViewController = tabBarController.viewControllers?[2] as! TeamListViewController
+            let teamListController = teamListNavigationViewController.childViewControllers[0] as! MemberListTableViewController
+            teamListController.model = ModelCoreKPI(model: model)
         }
+        
         if segue.identifier == "TypeOfNewAccount" {
             let destinationViewController = segue.destination as! TypeOfAccountTableViewController
             destinationViewController.typeOfAccount = self.typeOfAccount

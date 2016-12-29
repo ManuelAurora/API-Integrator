@@ -9,14 +9,17 @@
 import UIKit
 
 class MemberListTableViewController: UITableViewController {
-
-    var model: ModelCoreKPI = ModelCoreKPI(userId: 1, token: "1234", profile: Profile(userName: "Jim@mail.ru", firstName: "User", lastName: "User", position: "CEO", photo: nil, phone: "123456789", typeOfAccount: .Admin))
-    var memberList: [Profile]!
+    
+    var model: ModelCoreKPI!
+    var request: Request!
+    var memberList: [Profile] = []
     
     @IBOutlet weak var addButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.request = Request(model: model)
         
         //Admin permission check!
         if model.profile?.typeOfAccount != TypeOfAccount.Admin {
@@ -25,30 +28,19 @@ class MemberListTableViewController: UITableViewController {
         
         self.loadTeamListFromServer()
         
-        //Debug only!
-        let jimPhoto = UIImagePNGRepresentation(#imageLiteral(resourceName: "Jim Carrey"))?.base64EncodedString(options: .lineLength64Characters)
-        let jackiePhoto = UIImagePNGRepresentation(#imageLiteral(resourceName: "Jackie Chan"))?.base64EncodedString(options: .lineLength64Characters)
-        let kimPhoto = UIImagePNGRepresentation(#imageLiteral(resourceName: "Kim Chan"))?.base64EncodedString(options: .lineLength64Characters)
-        
-        let jimProfile = Profile(userName: "Jim@mail.ru", firstName: "Jim", lastName: "Carrey", position: "CEO", photo: jimPhoto, phone: "8-800-555-35-35", typeOfAccount: .Admin)
-        let jackieProfile = Profile(userName: "jackie@mail.ru", firstName: "Jackie", lastName: "Chan", position: "Sales Manager", photo: jackiePhoto, phone: "8-800-555-08-35", typeOfAccount: .Manager)
-        let kimProfile = Profile(userName: "kim@mail.ru", firstName: "Kim", lastName: "Chan", position: "Sales Manager", photo: kimPhoto, phone: "8-800-635-05-85", typeOfAccount: .Manager)
-        
-        memberList = [jimProfile, jackieProfile, kimProfile]
-        
         tableView.tableFooterView = UIView(frame: .zero)
-        
+        //custom for MemberInfoViewController
         self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         self.navigationController?.navigationBar.shadowImage = nil
         self.navigationController?.navigationBar.isTranslucent = false
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -61,13 +53,16 @@ class MemberListTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MemberListCell", for: indexPath) as! MemberListTableViewCell
         cell.userNameLabel.text = "\(memberList[indexPath.row].firstName) \(memberList[indexPath.row].lastName)"
         cell.userPosition.text = memberList[indexPath.row].position
-        
-        //decode from base64 string
-        let imageData = memberList[indexPath.row].photo
-        let dataDecode: NSData = NSData(base64Encoded: imageData!, options: .ignoreUnknownCharacters)!
-        let avatarImage: UIImage = UIImage(data: dataDecode as Data)!
-        cell.userProfilePhotoImage.image = avatarImage
-
+        if (memberList[indexPath.row].photo != nil) {
+            //decode from base64 string
+            let imageData = memberList[indexPath.row].photo
+            if let dataDecode: NSData = NSData(base64Encoded: imageData!, options: .ignoreUnknownCharacters) {
+                let avatarImage: UIImage = UIImage(data: dataDecode as Data)!
+                cell.userProfilePhotoImage.image = avatarImage
+            } else {
+                print("\(memberList[indexPath.row].firstName)'s photo decoding error!")
+            }
+        }
         return cell
     }
     
@@ -91,7 +86,82 @@ class MemberListTableViewController: UITableViewController {
     //MARK: - load team list from server
     
     func loadTeamListFromServer() {
-        print("Coming soon...")
+        
+        let data: [String : Any] = [ : ]
+        
+        request.getJson(category: "/team/getTeamList", data: data,
+                        success: { json in
+                            self.parsingJson(json: json)
+        },
+                        failure: { (error) in
+                            print(error)
+        })
     }
-
+    
+    func parsingJson(json: NSDictionary) {
+        
+        if let successKey = json["success"] as? Int {
+            if successKey == 1 {
+                if let dataKey = json["data"] as? NSArray {
+                    var teamListIsFull = false
+                    var i = 0
+                    while teamListIsFull == false {
+                        
+                        var profile: Profile!
+                        
+                        var firstName: String!
+                        var lastName: String!
+                        var mode: Int!
+                        var typeOfAccount: TypeOfAccount!
+                        var nickname: String?
+                        var photo: String?
+                        var position: String?
+                        var userId: Int!
+                        var userName: String!
+                        
+                        if let userData = dataKey[i] as? NSDictionary {
+                            position = userData["position"] as? String
+                            mode = userData["mode"] as? Int
+                            mode == 0 ? (typeOfAccount = TypeOfAccount.Manager) : (typeOfAccount = TypeOfAccount.Admin)
+                            nickname = userData["nickname"] as? String
+                            lastName = userData["last_name"] as? String
+                            userName = userData["username"] as? String
+                            userId = userData["user_id"] as? Int
+                            if (userData["photo"] as? String) != "" {
+                                photo = userData["photo"] as? String
+                            }
+                            
+                            firstName = userData["first_name"] as? String
+                            
+                            profile = Profile(userId: userId, userName: userName, firstName: firstName, lastName: lastName, position: position, photo: photo, phone: nil, nickname: nickname, typeOfAccount: typeOfAccount)
+                            self.memberList.append(profile)
+                            
+                            i+=1
+                            
+                            if dataKey.count == i {
+                                teamListIsFull = true
+                            }
+                        }
+                    }
+                } else {
+                    print("Json data is broken")
+                }
+            } else {
+                let errorMessage = json["message"] as! String
+                print("Json error message: \(errorMessage)")
+                showAlert(errorMessage: errorMessage)
+            }
+        } else {
+            print("Json file is broken!")
+        }
+        tableView.reloadData()
+    }
+    
+    //MARK: - show alert function
+    func showAlert(errorMessage: String) {
+        let alertController = UIAlertController(title: "Team list loading error", message: errorMessage, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
 }

@@ -11,6 +11,7 @@ import UIKit
 class MainTabBarViewController: UITabBarController, updateModelDelegate {
 
     var model: ModelCoreKPI!
+    var updateModelDelegate: updateModelDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()

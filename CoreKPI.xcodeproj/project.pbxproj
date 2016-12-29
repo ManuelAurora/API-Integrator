@@ -15,6 +15,9 @@
 		A2279D7D1E14DE2100669EB0 /* d3.js in Resources */ = {isa = PBXBuildFile; fileRef = A2279D7B1E14DE2100669EB0 /* d3.js */; };
 		A2279D7E1E14DE2100669EB0 /* points.js in Resources */ = {isa = PBXBuildFile; fileRef = A2279D7C1E14DE2100669EB0 /* points.js */; };
 		A2279D801E14DE2A00669EB0 /* points.css in Resources */ = {isa = PBXBuildFile; fileRef = A2279D7F1E14DE2A00669EB0 /* points.css */; };
+		A2279D821E14E86400669EB0 /* TeamListNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2279D811E14E86400669EB0 /* TeamListNavigationViewController.swift */; };
+		A2279D841E14EBF200669EB0 /* AlertsNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2279D831E14EBF200669EB0 /* AlertsNavigationViewController.swift */; };
+		A2279D861E14EC3B00669EB0 /* DashboardsNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2279D851E14EC3B00669EB0 /* DashboardsNavigationViewController.swift */; };
 		A22EF0661E0901A20004DDB7 /* ModelCoreKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */; };
 		A235CB321E0ACD5200636888 /* AllertSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A235CB311E0ACD5100636888 /* AllertSettingsTableViewController.swift */; };
 		A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25B4A561E0275B400F315F9 /* CustomTextField.swift */; };
@@ -96,6 +99,9 @@
 		A2279D7B1E14DE2100669EB0 /* d3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = d3.js; path = Graphics/Point/js/d3.js; sourceTree = "<group>"; };
 		A2279D7C1E14DE2100669EB0 /* points.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = points.js; path = Graphics/Point/js/points.js; sourceTree = "<group>"; };
 		A2279D7F1E14DE2A00669EB0 /* points.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = points.css; path = Graphics/Point/css/points.css; sourceTree = "<group>"; };
+		A2279D811E14E86400669EB0 /* TeamListNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TeamListNavigationViewController.swift; path = CoreKPI/ViewControllers/Team/TeamListNavigationViewController.swift; sourceTree = "<group>"; };
+		A2279D831E14EBF200669EB0 /* AlertsNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertsNavigationViewController.swift; path = CoreKPI/AlertsNavigationViewController.swift; sourceTree = "<group>"; };
+		A2279D851E14EC3B00669EB0 /* DashboardsNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardsNavigationViewController.swift; path = CoreKPI/ViewControllers/DashBoard/DashboardsNavigationViewController.swift; sourceTree = "<group>"; };
 		A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelCoreKPI.swift; sourceTree = "<group>"; };
 		A235CB311E0ACD5100636888 /* AllertSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllertSettingsTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AllertSettingsTableViewController.swift; sourceTree = "<group>"; };
 		A25B4A561E0275B400F315F9 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
@@ -347,6 +353,7 @@
 		A297F5BE1E08237B00F85963 /* Team */ = {
 			isa = PBXGroup;
 			children = (
+				A2279D811E14E86400669EB0 /* TeamListNavigationViewController.swift */,
 				A274DC101E082617008CBF36 /* MemberListTableViewController.swift */,
 				A297F5B21E08233A00F85963 /* MemberInfoViewController.swift */,
 				A297F5B11E08233A00F85963 /* MemberEditViewController.swift */,
@@ -370,6 +377,7 @@
 		A297F5C01E08239B00F85963 /* Alerts */ = {
 			isa = PBXGroup;
 			children = (
+				A2279D831E14EBF200669EB0 /* AlertsNavigationViewController.swift */,
 				A2ACBD3A1E0D11AA0079EF3D /* AlertsListTableViewController.swift */,
 				A235CB311E0ACD5100636888 /* AllertSettingsTableViewController.swift */,
 				A2A215521E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift */,
@@ -380,6 +388,7 @@
 		A297F5C11E0823AD00F85963 /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
+				A2279D851E14EC3B00669EB0 /* DashboardsNavigationViewController.swift */,
 				A2ACBD401E0D1DFA0079EF3D /* KPIsListTableViewController.swift */,
 				A218EBBC1E0D4D1A00C1DB5A /* AddNewKPITableViewController.swift */,
 				A261D9151E1283E900638C56 /* CreateNewKPITableViewController.swift */,
@@ -653,6 +662,7 @@
 			files = (
 				A297F5C81E0823D400F85963 /* NewProfileTableViewController.swift in Sources */,
 				A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */,
+				A2279D821E14E86400669EB0 /* TeamListNavigationViewController.swift in Sources */,
 				A274DC111E082617008CBF36 /* MemberListTableViewController.swift in Sources */,
 				A26D282A1E0D551D005342BA /* KPIListTableViewCell.swift in Sources */,
 				A2ACBD3F1E0D12280079EF3D /* AlertsListTableViewCell.swift in Sources */,
@@ -687,10 +697,12 @@
 				A297F5E11E08248000F85963 /* TypeAccountTableViewCell.swift in Sources */,
 				A297F5B31E08233A00F85963 /* MemberEditViewController.swift in Sources */,
 				A274DC0F1E0825DF008CBF36 /* InviteTableViewController.swift in Sources */,
+				A2279D861E14EC3B00669EB0 /* DashboardsNavigationViewController.swift in Sources */,
 				A2844B3C1E0BC842002E297A /* MemberEditTableViewCell.swift in Sources */,
 				A2A215511E124AB800EEBCA2 /* AlertSettingTableViewCell.swift in Sources */,
 				A261D91C1E129F1600638C56 /* DashboardSetingTableViewCell.swift in Sources */,
 				A261D91A1E1285F800638C56 /* SelectSettingAddNewKPITableViewController.swift in Sources */,
+				A2279D841E14EBF200669EB0 /* AlertsNavigationViewController.swift in Sources */,
 				A292F5CF1E13AF88009F9F48 /* WebView2TestViewController.swift in Sources */,
 				A2A215531E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift in Sources */,
 				A27820661E001503009F83DB /* AppDelegate.swift in Sources */,

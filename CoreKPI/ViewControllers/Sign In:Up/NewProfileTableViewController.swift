@@ -108,9 +108,9 @@ class NewProfileTableViewController: UITableViewController, UIImagePickerControl
             if successKey == 1 {
                 if let dataKey = json["data"] as? NSDictionary {
                     userId = dataKey["user_id"] as! Int
-                    token = "no token!"//dataKey["token"] as! String
-                    let profile = Profile(userName: email, firstName: firstName, lastName: lastName, position: position, photo: profileImageBase64String, phone: nil, typeOfAccount: .Admin)
-                    model = ModelCoreKPI(userId: userId, token: token, profile: profile)
+                    token = dataKey["token"] as! String
+                    let profile = Profile(userId: userId, userName: email, firstName: firstName, lastName: lastName, position: position, photo: profileImageBase64String, phone: nil, nickname: nil, typeOfAccount: .Admin)
+                    model = ModelCoreKPI(token: token, profile: profile)
                     let vc = storyboard?.instantiateViewController(withIdentifier: "InviteVC") as! InviteTableViewController
                     self.delegate = vc
                     delegate.updateModel(model: model)

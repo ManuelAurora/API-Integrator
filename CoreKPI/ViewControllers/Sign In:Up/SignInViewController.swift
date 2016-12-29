@@ -85,7 +85,7 @@ class SignInViewController: UIViewController {
                 if let dataKey = json["data"] as? NSDictionary {
                     userId = dataKey["user_id"] as! Int
                     token = dataKey["token"] as! String
-                    self.request = Request(userID: userId, token: token)
+                    self.request = Request(userId: userId, token: token)
                     getUserProfileFromServer()
                 } else {
                     print("Json data is broken")
@@ -110,7 +110,6 @@ class SignInViewController: UIViewController {
                             print(error)
         })
         
-        
     }
     
     func createModel(json: NSDictionary) {
@@ -131,14 +130,26 @@ class SignInViewController: UIViewController {
                     position = dataKey["position"] as! String
                     photo = dataKey["photo"] as! String
                     
-                    profile = Profile(userName: userName, firstName: firstName, lastName: lastName, position: position, photo: photo, phone: nil, typeOfAccount: .Admin)
+                    profile = Profile(userId: request.userID, userName: userName, firstName: firstName, lastName: lastName, position: position, photo: photo, phone: nil, nickname: nil, typeOfAccount: .Admin)
                     
-                    self.model = ModelCoreKPI(userId: request.userID, token: request.token, profile: profile)
+                    self.model = ModelCoreKPI(token: request.token, profile: profile)
                     self.saveData()
-                    let vc = storyboard?.instantiateViewController(withIdentifier: "TabBarVC") as! MainTabBarViewController
-                    delegate = vc
-                    delegate.updateModel(model: model)
-                    present(vc, animated: true, completion: nil)
+                    
+                    let tabBarController = storyboard?.instantiateViewController(withIdentifier: "TabBarVC") as! MainTabBarViewController
+                    
+                    let dashboardNavigationViewController = tabBarController.viewControllers?[0] as! DashboardsNavigationViewController
+                    let dashboardViewController = dashboardNavigationViewController.childViewControllers[0] as! KPIsListTableViewController
+                    dashboardViewController.model = ModelCoreKPI(model: model)
+                    
+                    let alertsNavigationViewController = tabBarController.viewControllers?[1] as! AlertsNavigationViewController
+                    let alertsViewController = alertsNavigationViewController.childViewControllers[0] as! AlertsListTableViewController
+                    alertsViewController.model = ModelCoreKPI(model: model)
+                    
+                    let teamListNavigationViewController = tabBarController.viewControllers?[2] as! TeamListViewController
+                    let teamListController = teamListNavigationViewController.childViewControllers[0] as! MemberListTableViewController
+                    teamListController.model = ModelCoreKPI(model: model)
+                    
+                    present(tabBarController, animated: true, completion: nil)
                     
                 } else {
                     print("Json data is broken")
