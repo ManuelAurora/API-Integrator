@@ -7,34 +7,36 @@
 //
 
 import UIKit
+import JavaScriptCore
+import WebKit
 
 class WebViewTestViewController: UIViewController {
-    
-    @IBOutlet weak var webView: UIWebView!
 
+    @IBOutlet weak var webView: UIWebView!
+    var wkWebView: WKWebView? = WKWebView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let url = Bundle.main.url(forResource: "points", withExtension: "html", subdirectory: "Точечный")
-        let request = URLRequest(url: url!)
-        webView.loadRequest(request)
         
-    }
+        let htmlFile = Bundle.main.path(forResource:"points", ofType: "html")
+        let cssFile = Bundle.main.path(forResource:"points", ofType: "css")
+        let jsFile1 = Bundle.main.path(forResource:"d3", ofType: "js")
+        let jsFile2 = Bundle.main.path(forResource:"points", ofType: "js")
+        
+        let html = try? String(contentsOfFile: htmlFile!, encoding: String.Encoding.utf8)
+        let css = try? String(contentsOfFile: cssFile!, encoding: String.Encoding.utf8)
+        let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
+        let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
+        
+        
+        webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + js2! + "</script>", baseURL: nil)
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+        
+        //Test webView
+//        let url = URL(string: "http://yandex.ru")
+//        let request = URLRequest(url: url!)
+//        webView.loadRequest(request)
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
     }
-    */
 
 }

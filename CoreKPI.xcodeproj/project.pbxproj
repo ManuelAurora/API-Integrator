@@ -8,10 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		A2028E6E1E12B66400F1EED6 /* WebViewTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2028E6D1E12B66400F1EED6 /* WebViewTestViewController.swift */; };
-		A2028E701E12B74300F1EED6 /* Точечный in Resources */ = {isa = PBXBuildFile; fileRef = A2028E6F1E12B74300F1EED6 /* Точечный */; };
 		A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340901E110CF200208EAB /* ChageNameTableViewController.swift */; };
 		A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340921E110D1C00208EAB /* NewNameViewController.swift */; };
 		A218EBBD1E0D4D1A00C1DB5A /* AddNewKPITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A218EBBC1E0D4D1A00C1DB5A /* AddNewKPITableViewController.swift */; };
+		A2279D7A1E14DE1700669EB0 /* points.html in Resources */ = {isa = PBXBuildFile; fileRef = A2279D791E14DE1700669EB0 /* points.html */; };
+		A2279D7D1E14DE2100669EB0 /* d3.js in Resources */ = {isa = PBXBuildFile; fileRef = A2279D7B1E14DE2100669EB0 /* d3.js */; };
+		A2279D7E1E14DE2100669EB0 /* points.js in Resources */ = {isa = PBXBuildFile; fileRef = A2279D7C1E14DE2100669EB0 /* points.js */; };
+		A2279D801E14DE2A00669EB0 /* points.css in Resources */ = {isa = PBXBuildFile; fileRef = A2279D7F1E14DE2A00669EB0 /* points.css */; };
 		A22EF0661E0901A20004DDB7 /* ModelCoreKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */; };
 		A235CB321E0ACD5200636888 /* AllertSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A235CB311E0ACD5100636888 /* AllertSettingsTableViewController.swift */; };
 		A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25B4A561E0275B400F315F9 /* CustomTextField.swift */; };
@@ -34,6 +37,7 @@
 		A27820A11E001A0B009F83DB /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A278209F1E001A0B009F83DB /* Alamofire.framework */; };
 		A27820A21E001A0B009F83DB /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A27820A01E001A0B009F83DB /* SwiftyJSON.framework */; };
 		A2844B3C1E0BC842002E297A /* MemberEditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2844B3B1E0BC842002E297A /* MemberEditTableViewCell.swift */; };
+		A292F5CF1E13AF88009F9F48 /* WebView2TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A292F5CE1E13AF88009F9F48 /* WebView2TestViewController.swift */; };
 		A297F5B01E08233100F85963 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5AF1E08233100F85963 /* MainTabBarViewController.swift */; };
 		A297F5B31E08233A00F85963 /* MemberEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5B11E08233A00F85963 /* MemberEditViewController.swift */; };
 		A297F5B41E08233A00F85963 /* MemberInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5B21E08233A00F85963 /* MemberInfoViewController.swift */; };
@@ -59,6 +63,10 @@
 		A2ACBD3B1E0D11AA0079EF3D /* AlertsListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ACBD3A1E0D11AA0079EF3D /* AlertsListTableViewController.swift */; };
 		A2ACBD3F1E0D12280079EF3D /* AlertsListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ACBD3E1E0D12280079EF3D /* AlertsListTableViewCell.swift */; };
 		A2ACBD411E0D1DFA0079EF3D /* KPIsListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ACBD401E0D1DFA0079EF3D /* KPIsListTableViewController.swift */; };
+		A2C9FD231E13E1C500433D43 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD211E13E1C500433D43 /* index.html */; };
+		A2C9FD261E13E1CD00433D43 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD251E13E1CD00433D43 /* style.css */; };
+		A2C9FD291E13E1D400433D43 /* Rd3.v3.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */; };
+		A2C9FD2A1E13E1D400433D43 /* round.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD281E13E1D400433D43 /* round.js */; };
 		A2F0B1181E0C1B110095580B /* CoreKPIDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F0B1171E0C1B110095580B /* CoreKPIDelegates.swift */; };
 /* End PBXBuildFile section */
 
@@ -81,10 +89,13 @@
 
 /* Begin PBXFileReference section */
 		A2028E6D1E12B66400F1EED6 /* WebViewTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewTestViewController.swift; sourceTree = "<group>"; };
-		A2028E6F1E12B74300F1EED6 /* Точечный */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Точечный"; sourceTree = "<group>"; };
 		A20340901E110CF200208EAB /* ChageNameTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChageNameTableViewController.swift; path = CoreKPI/ViewControllers/Team/ChageNameTableViewController.swift; sourceTree = "<group>"; };
 		A20340921E110D1C00208EAB /* NewNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewNameViewController.swift; path = CoreKPI/ViewControllers/Team/NewNameViewController.swift; sourceTree = "<group>"; };
 		A218EBBC1E0D4D1A00C1DB5A /* AddNewKPITableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddNewKPITableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/AddNewKPITableViewController.swift; sourceTree = "<group>"; };
+		A2279D791E14DE1700669EB0 /* points.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = points.html; path = Graphics/Point/points.html; sourceTree = "<group>"; };
+		A2279D7B1E14DE2100669EB0 /* d3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = d3.js; path = Graphics/Point/js/d3.js; sourceTree = "<group>"; };
+		A2279D7C1E14DE2100669EB0 /* points.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = points.js; path = Graphics/Point/js/points.js; sourceTree = "<group>"; };
+		A2279D7F1E14DE2A00669EB0 /* points.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = points.css; path = Graphics/Point/css/points.css; sourceTree = "<group>"; };
 		A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelCoreKPI.swift; sourceTree = "<group>"; };
 		A235CB311E0ACD5100636888 /* AllertSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllertSettingsTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AllertSettingsTableViewController.swift; sourceTree = "<group>"; };
 		A25B4A561E0275B400F315F9 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
@@ -113,6 +124,7 @@
 		A278209F1E001A0B009F83DB /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		A27820A01E001A0B009F83DB /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		A2844B3B1E0BC842002E297A /* MemberEditTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberEditTableViewCell.swift; path = CustomTableViewCells/Team/MemberEditTableViewCell.swift; sourceTree = "<group>"; };
+		A292F5CE1E13AF88009F9F48 /* WebView2TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebView2TestViewController.swift; sourceTree = "<group>"; };
 		A297F5AF1E08233100F85963 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainTabBarViewController.swift; path = CoreKPI/ViewControllers/MainTabBarViewController.swift; sourceTree = "<group>"; };
 		A297F5B11E08233A00F85963 /* MemberEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberEditViewController.swift; path = CoreKPI/ViewControllers/Team/MemberEditViewController.swift; sourceTree = "<group>"; };
 		A297F5B21E08233A00F85963 /* MemberInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberInfoViewController.swift; path = CoreKPI/ViewControllers/Team/MemberInfoViewController.swift; sourceTree = "<group>"; };
@@ -138,6 +150,10 @@
 		A2ACBD3A1E0D11AA0079EF3D /* AlertsListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertsListTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AlertsListTableViewController.swift; sourceTree = "<group>"; };
 		A2ACBD3E1E0D12280079EF3D /* AlertsListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertsListTableViewCell.swift; path = CustomTableViewCells/Alerts/AlertsListTableViewCell.swift; sourceTree = "<group>"; };
 		A2ACBD401E0D1DFA0079EF3D /* KPIsListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIsListTableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/KPIsListTableViewController.swift; sourceTree = "<group>"; };
+		A2C9FD211E13E1C500433D43 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = "Graphics/Круговой/index.html"; sourceTree = "<group>"; };
+		A2C9FD251E13E1CD00433D43 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = style.css; path = "Graphics/Круговой/css/style.css"; sourceTree = "<group>"; };
+		A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Rd3.v3.min.js; path = "Graphics/Круговой/js/Rd3.v3.min.js"; sourceTree = "<group>"; };
+		A2C9FD281E13E1D400433D43 /* round.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = round.js; path = "Graphics/Круговой/js/round.js"; sourceTree = "<group>"; };
 		A2F0B1171E0C1B110095580B /* CoreKPIDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreKPIDelegates.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -171,7 +187,8 @@
 		A2028E711E12B74D00F1EED6 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
-				A2028E6F1E12B74300F1EED6 /* Точечный */,
+				A2B807E71E13A48800F2C1CB /* Points */,
+				A292F5C51E13ACFE009F9F48 /* Pie */,
 			);
 			name = Graphics;
 			sourceTree = "<group>";
@@ -204,6 +221,7 @@
 				A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */,
 				A2F0B1171E0C1B110095580B /* CoreKPIDelegates.swift */,
 				A2028E6D1E12B66400F1EED6 /* WebViewTestViewController.swift */,
+				A292F5CE1E13AF88009F9F48 /* WebView2TestViewController.swift */,
 				A297F5D31E08241D00F85963 /* CustomTableViewCells */,
 				A297F5BD1E08234C00F85963 /* ViewControllers */,
 				A278209D1E0015D5009F83DB /* Views */,
@@ -283,6 +301,33 @@
 				A27820A01E001A0B009F83DB /* SwiftyJSON.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A292F5C51E13ACFE009F9F48 /* Pie */ = {
+			isa = PBXGroup;
+			children = (
+				A2C9FD211E13E1C500433D43 /* index.html */,
+				A292F5CD1E13AD92009F9F48 /* css */,
+				A292F5CA1E13AD82009F9F48 /* js */,
+			);
+			name = Pie;
+			sourceTree = "<group>";
+		};
+		A292F5CA1E13AD82009F9F48 /* js */ = {
+			isa = PBXGroup;
+			children = (
+				A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */,
+				A2C9FD281E13E1D400433D43 /* round.js */,
+			);
+			name = js;
+			sourceTree = "<group>";
+		};
+		A292F5CD1E13AD92009F9F48 /* css */ = {
+			isa = PBXGroup;
+			children = (
+				A2C9FD251E13E1CD00433D43 /* style.css */,
+			);
+			name = css;
 			sourceTree = "<group>";
 		};
 		A297F5BD1E08234C00F85963 /* ViewControllers */ = {
@@ -418,6 +463,33 @@
 			name = "Sign In/Up";
 			sourceTree = "<group>";
 		};
+		A2B807E71E13A48800F2C1CB /* Points */ = {
+			isa = PBXGroup;
+			children = (
+				A2279D791E14DE1700669EB0 /* points.html */,
+				A2B807F41E13A4D200F2C1CB /* css */,
+				A2B807EC1E13A4A500F2C1CB /* js */,
+			);
+			name = Points;
+			sourceTree = "<group>";
+		};
+		A2B807EC1E13A4A500F2C1CB /* js */ = {
+			isa = PBXGroup;
+			children = (
+				A2279D7B1E14DE2100669EB0 /* d3.js */,
+				A2279D7C1E14DE2100669EB0 /* points.js */,
+			);
+			name = js;
+			sourceTree = "<group>";
+		};
+		A2B807F41E13A4D200F2C1CB /* css */ = {
+			isa = PBXGroup;
+			children = (
+				A2279D7F1E14DE2A00669EB0 /* points.css */,
+			);
+			name = css;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -527,9 +599,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				A27820731E001503009F83DB /* LaunchScreen.storyboard in Resources */,
+				A2C9FD291E13E1D400433D43 /* Rd3.v3.min.js in Resources */,
+				A2C9FD261E13E1CD00433D43 /* style.css in Resources */,
+				A2279D7E1E14DE2100669EB0 /* points.js in Resources */,
+				A2279D7D1E14DE2100669EB0 /* d3.js in Resources */,
+				A2279D7A1E14DE1700669EB0 /* points.html in Resources */,
+				A2C9FD2A1E13E1D400433D43 /* round.js in Resources */,
 				A27820701E001503009F83DB /* Assets.xcassets in Resources */,
-				A2028E701E12B74300F1EED6 /* Точечный in Resources */,
+				A2C9FD231E13E1C500433D43 /* index.html in Resources */,
 				A278206B1E001503009F83DB /* Main.storyboard in Resources */,
+				A2279D801E14DE2A00669EB0 /* points.css in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,6 +691,7 @@
 				A2A215511E124AB800EEBCA2 /* AlertSettingTableViewCell.swift in Sources */,
 				A261D91C1E129F1600638C56 /* DashboardSetingTableViewCell.swift in Sources */,
 				A261D91A1E1285F800638C56 /* SelectSettingAddNewKPITableViewController.swift in Sources */,
+				A292F5CF1E13AF88009F9F48 /* WebView2TestViewController.swift in Sources */,
 				A2A215531E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift in Sources */,
 				A27820661E001503009F83DB /* AppDelegate.swift in Sources */,
 				A2ACBD411E0D1DFA0079EF3D /* KPIsListTableViewController.swift in Sources */,
