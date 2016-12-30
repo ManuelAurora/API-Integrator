@@ -1498,45 +1498,6 @@ The main advantage of a computer audio player is that you can play your audio CD
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TypeOfAccount" id="IcD-oU-x5R" customClass="NewProfileTypeAccountTableViewCell" customModule="CoreKPI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="314" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IcD-oU-x5R" id="yJG-5V-pc4">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type of account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhX-PU-Bs6">
-                                                    <rect key="frame" x="18" y="11" width="124" height="21"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="124" id="pYK-JP-X3r"/>
-                                                        <constraint firstAttribute="height" constant="21" id="qQs-4x-9Du"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Admin" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bKE-Ii-7GT">
-                                                    <rect key="frame" x="310" y="11" width="49" height="21"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="21" id="7Tc-kM-zPU"/>
-                                                        <constraint firstAttribute="width" constant="49" id="rMs-xW-AQ6"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.5607843137254902" green="0.55686274509803924" blue="0.58039215686274503" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="bhX-PU-Bs6" firstAttribute="centerY" secondItem="yJG-5V-pc4" secondAttribute="centerY" id="0kl-4i-f8h"/>
-                                                <constraint firstItem="bhX-PU-Bs6" firstAttribute="leading" secondItem="yJG-5V-pc4" secondAttribute="leadingMargin" constant="10" id="NOQ-3U-JOV"/>
-                                                <constraint firstAttribute="trailing" secondItem="bKE-Ii-7GT" secondAttribute="trailing" constant="16" id="Vqc-hj-P8f"/>
-                                                <constraint firstItem="bKE-Ii-7GT" firstAttribute="centerY" secondItem="yJG-5V-pc4" secondAttribute="centerY" id="sn6-6H-57d"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="dRL-aO-8Z0" kind="show" identifier="TypeOfAccount" id="D3G-sp-fTt"/>
-                                        </connections>
-                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -1558,7 +1519,6 @@ The main advantage of a computer audio player is that you can play your audio CD
                         <outlet property="lastNameTextField" destination="DdY-6p-Stm" id="E2V-Fc-YLm"/>
                         <outlet property="positionTextField" destination="9A8-6b-qb6" id="y2N-xZ-wJX"/>
                         <outlet property="profilePhotoImageView" destination="ZcT-yj-4UW" id="4tw-rv-GEZ"/>
-                        <outlet property="typeOfAccountLabel" destination="bKE-Ii-7GT" id="8cG-a7-ozo"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X5C-P2-uLG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1583,7 +1543,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Uet-ZN-Hwi">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Uet-ZN-Hwi">
                                                     <rect key="frame" x="16" y="0.0" width="343" height="43"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="43" id="NBs-mk-N9x"/>
@@ -3297,9 +3257,9 @@ Deliveries</string>
         <image name="teamsIcons1" width="25" height="26"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="DdY-vZ-46a"/>
         <segue reference="b7M-Dv-TzG"/>
-        <segue reference="Xff-M0-iKw"/>
         <segue reference="jgU-QK-nbY"/>
-        <segue reference="hOe-3T-3Gf"/>
+        <segue reference="Xff-M0-iKw"/>
     </inferredMetricsTieBreakers>
 </document>

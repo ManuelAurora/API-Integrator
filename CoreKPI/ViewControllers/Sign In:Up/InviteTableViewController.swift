@@ -18,7 +18,7 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
     
     var model: ModelCoreKPI!
     var invitePerson: Profile!
-    
+    var request: Request!
     var typeOfAccount = TypeOfAccount.Manager
     
     var numberOfInvations = 0
@@ -30,6 +30,8 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
         self.typeOfAccountLabel.text = self.typeOfAccount.rawValue
         
         tableView.tableFooterView = UIView(frame: .zero)
+        
+        request = Request(model: model)
     }
     
     override func didReceiveMemoryWarning() {
@@ -97,7 +99,45 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
     
     //Function for send invations on server
     func sendInvations() {
-        print("send invations")
+        
+        let data: [String : Any] = ["email" : self.emailTextField.text!, "mode" : self.typeOfAccount == .Admin ? 1 : 0]
+        
+        request.getJson(category: "/account/invite", data: data,
+                        success: { json in
+                            self.parsingJson(json: json)
+                            
+        },
+                        failure: { (error) in
+                            print(error)
+        })
+    }
+    
+    func parsingJson(json: NSDictionary) {
+        
+        if let successKey = json["success"] as? Int {
+            if successKey == 1 {
+                if (json["data"] as? NSDictionary) != nil {
+                    showAlert(errorMessage: "Vse OK!")
+                    self.numberOfInvations -= 1
+                    self.numberOfInvationsLAbel.text = String(self.numberOfInvations)
+                } else {
+                    print("Json data is broken")
+                }
+            } else {
+                let errorMessage = json["message"] as! String
+                print("Json error message: \(errorMessage)")
+                showAlert(errorMessage: errorMessage)
+            }
+        } else {
+            print("Json file is broken!")
+        }
+    }
+    
+    //MARK: - show alert function
+    func showAlert(errorMessage: String) {
+        let alertController = UIAlertController(title: "Invite error", message: errorMessage, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
     }
     
     //MARK: - updateModelDelegate methods
@@ -110,6 +150,7 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
     
     func updateTypeOfAccount(typeOfAccount: TypeOfAccount) {
         self.typeOfAccount = typeOfAccount
+        self.typeOfAccountLabel.text = self.typeOfAccount.rawValue
         tableView.reloadData()
     }
     
@@ -137,6 +178,7 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
         if segue.identifier == "TypeOfNewAccount" {
             let destinationViewController = segue.destination as! TypeOfAccountTableViewController
             destinationViewController.typeOfAccount = self.typeOfAccount
+            destinationViewController.InviteVC = self
         }
     }
     

@@ -13,9 +13,10 @@ class TypeOfAccountTableViewController: UITableViewController {
     var typeOfAccount: TypeOfAccount!
     var delegate: updateTypeOfAccountDelegate!
     
+    weak var InviteVC: InviteTableViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         tableView.tableFooterView = UIView(frame: .zero)
     }
     
@@ -70,7 +71,8 @@ class TypeOfAccountTableViewController: UITableViewController {
     
     override func didMove(toParentViewController parent: UIViewController?) {
         if(!(parent?.isEqual(self.parent) ?? false)) {
-            print("Back button Pressed!")
+            delegate = InviteVC
+            delegate.updateTypeOfAccount(typeOfAccount: typeOfAccount)
     }
     }
 }
