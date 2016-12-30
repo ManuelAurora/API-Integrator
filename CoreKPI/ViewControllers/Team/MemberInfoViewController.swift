@@ -9,7 +9,7 @@
 import UIKit
 import MessageUI
 
-class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate {
+class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate, updateModelDelegate {
     
     @IBOutlet weak var memberProfilePhotoImage: UIImageView!
     @IBOutlet weak var memberProfileNameLabel: UILabel!
@@ -69,9 +69,14 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     @IBAction func tapPhoneButton(_ sender: UIButton) {
-        let alertController = UIAlertController(title: "Sorry!", message: "Calls are not available now...", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        present(alertController, animated: true, completion: nil)
+        let url = URL(string: "tel://(profile.phone)")
+        if UIApplication.shared.canOpenURL(url!) {
+            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+        } else {
+            let alertController = UIAlertController(title: "Error", message: "Can not call!", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
     
     @IBAction func tapMailButton(_ sender: UIButton) {
@@ -180,5 +185,11 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         self.navigationController?.navigationBar.shadowImage = nil
         self.navigationController?.navigationBar.isTranslucent = false
     }
+    
+    //MARK: - updateModelDelegate method
+    func updateModel(model: ModelCoreKPI) {
+        self.model = model
+    }
+    
     
 }

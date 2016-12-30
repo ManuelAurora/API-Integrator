@@ -42,7 +42,7 @@ class faqDetailViewController: UIViewController, UITableViewDelegate, UITableVie
         let descriptionCell = tableView.dequeueReusableCell(withIdentifier: "FAQDescription", for: indexPath) as! AnswerFaqTableViewCell
         
         titleCell.headerOfQuestionLabel.text = headerOfQestion
-        titleCell.numberOfQuestionLabel.text = String(indexPath.row)
+        titleCell.numberOfQuestionLabel.text = numberOfQuestion
         
         switch headerOfQestion {
         case "Question: Dashboards":

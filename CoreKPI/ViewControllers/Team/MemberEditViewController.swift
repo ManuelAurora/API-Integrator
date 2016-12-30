@@ -12,6 +12,9 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     
     var model: ModelCoreKPI!
     var profile: Profile!
+    var newProfile: Profile!
+    
+    var delegate: updateModelDelegate!
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -19,19 +22,21 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var memberNameTextField: BottomBorderTextField!
     @IBOutlet weak var memberPositionTextField: BottomBorderTextField!
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.memberNameTextField.text = "\(profile.firstName) \(profile.lastName)"
         self.memberPositionTextField.text = profile.position
         
-        //Add profile photo from base64 string
-        let imageData = profile.photo
-        let dataDecode: NSData = NSData(base64Encoded: imageData!, options: .ignoreUnknownCharacters)!
-        let avatarImage: UIImage = UIImage(data: dataDecode as Data)!
-        self.memberProfilePhotoImage.image = avatarImage
+        if profile.photo != nil {
+            //Add profile photo from base64 string
+            let imageData = profile.photo
+            let dataDecode: NSData = NSData(base64Encoded: imageData!, options: .ignoreUnknownCharacters)!
+            let avatarImage: UIImage = UIImage(data: dataDecode as Data)!
+            self.memberProfilePhotoImage.image = avatarImage
+        }
+        
+        self.newProfile = Profile(profile: profile)
         
         tableView.tableFooterView = UIView(frame: .zero)
         
@@ -43,7 +48,6 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     //MARK: - TableViewDatasource methods
@@ -69,7 +73,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //let cellTypeOfAccount = tableView.dequeueReusableCell(withIdentifier: "TypeOfAccount", for: indexPath) as! TypeAccountTableViewCell
+        let cellTypeOfAccount = tableView.dequeueReusableCell(withIdentifier: "TypeOfAccount", for: indexPath) as! TypeAccountTableViewCell
         let cellMemberEdit = tableView.dequeueReusableCell(withIdentifier: "MemberInfoEdit", for: indexPath) as! MemberEditTableViewCell
         
         if model.profile?.typeOfAccount == TypeOfAccount.Admin {
@@ -87,49 +91,80 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                     cellMemberEdit.textFieldOfCell.text = ""
                     print("Cell create by default case")
                 }
-            } else {
-                switch indexPath.row {
+            }// else {
+            //                switch indexPath.row {
+            //                case 0:
+            //                    let stringTypeOfAccount = profile.typeOfAccount.rawValue
+            //                    cellTypeOfAccount.typeAccountLabel.text = stringTypeOfAccount
+            //                    return cellTypeOfAccount
+            //                case 1:
+            //                    cellMemberEdit.headerOfCell.text = "Phone"
+            //                    cellMemberEdit.textFieldOfCell.text = profile.phone
+            //                case 2:
+            //                    cellMemberEdit.headerOfCell.text = "E-mail"
+            //                    cellMemberEdit.textFieldOfCell.text = profile.userName
+            //                    cellMemberEdit.textFieldOfCell.placeholder = "No E-mail"
+            //                default:
+            //                    cellMemberEdit.headerOfCell.text = ""
+            //                    cellMemberEdit.textFieldOfCell.text = ""
+            //                    print("Cell create by default case")
+            //                }
+            //            }
+        } //else {
+        //            if model.profile?.userName == profile.userName {
+        //                switch indexPath.row {
+        //                case 0:
+        //                    cellMemberEdit.headerOfCell.text = "Phone"
+        //                    cellMemberEdit.textFieldOfCell.text = profile.phone
+        //                case 1:
+        //                    cellMemberEdit.headerOfCell.text = "E-mail"
+        //                    cellMemberEdit.textFieldOfCell.text = profile.userName
+        //                    cellMemberEdit.textFieldOfCell.placeholder = "No E-mail"
+        //                default:
+        //                    cellMemberEdit.headerOfCell.text = ""
+        //                    cellMemberEdit.textFieldOfCell.text = ""
+        //                    print("Cell create by default case")
+        //                }
+        //            } else {
+        //                self.navigationItem.title = "Change Name"
+        //                cellMemberEdit.headerOfCell.text = "Change Name"
+        //                cellMemberEdit.textFieldOfCell.text = "\(profile.firstName) \(profile.lastName)"
+        //            }
+        //
+        //        }
+        
+        //return cellMemberEdit
+        return cellTypeOfAccount
+    }
+    
+    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+        
+        if model.profile?.typeOfAccount == TypeOfAccount.Admin {
+            if model.profile?.userName == profile.userName {
+                let memberCell = tableView.cellForRow(at: indexPath!) as! MemberEditTableViewCell
+                
+                let index : Int = indexPath!.row
+                
+                switch index {
                 case 0:
-                    let stringTypeOfAccount = profile.typeOfAccount.rawValue
-                    //cellTypeOfAccount.typeAccountLabel.text = stringTypeOfAccount
-                    //return cellTypeOfAccount
+                    self.newProfile.phone = memberCell.textFieldOfCell.text
                 case 1:
-                    cellMemberEdit.headerOfCell.text = "Phone"
-                    cellMemberEdit.textFieldOfCell.text = profile.phone
-                case 2:
-                    cellMemberEdit.headerOfCell.text = "E-mail"
-                    cellMemberEdit.textFieldOfCell.text = profile.userName
-                    cellMemberEdit.textFieldOfCell.placeholder = "No E-mail"
+                    self.newProfile.userName = memberCell.textFieldOfCell.text!
                 default:
-                    cellMemberEdit.headerOfCell.text = ""
-                    cellMemberEdit.textFieldOfCell.text = ""
-                    print("Cell create by default case")
+                    break
                 }
+                self.newProfile.phone = memberCell.textFieldOfCell.text
+                
+            } else {
+                //return 3
             }
         } else {
             if model.profile?.userName == profile.userName {
-                switch indexPath.row {
-                case 0:
-                    cellMemberEdit.headerOfCell.text = "Phone"
-                    cellMemberEdit.textFieldOfCell.text = profile.phone
-                case 1:
-                    cellMemberEdit.headerOfCell.text = "E-mail"
-                    cellMemberEdit.textFieldOfCell.text = profile.userName
-                    cellMemberEdit.textFieldOfCell.placeholder = "No E-mail"
-                default:
-                    cellMemberEdit.headerOfCell.text = ""
-                    cellMemberEdit.textFieldOfCell.text = ""
-                    print("Cell create by default case")
-                }
+                //return 2
             } else {
-                self.navigationItem.title = "Change Name"
-                cellMemberEdit.headerOfCell.text = "Change Name"
-                cellMemberEdit.textFieldOfCell.text = "\(profile.firstName) \(profile.lastName)"
+                //return 1
             }
-            
         }
-        
-        return cellMemberEdit
     }
     
     @IBAction func tapEditPhoto(_ sender: Any) {
@@ -148,8 +183,13 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     @IBAction func tapSaveButton(_ sender: Any) {
         //let name = self.memberNameTextField.text
-        //let position = self.memberPositionTextField.text
+        let position = self.memberPositionTextField.text
         //let photo = self.memberProfilePhotoImage.image
+        
+        self.newProfile.position = position
+        let parentVC: MemberInfoViewController = (self.navigationController?.parent)! as! MemberInfoViewController
+        delegate = parentVC
+        delegate.updateModel(model: self.model)
     }
     
     /*
