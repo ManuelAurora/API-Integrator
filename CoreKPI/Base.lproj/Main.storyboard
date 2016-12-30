@@ -802,11 +802,10 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </connections>
                             </tableView>
                             <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PCg-CY-yE3">
-                                <rect key="frame" x="56" y="529" width="264" height="36"/>
+                                <rect key="frame" x="32" y="529" width="311" height="36"/>
                                 <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="27Z-Lg-dfm"/>
-                                    <constraint firstAttribute="width" constant="264" id="5FL-mk-znn"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <state key="normal" title="Responsible for">
@@ -867,12 +866,15 @@ The main advantage of a computer audio player is that you can play your audio CD
                             <constraint firstItem="PCg-CY-yE3" firstAttribute="centerX" secondItem="Zbb-DA-UH4" secondAttribute="centerX" id="1Je-Yv-UqY"/>
                             <constraint firstItem="i7a-fV-Yzm" firstAttribute="leading" secondItem="Zbb-DA-UH4" secondAttribute="leading" constant="16" id="4xs-f6-AHo"/>
                             <constraint firstItem="bbz-6Y-2Vq" firstAttribute="top" secondItem="i7a-fV-Yzm" secondAttribute="bottom" priority="750" constant="53" id="A4m-oV-Uzs"/>
+                            <constraint firstItem="PCg-CY-yE3" firstAttribute="top" relation="greaterThanOrEqual" secondItem="i15-st-LzW" secondAttribute="bottom" constant="15" id="AAI-P1-ncA"/>
                             <constraint firstAttribute="trailing" secondItem="i7a-fV-Yzm" secondAttribute="trailing" constant="16" id="Ggc-qZ-f6j"/>
                             <constraint firstItem="d8T-GV-d3c" firstAttribute="top" secondItem="DT9-5C-7lW" secondAttribute="bottom" constant="22" id="MRH-Yv-cQ7"/>
-                            <constraint firstItem="bbz-6Y-2Vq" firstAttribute="top" secondItem="PCg-CY-yE3" secondAttribute="bottom" constant="53" id="OJI-NS-LIl"/>
+                            <constraint firstItem="bbz-6Y-2Vq" firstAttribute="top" secondItem="PCg-CY-yE3" secondAttribute="bottom" priority="750" constant="53" id="OJI-NS-LIl"/>
                             <constraint firstItem="i15-st-LzW" firstAttribute="top" secondItem="d8T-GV-d3c" secondAttribute="bottom" constant="15" id="Tit-Yi-oqe"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="PCg-CY-yE3" secondAttribute="trailing" constant="16" id="Wgs-Y8-kZS"/>
                             <constraint firstItem="DT9-5C-7lW" firstAttribute="centerX" secondItem="Zbb-DA-UH4" secondAttribute="centerX" id="XSp-gN-NXl"/>
                             <constraint firstAttribute="trailing" secondItem="i15-st-LzW" secondAttribute="trailing" id="fQy-Bm-1AJ"/>
+                            <constraint firstItem="PCg-CY-yE3" firstAttribute="leading" secondItem="Zbb-DA-UH4" secondAttribute="leadingMargin" constant="16" id="gcn-JV-iag"/>
                             <constraint firstItem="DT9-5C-7lW" firstAttribute="top" secondItem="Zbb-DA-UH4" secondAttribute="topMargin" constant="56" id="o0f-xL-oEF"/>
                             <constraint firstItem="i15-st-LzW" firstAttribute="leading" secondItem="Zbb-DA-UH4" secondAttribute="leading" id="r2E-9T-Bnu"/>
                             <constraint firstItem="i7a-fV-Yzm" firstAttribute="top" relation="greaterThanOrEqual" secondItem="i15-st-LzW" secondAttribute="bottom" constant="15" id="tvc-js-NQM"/>
@@ -2303,7 +2305,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 <connections>
                                     <outlet property="descriptionCellLabel" destination="rk1-JF-u4n" id="39d-u6-l2B"/>
                                     <outlet property="headerCellLabel" destination="Mhu-97-TMA" id="0Qc-AH-QsR"/>
-                                    <segue destination="qgg-Ii-roo" kind="show" id="55D-xL-NYf"/>
+                                    <segue destination="qgg-Ii-roo" kind="show" identifier="123" id="55D-xL-NYf"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

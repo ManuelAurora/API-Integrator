@@ -8,12 +8,6 @@
 
 import UIKit
 
-enum TimeInterval: String {
-    case Daily
-    case Weekly
-    case Monthly
-}
-
 class AlertsListTableViewController: UITableViewController {
 
     struct Alert {

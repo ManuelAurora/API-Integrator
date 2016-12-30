@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AllertSettingsTableViewController: UITableViewController {
+class AllertSettingsTableViewController: UITableViewController, updateSettingsArrayDelegate {
     
     let selectADataSource = [""]
     var timeInterval: TimeInterval!
@@ -16,29 +16,48 @@ class AllertSettingsTableViewController: UITableViewController {
     var timeZone: String!
     var deliveryTime: Date!
     
+    enum Setting: String {
+        case DataSource
+        case TimeInterval
+        case DeliveryDay
+        case TimeZone
+        case DeliveryTime
+        case TypeOfNotification
+    }
+    
+    enum TimeInterval: String {
+        case Daily
+        case Weekly
+        case Monthly
+    }
+    
+    enum DataSource: String {
+        case MyShopSales = "My shop sales"
+        case Balance
+    }
+    
+    var timeIntervalArray = [(TimeInterval.Daily.rawValue, true), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, false)]
+    var dataSource  = [(DataSource.MyShopSales.rawValue, true), (DataSource.MyShopSales.rawValue, false)]
+    var timeZones = [()]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.timeInterval = TimeInterval.Monthly
-        
         
         tableView.tableFooterView = UIView(frame: .zero)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     // MARK: - Table view data source
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 3
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         
         switch section {
         case 0:
@@ -82,7 +101,7 @@ class AllertSettingsTableViewController: UITableViewController {
                 default:
                     break
                 }
-
+                
             } else {
                 switch indexPath.row {
                 case 0:
@@ -104,7 +123,7 @@ class AllertSettingsTableViewController: UITableViewController {
                 }
             }
             
-
+            
         case 2:
             cell.headerCellLabel.text = "Type of notification"
             cell.descriptionCellLabel.isHidden = true
@@ -112,10 +131,6 @@ class AllertSettingsTableViewController: UITableViewController {
             break
         }
         return cell
-    }
-    
-    func timeToString(/*date: Date*/) -> String {
-        return "12:15 PM"
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -126,15 +141,83 @@ class AllertSettingsTableViewController: UITableViewController {
         }
     }
     
+        override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+            switch indexPath.section {
+            case 0: break
+                //go to data source
+            case 1:
+    
+                if timeInterval == TimeInterval.Daily {
+                    switch indexPath.row {
+                    case 0: break
+                        //goto time interval
+                    case 1: break
+//                        cell.headerCellLabel.text  = "Time zone"
+//                        cell.descriptionCellLabel.text = timeZone
+                    case 2: break
+//                        cell.headerCellLabel.text = "Delivery time"
+//                        cell.descriptionCellLabel.text = timeToString(/*(date: self.deliveryTime*/)
+//                        cell.accessoryType = .none
+                    default:
+                        break
+                    }
+    
+                } else {
+                    switch indexPath.row {
+                    case 0: break
+//                        cell.headerCellLabel.text = "Time interval"
+//                        cell.descriptionCellLabel.text = self.timeInterval.rawValue
+                    case 1: break
+//                        cell.headerCellLabel.text = "Delivery day"
+//                        cell.descriptionCellLabel.text = self.deliveryDay
+    
+                    case 2: break
+//                        cell.headerCellLabel.text  = "Time zone"
+//                        cell.descriptionCellLabel.text = timeZone
+                    case 3: break
+//                        cell.headerCellLabel.text = "Delivery time"
+//                        cell.descriptionCellLabel.text = timeToString(/*date: self.deliveryTime*/)
+//                        cell.accessoryType = .none
+                    default:
+                        break
+                    }
+                }
+    
+    
+            case 2: break
+//                cell.headerCellLabel.text = "Type of notification"
+//                cell.descriptionCellLabel.isHidden = true
+            default:
+                break
+            }
+    
+        }
+    
+    //MARK: - convert time to string
+    func timeToString(/*date: Date*/) -> String {
+        return "12:15 PM"
+    }
+    
+    //MARK: - update time zones from server
+    func getTimeZonesList() {
+        
+    }
+    
+    //MARK: - updateSettingsArrayDelegate method
+    
+    func updateSettingsArray(array: [(String, Bool)]) {
+        print(array)
+    }
+    
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "123" {
+            let destinatioVC = segue.destination as! AlertSelectSettingTableViewController
+            destinatioVC.AlertSettingVC = self
+            destinatioVC.selectSetting = timeIntervalArray
+        }
+    }
     
 }

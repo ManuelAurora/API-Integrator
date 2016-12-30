@@ -23,3 +23,7 @@ protocol updateTypeOfAccountDelegate {
 protocol updateProfileDelegate {
     func updateProfile(profile: Profile)
 }
+
+protocol updateSettingsArrayDelegate {
+    func updateSettingsArray(array: [(String, Bool)])
+}
