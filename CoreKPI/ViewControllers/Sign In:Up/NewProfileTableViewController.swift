@@ -109,12 +109,31 @@ class NewProfileTableViewController: UITableViewController, UIImagePickerControl
                 if let dataKey = json["data"] as? NSDictionary {
                     userId = dataKey["user_id"] as! Int
                     token = dataKey["token"] as! String
-                    let profile = Profile(userId: userId, userName: email, firstName: firstName, lastName: lastName, position: position, photo: profileImageBase64String, phone: nil, nickname: nil, typeOfAccount: self.typeOfAccount)
+                    let profile = Profile(userId: userId, userName: email, firstName: firstName, lastName: lastName, position: position, photo: profileImageBase64String, phone: nil, nickname: nil, typeOfAccount: .Admin)
                     model = ModelCoreKPI(token: token, profile: profile)
-                    let vc = storyboard?.instantiateViewController(withIdentifier: "InviteVC") as! InviteTableViewController
-                    self.delegate = vc
-                    delegate.updateModel(model: model)
-                    navigationController?.pushViewController(vc, animated: true)
+                    if model.profile?.typeOfAccount == TypeOfAccount.Admin {
+                        let vc = storyboard?.instantiateViewController(withIdentifier: "InviteVC") as! InviteTableViewController
+                        self.delegate = vc
+                        delegate.updateModel(model: model)
+                        navigationController?.pushViewController(vc, animated: true)
+                    } else {
+                        let tabBarController = storyboard?.instantiateViewController(withIdentifier: "TabBarVC") as! MainTabBarViewController
+                        
+                        let dashboardNavigationViewController = tabBarController.viewControllers?[0] as! DashboardsNavigationViewController
+                        let dashboardViewController = dashboardNavigationViewController.childViewControllers[0] as! KPIsListTableViewController
+                        dashboardViewController.model = ModelCoreKPI(model: model)
+                        
+                        let alertsNavigationViewController = tabBarController.viewControllers?[1] as! AlertsNavigationViewController
+                        let alertsViewController = alertsNavigationViewController.childViewControllers[0] as! AlertsListTableViewController
+                        alertsViewController.model = ModelCoreKPI(model: model)
+                        
+                        let teamListNavigationViewController = tabBarController.viewControllers?[2] as! TeamListViewController
+                        let teamListController = teamListNavigationViewController.childViewControllers[0] as! MemberListTableViewController
+                        teamListController.model = ModelCoreKPI(model: model)
+                        
+                        present(tabBarController, animated: true, completion: nil)
+                    }
+                    
                     
                 } else {
                     print("Json data is broken")

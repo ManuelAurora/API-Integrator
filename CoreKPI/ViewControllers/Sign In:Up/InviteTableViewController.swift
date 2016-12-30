@@ -97,7 +97,7 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
         
     }
     
-    //Function for send invations on server
+    //MARK: - Function for send invations on server
     func sendInvations() {
         
         let data: [String : Any] = ["email" : self.emailTextField.text!, "mode" : self.typeOfAccount == .Admin ? 1 : 0]
@@ -113,20 +113,22 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
     }
     
     func parsingJson(json: NSDictionary) {
-        
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
                 if (json["data"] as? NSDictionary) != nil {
-                    showAlert(errorMessage: "Vse OK!")
+                    showAlert(title: "Congratulation!", message: "You send invation for \(self.emailTextField.text)")
                     self.numberOfInvations -= 1
-                    self.numberOfInvationsLAbel.text = String(self.numberOfInvations)
+                    self.numberOfInvationsLAbel.text = "\(numberOfInvations) invitations left"
+                    self.typeOfAccount = .Manager
+                    self.typeOfAccountLabel.text = self.typeOfAccount.rawValue
+                    self.tableView.reloadData()
                 } else {
                     print("Json data is broken")
                 }
             } else {
                 let errorMessage = json["message"] as! String
                 print("Json error message: \(errorMessage)")
-                showAlert(errorMessage: errorMessage)
+                showAlert(title: "Send invation error", message: errorMessage)
             }
         } else {
             print("Json file is broken!")
@@ -134,8 +136,8 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
     }
     
     //MARK: - show alert function
-    func showAlert(errorMessage: String) {
-        let alertController = UIAlertController(title: "Invite error", message: errorMessage, preferredStyle: .alert)
+    func showAlert(title: String ,message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }

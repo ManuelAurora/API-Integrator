@@ -61,7 +61,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
-    
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -69,14 +69,21 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     @IBAction func tapPhoneButton(_ sender: UIButton) {
-        let url = URL(string: "tel://(profile.phone)")
-        if UIApplication.shared.canOpenURL(url!) {
-            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+        if self.profile.phone == nil {
+            let alertController = UIAlertController(title: "Can not call!", message: "Member has not a phone number", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
         } else {
-            let alertController = UIAlertController(title: "Error", message: "Can not call!", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alertController, animated: true, completion: nil)
+            let url = URL(string: "tel://(profile.phone)")
+            if UIApplication.shared.canOpenURL(url!) {
+                UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+            } else {
+                let alertController = UIAlertController(title: "Error", message: "Can not call!", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
+            }
         }
+        
     }
     
     @IBAction func tapMailButton(_ sender: UIButton) {
