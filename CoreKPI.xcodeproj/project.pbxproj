@@ -38,7 +38,6 @@
 		A27820891E001503009F83DB /* CoreKPIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27820881E001503009F83DB /* CoreKPIUITests.swift */; };
 		A27820971E001530009F83DB /* RequestServise.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27820961E001530009F83DB /* RequestServise.swift */; };
 		A27820A11E001A0B009F83DB /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A278209F1E001A0B009F83DB /* Alamofire.framework */; };
-		A27820A21E001A0B009F83DB /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A27820A01E001A0B009F83DB /* SwiftyJSON.framework */; };
 		A2844B3C1E0BC842002E297A /* MemberEditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2844B3B1E0BC842002E297A /* MemberEditTableViewCell.swift */; };
 		A292F5CF1E13AF88009F9F48 /* WebView2TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A292F5CE1E13AF88009F9F48 /* WebView2TestViewController.swift */; };
 		A297F5B01E08233100F85963 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5AF1E08233100F85963 /* MainTabBarViewController.swift */; };
@@ -169,7 +168,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A27820A11E001A0B009F83DB /* Alamofire.framework in Frameworks */,
-				A27820A21E001A0B009F83DB /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -646,7 +644,6 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/SwiftyJSON.framework",
 			);
 			outputPaths = (
 			);

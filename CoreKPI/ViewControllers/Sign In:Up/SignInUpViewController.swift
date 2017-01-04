@@ -26,6 +26,20 @@ class SignInUpViewController: UIViewController {
         
         //MARK: - Check local user_id/token and segue to TabBarView
         
+        if checkLocalToken() {
+            getLocalToken()
+        } else {
+            print("No local token in app storage")
+        }
+        
+    }
+    
+    func checkLocalToken() -> Bool {
+        return false
+    }
+    
+    func getLocalToken() {
+        
     }
     
 }

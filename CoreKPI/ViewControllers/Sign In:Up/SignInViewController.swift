@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SignInViewController: UIViewController {
+class SignInViewController: UIViewController, UITextFieldDelegate {
     
     var request = Request()
     var model: ModelCoreKPI!
@@ -24,14 +24,20 @@ class SignInViewController: UIViewController {
         
         self.signInButton.layer.borderWidth = 1.0
         self.signInButton.layer.borderColor = UIColor(red: 124.0/255.0, green: 77.0/255.0, blue: 255.0/255.0, alpha: 1.0).cgColor
-        
-        self.emailTextField.keyboardType = UIKeyboardType.emailAddress
-        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == emailTextField {
+            passwordTextField.becomeFirstResponder()
+        } else {
+            emailTextField.resignFirstResponder()
+            tapSignInButton(signInButton)
+        }
+        return true
     }
     
     @IBAction func tapSignInButton(_ sender: UIButton) {

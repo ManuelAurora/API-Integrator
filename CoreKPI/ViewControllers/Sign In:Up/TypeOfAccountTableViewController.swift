@@ -39,10 +39,10 @@ class TypeOfAccountTableViewController: UITableViewController {
         
         switch indexPath.row {
         case 0:
-            cell.typeAccountLabel.text = "Admin"
+            cell.typeAccountLabel.text = TypeOfAccount.Admin.rawValue
             typeOfAccount == TypeOfAccount.Admin ? (cell.accessoryType = .checkmark) : (cell.accessoryType = .none)
         case 1:
-            cell.typeAccountLabel.text = "Manager"
+            cell.typeAccountLabel.text = TypeOfAccount.Manager.rawValue
             typeOfAccount == TypeOfAccount.Manager ? (cell.accessoryType = .checkmark) : (cell.accessoryType = .none)
         default:
             cell.typeAccountLabel.text = ""

@@ -9,7 +9,6 @@
 import Foundation
 import Alamofire
 
-
 enum RequestError: Error {
     case loadFailed
     case jsonFileIsBroken
@@ -72,4 +71,3 @@ class Request {
     }
     
 }
-

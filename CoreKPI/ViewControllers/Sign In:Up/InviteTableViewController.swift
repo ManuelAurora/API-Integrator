@@ -11,9 +11,7 @@ import UIKit
 class InviteTableViewController: UITableViewController, updateModelDelegate, updateTypeOfAccountDelegate {
     
     @IBOutlet weak var typeOfAccountLabel: UILabel!
-    @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var positionTextField: UITextField!
     @IBOutlet weak var numberOfInvationsLAbel: UILabel!
     
     var model: ModelCoreKPI!
@@ -25,7 +23,8 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.numberOfInvations = 3 //Test
+        
+        self.getNumberOfInvations()
         self.numberOfInvationsLAbel.text = "\(numberOfInvations) invitations left"
         self.typeOfAccountLabel.text = self.typeOfAccount.rawValue
         
@@ -62,7 +61,7 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
                 tableView.deselectRow(at: indexPath, animated: true)
                 return
             }
-            if firstNameTextField.text == "" || emailTextField.text == "" || positionTextField.text == "" {
+            if emailTextField.text == "" {
                 let alertController = UIAlertController(title: "error", message: "Field(s) are emty!", preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                 present(alertController, animated: true, completion: nil)
@@ -76,7 +75,7 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
                 tableView.deselectRow(at: indexPath, animated: true)
                 return
             }
-            let alertController = UIAlertController(title: "Send invation", message: "We’ll send an invation to \(firstNameTextField.text!) \(emailTextField.text!)", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "Send invation", message: "We’ll send an invation to \(emailTextField.text!)", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             alertController.addAction(UIAlertAction(title: "Send", style: .default, handler:{
                 (action: UIAlertAction!) -> Void in
@@ -182,6 +181,36 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
             destinationViewController.typeOfAccount = self.typeOfAccount
             destinationViewController.InviteVC = self
         }
+    }
+    
+    //MARK: - get number of invations from server
+    
+    func getNumberOfInvations() {
+        let data: [String : Any] = [:] 
+        
+        request.getJson(category: "/account/getInviteLimit", data: data,  //debug!
+                        success: { json in
+                            
+                            if let successKey = json["success"] as? Int {
+                                if successKey == 1 {
+                                    if let data = json["data"] as? NSDictionary {
+                                        self.numberOfInvations = data["number"] as! Int //debug!
+                                        self.tableView.reloadData()
+                                    } else {
+                                        print("Json data is broken")
+                                    }
+                                } else {
+                                    let errorMessage = json["message"] as! String
+                                    print("Json error message: \(errorMessage)")
+                                }
+                            } else {
+                                print("Json file is broken!")
+                            }
+    
+        },
+                        failure: { (error) in
+                            print(error)
+        })
     }
     
 }

@@ -12,13 +12,13 @@ class RecoveryPasswordViewController: UIViewController {
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var emailTextField: UITextField!
     
+    let request = Request()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.sendButton.layer.borderWidth = 1.0
         self.sendButton.layer.borderColor = UIColor(red: 124.0/255.0, green: 77.0/255.0, blue: 255.0/255.0, alpha: 1.0).cgColor
-        
-        self.emailTextField.keyboardType = UIKeyboardType.emailAddress
     }
     
     override func didReceiveMemoryWarning() {
@@ -36,10 +36,38 @@ class RecoveryPasswordViewController: UIViewController {
             self.present(alertController, animated: true, completion: nil)
             return
         } else {
-            //Отправка запроса на восстановление!!
-            
-            self.dismiss(animated: true, completion: nil)
-            
+            recoveryPassword(email: email!)
         }
     }
+    
+    func recoveryPassword(email: String) {
+        
+        let data: [String : Any] = ["email" : email]
+        
+        request.getJson(category: "/auth/recovery", data: data, //debug!
+                        success: { json in
+                            self.parsingJson(json: json)
+                            
+        },
+                        failure: { (error) in
+                            print(error)
+        })
+    }
+    
+    func parsingJson(json: NSDictionary) {
+        
+        if let successKey = json["success"] as? Int {
+            if successKey == 0 {
+                let errorMessage = json["message"] as! String
+                print("Json error message: \(errorMessage)")
+                let alertController = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            } else {
+                self.dismiss(animated: true, completion: nil)
+            }
+        } else {
+            print("Json file is broken!")
+        }
+    }
+    
 }

@@ -10,7 +10,7 @@ import UIKit
 
 class MemberListTableViewController: UITableViewController {
     
-    var model: ModelCoreKPI!
+    var model = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin))//: ModelCoreKPI!
     var request: Request!
     var memberList: [Profile] = []
     
