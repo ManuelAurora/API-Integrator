@@ -10,8 +10,12 @@ import UIKit
 
 class MemberListTableViewController: UITableViewController {
     
-    var model = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin))//: ModelCoreKPI!
+    var model = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user1@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: "https://pp.vk.me/c625325/v625325140/d9d5/FzpG-mcLQco.jpg", phone: nil, nickname: nil, typeOfAccount: .Manager))//: ModelCoreKPI!
     var request: Request!
+    
+    let oneProfile = Profile(userId: 1, userName: "user1@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: "https://pp.vk.me/c625325/v625325140/d9d5/FzpG-mcLQco.jpg", phone: nil, nickname: nil, typeOfAccount: .Admin)
+    let twoProfile = Profile(userId: 2, userName: "user2@mail.ru", firstName: "Cat", lastName: "Dog", position: "Manager", photo: "https://pp.vk.me/c413328/v413328140/2925/5GvzabomK10.jpg", phone: "8-915-994-46-60", nickname: "Pes smerdyachiy", typeOfAccount: .Manager)
+    
     var memberList: [Profile] = []
     
     @IBOutlet weak var addButton: UIBarButtonItem!
@@ -28,11 +32,10 @@ class MemberListTableViewController: UITableViewController {
         
         self.loadTeamListFromServer()
         
+        memberList.append(oneProfile)//debug
+        memberList.append(twoProfile)//debug
+        
         tableView.tableFooterView = UIView(frame: .zero)
-        //custom for MemberInfoViewController
-//        self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-//        self.navigationController?.navigationBar.shadowImage = nil
-//        self.navigationController?.navigationBar.isTranslucent = false
     }
     
     override func didReceiveMemoryWarning() {
@@ -51,29 +54,30 @@ class MemberListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MemberListCell", for: indexPath) as! MemberListTableViewCell
-        cell.userNameLabel.text = "\(memberList[indexPath.row].firstName) \(memberList[indexPath.row].lastName)"
+        
+        if let memberNickname = memberList[indexPath.row].nickname {
+            cell.userNameLabel.text = memberNickname
+        } else {
+            cell.userNameLabel.text = "\(memberList[indexPath.row].firstName) \(memberList[indexPath.row].lastName)"
+        }
+        
         cell.userPosition.text = memberList[indexPath.row].position
         if (memberList[indexPath.row].photo != nil) {
-            //decode from base64 string
-            let imageData = memberList[indexPath.row].photo
-            if let dataDecode: NSData = NSData(base64Encoded: imageData!, options: .ignoreUnknownCharacters) {
-                let avatarImage: UIImage = UIImage(data: dataDecode as Data)!
-                cell.userProfilePhotoImage.image = avatarImage
-            } else {
-                print("\(memberList[indexPath.row].firstName)'s photo decoding error!")
-            }
+            //load photo from server
+            cell.userProfilePhotoImage?.downloadedFrom(link: memberList[indexPath.row].photo!)
         }
         return cell
     }
     
     // MARK: - Navigation
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "MemberInfo" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let destinationController = segue.destination as! MemberInfoViewController
                 destinationController.profile = self.memberList[indexPath.row]
                 destinationController.model = self.model
+                let cell = tableView.cellForRow(at: indexPath) as! MemberListTableViewCell
+                destinationController.profileImage = cell.userProfilePhotoImage.image
             }
         }
         if segue.identifier == "MemberListInvite" {

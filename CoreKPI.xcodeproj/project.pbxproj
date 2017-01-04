@@ -20,6 +20,7 @@
 		A2279D861E14EC3B00669EB0 /* DashboardsNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2279D851E14EC3B00669EB0 /* DashboardsNavigationViewController.swift */; };
 		A22EF0661E0901A20004DDB7 /* ModelCoreKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */; };
 		A235CB321E0ACD5200636888 /* AllertSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A235CB311E0ACD5100636888 /* AllertSettingsTableViewController.swift */; };
+		A2425CB41E1CE8EE00DFDF91 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */; };
 		A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25B4A561E0275B400F315F9 /* CustomTextField.swift */; };
 		A261D9161E1283E900638C56 /* CreateNewKPITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A261D9151E1283E900638C56 /* CreateNewKPITableViewController.swift */; };
 		A261D9181E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A261D9171E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift */; };
@@ -103,6 +104,7 @@
 		A2279D851E14EC3B00669EB0 /* DashboardsNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardsNavigationViewController.swift; path = CoreKPI/ViewControllers/DashBoard/DashboardsNavigationViewController.swift; sourceTree = "<group>"; };
 		A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelCoreKPI.swift; sourceTree = "<group>"; };
 		A235CB311E0ACD5100636888 /* AllertSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllertSettingsTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AllertSettingsTableViewController.swift; sourceTree = "<group>"; };
+		A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		A25B4A561E0275B400F315F9 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		A261D9151E1283E900638C56 /* CreateNewKPITableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateNewKPITableViewController.swift; path = CoreKPI/ViewControllers/CreateNewKPITableViewController.swift; sourceTree = "<group>"; };
 		A261D9171E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseSuggestedKPITableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/ChooseSuggestedKPITableViewController.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 			isa = PBXGroup;
 			children = (
 				A27820961E001530009F83DB /* RequestServise.swift */,
+				A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -701,6 +704,7 @@
 				A261D91C1E129F1600638C56 /* DashboardSetingTableViewCell.swift in Sources */,
 				A261D91A1E1285F800638C56 /* SelectSettingAddNewKPITableViewController.swift in Sources */,
 				A2279D841E14EBF200669EB0 /* AlertsNavigationViewController.swift in Sources */,
+				A2425CB41E1CE8EE00DFDF91 /* UIImageExtension.swift in Sources */,
 				A292F5CF1E13AF88009F9F48 /* WebView2TestViewController.swift in Sources */,
 				A2A215531E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift in Sources */,
 				A27820661E001503009F83DB /* AppDelegate.swift in Sources */,

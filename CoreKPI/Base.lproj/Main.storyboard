@@ -950,7 +950,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="iwS-Fj-sDl" kind="show" id="bVc-0r-fRt"/>
+                                            <segue destination="iwS-Fj-sDl" kind="show" identifier="ChangeName" id="bVc-0r-fRt"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -962,10 +962,17 @@ The main advantage of a computer audio player is that you can play your audio CD
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Change Name" id="898-A5-EBN">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="FdB-D1-6ar"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="FdB-D1-6ar">
+                            <connections>
+                                <action selector="tapSaveButton:" destination="2Z2-a8-Ten" id="rxG-B4-Moz"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="NameLabel" destination="Kl0-KZ-qY6" id="CrC-bH-7TY"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ral-Tp-hrb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -987,7 +994,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 <rect key="frame" x="16" y="96" width="343" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" spellCheckingType="yes" returnKeyType="done"/>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1000,6 +1007,9 @@ The main advantage of a computer audio player is that you can play your audio CD
                     <navigationItem key="navigationItem" title="Change name" id="ijH-6y-Xpf"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="nameLabel" destination="iC7-u2-gMO" id="90b-Vw-M44"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c2L-t5-Npj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1306,7 +1316,7 @@ The main advantage of a computer audio player is that you can play your audio CD
             </objects>
             <point key="canvasLocation" x="-2860" y="124"/>
         </scene>
-        <!--Register View Controller-->
+        <!-- -->
         <scene sceneID="fLu-9G-eHQ">
             <objects>
                 <viewController id="Sac-hW-KJs" customClass="RegisterViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
@@ -1395,7 +1405,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                             <constraint firstItem="sIK-So-rh9" firstAttribute="centerX" secondItem="Agn-d3-sf4" secondAttribute="centerX" id="rvg-7d-4uZ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="To1-n9-RxQ">
+                    <navigationItem key="navigationItem" title=" " id="To1-n9-RxQ">
                         <barButtonItem key="backBarButtonItem" title="Cancel" id="7hj-ba-tPy"/>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
@@ -1413,6 +1423,7 @@ The main advantage of a computer audio player is that you can play your audio CD
         <!--Profile-->
         <scene sceneID="FFK-vh-1uD">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X5C-P2-uLG" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController storyboardIdentifier="RegistrationCreateProfileVC" id="h5D-QC-RUp" customClass="NewProfileTableViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="interactive" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="imW-Uh-Neo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -1536,13 +1547,13 @@ The main advantage of a computer audio player is that you can play your audio CD
                         <outlet property="profilePhotoImageView" destination="ZcT-yj-4UW" id="4tw-rv-GEZ"/>
                     </connections>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="X5C-P2-uLG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-188" y="564"/>
         </scene>
         <!--Invite-->
         <scene sceneID="hr7-jd-c0J">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qIs-KT-JZz" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController storyboardIdentifier="InviteVC" id="dlr-3Q-Jb9" customClass="InviteTableViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="7ce-FY-Hbv">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -1706,7 +1717,6 @@ The main advantage of a computer audio player is that you can play your audio CD
                         <outlet property="typeOfAccountLabel" destination="sSv-Wd-OI9" id="rFE-IV-v1c"/>
                     </connections>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qIs-KT-JZz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="580" y="564"/>
         </scene>
@@ -1897,6 +1907,7 @@ The main advantage of a computer audio player is that you can play your audio CD
         <!--Type of account-->
         <scene sceneID="iPx-ga-s2Y">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RPV-Vw-EOe" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="dRL-aO-8Z0" customClass="TypeOfAccountTableViewController" customModule="CoreKPI" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="34E-oR-LRW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -1940,7 +1951,6 @@ The main advantage of a computer audio player is that you can play your audio CD
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="RPV-Vw-EOe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="510" y="-371"/>
         </scene>
@@ -1949,7 +1959,6 @@ The main advantage of a computer audio player is that you can play your audio CD
             <objects>
                 <tabBarController storyboardIdentifier="TabBarVC" automaticallyAdjustsScrollViewInsets="NO" id="udg-mv-H6B" customClass="MainTabBarViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="Enq-im-uEr"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="ocB-t4-Au0">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -3226,10 +3235,10 @@ Deliveries</string>
         <image name="teamsIcons1" width="25" height="26"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="3k5-ee-EEG"/>
+        <segue reference="Xff-M0-iKw"/>
+        <segue reference="qv2-gM-Bl2"/>
         <segue reference="zXO-Hx-wDi"/>
         <segue reference="b7M-Dv-TzG"/>
-        <segue reference="qv2-gM-Bl2"/>
         <segue reference="hOe-3T-3Gf"/>
     </inferredMetricsTieBreakers>
 </document>

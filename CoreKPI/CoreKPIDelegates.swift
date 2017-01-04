@@ -27,3 +27,7 @@ protocol updateProfileDelegate {
 protocol updateSettingsArrayDelegate {
     func updateSettingsArray(array: [(String, Bool)])
 }
+
+protocol updateNicknameDelegate {
+    func updateNickname(nickname: String)
+}

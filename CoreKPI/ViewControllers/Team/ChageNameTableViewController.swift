@@ -8,19 +8,24 @@
 
 import UIKit
 
-class ChageNameTableViewController: UITableViewController, updateModelDelegate, updateProfileDelegate {
+class ChageNameTableViewController: UITableViewController, updateModelDelegate, updateProfileDelegate, updateNicknameDelegate {
 
     var model: ModelCoreKPI!
     var profile: Profile!
+    var request: Request!
+    
+    @IBOutlet weak var NameLabel: UILabel!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        if let nickname = profile.nickname {
+            self.NameLabel.text = nickname
+        } else {
+            self.NameLabel.text = profile.firstName + " " + profile.lastName
+        }
+        
         
         tableView.tableFooterView = UIView(frame: .zero)
         
@@ -31,21 +36,68 @@ class ChageNameTableViewController: UITableViewController, updateModelDelegate, 
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return 1
     }
 
+    @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
+        if let nickname = self.NameLabel.text {
+            if nickname != self.profile.nickname && nickname != self.profile.firstName + " " + self.profile.lastName {
+                self.sendNicknameToServer(nickName: nickname)
+            } else {
+                self.navigationController!.popViewController(animated: true)
+            }
+        }
+        
+    }
+
+    func sendNicknameToServer(nickName: String) {
+        
+        self.request = Request(model: model)
+        let data: [String : Any] = ["user_id" : profile.userId, "nickname" : nickName]
+        
+        request.getJson(category: "/team/setNickName", data: data,
+                        success: { json in
+                            self.parsingJson(json: json)
+        },
+                        failure: { (error) in
+                            print(error)
+        })
+    }
+    
+    func parsingJson(json: NSDictionary) {
+        
+        if let successKey = json["success"] as? Int {
+            if successKey == 0 {
+                let errorMessage = json["message"] as! String
+                print("Json error message: \(errorMessage)")
+                let alertController = UIAlertController(title: "Error set nickname", message: "\(errorMessage)", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
+            } else {
+                self.navigationController!.popViewController(animated: true)
+            }
+        } else {
+            print("Json file is broken!")
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ChangeName" {
+            let destinationVC = segue.destination as! NewNameViewController
+            destinationVC.personName = self.NameLabel.text
+            destinationVC.changeNameVC = self
+        }
+    }
+    
     //MARK: - updateModelDelegate method 
     func updateModel(model: ModelCoreKPI) {
         self.model = ModelCoreKPI(model: model)
@@ -55,60 +107,9 @@ class ChageNameTableViewController: UITableViewController, updateModelDelegate, 
     func updateProfile(profile: Profile) {
         self.profile = Profile(profile: profile)
     }
-    
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
-        // Configure the cell...
-
-        return cell
+    //MARK: - updateNickNameDelegate method
+    func updateNickname(nickname: String) {
+        self.NameLabel.text = nickname
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

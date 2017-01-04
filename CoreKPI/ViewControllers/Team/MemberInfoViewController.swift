@@ -22,6 +22,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     
     var model: ModelCoreKPI!
     var profile: Profile!
+    var profileImage: UIImage?
     
     var updateModelDelegate: updateModelDelegate!
     var updateProfileDelegate: updateProfileDelegate!
@@ -45,15 +46,16 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             securityButton.isHidden = true
         }
         
-        self.memberProfileNameLabel.text = "\(profile.firstName) \(profile.lastName)"
+        if let memberNickname = profile.nickname {
+            self.memberProfileNameLabel.text = memberNickname
+        } else {
+            self.memberProfileNameLabel.text = "\(profile.firstName) \(profile.lastName)"
+        }
+        
         self.memberProfilePositionLabel.text = profile.position
         
-        if profile.photo != nil {
-            //Add profile photo from base64 string
-            let imageData = profile.photo
-            let dataDecode: NSData = NSData(base64Encoded: imageData!, options: .ignoreUnknownCharacters)!
-            let avatarImage: UIImage = UIImage(data: dataDecode as Data)!
-            self.memberProfilePhotoImage.image = avatarImage
+        if profileImage != nil {
+            self.memberProfilePhotoImage.image = profileImage
         }
         
         self.tableView.tableFooterView = UIView(frame: .zero)
@@ -74,7 +76,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                 self.present(alertController, animated: true, completion: nil)
         } else {
-            let url = URL(string: "tel://(profile.phone)")
+            let url = URL(string: "tel://\(profile.phone!)")
             if UIApplication.shared.canOpenURL(url!) {
                 UIApplication.shared.open(url!, options: [:], completionHandler: nil)
             } else {

@@ -9,27 +9,32 @@
 import UIKit
 
 class NewNameViewController: UIViewController {
-
+    
+    @IBOutlet weak var nameLabel: UITextField!
+    
+    var personName: String!
+    
+    var changeNameVC: ChageNameTableViewController!
+    var delegate: updateNicknameDelegate!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        self.nameLabel.placeholder = self.personName
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
-    */
-
+    
+    override func didMove(toParentViewController parent: UIViewController?) {
+        if(!(parent?.isEqual(self.parent) ?? false)) {
+            if let nickname = nameLabel.text {
+                if nickname != "" {
+                    delegate = changeNameVC
+                    delegate.updateNickname(nickname: nickname)
+                }
+            }
+        }
+    }
+    
 }

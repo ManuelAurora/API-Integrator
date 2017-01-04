@@ -26,7 +26,7 @@
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Sem/Desktop/CoreKPI/CoreKPI/ViewControllers/Team/MemberEditViewController.swift"
-                  timestampString = "505208589.272317"
+                  timestampString = "505227255.697544"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "190"
@@ -41,7 +41,7 @@
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Sem/Desktop/CoreKPI/CoreKPI/ViewControllers/Team/MemberEditViewController.swift"
-                  timestampString = "505208589.273374"
+                  timestampString = "505227255.698673"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "190"
@@ -49,22 +49,6 @@
                   offsetFromSymbolStart = "1464">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CoreKPI/ViewControllers/Team/MemberInfoViewController.swift"
-            timestampString = "504779073.059213"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
