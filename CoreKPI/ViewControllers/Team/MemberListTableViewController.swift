@@ -8,15 +8,16 @@
 
 import UIKit
 
-class MemberListTableViewController: UITableViewController {
+class MemberListTableViewController: UITableViewController, updateProfileDelegate {
     
-    var model = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user1@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: "https://pp.vk.me/c625325/v625325140/d9d5/FzpG-mcLQco.jpg", phone: nil, nickname: nil, typeOfAccount: .Manager))//: ModelCoreKPI!
+    var model = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user1@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: "https://pp.vk.me/c625325/v625325140/d9d5/FzpG-mcLQco.jpg", phone: nil, nickname: nil, typeOfAccount: .Admin))//: ModelCoreKPI!
     var request: Request!
     
     let oneProfile = Profile(userId: 1, userName: "user1@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: "https://pp.vk.me/c625325/v625325140/d9d5/FzpG-mcLQco.jpg", phone: nil, nickname: nil, typeOfAccount: .Admin)
-    let twoProfile = Profile(userId: 2, userName: "user2@mail.ru", firstName: "Cat", lastName: "Dog", position: "Manager", photo: "https://pp.vk.me/c413328/v413328140/2925/5GvzabomK10.jpg", phone: "8-915-994-46-60", nickname: "Pes smerdyachiy", typeOfAccount: .Manager)
+    let twoProfile = Profile(userId: 2, userName: "user2@mail.ru", firstName: "Cat", lastName: "Dog", position: nil, photo: "https://pp.vk.me/c413328/v413328140/2925/5GvzabomK10.jpg", phone: "8-915-994-46-60", nickname: "Pes smerdyachiy", typeOfAccount: .Manager)
     
     var memberList: [Profile] = []
+    var indexPath: IndexPath!
     
     @IBOutlet weak var addButton: UIBarButtonItem!
     
@@ -69,6 +70,10 @@ class MemberListTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.indexPath = indexPath
+    }
+    
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "MemberInfo" {
@@ -78,6 +83,7 @@ class MemberListTableViewController: UITableViewController {
                 destinationController.model = self.model
                 let cell = tableView.cellForRow(at: indexPath) as! MemberListTableViewCell
                 destinationController.profileImage = cell.userProfilePhotoImage.image
+                destinationController.memberListVC = self
             }
         }
         if segue.identifier == "MemberListInvite" {
@@ -168,4 +174,9 @@ class MemberListTableViewController: UITableViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
+    //MARK: - updateProfileDelegate method
+    func updateProfile(profile: Profile) {
+        self.memberList[self.indexPath.row] = Profile(profile: profile)
+        tableView.reloadData()
+    }
 }

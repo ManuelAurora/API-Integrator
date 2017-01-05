@@ -72,6 +72,7 @@ class AboutTableViewController: UITableViewController, MFMailComposeViewControll
         default:
             break
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {

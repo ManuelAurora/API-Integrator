@@ -14,6 +14,7 @@ class TypeOfAccountTableViewController: UITableViewController {
     var delegate: updateTypeOfAccountDelegate!
     
     weak var InviteVC: InviteTableViewController?
+    weak var memberEditVC: MemberEditViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,9 +71,16 @@ class TypeOfAccountTableViewController: UITableViewController {
     }
     
     override func didMove(toParentViewController parent: UIViewController?) {
+        
+        if ((parent as? InviteTableViewController) != nil) {
+            print("invite")
+        }
+        
         if(!(parent?.isEqual(self.parent) ?? false)) {
-            delegate = InviteVC
+            
+            delegate = InviteVC ?? memberEditVC!
+            //delegate = memberEditVC
             delegate.updateTypeOfAccount(typeOfAccount: typeOfAccount)
-    }
+        }
     }
 }

@@ -6,49 +6,33 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/ViewControllers/Sign In:Up/InviteTableViewController.swift"
+            timestampString = "505236172.200072"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/ViewControllers/Team/MemberEditViewController.swift"
-            timestampString = "504715068.659863"
+            timestampString = "505301012.231043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
-            landmarkName = "tapSaveButton(_:)"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
+            landmarkName = "createDataForRequest()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CoreKPI.MemberEditViewController.tapSaveButton (Any) -&gt; ()"
-                  moduleName = "CoreKPI"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Sem/Desktop/CoreKPI/CoreKPI/ViewControllers/Team/MemberEditViewController.swift"
-                  timestampString = "505227255.697544"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "190"
-                  endingLineNumber = "190"
-                  offsetFromSymbolStart = "584">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CoreKPI.MemberEditViewController.tapSaveButton (Any) -&gt; ()"
-                  moduleName = "CoreKPI"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Sem/Desktop/CoreKPI/CoreKPI/ViewControllers/Team/MemberEditViewController.swift"
-                  timestampString = "505227255.698673"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "190"
-                  endingLineNumber = "190"
-                  offsetFromSymbolStart = "1464">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

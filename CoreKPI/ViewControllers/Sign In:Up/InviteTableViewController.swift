@@ -24,13 +24,12 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        request = Request(model: model)
         self.getNumberOfInvations()
         self.numberOfInvationsLAbel.text = "\(numberOfInvations) invitations left"
         self.typeOfAccountLabel.text = self.typeOfAccount.rawValue
         
         tableView.tableFooterView = UIView(frame: .zero)
-        
-        request = Request(model: model)
     }
     
     override func didReceiveMemoryWarning() {
@@ -45,14 +44,14 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if  section == 0 {
-            return 5
+            return 3
         } else {
             return 1
         }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 4 {
+        if indexPath.row == 2 {
             
             if numberOfInvations < 1 {
                 let alertController = UIAlertController(title: "error", message: "You have not more invations!", preferredStyle: .alert)
@@ -186,6 +185,7 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
     //MARK: - get number of invations from server
     
     func getNumberOfInvations() {
+        
         let data: [String : Any] = [:] 
         
         request.getJson(category: "/account/getInviteLimit", data: data,  //debug!

@@ -14,7 +14,7 @@ class NewNameViewController: UIViewController {
     
     var personName: String!
     
-    var changeNameVC: ChageNameTableViewController!
+    weak var changeNameVC: ChageNameTableViewController!
     var delegate: updateNicknameDelegate!
     
     override func viewDidLoad() {

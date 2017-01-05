@@ -9,7 +9,7 @@
 import UIKit
 import MessageUI
 
-class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate, updateModelDelegate {
+class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate, updateModelDelegate, updateProfileDelegate {
     
     @IBOutlet weak var memberProfilePhotoImage: UIImageView!
     @IBOutlet weak var memberProfileNameLabel: UILabel!
@@ -23,6 +23,8 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     var model: ModelCoreKPI!
     var profile: Profile!
     var profileImage: UIImage?
+    
+    weak var memberListVC: MemberListTableViewController!
     
     var updateModelDelegate: updateModelDelegate!
     var updateProfileDelegate: updateProfileDelegate!
@@ -166,23 +168,25 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                 updateProfileDelegate = vc
                 updateModelDelegate.updateModel(model: self.model)
                 updateProfileDelegate.updateProfile(profile: self.profile)
+                vc.memberInfoVC = self
                 self.navigationController?.show(vc, sender: nil)
             } else {
-                let vc = storyboard?.instantiateViewController(withIdentifier: "EditMember") as! MemberEditViewController
-                updateModelDelegate = vc
-                updateProfileDelegate = vc
-                updateModelDelegate.updateModel(model: self.model)
-                updateProfileDelegate.updateProfile(profile: self.profile)
-                self.navigationController?.show(vc, sender: nil)
+                updateEditMemberVC()
             }
         } else {
-            let vc = storyboard?.instantiateViewController(withIdentifier: "EditMember") as! MemberEditViewController
-            updateModelDelegate = vc
-            updateProfileDelegate = vc
-            updateModelDelegate.updateModel(model: self.model)
-            updateProfileDelegate.updateProfile(profile: self.profile)
-            self.navigationController?.show(vc, sender: nil)
+            updateEditMemberVC()
         }
+    }
+    
+    func updateEditMemberVC() {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "EditMember") as! MemberEditViewController
+        updateModelDelegate = vc
+        updateProfileDelegate = vc
+        updateModelDelegate.updateModel(model: self.model)
+        updateProfileDelegate.updateProfile(profile: self.profile)
+        vc.memberInfoVC = self
+        vc.profileImage = self.profileImage
+        self.navigationController?.show(vc, sender: nil)
     }
     
     @IBAction func tapResponsibleForButton(_ sender: UIButton) {
@@ -195,10 +199,29 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         self.navigationController?.navigationBar.isTranslucent = false
     }
     
+    override func didMove(toParentViewController parent: UIViewController?) {
+        if(!(parent?.isEqual(self.parent) ?? false)) {
+            self.profile.photo = "https://pp.vk.me/c624425/v624425140/1439b/3Ka-jAkA1Dw.jpg"
+            updateProfileDelegate = memberListVC
+            updateProfileDelegate.updateProfile(profile: self.profile)
+        }
+    }
+    
     //MARK: - updateModelDelegate method
     func updateModel(model: ModelCoreKPI) {
         self.model = model
     }
-    
+    //MARK: - updateProfileDelegate method
+    func updateProfile(profile: Profile) {
+        self.profile = Profile(profile: profile)
+        if let nickname = self.profile.nickname {
+            self.memberProfileNameLabel.text = nickname
+        } else {
+            self.memberProfileNameLabel.text = profile.firstName + " " + profile.lastName
+        }
+        self.memberProfilePositionLabel.text = profile.position
+        self.memberProfilePhotoImage.image = self.profileImage
+        tableView.reloadData()
+    }
     
 }

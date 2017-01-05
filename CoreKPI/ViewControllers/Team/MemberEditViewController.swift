@@ -8,16 +8,19 @@
 
 import UIKit
 
-class MemberEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, updateModelDelegate, updateProfileDelegate {
+class MemberEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, updateModelDelegate, updateProfileDelegate, updateTypeOfAccountDelegate {
     
     var model: ModelCoreKPI!
     var profile: Profile!
     var newProfile: Profile!
+    var request: Request!
+    var profileImage: UIImage?
     
-    var delegate: updateModelDelegate!
+    weak var memberInfoVC: MemberInfoViewController!
+    var delegate: updateProfileDelegate!
+    
     
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var memberProfilePhotoImage: UIImageView!
     @IBOutlet weak var memberNameTextField: BottomBorderTextField!
     @IBOutlet weak var memberPositionTextField: BottomBorderTextField!
@@ -28,22 +31,17 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         self.memberNameTextField.text = "\(profile.firstName) \(profile.lastName)"
         self.memberPositionTextField.text = profile.position
         
-        if profile.photo != nil {
-            //Add profile photo from base64 string
-            let imageData = profile.photo
-            let dataDecode: NSData = NSData(base64Encoded: imageData!, options: .ignoreUnknownCharacters)!
-            let avatarImage: UIImage = UIImage(data: dataDecode as Data)!
-            self.memberProfilePhotoImage.image = avatarImage
+        if profileImage != nil {
+            self.memberProfilePhotoImage.image = profileImage
         }
         
         self.newProfile = Profile(profile: profile)
+        self.request = Request(model: self.model)
         
         tableView.tableFooterView = UIView(frame: .zero)
-        
         self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         self.navigationController?.navigationBar.shadowImage = nil
         self.navigationController?.navigationBar.isTranslucent = false
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -53,117 +51,85 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     //MARK: - TableViewDatasource methods
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        
+        if model.profile?.typeOfAccount == TypeOfAccount.Admin && model.profile?.userName != profile.userName {
+            return 2
+        } else {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if model.profile?.typeOfAccount == TypeOfAccount.Admin {
-            if model.profile?.userName == profile.userName {
-                return 2
-            } else {
-                return 3
-            }
-        } else {
-            if model.profile?.userName == profile.userName {
-                return 2
-            } else {
+        switch section {
+        case 0:
+            if model.profile?.typeOfAccount == TypeOfAccount.Admin && model.profile?.userName != profile.userName {
                 return 1
+            } else {
+                fallthrough
             }
+        case 1:
+            return 2
+        default:
+            return 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellTypeOfAccount = tableView.dequeueReusableCell(withIdentifier: "TypeOfAccount", for: indexPath) as! TypeAccountTableViewCell
-        let cellMemberEdit = tableView.dequeueReusableCell(withIdentifier: "MemberInfoEdit", for: indexPath) as! MemberEditTableViewCell
-        
-        if model.profile?.typeOfAccount == TypeOfAccount.Admin {
-            if model.profile?.userName == profile.userName {
-                switch indexPath.row {
-                case 0:
-                    cellMemberEdit.headerOfCell.text = "Phone"
-                    cellMemberEdit.textFieldOfCell.text = profile.phone
-                case 1:
-                    cellMemberEdit.headerOfCell.text = "E-mail"
-                    cellMemberEdit.textFieldOfCell.text = profile.userName
-                    cellMemberEdit.textFieldOfCell.placeholder = "No E-mail"
-                default:
-                    cellMemberEdit.headerOfCell.text = ""
-                    cellMemberEdit.textFieldOfCell.text = ""
-                    print("Cell create by default case")
-                }
-            }// else {
-            //                switch indexPath.row {
-            //                case 0:
-            //                    let stringTypeOfAccount = profile.typeOfAccount.rawValue
-            //                    cellTypeOfAccount.typeAccountLabel.text = stringTypeOfAccount
-            //                    return cellTypeOfAccount
-            //                case 1:
-            //                    cellMemberEdit.headerOfCell.text = "Phone"
-            //                    cellMemberEdit.textFieldOfCell.text = profile.phone
-            //                case 2:
-            //                    cellMemberEdit.headerOfCell.text = "E-mail"
-            //                    cellMemberEdit.textFieldOfCell.text = profile.userName
-            //                    cellMemberEdit.textFieldOfCell.placeholder = "No E-mail"
-            //                default:
-            //                    cellMemberEdit.headerOfCell.text = ""
-            //                    cellMemberEdit.textFieldOfCell.text = ""
-            //                    print("Cell create by default case")
-            //                }
-            //            }
-        } //else {
-        //            if model.profile?.userName == profile.userName {
-        //                switch indexPath.row {
-        //                case 0:
-        //                    cellMemberEdit.headerOfCell.text = "Phone"
-        //                    cellMemberEdit.textFieldOfCell.text = profile.phone
-        //                case 1:
-        //                    cellMemberEdit.headerOfCell.text = "E-mail"
-        //                    cellMemberEdit.textFieldOfCell.text = profile.userName
-        //                    cellMemberEdit.textFieldOfCell.placeholder = "No E-mail"
-        //                default:
-        //                    cellMemberEdit.headerOfCell.text = ""
-        //                    cellMemberEdit.textFieldOfCell.text = ""
-        //                    print("Cell create by default case")
-        //                }
-        //            } else {
-        //                self.navigationItem.title = "Change Name"
-        //                cellMemberEdit.headerOfCell.text = "Change Name"
-        //                cellMemberEdit.textFieldOfCell.text = "\(profile.firstName) \(profile.lastName)"
-        //            }
-        //
-        //        }
-        
-        //return cellMemberEdit
-        return cellTypeOfAccount
+        switch indexPath.section {
+        case 0:
+            if model.profile?.typeOfAccount == TypeOfAccount.Admin && model.profile?.userName != profile.userName {
+                let cellTypeOfAccount = tableView.dequeueReusableCell(withIdentifier: "TypeOfAccount", for: indexPath) as! TypeAccountTableViewCell
+                cellTypeOfAccount.typeAccountLabel.text = self.newProfile.typeOfAccount.rawValue
+                return cellTypeOfAccount
+            } else {
+                fallthrough
+            }
+        case 1:
+            let cellMemberEdit = tableView.dequeueReusableCell(withIdentifier: "MemberInfoEdit", for: indexPath) as! MemberEditTableViewCell
+            switch indexPath.row {
+            case 0:
+                cellMemberEdit.headerOfCell.text = "Phone"
+                cellMemberEdit.textFieldOfCell.text = profile.phone
+                cellMemberEdit.textFieldOfCell.placeholder = "No Phone"
+                cellMemberEdit.textFieldOfCell.keyboardType = .numberPad
+            case 1:
+                cellMemberEdit.headerOfCell.text = "E-mail"
+                cellMemberEdit.textFieldOfCell.text = profile.userName
+                cellMemberEdit.textFieldOfCell.placeholder = "No E-mail"
+                cellMemberEdit.textFieldOfCell.keyboardType = .emailAddress
+            default:
+                cellMemberEdit.headerOfCell.text = ""
+                cellMemberEdit.textFieldOfCell.text = ""
+                print("Cell create by default case")
+            }
+            return cellMemberEdit
+        default:
+            break
+        }
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
-        
-        if model.profile?.typeOfAccount == TypeOfAccount.Admin {
-            if model.profile?.userName == profile.userName {
-                let memberCell = tableView.cellForRow(at: indexPath!) as! MemberEditTableViewCell
-                
-                let index : Int = indexPath!.row
-                
-                switch index {
-                case 0:
-                    self.newProfile.phone = memberCell.textFieldOfCell.text
-                case 1:
-                    self.newProfile.userName = memberCell.textFieldOfCell.text!
-                default:
-                    break
+        switch indexPath!.section {
+        case 0:
+            fallthrough
+        case 1:
+            let memberEditCell = UITableViewCell() as! MemberEditTableViewCell
+            switch indexPath!.row {
+            case 0:
+                if memberEditCell.textFieldOfCell.text != "" {
+                    self.newProfile.phone = memberEditCell.textFieldOfCell.text
+                } else {
+                    self.newProfile.phone = nil
                 }
-                self.newProfile.phone = memberCell.textFieldOfCell.text
+            case 1:
+                self.newProfile.userName = memberEditCell.textFieldOfCell.text!
                 
-            } else {
-                //return 3
+            default:
+                break
             }
-        } else {
-            if model.profile?.userName == profile.userName {
-                //return 2
-            } else {
-                //return 1
-            }
+        default:
+            break
         }
     }
     
@@ -181,26 +147,183 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         present(actionViewController, animated: true, completion: nil)
         
     }
+    
     @IBAction func tapSaveButton(_ sender: Any) {
-        //let name = self.memberNameTextField.text
-        let position = self.memberPositionTextField.text
-        //let photo = self.memberProfilePhotoImage.image
         
-        self.newProfile.position = position
-        let parentVC: MemberInfoViewController = (self.navigationController?.parent)! as! MemberInfoViewController
-        delegate = parentVC
-        delegate.updateModel(model: self.model)
+        if checkInputValue() {
+            createDataForRequest()
+        } else {
+            return
+        }
+        
+        //debug only
+        memberInfoVC.profileImage = self.memberProfilePhotoImage.image
+        delegate = memberInfoVC
+        delegate.updateProfile(profile: self.newProfile)
+        self.navigationController!.popViewController(animated: true)
+        
     }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    //MARK: - Check input value
+    func checkInputValue() -> Bool {
+        
+        if self.memberNameTextField.text == "" {
+            showAlert(title: "Error saving", message: "Name text field is empty")
+            return false
+        } else {
+            let name = self.memberNameTextField.text?.components(separatedBy: " ")
+            if (name?.count)! < 2 {
+                self.showAlert(title: "Error", message: "Member should have first name and last name")
+                return false
+            } else {
+                self.newProfile.firstName = (name?[0])!
+                self.newProfile.lastName = (name?[1])!
+            }
+        }
+        
+        if self.memberPositionTextField.text == "" {
+            self.newProfile.position = nil
+        } else {
+            self.newProfile.position = self.memberPositionTextField.text
+        }
+        
+        if self.newProfile.userName == "" {
+            showAlert(title: "Error", message: "Email text field is empty")
+            return false
+        } else {
+            
+            if self.newProfile.userName.range(of: "@") == nil || (self.newProfile.userName.components(separatedBy: "@")[0].isEmpty) ||  (self.newProfile.userName.components(separatedBy: "@")[1].isEmpty) {
+                showAlert(title: "Error", message: "Invalid E-mail adress")
+                return false
+            }
+        }
+        
+        if self.newProfile.phone == "" {
+            self.newProfile.phone = nil
+        }
+        
+        return true
+    }
+    
+    func createDataForRequest() {
+        var firstname: String?
+        var lastname: String?
+        var position: String?
+        var phone: String?
+        var email: String?
+        var photo: UIImage?
+        var newParams: [String : String?] = [:]
+        var typeOfAccountWasChanged = false
+        
+        if self.newProfile.photo == "New photo link" {
+            photo = self.memberProfilePhotoImage.image
+            newParams["photo"] = sendProfilePhotoToServer(photo: photo!) ?? ""
+        }
+        if self.newProfile.firstName != self.profile.firstName {
+            firstname = self.newProfile.firstName
+            newParams["first_name"] = firstname
+        }
+        if self.newProfile.lastName != self.profile.lastName {
+            lastname = self.newProfile.lastName
+            newParams["last_name"] = lastname
+        }
+        if self.newProfile.position != self.profile.position {
+            position = self.newProfile.position
+            newParams["position"] = position ?? ""
+        }
+        if self.newProfile.phone != self.profile.phone {
+            phone = self.newProfile.phone
+            newParams["phone"] = phone ?? ""
+        }
+        if self.newProfile.userName != self.profile.userName {
+            email = self.newProfile.userName
+            newParams["username"] = email
+        }
+        if self.newProfile.typeOfAccount != self.profile.typeOfAccount {
+            changeUserRights(typeOfAccount: self.newProfile.typeOfAccount)
+            typeOfAccountWasChanged = true
+        }
+        if newParams.count > 0 {
+            sendRequest(params: newParams)
+        } else if newParams.count < 1 && typeOfAccountWasChanged == false {
+            showAlert(title: "Warning", message: "Profile not changed")
+            self.navigationController!.popViewController(animated: true)
+        }
+    }
+    
+    func sendProfilePhotoToServer(photo: UIImage) -> String? {
+        //send
+        return "https://photo.png"
+    }
+    
+    func sendRequest(params : [String : String?] ) {
+        
+        let data: [String : Any] = ["user_id" : newProfile.userId, "data" : params]
+        
+        request.getJson(category: "/account/changeProfile", data: data,
+                        success: { json in
+                            if self.parsingJson(json: json) {
+                                self.memberInfoVC.profileImage = self.memberProfilePhotoImage.image
+                                self.delegate = self.memberInfoVC
+                                self.delegate.updateProfile(profile: self.newProfile)
+                                self.navigationController!.popViewController(animated: true)
+                            }
+        },
+                        failure: { (error) in
+                            print(error)
+        })
+    }
+    
+    func parsingJson(json: NSDictionary) -> Bool {
+        if let successKey = json["success"] as? Int {
+            if successKey == 1 {
+                if (json["data"] as? NSDictionary) == nil {
+                    print("Json data is broken")
+                } else {
+                    return true
+                }
+            } else {
+                let errorMessage = json["message"] as! String
+                print("Json error message: \(errorMessage)")
+                showAlert(title: "Save profile error", message: errorMessage)
+            }
+        } else {
+            print("Json file is broken!")
+            
+        }
+        return false
+    }
+    
+    func changeUserRights(typeOfAccount: TypeOfAccount) {
+        
+        let data: [String : Any] = ["user_id" : newProfile.userId, "mode" : typeOfAccount == .Admin ? 1 : 0]
+        
+        request.getJson(category: "/team/changeUserRights", data: data,
+                        success: { json in
+                            if self.parsingJson(json: json) {
+                                print("TypeOfAccount was changed")
+                            }
+        },
+                        failure: { (error) in
+                            print(error)
+        })
+    }
+    
+    //MARK: - Show alert method
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "TypeOfAccount" {
+            let destinationVC = segue.destination as! TypeOfAccountTableViewController
+            destinationVC.memberEditVC = self
+            destinationVC.typeOfAccount = self.newProfile.typeOfAccount
+        }
+    }
     
     //MARK: UIImagePickerControllerDelegate methods
     
@@ -230,6 +353,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         memberProfilePhotoImage.image = info[UIImagePickerControllerOriginalImage] as! UIImage?
         memberProfilePhotoImage.contentMode = UIViewContentMode.scaleAspectFill
         memberProfilePhotoImage.clipsToBounds = true
+        self.newProfile.photo = "New photo link"
         dismiss(animated: true, completion: nil)
     }
     
@@ -241,6 +365,12 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     //MARK: - updateProfileDelegate method
     func updateProfile(profile: Profile) {
         self.profile = Profile(profile: profile)
+        
+    }
+    //MARK: - updateTypeOfAccountDelegate method
+    func updateTypeOfAccount(typeOfAccount: TypeOfAccount) {
+        self.newProfile.typeOfAccount = typeOfAccount
+        tableView.reloadData()
     }
     
 }

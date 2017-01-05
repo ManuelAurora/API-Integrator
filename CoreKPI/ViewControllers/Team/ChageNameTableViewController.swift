@@ -9,13 +9,14 @@
 import UIKit
 
 class ChageNameTableViewController: UITableViewController, updateModelDelegate, updateProfileDelegate, updateNicknameDelegate {
-
+    
     var model: ModelCoreKPI!
     var profile: Profile!
     var request: Request!
+    weak var memberInfoVC: MemberInfoViewController!
+    var delegate: updateProfileDelegate!
     
     @IBOutlet weak var NameLabel: UILabel!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,39 +27,38 @@ class ChageNameTableViewController: UITableViewController, updateModelDelegate, 
             self.NameLabel.text = profile.firstName + " " + profile.lastName
         }
         
-        
         tableView.tableFooterView = UIView(frame: .zero)
         
         self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         self.navigationController?.navigationBar.shadowImage = nil
         self.navigationController?.navigationBar.isTranslucent = false
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-
+    
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
         if let nickname = self.NameLabel.text {
             if nickname != self.profile.nickname && nickname != self.profile.firstName + " " + self.profile.lastName {
                 self.sendNicknameToServer(nickName: nickname)
+                self.profile.nickname = nickname
             } else {
                 self.navigationController!.popViewController(animated: true)
             }
         }
-        
     }
-
+    
     func sendNicknameToServer(nickName: String) {
         
         self.request = Request(model: model)
@@ -98,7 +98,14 @@ class ChageNameTableViewController: UITableViewController, updateModelDelegate, 
         }
     }
     
-    //MARK: - updateModelDelegate method 
+    override func didMove(toParentViewController parent: UIViewController?) {
+        if(!(parent?.isEqual(self.parent) ?? false)) {
+            delegate = memberInfoVC
+            delegate.updateProfile(profile: self.profile)
+        }
+    }
+    
+    //MARK: - updateModelDelegate method
     func updateModel(model: ModelCoreKPI) {
         self.model = ModelCoreKPI(model: model)
     }
@@ -107,7 +114,7 @@ class ChageNameTableViewController: UITableViewController, updateModelDelegate, 
     func updateProfile(profile: Profile) {
         self.profile = Profile(profile: profile)
     }
-
+    
     //MARK: - updateNickNameDelegate method
     func updateNickname(nickname: String) {
         self.NameLabel.text = nickname
