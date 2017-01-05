@@ -129,6 +129,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                     cell.dataCellLabel.textColor = UIColor(red: 143/255, green: 142/255, blue: 148/255, alpha: 1.0)
                 } else {
                     cell.dataCellLabel.text = profile.phone
+                    cell.dataCellLabel.textColor = UIColor.black
                 }
             case 2:
                 cell.headerCellLabel.text = "E-mail"

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MemberEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, updateModelDelegate, updateProfileDelegate, updateTypeOfAccountDelegate {
+class MemberEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, updateModelDelegate, updateProfileDelegate, updateTypeOfAccountDelegate, UITextFieldDelegate {
     
     var model: ModelCoreKPI!
     var profile: Profile!
@@ -92,11 +92,13 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                 cellMemberEdit.textFieldOfCell.text = profile.phone
                 cellMemberEdit.textFieldOfCell.placeholder = "No Phone"
                 cellMemberEdit.textFieldOfCell.keyboardType = .numberPad
+                cellMemberEdit.textFieldOfCell.tag = 0
             case 1:
                 cellMemberEdit.headerOfCell.text = "E-mail"
                 cellMemberEdit.textFieldOfCell.text = profile.userName
                 cellMemberEdit.textFieldOfCell.placeholder = "No E-mail"
                 cellMemberEdit.textFieldOfCell.keyboardType = .emailAddress
+                cellMemberEdit.textFieldOfCell.tag = 1
             default:
                 cellMemberEdit.headerOfCell.text = ""
                 cellMemberEdit.textFieldOfCell.text = ""
@@ -365,7 +367,6 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     //MARK: - updateProfileDelegate method
     func updateProfile(profile: Profile) {
         self.profile = Profile(profile: profile)
-        
     }
     //MARK: - updateTypeOfAccountDelegate method
     func updateTypeOfAccount(typeOfAccount: TypeOfAccount) {
@@ -373,4 +374,20 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         tableView.reloadData()
     }
     
+    //MARK: - UITextFieldDelegate method
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let textFieldText: NSString = (textField.text ?? "") as NSString
+        let txtAfterUpdate = textFieldText.replacingCharacters(in: range, with: string)
+        switch textField.tag {
+        case 0:
+            self.newProfile.phone = txtAfterUpdate
+        case 1:
+            self.newProfile.userName = txtAfterUpdate
+        default:
+            break
+        }
+        
+        return true
+    }
+
 }
