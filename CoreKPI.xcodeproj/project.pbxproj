@@ -63,6 +63,7 @@
 		A297F5E11E08248000F85963 /* TypeAccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5DE1E08248000F85963 /* TypeAccountTableViewCell.swift */; };
 		A2A215511E124AB800EEBCA2 /* AlertSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A215501E124AB800EEBCA2 /* AlertSettingTableViewCell.swift */; };
 		A2A215531E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A215521E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift */; };
+		A2A940CB1E1E70740088C7F1 /* UINavigationBurExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A940CA1E1E70740088C7F1 /* UINavigationBurExtension.swift */; };
 		A2ACBD3B1E0D11AA0079EF3D /* AlertsListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ACBD3A1E0D11AA0079EF3D /* AlertsListTableViewController.swift */; };
 		A2ACBD3F1E0D12280079EF3D /* AlertsListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ACBD3E1E0D12280079EF3D /* AlertsListTableViewCell.swift */; };
 		A2ACBD411E0D1DFA0079EF3D /* KPIsListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ACBD401E0D1DFA0079EF3D /* KPIsListTableViewController.swift */; };
@@ -154,6 +155,7 @@
 		A297F5DE1E08248000F85963 /* TypeAccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TypeAccountTableViewCell.swift; path = "CustomTableViewCells/Sign In:Up/TypeAccountTableViewCell.swift"; sourceTree = "<group>"; };
 		A2A215501E124AB800EEBCA2 /* AlertSettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertSettingTableViewCell.swift; path = CustomTableViewCells/AlertSettingTableViewCell.swift; sourceTree = "<group>"; };
 		A2A215521E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertSelectSettingTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AlertSelectSettingTableViewController.swift; sourceTree = "<group>"; };
+		A2A940CA1E1E70740088C7F1 /* UINavigationBurExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UINavigationBurExtension.swift; path = ../UINavigationBurExtension.swift; sourceTree = "<group>"; };
 		A2ACBD3A1E0D11AA0079EF3D /* AlertsListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertsListTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AlertsListTableViewController.swift; sourceTree = "<group>"; };
 		A2ACBD3E1E0D12280079EF3D /* AlertsListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertsListTableViewCell.swift; path = CustomTableViewCells/Alerts/AlertsListTableViewCell.swift; sourceTree = "<group>"; };
 		A2ACBD401E0D1DFA0079EF3D /* KPIsListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIsListTableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/KPIsListTableViewController.swift; sourceTree = "<group>"; };
@@ -262,7 +264,6 @@
 			isa = PBXGroup;
 			children = (
 				A27820961E001530009F83DB /* RequestServise.swift */,
-				A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -279,6 +280,8 @@
 			isa = PBXGroup;
 			children = (
 				A25B4A561E0275B400F315F9 /* CustomTextField.swift */,
+				A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */,
+				A2A940CA1E1E70740088C7F1 /* UINavigationBurExtension.swift */,
 				A27820741E001503009F83DB /* Info.plist */,
 			);
 			name = SupportingFiles;
@@ -669,6 +672,7 @@
 				A2ACBD3F1E0D12280079EF3D /* AlertsListTableViewCell.swift in Sources */,
 				A297F5BB1E08234500F85963 /* faqTableViewController.swift in Sources */,
 				A297F5BA1E08234500F85963 /* faqDetailViewController.swift in Sources */,
+				A2A940CB1E1E70740088C7F1 /* UINavigationBurExtension.swift in Sources */,
 				A2ACBD3B1E0D11AA0079EF3D /* AlertsListTableViewController.swift in Sources */,
 				A297F5D11E08241900F85963 /* MemberInfoTableViewCell.swift in Sources */,
 				A297F5DF1E08248000F85963 /* NewProfileTableViewCell.swift in Sources */,

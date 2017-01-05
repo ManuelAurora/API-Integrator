@@ -62,9 +62,10 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         
         self.tableView.tableFooterView = UIView(frame: .zero)
         //Set Navigation Bar transparent
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.presentTransparentNavigationBar()
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
+//        self.navigationController?.navigationBar.isTranslucent = true
         
     }
     
@@ -195,9 +196,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-        self.navigationController?.navigationBar.shadowImage = nil
-        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.hideTransparentNavigationBar()
     }
     
     override func didMove(toParentViewController parent: UIViewController?) {

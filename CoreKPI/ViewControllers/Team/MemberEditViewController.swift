@@ -327,7 +327,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
-    //MARK: UIImagePickerControllerDelegate methods
+    //MARK: - UIImagePickerControllerDelegate methods
     
     func imagePickerFromPhotoLibrary() {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
@@ -386,7 +386,6 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         default:
             break
         }
-        
         return true
     }
 

@@ -43,12 +43,17 @@ class AlertsListTableViewController: UITableViewController {
         return alertsList.count
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AlertsCell", for: indexPath) as! AlertsListTableViewCell
        cell.alertNameLabel.text = alertsList[indexPath.row].name
-        
         return cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "AddAlert" {
+            let destinationVC = segue.destination as! AllertSettingsTableViewController
+            destinationVC.model = ModelCoreKPI(model: self.model)
+        }
     }
 
 }
