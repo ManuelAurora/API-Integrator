@@ -10,6 +10,9 @@ import UIKit
 
 class AlertsListTableViewCell: UITableViewCell {
 
+    var numberOfCell: Int!
+    var deleteDidTaped = false
+    
     @IBOutlet weak var alertNameLabel: UILabel!
     @IBOutlet weak var alertImageView: UIImageView!
     override func awakeFromNib() {
@@ -18,6 +21,7 @@ class AlertsListTableViewCell: UITableViewCell {
     }
 
     @IBAction func tapDeleteButton(_ sender: UIButton) {
+        print("delete!")
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

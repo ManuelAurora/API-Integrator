@@ -31,3 +31,7 @@ protocol updateSettingsArrayDelegate {
 protocol updateNicknameDelegate {
     func updateNickname(nickname: String)
 }
+
+protocol updateAlertListDelegate {
+    func addAlert(alert: Alert)
+}

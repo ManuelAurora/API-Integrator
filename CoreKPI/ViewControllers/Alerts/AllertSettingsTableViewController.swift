@@ -8,44 +8,18 @@
 
 import UIKit
 
-class AllertSettingsTableViewController: UITableViewController, updateSettingsArrayDelegate {
+class AllertSettingsTableViewController: AlertsListTableViewController, updateSettingsArrayDelegate {
     
-    var model: ModelCoreKPI!
+    weak var AlertListVC: AlertsListTableViewController!
+    var delegate: updateAlertListDelegate!
+    
     var request: Request!
-    
-    enum Setting: String {
-        case none
-        case DataSource
-        case TimeInterval
-        case DeliveryDay
-        case TimeZone
-        case DeliveryTime
-        case TypeOfNotification
-    }
-    
-    enum TimeInterval: String {
-        case Daily
-        case Weekly
-        case Monthly
-    }
-    
-    enum DataSource: String {
-        case MyShopSales = "My shop sales"
-        case Balance
-    }
-    
-    enum TypeOfNotification: String {
-        case none
-        case SMS
-        case Push = "Push notification"
-        case Email
-    }
     
     var typeOfSetting = Setting.none
     var settingsArray: [(SettingName: String, value: Bool)]!
     
     var dataSource = DataSource.MyShopSales
-    var dataSourceArray = [(DataSource.MyShopSales.rawValue, true), (DataSource.Balance.rawValue, false)]
+    var dataSourceArray = [(DataSource.MyShopSales.rawValue, true),(DataSource.MyShopSupples.rawValue, false), (DataSource.Balance.rawValue, false)]
     
     var timeInterval = TimeInterval.Monthly
     var timeIntervalArray = [(TimeInterval.Daily.rawValue, false), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, true)]
@@ -56,7 +30,7 @@ class AllertSettingsTableViewController: UITableViewController, updateSettingsAr
     var timeZone: String!
     var timeZoneArray: [(SettingName: String, value: Bool)] = []
     
-    var deliveryTime: Date!
+    var deliveryTime: String!//Date!
     
     var typeOfNotification = TypeOfNotification.none
     var typeOfNotificationArray = [(TypeOfNotification.Email.rawValue, false), (TypeOfNotification.SMS.rawValue, false), (TypeOfNotification.Push.rawValue, false)]
@@ -68,6 +42,8 @@ class AllertSettingsTableViewController: UITableViewController, updateSettingsAr
         self.getTimeZonesList()
         
         //debug
+        self.deliveryTime = "12:15 PM"
+        
         let arrayFromServer = ["0", "+1", "+2", "+3", "+4"]
         for zones in arrayFromServer {
             let zone = (zones, false)
@@ -207,7 +183,7 @@ class AllertSettingsTableViewController: UITableViewController, updateSettingsAr
                 case 2: break
                     //cell.headerCellLabel.text = "Delivery time"
                     //cell.descriptionCellLabel.text = timeToString(/*(date: self.deliveryTime*/)
-                    //cell.accessoryType = .none
+                //cell.accessoryType = .none
                 default:
                     break
                 }
@@ -299,14 +275,14 @@ class AllertSettingsTableViewController: UITableViewController, updateSettingsAr
             self.dataSourceArray = array
             for source in array {
                 if source.value == true {
-                    self.dataSource = DataSource.init(rawValue: source.SettingName)!
+                    self.dataSource = DataSource(rawValue: source.SettingName)!
                 }
             }
         case .TimeInterval:
             self.timeIntervalArray = array
             for interval in array {
                 if interval.value == true {
-                    self.timeInterval = TimeInterval.init(rawValue: interval.SettingName)!
+                    self.timeInterval = TimeInterval(rawValue: interval.SettingName)!
                 }
             }
         case .DeliveryDay:
@@ -327,7 +303,7 @@ class AllertSettingsTableViewController: UITableViewController, updateSettingsAr
             self.typeOfNotificationArray = array
             for notification in array {
                 if notification.value == true {
-                    self.typeOfNotification = TypeOfNotification.init(rawValue: notification.SettingName)!
+                    self.typeOfNotification = TypeOfNotification(rawValue: notification.SettingName)!
                 }
             }
         default:
@@ -335,6 +311,19 @@ class AllertSettingsTableViewController: UITableViewController, updateSettingsAr
         }
         tableView.reloadData()
         self.typeOfSetting = .none
+    }
+    
+    @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
+        if timeZone == nil || deliveryTime == nil || typeOfNotification == .none || (deliveryDay == nil && timeInterval != .Daily) {
+            let alertController = UIAlertController(title: "Error", message: "One are more field(s) are empty", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+        } else {
+            let alert = Alert(image: "", dataSource: self.dataSource, timeInterval: self.timeInterval, deliveryDay: self.deliveryDay, timeZone: self.timeZone, deliveryTime: self.deliveryTime, typeOfNotification: self.typeOfNotification)
+            delegate = self.AlertListVC
+            delegate.addAlert(alert: alert)
+            self.navigationController!.popViewController(animated: true)
+        }
     }
     
     //MARK: - Show AlertSelectSettingViewController method
