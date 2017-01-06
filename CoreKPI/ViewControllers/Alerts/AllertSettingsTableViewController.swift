@@ -13,13 +13,6 @@ class AllertSettingsTableViewController: UITableViewController, updateSettingsAr
     var model: ModelCoreKPI!
     var request: Request!
     
-    var dataSource = DataSource.MyShopSales
-    var timeInterval = TimeInterval.Monthly
-    var deliveryDay: String!
-    var timeZone: String!
-    var deliveryTime: Date!
-    var typeOfNotification = TypeOfNotification.none
-    
     enum Setting: String {
         case none
         case DataSource
@@ -44,22 +37,47 @@ class AllertSettingsTableViewController: UITableViewController, updateSettingsAr
     enum TypeOfNotification: String {
         case none
         case SMS
-        case Push
+        case Push = "Push notification"
         case Email
     }
     
-    var settingsArray: [(SettingName: String, value: Bool)]!
     var typeOfSetting = Setting.none
+    var settingsArray: [(SettingName: String, value: Bool)]!
     
-    //    var timeIntervalArray = [(TimeInterval.Daily.rawValue, true), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, false)]
-    //    var dataSource  = [(DataSource.MyShopSales.rawValue, true), (DataSource.MyShopSales.rawValue, false)]
-    //    var timeZones = [()]
-    //    var typeOfNotification = [(TypeOfNotification.SMS.rawValue, true), (TypeOfNotification.Push.rawValue, false), (TypeOfNotification.Email.rawValue, false)]
+    var dataSource = DataSource.MyShopSales
+    var dataSourceArray = [(DataSource.MyShopSales.rawValue, true), (DataSource.Balance.rawValue, false)]
+    
+    var timeInterval = TimeInterval.Monthly
+    var timeIntervalArray = [(TimeInterval.Daily.rawValue, false), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, true)]
+    
+    var deliveryDay: String!
+    var deliveryDayArray: [(SettingName: String, value: Bool)] = []
+    
+    var timeZone: String!
+    var timeZoneArray: [(SettingName: String, value: Bool)] = []
+    
+    var deliveryTime: Date!
+    
+    var typeOfNotification = TypeOfNotification.none
+    var typeOfNotificationArray = [(TypeOfNotification.Email.rawValue, false), (TypeOfNotification.SMS.rawValue, false), (TypeOfNotification.Push.rawValue, false)]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         request = Request(model: self.model)
+        self.getTimeZonesList()
+        
+        //debug
+        let arrayFromServer = ["0", "+1", "+2", "+3", "+4"]
+        for zones in arrayFromServer {
+            let zone = (zones, false)
+            self.timeZoneArray.append(zone)
+        }
+        
+        for i in 1...31 {
+            let deliveryDay = ("\(i)", false)
+            self.deliveryDayArray.append(deliveryDay)
+        }
         
         tableView.tableFooterView = UIView(frame: .zero)
     }
@@ -160,12 +178,19 @@ class AllertSettingsTableViewController: UITableViewController, updateSettingsAr
         }
     }
     
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.font = UIFont(name: "Helvetica Neue", size: 13)
+        header.textLabel?.textColor = UIColor.lightGray
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         switch indexPath.section {
         case 0:
             self.typeOfSetting = Setting.DataSource
-            self.settingsArray = dataSource == DataSource.MyShopSales ? [(DataSource.MyShopSales.rawValue, true), (DataSource.Balance.rawValue, false)] : [(DataSource.MyShopSales.rawValue, false), (DataSource.Balance.rawValue, true)]
+            self.settingsArray = self.dataSourceArray
             self.showSelectSettingVC()
         case 1:
             
@@ -173,24 +198,16 @@ class AllertSettingsTableViewController: UITableViewController, updateSettingsAr
                 switch indexPath.row {
                 case 0:
                     self.typeOfSetting = Setting.TimeInterval
-                    switch self.timeInterval {
-                    case TimeInterval.Monthly:
-                        self.settingsArray = [(TimeInterval.Daily.rawValue, false), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, true)]
-                    case TimeInterval.Weekly:
-                        self.settingsArray = [(TimeInterval.Daily.rawValue, false), (TimeInterval.Weekly.rawValue, true), (TimeInterval.Monthly.rawValue, false)]
-                    case TimeInterval.Daily:
-                        self.settingsArray = [(TimeInterval.Daily.rawValue, true), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, false)]
-                    default:
-                        break
-                    }
+                    self.settingsArray = self.timeIntervalArray
                     self.showSelectSettingVC()
-                case 1: break
-                    //                        cell.headerCellLabel.text  = "Time zone"
-                //                        cell.descriptionCellLabel.text = timeZone
+                case 1:
+                    self.typeOfSetting = Setting.TimeZone
+                    self.settingsArray = self.timeZoneArray
+                    self.showSelectSettingVC()
                 case 2: break
-                    //                        cell.headerCellLabel.text = "Delivery time"
-                    //                        cell.descriptionCellLabel.text = timeToString(/*(date: self.deliveryTime*/)
-                //                        cell.accessoryType = .none
+                    //cell.headerCellLabel.text = "Delivery time"
+                    //cell.descriptionCellLabel.text = timeToString(/*(date: self.deliveryTime*/)
+                    //cell.accessoryType = .none
                 default:
                     break
                 }
@@ -199,22 +216,16 @@ class AllertSettingsTableViewController: UITableViewController, updateSettingsAr
                 switch indexPath.row {
                 case 0:
                     self.typeOfSetting = Setting.TimeInterval
-                    switch self.timeInterval {
-                    case TimeInterval.Monthly:
-                        self.settingsArray = [(TimeInterval.Daily.rawValue, false), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, true)]
-                    case TimeInterval.Weekly:
-                        self.settingsArray = [(TimeInterval.Daily.rawValue, false), (TimeInterval.Weekly.rawValue, true), (TimeInterval.Monthly.rawValue, false)]
-                    case TimeInterval.Daily:
-                        self.settingsArray = [(TimeInterval.Daily.rawValue, true), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, false)]
-                    }
+                    self.settingsArray = self.timeIntervalArray
                     self.showSelectSettingVC()
-                case 1: break
-                    // cell.headerCellLabel.text = "Delivery day"
-                    // cell.descriptionCellLabel.text = self.deliveryDay
-                    
-                case 2: break
-                    //                        cell.headerCellLabel.text  = "Time zone"
-                //                        cell.descriptionCellLabel.text = timeZone
+                case 1:
+                    self.typeOfSetting = Setting.DeliveryDay
+                    self.settingsArray = self.deliveryDayArray
+                    self.showSelectSettingVC()
+                case 2:
+                    self.typeOfSetting = Setting.TimeZone
+                    self.settingsArray = self.timeZoneArray
+                    self.showSelectSettingVC()
                 case 3: break
                     //                        cell.headerCellLabel.text = "Delivery time"
                     //                        cell.descriptionCellLabel.text = timeToString(/*date: self.deliveryTime*/)
@@ -223,20 +234,9 @@ class AllertSettingsTableViewController: UITableViewController, updateSettingsAr
                     break
                 }
             }
-            
-            
         case 2:
             self.typeOfSetting = Setting.TypeOfNotification
-            switch self.typeOfNotification {
-            case .none:
-                self.settingsArray = [(TypeOfNotification.SMS.rawValue, false), (TypeOfNotification.Push.rawValue, false), (TypeOfNotification.Email.rawValue, false)]
-            case .SMS:
-                self.settingsArray = [(TypeOfNotification.SMS.rawValue, true), (TypeOfNotification.Push.rawValue, false), (TypeOfNotification.Email.rawValue, false)]
-            case .Push:
-                self.settingsArray = [(TypeOfNotification.SMS.rawValue, false), (TypeOfNotification.Push.rawValue, true), (TypeOfNotification.Email.rawValue, false)]
-            case .Email:
-                self.settingsArray = [(TypeOfNotification.SMS.rawValue, false), (TypeOfNotification.Push.rawValue, false), (TypeOfNotification.Email.rawValue, true)]
-            }
+            self.settingsArray = self.typeOfNotificationArray
             self.showSelectSettingVC()
         default:
             break
@@ -270,6 +270,7 @@ class AllertSettingsTableViewController: UITableViewController, updateSettingsAr
                     
                     //save time zones list
                     
+                    
                 } else {
                     print("Json data is broken")
                 }
@@ -295,48 +296,45 @@ class AllertSettingsTableViewController: UITableViewController, updateSettingsAr
     func updateSettingsArray(array: [(SettingName: String, value: Bool)]) {
         switch typeOfSetting {
         case .DataSource:
-            for setting in array {
-                switch setting.SettingName {
-                case DataSource.MyShopSales.rawValue where setting.value == true:
-                    self.dataSource = DataSource.MyShopSales
-                case DataSource.Balance.rawValue where setting.value == true:
-                    self.dataSource = DataSource.Balance
-                default:
-                    break
+            self.dataSourceArray = array
+            for source in array {
+                if source.value == true {
+                    self.dataSource = DataSource.init(rawValue: source.SettingName)!
                 }
             }
         case .TimeInterval:
+            self.timeIntervalArray = array
+            for interval in array {
+                if interval.value == true {
+                    self.timeInterval = TimeInterval.init(rawValue: interval.SettingName)!
+                }
+            }
+        case .DeliveryDay:
+            self.deliveryDayArray = array
+            for day in array {
+                if day.value == true {
+                    self.deliveryDay = day.SettingName
+                }
+            }
+        case .TimeZone:
+            self.timeZoneArray = array
             for setting in array {
-                switch setting.SettingName {
-                case TimeInterval.Monthly.rawValue where setting.value == true:
-                    self.timeInterval = .Monthly
-                case TimeInterval.Weekly.rawValue where setting.value == true:
-                    self.timeInterval = .Weekly
-                case TimeInterval.Daily.rawValue where setting.value == true:
-                    self.timeInterval = .Daily
-                default:
-                    break
+                if setting.value == true {
+                    self.timeZone = setting.SettingName
                 }
             }
         case .TypeOfNotification:
-            for setting in array {
-                switch setting.SettingName {
-                case TypeOfNotification.none.rawValue where setting.value == true:
-                    self.typeOfNotification = .none
-                case TypeOfNotification.SMS.rawValue where setting.value == true:
-                    self.typeOfNotification = .SMS
-                case TypeOfNotification.Push.rawValue where setting.value == true:
-                    self.typeOfNotification  = .Push
-                case TypeOfNotification.Email.rawValue where setting.value == true:
-                    self.typeOfNotification = .Email
-                default:
-                    break
+            self.typeOfNotificationArray = array
+            for notification in array {
+                if notification.value == true {
+                    self.typeOfNotification = TypeOfNotification.init(rawValue: notification.SettingName)!
                 }
             }
         default:
             break
         }
         tableView.reloadData()
+        self.typeOfSetting = .none
     }
     
     //MARK: - Show AlertSelectSettingViewController method
