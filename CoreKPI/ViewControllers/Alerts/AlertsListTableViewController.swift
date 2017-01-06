@@ -11,11 +11,13 @@ import UIKit
 struct Alert {
     var image: String
     var dataSource: DataSource
-    var timeInterval: TimeInterval
+    var timeInterval: TimeInterval?
     var deliveryDay: String?
-    var timeZone: String
+    var timeZone: String?
+    var condition: Condition?
+    var threshold: String?
     var deliveryTime: String//Date
-    var typeOfNotification: TypeOfNotification
+    var typeOfNotification: [TypeOfNotification]
 }
 
 enum Setting: String {
@@ -24,6 +26,8 @@ enum Setting: String {
     case TimeInterval
     case DeliveryDay
     case TimeZone
+    case Condition
+    case Threshold
     case DeliveryTime
     case TypeOfNotification
 }
@@ -38,6 +42,12 @@ enum DataSource: String {
     case MyShopSupples = "My shop supples"
     case MyShopSales = "My shop sales"
     case Balance
+}
+
+enum Condition: String {
+    case IsLessThan = "is less than"
+    case IncreasedOrDecreased = "increased or decreased"
+    case PercentHasIncreasedOrDecreasedByMoreThan = "% has increased or decreased by more than"
 }
 
 enum TypeOfNotification: String {
@@ -55,8 +65,8 @@ class AlertsListTableViewController: UITableViewController, updateAlertListDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let alertOne = Alert(image: "", dataSource: .MyShopSales, timeInterval: .Daily, deliveryDay: nil, timeZone: "+3", deliveryTime: "18:00", typeOfNotification: .Push)
-        let alertTwo = Alert(image: "", dataSource: .MyShopSupples, timeInterval: .Daily, deliveryDay: nil, timeZone: "+3", deliveryTime: "18:00", typeOfNotification: .SMS)
+        let alertOne = Alert(image: "", dataSource: .MyShopSales, timeInterval: .Daily, deliveryDay: nil, timeZone: "+3", condition: nil, threshold: nil, deliveryTime: "18:00", typeOfNotification: [.Push])
+        let alertTwo = Alert(image: "", dataSource: .MyShopSupples, timeInterval: .Daily, deliveryDay: nil, timeZone: "+3", condition: nil, threshold: nil, deliveryTime: "18:00", typeOfNotification: [.SMS])
         alertsList = [alertOne, alertTwo]
         
         tableView.tableFooterView = UIView(frame: .zero)

@@ -199,7 +199,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         self.navigationController?.hideTransparentNavigationBar()
     }
     
-    override func didMove(toParentViewController parent: UIViewController?) {
+    override func willMove(toParentViewController parent: UIViewController?) {
         if(!(parent?.isEqual(self.parent) ?? false)) {
             self.profile.photo = "https://pp.vk.me/c624425/v624425140/1439b/3Ka-jAkA1Dw.jpg"
             updateProfileDelegate = memberListVC

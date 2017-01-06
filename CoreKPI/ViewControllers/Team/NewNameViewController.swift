@@ -26,7 +26,7 @@ class NewNameViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    override func didMove(toParentViewController parent: UIViewController?) {
+    override func willMove(toParentViewController parent: UIViewController?) {
         if(!(parent?.isEqual(self.parent) ?? false)) {
             if let nickname = nameLabel.text {
                 if nickname != "" {

@@ -70,7 +70,7 @@ class TypeOfAccountTableViewController: UITableViewController {
         
     }
     
-    override func didMove(toParentViewController parent: UIViewController?) {
+    override func willMove(toParentViewController parent: UIViewController?) {
         
         if ((parent as? InviteTableViewController) != nil) {
             print("invite")

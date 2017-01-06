@@ -98,7 +98,7 @@ class ChageNameTableViewController: UITableViewController, updateModelDelegate, 
         }
     }
     
-    override func didMove(toParentViewController parent: UIViewController?) {
+    override func willMove(toParentViewController parent: UIViewController?) {
         if(!(parent?.isEqual(self.parent) ?? false)) {
             delegate = memberInfoVC
             delegate.updateProfile(profile: self.profile)
