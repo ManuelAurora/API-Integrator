@@ -292,6 +292,7 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
             if successKey == 1 {
                 if let dataKey = json["data"] as? NSDictionary {
                     
+                    print(dataKey)
                     //save time zones list
                     
                     

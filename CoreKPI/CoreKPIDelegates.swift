@@ -36,3 +36,7 @@ protocol updateNicknameDelegate {
 protocol updateAlertListDelegate {
     func addAlert(alert: Alert)
 }
+
+protocol updateKPIListDelegate {
+    func addNewKPI(kpi: KPI)
+}
