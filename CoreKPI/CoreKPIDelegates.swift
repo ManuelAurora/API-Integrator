@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol registerDelegate {
     func updateLoginAndPassword(email: String, password: String)
@@ -39,4 +40,10 @@ protocol updateAlertListDelegate {
 
 protocol updateKPIListDelegate {
     func addNewKPI(kpi: KPI)
+}
+
+protocol KPIListButtonCellDelegate {
+    func editButtonDidTaped(sender: UIButton)
+    func reportButtonDidTaped(sender: UIButton)
+    func viewButtonDidTaped(sender: UIButton)
 }

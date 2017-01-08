@@ -8,6 +8,7 @@
 
 import UIKit
 
+//MARK: - Enums for setting
 enum Source: String {
     case none = "Choose"
     case User
@@ -65,6 +66,18 @@ enum typeOfKPI: String {
     case createdKPI
 }
 
+enum ImageForKPIList: String {
+    case Increases = "upper.png"
+    case Decreases = "downer.png"
+    case SaleForce = "SaleForce.png"
+    case QuickBooks = "QuickBooks.png"
+    case GoogleAnalytics = "GoogleAnalytics.png"
+    case HubSpotCRM = "HubSpotCRM.png"
+    case PayPal = "PayPal.png"
+    case HubSpotMarketing = "HubSpotMarketing.png"
+}
+
+//MARK: - Structs for KPIs
 struct IntegratedKPI {
     var service: IntegratedServices
     var saleForceKPIs: [SalesForceKPIs]?
@@ -79,19 +92,23 @@ struct CreatedKPI {
     var source: Source
     var department: String
     var KPI: String
+    var descriptionOfKPI: String?
     var executant: Profile
     var timeInterval: String
     var timeZone: String
     var deadline: String
+    var number: [String : Int]
 }
 
 struct KPI {
     var typeOfKPI: typeOfKPI
     var integratedKPI: IntegratedKPI?
     var createdKPI: CreatedKPI?
+    var image: ImageForKPIList?
+    
 }
 
-class KPIsListTableViewController: UITableViewController, updateKPIListDelegate {
+class KPIsListTableViewController: UITableViewController, updateKPIListDelegate, KPIListButtonCellDelegate {
     
     var request: Request!
     var model = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin))   //: ModelCoreKPI!
@@ -107,8 +124,8 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate 
         }
         
         //Debug only!
-        let kpiOne = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: "IT", KPI: "KPI", executant: self.model.profile!, timeInterval: "week", timeZone: "+3", deadline: "12.01.2017"))
-        let kpiTwo = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: "IT", KPI: "KPI", executant: self.model.profile!, timeInterval: "week", timeZone: "+3", deadline: "12.01.2017"))
+        let kpiOne = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: "Sales Department", KPI: "Shop Supplies", descriptionOfKPI: "One of the key indicators for western organizations that mainly help to determine the economic efficiency of the Procurement Department.", executant: self.model.profile!, timeInterval: "Daily", timeZone: "Denver(GTM-6)", deadline: "Before 16:00", number: ["08/01/17" : 12000, "08/01/16" : 25800, "07/01/2017" : 24400]), image: nil)
+        let kpiTwo = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: "IT", KPI: "Shop Volume",descriptionOfKPI: nil, executant: Profile(userId: 123, userName: "User@User.com", firstName: "Semen", lastName: "Osipov", position: nil, photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin) , timeInterval: "week", timeZone: "+3", deadline: "12.01.2017", number: ["08/01/17" : 25800, "07/01/2017" : 24400]), image: ImageForKPIList.Decreases)
         kpiList = [kpiOne, kpiTwo]
         
         tableView.tableFooterView = UIView(frame: .zero)
@@ -130,15 +147,78 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "KPIListCell", for: indexPath) as! KPIListTableViewCell
-        cell.KPIListManagedBy.text = "Me"//kpiList[indexPath.row]
-        let integrated = kpiList[indexPath.row].integratedKPI
-        let created = kpiList[indexPath.row].createdKPI
-        cell.KPIListHeaderLabel.text = integrated?.service.rawValue ?? created?.KPI
-        cell.KPIListNumber.text = "12000$"//kpiList[indexPath.row].number
-
+        cell.KPIListVC  = self
+        cell.editButton.tag = indexPath.row
+        cell.reportButton.tag = indexPath.row
+        cell.viewButton.tag = indexPath.row
+        
+        if let imageString = kpiList[indexPath.row].image {
+            cell.KPIListCellImageView.isHidden = false
+            cell.KPIListCellImageView.image = UIImage(named: imageString.rawValue)
+        } else {
+            cell.KPIListCellImageView.isHidden = true
+        }
+        
+        switch kpiList[indexPath.row].typeOfKPI {
+        case .IntegratedKPI:
+            cell.reportButton.isHidden = true
+            cell.viewButton.isHidden = true
+            cell.KPIListNumber.isHidden = true
+            cell.ManagedByStack.isHidden = true
+            let integratedKPI = kpiList[indexPath.row].integratedKPI
+            cell.KPIListHeaderLabel.text = integratedKPI?.service.rawValue
+        case .createdKPI:
+            let createdKPI = kpiList[indexPath.row].createdKPI
+            cell.KPIListHeaderLabel.text = createdKPI?.KPI
+            if self.model.profile?.typeOfAccount == TypeOfAccount.Admin {
+                if self.model.profile?.userId == createdKPI?.executant.userId {
+                    cell.reportButton.isHidden = false
+                    cell.viewButton.isHidden = false
+                    cell.editButton.isHidden = true
+                } else {
+                    cell.reportButton.isHidden = true
+                    cell.viewButton.isHidden = true
+                    cell.editButton.isHidden = false
+                }
+            } else {
+                cell.reportButton.isHidden = false
+                cell.viewButton.isHidden = false
+                cell.editButton.isHidden = false
+            }
+            cell.KPIListNumber.isHidden = false
+            cell.ManagedByStack.isHidden = false
+            
+            var dictionary = createdKPI?.number
+            let firstValue = dictionary?.popFirst()
+            if let value = firstValue?.value {
+                cell.KPIListNumber.text = "\(value)"
+            }
+            
+            if createdKPI?.executant.userId == self.model.profile?.userId {
+                cell.KPIListManagedBy.text = "Me"
+            } else {
+                cell.KPIListManagedBy.text = (createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!
+            }
+        }
         return cell
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.row {
+        case 0:
+            let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewChartViewController
+            destinatioVC.typeOfChart = .PieChart
+            navigationController?.pushViewController(destinatioVC, animated: true)
+        case 1:
+            let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewChartViewController
+            destinatioVC.typeOfChart = .PointChart
+            navigationController?.pushViewController(destinatioVC, animated: true)
+        default:
+            let destinationVC = storyboard?.instantiateViewController(withIdentifier: "ChartsiOS") as! iOSChartsTestViewController
+            navigationController?.pushViewController(destinationVC, animated: true)
+        }
+    }
+    
     //MARK: - Load TPIs from server methods
     func loadKPIsFromServer(){
         self.request = Request(model: model)
@@ -186,6 +266,27 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate 
     func addNewKPI(kpi: KPI) {
         self.kpiList.append(kpi)
         self.tableView.reloadData()
+    }
+    
+    //MARK: - KPIListButtonCellDelegate methods
+    func editButtonDidTaped(sender: UIButton) {
+        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ReportAndViewKPI") as! ReportAndViewKPITableViewController
+        destinatioVC.kpi = kpiList[sender.tag]
+        destinatioVC.buttonDidTaped = ButtonDidTaped.Edit
+        navigationController?.pushViewController(destinatioVC, animated: true)
+    }
+    func reportButtonDidTaped(sender: UIButton) {
+        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ReportAndViewKPI") as! ReportAndViewKPITableViewController
+        destinatioVC.kpi = kpiList[sender.tag]
+        destinatioVC.buttonDidTaped = ButtonDidTaped.Report
+        navigationController?.pushViewController(destinatioVC, animated: true)
+        
+    }
+    func viewButtonDidTaped(sender: UIButton) {
+        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ReportAndViewKPI") as! ReportAndViewKPITableViewController
+        destinatioVC.kpi = kpiList[sender.tag]
+        destinatioVC.buttonDidTaped = ButtonDidTaped.View
+        navigationController?.pushViewController(destinatioVC, animated: true)
     }
     
     //MARK: - navigation

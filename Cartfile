@@ -1,1 +1,3 @@
 github "Alamofire/Alamofire"
+github "danielgindi/Charts"
+github "realm/realm-cocoa"

@@ -30,6 +30,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
     var source = Source.none
     var sourceArray: [(SettingName: String, value: Bool)] = [(Source.User.rawValue, false), (Source.Integrated.rawValue, false)]
     
+    //MARK: - integarted services
     var integrated = IntegratedServices.none
     var saleForceKPIs: [SalesForceKPIs] = []
     var saleForceKPIArray: [(SettingName: String, value: Bool)] = [(SalesForceKPIs.RevenueNewLeads.rawValue, false), (SalesForceKPIs.KeyMetrics.rawValue, false), (SalesForceKPIs.ConvertedLeads.rawValue, false), (SalesForceKPIs.OpenOpportunitiesByStage.rawValue, false), (SalesForceKPIs.TopSalesRep.rawValue, false), (SalesForceKPIs.NewLeadsByIndustry.rawValue, false), (SalesForceKPIs.CampaignROI.rawValue, false)]
@@ -43,6 +44,9 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
     var payPalKPIArray: [(SettingName: String, value: Bool)] = [(PayPalKPIs.Test.rawValue, true)]
     var hubspotMarketingKPIs: [HubSpotMarketingKPIs] = []
     var hubSpotMarketingKPIArray: [(SettingName: String, value: Bool)] = [(HubSpotMarketingKPIs.Test.rawValue, true)]
+    
+    //MARK: User's KPI
+    
     
     var typeOfSetting = TypeOfSetting.none
     var settingArray: [(SettingName: String, value: Bool)] = []
@@ -249,8 +253,28 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
         
         switch source {
         case .Integrated:
+            
+            let imageForKPIList: ImageForKPIList
+            
+            switch self.integrated {
+            case .SalesForce:
+                imageForKPIList = ImageForKPIList.SaleForce
+            case .Quickbooks:
+                imageForKPIList = ImageForKPIList.QuickBooks
+            case .GoogleAnalytics:
+                imageForKPIList = ImageForKPIList.GoogleAnalytics
+            case .HubSpotCRM:
+                imageForKPIList = ImageForKPIList.HubSpotCRM
+            case .PayPal:
+                imageForKPIList = ImageForKPIList.PayPal
+            case .HubSpotMarketing:
+                imageForKPIList = ImageForKPIList.HubSpotMarketing
+            default:
+                imageForKPIList = ImageForKPIList.Decreases
+            }
+            
             let integratedKPI = IntegratedKPI(service: self.integrated, saleForceKPIs: saleForceKPIs, quickBookKPIs: quickBooksKPIs, googleAnalytics: googleAnalyticsKPIs, hubSpotCRMKPIs: hubspotCRMKPIs, payPalKPIs: paypalKPIs, hubSpotMarketingKPIs: hubspotMarketingKPIs)
-            kpi = KPI(typeOfKPI: .IntegratedKPI, integratedKPI: integratedKPI, createdKPI: nil)
+            kpi = KPI(typeOfKPI: .IntegratedKPI, integratedKPI: integratedKPI, createdKPI: nil, image: imageForKPIList )
         default:
             break
         }

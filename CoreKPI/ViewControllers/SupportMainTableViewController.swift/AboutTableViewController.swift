@@ -55,8 +55,8 @@ class AboutTableViewController: UITableViewController, MFMailComposeViewControll
         case 1:
             switch indexPath.row {
             case 0:
-                let defaultText = "CoreKPI in AppStore"
-                let activityController = UIActivityViewController(activityItems: [defaultText], applicationActivities: nil)
+                let defaultText = URL(string: "http://corekpi.com")
+                let activityController = UIActivityViewController(activityItems: [defaultText as Any], applicationActivities: nil)
                 self.present(activityController, animated: true, completion: nil)
             case 1:
                 if let url = URL(string: "http://apple.com") {

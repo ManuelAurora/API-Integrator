@@ -9,8 +9,9 @@
 import UIKit
 
 class AlertSelectSettingTableViewController: UITableViewController, UITextFieldDelegate {
-    
+
     weak var AlertSettingVC: AllertSettingsTableViewController!
+    
     var selectSetting: [(SettingName: String, value: Bool)]!
     var textFieldInputData: String?
     var delegate: updateSettingsArrayDelegate!
@@ -79,7 +80,7 @@ class AlertSelectSettingTableViewController: UITableViewController, UITextFieldD
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "SelectSettingCell", for: indexPath)
-
+        
         if selectSeveralEnable == false {
             for i in 0..<selectSetting.count {
                 selectSetting[i].value = false

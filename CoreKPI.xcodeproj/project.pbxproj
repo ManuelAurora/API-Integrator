@@ -11,6 +11,10 @@
 		A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340901E110CF200208EAB /* ChageNameTableViewController.swift */; };
 		A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340921E110D1C00208EAB /* NewNameViewController.swift */; };
 		A218EBBD1E0D4D1A00C1DB5A /* AddNewKPITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A218EBBC1E0D4D1A00C1DB5A /* AddNewKPITableViewController.swift */; };
+		A21B46C71E22AFFC000890D3 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A21B46C61E22AFFC000890D3 /* Charts.framework */; };
+		A21B46C91E22B046000890D3 /* iOSChartsTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21B46C81E22B046000890D3 /* iOSChartsTestViewController.swift */; };
+		A21B46CD1E22B513000890D3 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A21B46CC1E22B513000890D3 /* RealmSwift.framework */; };
+		A21B46CF1E22B51A000890D3 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A21B46CE1E22B51A000890D3 /* Realm.framework */; };
 		A22302C31E1F96B900C9D0B4 /* ReminderViewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22302C21E1F96B900C9D0B4 /* ReminderViewTableViewController.swift */; };
 		A22302C51E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22302C41E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift */; };
 		A2279D7A1E14DE1700669EB0 /* points.html in Resources */ = {isa = PBXBuildFile; fileRef = A2279D791E14DE1700669EB0 /* points.html */; };
@@ -30,6 +34,10 @@
 		A261D9181E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A261D9171E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift */; };
 		A261D91C1E129F1600638C56 /* DashboardSetingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A261D91B1E129F1600638C56 /* DashboardSetingTableViewCell.swift */; };
 		A261D9201E12A81000638C56 /* SuggestedKPIDescriptionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A261D91F1E12A81000638C56 /* SuggestedKPIDescriptionTableViewController.swift */; };
+		A26408F21E22394F0034EEC2 /* ReportAndViewKPITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26408F11E22394F0034EEC2 /* ReportAndViewKPITableViewController.swift */; };
+		A26408F41E2239910034EEC2 /* ReportAndViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26408F31E2239910034EEC2 /* ReportAndViewTableViewCell.swift */; };
+		A26408F61E2271330034EEC2 /* AddReportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26408F51E2271330034EEC2 /* AddReportTableViewController.swift */; };
+		A26408F81E2280160034EEC2 /* WebViewChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26408F71E2280160034EEC2 /* WebViewChartViewController.swift */; };
 		A26D282A1E0D551D005342BA /* KPIListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26D28291E0D551D005342BA /* KPIListTableViewCell.swift */; };
 		A274DC0F1E0825DF008CBF36 /* InviteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A274DC0E1E0825DF008CBF36 /* InviteTableViewController.swift */; };
 		A274DC111E082617008CBF36 /* MemberListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A274DC101E082617008CBF36 /* MemberListTableViewController.swift */; };
@@ -99,6 +107,10 @@
 		A20340901E110CF200208EAB /* ChageNameTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChageNameTableViewController.swift; path = CoreKPI/ViewControllers/Team/ChageNameTableViewController.swift; sourceTree = "<group>"; };
 		A20340921E110D1C00208EAB /* NewNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewNameViewController.swift; path = CoreKPI/ViewControllers/Team/NewNameViewController.swift; sourceTree = "<group>"; };
 		A218EBBC1E0D4D1A00C1DB5A /* AddNewKPITableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddNewKPITableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/AddNewKPITableViewController.swift; sourceTree = "<group>"; };
+		A21B46C61E22AFFC000890D3 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = Carthage/Build/iOS/Charts.framework; sourceTree = "<group>"; };
+		A21B46C81E22B046000890D3 /* iOSChartsTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = iOSChartsTestViewController.swift; path = CoreKPI/ViewControllers/DashBoard/iOSChartsTestViewController.swift; sourceTree = "<group>"; };
+		A21B46CC1E22B513000890D3 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
+		A21B46CE1E22B51A000890D3 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
 		A22302C21E1F96B900C9D0B4 /* ReminderViewTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderViewTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/ReminderViewTableViewController.swift; sourceTree = "<group>"; };
 		A22302C41E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertInputSettingTableViewCell.swift; path = CustomTableViewCells/Alerts/AlertInputSettingTableViewCell.swift; sourceTree = "<group>"; };
 		A2279D791E14DE1700669EB0 /* points.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = points.html; path = Graphics/Point/points.html; sourceTree = "<group>"; };
@@ -118,6 +130,10 @@
 		A261D9171E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseSuggestedKPITableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/ChooseSuggestedKPITableViewController.swift; sourceTree = "<group>"; };
 		A261D91B1E129F1600638C56 /* DashboardSetingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardSetingTableViewCell.swift; path = CustomTableViewCells/Dashboard/DashboardSetingTableViewCell.swift; sourceTree = "<group>"; };
 		A261D91F1E12A81000638C56 /* SuggestedKPIDescriptionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SuggestedKPIDescriptionTableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/SuggestedKPIDescriptionTableViewController.swift; sourceTree = "<group>"; };
+		A26408F11E22394F0034EEC2 /* ReportAndViewKPITableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportAndViewKPITableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/ReportAndViewKPITableViewController.swift; sourceTree = "<group>"; };
+		A26408F31E2239910034EEC2 /* ReportAndViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportAndViewTableViewCell.swift; path = CustomTableViewCells/Dashboard/ReportAndViewTableViewCell.swift; sourceTree = "<group>"; };
+		A26408F51E2271330034EEC2 /* AddReportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddReportTableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/AddReportTableViewController.swift; sourceTree = "<group>"; };
+		A26408F71E2280160034EEC2 /* WebViewChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewChartViewController.swift; path = CoreKPI/ViewControllers/DashBoard/WebViewChartViewController.swift; sourceTree = "<group>"; };
 		A26D28291E0D551D005342BA /* KPIListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIListTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPIListTableViewCell.swift; sourceTree = "<group>"; };
 		A274DC0E1E0825DF008CBF36 /* InviteTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InviteTableViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/InviteTableViewController.swift"; sourceTree = "<group>"; };
 		A274DC101E082617008CBF36 /* MemberListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberListTableViewController.swift; path = CoreKPI/ViewControllers/Team/MemberListTableViewController.swift; sourceTree = "<group>"; };
@@ -178,6 +194,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A27820A11E001A0B009F83DB /* Alamofire.framework in Frameworks */,
+				A21B46C71E22AFFC000890D3 /* Charts.framework in Frameworks */,
+				A21B46CF1E22B51A000890D3 /* Realm.framework in Frameworks */,
+				A21B46CD1E22B513000890D3 /* RealmSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +332,9 @@
 		A278209E1E001A0B009F83DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A21B46CE1E22B51A000890D3 /* Realm.framework */,
+				A21B46CC1E22B513000890D3 /* RealmSwift.framework */,
+				A21B46C61E22AFFC000890D3 /* Charts.framework */,
 				A278209F1E001A0B009F83DB /* Alamofire.framework */,
 				A27820A01E001A0B009F83DB /* SwiftyJSON.framework */,
 			);
@@ -407,6 +429,10 @@
 				A258A70A1E20D47700FBFBDF /* KPISelectSettingTableViewController.swift */,
 				A261D9151E1283E900638C56 /* CreateNewKPITableViewController.swift */,
 				A261D91F1E12A81000638C56 /* SuggestedKPIDescriptionTableViewController.swift */,
+				A26408F11E22394F0034EEC2 /* ReportAndViewKPITableViewController.swift */,
+				A26408F51E2271330034EEC2 /* AddReportTableViewController.swift */,
+				A26408F71E2280160034EEC2 /* WebViewChartViewController.swift */,
+				A21B46C81E22B046000890D3 /* iOSChartsTestViewController.swift */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -461,6 +487,7 @@
 			children = (
 				A26D28291E0D551D005342BA /* KPIListTableViewCell.swift */,
 				A261D91B1E129F1600638C56 /* DashboardSetingTableViewCell.swift */,
+				A26408F31E2239910034EEC2 /* ReportAndViewTableViewCell.swift */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -659,6 +686,9 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Charts.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework",
 			);
 			outputPaths = (
 			);
@@ -681,6 +711,8 @@
 				A2ACBD3F1E0D12280079EF3D /* AlertsListTableViewCell.swift in Sources */,
 				A297F5BB1E08234500F85963 /* faqTableViewController.swift in Sources */,
 				A297F5BA1E08234500F85963 /* faqDetailViewController.swift in Sources */,
+				A21B46C91E22B046000890D3 /* iOSChartsTestViewController.swift in Sources */,
+				A26408F41E2239910034EEC2 /* ReportAndViewTableViewCell.swift in Sources */,
 				A22302C31E1F96B900C9D0B4 /* ReminderViewTableViewController.swift in Sources */,
 				A2A940CB1E1E70740088C7F1 /* UINavigationBurExtension.swift in Sources */,
 				A2ACBD3B1E0D11AA0079EF3D /* AlertsListTableViewController.swift in Sources */,
@@ -698,6 +730,7 @@
 				A218EBBD1E0D4D1A00C1DB5A /* AddNewKPITableViewController.swift in Sources */,
 				A258A70D1E21177000FBFBDF /* SelectIntegratedServicesViewController.swift in Sources */,
 				A297F5C91E0823D400F85963 /* RecoveryPasswordViewController.swift in Sources */,
+				A26408F81E2280160034EEC2 /* WebViewChartViewController.swift in Sources */,
 				A2F0B1181E0C1B110095580B /* CoreKPIDelegates.swift in Sources */,
 				A297F5D71E08244800F85963 /* AnswerFaqTableViewCell.swift in Sources */,
 				A297F5CA1E0823D400F85963 /* RegisterViewController.swift in Sources */,
@@ -705,6 +738,7 @@
 				A278206E1E001503009F83DB /* CoreKPI.xcdatamodeld in Sources */,
 				A297F5D81E08244800F85963 /* faqListTableViewCell.swift in Sources */,
 				A261D9161E1283E900638C56 /* CreateNewKPITableViewController.swift in Sources */,
+				A26408F21E22394F0034EEC2 /* ReportAndViewKPITableViewController.swift in Sources */,
 				A297F5CC1E0823D400F85963 /* SignInViewController.swift in Sources */,
 				A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */,
 				A297F5CB1E0823D400F85963 /* SignInUpViewController.swift in Sources */,
@@ -717,6 +751,7 @@
 				A2279D861E14EC3B00669EB0 /* DashboardsNavigationViewController.swift in Sources */,
 				A2844B3C1E0BC842002E297A /* MemberEditTableViewCell.swift in Sources */,
 				A2A215511E124AB800EEBCA2 /* AlertSettingTableViewCell.swift in Sources */,
+				A26408F61E2271330034EEC2 /* AddReportTableViewController.swift in Sources */,
 				A261D91C1E129F1600638C56 /* DashboardSetingTableViewCell.swift in Sources */,
 				A2279D841E14EBF200669EB0 /* AlertsNavigationViewController.swift in Sources */,
 				A22302C51E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift in Sources */,
