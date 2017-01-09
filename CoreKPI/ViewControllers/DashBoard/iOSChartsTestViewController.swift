@@ -14,6 +14,16 @@ class VisitorCount {
     var count: Int = Int(0)
 }
 
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+
 class iOSChartsTestViewController: UIViewController {
 
     
@@ -21,10 +31,13 @@ class iOSChartsTestViewController: UIViewController {
     @IBOutlet weak var barView: BarChartView!
     
     var array: [VisitorCount] = []
+    var typeOfChart = TypeOfChart.PieChart
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.hideKeyboardWhenTappedAround()
+        
         startArray()
         updateChartWithData()
         // Do any additional setup after loading the view.
@@ -52,6 +65,7 @@ class iOSChartsTestViewController: UIViewController {
             array.append(visitorCount)
         }
         updateChartWithData()
+        self.dismissKeyboard()
     }
 
     func updateChartWithData() {

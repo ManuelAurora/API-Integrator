@@ -159,10 +159,10 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         
         //debug only
-        memberInfoVC.profileImage = self.memberProfilePhotoImage.image
-        delegate = memberInfoVC
-        delegate.updateProfile(profile: self.newProfile)
-        self.navigationController!.popViewController(animated: true)
+//        memberInfoVC.profileImage = self.memberProfilePhotoImage.image
+//        delegate = memberInfoVC
+//        delegate.updateProfile(profile: self.newProfile)
+//        self.navigationController!.popViewController(animated: true)
         
     }
     

@@ -61,7 +61,7 @@ enum PayPalKPIs: String {
     case Test = "Coming soon"
 }
 
-enum typeOfKPI: String {
+enum TypeOfKPI: String {
     case IntegratedKPI
     case createdKPI
 }
@@ -101,7 +101,7 @@ struct CreatedKPI {
 }
 
 struct KPI {
-    var typeOfKPI: typeOfKPI
+    var typeOfKPI: TypeOfKPI
     var integratedKPI: IntegratedKPI?
     var createdKPI: CreatedKPI?
     var image: ImageForKPIList?
@@ -128,19 +128,21 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         let kpiTwo = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: "IT", KPI: "Shop Volume",descriptionOfKPI: nil, executant: Profile(userId: 123, userName: "User@User.com", firstName: "Semen", lastName: "Osipov", position: nil, photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin) , timeInterval: "week", timeZone: "+3", deadline: "12.01.2017", number: ["08/01/17" : 25800, "07/01/2017" : 24400]), image: ImageForKPIList.Decreases)
         kpiList = [kpiOne, kpiTwo]
         
+        self.loadKPIsFromServer()
+        
         tableView.tableFooterView = UIView(frame: .zero)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return kpiList.count
     }
@@ -202,7 +204,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         }
         return cell
     }
-
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
@@ -219,12 +221,12 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         }
     }
     
-    //MARK: - Load TPIs from server methods
+    //MARK: - Load KPIs from server methods
     func loadKPIsFromServer(){
         self.request = Request(model: model)
         let data: [String : Any] = [:]
         
-        request.getJson(category: "/team/setNickName", data: data,
+        request.getJson(category: "/kpi/getKPIList", data: data,
                         success: { json in
                             self.parsingJson(json: json)
         },
@@ -232,14 +234,64 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                             print(error)
         })
     }
-
+    
     func parsingJson(json: NSDictionary) {
         
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
-                if let dataKey = json["data"] as? NSDictionary {
+                if let dataKey = json["data"] as? NSArray {
                     
-                    print(dataKey)
+                    var KPIListEndParsing = false
+                    var kpi = 0
+                    while KPIListEndParsing == false {
+                        var active = 0
+                        var id = 0
+                        let typeOfKPI = TypeOfKPI.createdKPI
+                    
+                        var image: ImageForKPIList!
+                        
+                        let source = Source.User
+                        var department: String
+                        var kpi_name: String
+                        var descriptionOfKPI: String?
+                        var executant: Profile
+                        let timeInterval = TimeInterval.Daily.rawValue
+                        var timeZone: String
+                        var deadline: String
+                        var number: [String : Int]
+                        
+                        
+                        if let kpiData = dataKey[kpi] as? NSDictionary {
+                            active = (kpiData["active"] as? Int) ?? 0
+                            id = (kpiData["id"] as? Int) ?? 0
+                            kpi_name = (kpiData["name"] as? String) ?? "Error name"
+                            department = (kpiData["department"] as? String) ?? "Error department"
+                            descriptionOfKPI = kpiData["desc"] as? String
+                            executant = self.model.profile!
+                            timeZone = "no"
+                            deadline = (kpiData["datetime"] as? String)!
+                            number = ["today":12407]
+                            //debug
+                            image = ImageForKPIList.Increases
+                            
+                            print("id: \(id); active: \(active)")
+                            
+                            let createdKPI = CreatedKPI(source: source, department: department, KPI: kpi_name, descriptionOfKPI: descriptionOfKPI, executant: executant, timeInterval: timeInterval, timeZone: timeZone, deadline: deadline, number: number)
+                            let kpi = KPI(typeOfKPI: typeOfKPI, integratedKPI: nil, createdKPI: createdKPI, image: image)
+                            self.kpiList.append(kpi)
+        
+                        }
+                        
+                        kpi+=1
+                        if dataKey.count == kpi {
+                            KPIListEndParsing = true
+                        }
+                        self.tableView.reloadData()
+                    }
+                    
+                    
+                    
+
                     //Save data from json
                     
                 } else {

@@ -10,11 +10,11 @@ import UIKit
 
 class MemberListTableViewController: UITableViewController, updateProfileDelegate {
     
-    var model = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user1@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: "https://pp.vk.me/c625325/v625325140/d9d5/FzpG-mcLQco.jpg", phone: nil, nickname: nil, typeOfAccount: .Admin))//: ModelCoreKPI!
+    var model: ModelCoreKPI!/*ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user1@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: "https://pp.vk.me/c625325/v625325140/d9d5/FzpG-mcLQco.jpg", phone: nil, nickname: nil, typeOfAccount: .Admin))*/
     var request: Request!
     
     let oneProfile = Profile(userId: 1, userName: "user1@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: "https://pp.vk.me/c625325/v625325140/d9d5/FzpG-mcLQco.jpg", phone: nil, nickname: nil, typeOfAccount: .Admin)
-    let twoProfile = Profile(userId: 2, userName: "user2@mail.ru", firstName: "Cat", lastName: "Dog", position: nil, photo: "https://pp.vk.me/c413328/v413328140/2925/5GvzabomK10.jpg", phone: "8-915-994-46-60", nickname: "Pes smerdyachiy", typeOfAccount: .Manager)
+    let twoProfile = Profile(userId: 2, userName: "user2@mail.ru", firstName: "Cat", lastName: "Dog", position: nil, photo: "https://pp.vk.me/c413328/v413328140/2925/5GvzabomK10.jpg", phone: "89159944660", nickname: "Pes smerdyachiy", typeOfAccount: .Manager)
     
     var memberList: [Profile] = []
     var indexPath: IndexPath!

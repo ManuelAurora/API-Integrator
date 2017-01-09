@@ -11,10 +11,7 @@
 		A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340901E110CF200208EAB /* ChageNameTableViewController.swift */; };
 		A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340921E110D1C00208EAB /* NewNameViewController.swift */; };
 		A218EBBD1E0D4D1A00C1DB5A /* AddNewKPITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A218EBBC1E0D4D1A00C1DB5A /* AddNewKPITableViewController.swift */; };
-		A21B46C71E22AFFC000890D3 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A21B46C61E22AFFC000890D3 /* Charts.framework */; };
 		A21B46C91E22B046000890D3 /* iOSChartsTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21B46C81E22B046000890D3 /* iOSChartsTestViewController.swift */; };
-		A21B46CD1E22B513000890D3 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A21B46CC1E22B513000890D3 /* RealmSwift.framework */; };
-		A21B46CF1E22B51A000890D3 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A21B46CE1E22B51A000890D3 /* Realm.framework */; };
 		A22302C31E1F96B900C9D0B4 /* ReminderViewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22302C21E1F96B900C9D0B4 /* ReminderViewTableViewController.swift */; };
 		A22302C51E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22302C41E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift */; };
 		A2279D7A1E14DE1700669EB0 /* points.html in Resources */ = {isa = PBXBuildFile; fileRef = A2279D791E14DE1700669EB0 /* points.html */; };
@@ -49,7 +46,6 @@
 		A278207E1E001503009F83DB /* CoreKPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A278207D1E001503009F83DB /* CoreKPITests.swift */; };
 		A27820891E001503009F83DB /* CoreKPIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27820881E001503009F83DB /* CoreKPIUITests.swift */; };
 		A27820971E001530009F83DB /* RequestServise.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27820961E001530009F83DB /* RequestServise.swift */; };
-		A27820A11E001A0B009F83DB /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A278209F1E001A0B009F83DB /* Alamofire.framework */; };
 		A2844B3C1E0BC842002E297A /* MemberEditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2844B3B1E0BC842002E297A /* MemberEditTableViewCell.swift */; };
 		A292F5CF1E13AF88009F9F48 /* WebView2TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A292F5CE1E13AF88009F9F48 /* WebView2TestViewController.swift */; };
 		A297F5B01E08233100F85963 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5AF1E08233100F85963 /* MainTabBarViewController.swift */; };
@@ -72,6 +68,10 @@
 		A297F5DF1E08248000F85963 /* NewProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5DC1E08248000F85963 /* NewProfileTableViewCell.swift */; };
 		A297F5E01E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5DD1E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift */; };
 		A297F5E11E08248000F85963 /* TypeAccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5DE1E08248000F85963 /* TypeAccountTableViewCell.swift */; };
+		A2A018E21E235F1800198E1A /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A018E11E235F1800198E1A /* Alamofire.framework */; };
+		A2A018E31E235F1800198E1A /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A2A018E11E235F1800198E1A /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A2A018E61E235F2200198E1A /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A018E51E235F2200198E1A /* Charts.framework */; };
+		A2A018E71E235F2200198E1A /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A2A018E51E235F2200198E1A /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A2A215511E124AB800EEBCA2 /* AlertSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A215501E124AB800EEBCA2 /* AlertSettingTableViewCell.swift */; };
 		A2A215531E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A215521E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift */; };
 		A2A940CB1E1E70740088C7F1 /* UINavigationBurExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A940CA1E1E70740088C7F1 /* UINavigationBurExtension.swift */; };
@@ -102,15 +102,27 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		A2A018E41E235F1800198E1A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A2A018E31E235F1800198E1A /* Alamofire.framework in Embed Frameworks */,
+				A2A018E71E235F2200198E1A /* Charts.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		A2028E6D1E12B66400F1EED6 /* WebViewTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewTestViewController.swift; sourceTree = "<group>"; };
 		A20340901E110CF200208EAB /* ChageNameTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChageNameTableViewController.swift; path = CoreKPI/ViewControllers/Team/ChageNameTableViewController.swift; sourceTree = "<group>"; };
 		A20340921E110D1C00208EAB /* NewNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewNameViewController.swift; path = CoreKPI/ViewControllers/Team/NewNameViewController.swift; sourceTree = "<group>"; };
 		A218EBBC1E0D4D1A00C1DB5A /* AddNewKPITableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddNewKPITableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/AddNewKPITableViewController.swift; sourceTree = "<group>"; };
-		A21B46C61E22AFFC000890D3 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = Carthage/Build/iOS/Charts.framework; sourceTree = "<group>"; };
 		A21B46C81E22B046000890D3 /* iOSChartsTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = iOSChartsTestViewController.swift; path = CoreKPI/ViewControllers/DashBoard/iOSChartsTestViewController.swift; sourceTree = "<group>"; };
-		A21B46CC1E22B513000890D3 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
-		A21B46CE1E22B51A000890D3 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
 		A22302C21E1F96B900C9D0B4 /* ReminderViewTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderViewTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/ReminderViewTableViewController.swift; sourceTree = "<group>"; };
 		A22302C41E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertInputSettingTableViewCell.swift; path = CustomTableViewCells/Alerts/AlertInputSettingTableViewCell.swift; sourceTree = "<group>"; };
 		A2279D791E14DE1700669EB0 /* points.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = points.html; path = Graphics/Point/points.html; sourceTree = "<group>"; };
@@ -151,8 +163,6 @@
 		A27820881E001503009F83DB /* CoreKPIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreKPIUITests.swift; sourceTree = "<group>"; };
 		A278208A1E001503009F83DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A27820961E001530009F83DB /* RequestServise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestServise.swift; sourceTree = "<group>"; };
-		A278209F1E001A0B009F83DB /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
-		A27820A01E001A0B009F83DB /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		A2844B3B1E0BC842002E297A /* MemberEditTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberEditTableViewCell.swift; path = CustomTableViewCells/Team/MemberEditTableViewCell.swift; sourceTree = "<group>"; };
 		A292F5CE1E13AF88009F9F48 /* WebView2TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebView2TestViewController.swift; sourceTree = "<group>"; };
 		A297F5AF1E08233100F85963 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainTabBarViewController.swift; path = CoreKPI/ViewControllers/MainTabBarViewController.swift; sourceTree = "<group>"; };
@@ -175,6 +185,8 @@
 		A297F5DC1E08248000F85963 /* NewProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewProfileTableViewCell.swift; path = "CustomTableViewCells/Sign In:Up/NewProfileTableViewCell.swift"; sourceTree = "<group>"; };
 		A297F5DD1E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewProfileTypeAccountTableViewCell.swift; path = "CustomTableViewCells/Sign In:Up/NewProfileTypeAccountTableViewCell.swift"; sourceTree = "<group>"; };
 		A297F5DE1E08248000F85963 /* TypeAccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TypeAccountTableViewCell.swift; path = "CustomTableViewCells/Sign In:Up/TypeAccountTableViewCell.swift"; sourceTree = "<group>"; };
+		A2A018E11E235F1800198E1A /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		A2A018E51E235F2200198E1A /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = Carthage/Build/iOS/Charts.framework; sourceTree = "<group>"; };
 		A2A215501E124AB800EEBCA2 /* AlertSettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertSettingTableViewCell.swift; path = CustomTableViewCells/AlertSettingTableViewCell.swift; sourceTree = "<group>"; };
 		A2A215521E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertSelectSettingTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AlertSelectSettingTableViewController.swift; sourceTree = "<group>"; };
 		A2A940CA1E1E70740088C7F1 /* UINavigationBurExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UINavigationBurExtension.swift; path = ../UINavigationBurExtension.swift; sourceTree = "<group>"; };
@@ -193,10 +205,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A27820A11E001A0B009F83DB /* Alamofire.framework in Frameworks */,
-				A21B46C71E22AFFC000890D3 /* Charts.framework in Frameworks */,
-				A21B46CF1E22B51A000890D3 /* Realm.framework in Frameworks */,
-				A21B46CD1E22B513000890D3 /* RealmSwift.framework in Frameworks */,
+				A2A018E21E235F1800198E1A /* Alamofire.framework in Frameworks */,
+				A2A018E61E235F2200198E1A /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,11 +342,8 @@
 		A278209E1E001A0B009F83DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A21B46CE1E22B51A000890D3 /* Realm.framework */,
-				A21B46CC1E22B513000890D3 /* RealmSwift.framework */,
-				A21B46C61E22AFFC000890D3 /* Charts.framework */,
-				A278209F1E001A0B009F83DB /* Alamofire.framework */,
-				A27820A01E001A0B009F83DB /* SwiftyJSON.framework */,
+				A2A018E51E235F2200198E1A /* Charts.framework */,
+				A2A018E11E235F1800198E1A /* Alamofire.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -549,7 +556,7 @@
 				A278205E1E001503009F83DB /* Sources */,
 				A278205F1E001503009F83DB /* Frameworks */,
 				A27820601E001503009F83DB /* Resources */,
-				A27820A31E001A16009F83DB /* ShellScript */,
+				A2A018E41E235F1800198E1A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -677,26 +684,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		A27820A31E001A16009F83DB /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Charts.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A278205E1E001503009F83DB /* Sources */ = {
