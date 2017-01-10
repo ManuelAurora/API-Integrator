@@ -10,7 +10,7 @@ import UIKit
 
 class MemberListTableViewController: UITableViewController, updateProfileDelegate {
     
-    var model: ModelCoreKPI!/*ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user1@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: "https://pp.vk.me/c625325/v625325140/d9d5/FzpG-mcLQco.jpg", phone: nil, nickname: nil, typeOfAccount: .Admin))*/
+    var model = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user1@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: "https://pp.vk.me/c625325/v625325140/d9d5/FzpG-mcLQco.jpg", phone: nil, nickname: nil, typeOfAccount: .Admin))
     var request: Request!
     
     let oneProfile = Profile(userId: 1, userName: "user1@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: "https://pp.vk.me/c625325/v625325140/d9d5/FzpG-mcLQco.jpg", phone: nil, nickname: nil, typeOfAccount: .Admin)

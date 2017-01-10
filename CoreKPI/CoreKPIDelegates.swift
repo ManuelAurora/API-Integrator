@@ -45,5 +45,4 @@ protocol updateKPIListDelegate {
 protocol KPIListButtonCellDelegate {
     func editButtonDidTaped(sender: UIButton)
     func reportButtonDidTaped(sender: UIButton)
-    func viewButtonDidTaped(sender: UIButton)
 }

@@ -18,7 +18,6 @@ class KPIListTableViewCell: UITableViewCell {
     
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var reportButton: UIButton!
-    @IBOutlet weak var viewButton: UIButton!
    
     var KPIListVC: KPIsListTableViewController!
     var delegate: KPIListButtonCellDelegate!
@@ -37,8 +36,6 @@ class KPIListTableViewCell: UITableViewCell {
             delegate.editButtonDidTaped(sender: sender)
         case reportButton:
             delegate.reportButtonDidTaped(sender: sender)
-        case viewButton:
-            delegate.viewButtonDidTaped(sender: sender)
         default:
             break
         }

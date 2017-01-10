@@ -19,10 +19,19 @@ class KPISelectSettingTableViewController: UITableViewController {
     var headerForTableView: String!
     var selectSeveralEnable = false
     var inputSettingCells = false
+    var rowsWithInfoAccesory = false
+    var department = Departments.none
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView(frame: .zero)
+        
+        if rowsWithInfoAccesory {
+            self.tableView.alwaysBounceVertical = true
+        } else {
+            self.tableView.alwaysBounceVertical = false
+        }
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -57,21 +66,42 @@ class KPISelectSettingTableViewController: UITableViewController {
         header.textLabel?.textColor = UIColor.lightGray
     }
     
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ListOfSuggestedKPI") as! SuggestedKPIDescriptionTableViewController
+        destinatioVC.numberOfKPI = indexPath.row
+        destinatioVC.ChoseSuggestedVC = self.ChoseSuggestedVC
+        destinatioVC.department = self.department
+        destinatioVC.selectSetting = self.selectSetting
+        navigationController?.pushViewController(destinatioVC, animated: true)
+
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if inputSettingCells == false {
+        
+        switch rowsWithInfoAccesory {
+        case true:
             let cell = tableView.dequeueReusableCell(withIdentifier: "SelectSettingCell", for: indexPath)
             
             cell.textLabel?.text = selectSetting[indexPath.row].SettingName
-            cell.accessoryType = selectSetting[indexPath.row].value ? .checkmark : .none
-            
+            cell.accessoryType = .detailButton
+            cell.textLabel?.numberOfLines = 0
             return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "InputSettingCell", for: indexPath) as! AlertInputSettingTableViewCell
-            cell.inputDataTextField.placeholder = "Add data"
-            cell.accessoryType = .none
-            cell.selectionStyle = .none
-            return cell
+        default:
+            if inputSettingCells == false {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "SelectSettingCell", for: indexPath)
+                
+                cell.textLabel?.text = selectSetting[indexPath.row].SettingName
+                cell.accessoryType = selectSetting[indexPath.row].value ? .checkmark : .none
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "InputSettingCell", for: indexPath) as! AlertInputSettingTableViewCell
+                cell.inputDataTextField.placeholder = "Add data"
+                cell.accessoryType = .none
+                cell.selectionStyle = .none
+                return cell
+            }
         }
+
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -95,9 +125,22 @@ class KPISelectSettingTableViewController: UITableViewController {
             cell.accessoryType = .none
         }
         
+        if rowsWithInfoAccesory {
+            self.navigationController!.popViewController(animated: true)
+        }
+        
         tableView.deselectRow(at: indexPath, animated: true)
         tableView.reloadData()
     }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
     //MARK: - Send data to parent ViewController
     override func willMove(toParentViewController parent: UIViewController?) {
         if(!(parent?.isEqual(self.parent) ?? false)) {
@@ -112,7 +155,7 @@ class KPISelectSettingTableViewController: UITableViewController {
         delegate = ChoseSuggestedVC
         delegate.updateSettingsArray(array: self.selectSetting)
         
-        let ChoseSuggestVC = self.navigationController?.viewControllers[2] as! ChooseSuggestedKPITableViewController
+        let ChoseSuggestVC = self.navigationController?.viewControllers[1] as! ChooseSuggestedKPITableViewController
         _ = self.navigationController?.popToViewController(ChoseSuggestVC, animated: true)
     }
     //MARK: - UITextFieldDelegate method

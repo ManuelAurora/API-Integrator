@@ -63,9 +63,6 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         self.tableView.tableFooterView = UIView(frame: .zero)
         //Set Navigation Bar transparent
         self.navigationController?.presentTransparentNavigationBar()
-//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-//        self.navigationController?.navigationBar.shadowImage = UIImage()
-//        self.navigationController?.navigationBar.isTranslucent = true
         
     }
     
@@ -221,6 +218,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         self.memberProfilePositionLabel.text = profile.position
         self.memberProfilePhotoImage.image = self.profileImage
+        self.navigationController?.presentTransparentNavigationBar()
         tableView.reloadData()
     }
     

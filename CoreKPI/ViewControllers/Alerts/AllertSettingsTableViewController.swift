@@ -22,8 +22,8 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
     var dataSource = DataSource.MyShopSales
     var dataSourceArray = [(DataSource.MyShopSales.rawValue, true),(DataSource.MyShopSupples.rawValue, false), (DataSource.Balance.rawValue, false)]
     
-    var timeInterval = TimeInterval.Monthly
-    var timeIntervalArray = [(TimeInterval.Daily.rawValue, false), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, true)]
+    var timeInterval = TimeInterval.Daily
+    var timeIntervalArray = [(TimeInterval.Daily.rawValue, true), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, false)]
     
     var deliveryDay: String!
     var deliveryDayArray: [(SettingName: String, value: Bool)] = []

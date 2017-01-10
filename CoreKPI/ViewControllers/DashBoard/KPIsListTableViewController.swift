@@ -77,6 +77,15 @@ enum ImageForKPIList: String {
     case HubSpotMarketing = "HubSpotMarketing.png"
 }
 
+enum Departments: String {
+    case none = "Select"
+    case Sales
+    case Procurement
+    case Projects
+    case FinancialManagement = "Financial management"
+    case Staff
+}
+
 //MARK: - Structs for KPIs
 struct IntegratedKPI {
     var service: IntegratedServices
@@ -111,7 +120,7 @@ struct KPI {
 class KPIsListTableViewController: UITableViewController, updateKPIListDelegate, KPIListButtonCellDelegate {
     
     var request: Request!
-    var model = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin))   //: ModelCoreKPI!
+    var model: ModelCoreKPI! = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin))
     
     var kpiList: [KPI] = []
     
@@ -152,7 +161,6 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         cell.KPIListVC  = self
         cell.editButton.tag = indexPath.row
         cell.reportButton.tag = indexPath.row
-        cell.viewButton.tag = indexPath.row
         
         if let imageString = kpiList[indexPath.row].image {
             cell.KPIListCellImageView.isHidden = false
@@ -164,7 +172,6 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         switch kpiList[indexPath.row].typeOfKPI {
         case .IntegratedKPI:
             cell.reportButton.isHidden = true
-            cell.viewButton.isHidden = true
             cell.KPIListNumber.isHidden = true
             cell.ManagedByStack.isHidden = true
             let integratedKPI = kpiList[indexPath.row].integratedKPI
@@ -175,16 +182,13 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
             if self.model.profile?.typeOfAccount == TypeOfAccount.Admin {
                 if self.model.profile?.userId == createdKPI?.executant.userId {
                     cell.reportButton.isHidden = false
-                    cell.viewButton.isHidden = false
-                    cell.editButton.isHidden = true
+                    cell.editButton.isHidden = false
                 } else {
                     cell.reportButton.isHidden = true
-                    cell.viewButton.isHidden = true
                     cell.editButton.isHidden = false
                 }
             } else {
                 cell.reportButton.isHidden = false
-                cell.viewButton.isHidden = false
                 cell.editButton.isHidden = false
             }
             cell.KPIListNumber.isHidden = false
@@ -334,20 +338,14 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         navigationController?.pushViewController(destinatioVC, animated: true)
         
     }
-    func viewButtonDidTaped(sender: UIButton) {
-        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ReportAndViewKPI") as! ReportAndViewKPITableViewController
-        destinatioVC.kpi = kpiList[sender.tag]
-        destinatioVC.buttonDidTaped = ButtonDidTaped.View
-        navigationController?.pushViewController(destinatioVC, animated: true)
-    }
     
     //MARK: - navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "addKPI" {
-            let destinationVC = segue.destination as! AddNewKPITableViewController
+        if segue.identifier == "AddKPI" {
+            let destinationVC = segue.destination as! ChooseSuggestedKPITableViewController
             destinationVC.model = ModelCoreKPI(model: self.model)
-            destinationVC.kpiListVC = self
+            destinationVC.KPIListVC = self
         }
     }
     

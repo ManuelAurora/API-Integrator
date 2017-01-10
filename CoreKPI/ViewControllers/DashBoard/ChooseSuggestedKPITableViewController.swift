@@ -8,9 +8,21 @@
 
 import UIKit
 
+enum WeeklyInterval: String {
+    case none = "Select day"
+    case Monday
+    case Tuesday
+    case Wednesday
+    case Thursday
+    case Friday
+    case Saturday
+    case Sunday
+}
+
 class ChooseSuggestedKPITableViewController: UITableViewController, updateSettingsArrayDelegate {
     
     var model: ModelCoreKPI!
+    var request: Request!
     var KPIListVC: KPIsListTableViewController!
     
     enum TypeOfSetting: String {
@@ -21,6 +33,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
         case KPI
         case Executant
         case TimeInterval = "Time interval"
+        case WeeklyInterval
+        case MounthlyInterval
         case TimeZone = "Time zone"
         case Deadline
     }
@@ -46,13 +60,90 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
     var hubSpotMarketingKPIArray: [(SettingName: String, value: Bool)] = [(HubSpotMarketingKPIs.Test.rawValue, true)]
     
     //MARK: User's KPI
+    var department: Departments {
+        for department in departmentArray {
+            if department.value == true {
+                return Departments(rawValue: department.SettingName)!
+            }
+        }
+        return Departments.none
+    }
+    var departmentArray: [(SettingName: String, value: Bool)] = [(Departments.Sales.rawValue, false), (Departments.Procurement.rawValue, false), (Departments.Projects.rawValue, false), (Departments.FinancialManagement.rawValue, false), (Departments.Staff.rawValue, false)]
+    var selectedKPI: String? {
+        for kpi in kpiArray {
+            if kpi.value == true {
+                return kpi.SettingName
+            }
+        }
+        return nil
+    }
+    var kpiArray: [(SettingName: String, value: Bool)] = []
     
+    var executant: String? {
+        for member in executantArray {
+            if member.value == true {
+                return member.SettingName
+            }
+        }
+        return nil
+    }
+    var memberlistArray: [Profile] = []
+    var executantArray:  [(SettingName: String, value: Bool)] = []
+    
+    var timeInterval: TimeInterval {
+        for interval in timeIntervalArray {
+            if interval.value == true {
+                return TimeInterval(rawValue: interval.SettingName)!
+            }
+        }
+        return TimeInterval.Daily
+    }
+    var timeIntervalArray: [(SettingName: String, value: Bool)] = [(TimeInterval.Daily.rawValue, true), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, false)]
+    
+    var weeklyInterval: WeeklyInterval {
+        for interval in weeklyArray {
+            if interval.value == true {
+                return WeeklyInterval(rawValue: interval.SettingName)!
+            }
+        }
+        return WeeklyInterval.none
+    }
+    var weeklyArray: [(SettingName: String, value: Bool)] = [(WeeklyInterval.Monday.rawValue, false), (WeeklyInterval.Tuesday.rawValue, false), (WeeklyInterval.Wednesday.rawValue, false), (WeeklyInterval.Thursday.rawValue, false), (WeeklyInterval.Friday.rawValue, false), (WeeklyInterval.Saturday.rawValue, false), (WeeklyInterval.Sunday.rawValue, false)]
+    
+    var mounthlyInterval: Int? {
+        for interval in mounthlyIntervalArray {
+            if interval.value == true {
+                return Int(interval.SettingName)
+            }
+        }
+        return nil
+    }
+    var mounthlyIntervalArray: [(SettingName: String, value: Bool)] = []
+    
+    var timeZone: String? {
+        for timezone in timeZoneArray {
+            if timezone.value == true {
+                return timezone.SettingName
+            }
+        }
+        return nil
+    }
+    var timeZoneArray: [(SettingName: String, value: Bool)] = [("Hawaii Time (HST)",false), ("Alaska Time (AKST)", false), ("Pacific Time (PST)",false), ("Mountain Time (MST)", false), ("Central Time (CST)", false), ("Eastern Time (EST)",false)]
+    
+    var deadline: String?
     
     var typeOfSetting = TypeOfSetting.none
     var settingArray: [(SettingName: String, value: Bool)] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        request = Request(model: self.model)
+        self.getTeamListFromServer()
+        
+        // not use in app
+        // self.getDepartmentsFromServer()
+        
         tableView.tableFooterView = UIView(frame: .zero)
     }
     
@@ -60,199 +151,455 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
         super.didReceiveMemoryWarning()
     }
     
+    //MARK: - updateKPIArray method
+    func updateKPIArray() {
+        self.kpiArray.removeAll()
+        let buildInKPI = BuildInKPI(department: self.department)
+        var dictionary: [String:String] = [:]
+        
+        switch department {
+        case .none:
+            return
+        case .Sales:
+            dictionary = buildInKPI.salesDictionary
+        case .Procurement:
+            dictionary = buildInKPI.procurementDictionary
+        case .Projects:
+            dictionary = buildInKPI.projectDictionary
+        case .FinancialManagement:
+            dictionary = buildInKPI.financialManagementDictionary
+        case .Staff:
+            dictionary = buildInKPI.staffDictionary
+        }
+        for kpi in dictionary {
+            let arrayElement = (kpi.key, false)
+            self.kpiArray.append(arrayElement)
+        }
+    }
+    
+    //MARK: - get Department list from server
+    //MARK: not use in App
+    func getDepartmentsFromServer() {
+        
+        let data: [String : Any] = [:]
+        
+        request.getJson(category: "/kpi/getDepartments", data: data,
+                        success: { json in
+                            self.parsingJson(json: json)
+        },
+                        failure: { (error) in
+                            print(error)
+        })
+    }
+    
+    func parsingJson(json: NSDictionary) {
+        
+        if let successKey = json["success"] as? Int {
+            if successKey == 1 {
+                if let dataKey = json["data"] as? NSArray {
+                    
+                    print(dataKey)
+                    //Save data from json
+                    
+                } else {
+                    print("Json data is broken")
+                }
+            } else {
+                let errorMessage = json["message"] as! String
+                print("Json error message: \(errorMessage)")
+                showAlert(title: "Error geting list if departments", message: errorMessage)
+            }
+        } else {
+            print("Json file is broken!")
+        }
+    }
+    
+    //MARK: - get member list from server
+    
+    func getTeamListFromServer() {
+        
+        let data: [String : Any] = [ : ]
+        
+        request.getJson(category: "/team/getTeamList", data: data,
+                        success: { json in
+                            self.parsingTeamListJson(json: json)
+        },
+                        failure: { (error) in
+                            print(error)
+        })
+    }
+    
+    func parsingTeamListJson(json: NSDictionary) {
+        
+        if let successKey = json["success"] as? Int {
+            if successKey == 1 {
+                if let dataKey = json["data"] as? NSArray {
+                    var teamListIsFull = false
+                    var i = 0
+                    while teamListIsFull == false {
+                        
+                        var profile: Profile!
+                        
+                        var firstName: String!
+                        var lastName: String!
+                        var mode: Int!
+                        var typeOfAccount: TypeOfAccount!
+                        var nickname: String?
+                        var photo: String?
+                        var position: String?
+                        var userId: Int!
+                        var userName: String!
+                        
+                        if let userData = dataKey[i] as? NSDictionary {
+                            position = userData["position"] as? String
+                            mode = userData["mode"] as? Int
+                            mode == 0 ? (typeOfAccount = TypeOfAccount.Manager) : (typeOfAccount = TypeOfAccount.Admin)
+                            nickname = userData["nickname"] as? String
+                            lastName = userData["last_name"] as? String
+                            userName = userData["username"] as? String
+                            userId = userData["user_id"] as? Int
+                            if (userData["photo"] as? String) != "" {
+                                photo = userData["photo"] as? String
+                            }
+                            
+                            firstName = userData["first_name"] as? String
+                            
+                            profile = Profile(userId: userId, userName: userName, firstName: firstName, lastName: lastName, position: position, photo: photo, phone: nil, nickname: nickname, typeOfAccount: typeOfAccount)
+                            self.memberlistArray.append(profile)
+                            
+                            i+=1
+                            
+                            if dataKey.count == i {
+                                teamListIsFull = true
+                            }
+                        }
+                    }
+                    self.createExecutantArray()
+                } else {
+                    print("Json data is broken")
+                }
+            } else {
+                let errorMessage = json["message"] as! String
+                print("Json error message: \(errorMessage)")
+                //showAlert(errorMessage: errorMessage)
+            }
+        } else {
+            print("Json file is broken!")
+        }
+    }
+    
+    //MARK: create executantArray
+    
+    func createExecutantArray() {
+        for profile in self.memberlistArray {
+            let executantName = profile.firstName + " " + profile.lastName
+            self.executantArray.append((executantName, false))
+        }
+    }
+    
+    //MARK: - Show alert method
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            switch source {
-            case .none:
-                return 1
-            case .User:
+        switch source {
+        case .none:
+            return 1
+        case .User:
+            switch timeInterval {
+            case .Daily:
                 return 7
-            case .Integrated:
-                var numberOfKPIs = 0
-                var arrayOfKPIs: [(SettingName: String, value: Bool)] = []
-                
-                switch integrated {
-                case .none:
-                    return 2
-                case .SalesForce:
-                    arrayOfKPIs = saleForceKPIArray
-                case .Quickbooks:
-                    arrayOfKPIs = quickBooksKPIArray
-                case .GoogleAnalytics:
-                    arrayOfKPIs = googleAnalyticsKPIArray
-                case .HubSpotCRM:
-                    arrayOfKPIs = hubSpotCRMKPIArray
-                case .PayPal:
-                    arrayOfKPIs = payPalKPIArray
-                case .HubSpotMarketing:
-                    arrayOfKPIs = hubSpotMarketingKPIArray
-                }
-                for value in arrayOfKPIs {
-                    if value.value == true {
-                        numberOfKPIs += 1
-                    }
-                }
-                return 2 + numberOfKPIs
+            default:
+                return 8
             }
-        case 1:
-            return 1
-        case 2:
-            return 1
-        default:
-            return 0
+        case .Integrated:
+            var numberOfKPIs = 0
+            var arrayOfKPIs: [(SettingName: String, value: Bool)] = []
+            
+            switch integrated {
+            case .none:
+                return 2
+            case .SalesForce:
+                arrayOfKPIs = saleForceKPIArray
+            case .Quickbooks:
+                arrayOfKPIs = quickBooksKPIArray
+            case .GoogleAnalytics:
+                arrayOfKPIs = googleAnalyticsKPIArray
+            case .HubSpotCRM:
+                arrayOfKPIs = hubSpotCRMKPIArray
+            case .PayPal:
+                arrayOfKPIs = payPalKPIArray
+            case .HubSpotMarketing:
+                arrayOfKPIs = hubSpotMarketingKPIArray
+            }
+            for value in arrayOfKPIs {
+                if value.value == true {
+                    numberOfKPIs += 1
+                }
+            }
+            return 2 + numberOfKPIs
         }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell
-        switch indexPath.section {
-        case 0:
-            let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
-            switch source {
-            case .none:
-                SuggestedCell.headerOfCell.text = "Source"
-                SuggestedCell.descriptionOfCell.text = source.rawValue
-            case .User:
+        let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
+        switch source {
+        case .none:
+            SuggestedCell.headerOfCell.text = "Source"
+            SuggestedCell.descriptionOfCell.text = source.rawValue
+        case .User:
+            
+            switch timeInterval {
+            case .Daily:
                 switch indexPath.row {
                 case 0:
                     SuggestedCell.headerOfCell.text = "Source"
                     SuggestedCell.descriptionOfCell.text = source.rawValue
                 case 1:
                     SuggestedCell.headerOfCell.text = "Department"
-                    SuggestedCell.descriptionOfCell.text = "IT"
+                    SuggestedCell.descriptionOfCell.text = department.rawValue
                 case 2:
                     SuggestedCell.headerOfCell.text = "KPI"
-                    SuggestedCell.descriptionOfCell.text = "Chose KPI"
+                    SuggestedCell.descriptionOfCell.text = selectedKPI ?? "Choose KPI"
                 case 3:
                     SuggestedCell.headerOfCell.text = "Executant"
-                    SuggestedCell.descriptionOfCell.text = "Alan Been"
+                    SuggestedCell.descriptionOfCell.text = self.executant ?? "Choose"
                 case 4:
                     SuggestedCell.headerOfCell.text = "Time Interval"
-                    SuggestedCell.descriptionOfCell.text = source.rawValue
+                    SuggestedCell.descriptionOfCell.text = timeInterval.rawValue
                 case 5:
                     SuggestedCell.headerOfCell.text = "Time Zone"
-                    SuggestedCell.descriptionOfCell.text = "Default"
+                    SuggestedCell.descriptionOfCell.text = timeZone ?? "Select"
                 case 6:
                     SuggestedCell.headerOfCell.text = "Deadline"
                     SuggestedCell.descriptionOfCell.text = "12:15AM"
                 default:
                     break
                 }
-            case .Integrated:
+            default:
                 switch indexPath.row {
                 case 0:
                     SuggestedCell.headerOfCell.text = "Source"
                     SuggestedCell.descriptionOfCell.text = source.rawValue
                 case 1:
-                    SuggestedCell.headerOfCell.text = "Service"
-                    SuggestedCell.descriptionOfCell.text = integrated.rawValue
-                default:
-                    SuggestedCell.headerOfCell.text = "KPI \(indexPath.row - 1)"
-                    SuggestedCell.accessoryType = .none
-                    SuggestedCell.selectionStyle = .none
-                    switch integrated {
-                    case .SalesForce:
-                        SuggestedCell.descriptionOfCell.text = saleForceKPIs[indexPath.row - 2].rawValue
-                    case .Quickbooks:
-                        SuggestedCell.descriptionOfCell.text = quickBooksKPIs[indexPath.row - 2].rawValue
-                    case .GoogleAnalytics:
-                        SuggestedCell.descriptionOfCell.text = googleAnalyticsKPIs[indexPath.row - 2].rawValue
-                    case .HubSpotCRM:
-                        SuggestedCell.descriptionOfCell.text = hubspotCRMKPIs[indexPath.row - 2].rawValue
-                    case .PayPal:
-                        SuggestedCell.descriptionOfCell.text = paypalKPIs[indexPath.row - 2].rawValue
-                    case .HubSpotMarketing:
-                        SuggestedCell.descriptionOfCell.text = hubspotMarketingKPIs[indexPath.row - 2].rawValue
+                    SuggestedCell.headerOfCell.text = "Department"
+                    SuggestedCell.descriptionOfCell.text = department.rawValue
+                case 2:
+                    SuggestedCell.headerOfCell.text = "KPI"
+                    SuggestedCell.descriptionOfCell.text = selectedKPI ?? "Choose KPI"
+                case 3:
+                    SuggestedCell.headerOfCell.text = "Executant"
+                    SuggestedCell.descriptionOfCell.text = self.executant ?? "Choose"
+                case 4:
+                    SuggestedCell.headerOfCell.text = "Time Interval"
+                    SuggestedCell.descriptionOfCell.text = timeInterval.rawValue
+                case 5:
+                    SuggestedCell.headerOfCell.text = "Day"
+                    var text = ""
+                    switch timeInterval {
+                    case .Weekly:
+                        text = self.weeklyInterval.rawValue
+                    case .Monthly:
+                        if self.mounthlyInterval != nil && self.mounthlyInterval! > 28 {
+                            text = "\(self.mounthlyInterval!) or last day"
+                        } else if self.mounthlyInterval != nil{
+                            text = "\(self.mounthlyInterval!)"
+                        } else {
+                            text = "Add day"
+                        }
                     default:
                         break
                     }
-                }
-            }
-            
-            return SuggestedCell
-        case 1:
-            cell = tableView.dequeueReusableCell(withIdentifier: "SaveButtonCell", for: indexPath)
-        case 2:
-            cell = tableView.dequeueReusableCell(withIdentifier: "CreateButtonCell", for: indexPath)
-        default:
-            cell = UITableViewCell()
-        }
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.section {
-        case 0:
-            switch source {
-            case .none:
-                self.typeOfSetting = .Source
-                self.settingArray = self.sourceArray
-                showSelectSettingVC()
-            case .User:
-                switch indexPath.row {
-                case 0:
-                    self.typeOfSetting = .Source
-                    self.settingArray = self.sourceArray
-                    showSelectSettingVC()
+                    SuggestedCell.descriptionOfCell.text = text
+                case 6:
+                    SuggestedCell.headerOfCell.text = "Time Zone"
+                    SuggestedCell.descriptionOfCell.text = timeZone ?? "Select"
+                case 7:
+                    SuggestedCell.headerOfCell.text = "Deadline"
+                    SuggestedCell.descriptionOfCell.text = "12:15AM"
                 default:
                     break
                 }
-            case .Integrated:
+            }
+            
+            
+        case .Integrated:
+            switch indexPath.row {
+            case 0:
+                SuggestedCell.headerOfCell.text = "Source"
+                SuggestedCell.descriptionOfCell.text = source.rawValue
+            case 1:
+                SuggestedCell.headerOfCell.text = "Service"
+                SuggestedCell.descriptionOfCell.text = integrated.rawValue
+            default:
+                SuggestedCell.headerOfCell.text = "KPI \(indexPath.row - 1)"
+                SuggestedCell.accessoryType = .none
+                SuggestedCell.selectionStyle = .none
+                switch integrated {
+                case .SalesForce:
+                    SuggestedCell.descriptionOfCell.text = saleForceKPIs[indexPath.row - 2].rawValue
+                case .Quickbooks:
+                    SuggestedCell.descriptionOfCell.text = quickBooksKPIs[indexPath.row - 2].rawValue
+                case .GoogleAnalytics:
+                    SuggestedCell.descriptionOfCell.text = googleAnalyticsKPIs[indexPath.row - 2].rawValue
+                case .HubSpotCRM:
+                    SuggestedCell.descriptionOfCell.text = hubspotCRMKPIs[indexPath.row - 2].rawValue
+                case .PayPal:
+                    SuggestedCell.descriptionOfCell.text = paypalKPIs[indexPath.row - 2].rawValue
+                case .HubSpotMarketing:
+                    SuggestedCell.descriptionOfCell.text = hubspotMarketingKPIs[indexPath.row - 2].rawValue
+                default:
+                    break
+                }
+            }
+        }
+        return SuggestedCell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        switch source {
+        case .none:
+            self.typeOfSetting = .Source
+            self.settingArray = self.sourceArray
+            showSelectSettingVC()
+        case .User:
+            
+            switch timeInterval {
+            case .Daily:
                 switch indexPath.row {
                 case 0:
                     self.typeOfSetting = .Source
                     self.settingArray = self.sourceArray
                     showSelectSettingVC()
                 case 1:
-                    self.typeOfSetting = .Service
-                    self.showIntegratedServicesVC()
+                    self.typeOfSetting = .Departament
+                    self.settingArray = self.departmentArray
+                    showSelectSettingVC()
+                case 2:
+                    if self.department == .none {
+                        self.showAlert(title: "Error", message: "First select a department please")
+                        tableView.deselectRow(at: indexPath, animated: true)
+                    } else {
+                        self.typeOfSetting = .KPI
+                        self.settingArray = self.kpiArray
+                        showSelectSettingVC()
+                    }
+                    
+                case 3:
+                    self.typeOfSetting = .Executant
+                    self.settingArray = self.executantArray
+                    showSelectSettingVC()
+                case 4:
+                    self.typeOfSetting = .TimeInterval
+                    self.settingArray = self.timeIntervalArray
+                    showSelectSettingVC()
+                case 5:
+                    self.typeOfSetting = .TimeZone
+                    self.settingArray = self.timeZoneArray
+                    showSelectSettingVC()
+                    //                case 6:
+                    //                    SuggestedCell.headerOfCell.text = "Deadline"
+                //                    SuggestedCell.descriptionOfCell.text = "12:15AM"
+                default:
+                    break
+                }
+            default:
+                switch indexPath.row {
+                case 0:
+                    self.typeOfSetting = .Source
+                    self.settingArray = self.sourceArray
+                    showSelectSettingVC()
+                case 1:
+                    self.typeOfSetting = .Departament
+                    self.settingArray = self.departmentArray
+                    showSelectSettingVC()
+                case 2:
+                    if self.department == .none {
+                        self.showAlert(title: "Error", message: "First select a department please")
+                        tableView.deselectRow(at: indexPath, animated: true)
+                    } else {
+                        self.typeOfSetting = .KPI
+                        self.settingArray = self.kpiArray
+                        showSelectSettingVC()
+                    }
+                case 3:
+                    self.typeOfSetting = .Executant
+                    self.settingArray = self.executantArray
+                    showSelectSettingVC()
+                case 4:
+                    self.typeOfSetting = .TimeInterval
+                    self.settingArray = self.timeIntervalArray
+                    showSelectSettingVC()
+                case 5:
+                    switch self.timeInterval {
+                    case .Weekly:
+                        self.typeOfSetting = .WeeklyInterval
+                        self.settingArray = self.weeklyArray
+                        showSelectSettingVC()
+                    case .Monthly:
+                        self.typeOfSetting = .MounthlyInterval
+                        self.settingArray = self.mounthlyIntervalArray
+                        showSelectSettingVC()
+                    default:
+                        break
+                    }
+                case 6:
+                    self.typeOfSetting = .TimeZone
+                    self.settingArray = self.timeZoneArray
+                    showSelectSettingVC()
                 default:
                     break
                 }
             }
-        case 1:
-            self.tapSaveButton()
-        case 2:
-            let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "CreateNewKPI") as! CreateNewKPITableViewController
-            navigationController?.pushViewController(destinatioVC, animated: true)
-        default:
-            break
+            
+            
+        case .Integrated:
+            switch indexPath.row {
+            case 0:
+                self.typeOfSetting = .Source
+                self.settingArray = self.sourceArray
+                showSelectSettingVC()
+            case 1:
+                self.typeOfSetting = .Service
+                self.showIntegratedServicesVC()
+            default:
+                break
+            }
         }
+        
+        
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return " "
-        } else {
-            return nil
-        }
+        return " "
     }
     
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.font = UIFont(name: "Helvetica Neue", size: 13)
         header.textLabel?.textColor = UIColor.lightGray
     }
     
-    func tapSaveButton() {
-        if source == .none || (source == .Integrated && integrated == .none)/* || (add for user)*/ {
-        let alertController = UIAlertController(title: "Error", message: "One ore more parameters are not selected", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alertController, animated: true, completion: nil)
-            return
-        }
+    @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
         
         var kpi: KPI!
         
         switch source {
         case .Integrated:
+            
+            if source == .none || (source == .Integrated && integrated == .none) {
+                self.showAlert(title: "Error", message: "One ore more parameters are not selected")
+                return
+            }
             
             let imageForKPIList: ImageForKPIList
             
@@ -275,8 +622,14 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
             
             let integratedKPI = IntegratedKPI(service: self.integrated, saleForceKPIs: saleForceKPIs, quickBookKPIs: quickBooksKPIs, googleAnalytics: googleAnalyticsKPIs, hubSpotCRMKPIs: hubspotCRMKPIs, payPalKPIs: paypalKPIs, hubSpotMarketingKPIs: hubspotMarketingKPIs)
             kpi = KPI(typeOfKPI: .IntegratedKPI, integratedKPI: integratedKPI, createdKPI: nil, image: imageForKPIList )
+        case .User:
+            if self.department == .none || self.selectedKPI == nil || self.executant == nil || (self.timeInterval == TimeInterval.Daily && (self.weeklyInterval == WeeklyInterval.none || self.mounthlyInterval == nil)) || self.timeZone == nil || self.deadline == nil {
+                showAlert(title: "Error", message: "One ore more parameters are not selected")
+                return
+            }
         default:
-            break
+            self.showAlert(title: "Error", message: "Select a Sourse please")
+            return
         }
         
         self.delegate = self.KPIListVC
@@ -292,6 +645,9 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
         destinatioVC.ChoseSuggestedVC = self
         destinatioVC.selectSetting = settingArray
         switch typeOfSetting {
+        case .KPI:
+            destinatioVC.rowsWithInfoAccesory = true
+            destinatioVC.department = self.department
         default:
             break
         }
@@ -377,6 +733,43 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
             default:
                 break
             }
+        case .Departament:
+            let oldDepartmentValue = self.department
+            self.departmentArray = array
+            if oldDepartmentValue != self.department {
+                self.updateKPIArray()
+            }
+            
+        case .KPI:
+            self.kpiArray = array
+        case .Executant:
+            self.executantArray = array
+        case .TimeInterval:
+            let oldTimeIntervalValue = self.timeInterval
+            self.timeIntervalArray = array
+            if oldTimeIntervalValue != self.timeInterval {
+                switch timeInterval {
+                case .Weekly:
+                    for day in 0..<self.weeklyArray.count {
+                        self.weeklyArray[day].value = false
+                    }
+                case .Monthly:
+                    self.mounthlyIntervalArray.removeAll()
+                    for i in 1...31 {
+                        let element = ("\(i)", false)
+                        self.mounthlyIntervalArray.append(element)
+                    }
+                default:
+                    break
+                }
+            }
+            
+        case .MounthlyInterval:
+            self.mounthlyIntervalArray = array
+        case .WeeklyInterval:
+            self.weeklyArray = array
+        case .TimeZone:
+            self.timeZoneArray = array
         default:
             return
         }
@@ -389,7 +782,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
     func updateStringValue(string: String?) {
         switch typeOfSetting {
         default:
-            print(string ?? "optional")
+            break
         }
     }
 }

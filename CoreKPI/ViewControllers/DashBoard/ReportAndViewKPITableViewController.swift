@@ -10,7 +10,6 @@ import UIKit
 
 enum ButtonDidTaped: String {
     case Report
-    case View
     case Edit
 }
 
@@ -25,11 +24,9 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
     override func viewDidLoad() {
         super.viewDidLoad()
         switch buttonDidTaped {
-        case .View:
+        case .Edit:
             tableView.estimatedRowHeight = 44.0
             tableView.rowHeight = UITableViewAutomaticDimension
-        case .Edit:
-            break
         default:
             dictionary = (kpi.createdKPI?.number)!
         }
@@ -46,8 +43,6 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
     override func numberOfSections(in tableView: UITableView) -> Int {
         switch buttonDidTaped {
         case .Report:
-            return 1
-        case .View:
             return 2
         case .Edit:
             return 2
@@ -57,8 +52,6 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch buttonDidTaped {
         case .Report:
-            return (kpi.createdKPI?.number.count)! + 1
-        case .View:
             switch section {
             case 0:
                 return 5
@@ -67,6 +60,16 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             default:
                 return 0
             }
+            //return (kpi.createdKPI?.number.count)! + 1
+//        case .View:
+//            switch section {
+//            case 0:
+//                return 5
+//            case 1:
+//                return 1
+//            default:
+//                return 0
+//            }
         case .Edit:
             switch section {
             case 0:
@@ -85,17 +88,6 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ReportAndViewTableViewCell
         switch buttonDidTaped {
         case .Report:
-            cell.selectionStyle = .none
-            switch indexPath.row {
-            case 0:
-                cell.headerOfCell.text = "Days"
-                cell.descriptionOfCell.text = "Data"
-            default:
-                let first = dictionary.popFirst()
-                cell.headerOfCell.text = first?.key
-                cell.descriptionOfCell.text = "\((first?.value)!)"
-            }
-        case .View:
             switch indexPath.section {
             case 0:
                 cell.selectionStyle = .none
@@ -122,6 +114,43 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             default:
                 break
             }
+//            cell.selectionStyle = .none
+//            switch indexPath.row {
+//            case 0:
+//                cell.headerOfCell.text = "Days"
+//                cell.descriptionOfCell.text = "Data"
+//            default:
+//                let first = dictionary.popFirst()
+//                cell.headerOfCell.text = first?.key
+//                cell.descriptionOfCell.text = "\((first?.value)!)"
+//            }
+//        case .View:
+//            switch indexPath.section {
+//            case 0:
+//                cell.selectionStyle = .none
+//                cell.descriptionOfCell.text = ""
+//                switch indexPath.row {
+//                case 0:
+//                    cell.headerOfCell.text = kpi.createdKPI?.descriptionOfKPI
+//                case 1:
+//                    cell.headerOfCell.text = kpi.createdKPI?.department
+//                case 2:
+//                    cell.headerOfCell.text = kpi.createdKPI?.timeInterval
+//                case 3:
+//                    cell.headerOfCell.text = kpi.createdKPI?.timeZone
+//                case 4:
+//                    cell.headerOfCell.text = kpi.createdKPI?.deadline
+//                default:
+//                    break
+//                }
+//            case 1:
+//                cell.selectionStyle = .default
+//                cell.headerOfCell.text = "My Report"
+//                cell.descriptionOfCell.text = report ?? "Add report"
+//                cell.accessoryType = .disclosureIndicator
+//            default:
+//                break
+//            }
         case .Edit:
             switch indexPath.section {
             case 0:
@@ -176,7 +205,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch buttonDidTaped {
-        case .View:
+        case .Report:
             switch indexPath.section {
             case 1:
                 let destinationVC = storyboard?.instantiateViewController(withIdentifier: "AddReport") as! AddReportTableViewController
@@ -186,8 +215,6 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             }
         case .Edit:
             print("Coming soon")
-        default:
-            break
         }
    
     }
