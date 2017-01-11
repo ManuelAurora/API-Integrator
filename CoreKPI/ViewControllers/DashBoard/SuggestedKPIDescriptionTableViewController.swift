@@ -109,7 +109,7 @@ class SuggestedKPIDescriptionTableViewController: UITableViewController {
     @IBAction func tapSelectButton(_ sender: UIBarButtonItem) {
         delegate = ChoseSuggestedVC
         delegate.updateSettingsArray(array: selectSetting)
-        let vc = self.navigationController?.viewControllers[2] as! ChooseSuggestedKPITableViewController
+        let vc = self.navigationController?.viewControllers[1] as! ChooseSuggestedKPITableViewController
         _ = self.navigationController?.popToViewController(vc, animated: true)
     }
 

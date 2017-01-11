@@ -107,6 +107,9 @@ struct CreatedKPI {
     var timeZone: String
     var deadline: String
     var number: [String : Int]
+    mutating func addReport(report: Int) {
+        number["Today"] = report
+    }
 }
 
 struct KPI {
@@ -323,17 +326,22 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         self.kpiList.append(kpi)
         self.tableView.reloadData()
     }
+    func updateKPIList(kpiArray: [KPI]) {
+        self.kpiList = kpiArray
+        self.tableView.reloadData()
+    }
     
     //MARK: - KPIListButtonCellDelegate methods
     func editButtonDidTaped(sender: UIButton) {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ReportAndViewKPI") as! ReportAndViewKPITableViewController
-        destinatioVC.kpi = kpiList[sender.tag]
+        destinatioVC.kpiIndex = sender.tag
         destinatioVC.buttonDidTaped = ButtonDidTaped.Edit
         navigationController?.pushViewController(destinatioVC, animated: true)
     }
     func reportButtonDidTaped(sender: UIButton) {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ReportAndViewKPI") as! ReportAndViewKPITableViewController
-        destinatioVC.kpi = kpiList[sender.tag]
+        destinatioVC.kpiIndex = sender.tag
+        destinatioVC.kpiArray = self.kpiList
         destinatioVC.buttonDidTaped = ButtonDidTaped.Report
         navigationController?.pushViewController(destinatioVC, animated: true)
         

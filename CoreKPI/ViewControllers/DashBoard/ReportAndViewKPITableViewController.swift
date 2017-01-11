@@ -13,25 +13,25 @@ enum ButtonDidTaped: String {
     case Edit
 }
 
-class ReportAndViewKPITableViewController: UITableViewController, updateSettingsArrayDelegate {
+class ReportAndViewKPITableViewController: UITableViewController {
     
-    var kpi: KPI!
-    var dictionary: [String : Int] = [:]
+    var kpiIndex: Int!
+    var kpiArray: [KPI] = []
     var buttonDidTaped = ButtonDidTaped.Report
-    
-    var report: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         switch buttonDidTaped {
+        case .Report:
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+            self.navigationItem.title = "Report KPI"
         case .Edit:
+            self.navigationItem.rightBarButtonItem?.title = "Save"
             tableView.estimatedRowHeight = 44.0
             tableView.rowHeight = UITableViewAutomaticDimension
-        default:
-            dictionary = (kpi.createdKPI?.number)!
+            self.navigationItem.title = "KPI Edit"
         }
-        
-        
+        tableView.autoresizesSubviews = true
         tableView.tableFooterView = UIView(frame: .zero)
     }
     
@@ -45,7 +45,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         case .Report:
             return 2
         case .Edit:
-            return 2
+            return 3
         }
     }
     
@@ -60,22 +60,16 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             default:
                 return 0
             }
-            //return (kpi.createdKPI?.number.count)! + 1
-//        case .View:
-//            switch section {
-//            case 0:
-//                return 5
-//            case 1:
-//                return 1
-//            default:
-//                return 0
-//            }
         case .Edit:
             switch section {
             case 0:
                 return 4
+            case 1:
+                return 0
+            case 2:
+                return 0
             default:
-                return 2
+                return 0
             }
         }
         
@@ -94,22 +88,24 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                 cell.descriptionOfCell.text = ""
                 switch indexPath.row {
                 case 0:
-                    cell.headerOfCell.text = kpi.createdKPI?.descriptionOfKPI
+                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.descriptionOfKPI
+                    cell.headerOfCell.textColor = UIColor.gray
+                    cell.headerOfCell.numberOfLines = 0
                 case 1:
-                    cell.headerOfCell.text = kpi.createdKPI?.department
+                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.department
                 case 2:
-                    cell.headerOfCell.text = kpi.createdKPI?.timeInterval
+                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.timeInterval
                 case 3:
-                    cell.headerOfCell.text = kpi.createdKPI?.timeZone
+                    cell.headerOfCell.text = "Time zone: " + (kpiArray[kpiIndex].createdKPI?.timeZone)!
                 case 4:
-                    cell.headerOfCell.text = kpi.createdKPI?.deadline
+                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.deadline
                 default:
                     break
                 }
             case 1:
                 cell.selectionStyle = .default
                 cell.headerOfCell.text = "My Report"
-                cell.descriptionOfCell.text = report ?? "Add report"
+                cell.descriptionOfCell.text = "Add report"
                 cell.accessoryType = .disclosureIndicator
             default:
                 break
@@ -158,13 +154,13 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                 cell.descriptionOfCell.text = ""
                 switch indexPath.row {
                 case 0:
-                    cell.headerOfCell.text = kpi.createdKPI?.department
+                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.department
                 case 1:
-                    cell.headerOfCell.text = kpi.createdKPI?.timeInterval
+                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.timeInterval
                 case 2:
-                    cell.headerOfCell.text = kpi.createdKPI?.timeZone
+                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.timeZone
                 case 3:
-                    cell.headerOfCell.text = kpi.createdKPI?.deadline
+                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.deadline
                 default:
                     break
                 }
@@ -191,7 +187,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
-            return kpi.createdKPI?.KPI
+            return kpiArray[kpiIndex].createdKPI?.KPI
         default:
             return " "
         }
@@ -209,6 +205,9 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             switch indexPath.section {
             case 1:
                 let destinationVC = storyboard?.instantiateViewController(withIdentifier: "AddReport") as! AddReportTableViewController
+                //destinationVC.report = self.newReport
+                destinationVC.kpiArray = self.kpiArray
+                destinationVC.kpiIndex = self.kpiIndex
                 navigationController?.pushViewController(destinationVC, animated: true)
             default:
                 break
@@ -219,14 +218,25 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
    
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    @IBAction func tapRightBarButton(_ sender: UIBarButtonItem) {
+        switch buttonDidTaped {
+        case .Report:
+            break
+        case .Edit:
+            break
+        }
+    }
+    
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     }
     
-    func updateStringValue(string: String?) {
-        self.report = string
-    }
-    func updateSettingsArray(array: [(SettingName: String, value: Bool)]) {
-    }
     
 }

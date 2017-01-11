@@ -83,6 +83,7 @@
 		A2C9FD2A1E13E1D400433D43 /* round.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD281E13E1D400433D43 /* round.js */; };
 		A2F0B1181E0C1B110095580B /* CoreKPIDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F0B1171E0C1B110095580B /* CoreKPIDelegates.swift */; };
 		A2FB1AA21E252C110045824A /* KPIDescriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FB1AA11E252C110045824A /* KPIDescriptionTableViewCell.swift */; };
+		A2FB98A41E25FE6900A856E8 /* KPISettingInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FB98A31E25FE6900A856E8 /* KPISettingInputTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -198,6 +199,7 @@
 		A2C9FD281E13E1D400433D43 /* round.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = round.js; path = "Graphics/Круговой/js/round.js"; sourceTree = "<group>"; };
 		A2F0B1171E0C1B110095580B /* CoreKPIDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreKPIDelegates.swift; sourceTree = "<group>"; };
 		A2FB1AA11E252C110045824A /* KPIDescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIDescriptionTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPIDescriptionTableViewCell.swift; sourceTree = "<group>"; };
+		A2FB98A31E25FE6900A856E8 /* KPISettingInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPISettingInputTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPISettingInputTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -432,8 +434,8 @@
 				A2279D851E14EC3B00669EB0 /* DashboardsNavigationViewController.swift */,
 				A2ACBD401E0D1DFA0079EF3D /* KPIsListTableViewController.swift */,
 				A261D9171E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift */,
-				A258A70C1E21177000FBFBDF /* SelectIntegratedServicesViewController.swift */,
 				A258A70A1E20D47700FBFBDF /* KPISelectSettingTableViewController.swift */,
+				A258A70C1E21177000FBFBDF /* SelectIntegratedServicesViewController.swift */,
 				A261D91F1E12A81000638C56 /* SuggestedKPIDescriptionTableViewController.swift */,
 				A26408F11E22394F0034EEC2 /* ReportAndViewKPITableViewController.swift */,
 				A26408F51E2271330034EEC2 /* AddReportTableViewController.swift */,
@@ -495,6 +497,7 @@
 				A261D91B1E129F1600638C56 /* DashboardSetingTableViewCell.swift */,
 				A26408F31E2239910034EEC2 /* ReportAndViewTableViewCell.swift */,
 				A2FB1AA11E252C110045824A /* KPIDescriptionTableViewCell.swift */,
+				A2FB98A31E25FE6900A856E8 /* KPISettingInputTableViewCell.swift */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -740,6 +743,7 @@
 				A2A215511E124AB800EEBCA2 /* AlertSettingTableViewCell.swift in Sources */,
 				A26408F61E2271330034EEC2 /* AddReportTableViewController.swift in Sources */,
 				A261D91C1E129F1600638C56 /* DashboardSetingTableViewCell.swift in Sources */,
+				A2FB98A41E25FE6900A856E8 /* KPISettingInputTableViewCell.swift in Sources */,
 				A2279D841E14EBF200669EB0 /* AlertsNavigationViewController.swift in Sources */,
 				A22302C51E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift in Sources */,
 				A2425CB41E1CE8EE00DFDF91 /* UIImageExtension.swift in Sources */,

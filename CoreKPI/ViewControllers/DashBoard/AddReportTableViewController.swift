@@ -13,9 +13,10 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var numberOfCharactersLabel: UILabel!
     @IBOutlet weak var reportTextField: UITextField!
     
-    var kpi: KPI!
-    var report: String?
-    var KPIListVC: KPIsListTableViewController!
+    var kpiArray: [KPI] = []
+    var kpiIndex: Int!
+    var report: Int?
+    weak var KPIListVC: KPIsListTableViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +47,13 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     @IBAction func tapAddReportButton(_ sender: UIButton) {
-        print("save")
+        var newCreated = kpiArray[kpiIndex].createdKPI
+        newCreated?.addReport(report: report!)
+        kpiArray[kpiIndex].createdKPI = newCreated
+        let delegate: updateKPIListDelegate = self.KPIListVC
+        delegate.updateKPIList(kpiArray: self.kpiArray)
+        let kpiListViewController = self.navigationController?.viewControllers[0]
+        _ = self.navigationController?.popToViewController(kpiListViewController!, animated: true)
     }
 
     //MARK: - UITextFieldDelegate method
@@ -57,7 +64,11 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
         if txtAfterUpdate == "" {
             self.report = nil
         } else {
-            self.report = txtAfterUpdate
+//            guard self.report = Int(txtAfterUpdate) else {
+//                let alertController = UIAlertController(title: "Error", message: "Data incorect", preferredStyle: .alert)
+//                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//                self.present(alertController, animated: true, completion: nil)
+//            }
         }
         
         self.numberOfCharactersLabel.text = "\(140 - txtAfterUpdate.characters.count)"

@@ -9,9 +9,10 @@
 import UIKit
 
 class DashboardSetingTableViewCell: UITableViewCell {
+    
     @IBOutlet weak var headerOfCell: UILabel!
-
     @IBOutlet weak var descriptionOfCell: UILabel!
+    @IBOutlet weak var trailingToRightConstraint: NSLayoutConstraint!
     
     override func awakeFromNib() {
         super.awakeFromNib()

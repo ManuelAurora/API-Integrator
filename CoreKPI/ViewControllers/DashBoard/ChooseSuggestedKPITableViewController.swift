@@ -23,14 +23,16 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
     
     var model: ModelCoreKPI!
     var request: Request!
-    var KPIListVC: KPIsListTableViewController!
+    weak var KPIListVC: KPIsListTableViewController!
     
     enum TypeOfSetting: String {
         case none
         case Source
         case Service
         case Departament
-        case KPI
+        case SuggestedKPI = "Suggested KPI"
+        case KPIName = "KPI name"
+        case KPINote = "KPI note"
         case Executant
         case TimeInterval = "Time interval"
         case WeeklyInterval
@@ -69,15 +71,9 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
         return Departments.none
     }
     var departmentArray: [(SettingName: String, value: Bool)] = [(Departments.Sales.rawValue, false), (Departments.Procurement.rawValue, false), (Departments.Projects.rawValue, false), (Departments.FinancialManagement.rawValue, false), (Departments.Staff.rawValue, false)]
-    var selectedKPI: String? {
-        for kpi in kpiArray {
-            if kpi.value == true {
-                return kpi.SettingName
-            }
-        }
-        return nil
-    }
+    var kpiName: String?
     var kpiArray: [(SettingName: String, value: Bool)] = []
+    var kpiDescription: String?
     
     var executant: String? {
         for member in executantArray {
@@ -130,7 +126,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
     }
     var timeZoneArray: [(SettingName: String, value: Bool)] = [("Hawaii Time (HST)",false), ("Alaska Time (AKST)", false), ("Pacific Time (PST)",false), ("Mountain Time (MST)", false), ("Central Time (CST)", false), ("Eastern Time (EST)",false)]
     
-    var deadline: String?
+    var deadline: String? = "10:15AM"
     
     var typeOfSetting = TypeOfSetting.none
     var settingArray: [(SettingName: String, value: Bool)] = []
@@ -316,9 +312,9 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
         case .User:
             switch timeInterval {
             case .Daily:
-                return 7
+                return 9
             default:
-                return 8
+                return 10
             }
         case .Integrated:
             var numberOfKPIs = 0
@@ -350,13 +346,16 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
+        
         switch source {
         case .none:
             SuggestedCell.headerOfCell.text = "Source"
             SuggestedCell.descriptionOfCell.text = source.rawValue
         case .User:
-            
+            SuggestedCell.accessoryType = .disclosureIndicator
+            SuggestedCell.trailingToRightConstraint.constant = 0
             switch timeInterval {
             case .Daily:
                 switch indexPath.row {
@@ -367,18 +366,28 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
                     SuggestedCell.headerOfCell.text = "Department"
                     SuggestedCell.descriptionOfCell.text = department.rawValue
                 case 2:
-                    SuggestedCell.headerOfCell.text = "KPI"
-                    SuggestedCell.descriptionOfCell.text = selectedKPI ?? "Choose KPI"
+                    SuggestedCell.headerOfCell.text = "Select suggested KPI"
+                    SuggestedCell.descriptionOfCell.text = "(Optional)"
                 case 3:
+                    SuggestedCell.headerOfCell.text = "KPI Name"
+                    SuggestedCell.descriptionOfCell.text = self.kpiName ?? "Add name"
+                case 4:
+                    let DescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell", for: indexPath) as! KPIDescriptionTableViewCell
+                    DescriptionCell.headerOfCellLabel.text = "KPI Note"
+                    DescriptionCell.descriptionOfCellLabel.text = self.kpiDescription == nil ? "Add note (Optional)" : ""
+                    DescriptionCell.kpiInfoTextLabel.text = self.kpiDescription ?? ""
+                    DescriptionCell.prepareForReuse()
+                    return DescriptionCell
+                case 5:
                     SuggestedCell.headerOfCell.text = "Executant"
                     SuggestedCell.descriptionOfCell.text = self.executant ?? "Choose"
-                case 4:
+                case 6:
                     SuggestedCell.headerOfCell.text = "Time Interval"
                     SuggestedCell.descriptionOfCell.text = timeInterval.rawValue
-                case 5:
+                case 7:
                     SuggestedCell.headerOfCell.text = "Time Zone"
                     SuggestedCell.descriptionOfCell.text = timeZone ?? "Select"
-                case 6:
+                case 8:
                     SuggestedCell.headerOfCell.text = "Deadline"
                     SuggestedCell.descriptionOfCell.text = "12:15AM"
                 default:
@@ -393,15 +402,25 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
                     SuggestedCell.headerOfCell.text = "Department"
                     SuggestedCell.descriptionOfCell.text = department.rawValue
                 case 2:
-                    SuggestedCell.headerOfCell.text = "KPI"
-                    SuggestedCell.descriptionOfCell.text = selectedKPI ?? "Choose KPI"
+                    SuggestedCell.headerOfCell.text = "KPI Name"
+                    SuggestedCell.descriptionOfCell.text = kpiName ?? "Add name"
                 case 3:
+                    SuggestedCell.headerOfCell.text = "KPI Name"
+                    SuggestedCell.descriptionOfCell.text = self.kpiName ?? "Add name"
+                case 4:
+                    let DescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell", for: indexPath) as! KPIDescriptionTableViewCell
+                    DescriptionCell.headerOfCellLabel.text = "KPI Note"
+                    DescriptionCell.descriptionOfCellLabel.text = self.kpiDescription == nil ? "Add note (Optional)" : ""
+                    DescriptionCell.kpiInfoTextLabel.text = self.kpiDescription ?? ""
+                    DescriptionCell.prepareForReuse()
+                    return DescriptionCell
+                case 5:
                     SuggestedCell.headerOfCell.text = "Executant"
                     SuggestedCell.descriptionOfCell.text = self.executant ?? "Choose"
-                case 4:
+                case 6:
                     SuggestedCell.headerOfCell.text = "Time Interval"
                     SuggestedCell.descriptionOfCell.text = timeInterval.rawValue
-                case 5:
+                case 7:
                     SuggestedCell.headerOfCell.text = "Day"
                     var text = ""
                     switch timeInterval {
@@ -419,10 +438,10 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
                         break
                     }
                     SuggestedCell.descriptionOfCell.text = text
-                case 6:
+                case 8:
                     SuggestedCell.headerOfCell.text = "Time Zone"
                     SuggestedCell.descriptionOfCell.text = timeZone ?? "Select"
-                case 7:
+                case 9:
                     SuggestedCell.headerOfCell.text = "Deadline"
                     SuggestedCell.descriptionOfCell.text = "12:15AM"
                 default:
@@ -443,6 +462,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
                 SuggestedCell.headerOfCell.text = "KPI \(indexPath.row - 1)"
                 SuggestedCell.accessoryType = .none
                 SuggestedCell.selectionStyle = .none
+                SuggestedCell.trailingToRightConstraint.constant = 16.0
                 switch integrated {
                 case .SalesForce:
                     SuggestedCell.descriptionOfCell.text = saleForceKPIs[indexPath.row - 2].rawValue
@@ -461,6 +481,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
                 }
             }
         }
+        SuggestedCell.prepareForReuse()
         return SuggestedCell
     }
     
@@ -489,20 +510,25 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
                         self.showAlert(title: "Error", message: "First select a department please")
                         tableView.deselectRow(at: indexPath, animated: true)
                     } else {
-                        self.typeOfSetting = .KPI
+                        self.typeOfSetting = .SuggestedKPI
                         self.settingArray = self.kpiArray
                         showSelectSettingVC()
                     }
-                    
                 case 3:
+                    self.typeOfSetting = .KPIName
+                    self.showSelectSettingVC()
+                case 4:
+                    self.typeOfSetting = .KPINote
+                    self.showSelectSettingVC()
+                case 5:
                     self.typeOfSetting = .Executant
                     self.settingArray = self.executantArray
                     showSelectSettingVC()
-                case 4:
+                case 6:
                     self.typeOfSetting = .TimeInterval
                     self.settingArray = self.timeIntervalArray
                     showSelectSettingVC()
-                case 5:
+                case 7:
                     self.typeOfSetting = .TimeZone
                     self.settingArray = self.timeZoneArray
                     showSelectSettingVC()
@@ -527,19 +553,23 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
                         self.showAlert(title: "Error", message: "First select a department please")
                         tableView.deselectRow(at: indexPath, animated: true)
                     } else {
-                        self.typeOfSetting = .KPI
+                        self.typeOfSetting = .SuggestedKPI
                         self.settingArray = self.kpiArray
                         showSelectSettingVC()
                     }
                 case 3:
+                    break
+                case 4:
+                    break
+                case 5:
                     self.typeOfSetting = .Executant
                     self.settingArray = self.executantArray
                     showSelectSettingVC()
-                case 4:
+                case 6:
                     self.typeOfSetting = .TimeInterval
                     self.settingArray = self.timeIntervalArray
                     showSelectSettingVC()
-                case 5:
+                case 7:
                     switch self.timeInterval {
                     case .Weekly:
                         self.typeOfSetting = .WeeklyInterval
@@ -552,7 +582,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
                     default:
                         break
                     }
-                case 6:
+                case 8:
                     self.typeOfSetting = .TimeZone
                     self.settingArray = self.timeZoneArray
                     showSelectSettingVC()
@@ -560,8 +590,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
                     break
                 }
             }
-            
-            
         case .Integrated:
             switch indexPath.row {
             case 0:
@@ -575,8 +603,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
                 break
             }
         }
-        
-        
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -589,6 +615,15 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
         header.textLabel?.textColor = UIColor.lightGray
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    //MARK: - Save KPI
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
         
         var kpi: KPI!
@@ -623,10 +658,22 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
             let integratedKPI = IntegratedKPI(service: self.integrated, saleForceKPIs: saleForceKPIs, quickBookKPIs: quickBooksKPIs, googleAnalytics: googleAnalyticsKPIs, hubSpotCRMKPIs: hubspotCRMKPIs, payPalKPIs: paypalKPIs, hubSpotMarketingKPIs: hubspotMarketingKPIs)
             kpi = KPI(typeOfKPI: .IntegratedKPI, integratedKPI: integratedKPI, createdKPI: nil, image: imageForKPIList )
         case .User:
-            if self.department == .none || self.selectedKPI == nil || self.executant == nil || (self.timeInterval == TimeInterval.Daily && (self.weeklyInterval == WeeklyInterval.none || self.mounthlyInterval == nil)) || self.timeZone == nil || self.deadline == nil {
+            if self.department == .none || self.kpiName == nil || self.executant == nil || (self.timeInterval != TimeInterval.Daily && (self.weeklyInterval == WeeklyInterval.none || self.mounthlyInterval == nil)) || self.timeZone == nil || self.deadline == nil {
                 showAlert(title: "Error", message: "One ore more parameters are not selected")
                 return
             }
+            
+            var executantProfile: Profile!
+            
+            for profile in memberlistArray {
+                if self.executant?.components(separatedBy: " ")[0] == profile.firstName && self.executant?.components(separatedBy: " ")[1] == profile.lastName {
+                    executantProfile = profile
+                }
+            }
+            
+            let userKPI = CreatedKPI(source: .User, department: self.department.rawValue, KPI: self.kpiName!, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval.rawValue, timeZone: self.timeZone!, deadline: self.deadline!, number: [:])
+            kpi = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: userKPI, image: nil)
+            
         default:
             self.showAlert(title: "Error", message: "Select a Sourse please")
             return
@@ -645,9 +692,17 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
         destinatioVC.ChoseSuggestedVC = self
         destinatioVC.selectSetting = settingArray
         switch typeOfSetting {
-        case .KPI:
+        case .SuggestedKPI:
             destinatioVC.rowsWithInfoAccesory = true
             destinatioVC.department = self.department
+        case .KPIName:
+            destinatioVC.inputSettingCells = true
+            destinatioVC.textFieldInputData = self.kpiName
+            destinatioVC.headerForTableView = "KPI name"
+        case .KPINote:
+            destinatioVC.inputSettingCells = true
+            destinatioVC.textFieldInputData = self.kpiDescription
+            destinatioVC.headerForTableView = "KPI note"
         default:
             break
         }
@@ -739,9 +794,41 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
             if oldDepartmentValue != self.department {
                 self.updateKPIArray()
             }
-            
-        case .KPI:
+        case .SuggestedKPI:
             self.kpiArray = array
+            //update kpi name
+            var kpiNameDidChanged = false
+            for kpi in self.kpiArray {
+                if kpi.value == true {
+                    self.kpiName = kpi.SettingName
+                    kpiNameDidChanged = true
+                }
+            }
+            if !kpiNameDidChanged {
+                self.kpiName = nil
+            }
+            //upadate kpi description
+            let buildInKPI = BuildInKPI(department: self.department)
+            var dictionary: [String: String]!
+            switch department {
+            case .none:
+                self.kpiDescription = nil
+            case .Sales:
+                dictionary = buildInKPI.salesDictionary
+            case .Procurement:
+                dictionary = buildInKPI.procurementDictionary
+            case .FinancialManagement:
+                dictionary = buildInKPI.financialManagementDictionary
+            case .Projects:
+                dictionary = buildInKPI.projectDictionary
+            case .Staff:
+                dictionary = buildInKPI.staffDictionary
+            }
+            if self.kpiName != nil {
+                self.kpiDescription = dictionary[self.kpiName!]
+            } else {
+                self.kpiDescription = nil
+            }
         case .Executant:
             self.executantArray = array
         case .TimeInterval:
@@ -781,8 +868,13 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
     
     func updateStringValue(string: String?) {
         switch typeOfSetting {
+        case .KPIName:
+            self.kpiName = string
+        case .KPINote:
+            self.kpiDescription = string
         default:
-            break
+            return
         }
+        tableView.reloadData()
     }
 }

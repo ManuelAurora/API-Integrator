@@ -13,6 +13,7 @@ class KPIDescriptionTableViewCell: UITableViewCell {
     @IBOutlet weak var headerOfCellLabel: UILabel!
     @IBOutlet weak var descriptionOfCellLabel: UILabel!
     @IBOutlet weak var kpiInfoTextLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

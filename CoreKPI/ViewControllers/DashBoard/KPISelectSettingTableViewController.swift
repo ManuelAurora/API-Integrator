@@ -8,7 +8,7 @@
 
 import UIKit
 
-class KPISelectSettingTableViewController: UITableViewController {
+class KPISelectSettingTableViewController: UITableViewController, UITextViewDelegate {
     
     weak var ChoseSuggestedVC: ChooseSuggestedKPITableViewController!
     var selectSetting: [(SettingName: String, value: Bool)]!
@@ -32,6 +32,7 @@ class KPISelectSettingTableViewController: UITableViewController {
             self.tableView.alwaysBounceVertical = false
         }
         
+        tableView.autoresizesSubviews = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -94,14 +95,15 @@ class KPISelectSettingTableViewController: UITableViewController {
                 cell.accessoryType = selectSetting[indexPath.row].value ? .checkmark : .none
                 return cell
             } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "InputSettingCell", for: indexPath) as! AlertInputSettingTableViewCell
-                cell.inputDataTextField.placeholder = "Add data"
+                let cell = tableView.dequeueReusableCell(withIdentifier: "InputSettingCell", for: indexPath) as! KPISettingInputTableViewCell
+                if (self.textFieldInputData != nil) {
+                    cell.inputTextView.text = self.textFieldInputData
+                }
                 cell.accessoryType = .none
                 cell.selectionStyle = .none
                 return cell
             }
         }
-
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -158,16 +160,11 @@ class KPISelectSettingTableViewController: UITableViewController {
         let ChoseSuggestVC = self.navigationController?.viewControllers[1] as! ChooseSuggestedKPITableViewController
         _ = self.navigationController?.popToViewController(ChoseSuggestVC, animated: true)
     }
-    //MARK: - UITextFieldDelegate method
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let textFieldText: NSString = (textField.text ?? "") as NSString
-        let txtAfterUpdate = textFieldText.replacingCharacters(in: range, with: string)
-        if txtAfterUpdate != "" {
-            self.textFieldInputData = txtAfterUpdate
-        } else {
-            self.textFieldInputData = nil
-        }
-        return true
-    }
     
+    
+    func textViewDidChange(_ textView: UITextView) {
+        
+        self.textFieldInputData = textView.text
+        
+    }
 }

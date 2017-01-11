@@ -39,6 +39,7 @@ protocol updateAlertListDelegate {
 }
 
 protocol updateKPIListDelegate {
+    func updateKPIList(kpiArray: [KPI])
     func addNewKPI(kpi: KPI)
 }
 
