@@ -651,8 +651,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
                     executantProfile = profile
                 }
             }
-            
-            let userKPI = CreatedKPI(source: .User, department: self.department.rawValue, KPI: self.kpiName!, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval.rawValue, timeZone: self.timeZone!, deadline: self.deadline!, number: [])
+            let userKPI = CreatedKPI(source: .User, department: self.department, KPI: self.kpiName!, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, timeZone: self.timeZone!, deadline: self.deadline!, number: [])
             kpi = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: userKPI, imageBacgroundColour: UIColor.clear)
             
         default:
@@ -858,6 +857,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
         }
         tableView.reloadData()
     }
-    func updateIntValue(number: Int?) {
+    func updateDoubleValue(number: Double?) {
     }
 }

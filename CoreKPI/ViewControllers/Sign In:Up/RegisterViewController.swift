@@ -70,6 +70,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         if textField == repeatPasswordTextField {
             emailTextField.resignFirstResponder()
             passwordTextField.resignFirstResponder()
+            repeatPasswordTextField.resignFirstResponder()
             tapRegisterButton(registerButton)
         }
         return true

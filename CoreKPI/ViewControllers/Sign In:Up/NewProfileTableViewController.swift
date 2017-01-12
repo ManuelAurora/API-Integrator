@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewProfileTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, registerDelegate {
+class NewProfileTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, registerDelegate {
     
     var delegate: updateModelDelegate!
     
@@ -27,7 +27,6 @@ class NewProfileTableViewController: UITableViewController, UIImagePickerControl
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var positionTextField: UITextField!
-    @IBOutlet weak var typeOfAccountLabel: UILabel!
     @IBOutlet weak var profilePhotoImageView: UIImageView!
     
     override func viewDidLoad() {
@@ -194,6 +193,23 @@ class NewProfileTableViewController: UITableViewController, UIImagePickerControl
             self.profileImageBase64String = imageData.base64EncodedString(options: .lineLength64Characters)
         }
         dismiss(animated: true, completion: nil)
+    }
+    
+    //MARK: - UITextFieldDelegate method
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == firstNameTextField {
+            lastNameTextField.becomeFirstResponder()
+        }
+        if textField == lastNameTextField {
+            positionTextField.becomeFirstResponder()
+        }
+        if textField == positionTextField {
+            firstNameTextField.resignFirstResponder()
+            lastNameTextField.resignFirstResponder()
+            positionTextField.resignFirstResponder()
+            tapSaveButton(self.navigationItem.rightBarButtonItem!)
+        }
+        return true
     }
     
 }

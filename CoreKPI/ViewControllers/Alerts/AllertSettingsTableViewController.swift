@@ -318,7 +318,7 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
     
     //MARK: - updateSettingsArrayDelegate methods
     
-    func updateIntValue(number: Int?) {
+    func updateDoubleValue(number: Double?) {
     }
     
     func updateSettingsArray(array: [(SettingName: String, value: Bool)]) {

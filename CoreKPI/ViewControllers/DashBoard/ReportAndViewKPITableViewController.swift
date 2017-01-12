@@ -15,13 +15,23 @@ enum ButtonDidTaped: String {
 
 class ReportAndViewKPITableViewController: UITableViewController, updateSettingsDelegate {
     
-    var kpiIndex: Int!
-    var kpiArray: [KPI] = []
-    var buttonDidTaped = ButtonDidTaped.Report
+    var model: ModelCoreKPI!
     weak var KPIListVC: KPIsListTableViewController!
     var delegate: updateKPIListDelegate!
     
-    var report: Int?
+    var kpiIndex: Int!
+    var kpiArray: [KPI] = []
+    var buttonDidTaped = ButtonDidTaped.Report
+    
+    var typeOfAccount: TypeOfAccount {
+        if model.profile?.typeOfAccount == TypeOfAccount.Admin {
+            return TypeOfAccount.Admin
+        } else {
+            return TypeOfAccount.Manager
+        }
+    }
+    
+    var report: Double?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +58,17 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         case .Report:
             return 2
         case .Edit:
-            return 3
+            switch self.kpiArray[kpiIndex].typeOfKPI {
+            case .IntegratedKPI:
+                return 2
+            case .createdKPI:
+                switch typeOfAccount {
+                case .Admin:
+                    return 3
+                case .Manager:
+                    return 2
+                }
+            }
         }
     }
     
@@ -64,22 +84,56 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                 return 0
             }
         case .Edit:
-            switch section {
-            case 0:
-                return 4
-            case 1:
-                return 0
-            case 2:
-                return 0
-            default:
-                return 0
+            switch self.kpiArray[kpiIndex].typeOfKPI {
+            case .IntegratedKPI:
+                switch section {
+                case 0:
+                    return 1
+                case 1:
+                    return 3
+                default:
+                    return 0
+                }
+            case .createdKPI:
+                switch typeOfAccount {
+                case .Admin:
+                    switch section {
+                    case 0:
+                        return 1
+                    case 1:
+                        return 3
+                    case 2:
+                        let interval = kpiArray[kpiIndex].createdKPI?.timeInterval
+                        switch interval! {
+                        case .Daily:
+                            return 6 //+2 type of graphics
+                        default:
+                            return 7 //+2 type of graphics
+                        }
+                    default:
+                        return 0
+                    }
+                case .Manager:
+                    switch section {
+                    case 0:
+                        let interval = kpiArray[kpiIndex].createdKPI?.timeInterval
+                        switch interval! {
+                        case .Daily:
+                            return 4
+                        default:
+                            return 5
+                        }
+                    case 1:
+                        return 2 //+2 type of graphics
+                    default:
+                        return 0
+                    }
+                }
             }
         }
-        
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         
         let reuseIdentifier = "ReportAndViewCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ReportAndViewTableViewCell
@@ -95,9 +149,9 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                     cell.headerOfCell.textColor = UIColor.gray
                     cell.headerOfCell.numberOfLines = 0
                 case 1:
-                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.department
+                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.department.rawValue
                 case 2:
-                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.timeInterval
+                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.timeInterval.rawValue
                 case 3:
                     cell.headerOfCell.text = "Time zone: " + (kpiArray[kpiIndex].createdKPI?.timeZone)!
                 case 4:
@@ -117,43 +171,6 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             default:
                 break
             }
-            //            cell.selectionStyle = .none
-            //            switch indexPath.row {
-            //            case 0:
-            //                cell.headerOfCell.text = "Days"
-            //                cell.descriptionOfCell.text = "Data"
-            //            default:
-            //                let first = dictionary.popFirst()
-            //                cell.headerOfCell.text = first?.key
-            //                cell.descriptionOfCell.text = "\((first?.value)!)"
-            //            }
-            //        case .View:
-            //            switch indexPath.section {
-            //            case 0:
-            //                cell.selectionStyle = .none
-            //                cell.descriptionOfCell.text = ""
-            //                switch indexPath.row {
-            //                case 0:
-            //                    cell.headerOfCell.text = kpi.createdKPI?.descriptionOfKPI
-            //                case 1:
-            //                    cell.headerOfCell.text = kpi.createdKPI?.department
-            //                case 2:
-            //                    cell.headerOfCell.text = kpi.createdKPI?.timeInterval
-            //                case 3:
-            //                    cell.headerOfCell.text = kpi.createdKPI?.timeZone
-            //                case 4:
-            //                    cell.headerOfCell.text = kpi.createdKPI?.deadline
-            //                default:
-            //                    break
-            //                }
-            //            case 1:
-            //                cell.selectionStyle = .default
-            //                cell.headerOfCell.text = "My Report"
-            //                cell.descriptionOfCell.text = report ?? "Add report"
-            //                cell.accessoryType = .disclosureIndicator
-            //            default:
-            //                break
-            //            }
         case .Edit:
             switch indexPath.section {
             case 0:
@@ -161,9 +178,9 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                 cell.descriptionOfCell.text = ""
                 switch indexPath.row {
                 case 0:
-                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.department
+                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.department.rawValue
                 case 1:
-                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.timeInterval
+                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.timeInterval.rawValue
                 case 2:
                     cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.timeZone
                 case 3:
@@ -212,9 +229,6 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             switch indexPath.section {
             case 1:
                 let destinationVC = storyboard?.instantiateViewController(withIdentifier: "AddReport") as! AddReportTableViewController
-                //destinationVC.KPIListVC = self.KPIListVC
-                //                destinationVC.kpiArray = self.kpiArray
-                //                destinationVC.kpiIndex = self.kpiIndex
                 destinationVC.report = self.report
                 destinationVC.ReportAndViewVC = self
                 navigationController?.pushViewController(destinationVC, animated: true)
@@ -234,6 +248,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
+    
     @IBAction func tapRightBarButton(_ sender: UIBarButtonItem) {
         switch buttonDidTaped {
         case .Report:
@@ -253,7 +268,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
     }
     func updateSettingsArray(array: [(SettingName: String, value: Bool)]) {
     }
-    func updateIntValue(number: Int?) {
+    func updateDoubleValue(number: Double?) {
         self.report = number
         self.tableView.reloadData()
         if report != nil {

@@ -13,7 +13,7 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var numberOfCharactersLabel: UILabel!
     @IBOutlet weak var reportTextField: UITextField!
     
-    var report: Int?
+    var report: Double?
     weak var ReportAndViewVC: ReportAndViewKPITableViewController!
     var delegate: updateSettingsDelegate!
     
@@ -24,7 +24,6 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
             reportTextField.text = "\(report!)"
             numberOfCharactersLabel.text = "\(140 - (reportTextField.text?.characters.count)!)"
         }
-        reportTextField.keyboardType = .numberPad
     }
     
     override func didReceiveMemoryWarning() {
@@ -53,9 +52,9 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
     @IBAction func tapAddReportButton(_ sender: UIButton) {
         
         if let number = Int(numberOfCharactersLabel.text!) {
-            if number > 0 {
+            if number >= 0 {
                 delegate = self.ReportAndViewVC
-                delegate.updateIntValue(number: self.report)
+                delegate.updateDoubleValue(number: self.report)
                 _ = navigationController?.popViewController(animated: true)
             } else {
                 showAlert(title: "Error", description: "So long number")
@@ -72,7 +71,7 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
             self.report = nil
         } else {
             
-            if let number = Int(txtAfterUpdate) {
+            if let number = Double(txtAfterUpdate) {
                 self.report = number
             } else {
                 showAlert(title: "Error", description: "Data incorect")

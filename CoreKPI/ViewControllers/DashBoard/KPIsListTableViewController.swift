@@ -99,15 +99,15 @@ struct IntegratedKPI {
 
 struct CreatedKPI {
     var source: Source
-    var department: String
+    var department: Departments
     var KPI: String
     var descriptionOfKPI: String?
     var executant: Profile
-    var timeInterval: String
+    var timeInterval: TimeInterval
     var timeZone: String
     var deadline: String
-    var number: [(date: String,number: Int)]
-    mutating func addReport(report: Int) {
+    var number: [(date: String,number: Double)]
+    mutating func addReport(report: Double) {
         number.append(("Today", report))
     }
 }
@@ -172,8 +172,8 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         }
         
         //Debug only!
-        let kpiOne = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: "Sales Department", KPI: "Shop Supplies", descriptionOfKPI: "One of the key indicators for western organizations that mainly help to determine the economic efficiency of the Procurement Department.", executant: self.model.profile!, timeInterval: "Daily", timeZone: "Denver(GTM-6)", deadline: "Before 16:00", number: [("08/01/17", 12000), ("08/01/16", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: UIColor.clear)
-        let kpiTwo = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: "IT", KPI: "Shop Volume",descriptionOfKPI: nil, executant: Profile(userId: 123, userName: "User@User.com", firstName: "Semen", lastName: "Osipov", position: nil, photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin) , timeInterval: "week", timeZone: "+3", deadline: "12.01.2017", number: [("08/01/17", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: UIColor.clear)
+        let kpiOne = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: Departments.Sales, KPI: "Shop Supplies", descriptionOfKPI: "One of the key indicators for western organizations that mainly help to determine the economic efficiency of the Procurement Department.", executant: self.model.profile!, timeInterval: TimeInterval.Daily , timeZone: "GMT +0", deadline: "Before 16:00", number: [("08/01/17", 12000), ("08/01/16", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: UIColor.clear)
+        let kpiTwo = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: Departments.Procurement, KPI: "Shop Volume",descriptionOfKPI: nil, executant: Profile(userId: 123, userName: "User@User.com", firstName: "Semen", lastName: "Osipov", position: nil, photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin) , timeInterval: TimeInterval.Weekly, timeZone: "MSK +3", deadline: "12.01.2017", number: [("08/01/17", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: UIColor.clear)
         kpiList = [kpiOne, kpiTwo]
         
         self.loadKPIsFromServer()
@@ -307,7 +307,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                         let timeInterval = TimeInterval.Daily.rawValue
                         var timeZone: String
                         var deadline: String
-                        var number: [(String, Int)]
+                        var number: [(String, Double)]
                         
                         
                         if let kpiData = dataKey[kpi] as? NSDictionary {
@@ -325,7 +325,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                             
                             print("id: \(id); active: \(active)")
                             
-                            let createdKPI = CreatedKPI(source: source, department: department, KPI: kpi_name, descriptionOfKPI: descriptionOfKPI, executant: executant, timeInterval: timeInterval, timeZone: timeZone, deadline: deadline, number: number)
+                            let createdKPI = CreatedKPI(source: source, department: Departments(rawValue: department)!, KPI: kpi_name, descriptionOfKPI: descriptionOfKPI, executant: executant, timeInterval: TimeInterval(rawValue: timeInterval)!, timeZone: timeZone, deadline: deadline, number: number)
                             let kpi = KPI(typeOfKPI: typeOfKPI, integratedKPI: nil, createdKPI: createdKPI, imageBacgroundColour: UIColor.clear)
                             self.kpiList.append(kpi)
                             
@@ -376,14 +376,17 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     //MARK: - KPIListButtonCellDelegate methods
     func editButtonDidTaped(sender: UIButton) {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ReportAndViewKPI") as! ReportAndViewKPITableViewController
+        destinatioVC.model = self.model
         destinatioVC.kpiIndex = sender.tag
         destinatioVC.kpiArray = self.kpiList
         destinatioVC.buttonDidTaped = ButtonDidTaped.Edit
+        
         destinatioVC.KPIListVC = self
         navigationController?.pushViewController(destinatioVC, animated: true)
     }
     func reportButtonDidTaped(sender: UIButton) {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ReportAndViewKPI") as! ReportAndViewKPITableViewController
+        destinatioVC.model = self.model
         destinatioVC.kpiIndex = sender.tag
         destinatioVC.kpiArray = self.kpiList
         destinatioVC.buttonDidTaped = ButtonDidTaped.Report
