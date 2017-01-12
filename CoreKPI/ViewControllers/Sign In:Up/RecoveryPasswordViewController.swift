@@ -28,7 +28,7 @@ class RecoveryPasswordViewController: UIViewController {
     
     @IBAction func tapSendButton(_ sender: Any) {
         
-        let email = emailTextField.text
+        let email = emailTextField.text?.lowercased()
         
         if email == "" || email?.range(of: "@") == nil || (email?.components(separatedBy: "@")[0].isEmpty)! ||  (email?.components(separatedBy: "@")[1].isEmpty)!{
             let alertController = UIAlertController(title: "Oops", message: "Invalid E-mail adress", preferredStyle: .alert)

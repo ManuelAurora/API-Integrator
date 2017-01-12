@@ -67,8 +67,8 @@ enum TypeOfKPI: String {
 }
 
 enum ImageForKPIList: String {
-    case Increases = "upper.png"
-    case Decreases = "downer.png"
+    case Increases = "Green up.png"
+    case Decreases = "Red down.png"
     case SaleForce = "SaleForce.png"
     case QuickBooks = "QuickBooks.png"
     case GoogleAnalytics = "GoogleAnalytics.png"
@@ -151,6 +151,7 @@ struct KPI {
             }
         }
     }
+    var imageBacgroundColour: UIColor!
     
 }
 
@@ -160,6 +161,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     var model: ModelCoreKPI! = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin))
     
     var kpiList: [KPI] = []
+    var updateProfileDelegate: updateProfileDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -170,8 +172,8 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         }
         
         //Debug only!
-        let kpiOne = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: "Sales Department", KPI: "Shop Supplies", descriptionOfKPI: "One of the key indicators for western organizations that mainly help to determine the economic efficiency of the Procurement Department.", executant: self.model.profile!, timeInterval: "Daily", timeZone: "Denver(GTM-6)", deadline: "Before 16:00", number: [("08/01/17", 12000), ("08/01/16", 25800), ("07/01/2017", 24400)]))
-        let kpiTwo = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: "IT", KPI: "Shop Volume",descriptionOfKPI: nil, executant: Profile(userId: 123, userName: "User@User.com", firstName: "Semen", lastName: "Osipov", position: nil, photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin) , timeInterval: "week", timeZone: "+3", deadline: "12.01.2017", number: [("08/01/17", 25800), ("07/01/2017", 24400)]))
+        let kpiOne = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: "Sales Department", KPI: "Shop Supplies", descriptionOfKPI: "One of the key indicators for western organizations that mainly help to determine the economic efficiency of the Procurement Department.", executant: self.model.profile!, timeInterval: "Daily", timeZone: "Denver(GTM-6)", deadline: "Before 16:00", number: [("08/01/17", 12000), ("08/01/16", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: UIColor.clear)
+        let kpiTwo = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: "IT", KPI: "Shop Volume",descriptionOfKPI: nil, executant: Profile(userId: 123, userName: "User@User.com", firstName: "Semen", lastName: "Osipov", position: nil, photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin) , timeInterval: "week", timeZone: "+3", deadline: "12.01.2017", number: [("08/01/17", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: UIColor.clear)
         kpiList = [kpiOne, kpiTwo]
         
         self.loadKPIsFromServer()
@@ -198,6 +200,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         cell.KPIListVC  = self
         cell.editButton.tag = indexPath.row
         cell.reportButton.tag = indexPath.row
+        cell.memberNameButton.tag = indexPath.row
         
         if let imageString = kpiList[indexPath.row].image {
             cell.KPIListCellImageView.isHidden = false
@@ -205,6 +208,8 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         } else {
             cell.KPIListCellImageView.isHidden = true
         }
+        
+        cell.KPIListCellImageBacgroundView.backgroundColor = kpiList[indexPath.row].imageBacgroundColour
         
         switch kpiList[indexPath.row].typeOfKPI {
         case .IntegratedKPI:
@@ -239,19 +244,11 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                 cell.KPIListNumber.text = ""
             }
             
-
-            
-            
-        //var dictionary = createdKPI?.number
-//            let firstValue = dictionary?.popFirst()
-//            if let value = firstValue?.value {
-//                cell.KPIListNumber.text = "\(value)"
-//            }
-            
             if createdKPI?.executant.userId == self.model.profile?.userId {
-                cell.KPIListManagedBy.text = "Me"
+                cell.memberNameButton.setTitle( "Me" , for: .normal )
             } else {
-                cell.KPIListManagedBy.text = (createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!
+                let title = (createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!
+                cell.memberNameButton.setTitle(title, for: .normal)
             }
         }
         return cell
@@ -299,7 +296,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                         var active = 0
                         var id = 0
                         let typeOfKPI = TypeOfKPI.createdKPI
-                    
+                        
                         //var image: ImageForKPIList!
                         
                         let source = Source.User
@@ -329,9 +326,9 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                             print("id: \(id); active: \(active)")
                             
                             let createdKPI = CreatedKPI(source: source, department: department, KPI: kpi_name, descriptionOfKPI: descriptionOfKPI, executant: executant, timeInterval: timeInterval, timeZone: timeZone, deadline: deadline, number: number)
-                            let kpi = KPI(typeOfKPI: typeOfKPI, integratedKPI: nil, createdKPI: createdKPI)
+                            let kpi = KPI(typeOfKPI: typeOfKPI, integratedKPI: nil, createdKPI: createdKPI, imageBacgroundColour: UIColor.clear)
                             self.kpiList.append(kpi)
-        
+                            
                         }
                         
                         kpi+=1
@@ -343,7 +340,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                     
                     
                     
-
+                    
                     //Save data from json
                     
                 } else {
@@ -380,6 +377,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     func editButtonDidTaped(sender: UIButton) {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ReportAndViewKPI") as! ReportAndViewKPITableViewController
         destinatioVC.kpiIndex = sender.tag
+        destinatioVC.kpiArray = self.kpiList
         destinatioVC.buttonDidTaped = ButtonDidTaped.Edit
         destinatioVC.KPIListVC = self
         navigationController?.pushViewController(destinatioVC, animated: true)
@@ -392,6 +390,14 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         destinatioVC.KPIListVC = self
         navigationController?.pushViewController(destinatioVC, animated: true)
         
+    }
+    func memberNameDidTaped(sender: UIButton) {
+        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "MemberInfo") as! MemberInfoViewController
+        destinatioVC.model = self.model
+        let profile = self.kpiList[sender.tag].createdKPI
+        destinatioVC.profile = profile?.executant
+        destinatioVC.navigationItem.rightBarButtonItem = nil
+        navigationController?.pushViewController(destinatioVC, animated: true)
     }
     
     //MARK: - navigation

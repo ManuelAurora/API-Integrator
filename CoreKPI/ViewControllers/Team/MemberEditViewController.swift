@@ -368,6 +368,8 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     func updateProfile(profile: Profile) {
         self.profile = Profile(profile: profile)
     }
+    func updateProfilePhoto() {
+    }
     //MARK: - updateTypeOfAccountDelegate method
     func updateTypeOfAccount(typeOfAccount: TypeOfAccount) {
         self.newProfile.typeOfAccount = typeOfAccount

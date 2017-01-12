@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegisterViewController: UIViewController {
+class RegisterViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var passwordTextField: BottomBorderTextField!
     @IBOutlet weak var emailTextField: BottomBorderTextField!
@@ -29,7 +29,7 @@ class RegisterViewController: UIViewController {
     
     @IBAction func tapRegisterButton(_ sender: Any) {
         
-        email = emailTextField.text
+        email = emailTextField.text?.lowercased()
         password = passwordTextField.text
         let repeatPassword = repeatPasswordTextField.text
         
@@ -57,6 +57,22 @@ class RegisterViewController: UIViewController {
         delegate = vc
         delegate.updateLoginAndPassword(email: email, password: password)
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    //MARK: - UITextFieldDelegate method
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == emailTextField {
+            passwordTextField.becomeFirstResponder()
+        }
+        if textField == passwordTextField {
+            repeatPasswordTextField.becomeFirstResponder()
+        }
+        if textField == repeatPasswordTextField {
+            emailTextField.resignFirstResponder()
+            passwordTextField.resignFirstResponder()
+            tapRegisterButton(registerButton)
+        }
+        return true
     }
     
 }

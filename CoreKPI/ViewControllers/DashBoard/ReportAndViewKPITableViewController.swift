@@ -32,8 +32,6 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             self.navigationItem.title = "Report KPI"
         case .Edit:
             self.navigationItem.rightBarButtonItem?.title = "Save"
-            tableView.estimatedRowHeight = 44.0
-            tableView.rowHeight = UITableViewAutomaticDimension
             self.navigationItem.title = "KPI Edit"
         }
         tableView.autoresizesSubviews = true
@@ -155,7 +153,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             //                cell.accessoryType = .disclosureIndicator
             //            default:
             //                break
-        //            }
+            //            }
         case .Edit:
             switch indexPath.section {
             case 0:

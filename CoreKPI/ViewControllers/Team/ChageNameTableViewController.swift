@@ -114,6 +114,8 @@ class ChageNameTableViewController: UITableViewController, updateModelDelegate, 
     func updateProfile(profile: Profile) {
         self.profile = Profile(profile: profile)
     }
+    func updateProfilePhoto() {
+    }
     
     //MARK: - updateNickNameDelegate method
     func updateNickname(nickname: String) {

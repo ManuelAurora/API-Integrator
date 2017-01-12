@@ -179,4 +179,6 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
         self.memberList[self.indexPath.row] = Profile(profile: profile)
         tableView.reloadData()
     }
+    func updateProfilePhoto() {
+    }
 }

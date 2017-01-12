@@ -637,7 +637,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
             }
             
             let integratedKPI = IntegratedKPI(service: self.integrated, saleForceKPIs: saleForceKPIs, quickBookKPIs: quickBooksKPIs, googleAnalytics: googleAnalyticsKPIs, hubSpotCRMKPIs: hubspotCRMKPIs, payPalKPIs: paypalKPIs, hubSpotMarketingKPIs: hubspotMarketingKPIs)
-            kpi = KPI(typeOfKPI: .IntegratedKPI, integratedKPI: integratedKPI, createdKPI: nil)
+            kpi = KPI(typeOfKPI: .IntegratedKPI, integratedKPI: integratedKPI, createdKPI: nil, imageBacgroundColour: UIColor.clear)
         case .User:
             if self.department == .none || self.kpiName == nil || self.executant == nil || (self.timeInterval != TimeInterval.Daily && (self.weeklyInterval == WeeklyInterval.none || self.mounthlyInterval == nil)) || self.timeZone == nil || self.deadline == nil {
                 showAlert(title: "Error", message: "One ore more parameters are not selected")
@@ -653,7 +653,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
             }
             
             let userKPI = CreatedKPI(source: .User, department: self.department.rawValue, KPI: self.kpiName!, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval.rawValue, timeZone: self.timeZone!, deadline: self.deadline!, number: [])
-            kpi = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: userKPI)
+            kpi = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: userKPI, imageBacgroundColour: UIColor.clear)
             
         default:
             self.showAlert(title: "Error", message: "Select a Sourse please")

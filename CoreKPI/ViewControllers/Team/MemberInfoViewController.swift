@@ -37,7 +37,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             responsibleForButton.isHidden = false
             
             //Check is it my account
-            if profile.userName == model.profile?.userName {
+            if profile.userId == model.profile?.userId {
                 responsibleForButton.isHidden = true
                 myKPIsButton.isHidden = false
                 securityButton.isHidden = false
@@ -58,6 +58,8 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         
         if profileImage != nil {
             self.memberProfilePhotoImage.image = profileImage
+        } else {
+            updateProfilePhoto()
         }
         
         self.tableView.tableFooterView = UIView(frame: .zero)
@@ -161,7 +163,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     
     @IBAction func tapEditBautton(_ sender: UIBarButtonItem) {
         if model.profile?.typeOfAccount != TypeOfAccount.Admin {
-            if model.profile?.userName != profile.userName {
+            if model.profile?.userId != profile.userId {
                 let vc = storyboard?.instantiateViewController(withIdentifier: "ChangeName") as! ChageNameTableViewController
                 updateModelDelegate = vc
                 updateProfileDelegate = vc
@@ -192,15 +194,19 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         print("Responsible for was taped")
     }
     
+    //MARK: - navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         self.navigationController?.hideTransparentNavigationBar()
     }
     
     override func willMove(toParentViewController parent: UIViewController?) {
         if(!(parent?.isEqual(self.parent) ?? false)) {
-            self.profile.photo = "https://pp.vk.me/c624425/v624425140/1439b/3Ka-jAkA1Dw.jpg"
-            updateProfileDelegate = memberListVC
-            updateProfileDelegate.updateProfile(profile: self.profile)
+            if memberListVC != nil {
+                //debug
+                self.profile.photo = "https://pp.vk.me/c624425/v624425140/1439b/3Ka-jAkA1Dw.jpg"
+                updateProfileDelegate = memberListVC
+                updateProfileDelegate.updateProfile(profile: self.profile)
+            }
         }
     }
     
@@ -220,6 +226,14 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         self.memberProfilePhotoImage.image = self.profileImage
         self.navigationController?.presentTransparentNavigationBar()
         tableView.reloadData()
+    }
+    
+    func updateProfilePhoto() {
+        if (profile.photo != nil) {
+            self.memberProfilePhotoImage.downloadedFrom(link: self.profile.photo!)
+        } else {
+            self.memberProfilePhotoImage.image = #imageLiteral(resourceName: "defaultProfile")
+        }
     }
     
 }

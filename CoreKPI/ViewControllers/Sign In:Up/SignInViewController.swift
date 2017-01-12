@@ -30,6 +30,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         super.didReceiveMemoryWarning()
     }
     
+    //MARK: - UITextFieldDelegate method
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == emailTextField {
             passwordTextField.becomeFirstResponder()
@@ -42,7 +43,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func tapSignInButton(_ sender: UIButton) {
         
-        let email = emailTextField.text
+        let email = emailTextField.text?.lowercased()
         let password = passwordTextField.text
         
         if email == "" || password == "" {
@@ -65,7 +66,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     func loginRequest() {
         
-        if let username = self.emailTextField.text {
+        if let username = self.emailTextField.text?.lowercased() {
             if let password = self.passwordTextField.text {
                 
                 let data: [String : Any] = ["username" : username, "password" : password]

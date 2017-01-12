@@ -11,11 +11,13 @@ import UIKit
 class KPIListTableViewCell: UITableViewCell {
     
     @IBOutlet weak var KPIListCellImageView: UIImageView!
-    @IBOutlet weak var KPIListManagedBy: UILabel!
+    @IBOutlet weak var KPIListCellImageBacgroundView: UIView!
+    
     @IBOutlet weak var KPIListHeaderLabel: UILabel!
     @IBOutlet weak var KPIListNumber: UILabel!
     @IBOutlet weak var ManagedByStack: UIStackView!
     
+    @IBOutlet weak var memberNameButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var reportButton: UIButton!
    
@@ -36,6 +38,8 @@ class KPIListTableViewCell: UITableViewCell {
             delegate.editButtonDidTaped(sender: sender)
         case reportButton:
             delegate.reportButtonDidTaped(sender: sender)
+        case memberNameButton:
+            delegate.memberNameDidTaped(sender: sender)
         default:
             break
         }
