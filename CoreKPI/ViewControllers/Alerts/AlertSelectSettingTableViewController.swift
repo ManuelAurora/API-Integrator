@@ -14,7 +14,7 @@ class AlertSelectSettingTableViewController: UITableViewController, UITextFieldD
     
     var selectSetting: [(SettingName: String, value: Bool)]!
     var textFieldInputData: String?
-    var delegate: updateSettingsArrayDelegate!
+    var delegate: updateSettingsDelegate!
     
     var headerForTableView: String!
     var selectSeveralEnable = false

@@ -13,7 +13,7 @@ class KPISelectSettingTableViewController: UITableViewController, UITextViewDele
     weak var ChoseSuggestedVC: ChooseSuggestedKPITableViewController!
     var selectSetting: [(SettingName: String, value: Bool)]!
     var textFieldInputData: String?
-    var delegate: updateSettingsArrayDelegate!
+    var delegate: updateSettingsDelegate!
     
     var integratedService = IntegratedServices.none
     var headerForTableView: String!

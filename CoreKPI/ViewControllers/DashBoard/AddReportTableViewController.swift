@@ -13,25 +13,29 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var numberOfCharactersLabel: UILabel!
     @IBOutlet weak var reportTextField: UITextField!
     
-    var kpiArray: [KPI] = []
-    var kpiIndex: Int!
     var report: Int?
-    weak var KPIListVC: KPIsListTableViewController!
+    weak var ReportAndViewVC: ReportAndViewKPITableViewController!
+    var delegate: updateSettingsDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView(frame: .zero)
+        if report != nil {
+            reportTextField.text = "\(report!)"
+            numberOfCharactersLabel.text = "\(140 - (reportTextField.text?.characters.count)!)"
+        }
+        reportTextField.keyboardType = .numberPad
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
     }
@@ -47,15 +51,18 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     @IBAction func tapAddReportButton(_ sender: UIButton) {
-        var newCreated = kpiArray[kpiIndex].createdKPI
-        newCreated?.addReport(report: report!)
-        kpiArray[kpiIndex].createdKPI = newCreated
-        let delegate: updateKPIListDelegate = self.KPIListVC
-        delegate.updateKPIList(kpiArray: self.kpiArray)
-        let kpiListViewController = self.navigationController?.viewControllers[0]
-        _ = self.navigationController?.popToViewController(kpiListViewController!, animated: true)
+        
+        if let number = Int(numberOfCharactersLabel.text!) {
+            if number > 0 {
+                delegate = self.ReportAndViewVC
+                delegate.updateIntValue(number: self.report)
+                _ = navigationController?.popViewController(animated: true)
+            } else {
+                showAlert(title: "Error", description: "So long number")
+            }
+        }
     }
-
+    
     //MARK: - UITextFieldDelegate method
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let textFieldText: NSString = (textField.text ?? "") as NSString
@@ -64,15 +71,24 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
         if txtAfterUpdate == "" {
             self.report = nil
         } else {
-//            guard self.report = Int(txtAfterUpdate) else {
-//                let alertController = UIAlertController(title: "Error", message: "Data incorect", preferredStyle: .alert)
-//                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-//                self.present(alertController, animated: true, completion: nil)
-//            }
+            
+            if let number = Int(txtAfterUpdate) {
+                self.report = number
+            } else {
+                showAlert(title: "Error", description: "Data incorect")
+            }
         }
-        
         self.numberOfCharactersLabel.text = "\(140 - txtAfterUpdate.characters.count)"
         return true
     }
     
+    //MARK: - Show alert
+    func showAlert(title: String, description: String) {
+        let alertController = UIAlertController(title: title, message: description, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
 }
+
+

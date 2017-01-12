@@ -106,9 +106,9 @@ struct CreatedKPI {
     var timeInterval: String
     var timeZone: String
     var deadline: String
-    var number: [String : Int]
+    var number: [(date: String,number: Int)]
     mutating func addReport(report: Int) {
-        number["Today"] = report
+        number.append(("Today", report))
     }
 }
 
@@ -116,7 +116,41 @@ struct KPI {
     var typeOfKPI: TypeOfKPI
     var integratedKPI: IntegratedKPI?
     var createdKPI: CreatedKPI?
-    var image: ImageForKPIList?
+    var image: ImageForKPIList? {
+        
+        switch typeOfKPI {
+        case .createdKPI:
+            let numbers = createdKPI?.number
+            if (numbers?.count)! > 1 {
+                if (numbers?[(numbers?.count)! - 1])! < (numbers?[(numbers?.count)! - 2])! {
+                    return ImageForKPIList.Decreases
+                }
+                if (numbers?[(numbers?.count)! - 1])! > (numbers?[(numbers?.count)! - 2])! {
+                    return ImageForKPIList.Increases
+                }
+                
+            }
+            return nil
+        case .IntegratedKPI:
+            let service = integratedKPI?.service
+            switch service! {
+            case .none:
+                return nil
+            case .SalesForce:
+                return ImageForKPIList.SaleForce
+            case .Quickbooks:
+                return ImageForKPIList.QuickBooks
+            case .GoogleAnalytics:
+                return ImageForKPIList.GoogleAnalytics
+            case .HubSpotCRM:
+                return ImageForKPIList.HubSpotCRM
+            case .PayPal:
+                return ImageForKPIList.PayPal
+            case .HubSpotMarketing:
+                return ImageForKPIList.HubSpotMarketing
+            }
+        }
+    }
     
 }
 
@@ -136,8 +170,8 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         }
         
         //Debug only!
-        let kpiOne = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: "Sales Department", KPI: "Shop Supplies", descriptionOfKPI: "One of the key indicators for western organizations that mainly help to determine the economic efficiency of the Procurement Department.", executant: self.model.profile!, timeInterval: "Daily", timeZone: "Denver(GTM-6)", deadline: "Before 16:00", number: ["08/01/17" : 12000, "08/01/16" : 25800, "07/01/2017" : 24400]), image: nil)
-        let kpiTwo = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: "IT", KPI: "Shop Volume",descriptionOfKPI: nil, executant: Profile(userId: 123, userName: "User@User.com", firstName: "Semen", lastName: "Osipov", position: nil, photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin) , timeInterval: "week", timeZone: "+3", deadline: "12.01.2017", number: ["08/01/17" : 25800, "07/01/2017" : 24400]), image: ImageForKPIList.Decreases)
+        let kpiOne = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: "Sales Department", KPI: "Shop Supplies", descriptionOfKPI: "One of the key indicators for western organizations that mainly help to determine the economic efficiency of the Procurement Department.", executant: self.model.profile!, timeInterval: "Daily", timeZone: "Denver(GTM-6)", deadline: "Before 16:00", number: [("08/01/17", 12000), ("08/01/16", 25800), ("07/01/2017", 24400)]))
+        let kpiTwo = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: "IT", KPI: "Shop Volume",descriptionOfKPI: nil, executant: Profile(userId: 123, userName: "User@User.com", firstName: "Semen", lastName: "Osipov", position: nil, photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin) , timeInterval: "week", timeZone: "+3", deadline: "12.01.2017", number: [("08/01/17", 25800), ("07/01/2017", 24400)]))
         kpiList = [kpiOne, kpiTwo]
         
         self.loadKPIsFromServer()
@@ -197,11 +231,22 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
             cell.KPIListNumber.isHidden = false
             cell.ManagedByStack.isHidden = false
             
-            var dictionary = createdKPI?.number
-            let firstValue = dictionary?.popFirst()
-            if let value = firstValue?.value {
-                cell.KPIListNumber.text = "\(value)"
+            if (createdKPI?.number.count)! > 0 {
+                if let number = createdKPI?.number[(createdKPI?.number.count)! - 1] {
+                    cell.KPIListNumber.text = "\(number.number)"
+                }
+            } else {
+                cell.KPIListNumber.text = ""
             }
+            
+
+            
+            
+        //var dictionary = createdKPI?.number
+//            let firstValue = dictionary?.popFirst()
+//            if let value = firstValue?.value {
+//                cell.KPIListNumber.text = "\(value)"
+//            }
             
             if createdKPI?.executant.userId == self.model.profile?.userId {
                 cell.KPIListManagedBy.text = "Me"
@@ -255,7 +300,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                         var id = 0
                         let typeOfKPI = TypeOfKPI.createdKPI
                     
-                        var image: ImageForKPIList!
+                        //var image: ImageForKPIList!
                         
                         let source = Source.User
                         var department: String
@@ -265,7 +310,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                         let timeInterval = TimeInterval.Daily.rawValue
                         var timeZone: String
                         var deadline: String
-                        var number: [String : Int]
+                        var number: [(String, Int)]
                         
                         
                         if let kpiData = dataKey[kpi] as? NSDictionary {
@@ -277,14 +322,14 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                             executant = self.model.profile!
                             timeZone = "no"
                             deadline = (kpiData["datetime"] as? String)!
-                            number = ["today":12407]
+                            number = []
                             //debug
-                            image = ImageForKPIList.Increases
+                            //image = ImageForKPIList.Increases
                             
                             print("id: \(id); active: \(active)")
                             
                             let createdKPI = CreatedKPI(source: source, department: department, KPI: kpi_name, descriptionOfKPI: descriptionOfKPI, executant: executant, timeInterval: timeInterval, timeZone: timeZone, deadline: deadline, number: number)
-                            let kpi = KPI(typeOfKPI: typeOfKPI, integratedKPI: nil, createdKPI: createdKPI, image: image)
+                            let kpi = KPI(typeOfKPI: typeOfKPI, integratedKPI: nil, createdKPI: createdKPI)
                             self.kpiList.append(kpi)
         
                         }
@@ -336,6 +381,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ReportAndViewKPI") as! ReportAndViewKPITableViewController
         destinatioVC.kpiIndex = sender.tag
         destinatioVC.buttonDidTaped = ButtonDidTaped.Edit
+        destinatioVC.KPIListVC = self
         navigationController?.pushViewController(destinatioVC, animated: true)
     }
     func reportButtonDidTaped(sender: UIButton) {
@@ -343,6 +389,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         destinatioVC.kpiIndex = sender.tag
         destinatioVC.kpiArray = self.kpiList
         destinatioVC.buttonDidTaped = ButtonDidTaped.Report
+        destinatioVC.KPIListVC = self
         navigationController?.pushViewController(destinatioVC, animated: true)
         
     }

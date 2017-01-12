@@ -19,7 +19,7 @@ enum WeeklyInterval: String {
     case Sunday
 }
 
-class ChooseSuggestedKPITableViewController: UITableViewController, updateSettingsArrayDelegate {
+class ChooseSuggestedKPITableViewController: UITableViewController, updateSettingsDelegate {
     
     var model: ModelCoreKPI!
     var request: Request!
@@ -636,27 +636,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
                 return
             }
             
-            let imageForKPIList: ImageForKPIList
-            
-            switch self.integrated {
-            case .SalesForce:
-                imageForKPIList = ImageForKPIList.SaleForce
-            case .Quickbooks:
-                imageForKPIList = ImageForKPIList.QuickBooks
-            case .GoogleAnalytics:
-                imageForKPIList = ImageForKPIList.GoogleAnalytics
-            case .HubSpotCRM:
-                imageForKPIList = ImageForKPIList.HubSpotCRM
-            case .PayPal:
-                imageForKPIList = ImageForKPIList.PayPal
-            case .HubSpotMarketing:
-                imageForKPIList = ImageForKPIList.HubSpotMarketing
-            default:
-                imageForKPIList = ImageForKPIList.Decreases
-            }
-            
             let integratedKPI = IntegratedKPI(service: self.integrated, saleForceKPIs: saleForceKPIs, quickBookKPIs: quickBooksKPIs, googleAnalytics: googleAnalyticsKPIs, hubSpotCRMKPIs: hubspotCRMKPIs, payPalKPIs: paypalKPIs, hubSpotMarketingKPIs: hubspotMarketingKPIs)
-            kpi = KPI(typeOfKPI: .IntegratedKPI, integratedKPI: integratedKPI, createdKPI: nil, image: imageForKPIList )
+            kpi = KPI(typeOfKPI: .IntegratedKPI, integratedKPI: integratedKPI, createdKPI: nil)
         case .User:
             if self.department == .none || self.kpiName == nil || self.executant == nil || (self.timeInterval != TimeInterval.Daily && (self.weeklyInterval == WeeklyInterval.none || self.mounthlyInterval == nil)) || self.timeZone == nil || self.deadline == nil {
                 showAlert(title: "Error", message: "One ore more parameters are not selected")
@@ -671,8 +652,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
                 }
             }
             
-            let userKPI = CreatedKPI(source: .User, department: self.department.rawValue, KPI: self.kpiName!, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval.rawValue, timeZone: self.timeZone!, deadline: self.deadline!, number: [:])
-            kpi = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: userKPI, image: nil)
+            let userKPI = CreatedKPI(source: .User, department: self.department.rawValue, KPI: self.kpiName!, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval.rawValue, timeZone: self.timeZone!, deadline: self.deadline!, number: [])
+            kpi = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: userKPI)
             
         default:
             self.showAlert(title: "Error", message: "Select a Sourse please")
@@ -876,5 +857,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
             return
         }
         tableView.reloadData()
+    }
+    func updateIntValue(number: Int?) {
     }
 }

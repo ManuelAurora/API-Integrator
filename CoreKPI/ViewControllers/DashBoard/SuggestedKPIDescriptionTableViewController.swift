@@ -10,7 +10,7 @@ import UIKit
 
 class SuggestedKPIDescriptionTableViewController: UITableViewController {
     
-    var delegate: updateSettingsArrayDelegate!
+    var delegate: updateSettingsDelegate!
     weak var ChoseSuggestedVC: ChooseSuggestedKPITableViewController!
     var numberOfKPI: Int!
     

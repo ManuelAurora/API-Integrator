@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AllertSettingsTableViewController: AlertsListTableViewController, updateSettingsArrayDelegate {
+class AllertSettingsTableViewController: AlertsListTableViewController, updateSettingsDelegate {
     
     weak var AlertListVC: AlertsListTableViewController!
     weak var ReminderViewVC: ReminderViewTableViewController!
@@ -317,6 +317,9 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
     }
     
     //MARK: - updateSettingsArrayDelegate methods
+    
+    func updateIntValue(number: Int?) {
+    }
     
     func updateSettingsArray(array: [(SettingName: String, value: Bool)]) {
         switch typeOfSetting {
