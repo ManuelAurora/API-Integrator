@@ -715,6 +715,11 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
                     self.source = Source(rawValue: source.SettingName)!
                 }
             }
+            if source == .User {
+                self.tableView.isScrollEnabled = true
+            } else {
+                self.tableView.isScrollEnabled = false
+            }
         case .Service:
             switch integrated {
             case .SalesForce:

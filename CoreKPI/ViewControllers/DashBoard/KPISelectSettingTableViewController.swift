@@ -10,6 +10,7 @@ import UIKit
 
 class KPISelectSettingTableViewController: UITableViewController, UITextViewDelegate {
     
+    weak var ReportAndViewVC: ReportAndViewKPITableViewController!
     weak var ChoseSuggestedVC: ChooseSuggestedKPITableViewController!
     var selectSetting: [(SettingName: String, value: Bool)]!
     var textFieldInputData: String?
@@ -20,7 +21,11 @@ class KPISelectSettingTableViewController: UITableViewController, UITextViewDele
     var selectSeveralEnable = false
     var inputSettingCells = false
     var rowsWithInfoAccesory = false
+    var segueWithSelecting = false
+    var cellsWithColourView = false
     var department = Departments.none
+    
+    var colourDictionary: [Colour : UIColor] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,31 +84,40 @@ class KPISelectSettingTableViewController: UITableViewController, UITextViewDele
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch rowsWithInfoAccesory {
-        case true:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "SelectSettingCell", for: indexPath)
-            
-            cell.textLabel?.text = selectSetting[indexPath.row].SettingName
-            cell.accessoryType = .detailButton
-            cell.textLabel?.numberOfLines = 0
-            return cell
-        default:
-            if inputSettingCells == false {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "SelectSettingCell", for: indexPath)
-                
-                cell.textLabel?.text = selectSetting[indexPath.row].SettingName
-                cell.accessoryType = selectSetting[indexPath.row].value ? .checkmark : .none
-                return cell
-            } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "InputSettingCell", for: indexPath) as! KPISettingInputTableViewCell
-                if (self.textFieldInputData != nil) {
-                    cell.inputTextView.text = self.textFieldInputData
-                }
-                cell.accessoryType = .none
-                cell.selectionStyle = .none
-                return cell
-            }
+        let selectCell = tableView.dequeueReusableCell(withIdentifier: "SelectSettingCell", for: indexPath)
+        let inputCell = tableView.dequeueReusableCell(withIdentifier: "InputSettingCell", for: indexPath) as! KPISettingInputTableViewCell
+        let colourCell = tableView.dequeueReusableCell(withIdentifier: "ColourCell", for: indexPath) as! KPIColourTableViewCell
+        
+        if rowsWithInfoAccesory {
+            selectCell.textLabel?.text = selectSetting[indexPath.row].SettingName
+            selectCell.accessoryType = .detailButton
+            selectCell.textLabel?.numberOfLines = 0
+            selectCell.prepareForReuse()
+            return selectCell
         }
+        if inputSettingCells == true {
+            if (self.textFieldInputData != nil) {
+                inputCell.inputTextView.text = self.textFieldInputData
+            }
+            inputCell.accessoryType = .none
+            inputCell.selectionStyle = .none
+            inputCell.prepareForReuse()
+            return inputCell
+        }
+        if cellsWithColourView == true {
+            let colour = selectSetting[indexPath.row].SettingName
+            colourCell.headerOfCell.text = colour
+            if let uicolour = self.colourDictionary[Colour(rawValue: colour)!] {
+                colourCell.colourView.backgroundColor = uicolour
+            }
+            colourCell.accessoryType = selectSetting[indexPath.row].value ? .checkmark : .none
+            colourCell.prepareForReuse()
+            return colourCell
+        }
+        selectCell.textLabel?.text = selectSetting[indexPath.row].SettingName
+        selectCell.accessoryType = selectSetting[indexPath.row].value ? .checkmark : .none
+        selectCell.prepareForReuse()
+        return selectCell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -127,7 +141,7 @@ class KPISelectSettingTableViewController: UITableViewController, UITextViewDele
             cell.accessoryType = .none
         }
         
-        if rowsWithInfoAccesory {
+        if rowsWithInfoAccesory || segueWithSelecting {
             self.navigationController!.popViewController(animated: true)
         }
         
@@ -146,9 +160,16 @@ class KPISelectSettingTableViewController: UITableViewController, UITextViewDele
     //MARK: - Send data to parent ViewController
     override func willMove(toParentViewController parent: UIViewController?) {
         if(!(parent?.isEqual(self.parent) ?? false)) {
-            delegate = ChoseSuggestedVC
-            delegate.updateSettingsArray(array: selectSetting)
-            delegate.updateStringValue(string: self.textFieldInputData)
+            if ChoseSuggestedVC != nil {
+                delegate = ChoseSuggestedVC
+                delegate.updateSettingsArray(array: selectSetting)
+                delegate.updateStringValue(string: self.textFieldInputData)
+            }
+            if ReportAndViewVC != nil {
+                delegate = ReportAndViewVC
+                delegate.updateSettingsArray(array: selectSetting)
+                delegate.updateStringValue(string: self.textFieldInputData)
+            }
         }
     }
     

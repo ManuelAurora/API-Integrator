@@ -10,6 +10,7 @@
 		A2028E6E1E12B66400F1EED6 /* WebViewTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2028E6D1E12B66400F1EED6 /* WebViewTestViewController.swift */; };
 		A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340901E110CF200208EAB /* ChageNameTableViewController.swift */; };
 		A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340921E110D1C00208EAB /* NewNameViewController.swift */; };
+		A21AEEF21E28AFF200577F4B /* KPIColourTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21AEEF11E28AFF200577F4B /* KPIColourTableViewCell.swift */; };
 		A21B46C91E22B046000890D3 /* iOSChartsTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21B46C81E22B046000890D3 /* iOSChartsTestViewController.swift */; };
 		A21EDDF71E23A709001DE74C /* KPIList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21EDDF61E23A709001DE74C /* KPIList.swift */; };
 		A22302C31E1F96B900C9D0B4 /* ReminderViewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22302C21E1F96B900C9D0B4 /* ReminderViewTableViewController.swift */; };
@@ -122,6 +123,7 @@
 		A2028E6D1E12B66400F1EED6 /* WebViewTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewTestViewController.swift; sourceTree = "<group>"; };
 		A20340901E110CF200208EAB /* ChageNameTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChageNameTableViewController.swift; path = CoreKPI/ViewControllers/Team/ChageNameTableViewController.swift; sourceTree = "<group>"; };
 		A20340921E110D1C00208EAB /* NewNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewNameViewController.swift; path = CoreKPI/ViewControllers/Team/NewNameViewController.swift; sourceTree = "<group>"; };
+		A21AEEF11E28AFF200577F4B /* KPIColourTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIColourTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPIColourTableViewCell.swift; sourceTree = "<group>"; };
 		A21B46C81E22B046000890D3 /* iOSChartsTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = iOSChartsTestViewController.swift; path = CoreKPI/ViewControllers/DashBoard/iOSChartsTestViewController.swift; sourceTree = "<group>"; };
 		A21EDDF61E23A709001DE74C /* KPIList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIList.swift; path = ../KPIList.swift; sourceTree = "<group>"; };
 		A22302C21E1F96B900C9D0B4 /* ReminderViewTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderViewTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/ReminderViewTableViewController.swift; sourceTree = "<group>"; };
@@ -498,6 +500,7 @@
 				A26408F31E2239910034EEC2 /* ReportAndViewTableViewCell.swift */,
 				A2FB1AA11E252C110045824A /* KPIDescriptionTableViewCell.swift */,
 				A2FB98A31E25FE6900A856E8 /* KPISettingInputTableViewCell.swift */,
+				A21AEEF11E28AFF200577F4B /* KPIColourTableViewCell.swift */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -731,6 +734,7 @@
 				A297F5CC1E0823D400F85963 /* SignInViewController.swift in Sources */,
 				A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */,
 				A297F5CB1E0823D400F85963 /* SignInUpViewController.swift in Sources */,
+				A21AEEF21E28AFF200577F4B /* KPIColourTableViewCell.swift in Sources */,
 				A297F5E01E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift in Sources */,
 				A261D9181E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift in Sources */,
 				A297F5E11E08248000F85963 /* TypeAccountTableViewCell.swift in Sources */,
