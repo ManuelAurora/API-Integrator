@@ -78,12 +78,12 @@ class faqTableViewController: UITableViewController {
         
         switch headersOfQuestion[indexPath.row] {
         case .Dashboard:
-            cell.numberOfQuestionLabel.backgroundColor = UIColor(red: 154.0/255.0, green: 18.0/255.0, blue: 179.0/255.0, alpha: 1.0)
+            cell.numberBackgroundView.backgroundColor = UIColor(red: 154.0/255.0, green: 18.0/255.0, blue: 179.0/255.0, alpha: 1.0)
         case .Alert:
-            cell.numberOfQuestionLabel.backgroundColor = UIColor(red: 31.0/255.0, green: 58.0/255.0, blue: 147.0/255.0, alpha: 1.0)
-        case .Team: cell.numberOfQuestionLabel.backgroundColor = UIColor(red: 242.0/255.0, green: 121.0/255.0, blue: 53.0/255.0, alpha: 1.0)
+            cell.numberBackgroundView.backgroundColor = UIColor(red: 31.0/255.0, green: 58.0/255.0, blue: 147.0/255.0, alpha: 1.0)
+        case .Team: cell.numberBackgroundView.backgroundColor = UIColor(red: 242.0/255.0, green: 121.0/255.0, blue: 53.0/255.0, alpha: 1.0)
         case .Support:
-            cell.numberOfQuestionLabel.backgroundColor = UIColor(red: 46.0/255.0, green: 204.0/255.0, blue: 113.0/255.0, alpha: 1.0)
+            cell.numberBackgroundView.backgroundColor = UIColor(red: 46.0/255.0, green: 204.0/255.0, blue: 113.0/255.0, alpha: 1.0)
         }
         
         cell.headerOfQuestionLabel.layer.cornerRadius = 14.5
@@ -101,7 +101,6 @@ class faqTableViewController: UITableViewController {
                 destinationController.headerOfQestion = headersOfQuestion[indexPath.row].rawValue
                 destinationController.descriptionOfQuestion = descriptionsOfQuestion[indexPath.row]
                 destinationController.ansverForQuestion = ansversForQuestion[indexPath.row]
-                //destinationController.numberOfQuestion = String(indexPath.row)
                 
                 var numberForLabel = 0
                 

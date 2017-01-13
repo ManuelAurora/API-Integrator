@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InviteTableViewController: UITableViewController, updateModelDelegate, updateTypeOfAccountDelegate {
+class InviteTableViewController: UITableViewController, updateModelDelegate, updateTypeOfAccountDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var typeOfAccountLabel: UILabel!
     @IBOutlet weak var emailTextField: UITextField!
@@ -52,37 +52,36 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 2 {
-            
-            if numberOfInvations < 1 {
-                let alertController = UIAlertController(title: "error", message: "You have not more invations!", preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                present(alertController, animated: true, completion: nil)
-                tableView.deselectRow(at: indexPath, animated: true)
-                return
-            }
-            if emailTextField.text == "" {
-                let alertController = UIAlertController(title: "error", message: "Field(s) are emty!", preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                present(alertController, animated: true, completion: nil)
-                tableView.deselectRow(at: indexPath, animated: true)
-                return
-            }
-            if emailTextField.text!.range(of: "@") == nil || (emailTextField.text!.components(separatedBy: "@")[0].isEmpty) ||  (emailTextField.text!.components(separatedBy: "@")[1].isEmpty) {
-                let alertController = UIAlertController(title: "Oops", message: "Invalid E-mail adress", preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                self.present(alertController, animated: true, completion: nil)
-                tableView.deselectRow(at: indexPath, animated: true)
-                return
-            }
-            let alertController = UIAlertController(title: "Send invation", message: "We’ll send an invation to \(emailTextField.text!)", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            alertController.addAction(UIAlertAction(title: "Send", style: .default, handler:{
-                (action: UIAlertAction!) -> Void in
-                self.sendInvations()
-            }))
-            self.present(alertController, animated: true, completion: nil)
+            tapInviteButton()
+            tableView.deselectRow(at: indexPath, animated: true)
         }
-        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return " "
+    }
+    
+    //MARK: - Invite button did taped
+    func tapInviteButton() {
+        if numberOfInvations < 1 {
+            self.showAlert(title: "Error", message: "You have not more invations!")
+            return
+        }
+        if emailTextField.text == "" {
+            self.showAlert(title: "Error", message: "Field(s) are emty!")
+            return
+        }
+        if emailTextField.text!.range(of: "@") == nil || (emailTextField.text!.components(separatedBy: "@")[0].isEmpty) ||  (emailTextField.text!.components(separatedBy: "@")[1].isEmpty) {
+            self.showAlert(title: "Oops", message: "Invalid E-mail adress")
+            return
+        }
+        let alertController = UIAlertController(title: "Send invation", message: "We’ll send an invation to \(emailTextField.text!)", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: "Send", style: .default, handler:{
+            (action: UIAlertAction!) -> Void in
+            self.sendInvations()
+        }))
+        self.present(alertController, animated: true, completion: nil)
     }
     
     @IBAction func addInvites(_ sender: UIButton) {
@@ -98,7 +97,9 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
     //MARK: - Function for send invations on server
     func sendInvations() {
         
-        let data: [String : Any] = ["email" : self.emailTextField.text!, "mode" : self.typeOfAccount == .Admin ? 1 : 0]
+        let emailLowercased = self.emailTextField.text?.lowercased()
+        
+        let data: [String : Any] = ["email" : emailLowercased!, "mode" : self.typeOfAccount == .Admin ? 1 : 0]
         
         request.getJson(category: "/account/invite", data: data,
                         success: { json in
@@ -186,31 +187,39 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
     
     func getNumberOfInvations() {
         
-        let data: [String : Any] = [:] 
+        let data: [String : Any] = [:]
         
         request.getJson(category: "/account/getInviteLimit", data: data,  //debug!
-                        success: { json in
-                            
-                            if let successKey = json["success"] as? Int {
-                                if successKey == 1 {
-                                    if let data = json["data"] as? NSDictionary {
-                                        self.numberOfInvations = data["number"] as! Int //debug!
-                                        self.tableView.reloadData()
-                                    } else {
-                                        print("Json data is broken")
-                                    }
-                                } else {
-                                    let errorMessage = json["message"] as! String
-                                    print("Json error message: \(errorMessage)")
-                                }
-                            } else {
-                                print("Json file is broken!")
-                            }
-    
+            success: { json in
+                
+                if let successKey = json["success"] as? Int {
+                    if successKey == 1 {
+                        if let data = json["data"] as? NSDictionary {
+                            self.numberOfInvations = data["number"] as! Int //debug!
+                            self.tableView.reloadData()
+                        } else {
+                            print("Json data is broken")
+                        }
+                    } else {
+                        let errorMessage = json["message"] as! String
+                        print("Json error message: \(errorMessage)")
+                    }
+                } else {
+                    print("Json file is broken!")
+                }
         },
-                        failure: { (error) in
-                            print(error)
+            failure: { (error) in
+                print(error)
         })
+    }
+    
+    //MARK: - UITextFieldDelegate method
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == emailTextField {
+            emailTextField.resignFirstResponder()
+            tapInviteButton()
+        }
+        return true
     }
     
 }
