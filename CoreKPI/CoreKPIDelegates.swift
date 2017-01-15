@@ -49,3 +49,7 @@ protocol KPIListButtonCellDelegate {
     func reportButtonDidTaped(sender: UIButton)
     func memberNameDidTaped(sender: UIButton)
 }
+
+protocol AlertButtonCellDelegate {
+    func deleteButtonDidTaped(sender: UIButton)
+}

@@ -13,15 +13,20 @@ class AlertsListTableViewCell: UITableViewCell {
     var numberOfCell: Int!
     var deleteDidTaped = false
     
+    var AlertListVC: AlertsListTableViewController!
+    var delegate: AlertButtonCellDelegate!
+    
     @IBOutlet weak var alertNameLabel: UILabel!
     @IBOutlet weak var alertImageView: UIImageView!
+    @IBOutlet weak var deleteButton: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
     @IBAction func tapDeleteButton(_ sender: UIButton) {
-        print("delete!")
+        self.delegate = self.AlertListVC
+        delegate.deleteButtonDidTaped(sender: deleteButton)
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

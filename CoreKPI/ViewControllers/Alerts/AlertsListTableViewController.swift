@@ -57,7 +57,7 @@ enum TypeOfNotification: String {
     case Email
 }
 
-class AlertsListTableViewController: UITableViewController, updateAlertListDelegate {
+class AlertsListTableViewController: UITableViewController, updateAlertListDelegate, AlertButtonCellDelegate {
 
     var model = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin))//: ModelCoreKPI!
     var alertsList: [Alert]!
@@ -96,6 +96,8 @@ class AlertsListTableViewController: UITableViewController, updateAlertListDeleg
         } else {
             cell.alertImageView.layer.backgroundColor = UIColor(red: 216/255, green: 247/255, blue: 215/255, alpha: 1.0).cgColor
         }
+        cell.deleteButton.tag = indexPath.row
+        cell.AlertListVC = self
         return cell
     }
     
@@ -120,4 +122,14 @@ class AlertsListTableViewController: UITableViewController, updateAlertListDeleg
         tableView.reloadData()
     }
 
+    func deleteButtonDidTaped(sender: UIButton) {
+        var newAlertList: [Alert] = []
+        for i in 0..<alertsList.count {
+            if i != sender.tag {
+                newAlertList.append(self.alertsList[i])
+            }
+        }
+        self.alertsList = newAlertList
+        tableView.reloadData()
+    }
 }

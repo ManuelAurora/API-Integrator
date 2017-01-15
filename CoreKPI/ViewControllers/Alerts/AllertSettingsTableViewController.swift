@@ -28,8 +28,15 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
     var deliveryDay: String!
     var deliveryDayArray: [(SettingName: String, value: Bool)] = []
     
-    var timeZone: String!
-    var timeZoneArray: [(SettingName: String, value: Bool)] = []
+    var timeZone: String? {
+        for timezone in timeZoneArray {
+            if timezone.value == true {
+                return timezone.SettingName
+            }
+        }
+        return nil
+    }
+    var timeZoneArray: [(SettingName: String, value: Bool)] = [("Hawaii Time (HST)",false), ("Alaska Time (AKST)", false), ("Pacific Time (PST)",false), ("Mountain Time (MST)", false), ("Central Time (CST)", false), ("Eastern Time (EST)",false)]
     
     var condition = Condition.IsLessThan
     var conditionArray = [(Condition.IsLessThan.rawValue, true), (Condition.IncreasedOrDecreased.rawValue, false), (Condition.PercentHasIncreasedOrDecreasedByMoreThan.rawValue, false)]
@@ -45,16 +52,12 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
         super.viewDidLoad()
         
         request = Request(model: self.model)
-        self.getTimeZonesList()
+        
+        //NOT USE IN THIS VERSION
+        //self.getTimeZonesList()
         
         //debug
         self.deliveryTime = "12:15 PM"
-        
-        let arrayFromServer = ["0", "+1", "+2", "+3", "+4"]
-        for zones in arrayFromServer {
-            let zone = (zones, false)
-            self.timeZoneArray.append(zone)
-        }
         
         for i in 1...31 {
             let deliveryDay = ("\(i)", false)
@@ -145,6 +148,7 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
                 case 2:
                     cell.headerCellLabel.text  = "Time zone"
                     cell.descriptionCellLabel.text = timeZone
+                    cell.accessoryType = .disclosureIndicator
                 case 3:
                     cell.headerCellLabel.text = "Delivery time"
                     cell.descriptionCellLabel.text = timeToString(/*date: self.deliveryTime*/)
@@ -272,7 +276,7 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
         return "12:15 PM"
     }
     
-    //MARK: - update time zones from server
+    //MARK: - update time zones from server - NOT USE IN THIS VERSION!
     func getTimeZonesList() {
         self.request = Request(model: model)
         let data: [String : Any] = [:]
@@ -346,11 +350,6 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
             }
         case .TimeZone:
             self.timeZoneArray = array
-            for setting in array {
-                if setting.value == true {
-                    self.timeZone = setting.SettingName
-                }
-            }
         case .Condition:
             self.conditionArray = array
             for condition in array {
@@ -446,6 +445,13 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
     
     func updateParameters(alert: Alert) {
         self.dataSource = alert.dataSource
+        self.timeInterval = alert.timeInterval!
+        self.deliveryDay = alert.deliveryDay
+        //self.timeZone = alert.timeZone
+        self.condition = alert.condition!
+        self.threshold = alert.threshold
+        self.deliveryTime = alert.deliveryTime
+        self.typeOfNotification = alert.typeOfNotification
     }
     
 }
