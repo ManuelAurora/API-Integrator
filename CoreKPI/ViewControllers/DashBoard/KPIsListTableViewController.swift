@@ -377,6 +377,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         self.kpiList.append(kpi)
         self.tableView.reloadData()
     }
+    
     func updateKPIList(kpiArray: [KPI]) {
         self.kpiList = kpiArray
         self.tableView.reloadData()
@@ -393,6 +394,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         destinatioVC.KPIListVC = self
         navigationController?.pushViewController(destinatioVC, animated: true)
     }
+    
     func reportButtonDidTaped(sender: UIButton) {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ReportAndViewKPI") as! ReportAndViewKPITableViewController
         destinatioVC.model = self.model
@@ -402,6 +404,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         destinatioVC.KPIListVC = self
         navigationController?.pushViewController(destinatioVC, animated: true)
     }
+    
     func memberNameDidTaped(sender: UIButton) {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "MemberInfo") as! MemberInfoViewController
         destinatioVC.model = self.model
@@ -412,7 +415,6 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     }
     
     //MARK: - navigation
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AddKPI" {
             let destinationVC = segue.destination as! ChooseSuggestedKPITableViewController

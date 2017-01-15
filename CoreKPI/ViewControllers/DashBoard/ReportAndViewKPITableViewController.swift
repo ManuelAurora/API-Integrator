@@ -62,6 +62,9 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
     enum Setting: String {
         case none
         case Colour
+        case KPIname
+        case KPInote
+        case Department
         case Executant
         case TimeInterval
         case DeliveryDay
@@ -286,15 +289,6 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                         default:
                             break
                         }
-
-//                    case 2:
-//                        let interval = kpiArray[kpiIndex].createdKPI?.timeInterval
-//                        switch interval! {
-//                        case .Daily:
-//                            return 6 //+2 type of graphics
-//                        default:
-//                            return 7 //+2 type of graphics
-//                        }
                     default:
                         break
                     }
@@ -386,8 +380,17 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                         self.typeOfSetting = .Colour
                         self.settingArray = self.colourArray
                         self.showSelectSettingVC()
-//                    case 1:
-//                        return 3
+                    case 1:
+                        switch indexPath.row {
+                        case 0:
+                            self.typeOfSetting = .KPIname
+                            self.showSelectSettingVC()
+                        case 1:
+                            self.typeOfSetting = .KPInote
+                            self.showSelectSettingVC()
+                        default:
+                            break
+                        }
 //                    case 2:
 //                        let interval = kpiArray[kpiIndex].createdKPI?.timeInterval
 //                        switch interval! {
@@ -425,11 +428,18 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "SelectSettingForKPI") as! KPISelectSettingTableViewController
         destinatioVC.ReportAndViewVC = self
         destinatioVC.selectSetting = settingArray
+        let createdKPI = self.kpiArray[kpiIndex].createdKPI
         switch typeOfSetting {
         case .Colour:
             destinatioVC.segueWithSelecting = true
             destinatioVC.cellsWithColourView = true
             destinatioVC.colourDictionary = self.colourDictionary
+        case .KPIname:
+            destinatioVC.inputSettingCells = true
+            destinatioVC.textFieldInputData = createdKPI?.KPI
+        case .KPInote:
+            destinatioVC.inputSettingCells = true
+            destinatioVC.textFieldInputData = createdKPI?.descriptionOfKPI
         default:
             break
         }
@@ -484,6 +494,19 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
     
     //MARK: - updateSettingsArrayDelegate methods
     func updateStringValue(string: String?) {
+        var createdKPI = self.kpiArray[kpiIndex].createdKPI
+        switch typeOfSetting {
+        case .KPIname:
+            if string != nil {
+                createdKPI?.KPI = string!
+            }
+        case .KPInote:
+                createdKPI?.descriptionOfKPI = string
+        default:
+            return
+        }
+        self.kpiArray[kpiIndex].createdKPI = createdKPI
+        tableView.reloadData()
     }
     func updateSettingsArray(array: [(SettingName: String, value: Bool)]) {
         switch typeOfSetting {

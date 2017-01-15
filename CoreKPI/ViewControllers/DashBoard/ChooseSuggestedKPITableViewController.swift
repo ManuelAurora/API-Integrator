@@ -375,7 +375,13 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
                     let DescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell", for: indexPath) as! KPIDescriptionTableViewCell
                     DescriptionCell.headerOfCellLabel.text = "KPI Note"
                     DescriptionCell.descriptionOfCellLabel.text = self.kpiDescription == nil ? "Add note (Optional)" : ""
-                    DescriptionCell.kpiInfoTextLabel.text = self.kpiDescription ?? ""
+                    if self.kpiDescription == nil {
+                        DescriptionCell.kpiInfoTextLabel.isHidden = true
+                    } else {
+                        DescriptionCell.kpiInfoTextLabel.isHidden = false
+                        DescriptionCell.kpiInfoTextLabel.text = self.kpiDescription
+                    }
+//                    DescriptionCell.kpiInfoTextLabel.text = self.kpiDescription ?? ""
                     DescriptionCell.prepareForReuse()
                     return DescriptionCell
                 case 5:

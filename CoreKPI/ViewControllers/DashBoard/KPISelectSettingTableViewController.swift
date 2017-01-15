@@ -182,10 +182,13 @@ class KPISelectSettingTableViewController: UITableViewController, UITextViewDele
         _ = self.navigationController?.popToViewController(ChoseSuggestVC, animated: true)
     }
     
-    
+    //MARK: - UITextFieldDelegate method
     func textViewDidChange(_ textView: UITextView) {
-        
-        self.textFieldInputData = textView.text
-        
+        if textView.text == "" {
+            self.textFieldInputData = nil
+        } else {
+            self.textFieldInputData = textView.text
+        }
     }
+    
 }

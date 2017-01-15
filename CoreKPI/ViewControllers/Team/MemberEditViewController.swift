@@ -402,4 +402,16 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
             return true
         }
     }
+    
+    //MARK: - UITextFieldDelegate method
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == memberNameTextField {
+            memberPositionTextField.becomeFirstResponder()
+        }
+        if textField == memberPositionTextField {
+            memberNameTextField.becomeFirstResponder()
+        }
+        return true
+    }
+    
 }
