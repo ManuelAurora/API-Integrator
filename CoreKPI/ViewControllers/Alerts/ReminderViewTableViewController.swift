@@ -9,9 +9,11 @@
 import UIKit
 
 class ReminderViewTableViewController: UITableViewController, updateAlertListDelegate {
-    
+    var alertList: [Alert]!
+    var index: Int!
     var alert: Alert!
     weak var AlertListVC: AlertsListTableViewController!
+    var delegate: updateAlertListDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,10 +135,25 @@ class ReminderViewTableViewController: UITableViewController, updateAlertListDel
         }
     }
     
-    //MARK: - updateAlertListDelegate method
+    override func willMove(toParentViewController parent: UIViewController?) {
+        delegate = self.AlertListVC
+        delegate.updateAlertList(alertArray: self.alertList)
+    }
+    
+    //MARK: - updateAlertListDelegate methods
     func addAlert(alert: Alert) {
         self.alert = alert
         tableView.reloadData()
+        var newArrayList: [Alert] = []
+        for i in 0..<alertList.count {
+            if i == index {
+                newArrayList.append(alert)
+            } else {
+                newArrayList.append(self.alertList[i])
+            }
+        }
+        self.alertList = newArrayList
     }
-    
+    func updateAlertList(alertArray: [Alert]) {
+    }
 }

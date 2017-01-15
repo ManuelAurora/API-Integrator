@@ -20,10 +20,10 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
     var settingsArray: [(SettingName: String, value: Bool)] = []
     
     var dataSource = DataSource.MyShopSales
-    var dataSourceArray = [(DataSource.MyShopSales.rawValue, true),(DataSource.MyShopSupples.rawValue, false), (DataSource.Balance.rawValue, false)]
+    var dataSourceArray: [(SettingName: String, value: Bool)] = [(DataSource.MyShopSales.rawValue, true),(DataSource.MyShopSupples.rawValue, false), (DataSource.Balance.rawValue, false)]
     
     var timeInterval = TimeInterval.Daily
-    var timeIntervalArray = [(TimeInterval.Daily.rawValue, true), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, false)]
+    var timeIntervalArray: [(SettingName: String, value: Bool)] = [(TimeInterval.Daily.rawValue, true), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, false)]
     
     var deliveryDay: String!
     var deliveryDayArray: [(SettingName: String, value: Bool)] = []
@@ -39,14 +39,14 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
     var timeZoneArray: [(SettingName: String, value: Bool)] = [("Hawaii Time (HST)",false), ("Alaska Time (AKST)", false), ("Pacific Time (PST)",false), ("Mountain Time (MST)", false), ("Central Time (CST)", false), ("Eastern Time (EST)",false)]
     
     var condition = Condition.IsLessThan
-    var conditionArray = [(Condition.IsLessThan.rawValue, true), (Condition.IncreasedOrDecreased.rawValue, false), (Condition.PercentHasIncreasedOrDecreasedByMoreThan.rawValue, false)]
+    var conditionArray: [(SettingName: String, value: Bool)] = [(Condition.IsLessThan.rawValue, true), (Condition.IncreasedOrDecreased.rawValue, false), (Condition.PercentHasIncreasedOrDecreasedByMoreThan.rawValue, false)]
     
     var threshold: String?
     
     var deliveryTime: String!//Date!
     
     var typeOfNotification: [TypeOfNotification] = []
-    var typeOfNotificationArray = [(TypeOfNotification.Email.rawValue, false), (TypeOfNotification.SMS.rawValue, false), (TypeOfNotification.Push.rawValue, false)]
+    var typeOfNotificationArray: [(SettingName: String, value: Bool)] = [(TypeOfNotification.Email.rawValue, false), (TypeOfNotification.SMS.rawValue, false), (TypeOfNotification.Push.rawValue, false)]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +60,10 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
         self.deliveryTime = "12:15 PM"
         
         for i in 1...31 {
-            let deliveryDay = ("\(i)", false)
+            var deliveryDay: (String, Bool) = ("\(i)", false)
+            if self.deliveryDay != nil && self.deliveryDay == "\(i)" {
+                deliveryDay = ("\(i)", true)
+            }
             self.deliveryDayArray.append(deliveryDay)
         }
         
@@ -143,7 +146,12 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
                     cell.descriptionCellLabel.text = self.timeInterval.rawValue
                 case 1:
                     cell.headerCellLabel.text = "Delivery day"
-                    cell.descriptionCellLabel.text = self.deliveryDay
+                    if self.deliveryDay != nil && Int(self.deliveryDay)! > 28 {
+                        cell.descriptionCellLabel.text = self.deliveryDay + " or last day"
+                    } else {
+                        cell.descriptionCellLabel.text = self.deliveryDay
+                    }
+                    
                     
                 case 2:
                     cell.headerCellLabel.text  = "Time zone"
@@ -427,6 +435,7 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
             destinatioVC.selectSeveralEnable = true
         case .Threshold:
             destinatioVC.inputSettingCells = true
+            destinatioVC.textFieldInputData = self.threshold
             switch self.condition {
             case .IncreasedOrDecreased:
                 destinatioVC.headerForTableView = "Add data"
@@ -435,6 +444,8 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
             case .PercentHasIncreasedOrDecreasedByMoreThan:
                 destinatioVC.headerForTableView = "Add data %"
             }
+        case .DeliveryDay:
+            destinatioVC.tableView.isScrollEnabled = true
         default:
             break
         }
@@ -442,16 +453,91 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
     }
     
     //MARK: - update all parameters from Alert struct
-    
     func updateParameters(alert: Alert) {
+        //dataSource
         self.dataSource = alert.dataSource
-        self.timeInterval = alert.timeInterval!
-        self.deliveryDay = alert.deliveryDay
-        //self.timeZone = alert.timeZone
-        self.condition = alert.condition!
+        var newDataSourceArray: [(SettingName: String, value: Bool)] = []
+        for source in self.dataSourceArray {
+            if source.SettingName == self.dataSource.rawValue {
+                newDataSourceArray.append((source.SettingName, true))
+            } else {
+                newDataSourceArray.append((source.SettingName, false))
+            }
+        }
+        self.dataSourceArray = newDataSourceArray
+        //TimeInterval
+        if let alertTimeInterval = alert.timeInterval {
+            self.timeInterval = alertTimeInterval
+            var newTimeIntervalArray: [(SettingName: String, value: Bool)] = []
+            for interval in self.timeIntervalArray {
+                if interval.SettingName == self.timeInterval.rawValue {
+                    newTimeIntervalArray.append((interval.SettingName, true))
+                } else {
+                    newTimeIntervalArray.append((interval.SettingName, false))
+                }
+            }
+            self.timeIntervalArray = newTimeIntervalArray
+        }
+
+        //DeliveryDay
+        if let alertDeliveryDay = alert.deliveryDay {
+            self.deliveryDay = alertDeliveryDay
+            var newDeliveryDayArray: [(SettingName: String, value: Bool)] = []
+            for day in self.deliveryDayArray {
+                if day.SettingName == self.deliveryDay {
+                    newDeliveryDayArray.append((day.SettingName, true))
+                } else {
+                    newDeliveryDayArray.append((day.SettingName, false))
+                }
+            }
+            self.deliveryDayArray = newDeliveryDayArray
+        }
+  
+        //TimeZone
+        var newTimeZoneArray: [(SettingName: String, value: Bool)] = []
+        for zone in self.timeZoneArray {
+            if zone.SettingName == alert.timeZone {
+                newTimeZoneArray.append((zone.SettingName, true))
+            } else {
+                newTimeZoneArray.append((zone.SettingName, false))
+            }
+        }
+        self.timeZoneArray = newTimeZoneArray
+        //Condition
+        if let alertCondition = alert.condition {
+            self.condition = alertCondition
+            var newConditionArray: [(SettingName: String, value: Bool)] = []
+            for condition in self.conditionArray {
+                if condition.SettingName == self.condition.rawValue {
+                    newConditionArray.append((condition.SettingName, true))
+                } else {
+                    newConditionArray.append((condition.SettingName, false))
+                }
+            }
+            self.conditionArray = newConditionArray
+        }
+
+        //Threshold
         self.threshold = alert.threshold
+        //DeliveryTime
         self.deliveryTime = alert.deliveryTime
+        //TipeOfNotification
         self.typeOfNotification = alert.typeOfNotification
+        var newTypeOfNotificationArray: [(SettingName: String, value: Bool)] = []
+        for notification in self.typeOfNotificationArray {
+            var notificationDidSelected = false
+            for selectedNotifications in self.typeOfNotification {
+                if notification.SettingName == selectedNotifications.rawValue {
+                    notificationDidSelected = true
+                }
+            }
+            if notificationDidSelected {
+                newTypeOfNotificationArray.append((notification.SettingName, true))
+            } else {
+                newTypeOfNotificationArray.append((notification.SettingName, false))
+            }
+        }
+        self.typeOfNotificationArray = newTypeOfNotificationArray
     }
     
 }

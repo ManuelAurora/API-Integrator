@@ -112,6 +112,8 @@ class AlertsListTableViewController: UITableViewController, updateAlertListDeleg
             if let indexPath = tableView.indexPathForSelectedRow {
                 let destinationController = segue.destination as! ReminderViewTableViewController
                 destinationController.alert = self.alertsList[indexPath.row]
+                destinationController.alertList = self.alertsList
+                destinationController.index = indexPath.row
                 destinationController.AlertListVC = self
             }
         }
@@ -122,6 +124,11 @@ class AlertsListTableViewController: UITableViewController, updateAlertListDeleg
         tableView.reloadData()
     }
 
+    func updateAlertList(alertArray: [Alert]) {
+        self.alertsList = alertArray
+        tableView.reloadData()
+    }
+    
     func deleteButtonDidTaped(sender: UIButton) {
         var newAlertList: [Alert] = []
         for i in 0..<alertsList.count {

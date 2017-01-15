@@ -36,6 +36,7 @@ protocol updateNicknameDelegate {
 }
 
 protocol updateAlertListDelegate {
+    func updateAlertList(alertArray: [Alert])
     func addAlert(alert: Alert)
 }
 
