@@ -191,9 +191,16 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     @IBAction func tapResponsibleForButton(_ sender: UIButton) {
-        print("Responsible for was taped")
+        let vc = storyboard?.instantiateViewController(withIdentifier: "KPIListVC") as! KPIsListTableViewController
+        vc.model = self.model
+        vc.loadUsersKPI(userID: self.profile.userId)
+        self.navigationController?.show(vc, sender: nil)
     }
     
+    @IBAction func tapSecurityButton(_ sender: UIButton) {
+        print("Bogdan don't say what this button do ;(")
+    }
+
     //MARK: - navigation
     override func willMove(toParentViewController parent: UIViewController?) {
         if(!(parent?.isEqual(self.parent) ?? false)) {

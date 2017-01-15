@@ -852,6 +852,9 @@ The main advantage of a computer audio player is that you can play your audio CD
                                                 <integer key="value" value="8"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="tapSecurityButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="kzs-n0-Rej"/>
+                                        </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsv-ER-n9H">
                                         <rect key="frame" x="182" y="0.0" width="161" height="36"/>
@@ -868,6 +871,9 @@ The main advantage of a computer audio player is that you can play your audio CD
                                                 <integer key="value" value="8"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="tapResponsibleForButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="ylf-w0-IWo"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -2493,7 +2499,7 @@ The main advantage of a computer audio player is that you can play your audio CD
         <!--My KPIs-->
         <scene sceneID="zb1-Ks-nR2">
             <objects>
-                <tableViewController id="Unc-k5-vIr" customClass="KPIsListTableViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="KPIListVC" id="Unc-k5-vIr" customClass="KPIsListTableViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="144" sectionHeaderHeight="28" sectionFooterHeight="28" id="5hR-Lv-01p">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

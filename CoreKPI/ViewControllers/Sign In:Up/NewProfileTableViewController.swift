@@ -121,6 +121,7 @@ class NewProfileTableViewController: UITableViewController, UIImagePickerControl
                         let dashboardNavigationViewController = tabBarController.viewControllers?[0] as! DashboardsNavigationViewController
                         let dashboardViewController = dashboardNavigationViewController.childViewControllers[0] as! KPIsListTableViewController
                         dashboardViewController.model = ModelCoreKPI(model: model)
+                        dashboardViewController.loadKPIsFromServer()
                         
                         let alertsNavigationViewController = tabBarController.viewControllers?[1] as! AlertsNavigationViewController
                         let alertsViewController = alertsNavigationViewController.childViewControllers[0] as! AlertsListTableViewController

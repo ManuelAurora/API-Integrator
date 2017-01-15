@@ -176,8 +176,6 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         let kpiTwo = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: Departments.Procurement, KPI: "Shop Volume",descriptionOfKPI: nil, executant: Profile(userId: 123, userName: "User@User.com", firstName: "Pes", lastName: "Sobaka", position: nil, photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin) , timeInterval: TimeInterval.Weekly, timeZone: "MSK +3", deadline: "12.01.2017", number: [("08/01/17", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: UIColor.clear)
         kpiList = [kpiOne, kpiTwo]
         
-        self.loadKPIsFromServer()
-        
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
         tableView.tableFooterView = UIView(frame: .zero)
     }
@@ -272,6 +270,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     }
     
     //MARK: - Load KPIs from server methods
+    //MARK: Load all KPIs
     func loadKPIsFromServer(){
         self.request = Request(model: model)
         let data: [String : Any] = [:]
@@ -338,12 +337,6 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                         }
                         self.tableView.reloadData()
                     }
-                    
-                    
-                    
-                    
-                    //Save data from json
-                    
                 } else {
                     print("Json data is broken")
                 }
@@ -355,6 +348,21 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         } else {
             print("Json file is broken!")
         }
+    }
+    
+    //MARK: Load User's KPI
+    func loadUsersKPI(userID: Int) {
+        self.kpiList.removeAll()
+        self.request = Request(model: model)
+        let data: [String : Any] = ["user_id": userID]
+        
+        request.getJson(category: "/kpi/getUserKPIs", data: data,
+                        success: { json in
+                            self.parsingJson(json: json)
+        },
+                        failure: { (error) in
+                            print(error)
+        })
     }
     
     //MARK: - Show alert method
@@ -393,7 +401,6 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         destinatioVC.buttonDidTaped = ButtonDidTaped.Report
         destinatioVC.KPIListVC = self
         navigationController?.pushViewController(destinatioVC, animated: true)
-        
     }
     func memberNameDidTaped(sender: UIButton) {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "MemberInfo") as! MemberInfoViewController
