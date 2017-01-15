@@ -29,9 +29,7 @@ class ChageNameTableViewController: UITableViewController, updateModelDelegate, 
         
         tableView.tableFooterView = UIView(frame: .zero)
         
-        self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-        self.navigationController?.navigationBar.shadowImage = nil
-        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.hideTransparentNavigationBar()
     }
     
     override func didReceiveMemoryWarning() {

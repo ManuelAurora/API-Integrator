@@ -39,9 +39,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         self.request = Request(model: self.model)
         
         tableView.tableFooterView = UIView(frame: .zero)
-        self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-        self.navigationController?.navigationBar.shadowImage = nil
-        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.hideTransparentNavigationBar()
     }
     
     override func didReceiveMemoryWarning() {
@@ -249,7 +247,6 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
             sendRequest(params: newParams)
         } else if newParams.count < 1 && typeOfAccountWasChanged == false {
             showAlert(title: "Warning", message: "Profile not changed")
-            self.navigationController!.popViewController(animated: true)
         }
     }
     
@@ -325,6 +322,10 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
             destinationVC.memberEditVC = self
             destinationVC.typeOfAccount = self.newProfile.typeOfAccount
         }
+    }
+    
+    override func willMove(toParentViewController parent: UIViewController?) {
+        self.navigationController?.presentTransparentNavigationBar()
     }
     
     //MARK: - UIImagePickerControllerDelegate methods

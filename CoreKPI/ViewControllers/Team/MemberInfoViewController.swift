@@ -195,10 +195,6 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     //MARK: - navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        self.navigationController?.hideTransparentNavigationBar()
-    }
-    
     override func willMove(toParentViewController parent: UIViewController?) {
         if(!(parent?.isEqual(self.parent) ?? false)) {
             if memberListVC != nil {
@@ -208,6 +204,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                 updateProfileDelegate.updateProfile(profile: self.profile)
             }
         }
+        self.navigationController?.hideTransparentNavigationBar()
     }
     
     //MARK: - updateModelDelegate method
@@ -226,6 +223,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         self.memberProfilePhotoImage.image = self.profileImage
         self.navigationController?.presentTransparentNavigationBar()
         tableView.reloadData()
+        self.navigationController?.presentTransparentNavigationBar()
     }
     
     func updateProfilePhoto() {
