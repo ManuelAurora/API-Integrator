@@ -78,6 +78,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                 },
                                 failure: { (error) in
                                     print(error)
+                                    self.showAlert(title: "Authorization error", errorMessage: error)
                 })
             }
         }
@@ -100,7 +101,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             } else {
                 let errorMessage = json["message"] as! String
                 print("Json error message: \(errorMessage)")
-                showAlert(errorMessage: errorMessage)
+                showAlert(title: "Authorization error", errorMessage: errorMessage)
             }
         } else {
             print("Json file is broken!")
@@ -165,15 +166,15 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             } else {
                 let errorMessage = json["message"] as! String
                 print("Json error message: \(errorMessage)")
-                showAlert(errorMessage: errorMessage)
+                showAlert(title: "Authorization error",errorMessage: errorMessage)
             }
         } else {
             print("Json file is broken!")
         }
     }
     //MARK: - show alert function
-    func showAlert(errorMessage: String) {
-        let alertController = UIAlertController(title: "Authorization error", message: errorMessage, preferredStyle: .alert)
+    func showAlert(title: String, errorMessage: String) {
+        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }

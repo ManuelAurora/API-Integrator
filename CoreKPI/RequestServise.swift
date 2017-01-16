@@ -64,7 +64,14 @@ class Request {
                     }
                     
                 } catch {
-                    failure("Server not found")
+                    guard response.result.isSuccess else {
+                        let error = response.result.error
+                        if let error = error, (error as NSError).code != NSURLErrorCancelled {
+                            let requestError = error.localizedDescription
+                            failure(requestError)
+                        }
+                        return
+                    }
                 }
             }
         }

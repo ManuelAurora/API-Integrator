@@ -703,7 +703,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="36" translatesAutoresizingMaskIntoConstraints="NO" id="d8T-GV-d3c">
-                                <rect key="frame" x="132" y="216" width="112" height="57.5"/>
+                                <rect key="frame" x="132" y="209" width="112" height="57.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="vEY-Wv-LPL">
                                         <rect key="frame" x="0.0" y="0.0" width="38" height="57.5"/>
@@ -767,7 +767,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="62" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="i15-st-LzW">
-                                <rect key="frame" x="0.0" y="288.5" width="375" height="188"/>
+                                <rect key="frame" x="0.0" y="281.5" width="375" height="188"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="188" id="mpV-et-YvT"/>
@@ -777,7 +777,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                         <rect key="frame" x="0.0" y="28" width="375" height="62"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uB3-It-dWB" id="i8p-m5-Sir">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="62"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="GeA-Ou-AXI">
@@ -816,7 +816,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </connections>
                             </tableView>
                             <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PCg-CY-yE3">
-                                <rect key="frame" x="32" y="529.5" width="311" height="36"/>
+                                <rect key="frame" x="32" y="522.5" width="311" height="36"/>
                                 <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="27Z-Lg-dfm"/>
@@ -835,7 +835,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="i7a-fV-Yzm">
-                                <rect key="frame" x="16" y="529.5" width="343" height="36"/>
+                                <rect key="frame" x="16" y="522.5" width="343" height="36"/>
                                 <subviews>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-cu-qgk">
                                         <rect key="frame" x="0.0" y="0.0" width="161" height="36"/>
@@ -885,11 +885,11 @@ The main advantage of a computer audio player is that you can play your audio CD
                         <constraints>
                             <constraint firstItem="PCg-CY-yE3" firstAttribute="centerX" secondItem="Zbb-DA-UH4" secondAttribute="centerX" id="1Je-Yv-UqY"/>
                             <constraint firstItem="i7a-fV-Yzm" firstAttribute="leading" secondItem="Zbb-DA-UH4" secondAttribute="leading" constant="16" id="4xs-f6-AHo"/>
-                            <constraint firstItem="bbz-6Y-2Vq" firstAttribute="top" relation="greaterThanOrEqual" secondItem="PCg-CY-yE3" secondAttribute="bottom" constant="15" id="9eS-mC-Cc3"/>
+                            <constraint firstItem="bbz-6Y-2Vq" firstAttribute="top" relation="greaterThanOrEqual" secondItem="PCg-CY-yE3" secondAttribute="bottom" constant="18" id="9eS-mC-Cc3"/>
                             <constraint firstAttribute="trailing" secondItem="i7a-fV-Yzm" secondAttribute="trailing" constant="16" id="Ggc-qZ-f6j"/>
-                            <constraint firstItem="d8T-GV-d3c" firstAttribute="top" relation="greaterThanOrEqual" secondItem="DT9-5C-7lW" secondAttribute="bottom" constant="10" id="J4a-cf-eGc"/>
+                            <constraint firstItem="d8T-GV-d3c" firstAttribute="top" relation="greaterThanOrEqual" secondItem="DT9-5C-7lW" secondAttribute="bottom" constant="7" id="J4a-cf-eGc"/>
                             <constraint firstItem="PCg-CY-yE3" firstAttribute="top" secondItem="i15-st-LzW" secondAttribute="bottom" priority="750" constant="53" id="Koe-K0-9Zj"/>
-                            <constraint firstItem="d8T-GV-d3c" firstAttribute="top" secondItem="DT9-5C-7lW" secondAttribute="bottom" priority="250" constant="22" id="MRH-Yv-cQ7"/>
+                            <constraint firstItem="d8T-GV-d3c" firstAttribute="top" secondItem="DT9-5C-7lW" secondAttribute="bottom" priority="250" constant="15" id="MRH-Yv-cQ7"/>
                             <constraint firstItem="i15-st-LzW" firstAttribute="top" secondItem="d8T-GV-d3c" secondAttribute="bottom" priority="250" constant="15" id="Tit-Yi-oqe"/>
                             <constraint firstAttribute="trailingMargin" secondItem="PCg-CY-yE3" secondAttribute="trailing" constant="16" id="Wgs-Y8-kZS"/>
                             <constraint firstItem="DT9-5C-7lW" firstAttribute="centerX" secondItem="Zbb-DA-UH4" secondAttribute="centerX" id="XSp-gN-NXl"/>
@@ -898,7 +898,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                             <constraint firstItem="PCg-CY-yE3" firstAttribute="leading" secondItem="Zbb-DA-UH4" secondAttribute="leadingMargin" constant="16" id="gcn-JV-iag"/>
                             <constraint firstItem="DT9-5C-7lW" firstAttribute="top" secondItem="Zbb-DA-UH4" secondAttribute="topMargin" constant="56" id="o0f-xL-oEF"/>
                             <constraint firstItem="i15-st-LzW" firstAttribute="leading" secondItem="Zbb-DA-UH4" secondAttribute="leading" id="r2E-9T-Bnu"/>
-                            <constraint firstItem="bbz-6Y-2Vq" firstAttribute="top" relation="greaterThanOrEqual" secondItem="i7a-fV-Yzm" secondAttribute="bottom" constant="15" id="sVC-2P-GHK"/>
+                            <constraint firstItem="bbz-6Y-2Vq" firstAttribute="top" relation="greaterThanOrEqual" secondItem="i7a-fV-Yzm" secondAttribute="bottom" constant="18" id="sVC-2P-GHK"/>
                             <constraint firstItem="i7a-fV-Yzm" firstAttribute="top" secondItem="i15-st-LzW" secondAttribute="bottom" priority="750" constant="53" id="vmt-qn-hZG"/>
                             <constraint firstItem="d8T-GV-d3c" firstAttribute="centerX" secondItem="Zbb-DA-UH4" secondAttribute="centerX" id="wC0-dZ-tVf"/>
                         </constraints>
