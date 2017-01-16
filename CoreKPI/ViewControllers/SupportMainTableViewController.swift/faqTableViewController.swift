@@ -118,7 +118,7 @@ class faqTableViewController: UITableViewController {
                     numberForLabel = 00
                 }
                 destinationController.numberOfQuestion = String(numberForLabel+1)
-                
+                tableView.deselectRow(at: indexPath, animated: true)
             }
         }
     }
