@@ -580,7 +580,12 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             return 5
                         }
                     case 1:
-                        return 3 //+2 type of graphics
+                        if KPIOneView == .Numbers && KPITwoView == .Graph || KPIOneView == .Graph && KPITwoView == .Numbers {
+                            return 3
+                        } else {
+                            return 4
+                        }
+                        
                     default:
                         return 0
                     }
@@ -761,7 +766,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                     break
                                 }
                             }
-
+                            
                         default:
                             if KPIOneView == .Numbers && KPITwoView == .Graph {
                                 switch indexPath.row {
@@ -912,56 +917,175 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                     default:
                         break
                     }
-                case .Manager: break
-                    //                    switch section {
-                    //                    case 0:
-                    //                        let interval = kpiArray[kpiIndex].createdKPI?.timeInterval
-                    //                        switch interval! {
-                    //                        case .Daily:
-                    //                            return 4
-                    //                        default:
-                    //                            return 5
-                    //                        }
-                    //                    case 1:
-                    //                        return 2 //+2 type of graphics
-                    //                    default:
-                    //                        return 0
-                    //                    }
+                case .Manager:
+                    switch self.timeInterval {
+                    case .Daily:
+                        switch indexPath.section {
+                        case 0:
+                            cell.descriptionOfCell.isHidden = true
+                            cell.selectionStyle = .none
+                            cell.accessoryType = .none
+                            switch indexPath.row {
+                            case 0:
+                                cell.headerOfCell.text = (self.department?.rawValue)! + " Department"
+                            case 1:
+                                cell.headerOfCell.text = self.timeInterval.rawValue
+                            case 2:
+                                cell.headerOfCell.text = "Time zone: " + self.timeZone
+                            case 3:
+                                cell.headerOfCell.text = "Before " + self.deadline
+                            default:
+                                break
+                            }
+                        case 1:
+                            cell.descriptionOfCell.isHidden = false
+                            cell.selectionStyle = .default
+                            cell.accessoryType = .disclosureIndicator
+                            if KPIOneView == .Numbers && KPITwoView == .Graph {
+                                switch indexPath.row {
+                                case 0:
+                                    cell.headerOfCell.text = "KPI's 1 st view"
+                                    cell.descriptionOfCell.text = self.KPIOneView.rawValue
+                                case 1:
+                                    cell.headerOfCell.text = "KPI's 2 st view"
+                                    cell.descriptionOfCell.text = self.KPITwoView.rawValue
+                                case 2:
+                                    cell.headerOfCell.text = "Graph type"
+                                    cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue
+                                default:
+                                    break
+                                }
+                            }
+                            if KPIOneView == .Graph && KPITwoView == .Numbers {
+                                switch indexPath.row {
+                                case 0:
+                                    cell.headerOfCell.text = "KPI's 1 st view"
+                                    cell.descriptionOfCell.text = self.KPIOneView.rawValue
+                                case 1:
+                                    cell.headerOfCell.text = "Graph type"
+                                    cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
+                                case 2:
+                                    cell.headerOfCell.text = "KPI's 2 st view"
+                                    cell.descriptionOfCell.text = self.KPITwoView.rawValue
+                                default:
+                                    break
+                                }
+                            }
+                            if KPIOneView == .Graph && KPITwoView == .Graph {
+                                switch indexPath.row {
+                                case 0:
+                                    cell.headerOfCell.text = "KPI's 1 st view"
+                                    cell.descriptionOfCell.text = self.KPIOneView.rawValue
+                                case 1:
+                                    cell.headerOfCell.text = "Graph type"
+                                    cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
+                                case 2:
+                                    cell.headerOfCell.text = "KPI's 2 st view"
+                                    cell.descriptionOfCell.text = self.KPITwoView.rawValue
+                                case 3:
+                                    cell.headerOfCell.text = "Graph type"
+                                    cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue
+                                default:
+                                    break
+                                }
+                            }
+                        default:
+                            break
+                        }
+                    default:
+                        switch indexPath.section {
+                        case 0:
+                            cell.descriptionOfCell.isHidden = true
+                            cell.selectionStyle = .none
+                            cell.accessoryType = .none
+                            switch indexPath.row {
+                            case 0:
+                                cell.headerOfCell.text = (self.department?.rawValue)! + " Department"
+                            case 1:
+                                cell.headerOfCell.text = self.timeInterval.rawValue
+                            case 2:
+                                cell.headerOfCell.text = "Day"
+                                switch timeInterval {
+                                case .Monthly:
+                                    if self.mounthlyInterval != nil {
+                                        if self.mounthlyInterval! > 28 {
+                                            cell.headerOfCell.text = "\(self.mounthlyInterval!) or last day"
+                                        } else {
+                                            cell.headerOfCell.text = "\(self.mounthlyInterval!)"
+                                        }
+                                    } else {
+                                        cell.headerOfCell.text = "Add day"
+                                    }
+                                case .Weekly:
+                                    cell.headerOfCell.text = self.weeklyInterval?.rawValue
+                                default:
+                                    break
+                                }
+                            case 3:
+                                cell.headerOfCell.text = "Time zone: " + self.timeZone
+                            case 4:
+                                cell.headerOfCell.text = "Before " + self.deadline
+                            default:
+                                break
+                            }
+                        case 1:
+                            cell.descriptionOfCell.isHidden = false
+                            cell.selectionStyle = .default
+                            cell.accessoryType = .disclosureIndicator
+                            if KPIOneView == .Numbers && KPITwoView == .Graph {
+                                switch indexPath.row {
+                                case 0:
+                                    cell.headerOfCell.text = "KPI's 1 st view"
+                                    cell.descriptionOfCell.text = self.KPIOneView.rawValue
+                                case 1:
+                                    cell.headerOfCell.text = "KPI's 2 st view"
+                                    cell.descriptionOfCell.text = self.KPITwoView.rawValue
+                                case 2:
+                                    cell.headerOfCell.text = "Graph type"
+                                    cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue
+                                default:
+                                    break
+                                }
+                            }
+                            if KPIOneView == .Graph && KPITwoView == .Numbers {
+                                switch indexPath.row {
+                                case 0:
+                                    cell.headerOfCell.text = "KPI's 1 st view"
+                                    cell.descriptionOfCell.text = self.KPIOneView.rawValue
+                                case 1:
+                                    cell.headerOfCell.text = "Graph type"
+                                    cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
+                                case 2:
+                                    cell.headerOfCell.text = "KPI's 2 st view"
+                                    cell.descriptionOfCell.text = self.KPITwoView.rawValue
+                                default:
+                                    break
+                                }
+                            }
+                            if KPIOneView == .Graph && KPITwoView == .Graph {
+                                switch indexPath.row {
+                                case 0:
+                                    cell.headerOfCell.text = "KPI's 1 st view"
+                                    cell.descriptionOfCell.text = self.KPIOneView.rawValue
+                                case 1:
+                                    cell.headerOfCell.text = "Graph type"
+                                    cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
+                                case 2:
+                                    cell.headerOfCell.text = "KPI's 2 st view"
+                                    cell.descriptionOfCell.text = self.KPITwoView.rawValue
+                                case 3:
+                                    cell.headerOfCell.text = "Graph type"
+                                    cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue
+                                default:
+                                    break
+                                }
+                            }
+                        default:
+                            break
+                        }
+                    }
                 }
             }
-            
-            //            switch indexPath.section {
-            //            case 0:
-            //                cell.selectionStyle = .none
-            //                cell.descriptionOfCell.text = ""
-            //                switch indexPath.row {
-            //                case 0:
-            //                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.department.rawValue
-            //                case 1:
-            //                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.timeInterval.rawValue
-            //                case 2:
-            //                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.timeZone
-            //                case 3:
-            //                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.deadline
-            //                default:
-            //                    break
-            //                }
-            //            case 1:
-            //                cell.selectionStyle = .default
-            //                cell.accessoryType = .disclosureIndicator
-            //                switch indexPath.row {
-            //                case 0:
-            //                    cell.headerOfCell.text = "KPI’s 2nd view"
-            //                    cell.descriptionOfCell.text = "Graph" //debug
-            //                case 1:
-            //                    cell.headerOfCell.text = "Graph type"
-            //                    cell.descriptionOfCell.text = "Piechart" //debug
-            //                default:
-            //                    break
-            //                }
-            //            default:
-            //                break
-            //            }
         }
         cell.prepareForReuse()
         return cell
@@ -1048,7 +1172,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                 default:
                                     break
                                 }
- 
+                                
                             }
                             if KPIOneView == .Graph && KPITwoView == .Numbers {
                                 switch indexPath.row {
@@ -1262,21 +1386,71 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                     default:
                         break
                     }
-                case .Manager: break
-                    //                    switch section {
-                    //                    case 0:
-                    //                        let interval = kpiArray[kpiIndex].createdKPI?.timeInterval
-                    //                        switch interval! {
-                    //                        case .Daily:
-                    //                            return 4
-                    //                        default:
-                    //                            return 5
-                    //                        }
-                    //                    case 1:
-                    //                        return 2 //+2 type of graphics
-                    //                    default:
-                    //                        return 0
-                    //                    }
+                case .Manager:
+                    switch indexPath.section {
+                    case 1:
+                        if KPIOneView == .Numbers && KPITwoView == .Graph {
+                            switch indexPath.row {
+                            case 0:
+                                self.typeOfSetting = .KPIViewOne
+                                self.settingArray = KPIOneViewArray
+                                self.showSelectSettingVC()
+                            case 1:
+                                self.typeOfSetting = .KPIViewTwo
+                                self.settingArray = KPITwoViewArray
+                                self.showSelectSettingVC()
+                            case 2:
+                                self.typeOfSetting = .ChartTwo
+                                self.settingArray = typeOfChartTwoArray
+                                self.showSelectSettingVC()
+                            default:
+                                break
+                            }
+                        }
+                        if KPIOneView == .Graph && KPITwoView == .Numbers {
+                            switch indexPath.row {
+                            case 0:
+                                self.typeOfSetting = .KPIViewOne
+                                self.settingArray = KPIOneViewArray
+                                self.showSelectSettingVC()
+                            case 1:
+                                self.typeOfSetting = .ChartOne
+                                self.settingArray = typeOfChartOneArray
+                                self.showSelectSettingVC()
+                            case 2:
+                                self.typeOfSetting = .KPIViewTwo
+                                self.settingArray = KPITwoViewArray
+                                self.showSelectSettingVC()
+                            default:
+                                break
+                            }
+                        }
+                        if KPIOneView == .Graph && KPITwoView == .Graph {
+                            switch indexPath.row {
+                            case 0:
+                                self.typeOfSetting = .KPIViewOne
+                                self.settingArray = KPIOneViewArray
+                                self.showSelectSettingVC()
+                            case 1:
+                                self.typeOfSetting = .ChartOne
+                                self.settingArray = typeOfChartOneArray
+                                self.showSelectSettingVC()
+                            case 2:
+                                self.typeOfSetting = .KPIViewTwo
+                                self.settingArray = KPITwoViewArray
+                                self.showSelectSettingVC()
+                            case 3:
+                                self.typeOfSetting = .ChartTwo
+                                self.settingArray = typeOfChartTwoArray
+                                self.showSelectSettingVC()
+                            default:
+                                break
+                            }
+                        }
+                        
+                    default:
+                        break
+                    }
                 }
             }
         }
@@ -1349,16 +1523,21 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         case .Edit:
             switch self.kpiArray[kpiIndex].typeOfKPI {
             case .createdKPI:
-                var executantProfile: Profile!
-                for profile in self.memberlistArray {
-                    if self.executant == profile.firstName + " " + profile.lastName {
-                        executantProfile = Profile(profile: profile)
+                switch model.profile!.typeOfAccount {
+                case .Admin:
+                    var executantProfile: Profile!
+                    for profile in self.memberlistArray {
+                        if self.executant == profile.firstName + " " + profile.lastName {
+                            executantProfile = Profile(profile: profile)
+                        }
                     }
-                }
-                newKpi = CreatedKPI(source: .User, department: self.department!, KPI: self.kpiName, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, timeZone: self.timeZone, deadline: self.deadline, number: (self.kpiArray[kpiIndex].createdKPI?.number)!)
-                self.kpiArray[kpiIndex].createdKPI = newKpi
-                if self.colour != .none {
-                    self.kpiArray[kpiIndex].imageBacgroundColour = colourDictionary[self.colour]
+                    newKpi = CreatedKPI(source: .User, department: self.department!, KPI: self.kpiName, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, timeZone: self.timeZone, deadline: self.deadline, number: (self.kpiArray[kpiIndex].createdKPI?.number)!)
+                    self.kpiArray[kpiIndex].createdKPI = newKpi
+                    if self.colour != .none {
+                        self.kpiArray[kpiIndex].imageBacgroundColour = colourDictionary[self.colour]
+                    }
+                case .Manager:
+                    break
                 }
                 
             default:
@@ -1375,7 +1554,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         switch typeOfSetting {
         case .KPIname:
             if string != nil {
-                 kpiName = string!
+                kpiName = string!
             }
         case .KPInote:
             kpiDescription = string
