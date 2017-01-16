@@ -19,5 +19,101 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/ViewControllers/DashBoard/ReportAndViewKPITableViewController.swift"
+            timestampString = "506258759.099104"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "563"
+            endingLineNumber = "563"
+            landmarkName = "tableView(_:numberOfRowsInSection:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/ViewControllers/DashBoard/KPIsListTableViewController.swift"
+            timestampString = "506260384.617976"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "382"
+            endingLineNumber = "382"
+            landmarkName = "updateKPIList(kpiArray:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/ViewControllers/DashBoard/ReportAndViewKPITableViewController.swift"
+            timestampString = "506260451.970097"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1350"
+            endingLineNumber = "1350"
+            landmarkName = "tapRightBarButton(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/ViewControllers/DashBoard/ReportAndViewKPITableViewController.swift"
+            timestampString = "506260487.177901"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1358"
+            endingLineNumber = "1358"
+            landmarkName = "tapRightBarButton(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CoreKPI.ReportAndViewKPITableViewController.tapRightBarButton (__ObjC.UIBarButtonItem) -&gt; ()"
+                  moduleName = "CoreKPI"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Sem/Desktop/CoreKPI/CoreKPI/ViewControllers/DashBoard/ReportAndViewKPITableViewController.swift"
+                  timestampString = "506260622.27469"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1358"
+                  endingLineNumber = "1358"
+                  offsetFromSymbolStart = "4172">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CoreKPI.ReportAndViewKPITableViewController.tapRightBarButton (__ObjC.UIBarButtonItem) -&gt; ()"
+                  moduleName = "CoreKPI"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Sem/Desktop/CoreKPI/CoreKPI/ViewControllers/DashBoard/ReportAndViewKPITableViewController.swift"
+                  timestampString = "506260622.277942"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1358"
+                  endingLineNumber = "1358"
+                  offsetFromSymbolStart = "9438">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

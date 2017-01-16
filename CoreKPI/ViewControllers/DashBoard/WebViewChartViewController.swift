@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum TypeOfChart {
+enum TypeOfChart: String {
     case PieChart
     case PointChart
 }
