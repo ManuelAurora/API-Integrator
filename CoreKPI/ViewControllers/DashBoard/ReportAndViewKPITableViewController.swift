@@ -284,7 +284,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
     }
     var typeOfChartOneArray: [(SettingName: String, value: Bool)] = [(TypeOfChart.PieChart.rawValue, true), (TypeOfChart.PointChart.rawValue, false), (TypeOfChart.LineChart.rawValue, false), (TypeOfChart.BarChart.rawValue, false), (TypeOfChart.Funnel.rawValue, false)]
     //KPITwoView
-    var KPITwoView: TypeOfKPIView {
+    var KPITwoView: TypeOfKPIView? {
         get {
             for type in KPITwoViewArray {
                 if type.value == true {
@@ -296,7 +296,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         set {
             var newKPITwoViewArray: [(SettingName: String, value: Bool)] = []
             for view in KPITwoViewArray {
-                if view.SettingName == newValue.rawValue {
+                if view.SettingName == newValue?.rawValue {
                     newKPITwoViewArray.append((view.SettingName, true))
                 } else {
                     newKPITwoViewArray.append((view.SettingName, false))
@@ -402,7 +402,11 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             self.timeZone = (createdKPI?.timeZone)!
             //Deadline
             self.deadline = (createdKPI?.deadline)!
-            //
+            //Charts
+            self.KPIOneView = self.kpiArray[kpiIndex].KPIViewOne
+            self.KPITwoView = self.kpiArray[kpiIndex].KPIViewTwo!
+            self.typeOfChartOne = self.kpiArray[kpiIndex].KPIChartOne
+            self.typeOfChartTwo = self.kpiArray[kpiIndex].KPIChartTwo
             
         case .IntegratedKPI:
             //let integratedKPI = self.kpiArray[kpiIndex].integratedKPI
@@ -697,7 +701,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                     cell.descriptionOfCell.text = self.KPIOneView.rawValue
                                 case 5:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView.rawValue
+                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
                                 case 6:
                                     cell.headerOfCell.text = "Graph type"
                                     cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue
@@ -729,7 +733,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                     cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
                                 case 6:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView.rawValue
+                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
                                 default:
                                     break
                                 }
@@ -758,7 +762,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                     cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
                                 case 6:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView.rawValue
+                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
                                 case 7:
                                     cell.headerOfCell.text = "Graph type"
                                     cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue
@@ -808,7 +812,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                     cell.descriptionOfCell.text = self.KPIOneView.rawValue
                                 case 6:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView.rawValue
+                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
                                 case 7:
                                     cell.headerOfCell.text = "Graph type"
                                     cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue
@@ -858,7 +862,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                     cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
                                 case 7:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView.rawValue
+                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
                                 default:
                                     break
                                 }
@@ -905,7 +909,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                     cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
                                 case 7:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView.rawValue
+                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
                                 case 8:
                                     cell.headerOfCell.text = "Graph type"
                                     cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue
@@ -948,7 +952,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                     cell.descriptionOfCell.text = self.KPIOneView.rawValue
                                 case 1:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView.rawValue
+                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
                                 case 2:
                                     cell.headerOfCell.text = "Graph type"
                                     cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue
@@ -966,7 +970,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                     cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
                                 case 2:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView.rawValue
+                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
                                 default:
                                     break
                                 }
@@ -981,7 +985,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                     cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
                                 case 2:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView.rawValue
+                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
                                 case 3:
                                     cell.headerOfCell.text = "Graph type"
                                     cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue
@@ -1039,7 +1043,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                     cell.descriptionOfCell.text = self.KPIOneView.rawValue
                                 case 1:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView.rawValue
+                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
                                 case 2:
                                     cell.headerOfCell.text = "Graph type"
                                     cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue
@@ -1057,7 +1061,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                     cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
                                 case 2:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView.rawValue
+                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
                                 default:
                                     break
                                 }
@@ -1072,7 +1076,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                     cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
                                 case 2:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView.rawValue
+                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
                                 case 3:
                                     cell.headerOfCell.text = "Graph type"
                                     cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue

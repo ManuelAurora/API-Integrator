@@ -109,6 +109,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         return UITableViewCell()
     }
     
+    //MARK: - Tap edit photo
     @IBAction func tapEditPhoto(_ sender: Any) {
         let actionViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         actionViewController.addAction(UIAlertAction(title: "Take a photo", style: .default, handler: {
@@ -124,6 +125,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         
     }
     
+    //MARK: - tap Save button
     @IBAction func tapSaveButton(_ sender: Any) {
         
         if checkInputValue() {
@@ -148,7 +150,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
             return false
         } else {
             let name = self.memberNameTextField.text?.components(separatedBy: " ")
-            if (name?.count)! < 2 {
+            if (name?.count)! < 2 || name?[0] == "" || name?[1] == "" || name?[0] == " " || name?[1] == " "{
                 self.showAlert(title: "Error", message: "Member should have first name and last name")
                 return false
             } else {

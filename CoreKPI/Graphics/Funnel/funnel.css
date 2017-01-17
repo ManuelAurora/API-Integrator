@@ -52,7 +52,7 @@
     transform: rotate(-90deg);
 }
 .funnel__chart text {
-/*    opacity: 0;*/
+    opacity: 0;
 }
 
 .funnel__title + * {
