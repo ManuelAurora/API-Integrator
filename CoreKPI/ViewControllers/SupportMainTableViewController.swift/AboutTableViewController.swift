@@ -41,7 +41,7 @@ class AboutTableViewController: UITableViewController, MFMailComposeViewControll
             case 0:
                sendEmail()
             case 1:
-                if let url = URL(string: "http://facebook.com") {
+                if let url = URL(string: "https://www.facebook.com/smichrissoft/") {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
             case 2:

@@ -42,6 +42,7 @@ class NewProfileTableViewController: UITableViewController, UIImagePickerControl
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
+            self.dismissKeyboard()
             let actionViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionViewController.addAction(UIAlertAction(title: "Take a photo", style: .default, handler: {
                 (action: UIAlertAction!) -> Void in

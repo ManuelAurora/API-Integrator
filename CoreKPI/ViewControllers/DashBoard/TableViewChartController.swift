@@ -10,6 +10,8 @@ import UIKit
 
 class TableViewChartController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    var index = 0
+    
     var header: String = " "
     var dataArray: [Double] = []
     

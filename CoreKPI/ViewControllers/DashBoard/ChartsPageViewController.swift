@@ -11,13 +11,12 @@ import UIKit
 class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSource {
 
     var kpi: KPI!
-    var index = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         dataSource = self
         
-        self.setViewControllers([returnVC(index: 0)] as [UIViewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
+        self.setViewControllers([getViewController(AtIndex: 0)] as [UIViewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,53 +28,111 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController?
     {
+        var index = returnIndexForVC(vc: viewController)
         if (index == 0) || index == NSNotFound {
             return nil
         }
         
-        self.index -= 1
-        return returnVC(index: self.index)
+        index -= 1
+        return getViewController(AtIndex: index)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController?
     {
+        if self.kpi.typeOfKPI == .IntegratedKPI {
+            return nil
+        }
+        
+        var index = returnIndexForVC(vc: viewController)
         if (index == NSNotFound) || (index == 1) {
             return nil
         }
         index += 1
-        return returnVC(index: self.index)
+        return getViewController(AtIndex: index)
     }
     
     // MARK:- Other Methods
-//    func getViewControllerAtIndex(_ index: NSInteger) -> PageContentViewController
-//    {
-//        // Create a new view controller and pass suitable data.
-//        let pageContentViewController = self.storyboard?.instantiateViewController(withIdentifier: "PageContentViewController") as! PageContentViewController
-//        
-//        pageContentViewController.strTitle = "\(arrPageTitle[index])"
-//        pageContentViewController.strPhotoName = "\(arrPagePhoto[index])"
-//        pageContentViewController.pageIndex = index
-//        
-//        return pageContentViewController
-//    }
-    
-    func returnVC(index: Int) -> UIViewController {
-        let webViewChartVC = storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewChartViewController
+
+    func getViewController(AtIndex index: Int) -> UIViewController {
+        let webViewChartOneVC = storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewChartViewController
+        let webViewChartTwoVC = storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewChartViewController
         let tableViewChartVC = storyboard?.instantiateViewController(withIdentifier: "TableViewController") as! TableViewChartController
         
-        webViewChartVC.typeOfChart = .PieChart
-        tableViewChartVC.dataArray = [12.0, 157.2, 4554.0]
-        tableViewChartVC.header = "My KPI"
-        
-        switch index {
-        case 0:
-            return tableViewChartVC
-        case 1:
-            return webViewChartVC
-        default:
-            return tableViewChartVC
+        switch kpi.typeOfKPI {
+        case .createdKPI:
+            if kpi.KPIViewOne == .Numbers && kpi.KPIViewTwo == .Graph {
+                for i in (kpi.createdKPI?.number)! {
+                    tableViewChartVC.dataArray.append(i.number)
+                }
+                tableViewChartVC.header = (kpi.createdKPI?.KPI)!
+                tableViewChartVC.index = 0
+                webViewChartOneVC.typeOfChart = kpi.KPIChartTwo!
+                webViewChartOneVC.index = 1
+                switch index {
+                case 0:
+                    return tableViewChartVC
+                case 1:
+                    return webViewChartOneVC
+                default:
+                    break
+                }
+            }
+            if kpi.KPIViewOne == .Graph && kpi.KPIViewTwo == .Numbers {
+                webViewChartOneVC.typeOfChart = kpi.KPIChartOne!
+                webViewChartOneVC.index = 0
+                for i in (kpi.createdKPI?.number)! {
+                    tableViewChartVC.dataArray.append(i.number)
+                }
+                tableViewChartVC.header = (kpi.createdKPI?.KPI)!
+                tableViewChartVC.index = 1
+                switch index {
+                case 0:
+                    return webViewChartOneVC
+                case 1:
+                    return tableViewChartVC
+                default:
+                    break
+                }
+            }
+            if kpi.KPIViewOne == .Graph && kpi.KPIViewTwo == .Graph {
+                
+                webViewChartOneVC.typeOfChart = kpi.KPIChartOne!
+                webViewChartOneVC.index = 0
+                
+                webViewChartTwoVC.typeOfChart = kpi.KPIChartTwo!
+                webViewChartTwoVC.index = 1
+                switch index {
+                case 0:
+                    return webViewChartOneVC
+                case 1:
+                    return webViewChartTwoVC
+                default:
+                    break
+                }
+            }
+        case .IntegratedKPI:
+            break
         }
-        
+        return UIViewController()
+    }
+    
+    func returnIndexForVC(vc: UIViewController) -> Int {
+        if let webVC: WebViewChartViewController = vc as? WebViewChartViewController {
+            return webVC.index
+        }
+        if let tableVC: TableViewChartController = vc as? TableViewChartController {
+            return tableVC.index
+        }
+        return 0
+    }
+    
+    func setIndexForVC(vc: UIViewController, index: Int) {
+        if let webVC: WebViewChartViewController = vc as? WebViewChartViewController {
+            webVC.index = index
+        }
+        if let tableVC: TableViewChartController = vc as? TableViewChartController {
+            tableVC.index = index
+        }
     }
     
 }

@@ -282,7 +282,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             typeOfChartOneArray = newTypeOfChartOneArray
         }
     }
-    var typeOfChartOneArray: [(SettingName: String, value: Bool)] = [(TypeOfChart.PieChart.rawValue, true), (TypeOfChart.PointChart.rawValue, false)]
+    var typeOfChartOneArray: [(SettingName: String, value: Bool)] = [(TypeOfChart.PieChart.rawValue, true), (TypeOfChart.PointChart.rawValue, false), (TypeOfChart.LineChart.rawValue, false), (TypeOfChart.BarChart.rawValue, false), (TypeOfChart.Funnel.rawValue, false)]
     //KPITwoView
     var KPITwoView: TypeOfKPIView {
         get {
@@ -330,7 +330,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             typeOfChartTwoArray = newTypeOfChartTwoArray
         }
     }
-    var typeOfChartTwoArray: [(SettingName: String, value: Bool)] = [(TypeOfChart.PieChart.rawValue, true), (TypeOfChart.PointChart.rawValue, false)]
+    var typeOfChartTwoArray: [(SettingName: String, value: Bool)] = [(TypeOfChart.PieChart.rawValue, true), (TypeOfChart.PointChart.rawValue, false), (TypeOfChart.LineChart.rawValue, false), (TypeOfChart.BarChart.rawValue, false), (TypeOfChart.Funnel.rawValue, false)]
     //Setting
     enum Setting: String {
         case none
@@ -1533,13 +1533,19 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                     }
                     newKpi = CreatedKPI(source: .User, department: self.department!, KPI: self.kpiName, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, timeZone: self.timeZone, deadline: self.deadline, number: (self.kpiArray[kpiIndex].createdKPI?.number)!)
                     self.kpiArray[kpiIndex].createdKPI = newKpi
+                    self.kpiArray[kpiIndex].KPIViewOne = self.KPIOneView
+                    self.kpiArray[kpiIndex].KPIChartOne = self.typeOfChartOne
+                    self.kpiArray[kpiIndex].KPIViewTwo = self.KPITwoView
+                    self.kpiArray[kpiIndex].KPIChartTwo = self.typeOfChartTwo
                     if self.colour != .none {
                         self.kpiArray[kpiIndex].imageBacgroundColour = colourDictionary[self.colour]!
                     }
                 case .Manager:
-                    break
+                    self.kpiArray[kpiIndex].KPIViewOne = self.KPIOneView
+                    self.kpiArray[kpiIndex].KPIChartOne = self.typeOfChartOne
+                    self.kpiArray[kpiIndex].KPIViewTwo = self.KPITwoView
+                    self.kpiArray[kpiIndex].KPIChartTwo = self.typeOfChartTwo
                 }
-                
             default:
                 break
             }

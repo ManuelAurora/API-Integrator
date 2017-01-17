@@ -109,30 +109,6 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         return UITableViewCell()
     }
     
-    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
-        switch indexPath!.section {
-        case 0:
-            fallthrough
-        case 1:
-            let memberEditCell = UITableViewCell() as! MemberEditTableViewCell
-            switch indexPath!.row {
-            case 0:
-                if memberEditCell.textFieldOfCell.text != "" {
-                    self.newProfile.phone = memberEditCell.textFieldOfCell.text
-                } else {
-                    self.newProfile.phone = nil
-                }
-            case 1:
-                self.newProfile.userName = memberEditCell.textFieldOfCell.text!
-                
-            default:
-                break
-            }
-        default:
-            break
-        }
-    }
-    
     @IBAction func tapEditPhoto(_ sender: Any) {
         let actionViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         actionViewController.addAction(UIAlertAction(title: "Take a photo", style: .default, handler: {
@@ -318,6 +294,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "TypeOfAccount" {
+            self.dismissKeyboard()
             let destinationVC = segue.destination as! TypeOfAccountTableViewController
             destinationVC.memberEditVC = self
             destinationVC.typeOfAccount = self.newProfile.typeOfAccount

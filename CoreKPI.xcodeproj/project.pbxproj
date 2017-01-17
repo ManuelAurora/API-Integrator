@@ -78,12 +78,24 @@
 		A2ACBD3B1E0D11AA0079EF3D /* AlertsListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ACBD3A1E0D11AA0079EF3D /* AlertsListTableViewController.swift */; };
 		A2ACBD3F1E0D12280079EF3D /* AlertsListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ACBD3E1E0D12280079EF3D /* AlertsListTableViewCell.swift */; };
 		A2ACBD411E0D1DFA0079EF3D /* KPIsListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ACBD401E0D1DFA0079EF3D /* KPIsListTableViewController.swift */; };
+		A2B720981E2E4AFD00471E91 /* d3-funnel.js in Resources */ = {isa = PBXBuildFile; fileRef = A2B720971E2E4AFC00471E91 /* d3-funnel.js */; };
 		A2C9FD231E13E1C500433D43 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD211E13E1C500433D43 /* index.html */; };
 		A2C9FD261E13E1CD00433D43 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD251E13E1CD00433D43 /* style.css */; };
 		A2C9FD291E13E1D400433D43 /* Rd3.v3.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */; };
 		A2C9FD2A1E13E1D400433D43 /* round.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD281E13E1D400433D43 /* round.js */; };
 		A2EFE2C61E2DF0A500BA2956 /* ChartsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EFE2C51E2DF0A500BA2956 /* ChartsPageViewController.swift */; };
 		A2EFE2C81E2DF0E300BA2956 /* TableViewChartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EFE2C71E2DF0E300BA2956 /* TableViewChartController.swift */; };
+		A2EFE2CA1E2E390900BA2956 /* Lines.html in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2C91E2E390900BA2956 /* Lines.html */; };
+		A2EFE2CD1E2E39BB00BA2956 /* Lines.js in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2CC1E2E39BB00BA2956 /* Lines.js */; };
+		A2EFE2CF1E2E39FF00BA2956 /* Lines.css in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2CE1E2E39FF00BA2956 /* Lines.css */; };
+		A2EFE2D21E2E3FAA00BA2956 /* bar.html in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2D11E2E3FAA00BA2956 /* bar.html */; };
+		A2EFE2D41E2E3FE200BA2956 /* bar.js in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2D31E2E3FE200BA2956 /* bar.js */; };
+		A2EFE2D61E2E400500BA2956 /* bar.css in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2D51E2E400500BA2956 /* bar.css */; };
+		A2EFE2D91E2E446900BA2956 /* funnel.html in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2D81E2E446900BA2956 /* funnel.html */; };
+		A2EFE2DB1E2E454A00BA2956 /* funnel.css in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2DA1E2E454A00BA2956 /* funnel.css */; };
+		A2EFE2DD1E2E459800BA2956 /* funnel.js in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2DC1E2E459800BA2956 /* funnel.js */; };
+		A2EFE2DF1E2E494200BA2956 /* jquery.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2DE1E2E494200BA2956 /* jquery.min.js */; };
+		A2EFE2E11E2E4A1300BA2956 /* d3V442.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2E01E2E4A1300BA2956 /* d3V442.min.js */; };
 		A2F0B1181E0C1B110095580B /* CoreKPIDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F0B1171E0C1B110095580B /* CoreKPIDelegates.swift */; };
 		A2FB1AA21E252C110045824A /* KPIDescriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FB1AA11E252C110045824A /* KPIDescriptionTableViewCell.swift */; };
 		A2FB98A41E25FE6900A856E8 /* KPISettingInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FB98A31E25FE6900A856E8 /* KPISettingInputTableViewCell.swift */; };
@@ -197,12 +209,24 @@
 		A2ACBD3A1E0D11AA0079EF3D /* AlertsListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertsListTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AlertsListTableViewController.swift; sourceTree = "<group>"; };
 		A2ACBD3E1E0D12280079EF3D /* AlertsListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertsListTableViewCell.swift; path = CustomTableViewCells/Alerts/AlertsListTableViewCell.swift; sourceTree = "<group>"; };
 		A2ACBD401E0D1DFA0079EF3D /* KPIsListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIsListTableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/KPIsListTableViewController.swift; sourceTree = "<group>"; };
+		A2B720971E2E4AFC00471E91 /* d3-funnel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "d3-funnel.js"; path = "Graphics/Funnel/d3-funnel.js"; sourceTree = "<group>"; };
 		A2C9FD211E13E1C500433D43 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = "Graphics/Круговой/index.html"; sourceTree = "<group>"; };
 		A2C9FD251E13E1CD00433D43 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = style.css; path = "Graphics/Круговой/css/style.css"; sourceTree = "<group>"; };
 		A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Rd3.v3.min.js; path = "Graphics/Круговой/js/Rd3.v3.min.js"; sourceTree = "<group>"; };
 		A2C9FD281E13E1D400433D43 /* round.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = round.js; path = "Graphics/Круговой/js/round.js"; sourceTree = "<group>"; };
 		A2EFE2C51E2DF0A500BA2956 /* ChartsPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChartsPageViewController.swift; path = CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift; sourceTree = "<group>"; };
 		A2EFE2C71E2DF0E300BA2956 /* TableViewChartController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewChartController.swift; path = CoreKPI/ViewControllers/DashBoard/TableViewChartController.swift; sourceTree = "<group>"; };
+		A2EFE2C91E2E390900BA2956 /* Lines.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = Lines.html; path = Graphics/Lines/Lines.html; sourceTree = "<group>"; };
+		A2EFE2CC1E2E39BB00BA2956 /* Lines.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Lines.js; path = Graphics/Lines/Lines.js; sourceTree = "<group>"; };
+		A2EFE2CE1E2E39FF00BA2956 /* Lines.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = Lines.css; path = Graphics/Lines/Lines.css; sourceTree = "<group>"; };
+		A2EFE2D11E2E3FAA00BA2956 /* bar.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bar.html; path = Graphics/BarChart/bar.html; sourceTree = "<group>"; };
+		A2EFE2D31E2E3FE200BA2956 /* bar.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = bar.js; path = Graphics/BarChart/bar.js; sourceTree = "<group>"; };
+		A2EFE2D51E2E400500BA2956 /* bar.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = bar.css; path = Graphics/BarChart/bar.css; sourceTree = "<group>"; };
+		A2EFE2D81E2E446900BA2956 /* funnel.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = funnel.html; path = Graphics/Funnel/funnel.html; sourceTree = "<group>"; };
+		A2EFE2DA1E2E454A00BA2956 /* funnel.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = funnel.css; path = Graphics/Funnel/funnel.css; sourceTree = "<group>"; };
+		A2EFE2DC1E2E459800BA2956 /* funnel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = funnel.js; path = Graphics/Funnel/funnel.js; sourceTree = "<group>"; };
+		A2EFE2DE1E2E494200BA2956 /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jquery.min.js; path = Graphics/Funnel/jquery.min.js; sourceTree = "<group>"; };
+		A2EFE2E01E2E4A1300BA2956 /* d3V442.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = d3V442.min.js; path = Graphics/Funnel/d3V442.min.js; sourceTree = "<group>"; };
 		A2F0B1171E0C1B110095580B /* CoreKPIDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreKPIDelegates.swift; sourceTree = "<group>"; };
 		A2FB1AA11E252C110045824A /* KPIDescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIDescriptionTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPIDescriptionTableViewCell.swift; sourceTree = "<group>"; };
 		A2FB98A31E25FE6900A856E8 /* KPISettingInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPISettingInputTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPISettingInputTableViewCell.swift; sourceTree = "<group>"; };
@@ -238,6 +262,9 @@
 		A2028E711E12B74D00F1EED6 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				A2EFE2D71E2E444200BA2956 /* Funnel */,
+				A2EFE2D01E2E3F6B00BA2956 /* BarChart */,
+				A2EFE2CB1E2E391B00BA2956 /* Lines */,
 				A2B807E71E13A48800F2C1CB /* Points */,
 				A292F5C51E13ACFE009F9F48 /* Pie */,
 			);
@@ -558,6 +585,39 @@
 			name = css;
 			sourceTree = "<group>";
 		};
+		A2EFE2CB1E2E391B00BA2956 /* Lines */ = {
+			isa = PBXGroup;
+			children = (
+				A2EFE2C91E2E390900BA2956 /* Lines.html */,
+				A2EFE2CC1E2E39BB00BA2956 /* Lines.js */,
+				A2EFE2CE1E2E39FF00BA2956 /* Lines.css */,
+			);
+			name = Lines;
+			sourceTree = "<group>";
+		};
+		A2EFE2D01E2E3F6B00BA2956 /* BarChart */ = {
+			isa = PBXGroup;
+			children = (
+				A2EFE2D11E2E3FAA00BA2956 /* bar.html */,
+				A2EFE2D31E2E3FE200BA2956 /* bar.js */,
+				A2EFE2D51E2E400500BA2956 /* bar.css */,
+			);
+			name = BarChart;
+			sourceTree = "<group>";
+		};
+		A2EFE2D71E2E444200BA2956 /* Funnel */ = {
+			isa = PBXGroup;
+			children = (
+				A2EFE2D81E2E446900BA2956 /* funnel.html */,
+				A2EFE2DA1E2E454A00BA2956 /* funnel.css */,
+				A2EFE2DC1E2E459800BA2956 /* funnel.js */,
+				A2EFE2DE1E2E494200BA2956 /* jquery.min.js */,
+				A2EFE2E01E2E4A1300BA2956 /* d3V442.min.js */,
+				A2B720971E2E4AFC00471E91 /* d3-funnel.js */,
+			);
+			name = Funnel;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -667,14 +727,26 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2EFE2CA1E2E390900BA2956 /* Lines.html in Resources */,
+				A2EFE2CF1E2E39FF00BA2956 /* Lines.css in Resources */,
+				A2EFE2DB1E2E454A00BA2956 /* funnel.css in Resources */,
+				A2EFE2D21E2E3FAA00BA2956 /* bar.html in Resources */,
 				A27820731E001503009F83DB /* LaunchScreen.storyboard in Resources */,
 				A2C9FD291E13E1D400433D43 /* Rd3.v3.min.js in Resources */,
 				A2C9FD261E13E1CD00433D43 /* style.css in Resources */,
+				A2EFE2D91E2E446900BA2956 /* funnel.html in Resources */,
+				A2EFE2D41E2E3FE200BA2956 /* bar.js in Resources */,
+				A2EFE2CD1E2E39BB00BA2956 /* Lines.js in Resources */,
 				A2279D7E1E14DE2100669EB0 /* points.js in Resources */,
 				A2279D7D1E14DE2100669EB0 /* d3.js in Resources */,
+				A2B720981E2E4AFD00471E91 /* d3-funnel.js in Resources */,
 				A2279D7A1E14DE1700669EB0 /* points.html in Resources */,
 				A2C9FD2A1E13E1D400433D43 /* round.js in Resources */,
+				A2EFE2D61E2E400500BA2956 /* bar.css in Resources */,
 				A27820701E001503009F83DB /* Assets.xcassets in Resources */,
+				A2EFE2DF1E2E494200BA2956 /* jquery.min.js in Resources */,
+				A2EFE2DD1E2E459800BA2956 /* funnel.js in Resources */,
+				A2EFE2E11E2E4A1300BA2956 /* d3V442.min.js in Resources */,
 				A2C9FD231E13E1C500433D43 /* index.html in Resources */,
 				A278206B1E001503009F83DB /* Main.storyboard in Resources */,
 				A2279D801E14DE2A00669EB0 /* points.css in Resources */,

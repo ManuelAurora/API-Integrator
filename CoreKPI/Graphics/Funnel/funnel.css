@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700');
+.funnel {
+    -ms-flex-align: center;
+    -webkit-box-align: center;
+    align-items: center;
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-pack: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    margin: auto;
+    background: #2062f2;
+}
+.funnel > * {
+    width: calc(  320px - ( 10px + 10px )  );
+}
+.funnel__title {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 20px;
+    font-family: 'Open Sans';
+}
+.funnel__table{
+    width: 100%;
+}
+.funnel__label, .funnel__persent, .funnel__table {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 300;
+    font-family: 'Open Sans';
+}
+.funnel__chart {
+    margin: 10px 0;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    width: calc(  320px - ( 10px + 10px )  );
+    height: calc(  320px - ( 10px + 10px )  );
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+.funnel__chart text {
+/*    opacity: 0;*/
+}
+
+.funnel__title + * {
+    margin-top: 20px;
+}
+
