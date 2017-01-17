@@ -185,6 +185,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
         },
                         failure: { (error) in
                             print(error)
+                            self.showAlert(title: "Sorry!", message: error)
         })
     }
     
@@ -222,6 +223,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
         },
                         failure: { (error) in
                             print(error)
+                            self.showAlert(title: "Sorry!", message: "Can not get team list from server")
         })
     }
     

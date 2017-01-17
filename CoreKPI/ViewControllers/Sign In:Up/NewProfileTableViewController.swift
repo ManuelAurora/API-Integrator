@@ -96,6 +96,7 @@ class NewProfileTableViewController: UITableViewController, UIImagePickerControl
         },
                         failure: { (error) in
                             print(error)
+                            self.showAlert(errorMessage: error)
         })
     }
     

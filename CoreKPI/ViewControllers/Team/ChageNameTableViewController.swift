@@ -67,7 +67,7 @@ class ChageNameTableViewController: UITableViewController, updateModelDelegate, 
                             self.parsingJson(json: json)
         },
                         failure: { (error) in
-                            print(error)
+                            print("Could not send profile to the server")
         })
     }
     

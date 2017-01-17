@@ -51,6 +51,9 @@ class RecoveryPasswordViewController: UIViewController {
         },
                         failure: { (error) in
                             print(error)
+                            let alertController = UIAlertController(title: "Sorry!", message: error, preferredStyle: .alert)
+                            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                            self.present(alertController, animated: true, completion: nil)
         })
     }
     

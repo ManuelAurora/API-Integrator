@@ -112,7 +112,7 @@ struct CreatedKPI {
     }
 }
 
-struct KPI {
+class KPI {
     var typeOfKPI: TypeOfKPI
     var integratedKPI: IntegratedKPI?
     var createdKPI: CreatedKPI?
@@ -151,7 +151,18 @@ struct KPI {
             }
         }
     }
-    var imageBacgroundColour: UIColor!
+    var imageBacgroundColour: UIColor
+    var KPIViewOne: TypeOfKPIView = TypeOfKPIView.Numbers
+    var KPIChartOne: TypeOfChart? = TypeOfChart.PieChart
+    var KPIViewTwo: TypeOfKPIView? = TypeOfKPIView.Graph
+    var KPIChartTwo: TypeOfChart? = TypeOfChart.PieChart
+    
+    init(typeOfKPI: TypeOfKPI, integratedKPI: IntegratedKPI?, createdKPI: CreatedKPI?, imageBacgroundColour: UIColor?) {
+        self.typeOfKPI = typeOfKPI
+        self.integratedKPI = integratedKPI
+        self.createdKPI = createdKPI
+        self.imageBacgroundColour = imageBacgroundColour ?? UIColor.clear
+    }
     
 }
 
@@ -172,8 +183,12 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         }
         
         //Debug only!
-        let kpiOne = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: Departments.Sales, KPI: "Shop Supplies", descriptionOfKPI: "One of the key indicators for western organizations that mainly help to determine the economic efficiency of the Procurement Department.", executant: self.model.profile!, timeInterval: TimeInterval.Daily , timeZone: "GMT +0", deadline: "Before 16:00", number: [("08/01/17", 12000), ("08/01/16", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: UIColor.clear)
-        let kpiTwo = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: Departments.Procurement, KPI: "Shop Volume",descriptionOfKPI: nil, executant: Profile(userId: 123, userName: "User@User.com", firstName: "Pes", lastName: "Sobaka", position: nil, photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin) , timeInterval: TimeInterval.Weekly, timeZone: "MSK +3", deadline: "12.01.2017", number: [("08/01/17", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: UIColor.clear)
+        let kpiOne = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: Departments.Sales, KPI: "Shop Supplies", descriptionOfKPI: "One of the key indicators for western organizations that mainly help to determine the economic efficiency of the Procurement Department.", executant: self.model.profile!, timeInterval: TimeInterval.Daily , timeZone: "GMT +0", deadline: "Before 16:00", number: [("08/01/17", 12000), ("08/01/16", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: nil)
+        kpiOne.KPIViewOne = .Graph
+        kpiOne.KPIViewTwo = TypeOfKPIView.Numbers
+        let kpiTwo = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: Departments.Procurement, KPI: "Shop Volume",descriptionOfKPI: nil, executant: Profile(userId: 123, userName: "User@User.com", firstName: "Pes", lastName: "Sobaka", position: nil, photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin) , timeInterval: TimeInterval.Weekly, timeZone: "MSK +3", deadline: "12.01.2017", number: [("08/01/17", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: nil)
+        kpiTwo.KPIViewOne = .Graph
+        kpiTwo.KPIChartOne = TypeOfChart.PieChart
         kpiList = [kpiOne, kpiTwo]
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
@@ -254,19 +269,10 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.row {
-        case 0:
-            let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewChartViewController
-            destinatioVC.typeOfChart = .PieChart
-            navigationController?.pushViewController(destinatioVC, animated: true)
-        case 1:
-            let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewChartViewController
-            destinatioVC.typeOfChart = .PointChart
-            navigationController?.pushViewController(destinatioVC, animated: true)
-        default:
-            let destinationVC = storyboard?.instantiateViewController(withIdentifier: "ChartsiOS") as! iOSChartsTestViewController
-            navigationController?.pushViewController(destinationVC, animated: true)
-        }
+        let destinationVC = storyboard?.instantiateViewController(withIdentifier: "PageVC") as! ChartsPageViewController
+        destinationVC.kpi = self.kpiList[indexPath.row]
+        navigationController?.pushViewController(destinationVC, animated: true)
+
     }
     
     //MARK: - Load KPIs from server methods
@@ -281,6 +287,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         },
                         failure: { (error) in
                             print(error)
+                            self.showAlert(title: "Sorry!", message: error)
         })
     }
     
@@ -362,6 +369,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         },
                         failure: { (error) in
                             print(error)
+                            self.showAlert(title: "Sorry!", message: error)
         })
     }
     

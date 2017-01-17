@@ -106,6 +106,7 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
         },
                         failure: { (error) in
                             print(error)
+                            self.showAlert(errorMessage: error)
         })
     }
     

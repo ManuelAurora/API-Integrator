@@ -1534,7 +1534,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                     newKpi = CreatedKPI(source: .User, department: self.department!, KPI: self.kpiName, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, timeZone: self.timeZone, deadline: self.deadline, number: (self.kpiArray[kpiIndex].createdKPI?.number)!)
                     self.kpiArray[kpiIndex].createdKPI = newKpi
                     if self.colour != .none {
-                        self.kpiArray[kpiIndex].imageBacgroundColour = colourDictionary[self.colour]
+                        self.kpiArray[kpiIndex].imageBacgroundColour = colourDictionary[self.colour]!
                     }
                 case .Manager:
                     break
@@ -1567,7 +1567,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         switch typeOfSetting {
         case .Colour:
             self.colourArray = array
-            self.kpiArray[kpiIndex].imageBacgroundColour = self.colourDictionary[self.colour]
+            self.kpiArray[kpiIndex].imageBacgroundColour = self.colourDictionary[self.colour]!
         case .Department:
             self.departmentArray = array
         case .Executant:

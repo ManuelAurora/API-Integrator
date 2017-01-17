@@ -834,11 +834,11 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <action selector="tapResponsibleForButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="QvD-ts-llu"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="i7a-fV-Yzm">
-                                <rect key="frame" x="16" y="522.5" width="343" height="36"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="i7a-fV-Yzm">
+                                <rect key="frame" x="16" y="523" width="343" height="0.0"/>
                                 <subviews>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-cu-qgk">
-                                        <rect key="frame" x="0.0" y="0.0" width="161" height="36"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-cu-qgk">
+                                        <rect key="frame" x="-16" y="-522.5" width="0.0" height="36"/>
                                         <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="wRD-v3-f5V"/>
@@ -856,8 +856,8 @@ The main advantage of a computer audio player is that you can play your audio CD
                                             <action selector="tapSecurityButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="kzs-n0-Rej"/>
                                         </connections>
                                     </button>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsv-ER-n9H">
-                                        <rect key="frame" x="182" y="0.0" width="161" height="36"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsv-ER-n9H">
+                                        <rect key="frame" x="-16" y="-522.5" width="0.0" height="36"/>
                                         <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="8jn-o6-fkr"/>
@@ -2881,6 +2881,52 @@ The main advantage of a computer audio player is that you can play your audio CD
             </objects>
             <point key="canvasLocation" x="5102" y="-2891"/>
         </scene>
+        <!--Table View Chart Controller-->
+        <scene sceneID="srD-8R-S2L">
+            <objects>
+                <viewController storyboardIdentifier="TableViewController" id="XhA-tX-FkS" customClass="TableViewChartController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4Bh-Mx-rWd"/>
+                        <viewControllerLayoutGuide type="bottom" id="XUR-0R-AT9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Noq-iB-y49">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cLi-Ge-fYM">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DataCell" id="8AU-HF-BfS">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8AU-HF-BfS" id="YGv-Rf-gct">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="XhA-tX-FkS" id="ufa-hF-fYj"/>
+                                    <outlet property="delegate" destination="XhA-tX-FkS" id="hi3-wj-Fy1"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="cLi-Ge-fYM" firstAttribute="leading" secondItem="Noq-iB-y49" secondAttribute="leadingMargin" constant="-16" id="FEc-ny-Nyd"/>
+                            <constraint firstItem="cLi-Ge-fYM" firstAttribute="top" secondItem="4Bh-Mx-rWd" secondAttribute="bottom" id="WMs-qE-Y7w"/>
+                            <constraint firstItem="XUR-0R-AT9" firstAttribute="top" secondItem="cLi-Ge-fYM" secondAttribute="bottom" id="aNV-Li-VDM"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="cLi-Ge-fYM" secondAttribute="trailing" constant="-16" id="gbd-62-Vu7"/>
+                        </constraints>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QcB-RO-l1x" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7877.6000000000004" y="-2508.3958020989508"/>
+        </scene>
         <!--iOS Charts Test View Controller-->
         <scene sceneID="xRi-SV-tws">
             <objects>
@@ -2940,64 +2986,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HmZ-Fw-acc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5944.8000000000002" y="-2892.5037481259374"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="7Sa-x4-dTS">
-            <objects>
-                <viewController storyboardIdentifier="iOSCharts2" id="qBb-CY-d57" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="aju-e9-J1X"/>
-                        <viewControllerLayoutGuide type="bottom" id="Hie-yc-sWg"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="hdI-AK-KL3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z4P-1A-EFe">
-                                <rect key="frame" x="329" y="72" width="30" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="30" id="Tak-L2-hYG"/>
-                                    <constraint firstAttribute="height" constant="30" id="Ujk-4H-W9G"/>
-                                </constraints>
-                                <state key="normal" title="Add"/>
-                                <connections>
-                                    <action selector="buttonDidTaped:" destination="EZo-OG-Dlh" eventType="touchUpInside" id="8eN-lX-yTW"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BmQ-aI-ppE">
-                                <rect key="frame" x="8" y="72" width="250" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="250" id="qG9-Qf-qE7"/>
-                                    <constraint firstAttribute="height" constant="30" id="sCv-GJ-7Wt"/>
-                                </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                            </textField>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="azc-0l-4xd" customClass="BarChartView" customModule="Charts">
-                                <rect key="frame" x="0.0" y="110" width="375" height="508"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="Hie-yc-sWg" firstAttribute="top" secondItem="azc-0l-4xd" secondAttribute="bottom" id="2ue-g9-cyQ"/>
-                            <constraint firstItem="azc-0l-4xd" firstAttribute="leading" secondItem="hdI-AK-KL3" secondAttribute="leading" id="8JE-9f-p3D"/>
-                            <constraint firstItem="z4P-1A-EFe" firstAttribute="trailing" secondItem="hdI-AK-KL3" secondAttribute="trailingMargin" id="GGY-jQ-j6E"/>
-                            <constraint firstItem="z4P-1A-EFe" firstAttribute="top" secondItem="aju-e9-J1X" secondAttribute="bottom" constant="8" id="IRx-Gc-fWX"/>
-                            <constraint firstItem="azc-0l-4xd" firstAttribute="top" secondItem="BmQ-aI-ppE" secondAttribute="bottom" constant="8" id="JLN-46-gvQ"/>
-                            <constraint firstItem="BmQ-aI-ppE" firstAttribute="top" secondItem="aju-e9-J1X" secondAttribute="bottom" constant="8" id="e5x-cJ-4UB"/>
-                            <constraint firstItem="BmQ-aI-ppE" firstAttribute="leading" secondItem="hdI-AK-KL3" secondAttribute="leading" constant="8" id="fNf-KM-92h"/>
-                            <constraint firstAttribute="trailing" secondItem="azc-0l-4xd" secondAttribute="trailing" id="g6Y-ts-CUw"/>
-                        </constraints>
-                    </view>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Oos-oo-Usc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5945" y="-2202"/>
+            <point key="canvasLocation" x="8702" y="-2835"/>
         </scene>
         <!--Web View Chart View Controller-->
         <scene sceneID="bAf-tX-HkV">
@@ -3032,7 +3021,18 @@ The main advantage of a computer audio player is that you can play your audio CD
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jgd-Ve-vaP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6741.6000000000004" y="-2890.704647676162"/>
+            <point key="canvasLocation" x="7879" y="-3236"/>
+        </scene>
+        <!--Charts Page View Controller-->
+        <scene sceneID="bFH-aE-8pT">
+            <objects>
+                <pageViewController storyboardIdentifier="PageVC" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="OZT-7r-fnh" customClass="ChartsPageViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                </pageViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vz2-yl-31N" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7033" y="-2835"/>
         </scene>
         <!--New KPI-->
         <scene sceneID="kpp-aF-FyE">

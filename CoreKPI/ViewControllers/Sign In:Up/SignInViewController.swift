@@ -115,7 +115,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                             
         },
                         failure: { (error) in
-                            print(error)
+                            print(error + "Can not get user's profile.")
         })
         
     }

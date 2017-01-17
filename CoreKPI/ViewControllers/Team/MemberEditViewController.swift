@@ -269,7 +269,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                             }
         },
                         failure: { (error) in
-                            print(error)
+                            print("Could not send profile to the server")
         })
     }
     
@@ -304,7 +304,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                             }
         },
                         failure: { (error) in
-                            print(error)
+                            print("Could not change user rights on the server")
         })
     }
     

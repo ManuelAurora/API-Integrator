@@ -210,6 +210,7 @@ class InviteTableViewController: UITableViewController, updateModelDelegate, upd
         },
             failure: { (error) in
                 print(error)
+                self.showAlert(title: "Sorry!", message: error)
         })
     }
     
