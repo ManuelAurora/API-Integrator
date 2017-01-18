@@ -28,8 +28,8 @@ class WebViewChartViewController: UIViewController {
         
         //self.view.backgroundColor = UIColor.blue
         
-        self.webView.scrollView.isScrollEnabled = false
-        self.webView.scrollView.bounces = false
+        //self.webView.scrollView.isScrollEnabled = false
+        //self.webView.scrollView.bounces = false
         
         let height = self.webView.frame.size.height
         let width = self.webView.frame.size.width

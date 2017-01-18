@@ -14,6 +14,8 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var reportTextField: UITextField!
     
     var report: Double?
+    var numberOfCharacters = 0
+    
     weak var ReportAndViewVC: ReportAndViewKPITableViewController!
     var delegate: updateSettingsDelegate!
     
@@ -21,8 +23,13 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
         super.viewDidLoad()
         tableView.tableFooterView = UIView(frame: .zero)
         if report != nil {
-            reportTextField.text = "\(report!)"
-            numberOfCharactersLabel.text = "\(140 - (reportTextField.text?.characters.count)!)"
+            if ceil(report!) == floor(report!) && "\(report)".characters.count < 17 {
+                let string = "\(report!)".components(separatedBy: ".")[0]
+                reportTextField.text = string
+            } else {
+                reportTextField.text = "\(self.report!)"
+            }
+            numberOfCharactersLabel.text = "\(20 - (reportTextField.text?.characters.count)!)"
         }
     }
     
@@ -36,7 +43,7 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -49,17 +56,23 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
         header.textLabel?.textColor = UIColor.lightGray
     }
     
-    @IBAction func tapAddReportButton(_ sender: UIButton) {
+    @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
         
-        if let number = Int(numberOfCharactersLabel.text!) {
+        let reportString = reportTextField.text?.replacingOccurrences(of: ",", with: ".")
+        
+        if let number = Int(numberOfCharactersLabel.text!), let rep  = Double(reportString!) {
             if number >= 0 {
+                self.report = rep
                 delegate = self.ReportAndViewVC
                 delegate.updateDoubleValue(number: self.report)
                 _ = navigationController?.popViewController(animated: true)
             } else {
                 showAlert(title: "Error", description: "So long number")
             }
+        } else {
+            showAlert(title: "Error", description: "Input data incorrect")
         }
+        
     }
     
     //MARK: - UITextFieldDelegate method
@@ -69,15 +82,27 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
         
         if txtAfterUpdate == "" {
             self.report = nil
-        } else {
-            
-            if let number = Double(txtAfterUpdate) {
-                self.report = number
-            } else {
+            self.numberOfCharacters = 0
+        }
+        if txtAfterUpdate.characters.count > 20 {
+            return false
+        }
+        var numbersCount = 0
+        for symbol in txtAfterUpdate.characters {
+            switch symbol {
+            case "0"..."9":
+                numbersCount += 1
+            case ".", ",":
+                break
+            case "e", "+", "-":
+                break
+            default:
                 showAlert(title: "Error", description: "Data incorect")
+                return false
             }
         }
-        self.numberOfCharactersLabel.text = "\(140 - txtAfterUpdate.characters.count)"
+        self.numberOfCharacters = numbersCount
+        self.numberOfCharactersLabel.text = "\(20 - self.numberOfCharacters)"
         return true
     }
     

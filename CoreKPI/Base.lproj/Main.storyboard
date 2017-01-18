@@ -2656,8 +2656,11 @@ The main advantage of a computer audio player is that you can play your audio CD
                                             <color key="textColor" red="0.5490196078431373" green="0.5490196078431373" blue="0.5490196078431373" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Days" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ipy-hi-qIF">
-                                            <rect key="frame" x="23" y="11" width="38" height="21.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="My report" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ipy-hi-qIF">
+                                            <rect key="frame" x="23" y="11" width="80" height="21.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="Lrd-db-SI7"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -2666,7 +2669,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <constraints>
                                         <constraint firstItem="Ipy-hi-qIF" firstAttribute="leading" secondItem="DBH-Jg-lea" secondAttribute="leadingMargin" constant="15" id="1zx-yA-LxH"/>
                                         <constraint firstItem="Ipy-hi-qIF" firstAttribute="top" secondItem="DBH-Jg-lea" secondAttribute="topMargin" constant="3" id="Hie-AI-V8Y"/>
-                                        <constraint firstItem="iU3-B1-45j" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ipy-hi-qIF" secondAttribute="trailing" id="LCP-Tw-mG0"/>
+                                        <constraint firstItem="iU3-B1-45j" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ipy-hi-qIF" secondAttribute="trailing" constant="5" id="LCP-Tw-mG0"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="iU3-B1-45j" secondAttribute="trailing" id="oiO-MY-OGb"/>
                                         <constraint firstItem="iU3-B1-45j" firstAttribute="centerY" secondItem="DBH-Jg-lea" secondAttribute="centerY" id="sOt-Js-vCv"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="Ipy-hi-qIF" secondAttribute="bottom" constant="3" id="yaS-DM-BjL"/>
@@ -2769,7 +2772,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Text here" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="jJQ-q3-vCO">
-                                                    <rect key="frame" x="15" y="0.0" width="290" height="43.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="240" height="44"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" returnKeyType="done"/>
@@ -2777,54 +2780,24 @@ The main advantage of a computer audio player is that you can play your audio CD
                                                         <outlet property="delegate" destination="mY7-7P-8G5" id="WWM-sP-A5Z"/>
                                                     </connections>
                                                 </textField>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="jJQ-q3-vCO" firstAttribute="top" secondItem="BdX-vF-Syp" secondAttribute="top" id="DBa-WR-4Ch"/>
-                                                <constraint firstAttribute="trailing" secondItem="jJQ-q3-vCO" secondAttribute="trailing" constant="15" id="JlQ-oG-Jxq"/>
-                                                <constraint firstItem="jJQ-q3-vCO" firstAttribute="leading" secondItem="BdX-vF-Syp" secondAttribute="leading" constant="15" id="hrQ-fq-fMv"/>
-                                                <constraint firstAttribute="bottom" secondItem="jJQ-q3-vCO" secondAttribute="bottom" id="wjT-Fc-vSA"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="Fxu-BS-Lg4">
-                                        <rect key="frame" x="0.0" y="72" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Fxu-BS-Lg4" id="X4E-6z-6yn">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X6d-ej-cDH">
-                                                    <rect key="frame" x="198.5" y="7.5" width="107.5" height="27"/>
-                                                    <color key="backgroundColor" red="0.0078431372549019607" green="0.59215686274509804" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <state key="normal" title="Add report">
-                                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    </state>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="8"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                    <connections>
-                                                        <action selector="tapAddReportButton:" destination="mY7-7P-8G5" eventType="touchUpInside" id="2vu-Cc-Qp8"/>
-                                                    </connections>
-                                                </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="140" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YQx-kQ-XRR">
-                                                    <rect key="frame" x="164.5" y="14" width="23" height="16"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ktv-aa-fYY">
+                                                    <rect key="frame" x="280" y="14" width="16" height="16"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="16" id="Mjh-tN-5Hn"/>
+                                                        <constraint firstAttribute="width" constant="16" id="7dR-gL-Ov0"/>
+                                                        <constraint firstAttribute="height" constant="16" id="PIT-cB-kbB"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <color key="textColor" red="0.5490196078431373" green="0.5490196078431373" blue="0.5490196078431373" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.54901960780000003" green="0.54901960780000003" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="X6d-ej-cDH" secondAttribute="trailing" constant="14" id="HjC-DE-Uyt"/>
-                                                <constraint firstItem="X6d-ej-cDH" firstAttribute="leading" secondItem="YQx-kQ-XRR" secondAttribute="trailing" constant="11" id="J76-9m-bdR"/>
-                                                <constraint firstItem="YQx-kQ-XRR" firstAttribute="centerY" secondItem="X4E-6z-6yn" secondAttribute="centerY" id="SsJ-gp-dFP"/>
-                                                <constraint firstItem="X6d-ej-cDH" firstAttribute="centerY" secondItem="X4E-6z-6yn" secondAttribute="centerY" id="XRu-On-X3l"/>
-                                                <constraint firstItem="YQx-kQ-XRR" firstAttribute="centerX" secondItem="X4E-6z-6yn" secondAttribute="centerX" constant="16" id="wyj-Wl-puJ"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Ktv-aa-fYY" secondAttribute="trailing" constant="16" id="4Ae-YD-73l"/>
+                                                <constraint firstItem="jJQ-q3-vCO" firstAttribute="top" secondItem="BdX-vF-Syp" secondAttribute="top" id="DBa-WR-4Ch"/>
+                                                <constraint firstItem="Ktv-aa-fYY" firstAttribute="leading" secondItem="jJQ-q3-vCO" secondAttribute="trailing" constant="25" id="gGF-lV-hV2"/>
+                                                <constraint firstItem="jJQ-q3-vCO" firstAttribute="leading" secondItem="BdX-vF-Syp" secondAttribute="leading" constant="15" id="hrQ-fq-fMv"/>
+                                                <constraint firstItem="Ktv-aa-fYY" firstAttribute="centerY" secondItem="BdX-vF-Syp" secondAttribute="centerY" id="oes-7u-om8"/>
+                                                <constraint firstAttribute="bottom" secondItem="jJQ-q3-vCO" secondAttribute="bottom" id="wjT-Fc-vSA"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -2836,17 +2809,23 @@ The main advantage of a computer audio player is that you can play your audio CD
                             <outlet property="delegate" destination="mY7-7P-8G5" id="Vlb-gx-51b"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="KPI" id="tIn-EP-bsi"/>
+                    <navigationItem key="navigationItem" title="KPI" id="tIn-EP-bsi">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="X3I-4l-iKy">
+                            <connections>
+                                <action selector="tapSaveButton:" destination="mY7-7P-8G5" id="dOU-JJ-uUA"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="numberOfCharactersLabel" destination="YQx-kQ-XRR" id="rZ8-OJ-oqF"/>
+                        <outlet property="numberOfCharactersLabel" destination="Ktv-aa-fYY" id="eAQ-k1-N8H"/>
                         <outlet property="reportTextField" destination="jJQ-q3-vCO" id="NbH-pP-ABg"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mbv-5h-Y7O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5102" y="-2891"/>
+            <point key="canvasLocation" x="5101.875" y="-2891.1971830985917"/>
         </scene>
         <!--Table View Chart Controller-->
         <scene sceneID="srD-8R-S2L">

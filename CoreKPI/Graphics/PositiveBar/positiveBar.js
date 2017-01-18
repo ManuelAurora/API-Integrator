@@ -124,7 +124,7 @@ var positiveBar = function(w, h, data, minVal, rangeRoundBands){
     .attr("stop-color", function(d){
           return (d.value < minData_value ? "rgba(240,146,14, 0)" : "rgba(54,215,183, 0)")
           })
-    .attr("stop-opacity", 1);
+    .attr("stop-opacity", 0.2);
     
     gradient__OVERLAY.append("stop")
     .attr("offset", "100%")
@@ -132,7 +132,7 @@ var positiveBar = function(w, h, data, minVal, rangeRoundBands){
           return (d.value < minData_value ? "rgba(245,193,58, 0.4)" : "rgba(97,196,209, 0.4)")
           })
     // .attr("stop-color", "#f5c13a")
-    .attr("stop-opacity", 1);
+    .attr("stop-opacity", 0.6);
     
     
     // Create RECT - OVERLAY GRADIENT

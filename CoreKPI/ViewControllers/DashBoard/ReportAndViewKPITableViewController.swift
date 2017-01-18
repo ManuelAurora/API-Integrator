@@ -611,7 +611,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                 cell.descriptionOfCell.text = ""
                 switch indexPath.row {
                 case 0:
-                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.descriptionOfKPI
+                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.descriptionOfKPI ?? "No description"
                     cell.headerOfCell.textColor = UIColor.gray
                     cell.headerOfCell.numberOfLines = 0
                 case 1:
@@ -631,7 +631,12 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                 if self.report == nil {
                     cell.descriptionOfCell.text = "Add report"
                 } else {
-                    cell.descriptionOfCell.text = "\(self.report!)"
+                    if ceil(report!) == floor(report!) && "\(report)".characters.count < 17 {
+                        let string = "\(report!)".components(separatedBy: ".")[0]
+                        cell.descriptionOfCell.text = string
+                    } else {
+                        cell.descriptionOfCell.text = "\(self.report!)"
+                    }
                 }
                 cell.accessoryType = .disclosureIndicator
             default:
