@@ -1,154 +1,81 @@
 body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: 'Roboto', sans-serif;
-  background-color: dodgerblue;
-  color: #fff;
-  font-weight: normal;
+    margin: 0;
 }
-.wrapper {
-  width: 315px;
-  height: 315px;
-  position: relative;
+
+div {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
-html {
-  padding: 0;
-  margin: 0;
+
+svg {
+    background: #2062f2;
 }
-.container-svg {
-  padding-top: 10px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-.toolTip {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+.chart-title {
     position: absolute;
-    display: block;
+    top: 1.2em;
+    left: 50%;
+    font-size: 18px;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    color: #ffffff;
+}
+
+.tooltip {
+    position: absolute;
     opacity: 0;
-    border: 0 none;
-    border-radius: 8px 8px 8px 8px;
-    font: 12px sans-serif;
-    padding: 5px;
+    top: 0;
+    left: 0;
+    -webkit-transition: 0.4s ease all;
+    transition: 0.4s ease all;
+}
+.tooltip:before {
+    position: absolute;
+    content: '';
+    top: 100%;
+    left: 50%;
+    border: 5px solid transparent;
+    border-top: 5px solid #1a3b7f;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
 }
 
-.row {
-  margin-top: 50px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
+.tooltip-pie {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    background: #1a3b7f;
+    color: #fff;
+    border-radius: 5px;
+    padding: 0 5px;
+    min-width: 120px;
+    height: 70px;
 }
-.sales {
-  position: relative;
-  margin-right: 50px;
+.tooltip-pie__title {
+    margin: 0.5em 0;
+    font-size: 14px;
+    font-weight: 700;
 }
-.sales:last-child {
-  margin-right: 0;
+.tooltip-pie__value {
+    font-size: 18px;
+    display: inline;
+    position: relative;
 }
-.sales:first-child::after {
-  content: '';
-  display: block;
-  position: absolute;
-  left: calc(100% + 20px);
-  top: 0;
-  height: 100%;
-  width: 1px;
-  background-color: #fff;
-}
-.sales::before {
-  content: '';
-  display: block;
-  position: absolute;
-  top: 40%;
-  left: -20px;
-  border: 5px solid transparent;
-  border-bottom: 5px solid limegreen;
-}
-.sales__value {
-  font-size: 24px;
-  display: block;
-}
-.sales__span {
-  display: block;
-}
-.gross-revenue {
-  position: absolute;
-  top: 55px;
-  left: 38%;
-  color: #fff;
-  width: 120px;
-  height: 70px;
-  display: flex;
-  flex-direction: column;
-  background-color: #1a3b7f;
-  border-radius: 5px;
-  margin-right: auto;
-  margin-left: auto;
-  font-weight: normal;
-}
-.gross-revenue::after {
-  content: '';
-  display: block;
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  border: 5px solid transparent;
-  border-top: 5px solid #1a3b7f;
-}
-.gross-revenue__title {
-  font-size: 14px;
-  text-align: center;
-}
-.gross-revenue__span {
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-.gross-revenue__span::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 20px;
-  display: block;
-  border: 5px solid transparent; /* Прозрачные границы */
-  border-bottom: 5px solid limegreen;
-
-}
-#week {
-  filter: drop-shadow(9px 9px 9px rgba(0,0,0,0.6));
-}
-.weekly-section__title {
-  text-align: center;
-  color: #fff;
-  font-size: 18px;
-  margin: 0;
-  margin-bottom: 50px;
-  padding: 0;
-  font-weight: normal;
-}
-span {
-  text-align: center;
-  color: #fff;
-  font-size: 14px;
-  display: block;
-  font-weight: normal;
-}
-path {
-  filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.8));
+.tooltip-pie__status {
+    position: absolute;
+    top: 55%;
+    left: 7px;
+    display: block;
+    border: 5px solid transparent;
+    border-bottom: 5px solid limegreen;
 }
 
-.weekly-section {
-  display: block;
-  background-color: dodgerblue;
-  width: 100%;
-}

@@ -194,6 +194,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         let vc = storyboard?.instantiateViewController(withIdentifier: "KPIListVC") as! KPIsListTableViewController
         vc.model = self.model
         vc.loadUsersKPI(userID: self.profile.userId)
+        vc.navigationItem.rightBarButtonItem = nil
         self.navigationController?.show(vc, sender: nil)
     }
     

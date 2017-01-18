@@ -79,6 +79,11 @@
 		A2B720981E2E4AFD00471E91 /* d3-funnel.js in Resources */ = {isa = PBXBuildFile; fileRef = A2B720971E2E4AFC00471E91 /* d3-funnel.js */; };
 		A2B7209A1E2E5F9900471E91 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B720991E2E5F9900471E91 /* OnboardingPageViewController.swift */; };
 		A2B7209C1E2E5FBC00471E91 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B7209B1E2E5FBC00471E91 /* OnboardingViewController.swift */; };
+		A2C9ABD71E2F455D00623659 /* ChartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C9ABD61E2F455D00623659 /* ChartTableViewCell.swift */; };
+		A2C9ABDA1E2F5BD600623659 /* positiveBar.html in Resources */ = {isa = PBXBuildFile; fileRef = A2C9ABD91E2F5BD600623659 /* positiveBar.html */; };
+		A2C9ABDC1E2F5BFE00623659 /* positiveBar.css in Resources */ = {isa = PBXBuildFile; fileRef = A2C9ABDB1E2F5BFE00623659 /* positiveBar.css */; };
+		A2C9ABDE1E2F5C4100623659 /* positiveBar.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9ABDD1E2F5C4100623659 /* positiveBar.js */; };
+		A2C9ABE01E2F91B800623659 /* accounting.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9ABDF1E2F91B800623659 /* accounting.min.js */; };
 		A2C9FD231E13E1C500433D43 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD211E13E1C500433D43 /* index.html */; };
 		A2C9FD261E13E1CD00433D43 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD251E13E1CD00433D43 /* style.css */; };
 		A2C9FD291E13E1D400433D43 /* Rd3.v3.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */; };
@@ -210,6 +215,11 @@
 		A2B720971E2E4AFC00471E91 /* d3-funnel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "d3-funnel.js"; path = "Graphics/Funnel/d3-funnel.js"; sourceTree = "<group>"; };
 		A2B720991E2E5F9900471E91 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnboardingPageViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/OnboardingPageViewController.swift"; sourceTree = "<group>"; };
 		A2B7209B1E2E5FBC00471E91 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnboardingViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/OnboardingViewController.swift"; sourceTree = "<group>"; };
+		A2C9ABD61E2F455D00623659 /* ChartTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChartTableViewCell.swift; path = CustomTableViewCells/ChartTableViewCell.swift; sourceTree = "<group>"; };
+		A2C9ABD91E2F5BD600623659 /* positiveBar.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = positiveBar.html; path = Graphics/PositiveBar/positiveBar.html; sourceTree = "<group>"; };
+		A2C9ABDB1E2F5BFE00623659 /* positiveBar.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = positiveBar.css; path = Graphics/PositiveBar/positiveBar.css; sourceTree = "<group>"; };
+		A2C9ABDD1E2F5C4100623659 /* positiveBar.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = positiveBar.js; path = Graphics/PositiveBar/positiveBar.js; sourceTree = "<group>"; };
+		A2C9ABDF1E2F91B800623659 /* accounting.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = accounting.min.js; path = "Graphics/Круговой/js/accounting.min.js"; sourceTree = "<group>"; };
 		A2C9FD211E13E1C500433D43 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = "Graphics/Круговой/index.html"; sourceTree = "<group>"; };
 		A2C9FD251E13E1CD00433D43 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = style.css; path = "Graphics/Круговой/css/style.css"; sourceTree = "<group>"; };
 		A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Rd3.v3.min.js; path = "Graphics/Круговой/js/Rd3.v3.min.js"; sourceTree = "<group>"; };
@@ -262,6 +272,7 @@
 		A2028E711E12B74D00F1EED6 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				A2C9ABD81E2F5B7E00623659 /* PositivBar */,
 				A2EFE2D71E2E444200BA2956 /* Funnel */,
 				A2EFE2D01E2E3F6B00BA2956 /* BarChart */,
 				A2EFE2CB1E2E391B00BA2956 /* Lines */,
@@ -397,6 +408,7 @@
 			children = (
 				A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */,
 				A2C9FD281E13E1D400433D43 /* round.js */,
+				A2C9ABDF1E2F91B800623659 /* accounting.min.js */,
 			);
 			name = js;
 			sourceTree = "<group>";
@@ -534,6 +546,7 @@
 				A2FB1AA11E252C110045824A /* KPIDescriptionTableViewCell.swift */,
 				A2FB98A31E25FE6900A856E8 /* KPISettingInputTableViewCell.swift */,
 				A21AEEF11E28AFF200577F4B /* KPIColourTableViewCell.swift */,
+				A2C9ABD61E2F455D00623659 /* ChartTableViewCell.swift */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -583,6 +596,16 @@
 				A2279D7F1E14DE2A00669EB0 /* points.css */,
 			);
 			name = css;
+			sourceTree = "<group>";
+		};
+		A2C9ABD81E2F5B7E00623659 /* PositivBar */ = {
+			isa = PBXGroup;
+			children = (
+				A2C9ABD91E2F5BD600623659 /* positiveBar.html */,
+				A2C9ABDB1E2F5BFE00623659 /* positiveBar.css */,
+				A2C9ABDD1E2F5C4100623659 /* positiveBar.js */,
+			);
+			name = PositivBar;
 			sourceTree = "<group>";
 		};
 		A2EFE2CB1E2E391B00BA2956 /* Lines */ = {
@@ -727,6 +750,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2C9ABE01E2F91B800623659 /* accounting.min.js in Resources */,
 				A2EFE2CA1E2E390900BA2956 /* Lines.html in Resources */,
 				A2EFE2CF1E2E39FF00BA2956 /* Lines.css in Resources */,
 				A2EFE2DB1E2E454A00BA2956 /* funnel.css in Resources */,
@@ -734,10 +758,13 @@
 				A27820731E001503009F83DB /* LaunchScreen.storyboard in Resources */,
 				A2C9FD291E13E1D400433D43 /* Rd3.v3.min.js in Resources */,
 				A2C9FD261E13E1CD00433D43 /* style.css in Resources */,
+				A2C9ABDE1E2F5C4100623659 /* positiveBar.js in Resources */,
 				A2EFE2D91E2E446900BA2956 /* funnel.html in Resources */,
 				A2EFE2D41E2E3FE200BA2956 /* bar.js in Resources */,
 				A2EFE2CD1E2E39BB00BA2956 /* Lines.js in Resources */,
 				A2279D7E1E14DE2100669EB0 /* points.js in Resources */,
+				A2C9ABDA1E2F5BD600623659 /* positiveBar.html in Resources */,
+				A2C9ABDC1E2F5BFE00623659 /* positiveBar.css in Resources */,
 				A2279D7D1E14DE2100669EB0 /* d3.js in Resources */,
 				A2B720981E2E4AFD00471E91 /* d3-funnel.js in Resources */,
 				A2279D7A1E14DE1700669EB0 /* points.html in Resources */,
@@ -814,6 +841,7 @@
 				A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */,
 				A297F5CB1E0823D400F85963 /* SignInUpViewController.swift in Sources */,
 				A21AEEF21E28AFF200577F4B /* KPIColourTableViewCell.swift in Sources */,
+				A2C9ABD71E2F455D00623659 /* ChartTableViewCell.swift in Sources */,
 				A297F5E01E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift in Sources */,
 				A261D9181E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift in Sources */,
 				A297F5E11E08248000F85963 /* TypeAccountTableViewCell.swift in Sources */,

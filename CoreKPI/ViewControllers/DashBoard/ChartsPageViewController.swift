@@ -17,12 +17,19 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         dataSource = self
         
         self.setViewControllers([getViewController(AtIndex: 0)] as [UIViewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
+        self.view.backgroundColor = UIColor.white
+        
+        switch kpi.typeOfKPI {
+        case .createdKPI:
+            self.navigationItem.title = "Report"
+        case .IntegratedKPI:
+            self.navigationItem.title = kpi.integratedKPI?.service.rawValue
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
     
     // MARK:- UIPageViewControllerDataSource Methods
     
@@ -62,7 +69,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         case .createdKPI:
             if kpi.KPIViewOne == .Numbers && kpi.KPIViewTwo == .Graph {
                 for i in (kpi.createdKPI?.number)! {
-                    tableViewChartVC.dataArray.append(i.number)
+                    tableViewChartVC.dataArray.append(i)
                 }
                 tableViewChartVC.header = (kpi.createdKPI?.KPI)!
                 tableViewChartVC.index = 0
@@ -81,7 +88,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 webViewChartOneVC.typeOfChart = kpi.KPIChartOne!
                 webViewChartOneVC.index = 0
                 for i in (kpi.createdKPI?.number)! {
-                    tableViewChartVC.dataArray.append(i.number)
+                    tableViewChartVC.dataArray.append(i)
                 }
                 tableViewChartVC.header = (kpi.createdKPI?.KPI)!
                 tableViewChartVC.index = 1

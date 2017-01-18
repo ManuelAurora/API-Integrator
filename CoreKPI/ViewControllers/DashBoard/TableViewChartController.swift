@@ -10,13 +10,16 @@ import UIKit
 
 class TableViewChartController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet weak var tableView: UITableView!
+    
     var index = 0
     
     var header: String = " "
-    var dataArray: [Double] = []
+    var dataArray: [(String, Double)] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.tableFooterView = UIView(frame: .zero)
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,13 +38,32 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DataCell", for: indexPath)
-        cell.textLabel?.text = "\(dataArray[indexPath.row])"
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DataCell", for: indexPath) as! ChartTableViewCell
+        switch indexPath.row {
+        case 0:
+            cell.metricsLabel.text = "Date"
+            cell.persentLabel.text = "Value"
+            cell.valueLabel.isHidden = true
+        default:
+            cell.metricsLabel.textColor = UIColor.black
+            cell.persentLabel.textColor = UIColor.black
+            cell.valueLabel.isHidden = true
+            cell.metricsLabel.text = dataArray[indexPath.row].0
+            cell.persentLabel.text = "\(dataArray[indexPath.row].1)"
+        }
         return cell
     }
-
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return self.header
+    }
+    
+     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.text = self.header
+        header.textLabel?.font = UIFont(name: "Helvetica Neue", size: 13)
+        header.textLabel?.textColor = UIColor.lightGray
     }
     
 }

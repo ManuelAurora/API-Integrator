@@ -14,6 +14,7 @@ enum TypeOfChart: String {
     case LineChart
     case BarChart
     case Funnel
+    case PositiveBar
 }
 
 class WebViewChartViewController: UIViewController {
@@ -25,6 +26,11 @@ class WebViewChartViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //self.view.backgroundColor = UIColor.blue
+        
+        self.webView.scrollView.isScrollEnabled = false
+        self.webView.scrollView.bounces = false
+        
         let height = self.webView.frame.size.height
         let width = self.webView.frame.size.width
         print("\(width) \(height)")
@@ -34,13 +40,19 @@ class WebViewChartViewController: UIViewController {
             let cssFile = Bundle.main.path(forResource:"style", ofType: "css")
             let jsFile1 = Bundle.main.path(forResource:"Rd3.v3.min", ofType: "js")
             let jsFile2 = Bundle.main.path(forResource:"round", ofType: "js")
+            let accountingFile = Bundle.main.path(forResource: "accounting.min", ofType: "js")
             
             let html = try? String(contentsOfFile: htmlFile!, encoding: String.Encoding.utf8)
             let css = try? String(contentsOfFile: cssFile!, encoding: String.Encoding.utf8)
             let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
+            let acc = try? String(contentsOfFile: accountingFile!, encoding: String.Encoding.utf8)
             
-            webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + js2! + "</script>", baseURL: nil)
+            let topOfJS = "var margin = 10; var width = \(width), height = \(height);"
+            
+            webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + acc! + "</script><script>" + js1! + "</script><script>" + topOfJS + js2! + "</script>", baseURL: nil)
+            
+            //webView.loadHTMLString( html! + "<style>" + css! + "<script>" /*+ acc! + "</script><script>" */+ js1! + "</script><script>" + topOfJS + js2! + "</script>", baseURL: nil)
             
         case .PointChart:
             let htmlFile = Bundle.main.path(forResource:"points", ofType: "html")
@@ -53,7 +65,9 @@ class WebViewChartViewController: UIViewController {
             let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
             
-            webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + js2! + "</script>", baseURL: nil)
+            let topOfJS = "var margin = {top: 50, right: 30, bottom: 30, left: 30}; var width = \(width) - margin.left - margin.right; var height = \(height) - margin.top - margin.bottom;"
+            
+            webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + topOfJS + js2! + "</script>", baseURL: nil)
         case .LineChart:
             let htmlFile = Bundle.main.path(forResource:"Lines", ofType: "html")
             let cssFile = Bundle.main.path(forResource:"Lines", ofType: "css")
@@ -97,6 +111,19 @@ class WebViewChartViewController: UIViewController {
             let js = try? String(contentsOfFile: jsFile!, encoding: String.Encoding.utf8)
             
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + jsJquerry! + "</script><script>" + jsD3! + "</script><script>" + jsD3Funnel! + "</script><script>" + js! + "</script>", baseURL: nil)
+        case .PositiveBar:
+            let htmlFile = Bundle.main.path(forResource:"positiveBar", ofType: "html")
+            let cssFile = Bundle.main.path(forResource:"positiveBar", ofType: "css")
+            let jsFile1 = Bundle.main.path(forResource:"Rd3.v3.min", ofType: "js")
+            let jsFile2 = Bundle.main.path(forResource:"positiveBar", ofType: "js")
+            
+            let html = try? String(contentsOfFile: htmlFile!, encoding: String.Encoding.utf8)
+            let css = try? String(contentsOfFile: cssFile!, encoding: String.Encoding.utf8)
+            let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
+            let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
+            let downOfJsFile = "positiveBar(\(width), \(height), data, 180, 0.35);"
+            
+            webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + js2! + downOfJsFile + "</script>", baseURL: nil)
         }
     }
 

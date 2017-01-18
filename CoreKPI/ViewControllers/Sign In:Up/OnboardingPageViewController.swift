@@ -23,6 +23,7 @@ class OnboardingPageViewController: UIPageViewController, UIPageViewControllerDa
         self.dataSource = self
         
         self.setViewControllers([getViewControllerAtIndex(0)] as [UIViewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
+        self.view.backgroundColor = UIColor(red: 0/255.0, green: 188.0/255.0, blue: 212.0/255.0, alpha: 1.0)
     }
 
     override func didReceiveMemoryWarning() {
