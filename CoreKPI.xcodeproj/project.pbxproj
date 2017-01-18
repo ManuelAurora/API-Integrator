@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A2028E6E1E12B66400F1EED6 /* WebViewTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2028E6D1E12B66400F1EED6 /* WebViewTestViewController.swift */; };
 		A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340901E110CF200208EAB /* ChageNameTableViewController.swift */; };
 		A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340921E110D1C00208EAB /* NewNameViewController.swift */; };
 		A21AEEF21E28AFF200577F4B /* KPIColourTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21AEEF11E28AFF200577F4B /* KPIColourTableViewCell.swift */; };
@@ -47,7 +46,6 @@
 		A27820891E001503009F83DB /* CoreKPIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27820881E001503009F83DB /* CoreKPIUITests.swift */; };
 		A27820971E001530009F83DB /* RequestServise.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27820961E001530009F83DB /* RequestServise.swift */; };
 		A2844B3C1E0BC842002E297A /* MemberEditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2844B3B1E0BC842002E297A /* MemberEditTableViewCell.swift */; };
-		A292F5CF1E13AF88009F9F48 /* WebView2TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A292F5CE1E13AF88009F9F48 /* WebView2TestViewController.swift */; };
 		A297F5B01E08233100F85963 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5AF1E08233100F85963 /* MainTabBarViewController.swift */; };
 		A297F5B31E08233A00F85963 /* MemberEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5B11E08233A00F85963 /* MemberEditViewController.swift */; };
 		A297F5B41E08233A00F85963 /* MemberInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5B21E08233A00F85963 /* MemberInfoViewController.swift */; };
@@ -79,6 +77,8 @@
 		A2ACBD3F1E0D12280079EF3D /* AlertsListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ACBD3E1E0D12280079EF3D /* AlertsListTableViewCell.swift */; };
 		A2ACBD411E0D1DFA0079EF3D /* KPIsListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ACBD401E0D1DFA0079EF3D /* KPIsListTableViewController.swift */; };
 		A2B720981E2E4AFD00471E91 /* d3-funnel.js in Resources */ = {isa = PBXBuildFile; fileRef = A2B720971E2E4AFC00471E91 /* d3-funnel.js */; };
+		A2B7209A1E2E5F9900471E91 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B720991E2E5F9900471E91 /* OnboardingPageViewController.swift */; };
+		A2B7209C1E2E5FBC00471E91 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B7209B1E2E5FBC00471E91 /* OnboardingViewController.swift */; };
 		A2C9FD231E13E1C500433D43 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD211E13E1C500433D43 /* index.html */; };
 		A2C9FD261E13E1CD00433D43 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD251E13E1CD00433D43 /* style.css */; };
 		A2C9FD291E13E1D400433D43 /* Rd3.v3.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */; };
@@ -134,7 +134,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		A2028E6D1E12B66400F1EED6 /* WebViewTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewTestViewController.swift; sourceTree = "<group>"; };
 		A20340901E110CF200208EAB /* ChageNameTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChageNameTableViewController.swift; path = CoreKPI/ViewControllers/Team/ChageNameTableViewController.swift; sourceTree = "<group>"; };
 		A20340921E110D1C00208EAB /* NewNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewNameViewController.swift; path = CoreKPI/ViewControllers/Team/NewNameViewController.swift; sourceTree = "<group>"; };
 		A21AEEF11E28AFF200577F4B /* KPIColourTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIColourTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPIColourTableViewCell.swift; sourceTree = "<group>"; };
@@ -180,7 +179,6 @@
 		A278208A1E001503009F83DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A27820961E001530009F83DB /* RequestServise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestServise.swift; sourceTree = "<group>"; };
 		A2844B3B1E0BC842002E297A /* MemberEditTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberEditTableViewCell.swift; path = CustomTableViewCells/Team/MemberEditTableViewCell.swift; sourceTree = "<group>"; };
-		A292F5CE1E13AF88009F9F48 /* WebView2TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebView2TestViewController.swift; sourceTree = "<group>"; };
 		A297F5AF1E08233100F85963 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainTabBarViewController.swift; path = CoreKPI/ViewControllers/MainTabBarViewController.swift; sourceTree = "<group>"; };
 		A297F5B11E08233A00F85963 /* MemberEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberEditViewController.swift; path = CoreKPI/ViewControllers/Team/MemberEditViewController.swift; sourceTree = "<group>"; };
 		A297F5B21E08233A00F85963 /* MemberInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberInfoViewController.swift; path = CoreKPI/ViewControllers/Team/MemberInfoViewController.swift; sourceTree = "<group>"; };
@@ -210,6 +208,8 @@
 		A2ACBD3E1E0D12280079EF3D /* AlertsListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertsListTableViewCell.swift; path = CustomTableViewCells/Alerts/AlertsListTableViewCell.swift; sourceTree = "<group>"; };
 		A2ACBD401E0D1DFA0079EF3D /* KPIsListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIsListTableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/KPIsListTableViewController.swift; sourceTree = "<group>"; };
 		A2B720971E2E4AFC00471E91 /* d3-funnel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "d3-funnel.js"; path = "Graphics/Funnel/d3-funnel.js"; sourceTree = "<group>"; };
+		A2B720991E2E5F9900471E91 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnboardingPageViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/OnboardingPageViewController.swift"; sourceTree = "<group>"; };
+		A2B7209B1E2E5FBC00471E91 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnboardingViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/OnboardingViewController.swift"; sourceTree = "<group>"; };
 		A2C9FD211E13E1C500433D43 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = "Graphics/Круговой/index.html"; sourceTree = "<group>"; };
 		A2C9FD251E13E1CD00433D43 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = style.css; path = "Graphics/Круговой/css/style.css"; sourceTree = "<group>"; };
 		A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Rd3.v3.min.js; path = "Graphics/Круговой/js/Rd3.v3.min.js"; sourceTree = "<group>"; };
@@ -298,8 +298,6 @@
 				A27820651E001503009F83DB /* AppDelegate.swift */,
 				A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */,
 				A2F0B1171E0C1B110095580B /* CoreKPIDelegates.swift */,
-				A2028E6D1E12B66400F1EED6 /* WebViewTestViewController.swift */,
-				A292F5CE1E13AF88009F9F48 /* WebView2TestViewController.swift */,
 				A297F5D31E08241D00F85963 /* CustomTableViewCells */,
 				A297F5BD1E08234C00F85963 /* ViewControllers */,
 				A278209D1E0015D5009F83DB /* Views */,
@@ -490,6 +488,8 @@
 				A297F5C21E0823D400F85963 /* NewProfileTableViewController.swift */,
 				A297F5C71E0823D400F85963 /* TypeOfAccountTableViewController.swift */,
 				A274DC0E1E0825DF008CBF36 /* InviteTableViewController.swift */,
+				A2B720991E2E5F9900471E91 /* OnboardingPageViewController.swift */,
+				A2B7209B1E2E5FBC00471E91 /* OnboardingViewController.swift */,
 			);
 			name = "Sign In/Up";
 			sourceTree = "<group>";
@@ -795,7 +795,6 @@
 				A22EF0661E0901A20004DDB7 /* ModelCoreKPI.swift in Sources */,
 				A297F5B41E08233A00F85963 /* MemberInfoViewController.swift in Sources */,
 				A297F5BC1E08234500F85963 /* SupportMainTableViewController.swift in Sources */,
-				A2028E6E1E12B66400F1EED6 /* WebViewTestViewController.swift in Sources */,
 				A235CB321E0ACD5200636888 /* AllertSettingsTableViewController.swift in Sources */,
 				A2EFE2C61E2DF0A500BA2956 /* ChartsPageViewController.swift in Sources */,
 				A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */,
@@ -818,6 +817,7 @@
 				A297F5E01E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift in Sources */,
 				A261D9181E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift in Sources */,
 				A297F5E11E08248000F85963 /* TypeAccountTableViewCell.swift in Sources */,
+				A2B7209A1E2E5F9900471E91 /* OnboardingPageViewController.swift in Sources */,
 				A258A70B1E20D47700FBFBDF /* KPISelectSettingTableViewController.swift in Sources */,
 				A297F5B31E08233A00F85963 /* MemberEditViewController.swift in Sources */,
 				A2FB1AA21E252C110045824A /* KPIDescriptionTableViewCell.swift in Sources */,
@@ -825,13 +825,13 @@
 				A2279D861E14EC3B00669EB0 /* DashboardsNavigationViewController.swift in Sources */,
 				A2844B3C1E0BC842002E297A /* MemberEditTableViewCell.swift in Sources */,
 				A2A215511E124AB800EEBCA2 /* AlertSettingTableViewCell.swift in Sources */,
+				A2B7209C1E2E5FBC00471E91 /* OnboardingViewController.swift in Sources */,
 				A26408F61E2271330034EEC2 /* AddReportTableViewController.swift in Sources */,
 				A261D91C1E129F1600638C56 /* DashboardSetingTableViewCell.swift in Sources */,
 				A2FB98A41E25FE6900A856E8 /* KPISettingInputTableViewCell.swift in Sources */,
 				A2279D841E14EBF200669EB0 /* AlertsNavigationViewController.swift in Sources */,
 				A22302C51E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift in Sources */,
 				A2425CB41E1CE8EE00DFDF91 /* UIImageExtension.swift in Sources */,
-				A292F5CF1E13AF88009F9F48 /* WebView2TestViewController.swift in Sources */,
 				A2A215531E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift in Sources */,
 				A27820661E001503009F83DB /* AppDelegate.swift in Sources */,
 				A2ACBD411E0D1DFA0079EF3D /* KPIsListTableViewController.swift in Sources */,
