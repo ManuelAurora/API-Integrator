@@ -252,7 +252,13 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
             
             if (createdKPI?.number.count)! > 0 {
                 if let number = createdKPI?.number[(createdKPI?.number.count)! - 1] {
-                    cell.KPIListNumber.text = "\(number.number)"
+                    let formatter: NumberFormatter = NumberFormatter()
+                    formatter.numberStyle = .decimal
+                    formatter.groupingSeparator = ","
+                    formatter.decimalSeparator = "."
+                    formatter.maximumFractionDigits = 10
+                    let formatedStr: String = formatter.string(from: NSNumber(value: number.number))!
+                    cell.KPIListNumber.text = formatedStr
                 }
             } else {
                 cell.KPIListNumber.text = ""
@@ -272,7 +278,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "PageVC") as! ChartsPageViewController
         destinationVC.kpi = self.kpiList[indexPath.row]
         navigationController?.pushViewController(destinationVC, animated: true)
-
+        
     }
     
     //MARK: - Load KPIs from server methods

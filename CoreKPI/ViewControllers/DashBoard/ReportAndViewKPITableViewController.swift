@@ -631,12 +631,13 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                 if self.report == nil {
                     cell.descriptionOfCell.text = "Add report"
                 } else {
-                    if ceil(report!) == floor(report!) && "\(report)".characters.count < 17 {
-                        let string = "\(report!)".components(separatedBy: ".")[0]
-                        cell.descriptionOfCell.text = string
-                    } else {
-                        cell.descriptionOfCell.text = "\(self.report!)"
-                    }
+                    let formatter: NumberFormatter = NumberFormatter()
+                    formatter.numberStyle = .decimal
+                    formatter.groupingSeparator = ","
+                    formatter.decimalSeparator = "."
+                    formatter.maximumFractionDigits = 10
+                    let formattedStr: String = formatter.string(from: NSNumber(value: report!))!
+                    cell.descriptionOfCell.text = formattedStr
                 }
                 cell.accessoryType = .disclosureIndicator
             default:

@@ -8,6 +8,16 @@
 
 import UIKit
 
+extension Double {
+    func toInt() -> Int? {
+        if self > Double(Int.min) && self < Double(Int.max) {
+            return Int(self)
+        } else {
+            return nil
+        }
+    }
+}
+
 class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
     
     @IBOutlet weak var numberOfCharactersLabel: UILabel!
@@ -16,16 +26,24 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
     var report: Double?
     var numberOfCharacters = 0
     
+    //var formatter: NumberFormatter!
+    
     weak var ReportAndViewVC: ReportAndViewKPITableViewController!
     var delegate: updateSettingsDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //self.formatter = NumberFormatter()
+        //formatter.numberStyle = .decimal
+        //formatter.groupingSeparator = ","
+        //formatter.decimalSeparator = "."
+        //formatter.maximumFractionDigits = 20
+        
         tableView.tableFooterView = UIView(frame: .zero)
         if report != nil {
-            if ceil(report!) == floor(report!) && "\(report)".characters.count < 17 {
-                let string = "\(report!)".components(separatedBy: ".")[0]
-                reportTextField.text = string
+            if ceil(report!) == floor(report!), let intValue = report?.toInt() {
+                reportTextField.text = "\(intValue)"
             } else {
                 reportTextField.text = "\(self.report!)"
             }
@@ -87,6 +105,31 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
         if txtAfterUpdate.characters.count > 20 {
             return false
         }
+        
+//        if string == "," || string == "." {
+//            return true
+//        }
+//        
+//        switch string {
+//        case ".", ",":
+//            return true
+//        case "0"..."9":
+//            if self.report == nil {
+//                self.report = Double(string)
+//            } else {
+//            let reportString = "\(self.report!)"
+//            self.report = Double(reportString+string)
+//            }
+//            
+//        default:
+//            break
+//        }
+        
+        //var newString = txtAfterUpdate.replacingOccurrences(of: " ", with: "")
+        //newString = newString.replacingOccurrences(of: ",", with: ".")
+        
+        //self.report = Double(newString)
+        //self.reportTextField.text = formatter.string(from: NSNumber(value: report!))!
         var numbersCount = 0
         for symbol in txtAfterUpdate.characters {
             switch symbol {
