@@ -25,8 +25,9 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
     
     var report: Double?
     var numberOfCharacters = 0
+    let maxNumberOfCharacter = 20
     
-    //var formatter: NumberFormatter!
+    var formatter: NumberFormatter!
     
     weak var ReportAndViewVC: ReportAndViewKPITableViewController!
     var delegate: updateSettingsDelegate!
@@ -34,20 +35,20 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //self.formatter = NumberFormatter()
-        //formatter.numberStyle = .decimal
-        //formatter.groupingSeparator = ","
-        //formatter.decimalSeparator = "."
-        //formatter.maximumFractionDigits = 20
+        self.formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.groupingSeparator = ","
+        formatter.decimalSeparator = "."
+        formatter.maximumFractionDigits = maxNumberOfCharacter
         
         tableView.tableFooterView = UIView(frame: .zero)
         if report != nil {
-            if ceil(report!) == floor(report!), let intValue = report?.toInt() {
-                reportTextField.text = "\(intValue)"
-            } else {
-                reportTextField.text = "\(self.report!)"
-            }
-            numberOfCharactersLabel.text = "\(20 - (reportTextField.text?.characters.count)!)"
+            var reportString = formatNumberFromString(stringNumber: "\(report!)")
+            reportTextField.text = reportString
+            
+            reportString = reportString.replacingOccurrences(of: ",", with: "")
+            self.numberOfCharacters = reportString.replacingOccurrences(of: ".", with: "").characters.count
+            numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
         }
     }
     
@@ -76,77 +77,170 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
     
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
         
-        let reportString = reportTextField.text?.replacingOccurrences(of: ",", with: ".")
-        
-        if let number = Int(numberOfCharactersLabel.text!), let rep  = Double(reportString!) {
-            if number >= 0 {
-                self.report = rep
-                delegate = self.ReportAndViewVC
-                delegate.updateDoubleValue(number: self.report)
-                _ = navigationController?.popViewController(animated: true)
-            } else {
-                showAlert(title: "Error", description: "So long number")
-            }
+        if report == nil {
+            self.showAlert(title: "Error", description: "Add report value!")
         } else {
-            showAlert(title: "Error", description: "Input data incorrect")
+            delegate = self.ReportAndViewVC
+            delegate.updateDoubleValue(number: self.report)
+            _ = navigationController?.popViewController(animated: true)
         }
-        
     }
     
     //MARK: - UITextFieldDelegate method
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let textFieldText: NSString = (textField.text ?? "") as NSString
-        let txtAfterUpdate = textFieldText.replacingCharacters(in: range, with: string)
         
-        if txtAfterUpdate == "" {
-            self.report = nil
-            self.numberOfCharacters = 0
-        }
-        if txtAfterUpdate.characters.count > 20 {
+        let originalString =  textField.text!
+        var replacedString: String!
+        
+        // Deleting text
+        if string.isEmpty {
+            if originalString.isEmpty {
+                textField.text = ""
+                self.numberOfCharacters = 0
+                self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
+                return false
+                
+            }
+            replacedString = originalString.replacingOccurrences(of: ",", with: "")
+            replacedString.remove(at: replacedString.index(before: replacedString.endIndex))
+            
+            if replacedString.contains(".") {
+                
+                if replacedString.hasSuffix(".") {
+                    replacedString.remove(at: replacedString.index(before: replacedString.endIndex))
+                    self.report = Double(replacedString)
+                    textField.text = formatNumberFromString(stringNumber: replacedString) + "."
+                    return false
+                }
+                
+                if replacedString.hasSuffix("0") {
+                    self.report = Double(replacedString)
+                    return true
+                }
+            }
+            let numbersSize = replacedString.replacingOccurrences(of: ".", with: "").characters.count
+            self.numberOfCharacters = numbersSize
+            self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numbersSize)"
+            self.report = Double(replacedString)
+            textField.text = formatNumberFromString(stringNumber: replacedString)
             return false
+            
         }
         
-//        if string == "," || string == "." {
-//            return true
-//        }
-//        
-//        switch string {
-//        case ".", ",":
-//            return true
-//        case "0"..."9":
-//            if self.report == nil {
-//                self.report = Double(string)
-//            } else {
-//            let reportString = "\(self.report!)"
-//            self.report = Double(reportString+string)
-//            }
-//            
-//        default:
-//            break
-//        }
-        
-        //var newString = txtAfterUpdate.replacingOccurrences(of: " ", with: "")
-        //newString = newString.replacingOccurrences(of: ",", with: ".")
-        
-        //self.report = Double(newString)
-        //self.reportTextField.text = formatter.string(from: NSNumber(value: report!))!
-        var numbersCount = 0
-        for symbol in txtAfterUpdate.characters {
-            switch symbol {
-            case "0"..."9":
-                numbersCount += 1
-            case ".", ",":
-                break
-            case "e", "+", "-":
+        //Check input symbols
+        for number in string.characters {
+            switch number {
+            case "0"..."9", ".", ",":
                 break
             default:
-                showAlert(title: "Error", description: "Data incorect")
                 return false
             }
         }
-        self.numberOfCharacters = numbersCount
-        self.numberOfCharactersLabel.text = "\(20 - self.numberOfCharacters)"
+        // Adding text
+        if originalString.isEmpty {
+            if string == "," || string == "." || string == "0" {
+                textField.text = "0."
+                self.numberOfCharacters += 1
+                self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
+                return false
+            }
+            replacedString = string.replacingOccurrences(of: ",", with: "")
+            let numbersSize = replacedString.replacingOccurrences(of: ".", with: "").characters.count
+            
+            if numbersSize > maxNumberOfCharacter {
+                self.showAlert(title: "Warning", description: "So long number!")
+                return false
+            } else {
+                self.numberOfCharacters = numbersSize
+                self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
+                self.report = Double(replacedString)
+                textField.text = formatNumberFromString(stringNumber: string)
+                return false
+            }
+        } else {
+            
+            if originalString.hasSuffix(".") {
+                
+                if string == "." || string == "," {
+                    return false
+                }
+                
+                if string == "0" {
+                    return true
+                }
+                
+                replacedString = originalString.replacingOccurrences(of: ",", with: "") + string.replacingOccurrences(of: ",", with: "")
+                let numbersSize = replacedString.replacingOccurrences(of: ".", with: "").characters.count
+                if numbersSize > maxNumberOfCharacter {
+                    self.showAlert(title: "Warning", description: "So long number!")
+                    return false
+                } else {
+                    self.report = Double(replacedString)
+                    self.numberOfCharacters = numbersSize
+                    self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
+                    textField.text = formatNumberFromString(stringNumber: replacedString)
+                }
+            }
+            
+            if string == "." {
+                if originalString.contains(".") {
+                    return false
+                } else {
+                    return true
+                }
+            }
+            if string == "," {
+                textField.text = originalString + "."
+                return false
+            }
+            
+            if originalString.contains(".") {
+                var allZerro = true
+                for number in string.characters {
+                    if number != "0" {
+                        allZerro = false
+                    }
+                }
+                if allZerro {
+                    numberOfCharacters += string.characters.count
+                    self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
+                    return true
+                }
+            }
+            
+            replacedString = originalString.replacingOccurrences(of: ",", with: "") + string.replacingOccurrences(of: ",", with: "")
+            let numbersSize = replacedString.replacingOccurrences(of: ".", with: "").characters.count
+            
+            if numbersSize > maxNumberOfCharacter {
+                self.showAlert(title: "Warning", description: "So long number!")
+                return false
+            } else {
+                self.report = Double(replacedString)
+                self.numberOfCharacters = numbersSize
+                self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
+                textField.text = formatNumberFromString(stringNumber: replacedString)
+                return false
+            }
+        }
+    }
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        self.report = nil
         return true
+    }
+    
+    func formatNumberFromString(stringNumber: String) -> String {
+        if stringNumber.isEmpty {
+            return ""
+        }
+        
+        // Replace any formatting commas
+        let newStringNumber = stringNumber.replacingOccurrences(of: ",", with: "")
+        
+        let doubleFromString = Double(newStringNumber)
+        
+        let finalString = formatter.string(from: NSNumber(value: doubleFromString!))
+        return finalString!
     }
     
     //MARK: - Show alert

@@ -26,13 +26,20 @@ class WebViewChartViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //self.view.backgroundColor = UIColor.blue
+        self.webView.scrollView.isScrollEnabled = false
+        self.webView.scrollView.bounces = false
+        self.webView.backgroundColor = UIColor.white
         
-        //self.webView.scrollView.isScrollEnabled = false
-        //self.webView.scrollView.bounces = false
+        let tabBarHeight = self.tabBarController?.tabBar.frame.size.height
+        let navigationBarHeight = self.navigationController?.navigationBar.frame.size.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
         
-        let height = self.webView.frame.size.height
-        let width = self.webView.frame.size.width
+        var height = self.webView.bounds.size.height
+        var width = self.webView.bounds.size.width
+        print("\(width) \(height)")
+        
+        height = self.view.frame.size.height - (tabBarHeight! + navigationBarHeight! + statusBarHeight)
+        width = self.view.frame.size.width
         print("\(width) \(height)")
         switch typeOfChart {
         case .PieChart:
