@@ -8,13 +8,9 @@
 
 import UIKit
 
-extension Double {
-    func toInt() -> Int? {
-        if self > Double(Int.min) && self < Double(Int.max) {
-            return Int(self)
-        } else {
-            return nil
-        }
+extension String {
+    func toDouble() -> Double? {
+        return NumberFormatter().number(from: self)?.doubleValue
     }
 }
 
@@ -25,7 +21,7 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
     
     var report: Double?
     var numberOfCharacters = 0
-    let maxNumberOfCharacter = 20
+    let maxNumberOfCharacter = 15
     
     var formatter: NumberFormatter!
     
@@ -40,6 +36,8 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
         formatter.groupingSeparator = ","
         formatter.decimalSeparator = "."
         formatter.maximumFractionDigits = maxNumberOfCharacter
+        
+        numberOfCharactersLabel.text = "\(maxNumberOfCharacter)"
         
         tableView.tableFooterView = UIView(frame: .zero)
         if report != nil {
@@ -166,7 +164,15 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
                 }
                 
                 if string == "0" {
-                    return true
+                    if numberOfCharacters < maxNumberOfCharacter {
+                        self.numberOfCharacters += 1
+                        self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter-numberOfCharacters)"
+                        return true
+                    } else {
+                        showAlert(title: "Warning", description: "So long number!")
+                        return false
+                    }
+
                 }
                 
                 replacedString = originalString.replacingOccurrences(of: ",", with: "") + string.replacingOccurrences(of: ",", with: "")
@@ -190,8 +196,12 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
                 }
             }
             if string == "," {
-                textField.text = originalString + "."
-                return false
+                if originalString.contains(".") {
+                    return false
+                } else {
+                    textField.text = originalString + "."
+                    return false
+                }
             }
             
             if originalString.contains(".") {
@@ -202,9 +212,15 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
                     }
                 }
                 if allZerro {
-                    numberOfCharacters += string.characters.count
-                    self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
-                    return true
+                    
+                    if numberOfCharacters + string.characters.count <= maxNumberOfCharacter {
+                        numberOfCharacters += string.characters.count
+                        self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
+                        return true
+                    } else {
+                        showAlert(title: "Warning", description: "So long number!")
+                        return false
+                    }
                 }
             }
             
@@ -226,6 +242,8 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
     
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         self.report = nil
+        self.numberOfCharacters = 0
+        self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
         return true
     }
     
