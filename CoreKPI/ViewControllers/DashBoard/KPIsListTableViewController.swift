@@ -99,7 +99,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         refreshControl?.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
         tableView.addSubview(refreshControl!)
 
-        
+        self.navigationController?.hideTransparentNavigationBar()
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
         tableView.tableFooterView = UIView(frame: .zero)
     }
@@ -266,7 +266,6 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                         }
                     }
                     self.tableView.reloadData()
-                    refreshControl?.endRefreshing()
                     
                 } else {
                     print("Json data is broken")
@@ -279,6 +278,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         } else {
             print("Json file is broken!")
         }
+        refreshControl?.endRefreshing()
     }
     
     //MARK: Load User's KPI
@@ -352,6 +352,12 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
             let destinationVC = segue.destination as! ChooseSuggestedKPITableViewController
             destinationVC.model = ModelCoreKPI(model: self.model)
             destinationVC.KPIListVC = self
+        }
+    }
+    
+    override func willMove(toParentViewController parent: UIViewController?) {
+        if(!(parent?.isEqual(self.parent) ?? false)) {
+            self.navigationController?.presentTransparentNavigationBar()
         }
     }
     

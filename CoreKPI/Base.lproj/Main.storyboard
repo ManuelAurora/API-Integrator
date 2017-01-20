@@ -3002,17 +3002,18 @@ The main advantage of a computer audio player is that you can play your audio CD
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleAspectFit" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IKc-mO-VJA">
+                            <webView clearsContextBeforeDrawing="NO" contentMode="scaleAspectFit" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IKc-mO-VJA">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="IKc-mO-VJA" firstAttribute="top" secondItem="ubO-To-7Xc" secondAttribute="top" id="5cw-uL-TNd"/>
-                            <constraint firstItem="IKc-mO-VJA" firstAttribute="leading" secondItem="ubO-To-7Xc" secondAttribute="leading" id="7zM-th-rTy"/>
-                            <constraint firstAttribute="trailing" secondItem="IKc-mO-VJA" secondAttribute="trailing" id="ach-pw-IVP"/>
-                            <constraint firstAttribute="bottom" secondItem="IKc-mO-VJA" secondAttribute="bottom" id="rZd-Jb-uKq"/>
+                            <constraint firstAttribute="bottom" secondItem="IKc-mO-VJA" secondAttribute="bottom" id="DBj-DV-xH8"/>
+                            <constraint firstAttribute="trailing" secondItem="IKc-mO-VJA" secondAttribute="trailing" id="NTh-qn-IGE"/>
+                            <constraint firstItem="IKc-mO-VJA" firstAttribute="leading" secondItem="ubO-To-7Xc" secondAttribute="leading" id="jiq-Bq-OOk"/>
+                            <constraint firstItem="IKc-mO-VJA" firstAttribute="top" secondItem="ubO-To-7Xc" secondAttribute="top" id="kWQ-YX-ZZQ"/>
                         </constraints>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>

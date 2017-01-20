@@ -19,6 +19,8 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         self.setViewControllers([getViewController(AtIndex: 0)] as [UIViewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
         self.view.backgroundColor = UIColor.white
         
+        self.navigationController?.navigationBar.backgroundColor = UIColor.white
+        
         switch kpi.typeOfKPI {
         case .createdKPI:
             self.navigationItem.title = "Report"
@@ -140,6 +142,10 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         if let tableVC: TableViewChartController = vc as? TableViewChartController {
             tableVC.index = index
         }
+    }
+    
+    override func willMove(toParentViewController parent: UIViewController?) {
+        self.navigationController?.navigationBar.backgroundColor = UIColor.clear
     }
     
 }

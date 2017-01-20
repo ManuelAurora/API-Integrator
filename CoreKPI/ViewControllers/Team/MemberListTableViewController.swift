@@ -171,17 +171,14 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
                     }
                 } else {
                     print("Json data is broken")
-                    return
                 }
             } else {
                 let errorMessage = json["message"] as! String
                 print("Json error message: \(errorMessage)")
                 showAlert(errorMessage: errorMessage)
-                return
             }
         } else {
             print("Json file is broken!")
-            return
         }
         self.refreshControl?.endRefreshing()
         tableView.reloadData()
