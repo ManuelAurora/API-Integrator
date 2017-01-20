@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340901E110CF200208EAB /* ChageNameTableViewController.swift */; };
 		A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340921E110D1C00208EAB /* NewNameViewController.swift */; };
+		A20B6BD01E31F5EC00FAF86A /* IntegratedKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20B6BCF1E31F5EC00FAF86A /* IntegratedKPI.swift */; };
+		A20B6BD21E31F62800FAF86A /* User's KPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20B6BD11E31F62800FAF86A /* User's KPI.swift */; };
 		A21AEEF21E28AFF200577F4B /* KPIColourTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21AEEF11E28AFF200577F4B /* KPIColourTableViewCell.swift */; };
 		A21B46C91E22B046000890D3 /* iOSChartsTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21B46C81E22B046000890D3 /* iOSChartsTestViewController.swift */; };
 		A21EDDF71E23A709001DE74C /* KPIList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21EDDF61E23A709001DE74C /* KPIList.swift */; };
@@ -141,6 +143,8 @@
 /* Begin PBXFileReference section */
 		A20340901E110CF200208EAB /* ChageNameTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChageNameTableViewController.swift; path = CoreKPI/ViewControllers/Team/ChageNameTableViewController.swift; sourceTree = "<group>"; };
 		A20340921E110D1C00208EAB /* NewNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewNameViewController.swift; path = CoreKPI/ViewControllers/Team/NewNameViewController.swift; sourceTree = "<group>"; };
+		A20B6BCF1E31F5EC00FAF86A /* IntegratedKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegratedKPI.swift; sourceTree = "<group>"; };
+		A20B6BD11E31F62800FAF86A /* User's KPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User's KPI.swift"; sourceTree = "<group>"; };
 		A21AEEF11E28AFF200577F4B /* KPIColourTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIColourTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPIColourTableViewCell.swift; sourceTree = "<group>"; };
 		A21B46C81E22B046000890D3 /* iOSChartsTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = iOSChartsTestViewController.swift; path = CoreKPI/ViewControllers/DashBoard/iOSChartsTestViewController.swift; sourceTree = "<group>"; };
 		A21EDDF61E23A709001DE74C /* KPIList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIList.swift; path = ../KPIList.swift; sourceTree = "<group>"; };
@@ -358,6 +362,8 @@
 		A278209A1E001581009F83DB /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				A20B6BCF1E31F5EC00FAF86A /* IntegratedKPI.swift */,
+				A20B6BD11E31F62800FAF86A /* User's KPI.swift */,
 				A21EDDF61E23A709001DE74C /* KPIList.swift */,
 				A25B4A561E0275B400F315F9 /* CustomTextField.swift */,
 				A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */,
@@ -809,12 +815,14 @@
 				A274DC111E082617008CBF36 /* MemberListTableViewController.swift in Sources */,
 				A26D282A1E0D551D005342BA /* KPIListTableViewCell.swift in Sources */,
 				A2ACBD3F1E0D12280079EF3D /* AlertsListTableViewCell.swift in Sources */,
+				A20B6BD21E31F62800FAF86A /* User's KPI.swift in Sources */,
 				A297F5BB1E08234500F85963 /* faqTableViewController.swift in Sources */,
 				A297F5BA1E08234500F85963 /* faqDetailViewController.swift in Sources */,
 				A21B46C91E22B046000890D3 /* iOSChartsTestViewController.swift in Sources */,
 				A26408F41E2239910034EEC2 /* ReportAndViewTableViewCell.swift in Sources */,
 				A22302C31E1F96B900C9D0B4 /* ReminderViewTableViewController.swift in Sources */,
 				A2A940CB1E1E70740088C7F1 /* UINavigationBurExtension.swift in Sources */,
+				A20B6BD01E31F5EC00FAF86A /* IntegratedKPI.swift in Sources */,
 				A2ACBD3B1E0D11AA0079EF3D /* AlertsListTableViewController.swift in Sources */,
 				A297F5D11E08241900F85963 /* MemberInfoTableViewCell.swift in Sources */,
 				A297F5DF1E08248000F85963 /* NewProfileTableViewCell.swift in Sources */,

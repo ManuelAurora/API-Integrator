@@ -70,6 +70,12 @@ class AlertsListTableViewController: UITableViewController, updateAlertListDeleg
         alertsList = [alertOne, alertTwo]
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
+        
+        refreshControl = UIRefreshControl()
+        refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl?.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
+        tableView.addSubview(refreshControl!)
+        
         tableView.tableFooterView = UIView(frame: .zero)
     }
 
@@ -77,6 +83,14 @@ class AlertsListTableViewController: UITableViewController, updateAlertListDeleg
         super.didReceiveMemoryWarning()
     }
 
+    //MARK: -  Pull to refresh method
+    func refresh(sender:AnyObject)
+    {
+        //load alerts from server
+        print("updating alert list")
+        refreshControl?.endRefreshing()
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {

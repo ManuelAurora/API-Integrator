@@ -26,6 +26,11 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
         
         self.request = Request(model: model)
         
+        refreshControl = UIRefreshControl()
+        refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl?.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
+        tableView.addSubview(refreshControl!)
+        
         //Admin permission check!
         if model.profile?.typeOfAccount != TypeOfAccount.Admin {
             self.navigationItem.rightBarButtonItem = nil
@@ -67,8 +72,16 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
         if (memberList[indexPath.row].photo != nil) {
             //load photo from server
             cell.userProfilePhotoImage?.downloadedFrom(link: memberList[indexPath.row].photo!)
+        } else {
+            cell.userProfilePhotoImage.image = #imageLiteral(resourceName: "defaultProfile")
         }
         return cell
+    }
+    
+    //MARK: -  Pull to refresh method
+    func refresh(sender:AnyObject)
+    {
+        loadTeamListFromServer()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -115,6 +128,7 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
                 if let dataKey = json["data"] as? NSArray {
+                    self.memberList.removeAll()
                     var teamListIsFull = false
                     var i = 0
                     while teamListIsFull == false {
@@ -157,15 +171,19 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
                     }
                 } else {
                     print("Json data is broken")
+                    return
                 }
             } else {
                 let errorMessage = json["message"] as! String
                 print("Json error message: \(errorMessage)")
                 showAlert(errorMessage: errorMessage)
+                return
             }
         } else {
             print("Json file is broken!")
+            return
         }
+        self.refreshControl?.endRefreshing()
         tableView.reloadData()
     }
     

@@ -15,103 +15,6 @@ enum Source: String {
     case Integrated
 }
 
-enum IntegratedServices: String {
-    case none = "Choose Service"
-    case SalesForce
-    case Quickbooks
-    case GoogleAnalytics
-    case HubSpotCRM
-    case HubSpotMarketing
-    case PayPal
-}
-
-enum SalesForceKPIs: String {
-    case none
-    case RevenueNewLeads = "Revenue/new leads"
-    case KeyMetrics = "Key metrics"
-    case ConvertedLeads = "Converted Leads"
-    case OpenOpportunitiesByStage = "Open opportunities by Stage"
-    case TopSalesRep = "Top Sales Rep"
-    case NewLeadsByIndustry = "New leads by industry"
-    case CampaignROI = "Campaign ROI"
-}
-
-enum QiuckBooksKPIs: String {
-    case none
-    case Test = "Coming soon"
-}
-
-enum GoogleAnalyticsKPIs: String {
-    case none
-    case Test = "Coming soon"
-}
-
-enum HubSpotCRMKPIs: String {
-    case none
-    case Test = "Coming soon"
-}
-
-enum HubSpotMarketingKPIs: String {
-    case none
-    case Test = "Coming soon"
-}
-
-enum PayPalKPIs: String {
-    case none
-    case Test = "Coming soon"
-}
-
-enum TypeOfKPI: String {
-    case IntegratedKPI
-    case createdKPI
-}
-
-enum ImageForKPIList: String {
-    case Increases = "Green up.png"
-    case Decreases = "Red down.png"
-    case SaleForce = "SaleForce.png"
-    case QuickBooks = "QuickBooks.png"
-    case GoogleAnalytics = "GoogleAnalytics.png"
-    case HubSpotCRM = "HubSpotCRM.png"
-    case PayPal = "PayPal.png"
-    case HubSpotMarketing = "HubSpotMarketing.png"
-}
-
-enum Departments: String {
-    case none = "Select"
-    case Sales
-    case Procurement
-    case Projects
-    case FinancialManagement = "Financial management"
-    case Staff
-}
-
-//MARK: - Structs for KPIs
-struct IntegratedKPI {
-    var service: IntegratedServices
-    var saleForceKPIs: [SalesForceKPIs]?
-    var quickBookKPIs: [QiuckBooksKPIs]?
-    var googleAnalytics: [GoogleAnalyticsKPIs]?
-    var hubSpotCRMKPIs: [HubSpotCRMKPIs]?
-    var payPalKPIs: [PayPalKPIs]?
-    var hubSpotMarketingKPIs: [HubSpotMarketingKPIs]?
-}
-
-struct CreatedKPI {
-    var source: Source
-    var department: Departments
-    var KPI: String
-    var descriptionOfKPI: String?
-    var executant: Profile
-    var timeInterval: TimeInterval
-    var timeZone: String
-    var deadline: String
-    var number: [(date: String,number: Double)]
-    mutating func addReport(report: Double) {
-        number.append(("Today", report))
-    }
-}
-
 class KPI {
     var typeOfKPI: TypeOfKPI
     var integratedKPI: IntegratedKPI?
@@ -190,6 +93,12 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         kpiTwo.KPIViewOne = .Graph
         kpiTwo.KPIChartTwo = TypeOfChart.PointChart
         kpiList = [kpiOne, kpiTwo]
+        
+        refreshControl = UIRefreshControl()
+        refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl?.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
+        tableView.addSubview(refreshControl!)
+
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
         tableView.tableFooterView = UIView(frame: .zero)
@@ -281,6 +190,13 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         
     }
     
+    //MARK: -  Pull to refresh method
+    func refresh(sender:AnyObject)
+    {
+        //load KPI from server
+        loadKPIsFromServer()
+    }
+    
     //MARK: - Load KPIs from server methods
     //MARK: Load all KPIs
     func loadKPIsFromServer(){
@@ -302,7 +218,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
                 if let dataKey = json["data"] as? NSArray {
-                    
+                    self.kpiList.removeAll()
                     var KPIListEndParsing = false
                     var kpi = 0
                     while KPIListEndParsing == false {
@@ -348,8 +264,10 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                         if dataKey.count == kpi {
                             KPIListEndParsing = true
                         }
-                        self.tableView.reloadData()
                     }
+                    self.tableView.reloadData()
+                    refreshControl?.endRefreshing()
+                    
                 } else {
                     print("Json data is broken")
                 }
