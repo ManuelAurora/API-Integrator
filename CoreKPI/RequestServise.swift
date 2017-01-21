@@ -38,6 +38,7 @@ class Request {
     
     init(){}
     
+    //MARK: - Send request
     func getJson(category: String, data: [String : Any], success: @escaping success, failure: @escaping failure) {
         
         let http = "\(serverIp)\(category)"

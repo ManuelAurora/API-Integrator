@@ -219,6 +219,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     func updateModel(model: ModelCoreKPI) {
         self.model = model
     }
+    
     //MARK: - updateProfileDelegate method
     func updateProfile(profile: Profile) {
         self.profile = Profile(profile: profile)

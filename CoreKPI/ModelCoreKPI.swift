@@ -14,9 +14,13 @@ enum TypeOfAccount: String {
 }
 
 class ModelCoreKPI {
-    let token: String
     
+    let token: String
     let profile: Profile?
+    
+    var alerts: [Alert] = []
+    var kpis: [KPI] = []
+    var team: [Profile] = []
     
     init(token: String, profile: Profile?) {
         self.token = token
@@ -68,6 +72,7 @@ class Profile {
 }
 
 //Alerts
+//old
 struct Alert {
     var image: String
     var dataSource: DataSource
@@ -79,3 +84,17 @@ struct Alert {
     var deliveryTime: String
     var typeOfNotification: [TypeOfNotification]
 }
+//new
+//class Alert {
+//    var dataSource: DataSource
+//    var timeInterval: TimeInterval?
+//    var deliveryDay: String?
+//    var timeZone: String?
+//    var condition: Condition?
+//    var threshold: String?
+//    var deliveryTime: String
+//    var typeOfNotification: [TypeOfNotification]
+//}
+
+
+//KPI

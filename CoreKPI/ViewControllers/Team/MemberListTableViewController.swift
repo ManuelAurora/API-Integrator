@@ -16,7 +16,6 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
     let oneProfile = Profile(userId: 1, userName: "user1@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: "https://pp.vk.me/c625325/v625325140/d9d5/FzpG-mcLQco.jpg", phone: nil, nickname: nil, typeOfAccount: .Admin)
     let twoProfile = Profile(userId: 2, userName: "user2@mail.ru", firstName: "Cat", lastName: "Dog", position: nil, photo: "https://pp.vk.me/c413328/v413328140/2925/5GvzabomK10.jpg", phone: "89159944660", nickname: "Pes smerdyachiy", typeOfAccount: .Manager)
     
-    var memberList: [Profile] = []
     var indexPath: IndexPath!
     
     @IBOutlet weak var addButton: UIBarButtonItem!
@@ -38,8 +37,8 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
         
         self.loadTeamListFromServer()
         
-        memberList.append(oneProfile)//debug
-        memberList.append(twoProfile)//debug
+        self.model.team.append(oneProfile)//debug
+        self.model.team.append(twoProfile)//debug
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
         tableView.tableFooterView = UIView(frame: .zero)
@@ -56,22 +55,22 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return memberList.count
+        return self.model.team.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MemberListCell", for: indexPath) as! MemberListTableViewCell
         
-        if let memberNickname = memberList[indexPath.row].nickname {
+        if let memberNickname = self.model.team[indexPath.row].nickname {
             cell.userNameLabel.text = memberNickname
         } else {
-            cell.userNameLabel.text = "\(memberList[indexPath.row].firstName) \(memberList[indexPath.row].lastName)"
+            cell.userNameLabel.text = "\(self.model.team[indexPath.row].firstName) \(self.model.team[indexPath.row].lastName)"
         }
         
-        cell.userPosition.text = memberList[indexPath.row].position
-        if (memberList[indexPath.row].photo != nil) {
+        cell.userPosition.text = self.model.team[indexPath.row].position
+        if (self.model.team[indexPath.row].photo != nil) {
             //load photo from server
-            cell.userProfilePhotoImage?.downloadedFrom(link: memberList[indexPath.row].photo!)
+            cell.userProfilePhotoImage?.downloadedFrom(link: self.model.team[indexPath.row].photo!)
         } else {
             cell.userProfilePhotoImage.image = #imageLiteral(resourceName: "defaultProfile")
         }
@@ -81,6 +80,7 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
     //MARK: -  Pull to refresh method
     func refresh(sender:AnyObject)
     {
+        //self.model.team = request.loadTeamListFromServer()
         loadTeamListFromServer()
     }
     
@@ -93,7 +93,7 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
         if segue.identifier == "MemberInfo" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let destinationController = segue.destination as! MemberInfoViewController
-                destinationController.profile = self.memberList[indexPath.row]
+                destinationController.profile = self.model.team[indexPath.row]
                 destinationController.model = self.model
                 let cell = tableView.cellForRow(at: indexPath) as! MemberListTableViewCell
                 destinationController.profileImage = cell.userProfilePhotoImage.image
@@ -128,7 +128,7 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
                 if let dataKey = json["data"] as? NSArray {
-                    self.memberList.removeAll()
+                    self.model.team.removeAll()
                     var teamListIsFull = false
                     var i = 0
                     while teamListIsFull == false {
@@ -160,7 +160,7 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
                             firstName = userData["first_name"] as? String
                             
                             profile = Profile(userId: userId, userName: userName, firstName: firstName, lastName: lastName, position: position, photo: photo, phone: nil, nickname: nickname, typeOfAccount: typeOfAccount)
-                            self.memberList.append(profile)
+                            self.model.team.append(profile)
                             
                             i+=1
                             
@@ -193,7 +193,7 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
     
     //MARK: - updateProfileDelegate method
     func updateProfile(profile: Profile) {
-        self.memberList[self.indexPath.row] = Profile(profile: profile)
+        self.model.team[self.indexPath.row] = Profile(profile: profile)
         tableView.reloadData()
     }
     func updateProfilePhoto() {

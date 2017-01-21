@@ -383,7 +383,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
                         DescriptionCell.kpiInfoTextLabel.isHidden = false
                         DescriptionCell.kpiInfoTextLabel.text = self.kpiDescription
                     }
-//                    DescriptionCell.kpiInfoTextLabel.text = self.kpiDescription ?? ""
+//                  DescriptionCell.kpiInfoTextLabel.text = self.kpiDescription ?? ""
                     DescriptionCell.prepareForReuse()
                     return DescriptionCell
                 case 5:
@@ -410,8 +410,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
                     SuggestedCell.headerOfCell.text = "Department"
                     SuggestedCell.descriptionOfCell.text = department.rawValue
                 case 2:
-                    SuggestedCell.headerOfCell.text = "KPI Name"
-                    SuggestedCell.descriptionOfCell.text = kpiName ?? "Add name"
+                    SuggestedCell.headerOfCell.text = "Select suggested KPI"
+                    SuggestedCell.descriptionOfCell.text = "(Optional)"
                 case 3:
                     SuggestedCell.headerOfCell.text = "KPI Name"
                     SuggestedCell.descriptionOfCell.text = self.kpiName ?? "Add name"
@@ -566,9 +566,11 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
                         showSelectSettingVC()
                     }
                 case 3:
-                    break
+                    self.typeOfSetting = .KPIName
+                    self.showSelectSettingVC()
                 case 4:
-                    break
+                    self.typeOfSetting = .KPINote
+                    self.showSelectSettingVC()
                 case 5:
                     self.typeOfSetting = .Executant
                     self.settingArray = self.executantArray
@@ -647,7 +649,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
             let integratedKPI = IntegratedKPI(service: self.integrated, saleForceKPIs: saleForceKPIs, quickBookKPIs: quickBooksKPIs, googleAnalytics: googleAnalyticsKPIs, hubSpotCRMKPIs: hubspotCRMKPIs, payPalKPIs: paypalKPIs, hubSpotMarketingKPIs: hubspotMarketingKPIs)
             kpi = KPI(typeOfKPI: .IntegratedKPI, integratedKPI: integratedKPI, createdKPI: nil, imageBacgroundColour: UIColor.clear)
         case .User:
-            if self.department == .none || self.kpiName == nil || self.executant == nil || (self.timeInterval != TimeInterval.Daily && (self.weeklyInterval == WeeklyInterval.none || self.mounthlyInterval == nil)) || self.timeZone == nil || self.deadline == nil {
+            if self.department == .none || self.kpiName == nil || self.executant == nil || (self.timeInterval == TimeInterval.Weekly && self.weeklyInterval == WeeklyInterval.none) || (self.timeInterval == TimeInterval.Monthly && self.mounthlyInterval == nil) || self.timeZone == nil || self.deadline == nil {
                 showAlert(title: "Error", message: "One ore more parameters are not selected")
                 return
             }
