@@ -29,7 +29,7 @@ class ModelCoreKPI {
     
 }
 
-
+//Profile
 class Profile {
     let userId: Int
     var userName: String
@@ -65,4 +65,17 @@ class Profile {
         self.typeOfAccount = profile.typeOfAccount
     }
     
+}
+
+//Alerts
+struct Alert {
+    var image: String
+    var dataSource: DataSource
+    var timeInterval: TimeInterval?
+    var deliveryDay: String?
+    var timeZone: String?
+    var condition: Condition?
+    var threshold: String?
+    var deliveryTime: String
+    var typeOfNotification: [TypeOfNotification]
 }

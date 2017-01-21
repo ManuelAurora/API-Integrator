@@ -5,11 +5,11 @@ innerRadius = 0;
 // innerRadius = 0;
 
 var data = [
-            {number: "Week 1", rate: 200},
-            {number: "Week 2", rate: 150},
-            {number: "Week 3", rate: 200},
-            {number: "Week 4", rate: 300},
-            {number: "Week 5", rate: 200}
+            {number: "Week 1", rate: numOne},
+            {number: "Week 2", rate: numTwo},
+            {number: "Week 3", rate: numThree},
+            {number: "Week 4", rate: numFour},
+            {number: "Week 5", rate: numFive}
             ];
 
 var color = d3.scale.ordinal().range([

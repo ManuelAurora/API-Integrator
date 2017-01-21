@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WebKit
 
 enum TypeOfChart: String {
     case PieChart
@@ -22,6 +23,8 @@ class WebViewChartViewController: UIViewController {
 
     var typeOfChart = TypeOfChart.PieChart
     var index = 0
+    
+    var timer: Timer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,23 +46,8 @@ class WebViewChartViewController: UIViewController {
         print("\(width) \(height)")
         switch typeOfChart {
         case .PieChart:
-            let htmlFile = Bundle.main.path(forResource:"index", ofType: "html")
-            let cssFile = Bundle.main.path(forResource:"style", ofType: "css")
-            let jsFile1 = Bundle.main.path(forResource:"Rd3.v3.min", ofType: "js")
-            let jsFile2 = Bundle.main.path(forResource:"round", ofType: "js")
-            let accountingFile = Bundle.main.path(forResource: "accounting.min", ofType: "js")
             
-            let html = try? String(contentsOfFile: htmlFile!, encoding: String.Encoding.utf8)
-            let css = try? String(contentsOfFile: cssFile!, encoding: String.Encoding.utf8)
-            let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
-            let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
-            let acc = try? String(contentsOfFile: accountingFile!, encoding: String.Encoding.utf8)
-            
-            let topOfJS = "var margin = 10; var width = \(width), height = \(height);"
-            
-            webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + acc! + "</script><script>" + js1! + "</script><script>" + topOfJS + js2! + "</script>", baseURL: nil)
-            
-            //webView.loadHTMLString( html! + "<style>" + css! + "<script>" /*+ acc! + "</script><script>" */+ js1! + "</script><script>" + topOfJS + js2! + "</script>", baseURL: nil)
+            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(loadPie), userInfo: nil, repeats: true)
             
         case .PointChart:
             let htmlFile = Bundle.main.path(forResource:"points", ofType: "html")
@@ -73,7 +61,7 @@ class WebViewChartViewController: UIViewController {
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
             
             let topOfJS = "var margin = {top: 50, right: 30, bottom: 30, left: 30}; var width = \(width) - margin.left - margin.right; var height = \(height) - margin.top - margin.bottom;"
-            
+        
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + topOfJS + js2! + "</script>", baseURL: nil)
         case .LineChart:
             let htmlFile = Bundle.main.path(forResource:"Lines", ofType: "html")
@@ -134,6 +122,49 @@ class WebViewChartViewController: UIViewController {
         }
     }
 
+    
+    func getRandomValues() -> String {
+        let numOne = 200
+        let numTwo = 150
+        let numThree = 200
+        let numFour = 300
+        let numFive = 200
+        
+        var array = [numOne, numTwo, numThree, numFour, numFive]
+        
+        let random = Int(arc4random_uniform(4))
+        array[random] = Int(arc4random_uniform(500))
+        
+        return "var numOne = \(array[0]); var numTwo = \(array[1]); var numThree = \(array[2]); var numFour = \(array[3]); var numFive = \(array[4]);"
+        
+    }
+    
+    func loadPie() {
+        //let tabBarHeight = self.tabBarController?.tabBar.frame.size.height
+        //let navigationBarHeight = self.navigationController?.navigationBar.frame.size.height
+        //let statusBarHeight = UIApplication.shared.statusBarFrame.height
+        
+        let height = self.view.frame.size.height// - (tabBarHeight! + navigationBarHeight! + statusBarHeight)
+        let width = self.view.frame.size.width
+        
+        let htmlFile = Bundle.main.path(forResource:"index", ofType: "html")
+        let cssFile = Bundle.main.path(forResource:"style", ofType: "css")
+        let jsFile1 = Bundle.main.path(forResource:"Rd3.v3.min", ofType: "js")
+        let jsFile2 = Bundle.main.path(forResource:"round", ofType: "js")
+        let accountingFile = Bundle.main.path(forResource: "accounting.min", ofType: "js")
+        
+        let html = try? String(contentsOfFile: htmlFile!, encoding: String.Encoding.utf8)
+        let css = try? String(contentsOfFile: cssFile!, encoding: String.Encoding.utf8)
+        let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
+        let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
+        let acc = try? String(contentsOfFile: accountingFile!, encoding: String.Encoding.utf8)
+        
+        let topOfJS = "var margin = 10; var width = \(width), height = \(height);"
+        let topOfJS2 = self.getRandomValues()
+        
+        webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + acc! + "</script><script>" + js1! + "</script><script>" + topOfJS + topOfJS2 + js2! + "</script>", baseURL: nil)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

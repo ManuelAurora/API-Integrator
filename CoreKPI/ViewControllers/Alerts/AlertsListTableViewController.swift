@@ -8,18 +8,6 @@
 
 import UIKit
 
-struct Alert {
-    var image: String
-    var dataSource: DataSource
-    var timeInterval: TimeInterval?
-    var deliveryDay: String?
-    var timeZone: String?
-    var condition: Condition?
-    var threshold: String?
-    var deliveryTime: String//Date
-    var typeOfNotification: [TypeOfNotification]
-}
-
 enum Setting: String {
     case none
     case DataSource

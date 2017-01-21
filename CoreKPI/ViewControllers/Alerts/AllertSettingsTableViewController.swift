@@ -19,11 +19,11 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
     var typeOfSetting = Setting.none
     var settingsArray: [(SettingName: String, value: Bool)] = []
     
-    var dataSource = DataSource.MyShopSales
-    var dataSourceArray: [(SettingName: String, value: Bool)] = [(DataSource.MyShopSales.rawValue, true),(DataSource.MyShopSupples.rawValue, false), (DataSource.Balance.rawValue, false)]
+    var dataSource = DataSource.MyShopSupples
+    var dataSourceArray: [(SettingName: String, value: Bool)] = []//[(DataSource.MyShopSales.rawValue, true),(DataSource.MyShopSupples.rawValue, false), (DataSource.Balance.rawValue, false)]
     
     var timeInterval = TimeInterval.Daily
-    var timeIntervalArray: [(SettingName: String, value: Bool)] = [(TimeInterval.Daily.rawValue, true), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, false)]
+    var timeIntervalArray: [(SettingName: String, value: Bool)] = []//[(TimeInterval.Daily.rawValue, true), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, false)]
     
     var deliveryDay: String!
     var deliveryDayArray: [(SettingName: String, value: Bool)] = []
@@ -39,7 +39,7 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
     var timeZoneArray: [(SettingName: String, value: Bool)] = [("Hawaii Time (HST)",false), ("Alaska Time (AKST)", false), ("Pacific Time (PST)",false), ("Mountain Time (MST)", false), ("Central Time (CST)", false), ("Eastern Time (EST)",false)]
     
     var condition = Condition.IsLessThan
-    var conditionArray: [(SettingName: String, value: Bool)] = [(Condition.IsLessThan.rawValue, true), (Condition.IncreasedOrDecreased.rawValue, false), (Condition.PercentHasIncreasedOrDecreasedByMoreThan.rawValue, false)]
+    var conditionArray: [(SettingName: String, value: Bool)] = []//[(Condition.IsLessThan.rawValue, true), (Condition.IncreasedOrDecreased.rawValue, false), (Condition.PercentHasIncreasedOrDecreasedByMoreThan.rawValue, false)]
     
     var threshold: String?
     
@@ -52,12 +52,40 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
         super.viewDidLoad()
         
         request = Request(model: self.model)
+        self.createArrays()
         
         //NOT USE IN THIS VERSION
         //self.getTimeZonesList()
         
         //debug
         self.deliveryTime = "12:15 PM"
+        
+        tableView.tableFooterView = UIView(frame: .zero)
+    }
+    
+    //MARK: - CreateArrays
+    func createArrays() {
+        for dataSource in iterateEnum(DataSource.self) {
+            if dataSource == self.dataSource {
+                self.dataSourceArray.append((dataSource.rawValue, true))
+            } else {
+                self.dataSourceArray.append((dataSource.rawValue, false))
+            }
+        }
+        for timeInterval in iterateEnum(TimeInterval.self) {
+            if timeInterval == self.timeInterval {
+                self.timeIntervalArray.append((timeInterval.rawValue, true))
+            } else {
+                self.timeIntervalArray.append((timeInterval.rawValue, false))
+            }
+        }
+        for condition in iterateEnum(Condition.self) {
+            if condition == self.condition {
+                self.conditionArray.append((condition.rawValue, true))
+            } else {
+                self.conditionArray.append((condition.rawValue, false))
+            }
+        }
         
         for i in 1...31 {
             var deliveryDay: (String, Bool) = ("\(i)", false)
@@ -66,8 +94,19 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
             }
             self.deliveryDayArray.append(deliveryDay)
         }
-        
-        tableView.tableFooterView = UIView(frame: .zero)
+    }
+    
+    //MARK: Enum iterator method
+    func iterateEnum<T: Hashable>(_: T.Type) -> AnyIterator<T> {
+        var i = 0
+        return AnyIterator {
+            let next = withUnsafePointer(to: &i) {
+                $0.withMemoryRebound(to: T.self, capacity: 1) { $0.pointee }
+            }
+            if next.hashValue != i { return nil }
+            i += 1
+            return next
+        }
     }
     
     override func didReceiveMemoryWarning() {

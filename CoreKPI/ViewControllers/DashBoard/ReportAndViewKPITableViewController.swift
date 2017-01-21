@@ -1116,14 +1116,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         case .Edit:
             switch self.kpiArray[kpiIndex].typeOfKPI {
             case .IntegratedKPI: break
-                //                switch section {
-                //                case 0:
-                //                    return 1
-                //                case 1:
-                //                    return 3
-                //                default:
-                //                    return 0
-            //                }
+                    //Warning!
             case .createdKPI:
                 switch typeOfAccount {
                 case .Admin:
@@ -1464,7 +1457,6 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                 }
             }
         }
-        
     }
     
     //MARK: - Show KPISelectSettingTableViewController method
@@ -1472,7 +1464,6 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "SelectSettingForKPI") as! KPISelectSettingTableViewController
         destinatioVC.ReportAndViewVC = self
         destinatioVC.selectSetting = settingArray
-        let createdKPI = self.kpiArray[kpiIndex].createdKPI
         switch typeOfSetting {
         case .Colour:
             destinatioVC.segueWithSelecting = true
@@ -1480,10 +1471,10 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             destinatioVC.colourDictionary = self.colourDictionary
         case .KPIname:
             destinatioVC.inputSettingCells = true
-            destinatioVC.textFieldInputData = createdKPI?.KPI
+            destinatioVC.textFieldInputData = self.kpiName
         case .KPInote:
             destinatioVC.inputSettingCells = true
-            destinatioVC.textFieldInputData = createdKPI?.descriptionOfKPI
+            destinatioVC.textFieldInputData = self.kpiDescription
         default:
             break
         }

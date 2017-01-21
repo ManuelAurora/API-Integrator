@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340901E110CF200208EAB /* ChageNameTableViewController.swift */; };
 		A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340921E110D1C00208EAB /* NewNameViewController.swift */; };
+		A2048BC71E3369A4008792D2 /* WKWebViewTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2048BC61E3369A4008792D2 /* WKWebViewTestViewController.swift */; };
 		A20B6BD01E31F5EC00FAF86A /* IntegratedKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20B6BCF1E31F5EC00FAF86A /* IntegratedKPI.swift */; };
 		A20B6BD21E31F62800FAF86A /* User's KPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20B6BD11E31F62800FAF86A /* User's KPI.swift */; };
 		A21AEEF21E28AFF200577F4B /* KPIColourTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21AEEF11E28AFF200577F4B /* KPIColourTableViewCell.swift */; };
@@ -143,6 +144,7 @@
 /* Begin PBXFileReference section */
 		A20340901E110CF200208EAB /* ChageNameTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChageNameTableViewController.swift; path = CoreKPI/ViewControllers/Team/ChageNameTableViewController.swift; sourceTree = "<group>"; };
 		A20340921E110D1C00208EAB /* NewNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewNameViewController.swift; path = CoreKPI/ViewControllers/Team/NewNameViewController.swift; sourceTree = "<group>"; };
+		A2048BC61E3369A4008792D2 /* WKWebViewTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKWebViewTestViewController.swift; sourceTree = "<group>"; };
 		A20B6BCF1E31F5EC00FAF86A /* IntegratedKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegratedKPI.swift; sourceTree = "<group>"; };
 		A20B6BD11E31F62800FAF86A /* User's KPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User's KPI.swift"; sourceTree = "<group>"; };
 		A21AEEF11E28AFF200577F4B /* KPIColourTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIColourTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPIColourTableViewCell.swift; sourceTree = "<group>"; };
@@ -492,6 +494,7 @@
 				A26408F71E2280160034EEC2 /* WebViewChartViewController.swift */,
 				A2EFE2C71E2DF0E300BA2956 /* TableViewChartController.swift */,
 				A21B46C81E22B046000890D3 /* iOSChartsTestViewController.swift */,
+				A2048BC61E3369A4008792D2 /* WKWebViewTestViewController.swift */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -830,6 +833,7 @@
 				A22EF0661E0901A20004DDB7 /* ModelCoreKPI.swift in Sources */,
 				A297F5B41E08233A00F85963 /* MemberInfoViewController.swift in Sources */,
 				A297F5BC1E08234500F85963 /* SupportMainTableViewController.swift in Sources */,
+				A2048BC71E3369A4008792D2 /* WKWebViewTestViewController.swift in Sources */,
 				A235CB321E0ACD5200636888 /* AllertSettingsTableViewController.swift in Sources */,
 				A2EFE2C61E2DF0A500BA2956 /* ChartsPageViewController.swift in Sources */,
 				A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */,
