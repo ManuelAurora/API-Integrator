@@ -20,8 +20,10 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     var request: Request!
     var model: ModelCoreKPI! = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, nickname: nil, typeOfAccount: .Manager))
     
-    var kpiList: [KPI] = []
+    //var kpiList: [KPI] = []
     var updateProfileDelegate: updateProfileDelegate!
+    
+    let profileDidChangeNotification = Notification.Name(rawValue:"profileDidChange")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +40,10 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         let kpiTwo = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: Departments.Procurement, KPI: "Shop Volume",descriptionOfKPI: nil, executant: Profile(userId: 123, userName: "User@User.com", firstName: "Pes", lastName: "Sobaka", position: nil, photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin) , timeInterval: TimeInterval.Weekly, timeZone: "MSK +3", deadline: "12.01.2017", number: [("08/01/17", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: nil)
         kpiTwo.KPIViewOne = .Graph
         kpiTwo.KPIChartTwo = TypeOfChart.PointChart
-        kpiList = [kpiOne, kpiTwo]
+        self.model.kpis = [kpiOne, kpiTwo]
+        
+        let nc = NotificationCenter.default
+        nc.addObserver(forName:profileDidChangeNotification, object:nil, queue:nil, using:catchNotification)
         
         refreshControl = UIRefreshControl()
         refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -61,7 +66,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return kpiList.count
+        return self.model.kpis.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -71,24 +76,24 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         cell.reportButton.tag = indexPath.row
         cell.memberNameButton.tag = indexPath.row
         
-        if let imageString = kpiList[indexPath.row].image {
+        if let imageString = self.model.kpis[indexPath.row].image {
             cell.KPIListCellImageView.isHidden = false
             cell.KPIListCellImageView.image = UIImage(named: imageString.rawValue)
         } else {
             cell.KPIListCellImageView.isHidden = true
         }
         
-        cell.KPIListCellImageBacgroundView.backgroundColor = kpiList[indexPath.row].imageBacgroundColour
+        cell.KPIListCellImageBacgroundView.backgroundColor = self.model.kpis[indexPath.row].imageBacgroundColour
         
-        switch kpiList[indexPath.row].typeOfKPI {
+        switch self.model.kpis[indexPath.row].typeOfKPI {
         case .IntegratedKPI:
             cell.reportButton.isHidden = true
             cell.KPIListNumber.isHidden = true
             cell.ManagedByStack.isHidden = true
-            let integratedKPI = kpiList[indexPath.row].integratedKPI
+            let integratedKPI = self.model.kpis[indexPath.row].integratedKPI
             cell.KPIListHeaderLabel.text = integratedKPI?.service.rawValue
         case .createdKPI:
-            let createdKPI = kpiList[indexPath.row].createdKPI
+            let createdKPI = self.model.kpis[indexPath.row].createdKPI
             cell.KPIListHeaderLabel.text = createdKPI?.KPI
             if self.model.profile?.typeOfAccount == TypeOfAccount.Admin {
                 if self.model.profile?.userId == createdKPI?.executant.userId {
@@ -131,7 +136,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "PageVC") as! ChartsPageViewController
-        destinationVC.kpi = self.kpiList[indexPath.row]
+        destinationVC.kpi = self.model.kpis[indexPath.row]
         navigationController?.pushViewController(destinationVC, animated: true)
         
     }
@@ -164,7 +169,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
                 if let dataKey = json["data"] as? NSArray {
-                    self.kpiList.removeAll()
+                    self.model.kpis.removeAll()
                     var KPIListEndParsing = false
                     var kpi = 0
                     while KPIListEndParsing == false {
@@ -202,7 +207,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                             
                             let createdKPI = CreatedKPI(source: source, department: Departments(rawValue: department)!, KPI: kpi_name, descriptionOfKPI: descriptionOfKPI, executant: executant, timeInterval: TimeInterval(rawValue: timeInterval)!, timeZone: timeZone, deadline: deadline, number: number)
                             let kpi = KPI(typeOfKPI: typeOfKPI, integratedKPI: nil, createdKPI: createdKPI, imageBacgroundColour: UIColor.clear)
-                            self.kpiList.append(kpi)
+                            self.model.kpis.append(kpi)
                             
                         }
                         
@@ -229,7 +234,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     
     //MARK: Load User's KPI
     func loadUsersKPI(userID: Int) {
-        self.kpiList.removeAll()
+        self.model.kpis.removeAll()
         self.request = Request(model: model)
         let data: [String : Any] = ["user_id": userID]
         
@@ -252,12 +257,12 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     
     //MARK: - updateKPIListDelegate method
     func addNewKPI(kpi: KPI) {
-        self.kpiList.append(kpi)
+        self.model.kpis.append(kpi)
         self.tableView.reloadData()
     }
     
     func updateKPIList(kpiArray: [KPI]) {
-        self.kpiList = kpiArray
+        self.model.kpis = kpiArray
         self.tableView.reloadData()
     }
     
@@ -266,7 +271,6 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ReportAndViewKPI") as! ReportAndViewKPITableViewController
         destinatioVC.model = self.model
         destinatioVC.kpiIndex = sender.tag
-        destinatioVC.kpiArray = self.kpiList
         destinatioVC.buttonDidTaped = ButtonDidTaped.Edit
         
         destinatioVC.KPIListVC = self
@@ -277,7 +281,6 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ReportAndViewKPI") as! ReportAndViewKPITableViewController
         destinatioVC.model = self.model
         destinatioVC.kpiIndex = sender.tag
-        destinatioVC.kpiArray = self.kpiList
         destinatioVC.buttonDidTaped = ButtonDidTaped.Report
         destinatioVC.KPIListVC = self
         navigationController?.pushViewController(destinatioVC, animated: true)
@@ -286,10 +289,25 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     func memberNameDidTaped(sender: UIButton) {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "MemberInfo") as! MemberInfoViewController
         destinatioVC.model = self.model
-        let profile = self.kpiList[sender.tag].createdKPI
+        let profile = self.model.kpis[sender.tag].createdKPI
         destinatioVC.profile = profile?.executant
         destinatioVC.navigationItem.rightBarButtonItem = nil
         navigationController?.pushViewController(destinatioVC, animated: true)
+    }
+    
+    //MARK: - catchNotification
+    func catchNotification(notification:Notification) -> Void {
+        print("Catch notification")
+        
+        if notification.name == self.profileDidChangeNotification {
+            guard let userInfo = notification.userInfo,
+                let userID = userInfo["userID"] as? Int,
+                let profile = userInfo["Profile"] as? Profile else {
+                    print("No userInfo found in notification")
+                    return
+            }
+            
+        }
     }
     
     //MARK: - navigation

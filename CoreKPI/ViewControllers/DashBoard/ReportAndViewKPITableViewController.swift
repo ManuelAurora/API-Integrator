@@ -35,7 +35,6 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
     var delegate: updateKPIListDelegate!
     
     var kpiIndex: Int!
-    var kpiArray: [KPI] = []
     var buttonDidTaped = ButtonDidTaped.Report
     
     //MARK: - Report property
@@ -379,14 +378,14 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
     }
     
     func updateKPIInfo() {
-        switch self.kpiArray[kpiIndex].typeOfKPI {
+        switch self.model.kpis[kpiIndex].typeOfKPI {
         case .createdKPI:
-            let createdKPI = self.kpiArray[kpiIndex].createdKPI
+            let createdKPI = self.model.kpis[kpiIndex].createdKPI
             //Colour
             var tempColourDictionary = self.colourDictionary
             for _ in 0..<tempColourDictionary.count {
                 let temp = tempColourDictionary.popFirst()
-                if temp?.value == kpiArray[kpiIndex].imageBacgroundColour {
+                if temp?.value == self.model.kpis[kpiIndex].imageBacgroundColour {
                     self.colour = (temp?.key)!
                 }
             }
@@ -403,10 +402,10 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             //Deadline
             self.deadline = (createdKPI?.deadline)!
             //Charts
-            self.KPIOneView = self.kpiArray[kpiIndex].KPIViewOne
-            self.KPITwoView = self.kpiArray[kpiIndex].KPIViewTwo!
-            self.typeOfChartOne = self.kpiArray[kpiIndex].KPIChartOne
-            self.typeOfChartTwo = self.kpiArray[kpiIndex].KPIChartTwo
+            self.KPIOneView = self.model.kpis[kpiIndex].KPIViewOne
+            self.KPITwoView = self.model.kpis[kpiIndex].KPIViewTwo!
+            self.typeOfChartOne = self.model.kpis[kpiIndex].KPIChartOne
+            self.typeOfChartTwo = self.model.kpis[kpiIndex].KPIChartTwo
             
         case .IntegratedKPI:
             //let integratedKPI = self.kpiArray[kpiIndex].integratedKPI
@@ -501,7 +500,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             }
             
         }
-        let createdKPI = self.kpiArray[kpiIndex].createdKPI
+        let createdKPI = self.model.kpis[kpiIndex].createdKPI
         self.executant = (createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!
     }
     
@@ -511,7 +510,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         case .Report:
             return 2
         case .Edit:
-            switch self.kpiArray[kpiIndex].typeOfKPI {
+            switch self.model.kpis[kpiIndex].typeOfKPI {
             case .IntegratedKPI:
                 return 2
             case .createdKPI:
@@ -537,7 +536,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                 return 0
             }
         case .Edit:
-            switch self.kpiArray[kpiIndex].typeOfKPI {
+            switch self.model.kpis[kpiIndex].typeOfKPI {
             case .IntegratedKPI:
                 switch section {
                 case 0:
@@ -576,7 +575,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                 case .Manager:
                     switch section {
                     case 0:
-                        let interval = kpiArray[kpiIndex].createdKPI?.timeInterval
+                        let interval = self.model.kpis[kpiIndex].createdKPI?.timeInterval
                         switch interval! {
                         case .Daily:
                             return 4
@@ -611,17 +610,17 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                 cell.descriptionOfCell.text = ""
                 switch indexPath.row {
                 case 0:
-                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.descriptionOfKPI ?? "No description"
+                    cell.headerOfCell.text = self.model.kpis[kpiIndex].createdKPI?.descriptionOfKPI ?? "No description"
                     cell.headerOfCell.textColor = UIColor.gray
                     cell.headerOfCell.numberOfLines = 0
                 case 1:
-                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.department.rawValue
+                    cell.headerOfCell.text = self.model.kpis[kpiIndex].createdKPI?.department.rawValue
                 case 2:
-                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.timeInterval.rawValue
+                    cell.headerOfCell.text = self.model.kpis[kpiIndex].createdKPI?.timeInterval.rawValue
                 case 3:
-                    cell.headerOfCell.text = "Time zone: " + (kpiArray[kpiIndex].createdKPI?.timeZone)!
+                    cell.headerOfCell.text = "Time zone: " + (self.model.kpis[kpiIndex].createdKPI?.timeZone)!
                 case 4:
-                    cell.headerOfCell.text = kpiArray[kpiIndex].createdKPI?.deadline
+                    cell.headerOfCell.text = self.model.kpis[kpiIndex].createdKPI?.deadline
                 default:
                     break
                 }
@@ -645,7 +644,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             }
         case .Edit:
             cell.accessoryType = .disclosureIndicator
-            switch self.kpiArray[kpiIndex].typeOfKPI {
+            switch self.model.kpis[kpiIndex].typeOfKPI {
             case .IntegratedKPI: break
                 //                switch section {
                 //                case 0:
@@ -663,7 +662,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                         let colourCell = tableView.dequeueReusableCell(withIdentifier: "SelectColourCell", for: indexPath) as! KPIColourTableViewCell
                         colourCell.headerOfCell.text = "Colour"
                         colourCell.descriptionOfCell.text = self.colour.rawValue
-                        colourCell.colourView.backgroundColor = self.kpiArray[kpiIndex].imageBacgroundColour
+                        colourCell.colourView.backgroundColor = self.model.kpis[kpiIndex].imageBacgroundColour
                         colourCell.prepareForReuse()
                         return colourCell
                     case 1:
@@ -689,7 +688,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Numbers && KPITwoView == .Graph {
                                 switch indexPath.row {
                                 case 0:
-                                    let createdKPI = self.kpiArray[kpiIndex].createdKPI
+                                    let createdKPI = self.model.kpis[kpiIndex].createdKPI
                                     cell.headerOfCell.text = "Executant"
                                     cell.descriptionOfCell.text = self.executant ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
                                 case 1:
@@ -718,7 +717,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Graph && KPITwoView == .Numbers {
                                 switch indexPath.row {
                                 case 0:
-                                    let createdKPI = self.kpiArray[kpiIndex].createdKPI
+                                    let createdKPI = self.model.kpis[kpiIndex].createdKPI
                                     cell.headerOfCell.text = "Executant"
                                     cell.descriptionOfCell.text = self.executant ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
                                 case 1:
@@ -747,7 +746,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Graph && KPITwoView == .Graph {
                                 switch indexPath.row {
                                 case 0:
-                                    let createdKPI = self.kpiArray[kpiIndex].createdKPI
+                                    let createdKPI = self.model.kpis[kpiIndex].createdKPI
                                     cell.headerOfCell.text = "Executant"
                                     cell.descriptionOfCell.text = self.executant ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
                                 case 1:
@@ -781,7 +780,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Numbers && KPITwoView == .Graph {
                                 switch indexPath.row {
                                 case 0:
-                                    let createdKPI = self.kpiArray[kpiIndex].createdKPI
+                                    let createdKPI = self.model.kpis[kpiIndex].createdKPI
                                     cell.headerOfCell.text = "Executant"
                                     cell.descriptionOfCell.text = self.executant ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
                                 case 1:
@@ -829,7 +828,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Graph && KPITwoView == .Numbers {
                                 switch indexPath.row {
                                 case 0:
-                                    let createdKPI = self.kpiArray[kpiIndex].createdKPI
+                                    let createdKPI = self.model.kpis[kpiIndex].createdKPI
                                     cell.headerOfCell.text = "Executant"
                                     cell.descriptionOfCell.text = self.executant ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
                                 case 1:
@@ -876,7 +875,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Graph && KPITwoView == .Graph {
                                 switch indexPath.row {
                                 case 0:
-                                    let createdKPI = self.kpiArray[kpiIndex].createdKPI
+                                    let createdKPI = self.model.kpis[kpiIndex].createdKPI
                                     cell.headerOfCell.text = "Executant"
                                     cell.descriptionOfCell.text = self.executant ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
                                 case 1:
@@ -1114,7 +1113,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                 break
             }
         case .Edit:
-            switch self.kpiArray[kpiIndex].typeOfKPI {
+            switch self.model.kpis[kpiIndex].typeOfKPI {
             case .IntegratedKPI: break
                     //Warning!
             case .createdKPI:
@@ -1488,7 +1487,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         case 0:
             switch buttonDidTaped {
             case .Report:
-                return kpiArray[kpiIndex].createdKPI?.KPI
+                return self.model.kpis[kpiIndex].createdKPI?.KPI
             case .Edit:
                 return " "
             }
@@ -1515,14 +1514,14 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
     
     @IBAction func tapRightBarButton(_ sender: UIBarButtonItem) {
         
-        var newKpi = kpiArray[kpiIndex].createdKPI
+        var newKpi = self.model.kpis[kpiIndex].createdKPI
         
         switch buttonDidTaped {
         case .Report:
             newKpi?.addReport(report: self.report!)
-            self.kpiArray[kpiIndex].createdKPI = newKpi
+            self.model.kpis[kpiIndex].createdKPI = newKpi
         case .Edit:
-            switch self.kpiArray[kpiIndex].typeOfKPI {
+            switch self.model.kpis[kpiIndex].typeOfKPI {
             case .createdKPI:
                 switch model.profile!.typeOfAccount {
                 case .Admin:
@@ -1532,27 +1531,27 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             executantProfile = Profile(profile: profile)
                         }
                     }
-                    newKpi = CreatedKPI(source: .User, department: self.department!, KPI: self.kpiName, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, timeZone: self.timeZone, deadline: self.deadline, number: (self.kpiArray[kpiIndex].createdKPI?.number)!)
-                    self.kpiArray[kpiIndex].createdKPI = newKpi
-                    self.kpiArray[kpiIndex].KPIViewOne = self.KPIOneView
-                    self.kpiArray[kpiIndex].KPIChartOne = self.typeOfChartOne
-                    self.kpiArray[kpiIndex].KPIViewTwo = self.KPITwoView
-                    self.kpiArray[kpiIndex].KPIChartTwo = self.typeOfChartTwo
+                    newKpi = CreatedKPI(source: .User, department: self.department!, KPI: self.kpiName, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, timeZone: self.timeZone, deadline: self.deadline, number: (self.model.kpis[kpiIndex].createdKPI?.number)!)
+                    self.model.kpis[kpiIndex].createdKPI = newKpi
+                    self.model.kpis[kpiIndex].KPIViewOne = self.KPIOneView
+                    self.model.kpis[kpiIndex].KPIChartOne = self.typeOfChartOne
+                    self.model.kpis[kpiIndex].KPIViewTwo = self.KPITwoView
+                    self.model.kpis[kpiIndex].KPIChartTwo = self.typeOfChartTwo
                     if self.colour != .none {
-                        self.kpiArray[kpiIndex].imageBacgroundColour = colourDictionary[self.colour]!
+                        self.model.kpis[kpiIndex].imageBacgroundColour = colourDictionary[self.colour]!
                     }
                 case .Manager:
-                    self.kpiArray[kpiIndex].KPIViewOne = self.KPIOneView
-                    self.kpiArray[kpiIndex].KPIChartOne = self.typeOfChartOne
-                    self.kpiArray[kpiIndex].KPIViewTwo = self.KPITwoView
-                    self.kpiArray[kpiIndex].KPIChartTwo = self.typeOfChartTwo
+                    self.model.kpis[kpiIndex].KPIViewOne = self.KPIOneView
+                    self.model.kpis[kpiIndex].KPIChartOne = self.typeOfChartOne
+                    self.model.kpis[kpiIndex].KPIViewTwo = self.KPITwoView
+                    self.model.kpis[kpiIndex].KPIChartTwo = self.typeOfChartTwo
                 }
             default:
                 break
             }
         }
         delegate = self.KPIListVC
-        delegate.updateKPIList(kpiArray: self.kpiArray)
+        delegate.updateKPIList(kpiArray: self.model.kpis)
         _ = navigationController?.popViewController(animated: true)
     }
     
@@ -1574,7 +1573,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         switch typeOfSetting {
         case .Colour:
             self.colourArray = array
-            self.kpiArray[kpiIndex].imageBacgroundColour = self.colourDictionary[self.colour]!
+            self.model.kpis[kpiIndex].imageBacgroundColour = self.colourDictionary[self.colour]!
         case .Department:
             self.departmentArray = array
         case .Executant:

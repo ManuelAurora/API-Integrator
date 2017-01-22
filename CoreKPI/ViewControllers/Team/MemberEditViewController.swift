@@ -19,6 +19,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     weak var memberInfoVC: MemberInfoViewController!
     var delegate: updateProfileDelegate!
     
+    let profileDidChangeNotification = Notification.Name(rawValue:"profileDidChange")
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var memberProfilePhotoImage: UIImageView!
@@ -133,6 +134,11 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         } else {
             return
         }
+        
+        let nc = NotificationCenter.default
+        nc.post(name:profileDidChangeNotification,
+                object: nil,
+                userInfo:["userID":self.newProfile.userId, "Profile":self.newProfile])
         
         //debug only
         memberInfoVC.profileImage = self.memberProfilePhotoImage.image
@@ -391,6 +397,43 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
             memberNameTextField.becomeFirstResponder()
         }
         return true
+    }
+    
+    class ViewController: UIViewController {
+        
+        let myNotification = Notification.Name(rawValue:"MyNotification")
+        
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            
+            let nc = NotificationCenter.default
+            nc.addObserver(forName:myNotification, object:nil, queue:nil, using:catchNotification)
+        }
+        
+        override func viewDidAppear(_ animated: Bool) {
+            super.viewDidAppear(animated)
+            let nc = NotificationCenter.default
+            nc.post(name:myNotification,
+                    object: nil,
+                    userInfo:["message":"Hello there!", "date":Date()])
+        }
+        
+        func catchNotification(notification:Notification) -> Void {
+            print("Catch notification")
+            
+            guard let userInfo = notification.userInfo,
+                let message  = userInfo["message"] as? String,
+                let date     = userInfo["date"]    as? Date else {
+                    print("No userInfo found in notification")
+                    return
+            }
+            
+            let alert = UIAlertController(title: "Notification!",
+                                          message:"\(message) received at \(date)",
+                preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
 }
