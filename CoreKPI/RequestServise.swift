@@ -9,15 +9,11 @@
 import Foundation
 import Alamofire
 
-enum RequestError: Error {
-    case loadFailed
-    case jsonFileIsBroken
+protocol RequestDelegate {
+    func showAlertWithError(title: String, message: String)
 }
 
 class Request {
-    
-    typealias success = (_ json: NSDictionary) -> ()
-    typealias failure = (_ error: String) -> ()
     
     let serverIp = "http://dashmob.smichrissoft.com:8888"
     //debug!
@@ -37,6 +33,9 @@ class Request {
     }
     
     init(){}
+    
+    typealias success = (_ json: NSDictionary) -> ()
+    typealias failure = (_ error: String) -> ()
     
     //MARK: - Send request
     func getJson(category: String, data: [String : Any], success: @escaping success, failure: @escaping failure) {

@@ -48,14 +48,14 @@ enum TypeOfNotification: String {
 class AlertsListTableViewController: UITableViewController, updateAlertListDelegate, AlertButtonCellDelegate {
 
     var model = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin))//: ModelCoreKPI!
-    var alertsList: [Alert]!
+    //var alertsList: [Alert]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let alertOne = Alert(image: "", dataSource: .MyShopSales, timeInterval: .Daily, deliveryDay: nil, timeZone: "+3", condition: nil, threshold: nil, deliveryTime: "18:00", typeOfNotification: [.Push])
         let alertTwo = Alert(image: "", dataSource: .MyShopSupples, timeInterval: .Daily, deliveryDay: nil, timeZone: "+3", condition: nil, threshold: nil, deliveryTime: "18:00", typeOfNotification: [.SMS])
-        alertsList = [alertOne, alertTwo]
+        self.model.alerts = [alertOne, alertTwo]
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
         
@@ -86,12 +86,12 @@ class AlertsListTableViewController: UITableViewController, updateAlertListDeleg
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return alertsList.count
+        return self.model.alerts.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AlertsCell", for: indexPath) as! AlertsListTableViewCell
-        cell.alertNameLabel.text = alertsList[indexPath.row].dataSource.rawValue
+        cell.alertNameLabel.text = self.model.alerts[indexPath.row].dataSource.rawValue
         cell.numberOfCell = indexPath.row
         if indexPath.row % 2 == 0 {
             cell.alertImageView.layer.backgroundColor = UIColor(red: 251/255, green: 233/255, blue: 231/255, alpha: 1.0).cgColor
@@ -113,8 +113,8 @@ class AlertsListTableViewController: UITableViewController, updateAlertListDeleg
         if segue.identifier == "ReminderView" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let destinationController = segue.destination as! ReminderViewTableViewController
-                destinationController.alert = self.alertsList[indexPath.row]
-                destinationController.alertList = self.alertsList
+                destinationController.alert = self.model.alerts[indexPath.row]
+                destinationController.alertList = self.model.alerts
                 destinationController.index = indexPath.row
                 destinationController.AlertListVC = self
             }
@@ -122,23 +122,23 @@ class AlertsListTableViewController: UITableViewController, updateAlertListDeleg
     }
     
     func addAlert(alert: Alert) {
-        self.alertsList.append(alert)
+        self.model.alerts.append(alert)
         tableView.reloadData()
     }
 
     func updateAlertList(alertArray: [Alert]) {
-        self.alertsList = alertArray
+        self.model.alerts = alertArray
         tableView.reloadData()
     }
     
     func deleteButtonDidTaped(sender: UIButton) {
         var newAlertList: [Alert] = []
-        for i in 0..<alertsList.count {
+        for i in 0..<self.model.alerts.count {
             if i != sender.tag {
-                newAlertList.append(self.alertsList[i])
+                newAlertList.append(self.model.alerts[i])
             }
         }
-        self.alertsList = newAlertList
+        self.model.alerts = newAlertList
         tableView.reloadData()
     }
 }

@@ -183,7 +183,10 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: - Save data
     func saveData() {
-        print("Data not save")
+        let data: [ModelCoreKPI] = [self.model]
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: data)
+        UserDefaults.standard.set(encodedData, forKey: "token")
+        print("Token saved in NSKeyedArchive")
     }
     
 }

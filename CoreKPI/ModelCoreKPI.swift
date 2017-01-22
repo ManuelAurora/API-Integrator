@@ -7,13 +7,32 @@
 //
 
 import Foundation
+import UIKit
 
 enum TypeOfAccount: String {
     case Admin
     case Manager
 }
 
-class ModelCoreKPI {
+class Person: NSObject, NSCoding {
+    let name: String
+    let age: Int
+    required init(name: String, age: Int) {
+        self.name = name
+        self.age = age
+    }
+    required init(coder decoder: NSCoder) {
+        self.name = decoder.decodeObject(forKey: "name") as? String ?? ""
+        self.age = decoder.decodeInteger(forKey: "age")
+    }
+    
+    func encode(with coder: NSCoder) {
+        coder.encode(name, forKey: "name")
+        coder.encode(age, forKey: "age")
+    }
+}
+
+class ModelCoreKPI: NSObject, NSCoding {
     
     let token: String
     let profile: Profile?
@@ -21,6 +40,22 @@ class ModelCoreKPI {
     var alerts: [Alert] = []
     var kpis: [KPI] = []
     var team: [Profile] = []
+    
+    required init(token: String, userID: Int) {
+        self.token = token
+        self.profile = Profile(userID: userID)
+    }
+    
+    required init(coder decoder: NSCoder) {
+        self.token = decoder.decodeObject(forKey: "token") as? String ?? ""
+        let id = decoder.decodeObject(forKey: "userID") as? Int ?? 0
+        self.profile = Profile(userID: id)
+    }
+    
+    func encode(with coder: NSCoder) {
+        coder.encode(token, forKey: "token")
+        coder.encode(self.profile?.userId, forKey: "userID")
+    }
     
     init(token: String, profile: Profile?) {
         self.token = token
@@ -35,7 +70,7 @@ class ModelCoreKPI {
 
 //Profile
 class Profile {
-    let userId: Int
+    var userId: Int
     var userName: String
     var firstName: String
     var lastName: String
@@ -68,6 +103,18 @@ class Profile {
         self.nickname = profile.nickname
         self.typeOfAccount = profile.typeOfAccount
     }
+    init(userID: Int) {
+        self.userId = userID
+        self.userName = ""
+        self.firstName = ""
+        self.lastName = ""
+        self.position = nil
+        self.photo = nil
+        self.phone = nil
+        self.nickname = nil
+        self.typeOfAccount = .Manager
+        
+    }
     
 }
 
@@ -98,3 +145,56 @@ struct Alert {
 
 
 //KPI
+class KPI {
+    var typeOfKPI: TypeOfKPI
+    var integratedKPI: IntegratedKPI?
+    var createdKPI: CreatedKPI?
+    var image: ImageForKPIList? {
+        
+        switch typeOfKPI {
+        case .createdKPI:
+            let numbers = createdKPI?.number
+            if (numbers?.count)! > 1 {
+                if (numbers?[(numbers?.count)! - 1])! < (numbers?[(numbers?.count)! - 2])! {
+                    return ImageForKPIList.Decreases
+                }
+                if (numbers?[(numbers?.count)! - 1])! > (numbers?[(numbers?.count)! - 2])! {
+                    return ImageForKPIList.Increases
+                }
+                
+            }
+            return nil
+        case .IntegratedKPI:
+            let service = integratedKPI?.service
+            switch service! {
+            case .none:
+                return nil
+            case .SalesForce:
+                return ImageForKPIList.SaleForce
+            case .Quickbooks:
+                return ImageForKPIList.QuickBooks
+            case .GoogleAnalytics:
+                return ImageForKPIList.GoogleAnalytics
+            case .HubSpotCRM:
+                return ImageForKPIList.HubSpotCRM
+            case .PayPal:
+                return ImageForKPIList.PayPal
+            case .HubSpotMarketing:
+                return ImageForKPIList.HubSpotMarketing
+            }
+        }
+    }
+    var imageBacgroundColour: UIColor
+    var KPIViewOne: TypeOfKPIView = TypeOfKPIView.Numbers
+    var KPIChartOne: TypeOfChart? = TypeOfChart.PieChart
+    var KPIViewTwo: TypeOfKPIView? = TypeOfKPIView.Graph
+    var KPIChartTwo: TypeOfChart? = TypeOfChart.PieChart
+    
+    init(typeOfKPI: TypeOfKPI, integratedKPI: IntegratedKPI?, createdKPI: CreatedKPI?, imageBacgroundColour: UIColor?) {
+        self.typeOfKPI = typeOfKPI
+        self.integratedKPI = integratedKPI
+        self.createdKPI = createdKPI
+        self.imageBacgroundColour = imageBacgroundColour ?? UIColor.clear
+    }
+    
+}

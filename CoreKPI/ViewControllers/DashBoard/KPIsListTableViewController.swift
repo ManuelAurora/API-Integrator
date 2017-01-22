@@ -15,60 +15,6 @@ enum Source: String {
     case Integrated
 }
 
-class KPI {
-    var typeOfKPI: TypeOfKPI
-    var integratedKPI: IntegratedKPI?
-    var createdKPI: CreatedKPI?
-    var image: ImageForKPIList? {
-        
-        switch typeOfKPI {
-        case .createdKPI:
-            let numbers = createdKPI?.number
-            if (numbers?.count)! > 1 {
-                if (numbers?[(numbers?.count)! - 1])! < (numbers?[(numbers?.count)! - 2])! {
-                    return ImageForKPIList.Decreases
-                }
-                if (numbers?[(numbers?.count)! - 1])! > (numbers?[(numbers?.count)! - 2])! {
-                    return ImageForKPIList.Increases
-                }
-                
-            }
-            return nil
-        case .IntegratedKPI:
-            let service = integratedKPI?.service
-            switch service! {
-            case .none:
-                return nil
-            case .SalesForce:
-                return ImageForKPIList.SaleForce
-            case .Quickbooks:
-                return ImageForKPIList.QuickBooks
-            case .GoogleAnalytics:
-                return ImageForKPIList.GoogleAnalytics
-            case .HubSpotCRM:
-                return ImageForKPIList.HubSpotCRM
-            case .PayPal:
-                return ImageForKPIList.PayPal
-            case .HubSpotMarketing:
-                return ImageForKPIList.HubSpotMarketing
-            }
-        }
-    }
-    var imageBacgroundColour: UIColor
-    var KPIViewOne: TypeOfKPIView = TypeOfKPIView.Numbers
-    var KPIChartOne: TypeOfChart? = TypeOfChart.PieChart
-    var KPIViewTwo: TypeOfKPIView? = TypeOfKPIView.Graph
-    var KPIChartTwo: TypeOfChart? = TypeOfChart.PieChart
-    
-    init(typeOfKPI: TypeOfKPI, integratedKPI: IntegratedKPI?, createdKPI: CreatedKPI?, imageBacgroundColour: UIColor?) {
-        self.typeOfKPI = typeOfKPI
-        self.integratedKPI = integratedKPI
-        self.createdKPI = createdKPI
-        self.imageBacgroundColour = imageBacgroundColour ?? UIColor.clear
-    }
-    
-}
-
 class KPIsListTableViewController: UITableViewController, updateKPIListDelegate, KPIListButtonCellDelegate {
     
     var request: Request!

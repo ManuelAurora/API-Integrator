@@ -336,6 +336,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Support" id="BHV-lR-YCJ">
                         <barButtonItem key="backBarButtonItem" title="Support" id="MzD-Ym-04J"/>
+                        <barButtonItem key="rightBarButtonItem" title="logout" id="6cA-Co-Crj">
+                            <connections>
+                                <action selector="didTapLogoutButton:" destination="WWL-uG-52F" id="odi-mR-BJU"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
@@ -715,7 +720,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="36" translatesAutoresizingMaskIntoConstraints="NO" id="d8T-GV-d3c">
-                                <rect key="frame" x="132" y="209" width="112" height="58"/>
+                                <rect key="frame" x="132" y="209" width="112" height="57.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="vEY-Wv-LPL">
                                         <rect key="frame" x="0.0" y="0.0" width="38" height="57.5"/>
@@ -779,7 +784,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="62" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="i15-st-LzW">
-                                <rect key="frame" x="0.0" y="281.5" width="375" height="188"/>
+                                <rect key="frame" x="0.0" y="281" width="375" height="188"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="188" id="mpV-et-YvT"/>
@@ -828,7 +833,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </connections>
                             </tableView>
                             <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PCg-CY-yE3">
-                                <rect key="frame" x="32" y="522" width="311" height="36"/>
+                                <rect key="frame" x="32" y="521.5" width="311" height="36"/>
                                 <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="27Z-Lg-dfm"/>
@@ -847,7 +852,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="i7a-fV-Yzm">
-                                <rect key="frame" x="16" y="523" width="343" height="36"/>
+                                <rect key="frame" x="16" y="522.5" width="343" height="36"/>
                                 <subviews>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-cu-qgk">
                                         <rect key="frame" x="0.0" y="0.0" width="161" height="36"/>
@@ -1239,7 +1244,7 @@ The main advantage of a computer audio player is that you can play your audio CD
         <!--Sign In Up View Controller-->
         <scene sceneID="N7z-ot-s4G">
             <objects>
-                <viewController id="XjM-3J-9ce" customClass="SignInUpViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="StartVC" id="XjM-3J-9ce" customClass="SignInUpViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Myg-FK-beR"/>
                         <viewControllerLayoutGuide type="bottom" id="Sz1-W5-mga"/>

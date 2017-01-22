@@ -13,7 +13,8 @@ class SignInUpViewController: UIViewController {
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
     
-    let request = Request()
+    var request = Request()
+    var model: ModelCoreKPI!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +28,8 @@ class SignInUpViewController: UIViewController {
         //MARK: - Check local user_id/token and segue to TabBarView
         
         if checkLocalToken() {
-            getLocalToken()
+            getModelFromServer()
+            
         } else {
             print("No local token in app storage")
         }
@@ -35,11 +37,92 @@ class SignInUpViewController: UIViewController {
     }
     
     func checkLocalToken() -> Bool {
-        return false
+        if let data = UserDefaults.standard.data(forKey: "token"),
+            let myTokenArray = NSKeyedUnarchiver.unarchiveObject(with: data) as? [ModelCoreKPI] {
+           self.model = ModelCoreKPI(model: myTokenArray[0])
+            return true
+        } else {
+            print("There is an issue")
+            return false
+        }
+        
     }
     
-    func getLocalToken() {
+    func getModelFromServer() {
+        request = Request(model: self.model)
+        request.getJson(category: "/account/contactData", data: [:],
+                        success: { json in
+                            self.createModel(json: json)
+                            
+        },
+                        failure: { (error) in
+                            self.showAlert(title: "Error", errorMessage: error)
+                            self.showTabBarVC()
+        })
         
+    }
+    
+    func createModel(json: NSDictionary) {
+        
+        var profile: Profile!
+        var userName: String!
+        var firstName: String!
+        var lastName: String!
+        var position: String!
+        var photo: String!
+        
+        if let successKey = json["success"] as? Int {
+            if successKey == 1 {
+                if let dataKey = json["data"] as? NSDictionary {
+                    userName = dataKey["username"] as! String
+                    firstName = dataKey["first_name"] as! String
+                    lastName = dataKey["last_name"] as! String
+                    position = dataKey["position"] as! String
+                    photo = dataKey["photo"] as! String
+                    
+                    profile = Profile(userId: request.userID, userName: userName, firstName: firstName, lastName: lastName, position: position, photo: photo, phone: nil, nickname: nil, typeOfAccount: .Admin)
+                    
+                    self.model = ModelCoreKPI(token: request.token, profile: profile)
+                    self.showTabBarVC()
+                    
+                } else {
+                    print("Json data is broken")
+                }
+            } else {
+                let errorMessage = json["message"] as! String
+                print("Json error message: \(errorMessage)")
+                showAlert(title: "Authorization error",errorMessage: errorMessage)
+            }
+        } else {
+            print("Json file is broken!")
+        }
+    }
+    
+    //MARK: - show alert function
+    func showAlert(title: String, errorMessage: String) {
+        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func showTabBarVC() {
+        
+        let tabBarController = storyboard?.instantiateViewController(withIdentifier: "TabBarVC") as! MainTabBarViewController
+        
+        let dashboardNavigationViewController = tabBarController.viewControllers?[0] as! DashboardsNavigationViewController
+        let dashboardViewController = dashboardNavigationViewController.childViewControllers[0] as! KPIsListTableViewController
+        dashboardViewController.model = ModelCoreKPI(model: model)
+        dashboardViewController.loadKPIsFromServer()
+        
+        let alertsNavigationViewController = tabBarController.viewControllers?[1] as! AlertsNavigationViewController
+        let alertsViewController = alertsNavigationViewController.childViewControllers[0] as! AlertsListTableViewController
+        alertsViewController.model = ModelCoreKPI(model: model)
+        
+        let teamListNavigationViewController = tabBarController.viewControllers?[2] as! TeamListViewController
+        let teamListController = teamListNavigationViewController.childViewControllers[0] as! MemberListTableViewController
+        teamListController.model = ModelCoreKPI(model: model)
+        
+        present(tabBarController, animated: true, completion: nil)
     }
     
 }
