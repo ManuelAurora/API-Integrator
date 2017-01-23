@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A20045671E35D75C0019A78D /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20045661E35D75C0019A78D /* LaunchViewController.swift */; };
 		A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340901E110CF200208EAB /* ChageNameTableViewController.swift */; };
 		A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340921E110D1C00208EAB /* NewNameViewController.swift */; };
 		A2048BC71E3369A4008792D2 /* WKWebViewTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2048BC61E3369A4008792D2 /* WKWebViewTestViewController.swift */; };
@@ -142,6 +143,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A20045661E35D75C0019A78D /* LaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LaunchViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/LaunchViewController.swift"; sourceTree = "<group>"; };
 		A20340901E110CF200208EAB /* ChageNameTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChageNameTableViewController.swift; path = CoreKPI/ViewControllers/Team/ChageNameTableViewController.swift; sourceTree = "<group>"; };
 		A20340921E110D1C00208EAB /* NewNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewNameViewController.swift; path = CoreKPI/ViewControllers/Team/NewNameViewController.swift; sourceTree = "<group>"; };
 		A2048BC61E3369A4008792D2 /* WKWebViewTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKWebViewTestViewController.swift; sourceTree = "<group>"; };
@@ -502,6 +504,7 @@
 		A297F5CE1E0823DA00F85963 /* Sign In/Up */ = {
 			isa = PBXGroup;
 			children = (
+				A20045661E35D75C0019A78D /* LaunchViewController.swift */,
 				A297F5C51E0823D400F85963 /* SignInUpViewController.swift */,
 				A297F5C61E0823D400F85963 /* SignInViewController.swift */,
 				A297F5C31E0823D400F85963 /* RecoveryPasswordViewController.swift */,
@@ -845,6 +848,7 @@
 				A2F0B1181E0C1B110095580B /* CoreKPIDelegates.swift in Sources */,
 				A297F5D71E08244800F85963 /* AnswerFaqTableViewCell.swift in Sources */,
 				A297F5CA1E0823D400F85963 /* RegisterViewController.swift in Sources */,
+				A20045671E35D75C0019A78D /* LaunchViewController.swift in Sources */,
 				A27820971E001530009F83DB /* RequestServise.swift in Sources */,
 				A278206E1E001503009F83DB /* CoreKPI.xcdatamodeld in Sources */,
 				A297F5D81E08244800F85963 /* faqListTableViewCell.swift in Sources */,

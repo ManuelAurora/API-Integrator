@@ -22,7 +22,7 @@ protocol updateTypeOfAccountDelegate {
 }
 
 protocol updateProfileDelegate {
-    func updateProfile(profile: Profile)
+    func updateProfile(profile: Team)
 }
 
 protocol updateSettingsDelegate {

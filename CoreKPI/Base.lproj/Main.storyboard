@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="XjM-3J-9ce">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="yjb-8Z-cjo">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -336,7 +336,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Support" id="BHV-lR-YCJ">
                         <barButtonItem key="backBarButtonItem" title="Support" id="MzD-Ym-04J"/>
-                        <barButtonItem key="rightBarButtonItem" title="logout" id="6cA-Co-Crj">
+                        <barButtonItem key="rightBarButtonItem" title="Log Out" id="6cA-Co-Crj">
                             <connections>
                                 <action selector="didTapLogoutButton:" destination="WWL-uG-52F" id="odi-mR-BJU"/>
                             </connections>
@@ -1241,6 +1241,49 @@ The main advantage of a computer audio player is that you can play your audio CD
             </objects>
             <point key="canvasLocation" x="4990" y="-351"/>
         </scene>
+        <!--Launch View Controller-->
+        <scene sceneID="rK9-0M-Goh">
+            <objects>
+                <viewController id="yjb-8Z-cjo" customClass="LaunchViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="OCl-8a-NhE"/>
+                        <viewControllerLayoutGuide type="bottom" id="cII-1s-5Rt"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="82J-1l-vKU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="42" translatesAutoresizingMaskIntoConstraints="NO" id="REa-er-V3J">
+                                <rect key="frame" x="87" y="166" width="200" height="288"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-c-copy" translatesAutoresizingMaskIntoConstraints="NO" id="gGr-jh-3d7">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="200" id="ftv-2u-5Ji"/>
+                                            <constraint firstAttribute="height" constant="200" id="ydj-r7-6Ys"/>
+                                        </constraints>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="group-20" translatesAutoresizingMaskIntoConstraints="NO" id="QaP-FF-QBG">
+                                        <rect key="frame" x="78.5" y="242" width="43" height="46"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="46" id="eNR-bL-5Fp"/>
+                                            <constraint firstAttribute="width" constant="43" id="fpo-O1-cqc"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="REa-er-V3J" firstAttribute="centerX" secondItem="82J-1l-vKU" secondAttribute="centerX" id="12m-0E-Dzt"/>
+                            <constraint firstItem="REa-er-V3J" firstAttribute="centerY" secondItem="82J-1l-vKU" secondAttribute="centerY" constant="-23.5" id="zse-vQ-ZDd"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2d8-nU-ubu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3801" y="123"/>
+        </scene>
         <!--Sign In Up View Controller-->
         <scene sceneID="N7z-ot-s4G">
             <objects>
@@ -1356,7 +1399,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A87-go-QDd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2860" y="124"/>
+            <point key="canvasLocation" x="-2863" y="123"/>
         </scene>
         <!-- -->
         <scene sceneID="fLu-9G-eHQ">
@@ -3617,7 +3660,9 @@ Deliveries</string>
         <image name="dashboardsIcons1" width="25" height="25"/>
         <image name="defaultProfile" width="86" height="86"/>
         <image name="group-17-copy-2" width="44" height="44"/>
+        <image name="group-20" width="43" height="46"/>
         <image name="logo-c" width="73" height="55"/>
+        <image name="logo-c-copy" width="200" height="200"/>
         <image name="mail-icon" width="16" height="11"/>
         <image name="onboarding1" width="205" height="200"/>
         <image name="supportIcons1" width="25" height="26"/>

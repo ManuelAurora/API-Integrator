@@ -33,7 +33,7 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataArray.count
+        return dataArray.count + 1
     }
 
     

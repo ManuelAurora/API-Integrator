@@ -7,16 +7,15 @@
 //
 
 import UIKit
+import CoreData
 
 class MemberListTableViewController: UITableViewController, updateProfileDelegate {
     
-    var model = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user1@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: "https://pp.vk.me/c625325/v625325140/d9d5/FzpG-mcLQco.jpg", phone: nil, nickname: nil, typeOfAccount: .Admin))
+    var model = ModelCoreKPI(token: "test", userID: 1) //debug!
     var request: Request!
     
-    let oneProfile = Profile(userId: 1, userName: "user1@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: "https://pp.vk.me/c625325/v625325140/d9d5/FzpG-mcLQco.jpg", phone: nil, nickname: nil, typeOfAccount: .Admin)
-    let twoProfile = Profile(userId: 2, userName: "user2@mail.ru", firstName: "Cat", lastName: "Dog", position: nil, photo: "https://pp.vk.me/c413328/v413328140/2925/5GvzabomK10.jpg", phone: "89159944660", nickname: "Pes smerdyachiy", typeOfAccount: .Manager)
-    
     var indexPath: IndexPath!
+    let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     
     @IBOutlet weak var addButton: UIBarButtonItem!
     
@@ -36,9 +35,6 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
         }
         
         self.loadTeamListFromServer()
-        
-        self.model.team.append(oneProfile)//debug
-        self.model.team.append(twoProfile)//debug
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
         tableView.tableFooterView = UIView(frame: .zero)
@@ -64,28 +60,50 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
         if let memberNickname = self.model.team[indexPath.row].nickname {
             cell.userNameLabel.text = memberNickname
         } else {
-            cell.userNameLabel.text = "\(self.model.team[indexPath.row].firstName) \(self.model.team[indexPath.row].lastName)"
+            cell.userNameLabel.text = "\(self.model.team[indexPath.row].firstName!) \(self.model.team[indexPath.row].lastName!)"
         }
         
         cell.userPosition.text = self.model.team[indexPath.row].position
-        if (self.model.team[indexPath.row].photo != nil) {
+        
+        if let photo = self.model.team[indexPath.row].photo as? Data {
+            cell.userProfilePhotoImage.image = UIImage(data: photo)
+        }
+        
+        if (self.model.team[indexPath.row].photoLink != nil) {
             //load photo from server
-            cell.userProfilePhotoImage?.downloadedFrom(link: self.model.team[indexPath.row].photo!)
+            cell.userProfilePhotoImage?.downloadedFrom(link: self.model.team[indexPath.row].photoLink!)
+            
         } else {
             cell.userProfilePhotoImage.image = #imageLiteral(resourceName: "defaultProfile")
         }
         return cell
     }
     
-    //MARK: -  Pull to refresh method
-    func refresh(sender:AnyObject)
-    {
-        //self.model.team = request.loadTeamListFromServer()
-        loadTeamListFromServer()
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction =  UITableViewRowAction(style: .default, title: "Delete", handler: {
+            (action, indexPath) -> Void in
+            self.context.delete(self.model.team[indexPath.row])
+            (UIApplication.shared .delegate as! AppDelegate).saveContext()
+            self.model.team.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            do {
+                self.model.team = try self.context.fetch(Team.fetchRequest())
+            } catch {
+                print("Fetching faild")
+            }
+        })
+        return [deleteAction]
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.indexPath = indexPath
+    }
+    
+    //MARK: -  Pull to refresh method
+    func refresh(sender:AnyObject)
+    {
+        loadTeamListFromServer()
     }
     
     // MARK: - Navigation
@@ -95,8 +113,6 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
                 let destinationController = segue.destination as! MemberInfoViewController
                 destinationController.profile = self.model.team[indexPath.row]
                 destinationController.model = self.model
-                let cell = tableView.cellForRow(at: indexPath) as! MemberListTableViewCell
-                destinationController.profileImage = cell.userProfilePhotoImage.image
                 destinationController.memberListVC = self
             }
         }
@@ -119,7 +135,9 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
         },
                         failure: { (error) in
                             print(error)
+                            self.refreshControl?.endRefreshing()
                             self.showAlert(errorMessage: error)
+                            self.tableView.reloadData()
         })
     }
     
@@ -128,42 +146,42 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
                 if let dataKey = json["data"] as? NSArray {
+                    
+                    for profile in model.team {
+                        context.delete(profile)
+                    }
                     self.model.team.removeAll()
+                    
                     var teamListIsFull = false
                     var i = 0
                     while teamListIsFull == false {
                         
-                        var profile: Profile!
-                        
-                        var firstName: String!
-                        var lastName: String!
-                        var mode: Int!
-                        var typeOfAccount: TypeOfAccount!
-                        var nickname: String?
-                        var photo: String?
-                        var position: String?
-                        var userId: Int!
-                        var userName: String!
+                        let profile = Team(context: context)
                         
                         if let userData = dataKey[i] as? NSDictionary {
-                            position = userData["position"] as? String
-                            mode = userData["mode"] as? Int
-                            mode == 0 ? (typeOfAccount = TypeOfAccount.Manager) : (typeOfAccount = TypeOfAccount.Admin)
-                            nickname = userData["nickname"] as? String
-                            lastName = userData["last_name"] as? String
-                            userName = userData["username"] as? String
-                            userId = userData["user_id"] as? Int
+                            profile.position = userData["position"] as? String
+                            let mode = userData["mode"] as? Int
+                            mode == 0 ? (profile.isAdmin = false) : (profile.isAdmin = true)
+                            profile.nickname = userData["nickname"] as? String
+                            profile.lastName = userData["last_name"] as? String
+                            profile.username = userData["username"] as? String
+                            profile.userID = Int64((userData["user_id"] as? Int)!)
                             if (userData["photo"] as? String) != "" {
-                                photo = userData["photo"] as? String
+                                profile.photoLink = userData["photo"] as? String
                             }
                             
-                            firstName = userData["first_name"] as? String
+                            profile.firstName = userData["first_name"] as? String
                             
-                            profile = Profile(userId: userId, userName: userName, firstName: firstName, lastName: lastName, position: position, photo: photo, phone: nil, nickname: nickname, typeOfAccount: typeOfAccount)
-                            self.model.team.append(profile)
+                            do {
+                                try context.save()
+                            } catch {
+                                print(error)
+                                return
+                            }
+                            
+                            model.team.append(profile)
                             
                             i+=1
-                            
                             if dataKey.count == i {
                                 teamListIsFull = true
                             }
@@ -188,12 +206,11 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
     func showAlert(errorMessage: String) {
         let alertController = UIAlertController(title: "Team list loading error", message: errorMessage, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        self.present(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
     
     //MARK: - updateProfileDelegate method
-    func updateProfile(profile: Profile) {
-        self.model.team[self.indexPath.row] = Profile(profile: profile)
+    func updateProfile(profile: Team) {
         tableView.reloadData()
     }
     func updateProfilePhoto() {

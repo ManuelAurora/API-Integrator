@@ -161,6 +161,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                         failure: { (error) in
                             print(error)
                             self.showAlert(title: "Sorry!", message: error)
+                            self.refreshControl?.endRefreshing()
         })
     }
     
@@ -290,7 +291,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "MemberInfo") as! MemberInfoViewController
         destinatioVC.model = self.model
         let profile = self.model.kpis[sender.tag].createdKPI
-        destinatioVC.profile = profile?.executant
+        //destinatioVC.profile = profile?.executant
         destinatioVC.navigationItem.rightBarButtonItem = nil
         navigationController?.pushViewController(destinatioVC, animated: true)
     }

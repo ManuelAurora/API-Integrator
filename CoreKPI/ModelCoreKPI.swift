@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 enum TypeOfAccount: String {
     case Admin
@@ -35,11 +36,11 @@ class Person: NSObject, NSCoding {
 class ModelCoreKPI: NSObject, NSCoding {
     
     let token: String
-    let profile: Profile?
+    var profile: Profile?
     
     var alerts: [Alert] = []
     var kpis: [KPI] = []
-    var team: [Profile] = []
+    var team: [Team] = []
     
     required init(token: String, userID: Int) {
         self.token = token
@@ -64,6 +65,9 @@ class ModelCoreKPI: NSObject, NSCoding {
     init(model: ModelCoreKPI) {
         self.token = model.token
         self.profile = model.profile
+        self.alerts = model.alerts
+        self.kpis = model.kpis
+        self.team = model.team
     }
     
 }
@@ -119,7 +123,6 @@ class Profile {
 }
 
 //Alerts
-//old
 struct Alert {
     var image: String
     var dataSource: DataSource
@@ -131,18 +134,6 @@ struct Alert {
     var deliveryTime: String
     var typeOfNotification: [TypeOfNotification]
 }
-//new
-//class Alert {
-//    var dataSource: DataSource
-//    var timeInterval: TimeInterval?
-//    var deliveryDay: String?
-//    var timeZone: String?
-//    var condition: Condition?
-//    var threshold: String?
-//    var deliveryTime: String
-//    var typeOfNotification: [TypeOfNotification]
-//}
-
 
 //KPI
 class KPI {

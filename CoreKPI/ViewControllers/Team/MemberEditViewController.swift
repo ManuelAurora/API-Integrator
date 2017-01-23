@@ -11,7 +11,7 @@ import UIKit
 class MemberEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, updateModelDelegate, updateProfileDelegate, updateTypeOfAccountDelegate, UITextFieldDelegate {
     
     var model: ModelCoreKPI!
-    var profile: Profile!
+    var profile: Team!
     var newProfile: Profile!
     var request: Request!
     var profileImage: UIImage?
@@ -29,14 +29,15 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.memberNameTextField.text = "\(profile.firstName) \(profile.lastName)"
+        self.memberNameTextField.text = "\(profile.firstName!) \(profile.lastName!)"
         self.memberPositionTextField.text = profile.position
         
-        if profileImage != nil {
-            self.memberProfilePhotoImage.image = profileImage
+        if let photoData = profile.photo {
+            profileImage = UIImage(data: photoData as Data)
+            memberProfilePhotoImage.image = profileImage
         }
         
-        self.newProfile = Profile(profile: profile)
+        self.newProfile = Profile(userId: Int(profile.userID), userName: profile.username!, firstName: profile.firstName!, lastName: profile.lastName!, position: profile.position, photo: profile.photoLink, phone: profile.phoneNumber, nickname: profile.nickname, typeOfAccount: profile.isAdmin ? .Admin : .Manager)
         self.request = Request(model: self.model)
         
         tableView.tableFooterView = UIView(frame: .zero)
@@ -51,7 +52,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func numberOfSections(in tableView: UITableView) -> Int {
         
-        if model.profile?.typeOfAccount == TypeOfAccount.Admin && model.profile?.userName != profile.userName {
+        if model.profile?.typeOfAccount == TypeOfAccount.Admin && model.profile?.userId != Int(profile.userID) {
             return 2
         } else {
             return 1
@@ -61,7 +62,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            if model.profile?.typeOfAccount == TypeOfAccount.Admin && model.profile?.userName != profile.userName {
+            if model.profile?.typeOfAccount == TypeOfAccount.Admin && model.profile?.userId != Int(profile.userID) {
                 return 1
             } else {
                 fallthrough
@@ -76,7 +77,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            if model.profile?.typeOfAccount == TypeOfAccount.Admin && model.profile?.userName != profile.userName {
+            if model.profile?.typeOfAccount == TypeOfAccount.Admin && model.profile?.userId != Int(profile.userID) {
                 let cellTypeOfAccount = tableView.dequeueReusableCell(withIdentifier: "TypeOfAccount", for: indexPath) as! TypeAccountTableViewCell
                 cellTypeOfAccount.typeAccountLabel.text = self.newProfile.typeOfAccount.rawValue
                 return cellTypeOfAccount
@@ -141,9 +142,9 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                 userInfo:["userID":self.newProfile.userId, "Profile":self.newProfile])
         
         //debug only
-        memberInfoVC.profileImage = self.memberProfilePhotoImage.image
+        updateProfile()
         delegate = memberInfoVC
-        delegate.updateProfile(profile: self.newProfile)
+        delegate.updateProfile(profile: self.profile)
         self.navigationController!.popViewController(animated: true)
         
     }
@@ -199,32 +200,32 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         var newParams: [String : String?] = [:]
         var typeOfAccountWasChanged = false
         
-        if self.newProfile.photo == "New photo link" {
-            photo = self.memberProfilePhotoImage.image
+        if newProfile.photo == "New photo link" {
+            photo = memberProfilePhotoImage.image
             newParams["photo"] = sendProfilePhotoToServer(photo: photo!) ?? ""
         }
-        if self.newProfile.firstName != self.profile.firstName {
-            firstname = self.newProfile.firstName
+        if newProfile.firstName != profile.firstName {
+            firstname = newProfile.firstName
             newParams["first_name"] = firstname
         }
-        if self.newProfile.lastName != self.profile.lastName {
-            lastname = self.newProfile.lastName
+        if newProfile.lastName != profile.lastName {
+            lastname = newProfile.lastName
             newParams["last_name"] = lastname
         }
-        if self.newProfile.position != self.profile.position {
-            position = self.newProfile.position
+        if newProfile.position != profile.position {
+            position = newProfile.position
             newParams["position"] = position ?? ""
         }
-        if self.newProfile.phone != self.profile.phone {
-            phone = self.newProfile.phone
+        if newProfile.phone != profile.phoneNumber {
+            phone = newProfile.phone
             newParams["phone"] = phone ?? ""
         }
-        if self.newProfile.userName != self.profile.userName {
-            email = self.newProfile.userName
+        if newProfile.userName != profile.username {
+            email = newProfile.userName
             newParams["username"] = email
         }
-        if self.newProfile.typeOfAccount != self.profile.typeOfAccount {
-            changeUserRights(typeOfAccount: self.newProfile.typeOfAccount)
+        if newProfile.typeOfAccount == .Admin && profile.isAdmin == false || newProfile.typeOfAccount == .Manager && profile.isAdmin == true {
+            changeUserRights(typeOfAccount: newProfile.typeOfAccount)
             typeOfAccountWasChanged = true
         }
         if newParams.count > 0 {
@@ -246,9 +247,11 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         request.getJson(category: "/account/changeProfile", data: data,
                         success: { json in
                             if self.parsingJson(json: json) {
-                                self.memberInfoVC.profileImage = self.memberProfilePhotoImage.image
+                                
+                                
+                                //self.memberInfoVC.profileImage = self.memberProfilePhotoImage.image
                                 self.delegate = self.memberInfoVC
-                                self.delegate.updateProfile(profile: self.newProfile)
+                                self.delegate.updateProfile(profile: self.profile)
                                 self.navigationController!.popViewController(animated: true)
                             }
         },
@@ -290,6 +293,29 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                         failure: { (error) in
                             print("Could not change user rights on the server")
         })
+    }
+    
+    func updateProfile() {
+        let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
+        profile.userID = Int64(newProfile.userId)
+        profile.username = newProfile.userName
+        profile.firstName = newProfile.firstName
+        profile.lastName = newProfile.lastName
+        profile.nickname = newProfile.nickname
+        profile.isAdmin = newProfile.typeOfAccount == .Admin ? true : false
+        profile.photoLink = newProfile.photo
+        profile.phoneNumber = newProfile.phone
+        profile.position = newProfile.position
+        if let image = profileImage {
+            profile.photo = UIImagePNGRepresentation(image) as NSData?
+        }
+        
+        do {
+            try context.save()
+        } catch {
+            print(error)
+            return
+        }
     }
     
     //MARK: - Show alert method
@@ -338,7 +364,9 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        memberProfilePhotoImage.image = info[UIImagePickerControllerOriginalImage] as! UIImage?
+        let newPhoto = info[UIImagePickerControllerOriginalImage] as! UIImage?
+        memberProfilePhotoImage.image = newPhoto
+        profile.photo = UIImagePNGRepresentation(newPhoto!) as NSData?
         memberProfilePhotoImage.contentMode = UIViewContentMode.scaleAspectFill
         memberProfilePhotoImage.clipsToBounds = true
         self.newProfile.photo = "New photo link"
@@ -351,8 +379,8 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     //MARK: - updateProfileDelegate method
-    func updateProfile(profile: Profile) {
-        self.profile = Profile(profile: profile)
+    func updateProfile(profile: Team) {
+        self.profile = profile
     }
     func updateProfilePhoto() {
     }
@@ -397,43 +425,6 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
             memberNameTextField.becomeFirstResponder()
         }
         return true
-    }
-    
-    class ViewController: UIViewController {
-        
-        let myNotification = Notification.Name(rawValue:"MyNotification")
-        
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            
-            let nc = NotificationCenter.default
-            nc.addObserver(forName:myNotification, object:nil, queue:nil, using:catchNotification)
-        }
-        
-        override func viewDidAppear(_ animated: Bool) {
-            super.viewDidAppear(animated)
-            let nc = NotificationCenter.default
-            nc.post(name:myNotification,
-                    object: nil,
-                    userInfo:["message":"Hello there!", "date":Date()])
-        }
-        
-        func catchNotification(notification:Notification) -> Void {
-            print("Catch notification")
-            
-            guard let userInfo = notification.userInfo,
-                let message  = userInfo["message"] as? String,
-                let date     = userInfo["date"]    as? Date else {
-                    print("No userInfo found in notification")
-                    return
-            }
-            
-            let alert = UIAlertController(title: "Notification!",
-                                          message:"\(message) received at \(date)",
-                preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
     }
     
 }

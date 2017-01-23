@@ -11,10 +11,12 @@ import UIKit
 class ChageNameTableViewController: UITableViewController, updateModelDelegate, updateProfileDelegate, updateNicknameDelegate {
     
     var model: ModelCoreKPI!
-    var profile: Profile!
+    var profile: Team!
     var request: Request!
     weak var memberInfoVC: MemberInfoViewController!
     var delegate: updateProfileDelegate!
+    
+    let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     
     @IBOutlet weak var NameLabel: UILabel!
     
@@ -24,7 +26,7 @@ class ChageNameTableViewController: UITableViewController, updateModelDelegate, 
         if let nickname = profile.nickname {
             self.NameLabel.text = nickname
         } else {
-            self.NameLabel.text = profile.firstName + " " + profile.lastName
+            self.NameLabel.text = profile.firstName! + " " + profile.lastName!
         }
         
         tableView.tableFooterView = UIView(frame: .zero)
@@ -47,10 +49,20 @@ class ChageNameTableViewController: UITableViewController, updateModelDelegate, 
     }
     
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
-        if let nickname = self.NameLabel.text {
-            if nickname != self.profile.nickname && nickname != self.profile.firstName + " " + self.profile.lastName {
-                self.sendNicknameToServer(nickName: nickname)
-                self.profile.nickname = nickname
+        if let nickname = NameLabel.text {
+            if nickname != profile.nickname && nickname != profile.firstName! + " " + profile.lastName! {
+                sendNicknameToServer(nickName: nickname)
+                profile.nickname = nickname
+                
+                //debug
+                do {
+                    try context.save()
+                } catch {
+                    print(error)
+                    return
+                }
+                self.navigationController!.popViewController(animated: true)
+                
             } else {
                 self.navigationController!.popViewController(animated: true)
             }
@@ -60,7 +72,7 @@ class ChageNameTableViewController: UITableViewController, updateModelDelegate, 
     func sendNicknameToServer(nickName: String) {
         
         self.request = Request(model: model)
-        let data: [String : Any] = ["user_id" : profile.userId, "nickname" : nickName]
+        let data: [String : Any] = ["user_id" : profile.userID, "nickname" : nickName]
         
         request.getJson(category: "/team/setNickName", data: data,
                         success: { json in
@@ -81,6 +93,12 @@ class ChageNameTableViewController: UITableViewController, updateModelDelegate, 
                 alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alertController, animated: true, completion: nil)
             } else {
+                do {
+                    try context.save()
+                } catch {
+                    print(error)
+                    return
+                }
                 self.navigationController!.popViewController(animated: true)
             }
         } else {
@@ -109,8 +127,8 @@ class ChageNameTableViewController: UITableViewController, updateModelDelegate, 
     }
     
     //MARK: - updateProfileDelegate method
-    func updateProfile(profile: Profile) {
-        self.profile = Profile(profile: profile)
+    func updateProfile(profile: Team) {
+        self.profile = profile
     }
     func updateProfilePhoto() {
     }
