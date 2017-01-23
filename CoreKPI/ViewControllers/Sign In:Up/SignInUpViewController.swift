@@ -17,10 +17,10 @@ class SignInUpViewController: UIViewController {
         super.viewDidLoad()
         
         //Set border for buttons
-        self.signInButton.layer.borderWidth = 1.0
-        self.signInButton.layer.borderColor = UIColor(red: 124.0/255.0, green: 77.0/255.0, blue: 255.0/255.0, alpha: 1.0).cgColor
-        self.registerButton.layer.borderWidth = 1.0
-        self.registerButton.layer.borderColor = UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0).cgColor
+        signInButton.layer.borderWidth = 1.0
+        signInButton.layer.borderColor = UIColor(red: 124.0/255.0, green: 77.0/255.0, blue: 255.0/255.0, alpha: 1.0).cgColor
+        registerButton.layer.borderWidth = 1.0
+        registerButton.layer.borderColor = UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0).cgColor
         
     }
     

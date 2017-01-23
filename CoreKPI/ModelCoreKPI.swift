@@ -15,24 +15,6 @@ enum TypeOfAccount: String {
     case Manager
 }
 
-class Person: NSObject, NSCoding {
-    let name: String
-    let age: Int
-    required init(name: String, age: Int) {
-        self.name = name
-        self.age = age
-    }
-    required init(coder decoder: NSCoder) {
-        self.name = decoder.decodeObject(forKey: "name") as? String ?? ""
-        self.age = decoder.decodeInteger(forKey: "age")
-    }
-    
-    func encode(with coder: NSCoder) {
-        coder.encode(name, forKey: "name")
-        coder.encode(age, forKey: "age")
-    }
-}
-
 class ModelCoreKPI: NSObject, NSCoding {
     
     let token: String

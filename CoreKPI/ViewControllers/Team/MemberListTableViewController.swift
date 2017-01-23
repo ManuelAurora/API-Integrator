@@ -187,6 +187,11 @@ class MemberListTableViewController: UITableViewController, updateProfileDelegat
                             }
                         }
                     }
+                    let profileDidChangeNotification = Notification.Name(rawValue:"profileDidChange")
+                    let nc = NotificationCenter.default
+                    nc.post(name:profileDidChangeNotification,
+                            object: nil,
+                            userInfo:["teamList": model.team])
                 } else {
                     print("Json data is broken")
                 }

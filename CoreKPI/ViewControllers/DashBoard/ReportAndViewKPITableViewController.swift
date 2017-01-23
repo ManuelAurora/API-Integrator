@@ -109,11 +109,15 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
     //KPI description
     var kpiDescription: String?
     //Executant
-    var executant: String? {
+    var executant: Int? {
         get {
             for member in executantArray {
                 if member.value == true {
-                    return member.SettingName
+                    for profile in model.team {
+                        if member.SettingName == profile.firstName! + " " + profile.lastName! {
+                            return Int(profile.userID)
+                        }
+                    }
                 }
             }
             return nil
@@ -121,17 +125,15 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         set {
             var newExecutantArray: [(SettingName: String, value: Bool)] = []
             for executant in executantArray {
-                if executant.SettingName == newValue {
+                if executant.SettingName == getExecutantName(userID: newValue) {
                     newExecutantArray.append((executant.SettingName, true))
                 } else {
                     newExecutantArray.append((executant.SettingName, false))
                 }
             }
-            executantArray.removeAll()
             executantArray = newExecutantArray
         }
     }
-    var memberlistArray: [Profile] = []
     var executantArray:  [(SettingName: String, value: Bool)] = []
     //TimeInterval
     var timeInterval: TimeInterval {
@@ -350,6 +352,8 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
     var typeOfSetting = Setting.none
     var settingArray: [(SettingName: String, value: Bool)] = []
     
+    let profileDidChangeNotification = Notification.Name(rawValue:"profileDidChange")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         switch buttonDidTaped {
@@ -362,7 +366,9 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             self.navigationItem.title = "KPI Edit"
             tableView.isScrollEnabled = true
             self.request = Request(model: self.model)
-            self.getTeamListFromServer()
+            self.createExecutantArray()
+            let nc = NotificationCenter.default
+            nc.addObserver(forName:profileDidChangeNotification, object:nil, queue:nil, using:catchNotification)
             
             for i in 1...31 {
                 self.mounthlyIntervalArray.append(("\(i)", false))
@@ -413,95 +419,31 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         }
     }
     
-    
-    //MARK: - get member list from server
-    
-    func getTeamListFromServer() {
+    //MARK: - catchNotification
+    func catchNotification(notification:Notification) -> Void {
         
-        let data: [String : Any] = [ : ]
-        
-        request.getJson(category: "/team/getTeamList", data: data,
-                        success: { json in
-                            self.parsingTeamListJson(json: json)
-        },
-                        failure: { (error) in
-                            print(error)
-        })
-    }
-    
-    func parsingTeamListJson(json: NSDictionary) {
-        
-        if let successKey = json["success"] as? Int {
-            if successKey == 1 {
-                if let dataKey = json["data"] as? NSArray {
-                    var teamListIsFull = false
-                    var i = 0
-                    while teamListIsFull == false {
-                        
-                        var profile: Profile!
-                        
-                        var firstName: String!
-                        var lastName: String!
-                        var mode: Int!
-                        var typeOfAccount: TypeOfAccount!
-                        var nickname: String?
-                        var photo: String?
-                        var position: String?
-                        var userId: Int!
-                        var userName: String!
-                        
-                        if let userData = dataKey[i] as? NSDictionary {
-                            position = userData["position"] as? String
-                            mode = userData["mode"] as? Int
-                            mode == 0 ? (typeOfAccount = TypeOfAccount.Manager) : (typeOfAccount = TypeOfAccount.Admin)
-                            nickname = userData["nickname"] as? String
-                            lastName = userData["last_name"] as? String
-                            userName = userData["username"] as? String
-                            userId = userData["user_id"] as? Int
-                            if (userData["photo"] as? String) != "" {
-                                photo = userData["photo"] as? String
-                            }
-                            
-                            firstName = userData["first_name"] as? String
-                            
-                            profile = Profile(userId: userId, userName: userName, firstName: firstName, lastName: lastName, position: position, photo: photo, phone: nil, nickname: nickname, typeOfAccount: typeOfAccount)
-                            self.memberlistArray.append(profile)
-                            
-                            i+=1
-                            
-                            if dataKey.count == i {
-                                teamListIsFull = true
-                            }
-                        }
-                    }
-                    self.createExecutantArray()
-                } else {
-                    print("Json data is broken")
-                }
-            } else {
-                let errorMessage = json["message"] as! String
-                print("Json error message: \(errorMessage)")
-                //showAlert(errorMessage: errorMessage)
+        if notification.name == self.profileDidChangeNotification {
+            guard let userInfo = notification.userInfo,
+                let team = userInfo["teamList"] as? [Team] else {
+                    print("No userInfo found in notification")
+                    return
             }
-        } else {
-            print("Json file is broken!")
+            model.team = team
+            executantArray.removeAll()
+            createExecutantArray()
+            tableView.reloadData()
+            //updateKPIInfo()
         }
     }
     
     //MARK: create executantArray
-    
     func createExecutantArray() {
-        for profile in self.memberlistArray {
-            let executantName = profile.firstName + " " + profile.lastName
-            if executantName == executant {
-                self.executantArray.append((executantName, true))
-            } else {
-                self.executantArray.append((executantName, false))
-            }
-            
+        for profile in model.team {
+            let executantName = profile.firstName! + " " + profile.lastName!
+            executantArray.append((executantName, false))
         }
         let createdKPI = self.model.kpis[kpiIndex].createdKPI
-        self.executant = (createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!
+        executant = createdKPI?.executant
     }
     
     // MARK: - Table view data source
@@ -688,9 +630,9 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Numbers && KPITwoView == .Graph {
                                 switch indexPath.row {
                                 case 0:
-                                    let createdKPI = self.model.kpis[kpiIndex].createdKPI
+                                    //let createdKPI = self.model.kpis[kpiIndex].createdKPI
                                     cell.headerOfCell.text = "Executant"
-                                    cell.descriptionOfCell.text = self.executant ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
+                                    cell.descriptionOfCell.text = getExecutantName(userID: executant) //?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
                                 case 1:
                                     cell.headerOfCell.text = "Time interval"
                                     cell.descriptionOfCell.text = self.timeInterval.rawValue
@@ -717,9 +659,9 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Graph && KPITwoView == .Numbers {
                                 switch indexPath.row {
                                 case 0:
-                                    let createdKPI = self.model.kpis[kpiIndex].createdKPI
+                                    //let createdKPI = self.model.kpis[kpiIndex].createdKPI
                                     cell.headerOfCell.text = "Executant"
-                                    cell.descriptionOfCell.text = self.executant ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
+                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)// ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
                                 case 1:
                                     cell.headerOfCell.text = "Time interval"
                                     cell.descriptionOfCell.text = self.timeInterval.rawValue
@@ -746,9 +688,9 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Graph && KPITwoView == .Graph {
                                 switch indexPath.row {
                                 case 0:
-                                    let createdKPI = self.model.kpis[kpiIndex].createdKPI
+                                    //let createdKPI = self.model.kpis[kpiIndex].createdKPI
                                     cell.headerOfCell.text = "Executant"
-                                    cell.descriptionOfCell.text = self.executant ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
+                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)// ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
                                 case 1:
                                     cell.headerOfCell.text = "Time interval"
                                     cell.descriptionOfCell.text = self.timeInterval.rawValue
@@ -780,9 +722,9 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Numbers && KPITwoView == .Graph {
                                 switch indexPath.row {
                                 case 0:
-                                    let createdKPI = self.model.kpis[kpiIndex].createdKPI
+                                    //let createdKPI = self.model.kpis[kpiIndex].createdKPI
                                     cell.headerOfCell.text = "Executant"
-                                    cell.descriptionOfCell.text = self.executant ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
+                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)// ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
                                 case 1:
                                     cell.headerOfCell.text = "Time interval"
                                     cell.descriptionOfCell.text = self.timeInterval.rawValue
@@ -828,9 +770,9 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Graph && KPITwoView == .Numbers {
                                 switch indexPath.row {
                                 case 0:
-                                    let createdKPI = self.model.kpis[kpiIndex].createdKPI
+                                    //let createdKPI = self.model.kpis[kpiIndex].createdKPI
                                     cell.headerOfCell.text = "Executant"
-                                    cell.descriptionOfCell.text = self.executant ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
+                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)// ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
                                 case 1:
                                     cell.headerOfCell.text = "Time interval"
                                     cell.descriptionOfCell.text = self.timeInterval.rawValue
@@ -875,9 +817,9 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Graph && KPITwoView == .Graph {
                                 switch indexPath.row {
                                 case 0:
-                                    let createdKPI = self.model.kpis[kpiIndex].createdKPI
+                                    //let createdKPI = self.model.kpis[kpiIndex].createdKPI
                                     cell.headerOfCell.text = "Executant"
-                                    cell.descriptionOfCell.text = self.executant ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
+                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)// ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
                                 case 1:
                                     cell.headerOfCell.text = "Time interval"
                                     cell.descriptionOfCell.text = self.timeInterval.rawValue
@@ -1458,6 +1400,18 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         }
     }
     
+    func getExecutantName(userID: Int?) -> String? {
+        if userID == nil {
+            return nil
+        }
+        for member in model.team {
+            if Int(member.userID) == userID {
+                return member.firstName! + " " + member.lastName!
+            }
+        }
+        return nil
+    }
+    
     //MARK: - Show KPISelectSettingTableViewController method
     func showSelectSettingVC() {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "SelectSettingForKPI") as! KPISelectSettingTableViewController
@@ -1525,12 +1479,12 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             case .createdKPI:
                 switch model.profile!.typeOfAccount {
                 case .Admin:
-                    var executantProfile: Profile!
-                    for profile in self.memberlistArray {
-                        if self.executant == profile.firstName + " " + profile.lastName {
-                            executantProfile = Profile(profile: profile)
-                        }
-                    }
+                    let executantProfile: Int! = executant
+//                    for profile in model.team {
+//                        if self.executant == profile.firstName! + " " + profile.lastName! {
+//                            executantProfile = Int(profile.userID)
+//                        }
+//                    }
                     newKpi = CreatedKPI(source: .User, department: self.department!, KPI: self.kpiName, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, timeZone: self.timeZone, deadline: self.deadline, number: (self.model.kpis[kpiIndex].createdKPI?.number)!)
                     self.model.kpis[kpiIndex].createdKPI = newKpi
                     self.model.kpis[kpiIndex].KPIViewOne = self.KPIOneView

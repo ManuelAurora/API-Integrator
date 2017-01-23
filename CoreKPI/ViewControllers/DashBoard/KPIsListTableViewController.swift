@@ -20,28 +20,27 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     var request: Request!
     var model: ModelCoreKPI! = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, nickname: nil, typeOfAccount: .Manager))
     
-    //var kpiList: [KPI] = []
     var updateProfileDelegate: updateProfileDelegate!
     
     let profileDidChangeNotification = Notification.Name(rawValue:"profileDidChange")
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.request = Request(model: self.model)
         if model.profile?.typeOfAccount != TypeOfAccount.Admin {
             self.navigationItem.rightBarButtonItem = nil
         }
         
-        //Debug only!
-        let kpiOne = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: Departments.Sales, KPI: "Shop Supplies", descriptionOfKPI: "One of the key indicators for western organizations that mainly help to determine the economic efficiency of the Procurement Department.", executant: self.model.profile!, timeInterval: TimeInterval.Daily , timeZone: "GMT +0", deadline: "Before 16:00", number: [("08/01/17", 12000), ("08/01/16", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: nil)
+        //Debug ->
+        let kpiOne = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: Departments.Sales, KPI: "Shop Supplies", descriptionOfKPI: "One of the key indicators for western organizations that mainly help to determine the economic efficiency of the Procurement Department.", executant: (model.profile?.userId)!, timeInterval: TimeInterval.Daily , timeZone: "GMT +0", deadline: "Before 16:00", number: [("08/01/17", 12000), ("08/01/16", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: nil)
         kpiOne.KPIViewOne = .Graph
         kpiOne.KPIViewTwo = TypeOfKPIView.Numbers
-        let kpiTwo = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: Departments.Procurement, KPI: "Shop Volume",descriptionOfKPI: nil, executant: Profile(userId: 123, userName: "User@User.com", firstName: "Pes", lastName: "Sobaka", position: nil, photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin) , timeInterval: TimeInterval.Weekly, timeZone: "MSK +3", deadline: "12.01.2017", number: [("08/01/17", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: nil)
+        let kpiTwo = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: Departments.Procurement, KPI: "Shop Volume",descriptionOfKPI: nil, executant: 75 , timeInterval: TimeInterval.Weekly, timeZone: "MSK +3", deadline: "12.01.2017", number: [("08/01/17", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: nil)
         kpiTwo.KPIViewOne = .Graph
         kpiTwo.KPIChartTwo = TypeOfChart.PointChart
         self.model.kpis = [kpiOne, kpiTwo]
-        
+        //<-debug
         let nc = NotificationCenter.default
         nc.addObserver(forName:profileDidChangeNotification, object:nil, queue:nil, using:catchNotification)
         
@@ -96,7 +95,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
             let createdKPI = self.model.kpis[indexPath.row].createdKPI
             cell.KPIListHeaderLabel.text = createdKPI?.KPI
             if self.model.profile?.typeOfAccount == TypeOfAccount.Admin {
-                if self.model.profile?.userId == createdKPI?.executant.userId {
+                if self.model.profile?.userId == createdKPI?.executant {
                     cell.reportButton.isHidden = false
                     cell.editButton.isHidden = false
                 } else {
@@ -124,11 +123,17 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                 cell.KPIListNumber.text = ""
             }
             
-            if createdKPI?.executant.userId == self.model.profile?.userId {
+            if createdKPI?.executant == self.model.profile?.userId {
                 cell.memberNameButton.setTitle( "Me" , for: .normal )
             } else {
-                let title = (createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!
-                cell.memberNameButton.setTitle(title, for: .normal)
+                for profile in model.team {
+                    if Int(profile.userID) == createdKPI?.executant {
+                        let title = (profile.firstName)! + " " + (profile.lastName)!
+                        cell.memberNameButton.setTitle(title, for: .normal)
+                        return cell
+                    }
+                }
+                cell.memberNameButton.setTitle("error member", for: .normal)
             }
         }
         return cell
@@ -160,8 +165,9 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         },
                         failure: { (error) in
                             print(error)
-                            self.showAlert(title: "Sorry!", message: error)
                             self.refreshControl?.endRefreshing()
+                            self.showAlert(title: "Sorry!", message: error)
+                            self.tableView.reloadData()
         })
     }
     
@@ -184,7 +190,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                         var department: String
                         var kpi_name: String
                         var descriptionOfKPI: String?
-                        var executant: Profile
+                        var executant: Int
                         let timeInterval = TimeInterval.Daily.rawValue
                         var timeZone: String
                         var deadline: String
@@ -197,7 +203,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                             kpi_name = (kpiData["name"] as? String) ?? "Error name"
                             department = (kpiData["department"] as? String) ?? "Error department"
                             descriptionOfKPI = kpiData["desc"] as? String
-                            executant = self.model.profile!
+                            executant = (self.model.profile?.userId)!
                             timeZone = "no"
                             deadline = (kpiData["datetime"] as? String)!
                             number = []
@@ -244,8 +250,10 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                             self.parsingJson(json: json)
         },
                         failure: { (error) in
+                            self.refreshControl?.endRefreshing()
                             print(error)
                             self.showAlert(title: "Sorry!", message: error)
+                            self.tableView.reloadData()
         })
     }
     
@@ -289,25 +297,32 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     
     func memberNameDidTaped(sender: UIButton) {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "MemberInfo") as! MemberInfoViewController
-        destinatioVC.model = self.model
-        let profile = self.model.kpis[sender.tag].createdKPI
-        //destinatioVC.profile = profile?.executant
+        destinatioVC.model = model
         destinatioVC.navigationItem.rightBarButtonItem = nil
-        navigationController?.pushViewController(destinatioVC, animated: true)
+        let createdKPI = model.kpis[sender.tag].createdKPI
+        let executantId = createdKPI?.executant
+        for profile in model.team {
+            if Int(profile.userID) == executantId {
+                destinatioVC.profile = profile
+                navigationController?.pushViewController(destinatioVC, animated: true)
+                return
+            }
+        }
+        showAlert(title: "Error", message: "Unknown member!")
+        return
     }
     
     //MARK: - catchNotification
     func catchNotification(notification:Notification) -> Void {
-        print("Catch notification")
         
         if notification.name == self.profileDidChangeNotification {
             guard let userInfo = notification.userInfo,
-                let userID = userInfo["userID"] as? Int,
-                let profile = userInfo["Profile"] as? Profile else {
+                let teamList = userInfo["teamList"] as? [Team] else {
                     print("No userInfo found in notification")
                     return
             }
-            
+            model.team = teamList
+            tableView.reloadData()
         }
     }
     

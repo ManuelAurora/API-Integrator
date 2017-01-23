@@ -15,6 +15,7 @@ class KPISelectSettingTableViewController: UITableViewController, UITextViewDele
     var selectSetting: [(SettingName: String, value: Bool)]!
     var textFieldInputData: String?
     var delegate: updateSettingsDelegate!
+    let profileDidChangeNotification = Notification.Name(rawValue:"profileDidChange")
     
     var integratedService = IntegratedServices.none
     var headerForTableView: String!
@@ -36,6 +37,9 @@ class KPISelectSettingTableViewController: UITableViewController, UITextViewDele
         } else {
             self.tableView.alwaysBounceVertical = false
         }
+        
+        let nc = NotificationCenter.default
+        nc.addObserver(forName:profileDidChangeNotification, object:nil, queue:nil, using:catchNotification)
         
         tableView.autoresizesSubviews = true
     }
@@ -180,6 +184,19 @@ class KPISelectSettingTableViewController: UITableViewController, UITextViewDele
         
         let ChoseSuggestVC = self.navigationController?.viewControllers[1] as! ChooseSuggestedKPITableViewController
         _ = self.navigationController?.popToViewController(ChoseSuggestVC, animated: true)
+    }
+    
+    //MARK: - catchNotification
+    func catchNotification(notification:Notification) -> Void {
+        
+        if notification.name == self.profileDidChangeNotification {
+            guard let userInfo = notification.userInfo,
+                let _ = userInfo["teamList"] as? [Team] else {
+                    print("No userInfo found in notification")
+                    return
+            }
+            _ = navigationController?.popViewController(animated: true)
+        }
     }
     
     //MARK: - UITextFieldDelegate method

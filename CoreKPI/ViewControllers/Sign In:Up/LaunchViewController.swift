@@ -115,7 +115,6 @@ class LaunchViewController: UIViewController {
     }
     
     //MARK: - Get Data from CoreData
-    
     func getDataFromCoreData() {
         let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
         do {
@@ -124,4 +123,5 @@ class LaunchViewController: UIViewController {
             print("Fetching faild")
         }
     }
+    
 }

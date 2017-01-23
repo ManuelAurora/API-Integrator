@@ -15,7 +15,7 @@ struct CreatedKPI {
     var department: Departments
     var KPI: String
     var descriptionOfKPI: String?
-    var executant: Profile
+    var executant: Int
     var timeInterval: TimeInterval
     var timeZone: String
     var deadline: String

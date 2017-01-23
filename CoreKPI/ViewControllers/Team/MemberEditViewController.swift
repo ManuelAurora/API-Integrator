@@ -136,17 +136,17 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
             return
         }
         
-        let nc = NotificationCenter.default
-        nc.post(name:profileDidChangeNotification,
-                object: nil,
-                userInfo:["userID":self.newProfile.userId, "Profile":self.newProfile])
-        
-        //debug only
+        //debug only ->
         updateProfile()
         delegate = memberInfoVC
         delegate.updateProfile(profile: self.profile)
         self.navigationController!.popViewController(animated: true)
+        //<- debug
         
+        let nc = NotificationCenter.default
+        nc.post(name:profileDidChangeNotification,
+                object: nil,
+                userInfo:["teamList": model.team])
     }
     
     //MARK: - Check input value

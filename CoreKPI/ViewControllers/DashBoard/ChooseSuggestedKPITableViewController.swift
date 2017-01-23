@@ -83,7 +83,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
         }
         return nil
     }
-    var memberlistArray: [Profile] = []
+    //var memberlistArray: [Profile] = []
     var executantArray:  [(SettingName: String, value: Bool)] = []
     
     var timeInterval: TimeInterval {
@@ -131,12 +131,17 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
     var typeOfSetting = TypeOfSetting.none
     var settingArray: [(SettingName: String, value: Bool)] = []
     
+    let profileDidChangeNotification = Notification.Name(rawValue:"profileDidChange")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         request = Request(model: self.model)
-        self.getTeamListFromServer()
         
+        let nc = NotificationCenter.default
+        nc.addObserver(forName:profileDidChangeNotification, object:nil, queue:nil, using:catchNotification)
+        
+        createExecutantArray()
         // not use in app
         // self.getDepartmentsFromServer()
         
@@ -211,87 +216,102 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
         }
     }
     
-    //MARK: - get member list from server
+//    //MARK: - get member list from server
+//    
+//    func getTeamListFromServer() {
+//        
+//        let data: [String : Any] = [ : ]
+//        
+//        request.getJson(category: "/team/getTeamList", data: data,
+//                        success: { json in
+//                            self.parsingTeamListJson(json: json)
+//        },
+//                        failure: { (error) in
+//                            print(error)
+//                            self.showAlert(title: "Sorry!", message: "Can not get team list from server")
+//        })
+//    }
+//    
+//    func parsingTeamListJson(json: NSDictionary) {
+//        
+//        if let successKey = json["success"] as? Int {
+//            if successKey == 1 {
+//                if let dataKey = json["data"] as? NSArray {
+//                    var teamListIsFull = false
+//                    var i = 0
+//                    while teamListIsFull == false {
+//                        
+//                        var profile: Profile!
+//                        
+//                        var firstName: String!
+//                        var lastName: String!
+//                        var mode: Int!
+//                        var typeOfAccount: TypeOfAccount!
+//                        var nickname: String?
+//                        var photo: String?
+//                        var position: String?
+//                        var userId: Int!
+//                        var userName: String!
+//                        
+//                        if let userData = dataKey[i] as? NSDictionary {
+//                            position = userData["position"] as? String
+//                            mode = userData["mode"] as? Int
+//                            mode == 0 ? (typeOfAccount = TypeOfAccount.Manager) : (typeOfAccount = TypeOfAccount.Admin)
+//                            nickname = userData["nickname"] as? String
+//                            lastName = userData["last_name"] as? String
+//                            userName = userData["username"] as? String
+//                            userId = userData["user_id"] as? Int
+//                            if (userData["photo"] as? String) != "" {
+//                                photo = userData["photo"] as? String
+//                            }
+//                            
+//                            firstName = userData["first_name"] as? String
+//                            
+//                            profile = Profile(userId: userId, userName: userName, firstName: firstName, lastName: lastName, position: position, photo: photo, phone: nil, nickname: nickname, typeOfAccount: typeOfAccount)
+//                            self.memberlistArray.append(profile)
+//                            
+//                            i+=1
+//                            
+//                            if dataKey.count == i {
+//                                teamListIsFull = true
+//                            }
+//                        }
+//                    }
+//                    self.createExecutantArray()
+//                } else {
+//                    print("Json data is broken")
+//                }
+//            } else {
+//                let errorMessage = json["message"] as! String
+//                print("Json error message: \(errorMessage)")
+//                //showAlert(errorMessage: errorMessage)
+//            }
+//        } else {
+//            print("Json file is broken!")
+//        }
+//    }
     
-    func getTeamListFromServer() {
-        
-        let data: [String : Any] = [ : ]
-        
-        request.getJson(category: "/team/getTeamList", data: data,
-                        success: { json in
-                            self.parsingTeamListJson(json: json)
-        },
-                        failure: { (error) in
-                            print(error)
-                            self.showAlert(title: "Sorry!", message: "Can not get team list from server")
-        })
-    }
-    
-    func parsingTeamListJson(json: NSDictionary) {
-        
-        if let successKey = json["success"] as? Int {
-            if successKey == 1 {
-                if let dataKey = json["data"] as? NSArray {
-                    var teamListIsFull = false
-                    var i = 0
-                    while teamListIsFull == false {
-                        
-                        var profile: Profile!
-                        
-                        var firstName: String!
-                        var lastName: String!
-                        var mode: Int!
-                        var typeOfAccount: TypeOfAccount!
-                        var nickname: String?
-                        var photo: String?
-                        var position: String?
-                        var userId: Int!
-                        var userName: String!
-                        
-                        if let userData = dataKey[i] as? NSDictionary {
-                            position = userData["position"] as? String
-                            mode = userData["mode"] as? Int
-                            mode == 0 ? (typeOfAccount = TypeOfAccount.Manager) : (typeOfAccount = TypeOfAccount.Admin)
-                            nickname = userData["nickname"] as? String
-                            lastName = userData["last_name"] as? String
-                            userName = userData["username"] as? String
-                            userId = userData["user_id"] as? Int
-                            if (userData["photo"] as? String) != "" {
-                                photo = userData["photo"] as? String
-                            }
-                            
-                            firstName = userData["first_name"] as? String
-                            
-                            profile = Profile(userId: userId, userName: userName, firstName: firstName, lastName: lastName, position: position, photo: photo, phone: nil, nickname: nickname, typeOfAccount: typeOfAccount)
-                            self.memberlistArray.append(profile)
-                            
-                            i+=1
-                            
-                            if dataKey.count == i {
-                                teamListIsFull = true
-                            }
-                        }
-                    }
-                    self.createExecutantArray()
-                } else {
-                    print("Json data is broken")
-                }
-            } else {
-                let errorMessage = json["message"] as! String
-                print("Json error message: \(errorMessage)")
-                //showAlert(errorMessage: errorMessage)
-            }
-        } else {
-            print("Json file is broken!")
+    //MARK: create executantArray
+    func createExecutantArray() {
+        for profile in model.team {
+            let executantName = profile.firstName! + " " + profile.lastName!
+            self.executantArray.append((executantName, false))
         }
     }
     
-    //MARK: create executantArray
-    
-    func createExecutantArray() {
-        for profile in self.memberlistArray {
-            let executantName = profile.firstName + " " + profile.lastName
-            self.executantArray.append((executantName, false))
+    //MARK: - catchNotification
+    func catchNotification(notification:Notification) -> Void {
+        
+        if notification.name == self.profileDidChangeNotification {
+            guard let userInfo = notification.userInfo,
+                let team = userInfo["teamList"] as? [Team] else {
+                    print("No userInfo found in notification")
+                    return
+            }
+            model.team = team
+            executantArray.removeAll()
+            createExecutantArray()
+            tableView.reloadData()
         }
     }
     
@@ -654,11 +674,11 @@ class ChooseSuggestedKPITableViewController: UITableViewController, updateSettin
                 return
             }
             
-            var executantProfile: Profile!
+            var executantProfile: Int!
             
-            for profile in memberlistArray {
-                if self.executant?.components(separatedBy: " ")[0] == profile.firstName && self.executant?.components(separatedBy: " ")[1] == profile.lastName {
-                    executantProfile = profile
+            for profile in model.team {
+                if executant?.components(separatedBy: " ")[0] == profile.firstName && executant?.components(separatedBy: " ")[1] == profile.lastName {
+                    executantProfile = Int(profile.userID)
                 }
             }
             let userKPI = CreatedKPI(source: .User, department: self.department, KPI: self.kpiName!, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, timeZone: self.timeZone!, deadline: self.deadline!, number: [])
