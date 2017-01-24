@@ -71,8 +71,10 @@ class MemberListTableViewController: UITableViewController {
         
         if (model.team[indexPath.row].photoLink != nil) {
             //load photo from server
-            cell.userProfilePhotoImage?.downloadedFrom(link: self.model.team[indexPath.row].photoLink!)
-            
+            cell.userProfilePhotoImage?.downloadedFrom(link: model.team[indexPath.row].photoLink!)
+            if cell.userProfilePhotoImage.image != #imageLiteral(resourceName: "defaultProfile") {
+                
+            }
         } else {
             cell.userProfilePhotoImage.image = #imageLiteral(resourceName: "defaultProfile")
         }

@@ -46,8 +46,8 @@ class WebViewChartViewController: UIViewController {
         print("\(width) \(height)")
         switch typeOfChart {
         case .PieChart:
-            
-            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(loadPie), userInfo: nil, repeats: true)
+            loadPie()
+            timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(loadPie), userInfo: nil, repeats: true)
             
         case .PointChart:
             let htmlFile = Bundle.main.path(forResource:"points", ofType: "html")
@@ -158,10 +158,10 @@ class WebViewChartViewController: UIViewController {
         let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
         let acc = try? String(contentsOfFile: accountingFile!, encoding: String.Encoding.utf8)
         
-        let topOfJS = "var margin = 10; var width = \(width), height = \(height);"
+        let endOfJS = "pie((\(width)), \(height), data_pie);"
         let topOfJS2 = self.getRandomValues()
         
-        webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + acc! + "</script><script>" + js1! + "</script><script>" + topOfJS + topOfJS2 + js2! + "</script>", baseURL: nil)
+        webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + acc! + "</script><script>" + js1! + "</script><script>" + topOfJS2 + js2! + endOfJS + "</script>", baseURL: nil)
     }
     
     override func didReceiveMemoryWarning() {

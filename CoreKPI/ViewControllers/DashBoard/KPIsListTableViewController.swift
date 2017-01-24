@@ -26,7 +26,6 @@ class KPIsListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //self.request = Request(model: self.model)
         if model.profile?.typeOfAccount != TypeOfAccount.Admin {
             self.navigationItem.rightBarButtonItem = nil
         }
@@ -51,6 +50,25 @@ class KPIsListTableViewController: UITableViewController {
         self.navigationController?.hideTransparentNavigationBar()
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
         tableView.tableFooterView = UIView(frame: .zero)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if let firstLoad = UserDefaults.standard.data(forKey: "firstLoad"),
+            let _ = NSKeyedUnarchiver.unarchiveObject(with: firstLoad) as? Bool {
+        } else {
+            let onboardingVC = storyboard?.instantiateViewController(withIdentifier: "OnboardingVC") as! OnboardingPageViewController
+            present(onboardingVC, animated: true, completion: nil)
+            print("First load!")
+            saveData()
+        }
+    }
+    
+    //MARK: - Save mark about first loading
+    func saveData() {
+        let data: Bool = true
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: data)
+        UserDefaults.standard.set(encodedData, forKey: "firstLoad")
+        print("First loading mark saved in NSKeyedArchive")
     }
     
     override func didReceiveMemoryWarning() {
