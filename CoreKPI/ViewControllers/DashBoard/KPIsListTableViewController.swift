@@ -15,9 +15,8 @@ enum Source: String {
     case Integrated
 }
 
-class KPIsListTableViewController: UITableViewController, updateKPIListDelegate, KPIListButtonCellDelegate {
+class KPIsListTableViewController: UITableViewController {
     
-    //var request: Request!
     var model: ModelCoreKPI! = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, nickname: nil, typeOfAccount: .Manager))
     
     var updateProfileDelegate: updateProfileDelegate!
@@ -74,27 +73,27 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         cell.reportButton.tag = indexPath.row
         cell.memberNameButton.tag = indexPath.row
         
-        if let imageString = self.model.kpis[indexPath.row].image {
+        if let imageString = model.kpis[indexPath.row].image {
             cell.KPIListCellImageView.isHidden = false
             cell.KPIListCellImageView.image = UIImage(named: imageString.rawValue)
         } else {
             cell.KPIListCellImageView.isHidden = true
         }
         
-        cell.KPIListCellImageBacgroundView.backgroundColor = self.model.kpis[indexPath.row].imageBacgroundColour
+        cell.KPIListCellImageBacgroundView.backgroundColor = model.kpis[indexPath.row].imageBacgroundColour
         
-        switch self.model.kpis[indexPath.row].typeOfKPI {
+        switch model.kpis[indexPath.row].typeOfKPI {
         case .IntegratedKPI:
             cell.reportButton.isHidden = true
             cell.KPIListNumber.isHidden = true
             cell.ManagedByStack.isHidden = true
-            let integratedKPI = self.model.kpis[indexPath.row].integratedKPI
+            let integratedKPI = model.kpis[indexPath.row].integratedKPI
             cell.KPIListHeaderLabel.text = integratedKPI?.service.rawValue
         case .createdKPI:
-            let createdKPI = self.model.kpis[indexPath.row].createdKPI
+            let createdKPI = model.kpis[indexPath.row].createdKPI
             cell.KPIListHeaderLabel.text = createdKPI?.KPI
-            if self.model.profile?.typeOfAccount == TypeOfAccount.Admin {
-                if self.model.profile?.userId == createdKPI?.executant {
+            if model.profile?.typeOfAccount == TypeOfAccount.Admin {
+                if model.profile?.userId == createdKPI?.executant {
                     cell.reportButton.isHidden = false
                     cell.editButton.isHidden = false
                 } else {
@@ -122,7 +121,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
                 cell.KPIListNumber.text = ""
             }
             
-            if createdKPI?.executant == self.model.profile?.userId {
+            if createdKPI?.executant == model.profile?.userId {
                 cell.memberNameButton.setTitle( "Me" , for: .normal )
             } else {
                 for profile in model.team {
@@ -140,7 +139,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "PageVC") as! ChartsPageViewController
-        destinationVC.kpi = self.model.kpis[indexPath.row]
+        destinationVC.kpi = model.kpis[indexPath.row]
         navigationController?.pushViewController(destinationVC, animated: true)
         
     }
@@ -189,10 +188,43 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
     
-    //MARK: - updateKPIListDelegate method
+    //MARK: - CatchNotification
+    func catchNotification(notification:Notification) -> Void {
+        
+        if notification.name == profileDidChangeNotification {
+            guard let userInfo = notification.userInfo,
+                let teamList = userInfo["teamList"] as? [Team] else {
+                    print("No userInfo found in notification")
+                    return
+            }
+            model.team = teamList
+            tableView.reloadData()
+        }
+    }
+    
+    //MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "AddKPI" {
+            let destinationVC = segue.destination as! ChooseSuggestedKPITableViewController
+            destinationVC.model = ModelCoreKPI(model: model)
+            destinationVC.KPIListVC = self
+        }
+    }
+    
+    override func willMove(toParentViewController parent: UIViewController?) {
+        if(!(parent?.isEqual(self.parent) ?? false)) {
+            self.navigationController?.presentTransparentNavigationBar()
+        }
+    }
+    
+}
+
+//MARK: - updateKPIListDelegate method
+extension KPIsListTableViewController: updateKPIListDelegate {
+    
     func addNewKPI(kpi: KPI) {
         self.model.kpis.append(kpi)
         self.tableView.reloadData()
@@ -202,8 +234,10 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         self.model.kpis = kpiArray
         self.tableView.reloadData()
     }
-    
-    //MARK: - KPIListButtonCellDelegate methods
+}
+
+//MARK: - KPIListButtonCellDelegate methods
+extension KPIsListTableViewController: KPIListButtonCellDelegate {
     func editButtonDidTaped(sender: UIButton) {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ReportAndViewKPI") as! ReportAndViewKPITableViewController
         destinatioVC.model = ModelCoreKPI(model: model)
@@ -216,7 +250,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     
     func reportButtonDidTaped(sender: UIButton) {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ReportAndViewKPI") as! ReportAndViewKPITableViewController
-        destinatioVC.model = self.model
+        destinatioVC.model = model
         destinatioVC.kpiIndex = sender.tag
         destinatioVC.buttonDidTaped = ButtonDidTaped.Report
         destinatioVC.KPIListVC = self
@@ -239,34 +273,4 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
         showAlert(title: "Error", message: "Unknown member!")
         return
     }
-    
-    //MARK: - catchNotification
-    func catchNotification(notification:Notification) -> Void {
-        
-        if notification.name == self.profileDidChangeNotification {
-            guard let userInfo = notification.userInfo,
-                let teamList = userInfo["teamList"] as? [Team] else {
-                    print("No userInfo found in notification")
-                    return
-            }
-            model.team = teamList
-            tableView.reloadData()
-        }
-    }
-    
-    //MARK: - navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "AddKPI" {
-            let destinationVC = segue.destination as! ChooseSuggestedKPITableViewController
-            destinationVC.model = ModelCoreKPI(model: self.model)
-            destinationVC.KPIListVC = self
-        }
-    }
-    
-    override func willMove(toParentViewController parent: UIViewController?) {
-        if(!(parent?.isEqual(self.parent) ?? false)) {
-            self.navigationController?.presentTransparentNavigationBar()
-        }
-    }
-    
 }

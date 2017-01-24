@@ -22,7 +22,6 @@ enum WeeklyInterval: String {
 class ChooseSuggestedKPITableViewController: UITableViewController {
     
     var model: ModelCoreKPI!
-    //var request: Request!
     weak var KPIListVC: KPIsListTableViewController!
     
     enum TypeOfSetting: String {
@@ -83,7 +82,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         }
         return nil
     }
-    //var memberlistArray: [Profile] = []
+   
     var executantArray:  [(SettingName: String, value: Bool)] = []
     
     var timeInterval: TimeInterval {
@@ -136,14 +135,10 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //request = Request(model: self.model)
-        
         let nc = NotificationCenter.default
         nc.addObserver(forName:profileDidChangeNotification, object:nil, queue:nil, using:catchNotification)
         
         createExecutantArray()
-        // not use in app
-        // self.getDepartmentsFromServer()
         
         tableView.tableFooterView = UIView(frame: .zero)
     }
