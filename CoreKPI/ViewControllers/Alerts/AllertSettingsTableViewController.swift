@@ -8,22 +8,20 @@
 
 import UIKit
 
-class AllertSettingsTableViewController: AlertsListTableViewController, updateSettingsDelegate {
+class AllertSettingsTableViewController: AlertsListTableViewController {
     
     weak var AlertListVC: AlertsListTableViewController!
     weak var ReminderViewVC: ReminderViewTableViewController!
     var delegate: updateAlertListDelegate!
     
-    var request: Request!
-    
     var typeOfSetting = Setting.none
     var settingsArray: [(SettingName: String, value: Bool)] = []
     
     var dataSource = DataSource.MyShopSupples
-    var dataSourceArray: [(SettingName: String, value: Bool)] = []//[(DataSource.MyShopSales.rawValue, true),(DataSource.MyShopSupples.rawValue, false), (DataSource.Balance.rawValue, false)]
+    var dataSourceArray: [(SettingName: String, value: Bool)] = []
     
     var timeInterval = TimeInterval.Daily
-    var timeIntervalArray: [(SettingName: String, value: Bool)] = []//[(TimeInterval.Daily.rawValue, true), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, false)]
+    var timeIntervalArray: [(SettingName: String, value: Bool)] = []
     
     var deliveryDay: String!
     var deliveryDayArray: [(SettingName: String, value: Bool)] = []
@@ -39,7 +37,7 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
     var timeZoneArray: [(SettingName: String, value: Bool)] = [("Hawaii Time (HST)",false), ("Alaska Time (AKST)", false), ("Pacific Time (PST)",false), ("Mountain Time (MST)", false), ("Central Time (CST)", false), ("Eastern Time (EST)",false)]
     
     var condition = Condition.IsLessThan
-    var conditionArray: [(SettingName: String, value: Bool)] = []//[(Condition.IsLessThan.rawValue, true), (Condition.IncreasedOrDecreased.rawValue, false), (Condition.PercentHasIncreasedOrDecreasedByMoreThan.rawValue, false)]
+    var conditionArray: [(SettingName: String, value: Bool)] = []
     
     var threshold: String?
     
@@ -51,14 +49,9 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        request = Request(model: self.model)
-        self.createArrays()
+        createArrays()
         
-        //NOT USE IN THIS VERSION
-        //self.getTimeZonesList()
-        
-        //debug
-        self.deliveryTime = "12:15 PM"
+        deliveryTime = "12:15 PM"  //debug
         
         tableView.tableFooterView = UIView(frame: .zero)
     }
@@ -67,23 +60,23 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
     func createArrays() {
         for dataSource in iterateEnum(DataSource.self) {
             if dataSource == self.dataSource {
-                self.dataSourceArray.append((dataSource.rawValue, true))
+                dataSourceArray.append((dataSource.rawValue, true))
             } else {
-                self.dataSourceArray.append((dataSource.rawValue, false))
+                dataSourceArray.append((dataSource.rawValue, false))
             }
         }
         for timeInterval in iterateEnum(TimeInterval.self) {
             if timeInterval == self.timeInterval {
-                self.timeIntervalArray.append((timeInterval.rawValue, true))
+                timeIntervalArray.append((timeInterval.rawValue, true))
             } else {
-                self.timeIntervalArray.append((timeInterval.rawValue, false))
+                timeIntervalArray.append((timeInterval.rawValue, false))
             }
         }
         for condition in iterateEnum(Condition.self) {
             if condition == self.condition {
-                self.conditionArray.append((condition.rawValue, true))
+                conditionArray.append((condition.rawValue, true))
             } else {
-                self.conditionArray.append((condition.rawValue, false))
+                conditionArray.append((condition.rawValue, false))
             }
         }
         
@@ -92,7 +85,7 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
             if self.deliveryDay != nil && self.deliveryDay == "\(i)" {
                 deliveryDay = ("\(i)", true)
             }
-            self.deliveryDayArray.append(deliveryDay)
+            deliveryDayArray.append(deliveryDay)
         }
     }
     
@@ -323,110 +316,11 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
         return "12:15 PM"
     }
     
-    //MARK: - update time zones from server - NOT USE IN THIS VERSION!
-    func getTimeZonesList() {
-        self.request = Request(model: model)
-        let data: [String : Any] = [:]
-        
-        request.getJson(category: "/service/getTimeZones", data: data,
-                        success: { json in
-                            self.parsingJson(json: json)
-        },
-                        failure: { (error) in
-                            print(error)
-        })
-    }
-    
-    func parsingJson(json: NSDictionary) {
-        
-        if let successKey = json["success"] as? Int {
-            if successKey == 1 {
-                if let dataKey = json["data"] as? NSDictionary {
-                    
-                    print(dataKey)
-                    //save time zones list
-                    
-                    
-                } else {
-                    print("Json data is broken")
-                }
-            } else {
-                let errorMessage = json["message"] as! String
-                print("Json error message: \(errorMessage)")
-                showAlert(title: "Error", message: "Can't load list of time zones")
-            }
-        } else {
-            print("Json file is broken!")
-        }
-    }
-    
     //MARK: - Show alert method
     func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alertController, animated: true, completion: nil)
-    }
-    
-    //MARK: - updateSettingsArrayDelegate methods
-    
-    func updateDoubleValue(number: Double?) {
-    }
-    
-    func updateSettingsArray(array: [(SettingName: String, value: Bool)]) {
-        switch typeOfSetting {
-        case .DataSource:
-            self.dataSourceArray = array
-            for source in array {
-                if source.value == true {
-                    self.dataSource = DataSource(rawValue: source.SettingName)!
-                }
-            }
-        case .TimeInterval:
-            self.timeIntervalArray = array
-            for interval in array {
-                if interval.value == true {
-                    self.timeInterval = TimeInterval(rawValue: interval.SettingName)!
-                }
-            }
-        case .DeliveryDay:
-            self.deliveryDayArray = array
-            for day in array {
-                if day.value == true {
-                    self.deliveryDay = day.SettingName
-                }
-            }
-        case .TimeZone:
-            self.timeZoneArray = array
-        case .Condition:
-            self.conditionArray = array
-            for condition in array {
-                if condition.value == true {
-                    self.condition = Condition(rawValue:condition.SettingName)!
-                }
-            }
-        case .TypeOfNotification:
-            self.typeOfNotificationArray = array
-            self.typeOfNotification.removeAll()
-            for notification in array {
-                if notification.value == true {
-                    self.typeOfNotification.append(TypeOfNotification(rawValue: notification.SettingName)!)
-                }
-            }
-        default:
-            return
-        }
-        tableView.reloadData()
-        self.typeOfSetting = .none
-    }
-    
-    func updateStringValue(string: String?) {
-        switch typeOfSetting {
-        case .Threshold:
-            self.threshold = string
-        default:
-            return
-        }
-        tableView.reloadData()
     }
     
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
@@ -580,3 +474,66 @@ class AllertSettingsTableViewController: AlertsListTableViewController, updateSe
     }
     
 }
+    //MARK: - updateSettingsArrayDelegate methods
+    extension AllertSettingsTableViewController: updateSettingsDelegate {
+        
+        func updateDoubleValue(number: Double?) {
+        }
+        
+        func updateSettingsArray(array: [(SettingName: String, value: Bool)]) {
+            switch typeOfSetting {
+            case .DataSource:
+                self.dataSourceArray = array
+                for source in array {
+                    if source.value == true {
+                        self.dataSource = DataSource(rawValue: source.SettingName)!
+                    }
+                }
+            case .TimeInterval:
+                self.timeIntervalArray = array
+                for interval in array {
+                    if interval.value == true {
+                        self.timeInterval = TimeInterval(rawValue: interval.SettingName)!
+                    }
+                }
+            case .DeliveryDay:
+                self.deliveryDayArray = array
+                for day in array {
+                    if day.value == true {
+                        self.deliveryDay = day.SettingName
+                    }
+                }
+            case .TimeZone:
+                self.timeZoneArray = array
+            case .Condition:
+                self.conditionArray = array
+                for condition in array {
+                    if condition.value == true {
+                        self.condition = Condition(rawValue:condition.SettingName)!
+                    }
+                }
+            case .TypeOfNotification:
+                self.typeOfNotificationArray = array
+                self.typeOfNotification.removeAll()
+                for notification in array {
+                    if notification.value == true {
+                        self.typeOfNotification.append(TypeOfNotification(rawValue: notification.SettingName)!)
+                    }
+                }
+            default:
+                return
+            }
+            tableView.reloadData()
+            self.typeOfSetting = .none
+        }
+        
+        func updateStringValue(string: String?) {
+            switch typeOfSetting {
+            case .Threshold:
+                self.threshold = string
+            default:
+                return
+            }
+            tableView.reloadData()
+        }
+    }

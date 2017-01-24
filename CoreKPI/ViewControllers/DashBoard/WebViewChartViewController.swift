@@ -29,16 +29,16 @@ class WebViewChartViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.webView.scrollView.isScrollEnabled = false
-        self.webView.scrollView.bounces = false
-        self.webView.backgroundColor = UIColor.white
+        webView.scrollView.isScrollEnabled = false
+        webView.scrollView.bounces = false
+        webView.backgroundColor = UIColor.white
         
         let tabBarHeight = self.tabBarController?.tabBar.frame.size.height
         let navigationBarHeight = self.navigationController?.navigationBar.frame.size.height
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
         
-        var height = self.webView.bounds.size.height
-        var width = self.webView.bounds.size.width
+        var height = webView.bounds.size.height
+        var width = webView.bounds.size.width
         print("\(width) \(height)")
         
         height = self.view.frame.size.height - (tabBarHeight! + navigationBarHeight! + statusBarHeight)
@@ -122,7 +122,6 @@ class WebViewChartViewController: UIViewController {
         }
     }
 
-    
     func getRandomValues() -> String {
         let numOne = 200
         let numTwo = 150
@@ -169,5 +168,4 @@ class WebViewChartViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-
 }

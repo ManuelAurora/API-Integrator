@@ -34,7 +34,6 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     }
     
     // MARK:- UIPageViewControllerDataSource Methods
-    
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController?
     {
         var index = returnIndexForVC(vc: viewController)
@@ -61,7 +60,6 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     }
     
     // MARK:- Other Methods
-
     func getViewController(AtIndex index: Int) -> UIViewController {
         let webViewChartOneVC = storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewChartViewController
         let webViewChartTwoVC = storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewChartViewController

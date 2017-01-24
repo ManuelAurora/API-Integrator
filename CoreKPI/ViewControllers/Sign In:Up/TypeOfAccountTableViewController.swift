@@ -26,7 +26,6 @@ class TypeOfAccountTableViewController: UITableViewController {
     }
     
     // MARK: - Table view data source
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -67,19 +66,13 @@ class TypeOfAccountTableViewController: UITableViewController {
         }
         tableView.deselectRow(at: indexPath, animated: true)
         tableView.reloadData()
-        
     }
     
     override func willMove(toParentViewController parent: UIViewController?) {
         
-        if ((parent as? InviteTableViewController) != nil) {
-            print("invite")
-        }
-        
         if(!(parent?.isEqual(self.parent) ?? false)) {
-            
             delegate = InviteVC ?? memberEditVC!
-            //delegate = memberEditVC
+            delegate = memberEditVC
             delegate.updateTypeOfAccount(typeOfAccount: typeOfAccount)
         }
     }

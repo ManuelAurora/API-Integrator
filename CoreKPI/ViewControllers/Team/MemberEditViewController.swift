@@ -8,12 +8,12 @@
 
 import UIKit
 
-class MemberEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, updateModelDelegate, updateProfileDelegate, updateTypeOfAccountDelegate, UITextFieldDelegate {
+class MemberEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var model: ModelCoreKPI!
     var profile: Team!
     var newProfile: Profile!
-    var request: Request!
+    //var request: Request!
     var profileImage: UIImage?
     
     weak var memberInfoVC: MemberInfoViewController!
@@ -38,7 +38,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         
         self.newProfile = Profile(userId: Int(profile.userID), userName: profile.username!, firstName: profile.firstName!, lastName: profile.lastName!, position: profile.position, photo: profile.photoLink, phone: profile.phoneNumber, nickname: profile.nickname, typeOfAccount: profile.isAdmin ? .Admin : .Manager)
-        self.request = Request(model: self.model)
+        //self.request = Request(model: self.model)
         
         tableView.tableFooterView = UIView(frame: .zero)
         self.navigationController?.hideTransparentNavigationBar()
@@ -242,57 +242,30 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func sendRequest(params : [String : String?] ) {
         
-        let data: [String : Any] = ["user_id" : newProfile.userId, "data" : params]
+        let request = ChangeProfile(model: model)
         
-        request.getJson(category: "/account/changeProfile", data: data,
-                        success: { json in
-                            if self.parsingJson(json: json) {
-                                
-                                
-                                //self.memberInfoVC.profileImage = self.memberProfilePhotoImage.image
-                                self.delegate = self.memberInfoVC
-                                self.delegate.updateProfile(profile: self.profile)
-                                self.navigationController!.popViewController(animated: true)
-                            }
-        },
-                        failure: { (error) in
-                            print("Could not send profile to the server")
-        })
-    }
-    
-    func parsingJson(json: NSDictionary) -> Bool {
-        if let successKey = json["success"] as? Int {
-            if successKey == 1 {
-                if (json["data"] as? NSDictionary) == nil {
-                    print("Json data is broken")
-                } else {
-                    return true
-                }
-            } else {
-                let errorMessage = json["message"] as! String
-                print("Json error message: \(errorMessage)")
-                showAlert(title: "Save profile error", message: errorMessage)
-            }
-        } else {
-            print("Json file is broken!")
-            
+        request.changeProfile(params: params, success: {
+            self.delegate = self.memberInfoVC
+            self.delegate.updateProfile(profile: self.profile)
+            self.navigationController!.popViewController(animated: true)
+        }, failure: { error in
+        self.showAlert(title: "Error", message: error)
         }
-        return false
+        )
     }
     
     func changeUserRights(typeOfAccount: TypeOfAccount) {
         
-        let data: [String : Any] = ["user_id" : newProfile.userId, "mode" : typeOfAccount == .Admin ? 1 : 0]
+        let request = ChangeUserRights(model: model)
         
-        request.getJson(category: "/team/changeUserRights", data: data,
-                        success: { json in
-                            if self.parsingJson(json: json) {
-                                print("TypeOfAccount was changed")
-                            }
+        request.changeUserRights(typeOfAccount: typeOfAccount,
+                                 success: {
+        print("TypeOfAccount was changed")
         },
-                        failure: { (error) in
-                            print("Could not change user rights on the server")
-        })
+                                 failure: { error in
+            self.showAlert(title: "Error", message: error)
+        }
+        )
     }
     
     func updateProfile() {
@@ -339,7 +312,10 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         self.navigationController?.presentTransparentNavigationBar()
     }
     
-    //MARK: - UIImagePickerControllerDelegate methods
+}
+
+//MARK: - UIImagePickerControllerDelegate methods
+extension MemberEditViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerFromPhotoLibrary() {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
@@ -348,7 +324,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
             imagePicker.allowsEditing = false
             imagePicker.sourceType = .photoLibrary
             
-            self.present(imagePicker, animated: true, completion: nil)
+            present(imagePicker, animated: true, completion: nil)
         }
     }
     
@@ -359,7 +335,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
             imagePicker.allowsEditing = false
             imagePicker.sourceType = .camera
             
-            self.present(imagePicker, animated: true, completion: nil)
+            present(imagePicker, animated: true, completion: nil)
         }
     }
     
@@ -369,30 +345,37 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         profile.photo = UIImagePNGRepresentation(newPhoto!) as NSData?
         memberProfilePhotoImage.contentMode = UIViewContentMode.scaleAspectFill
         memberProfilePhotoImage.clipsToBounds = true
-        self.newProfile.photo = "New photo link"
+        newProfile.photo = "New photo link"
         dismiss(animated: true, completion: nil)
     }
-    
-    //MARK: - updateModelDelegate method
+}
+
+//MARK: - updateModelDelegate method
+extension MemberEditViewController: updateModelDelegate {
     func updateModel(model: ModelCoreKPI) {
         self.model = ModelCoreKPI(model: model)
     }
-    
-    //MARK: - updateProfileDelegate method
+}
+
+//MARK: - updateProfileDelegate method
+extension MemberEditViewController: updateProfileDelegate {
     func updateProfile(profile: Team) {
         self.profile = profile
     }
-    func updateProfilePhoto() {
-    }
-    //MARK: - updateTypeOfAccountDelegate method
+}
+
+//MARK: - updateTypeOfAccountDelegate method
+extension MemberEditViewController: updateTypeOfAccountDelegate {
     func updateTypeOfAccount(typeOfAccount: TypeOfAccount) {
         self.newProfile.typeOfAccount = typeOfAccount
         tableView.reloadData()
     }
+}
+
+//MARK: - UITextFieldDelegate method
+extension MemberEditViewController: UITextFieldDelegate {
     
-    //MARK: - UITextFieldDelegate method
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
         switch textField.tag {
         case 0:
             let textFieldText: NSString = (textField.text ?? "") as NSString
@@ -416,7 +399,6 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
-    //MARK: - UITextFieldDelegate method
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == memberNameTextField {
             memberPositionTextField.becomeFirstResponder()

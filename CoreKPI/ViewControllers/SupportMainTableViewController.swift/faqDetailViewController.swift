@@ -19,8 +19,6 @@ class faqDetailViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
         tableView.estimatedRowHeight = 44.0
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -30,7 +28,6 @@ class faqDetailViewController: UIViewController, UITableViewDelegate, UITableVie
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -65,6 +62,5 @@ class faqDetailViewController: UIViewController, UITableViewDelegate, UITableVie
             return descriptionCell
         }
     }
-
 
 }

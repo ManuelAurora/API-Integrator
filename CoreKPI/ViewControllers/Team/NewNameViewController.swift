@@ -19,7 +19,7 @@ class NewNameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.nameLabel.placeholder = self.personName
+        nameLabel.placeholder = personName
     }
     
     override func didReceiveMemoryWarning() {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class KPISelectSettingTableViewController: UITableViewController, UITextViewDelegate {
+class KPISelectSettingTableViewController: UITableViewController {
     
     weak var ReportAndViewVC: ReportAndViewKPITableViewController!
     weak var ChoseSuggestedVC: ChooseSuggestedKPITableViewController!
@@ -79,9 +79,9 @@ class KPISelectSettingTableViewController: UITableViewController, UITextViewDele
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ListOfSuggestedKPI") as! SuggestedKPIDescriptionTableViewController
         destinatioVC.numberOfKPI = indexPath.row
-        destinatioVC.ChoseSuggestedVC = self.ChoseSuggestedVC
-        destinatioVC.department = self.department
-        destinatioVC.selectSetting = self.selectSetting
+        destinatioVC.ChoseSuggestedVC = ChoseSuggestedVC
+        destinatioVC.department = department
+        destinatioVC.selectSetting = selectSetting
         navigationController?.pushViewController(destinatioVC, animated: true)
 
     }
@@ -100,8 +100,8 @@ class KPISelectSettingTableViewController: UITableViewController, UITextViewDele
             return selectCell
         }
         if inputSettingCells == true {
-            if (self.textFieldInputData != nil) {
-                inputCell.inputTextView.text = self.textFieldInputData
+            if (textFieldInputData != nil) {
+                inputCell.inputTextView.text = textFieldInputData
             }
             inputCell.accessoryType = .none
             inputCell.selectionStyle = .none
@@ -111,7 +111,7 @@ class KPISelectSettingTableViewController: UITableViewController, UITextViewDele
         if cellsWithColourView == true {
             let colour = selectSetting[indexPath.row].SettingName
             colourCell.headerOfCell.text = colour
-            if let uicolour = self.colourDictionary[Colour(rawValue: colour)!] {
+            if let uicolour = colourDictionary[Colour(rawValue: colour)!] {
                 colourCell.colourView.backgroundColor = uicolour
             }
             colourCell.accessoryType = selectSetting[indexPath.row].value ? .checkmark : .none
@@ -167,20 +167,20 @@ class KPISelectSettingTableViewController: UITableViewController, UITextViewDele
             if ChoseSuggestedVC != nil {
                 delegate = ChoseSuggestedVC
                 delegate.updateSettingsArray(array: selectSetting)
-                delegate.updateStringValue(string: self.textFieldInputData)
+                delegate.updateStringValue(string: textFieldInputData)
             }
             if ReportAndViewVC != nil {
                 delegate = ReportAndViewVC
                 delegate.updateSettingsArray(array: selectSetting)
-                delegate.updateStringValue(string: self.textFieldInputData)
+                delegate.updateStringValue(string: textFieldInputData)
             }
         }
     }
     
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
-        self.ChoseSuggestedVC.integrated = self.integratedService
+        ChoseSuggestedVC.integrated = integratedService
         delegate = ChoseSuggestedVC
-        delegate.updateSettingsArray(array: self.selectSetting)
+        delegate.updateSettingsArray(array: selectSetting)
         
         let ChoseSuggestVC = self.navigationController?.viewControllers[1] as! ChooseSuggestedKPITableViewController
         _ = self.navigationController?.popToViewController(ChoseSuggestVC, animated: true)
@@ -189,7 +189,7 @@ class KPISelectSettingTableViewController: UITableViewController, UITextViewDele
     //MARK: - catchNotification
     func catchNotification(notification:Notification) -> Void {
         
-        if notification.name == self.profileDidChangeNotification {
+        if notification.name == profileDidChangeNotification {
             guard let userInfo = notification.userInfo,
                 let _ = userInfo["teamList"] as? [Team] else {
                     print("No userInfo found in notification")
@@ -199,13 +199,15 @@ class KPISelectSettingTableViewController: UITableViewController, UITextViewDele
         }
     }
     
-    //MARK: - UITextFieldDelegate method
+}
+
+//MARK: - UITextFieldDelegate method
+extension KPISelectSettingTableViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         if textView.text == "" {
-            self.textFieldInputData = nil
+            textFieldInputData = nil
         } else {
-            self.textFieldInputData = textView.text
+            textFieldInputData = textView.text
         }
     }
-    
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ReminderViewTableViewController: UITableViewController, updateAlertListDelegate {
+class ReminderViewTableViewController: UITableViewController {
     var alertList: [Alert]!
     var index: Int!
     var alert: Alert!
@@ -126,7 +126,6 @@ class ReminderViewTableViewController: UITableViewController, updateAlertListDel
     }
     
     // MARK: - Navigation
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "EditReminder" {
             let destinationVC = segue.destination as! AllertSettingsTableViewController
@@ -136,11 +135,17 @@ class ReminderViewTableViewController: UITableViewController, updateAlertListDel
     }
     
     override func willMove(toParentViewController parent: UIViewController?) {
-        delegate = self.AlertListVC
+        delegate = AlertListVC
         delegate.updateAlertList(alertArray: self.alertList)
     }
+}
+
+//MARK: - updateAlertListDelegate methods
+extension ReminderViewTableViewController: updateAlertListDelegate {
     
-    //MARK: - updateAlertListDelegate methods
+    func updateAlertList(alertArray: [Alert]) {
+    }
+
     func addAlert(alert: Alert) {
         self.alert = alert
         tableView.reloadData()
@@ -153,7 +158,5 @@ class ReminderViewTableViewController: UITableViewController, updateAlertListDel
             }
         }
         self.alertList = newArrayList
-    }
-    func updateAlertList(alertArray: [Alert]) {
     }
 }

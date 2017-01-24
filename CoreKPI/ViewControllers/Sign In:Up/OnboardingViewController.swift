@@ -21,18 +21,16 @@ class OnboardingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.onboardingText.text = onboardingTextString
-        self.onboardingImageView.image = onboardingImage
-        self.pageControl.currentPage = pageIndex
-        // Do any additional setup after loading the view.
+        onboardingText.text = onboardingTextString
+        onboardingImageView.image = onboardingImage
+        pageControl.currentPage = pageIndex
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func getStartedButton(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 }

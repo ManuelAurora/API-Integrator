@@ -10,7 +10,6 @@ import UIKit
 
 class SignInViewController: UIViewController, UITextFieldDelegate {
     
-    var request = Request()
     var model: ModelCoreKPI!
     var delegate: updateModelDelegate!
     
@@ -71,109 +70,56 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         if let username = self.emailTextField.text?.lowercased() {
             if let password = self.passwordTextField.text {
                 
-                let data: [String : Any] = ["username" : username, "password" : password]
-                
-                request.getJson(category: "/auth/auth", data: data,
-                                success: { json in
-                                    self.parsingJson(json: json)
-                                    
+                let loginRequest = LoginRequest()
+                loginRequest.loginRequest(username: username, password: password,
+                                          success: {(userID, token) in
+                                            self.model = ModelCoreKPI(token: token, userID: userID)
+                                            self.getUserProfileFromServer()
                 },
-                                failure: { (error) in
-                                    print(error)
-                                    self.showAlert(title: "Authorization error", errorMessage: error)
-                })
-            }
-        }
-    }
-    
-    func parsingJson(json: NSDictionary) {
-        var userId: Int
-        var token: String
-        
-        if let successKey = json["success"] as? Int {
-            if successKey == 1 {
-                if let dataKey = json["data"] as? NSDictionary {
-                    userId = dataKey["user_id"] as! Int
-                    token = dataKey["token"] as! String
-                    self.request = Request(userId: userId, token: token)
-                    getUserProfileFromServer()
-                } else {
-                    print("Json data is broken")
+                                          failure: { error in
+                                            print(error)
+                                            self.showAlert(title: "Authorization error", errorMessage: error)
                 }
-            } else {
-                let errorMessage = json["message"] as! String
-                print("Json error message: \(errorMessage)")
-                showAlert(title: "Authorization error", errorMessage: errorMessage)
+                )
             }
-        } else {
-            print("Json file is broken!")
         }
     }
     
     func getUserProfileFromServer() {
-        request.getJson(category: "/account/contactData", data: [:],
-                        success: { json in
-                            self.createModel(json: json)
-                            
-        },
-                        failure: { (error) in
-                            print(error + "Can not get user's profile.")
-        })
+        let getModelRequest = GetModelFromServer(userId: (model.profile?.userId)!, token: model.token)
         
+        getModelRequest.getModelFromServer(
+            success: {model in
+                self.model = ModelCoreKPI(model: model)
+                self.saveData()
+                self.showTabBarVC()
+        },
+            failure: {error in
+                self.showAlert(title: "Error", errorMessage: error)
+        }
+        )
     }
     
-    func createModel(json: NSDictionary) {
+    //MARK: - segue to TabBar
+    func showTabBarVC() {
+        let tabBarController = storyboard?.instantiateViewController(withIdentifier: "TabBarVC") as! MainTabBarViewController
         
-        var profile: Profile!
-        var userName: String!
-        var firstName: String!
-        var lastName: String!
-        var position: String!
-        var photo: String!
+        let dashboardNavigationViewController = tabBarController.viewControllers?[0] as! DashboardsNavigationViewController
+        let dashboardViewController = dashboardNavigationViewController.childViewControllers[0] as! KPIsListTableViewController
+        dashboardViewController.model = ModelCoreKPI(model: model)
+        dashboardViewController.loadKPIsFromServer()
         
-        if let successKey = json["success"] as? Int {
-            if successKey == 1 {
-                if let dataKey = json["data"] as? NSDictionary {
-                    userName = dataKey["username"] as! String
-                    firstName = dataKey["first_name"] as! String
-                    lastName = dataKey["last_name"] as! String
-                    position = dataKey["position"] as! String
-                    photo = dataKey["photo"] as! String
-                    
-                    profile = Profile(userId: request.userID, userName: userName, firstName: firstName, lastName: lastName, position: position, photo: photo, phone: nil, nickname: nil, typeOfAccount: .Admin)
-                    
-                    self.model = ModelCoreKPI(token: request.token, profile: profile)
-                    self.saveData()
-                    
-                    let tabBarController = storyboard?.instantiateViewController(withIdentifier: "TabBarVC") as! MainTabBarViewController
-                    
-                    let dashboardNavigationViewController = tabBarController.viewControllers?[0] as! DashboardsNavigationViewController
-                    let dashboardViewController = dashboardNavigationViewController.childViewControllers[0] as! KPIsListTableViewController
-                    dashboardViewController.model = ModelCoreKPI(model: model)
-                    dashboardViewController.loadKPIsFromServer()
-                    
-                    let alertsNavigationViewController = tabBarController.viewControllers?[1] as! AlertsNavigationViewController
-                    let alertsViewController = alertsNavigationViewController.childViewControllers[0] as! AlertsListTableViewController
-                    alertsViewController.model = ModelCoreKPI(model: model)
-                    
-                    let teamListNavigationViewController = tabBarController.viewControllers?[2] as! TeamListViewController
-                    let teamListController = teamListNavigationViewController.childViewControllers[0] as! MemberListTableViewController
-                    teamListController.model = ModelCoreKPI(model: model)
-                    
-                    present(tabBarController, animated: true, completion: nil)
-                    
-                } else {
-                    print("Json data is broken")
-                }
-            } else {
-                let errorMessage = json["message"] as! String
-                print("Json error message: \(errorMessage)")
-                showAlert(title: "Authorization error",errorMessage: errorMessage)
-            }
-        } else {
-            print("Json file is broken!")
-        }
+        let alertsNavigationViewController = tabBarController.viewControllers?[1] as! AlertsNavigationViewController
+        let alertsViewController = alertsNavigationViewController.childViewControllers[0] as! AlertsListTableViewController
+        alertsViewController.model = ModelCoreKPI(model: model)
+        
+        let teamListNavigationViewController = tabBarController.viewControllers?[2] as! TeamListViewController
+        let teamListController = teamListNavigationViewController.childViewControllers[0] as! MemberListTableViewController
+        teamListController.model = ModelCoreKPI(model: model)
+        
+        present(tabBarController, animated: true, completion: nil)
     }
+    
     //MARK: - show alert function
     func showAlert(title: String, errorMessage: String) {
         let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)

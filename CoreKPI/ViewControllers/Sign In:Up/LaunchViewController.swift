@@ -9,8 +9,8 @@
 import UIKit
 
 class LaunchViewController: UIViewController {
-
-    var request = Request()
+    
+    var request: GetModelFromServer!
     var model: ModelCoreKPI!
     
     override func viewDidLoad() {
@@ -39,52 +39,18 @@ class LaunchViewController: UIViewController {
     }
     
     func getModelFromServer() {
-        request = Request(model: model)
-        request.getJson(category: "/account/contactData", data: [:],
-                        success: { json in
-                            self.createModel(json: json)
-                            
+        request = GetModelFromServer(model: model)
+        
+        request.getModelFromServer(
+            success: { model in
+                self.model = ModelCoreKPI(model: model)
+                self.showTabBarVC()
         },
-                        failure: { (error) in
-                            self.showTabBarVC()
-        })
-        
-    }
-    
-    func createModel(json: NSDictionary) {
-        
-        var profile: Profile!
-        var userName: String!
-        var firstName: String!
-        var lastName: String!
-        var position: String!
-        var photo: String!
-        
-        if let successKey = json["success"] as? Int {
-            if successKey == 1 {
-                if let dataKey = json["data"] as? NSDictionary {
-                    userName = dataKey["username"] as! String
-                    firstName = dataKey["first_name"] as! String
-                    lastName = dataKey["last_name"] as! String
-                    position = dataKey["position"] as! String
-                    photo = dataKey["photo"] as! String
-                    
-                    profile = Profile(userId: request.userID, userName: userName, firstName: firstName, lastName: lastName, position: position, photo: photo, phone: nil, nickname: nil, typeOfAccount: .Admin)
-                    
-                    model.profile = profile
-                    showTabBarVC()
-                    
-                } else {
-                    print("Json data is broken")
-                }
-            } else {
-                let errorMessage = json["message"] as! String
-                print("Json error message: \(errorMessage)")
-                showAlert(title: "Authorization error",errorMessage: errorMessage)
-            }
-        } else {
-            print("Json file is broken!")
+            failure: { error in
+                //self.showAlert(title: "error", errorMessage: error)
+                self.showTabBarVC()
         }
+        )
     }
     
     //MARK: - show alert function

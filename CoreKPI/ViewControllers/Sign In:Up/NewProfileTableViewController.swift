@@ -8,13 +8,12 @@
 
 import UIKit
 
-class NewProfileTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, registerDelegate {
+class NewProfileTableViewController: UITableViewController {
     
     var delegate: updateModelDelegate!
     
     var typeOfAccount: TypeOfAccount!
     var model: ModelCoreKPI!
-    var request = Request()
     
     var email: String!
     var password: String!
@@ -37,12 +36,11 @@ class NewProfileTableViewController: UITableViewController, UIImagePickerControl
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            self.dismissKeyboard()
+            dismissKeyboard()
             let actionViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionViewController.addAction(UIAlertAction(title: "Take a photo", style: .default, handler: {
                 (action: UIAlertAction!) -> Void in
@@ -61,7 +59,6 @@ class NewProfileTableViewController: UITableViewController, UIImagePickerControl
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "TypeOfAccount" {
             let destinationController = segue.destination as! TypeOfAccountTableViewController
-            //Настройка контроллера назначения
             destinationController.typeOfAccount = typeOfAccount
         }
     }
@@ -69,110 +66,72 @@ class NewProfileTableViewController: UITableViewController, UIImagePickerControl
     @IBAction func tapSaveButton(_ sender: Any) {
         if firstNameTextField.text != "" || lastNameTextField.text != "" || positionTextField.text != "" {
             
-            self.firstName = firstNameTextField.text
-            self.lastName = lastNameTextField.text
-            self.position = positionTextField.text
+            firstName = firstNameTextField.text
+            lastName = lastNameTextField.text
+            position = positionTextField.text
             registrationRequest()
             
         } else {
-            let alertController = UIAlertController(title: "Warning!", message: "Text field(s) is empty!", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            present(alertController, animated: true, completion: nil)
+            showAlert(title: "Warning!", errorMessage: "Text field(s) is empty!")
         }
     }
     
     func registrationRequest() {
         
-        var data: [String : Any]!
-        
-        if profileImageBase64String == nil {
-            data = ["username" : email, "password" : password, "first_name" : firstName, "last_name" : lastName, "position" : position, "photo" : ""]
-        } else {
-            data = ["username" : email, "password" : password, "first_name" : firstName, "last_name" : lastName, "position" : position, "photo" : profileImageBase64String!]
+        let registrationRequest = RegistrationRequest()
+        registrationRequest.registrationRequest(email: email, password: password, firstname: firstName, lastname: lastName, position: position, photo: profileImageBase64String,
+                                                success: { model in
+                                                    self.model = ModelCoreKPI(model: model)
+                                                    self.segueToVC()
+        }, failure: { error in
+            self.showAlert(title: "Registration error", errorMessage: error)
         }
-        
-        request.getJson(category: "/auth/createAccount", data: data,
-                        success: { json in
-                            self.parsingJson(json: json)
-        },
-                        failure: { (error) in
-                            print(error)
-                            self.showAlert(errorMessage: error)
-        })
+        )
     }
     
-    func parsingJson(json: NSDictionary) {
-        var userId: Int
-        var token: String
-        
-        if let successKey = json["success"] as? Int {
-            if successKey == 1 {
-                if let dataKey = json["data"] as? NSDictionary {
-                    userId = dataKey["user_id"] as! Int
-                    token = dataKey["token"] as! String
-                    let profile = Profile(userId: userId, userName: email, firstName: firstName, lastName: lastName, position: position, photo: profileImageBase64String, phone: nil, nickname: nil, typeOfAccount: .Admin)
-                    model = ModelCoreKPI(token: token, profile: profile)
-                    if model.profile?.typeOfAccount == TypeOfAccount.Admin {
-                        let vc = storyboard?.instantiateViewController(withIdentifier: "InviteVC") as! InviteTableViewController
-                        self.delegate = vc
-                        delegate.updateModel(model: model)
-                        navigationController?.pushViewController(vc, animated: true)
-                    } else {
-                        let tabBarController = storyboard?.instantiateViewController(withIdentifier: "TabBarVC") as! MainTabBarViewController
-                        
-                        let dashboardNavigationViewController = tabBarController.viewControllers?[0] as! DashboardsNavigationViewController
-                        let dashboardViewController = dashboardNavigationViewController.childViewControllers[0] as! KPIsListTableViewController
-                        dashboardViewController.model = ModelCoreKPI(model: model)
-                        dashboardViewController.loadKPIsFromServer()
-                        
-                        let alertsNavigationViewController = tabBarController.viewControllers?[1] as! AlertsNavigationViewController
-                        let alertsViewController = alertsNavigationViewController.childViewControllers[0] as! AlertsListTableViewController
-                        alertsViewController.model = ModelCoreKPI(model: model)
-                        
-                        let teamListNavigationViewController = tabBarController.viewControllers?[2] as! TeamListViewController
-                        let teamListController = teamListNavigationViewController.childViewControllers[0] as! MemberListTableViewController
-                        teamListController.model = ModelCoreKPI(model: model)
-                        
-                        present(tabBarController, animated: true, completion: nil)
-                    }
-                    
-                    
-                } else {
-                    print("Json data is broken")
-                }
-            } else {
-                let errorMessage = json["message"] as! String
-                print("Json error message: \(errorMessage)")
-                showAlert(errorMessage: errorMessage)
-            }
+    func segueToVC() {
+        if model.profile?.typeOfAccount == TypeOfAccount.Admin {
+            let vc = storyboard?.instantiateViewController(withIdentifier: "InviteVC") as! InviteTableViewController
+            self.delegate = vc
+            delegate.updateModel(model: model)
+            navigationController?.pushViewController(vc, animated: true)
         } else {
-            print("Json file is broken!")
+            let tabBarController = storyboard?.instantiateViewController(withIdentifier: "TabBarVC") as! MainTabBarViewController
+            
+            let dashboardNavigationViewController = tabBarController.viewControllers?[0] as! DashboardsNavigationViewController
+            let dashboardViewController = dashboardNavigationViewController.childViewControllers[0] as! KPIsListTableViewController
+            dashboardViewController.model = ModelCoreKPI(model: model)
+            dashboardViewController.loadKPIsFromServer()
+            
+            let alertsNavigationViewController = tabBarController.viewControllers?[1] as! AlertsNavigationViewController
+            let alertsViewController = alertsNavigationViewController.childViewControllers[0] as! AlertsListTableViewController
+            alertsViewController.model = ModelCoreKPI(model: model)
+            
+            let teamListNavigationViewController = tabBarController.viewControllers?[2] as! TeamListViewController
+            let teamListController = teamListNavigationViewController.childViewControllers[0] as! MemberListTableViewController
+            teamListController.model = ModelCoreKPI(model: model)
+            
+            present(tabBarController, animated: true, completion: nil)
         }
     }
     
-    func showAlert(errorMessage: String) {
-        let alertController = UIAlertController(title: "Registration error", message: errorMessage, preferredStyle: .alert)
+    func showAlert(title: String, errorMessage: String) {
+        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        self.present(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
-    
-    //MARK: registerDelegate
-    
-    func updateLoginAndPassword(email: String, password: String) {
-        self.email = email
-        self.password = password
-    }
-    
-    //MARK: UIImagePickerControllerDelegate methods
-    
-    func imagePickerFromPhotoLibrary() {
+}
+
+//MARK: UIImagePickerControllerDelegate methods
+extension NewProfileTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        func imagePickerFromPhotoLibrary() {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.allowsEditing = false
             imagePicker.sourceType = .photoLibrary
             
-            self.present(imagePicker, animated: true, completion: nil)
+            present(imagePicker, animated: true, completion: nil)
         }
     }
     
@@ -183,7 +142,7 @@ class NewProfileTableViewController: UITableViewController, UIImagePickerControl
             imagePicker.allowsEditing = false
             imagePicker.sourceType = .camera
             
-            self.present(imagePicker, animated: true, completion: nil)
+            present(imagePicker, animated: true, completion: nil)
         }
     }
     
@@ -193,12 +152,14 @@ class NewProfileTableViewController: UITableViewController, UIImagePickerControl
         profilePhotoImageView.clipsToBounds = true
         if let image = profilePhotoImageView.image {
             let imageData: NSData = UIImagePNGRepresentation(image)! as NSData
-            self.profileImageBase64String = imageData.base64EncodedString(options: .lineLength64Characters)
+            profileImageBase64String = imageData.base64EncodedString(options: .lineLength64Characters)
         }
         dismiss(animated: true, completion: nil)
     }
-    
-    //MARK: - UITextFieldDelegate method
+}
+
+//MARK: - UITextFieldDelegate method
+extension NewProfileTableViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == firstNameTextField {
             lastNameTextField.becomeFirstResponder()
@@ -214,5 +175,12 @@ class NewProfileTableViewController: UITableViewController, UIImagePickerControl
         }
         return true
     }
-    
+}
+
+//MARK: registerDelegate
+extension NewProfileTableViewController: registerDelegate {
+    func updateLoginAndPassword(email: String, password: String) {
+        self.email = email
+        self.password = password
+    }
 }

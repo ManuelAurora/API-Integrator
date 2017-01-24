@@ -21,8 +21,7 @@ class AlertsNavigationViewController: UINavigationController, UITabBarController
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
-
+    
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         //let controllers = self.navigationController?.viewControllers
         //let controller = self.navigationController?.viewControllers[0] as! AlertsListTableViewController

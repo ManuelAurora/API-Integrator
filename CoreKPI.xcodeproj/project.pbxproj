@@ -83,6 +83,8 @@
 		A2B720981E2E4AFD00471E91 /* d3-funnel.js in Resources */ = {isa = PBXBuildFile; fileRef = A2B720971E2E4AFC00471E91 /* d3-funnel.js */; };
 		A2B7209A1E2E5F9900471E91 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B720991E2E5F9900471E91 /* OnboardingPageViewController.swift */; };
 		A2B7209C1E2E5FBC00471E91 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B7209B1E2E5FBC00471E91 /* OnboardingViewController.swift */; };
+		A2BE454F1E36455300033F37 /* GetModelFromServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2BE454E1E36455300033F37 /* GetModelFromServer.swift */; };
+		A2BE45511E36500800033F37 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2BE45501E36500800033F37 /* LoginRequest.swift */; };
 		A2C9ABD71E2F455D00623659 /* ChartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C9ABD61E2F455D00623659 /* ChartTableViewCell.swift */; };
 		A2C9ABDA1E2F5BD600623659 /* positiveBar.html in Resources */ = {isa = PBXBuildFile; fileRef = A2C9ABD91E2F5BD600623659 /* positiveBar.html */; };
 		A2C9ABDC1E2F5BFE00623659 /* positiveBar.css in Resources */ = {isa = PBXBuildFile; fileRef = A2C9ABDB1E2F5BFE00623659 /* positiveBar.css */; };
@@ -92,6 +94,16 @@
 		A2C9FD261E13E1CD00433D43 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD251E13E1CD00433D43 /* style.css */; };
 		A2C9FD291E13E1D400433D43 /* Rd3.v3.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */; };
 		A2C9FD2A1E13E1D400433D43 /* round.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD281E13E1D400433D43 /* round.js */; };
+		A2E6A40A1E3723BF00391703 /* RecoveryPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A4091E3723BF00391703 /* RecoveryPassword.swift */; };
+		A2E6A40C1E37284100391703 /* RegistrationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A40B1E37284100391703 /* RegistrationRequest.swift */; };
+		A2E6A40E1E3734BB00391703 /* SendInvation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A40D1E3734BB00391703 /* SendInvation.swift */; };
+		A2E6A4101E37380900391703 /* GetNumberOfInvations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A40F1E37380900391703 /* GetNumberOfInvations.swift */; };
+		A2E6A4121E373D7400391703 /* GetMemberList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A4111E373D7400391703 /* GetMemberList.swift */; };
+		A2E6A4141E37469E00391703 /* ChangeProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A4131E37469E00391703 /* ChangeProfile.swift */; };
+		A2E6A4161E3748B800391703 /* ChangeUserRights.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A4151E3748B800391703 /* ChangeUserRights.swift */; };
+		A2E6A4181E374ACA00391703 /* ChangeNickname.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A4171E374ACA00391703 /* ChangeNickname.swift */; };
+		A2E6A41A1E37504D00391703 /* GetKPIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A4191E37504D00391703 /* GetKPIs.swift */; };
+		A2E6A41C1E37532500391703 /* GetUser'sKPIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A41B1E37532500391703 /* GetUser'sKPIs.swift */; };
 		A2EFE2C61E2DF0A500BA2956 /* ChartsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EFE2C51E2DF0A500BA2956 /* ChartsPageViewController.swift */; };
 		A2EFE2C81E2DF0E300BA2956 /* TableViewChartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EFE2C71E2DF0E300BA2956 /* TableViewChartController.swift */; };
 		A2EFE2CA1E2E390900BA2956 /* Lines.html in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2C91E2E390900BA2956 /* Lines.html */; };
@@ -223,6 +235,8 @@
 		A2B720971E2E4AFC00471E91 /* d3-funnel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "d3-funnel.js"; path = "Graphics/Funnel/d3-funnel.js"; sourceTree = "<group>"; };
 		A2B720991E2E5F9900471E91 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnboardingPageViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/OnboardingPageViewController.swift"; sourceTree = "<group>"; };
 		A2B7209B1E2E5FBC00471E91 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnboardingViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/OnboardingViewController.swift"; sourceTree = "<group>"; };
+		A2BE454E1E36455300033F37 /* GetModelFromServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetModelFromServer.swift; path = Services/GetModelFromServer.swift; sourceTree = "<group>"; };
+		A2BE45501E36500800033F37 /* LoginRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginRequest.swift; path = Services/LoginRequest.swift; sourceTree = "<group>"; };
 		A2C9ABD61E2F455D00623659 /* ChartTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChartTableViewCell.swift; path = CustomTableViewCells/ChartTableViewCell.swift; sourceTree = "<group>"; };
 		A2C9ABD91E2F5BD600623659 /* positiveBar.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = positiveBar.html; path = Graphics/PositiveBar/positiveBar.html; sourceTree = "<group>"; };
 		A2C9ABDB1E2F5BFE00623659 /* positiveBar.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = positiveBar.css; path = Graphics/PositiveBar/positiveBar.css; sourceTree = "<group>"; };
@@ -232,6 +246,16 @@
 		A2C9FD251E13E1CD00433D43 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = style.css; path = "Graphics/Круговой/css/style.css"; sourceTree = "<group>"; };
 		A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Rd3.v3.min.js; path = "Graphics/Круговой/js/Rd3.v3.min.js"; sourceTree = "<group>"; };
 		A2C9FD281E13E1D400433D43 /* round.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = round.js; path = "Graphics/Круговой/js/round.js"; sourceTree = "<group>"; };
+		A2E6A4091E3723BF00391703 /* RecoveryPassword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecoveryPassword.swift; path = Services/RecoveryPassword.swift; sourceTree = "<group>"; };
+		A2E6A40B1E37284100391703 /* RegistrationRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationRequest.swift; path = Services/RegistrationRequest.swift; sourceTree = "<group>"; };
+		A2E6A40D1E3734BB00391703 /* SendInvation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SendInvation.swift; path = Services/SendInvation.swift; sourceTree = "<group>"; };
+		A2E6A40F1E37380900391703 /* GetNumberOfInvations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetNumberOfInvations.swift; path = Services/GetNumberOfInvations.swift; sourceTree = "<group>"; };
+		A2E6A4111E373D7400391703 /* GetMemberList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetMemberList.swift; path = Services/GetMemberList.swift; sourceTree = "<group>"; };
+		A2E6A4131E37469E00391703 /* ChangeProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangeProfile.swift; path = Services/ChangeProfile.swift; sourceTree = "<group>"; };
+		A2E6A4151E3748B800391703 /* ChangeUserRights.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangeUserRights.swift; path = Services/ChangeUserRights.swift; sourceTree = "<group>"; };
+		A2E6A4171E374ACA00391703 /* ChangeNickname.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangeNickname.swift; path = Services/ChangeNickname.swift; sourceTree = "<group>"; };
+		A2E6A4191E37504D00391703 /* GetKPIs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetKPIs.swift; path = Services/GetKPIs.swift; sourceTree = "<group>"; };
+		A2E6A41B1E37532500391703 /* GetUser'sKPIs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "GetUser'sKPIs.swift"; path = "Services/GetUser'sKPIs.swift"; sourceTree = "<group>"; };
 		A2EFE2C51E2DF0A500BA2956 /* ChartsPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChartsPageViewController.swift; path = CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift; sourceTree = "<group>"; };
 		A2EFE2C71E2DF0E300BA2956 /* TableViewChartController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewChartController.swift; path = CoreKPI/ViewControllers/DashBoard/TableViewChartController.swift; sourceTree = "<group>"; };
 		A2EFE2C91E2E390900BA2956 /* Lines.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = Lines.html; path = Graphics/Lines/Lines.html; sourceTree = "<group>"; };
@@ -351,6 +375,18 @@
 			isa = PBXGroup;
 			children = (
 				A27820961E001530009F83DB /* RequestServise.swift */,
+				A2BE45501E36500800033F37 /* LoginRequest.swift */,
+				A2BE454E1E36455300033F37 /* GetModelFromServer.swift */,
+				A2E6A4091E3723BF00391703 /* RecoveryPassword.swift */,
+				A2E6A40B1E37284100391703 /* RegistrationRequest.swift */,
+				A2E6A40D1E3734BB00391703 /* SendInvation.swift */,
+				A2E6A40F1E37380900391703 /* GetNumberOfInvations.swift */,
+				A2E6A4111E373D7400391703 /* GetMemberList.swift */,
+				A2E6A4131E37469E00391703 /* ChangeProfile.swift */,
+				A2E6A4151E3748B800391703 /* ChangeUserRights.swift */,
+				A2E6A4171E374ACA00391703 /* ChangeNickname.swift */,
+				A2E6A4191E37504D00391703 /* GetKPIs.swift */,
+				A2E6A41B1E37532500391703 /* GetUser'sKPIs.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -816,6 +852,7 @@
 				A21EDDF71E23A709001DE74C /* KPIList.swift in Sources */,
 				A297F5C81E0823D400F85963 /* NewProfileTableViewController.swift in Sources */,
 				A2EFE2C81E2DF0E300BA2956 /* TableViewChartController.swift in Sources */,
+				A2E6A41A1E37504D00391703 /* GetKPIs.swift in Sources */,
 				A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */,
 				A2279D821E14E86400669EB0 /* TeamListNavigationViewController.swift in Sources */,
 				A274DC111E082617008CBF36 /* MemberListTableViewController.swift in Sources */,
@@ -823,11 +860,15 @@
 				A2ACBD3F1E0D12280079EF3D /* AlertsListTableViewCell.swift in Sources */,
 				A20B6BD21E31F62800FAF86A /* User's KPI.swift in Sources */,
 				A297F5BB1E08234500F85963 /* faqTableViewController.swift in Sources */,
+				A2E6A40A1E3723BF00391703 /* RecoveryPassword.swift in Sources */,
+				A2E6A4161E3748B800391703 /* ChangeUserRights.swift in Sources */,
 				A297F5BA1E08234500F85963 /* faqDetailViewController.swift in Sources */,
+				A2E6A41C1E37532500391703 /* GetUser'sKPIs.swift in Sources */,
 				A21B46C91E22B046000890D3 /* iOSChartsTestViewController.swift in Sources */,
 				A26408F41E2239910034EEC2 /* ReportAndViewTableViewCell.swift in Sources */,
 				A22302C31E1F96B900C9D0B4 /* ReminderViewTableViewController.swift in Sources */,
 				A2A940CB1E1E70740088C7F1 /* UINavigationBurExtension.swift in Sources */,
+				A2E6A40E1E3734BB00391703 /* SendInvation.swift in Sources */,
 				A20B6BD01E31F5EC00FAF86A /* IntegratedKPI.swift in Sources */,
 				A2ACBD3B1E0D11AA0079EF3D /* AlertsListTableViewController.swift in Sources */,
 				A297F5D11E08241900F85963 /* MemberInfoTableViewCell.swift in Sources */,
@@ -845,11 +886,16 @@
 				A258A70D1E21177000FBFBDF /* SelectIntegratedServicesViewController.swift in Sources */,
 				A297F5C91E0823D400F85963 /* RecoveryPasswordViewController.swift in Sources */,
 				A26408F81E2280160034EEC2 /* WebViewChartViewController.swift in Sources */,
+				A2E6A4101E37380900391703 /* GetNumberOfInvations.swift in Sources */,
 				A2F0B1181E0C1B110095580B /* CoreKPIDelegates.swift in Sources */,
+				A2BE45511E36500800033F37 /* LoginRequest.swift in Sources */,
+				A2E6A4141E37469E00391703 /* ChangeProfile.swift in Sources */,
 				A297F5D71E08244800F85963 /* AnswerFaqTableViewCell.swift in Sources */,
 				A297F5CA1E0823D400F85963 /* RegisterViewController.swift in Sources */,
+				A2E6A4181E374ACA00391703 /* ChangeNickname.swift in Sources */,
 				A20045671E35D75C0019A78D /* LaunchViewController.swift in Sources */,
 				A27820971E001530009F83DB /* RequestServise.swift in Sources */,
+				A2E6A4121E373D7400391703 /* GetMemberList.swift in Sources */,
 				A278206E1E001503009F83DB /* CoreKPI.xcdatamodeld in Sources */,
 				A297F5D81E08244800F85963 /* faqListTableViewCell.swift in Sources */,
 				A26408F21E22394F0034EEC2 /* ReportAndViewKPITableViewController.swift in Sources */,
@@ -859,6 +905,7 @@
 				A21AEEF21E28AFF200577F4B /* KPIColourTableViewCell.swift in Sources */,
 				A2C9ABD71E2F455D00623659 /* ChartTableViewCell.swift in Sources */,
 				A297F5E01E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift in Sources */,
+				A2E6A40C1E37284100391703 /* RegistrationRequest.swift in Sources */,
 				A261D9181E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift in Sources */,
 				A297F5E11E08248000F85963 /* TypeAccountTableViewCell.swift in Sources */,
 				A2B7209A1E2E5F9900471E91 /* OnboardingPageViewController.swift in Sources */,
@@ -877,6 +924,7 @@
 				A22302C51E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift in Sources */,
 				A2425CB41E1CE8EE00DFDF91 /* UIImageExtension.swift in Sources */,
 				A2A215531E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift in Sources */,
+				A2BE454F1E36455300033F37 /* GetModelFromServer.swift in Sources */,
 				A27820661E001503009F83DB /* AppDelegate.swift in Sources */,
 				A2ACBD411E0D1DFA0079EF3D /* KPIsListTableViewController.swift in Sources */,
 				A297F5CD1E0823D400F85963 /* TypeOfAccountTableViewController.swift in Sources */,

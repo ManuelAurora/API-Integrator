@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChageNameTableViewController: UITableViewController, updateModelDelegate, updateProfileDelegate, updateNicknameDelegate {
+class ChageNameTableViewController: UITableViewController {
     
     var model: ModelCoreKPI!
     var profile: Team!
@@ -54,7 +54,7 @@ class ChageNameTableViewController: UITableViewController, updateModelDelegate, 
                 sendNicknameToServer(nickName: nickname)
                 profile.nickname = nickname
                 
-                //debug
+                //debug ->
                 do {
                     try context.save()
                 } catch {
@@ -62,6 +62,7 @@ class ChageNameTableViewController: UITableViewController, updateModelDelegate, 
                     return
                 }
                 self.navigationController!.popViewController(animated: true)
+                //<- debug
                 
             } else {
                 self.navigationController!.popViewController(animated: true)
@@ -71,39 +72,21 @@ class ChageNameTableViewController: UITableViewController, updateModelDelegate, 
     
     func sendNicknameToServer(nickName: String) {
         
-        self.request = Request(model: model)
-        let data: [String : Any] = ["user_id" : profile.userID, "nickname" : nickName]
-        
-        request.getJson(category: "/team/setNickName", data: data,
-                        success: { json in
-                            self.parsingJson(json: json)
-        },
-                        failure: { (error) in
-                            print("Could not send profile to the server")
-        })
-    }
-    
-    func parsingJson(json: NSDictionary) {
-        
-        if let successKey = json["success"] as? Int {
-            if successKey == 0 {
-                let errorMessage = json["message"] as! String
-                print("Json error message: \(errorMessage)")
-                let alertController = UIAlertController(title: "Error set nickname", message: "\(errorMessage)", preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alertController, animated: true, completion: nil)
-            } else {
-                do {
-                    try context.save()
-                } catch {
-                    print(error)
-                    return
-                }
-                self.navigationController!.popViewController(animated: true)
+        let request = ChangeNickname(model: model)
+        request.changeNickName(nickname: nickName, success: {
+            do {
+                try self.context.save()
+            } catch {
+                print(error)
+                return
             }
-        } else {
-            print("Json file is broken!")
+            self.navigationController!.popViewController(animated: true)
+        }, failure: { error in
+            let alertController = UIAlertController(title: "Error set nickname", message: "\(error)", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
         }
+        )
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -120,21 +103,25 @@ class ChageNameTableViewController: UITableViewController, updateModelDelegate, 
             delegate.updateProfile(profile: self.profile)
         }
     }
-    
-    //MARK: - updateModelDelegate method
+}
+
+//MARK: - updateModelDelegate method
+extension ChageNameTableViewController: updateModelDelegate {
     func updateModel(model: ModelCoreKPI) {
         self.model = ModelCoreKPI(model: model)
     }
-    
-    //MARK: - updateProfileDelegate method
+}
+
+//MARK: - updateProfileDelegate method
+extension ChageNameTableViewController: updateProfileDelegate {
     func updateProfile(profile: Team) {
         self.profile = profile
     }
-    func updateProfilePhoto() {
-    }
-    
-    //MARK: - updateNickNameDelegate method
+}
+
+//MARK: - updateNickNameDelegate method
+extension ChageNameTableViewController: updateNicknameDelegate {
     func updateNickname(nickname: String) {
-        self.NameLabel.text = nickname
+        NameLabel.text = nickname
     }
 }

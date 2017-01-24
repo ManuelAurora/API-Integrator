@@ -9,7 +9,7 @@
 import UIKit
 import MessageUI
 
-class AboutTableViewController: UITableViewController, MFMailComposeViewControllerDelegate {
+class AboutTableViewController: UITableViewController   {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +21,6 @@ class AboutTableViewController: UITableViewController, MFMailComposeViewControll
     }
 
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -57,7 +56,7 @@ class AboutTableViewController: UITableViewController, MFMailComposeViewControll
             case 0:
                 let defaultText = URL(string: "http://corekpi.com")
                 let activityController = UIActivityViewController(activityItems: [defaultText as Any], applicationActivities: nil)
-                self.present(activityController, animated: true, completion: nil)
+                present(activityController, animated: true, completion: nil)
             case 1:
                 if let url = URL(string: "http://apple.com") {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -87,8 +86,10 @@ class AboutTableViewController: UITableViewController, MFMailComposeViewControll
         header.textLabel?.textColor = UIColor.lightGray
     }
     
-    //MARK: - Send Email
-    
+}
+
+//MARK: - Send Email
+extension AboutTableViewController: MFMailComposeViewControllerDelegate {
     func sendEmail() {
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
@@ -105,5 +106,4 @@ class AboutTableViewController: UITableViewController, MFMailComposeViewControll
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true)
     }
-
 }

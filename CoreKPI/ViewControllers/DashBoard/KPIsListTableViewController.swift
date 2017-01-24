@@ -17,7 +17,7 @@ enum Source: String {
 
 class KPIsListTableViewController: UITableViewController, updateKPIListDelegate, KPIListButtonCellDelegate {
     
-    var request: Request!
+    //var request: Request!
     var model: ModelCoreKPI! = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, nickname: nil, typeOfAccount: .Manager))
     
     var updateProfileDelegate: updateProfileDelegate!
@@ -27,7 +27,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.request = Request(model: self.model)
+        //self.request = Request(model: self.model)
         if model.profile?.typeOfAccount != TypeOfAccount.Admin {
             self.navigationItem.rightBarButtonItem = nil
         }
@@ -59,7 +59,6 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     }
     
     // MARK: - Table view data source
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -149,112 +148,41 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     //MARK: -  Pull to refresh method
     func refresh(sender:AnyObject)
     {
-        //load KPI from server
         loadKPIsFromServer()
     }
     
     //MARK: - Load KPIs from server methods
     //MARK: Load all KPIs
     func loadKPIsFromServer(){
-        self.request = Request(model: model)
-        let data: [String : Any] = [:]
-        
-        request.getJson(category: "/kpi/getKPIList", data: data,
-                        success: { json in
-                            self.parsingJson(json: json)
-        },
-                        failure: { (error) in
-                            print(error)
-                            self.refreshControl?.endRefreshing()
-                            self.showAlert(title: "Sorry!", message: error)
-                            self.tableView.reloadData()
-        })
-    }
-    
-    func parsingJson(json: NSDictionary) {
-        
-        if let successKey = json["success"] as? Int {
-            if successKey == 1 {
-                if let dataKey = json["data"] as? NSArray {
-                    self.model.kpis.removeAll()
-                    var KPIListEndParsing = false
-                    var kpi = 0
-                    while KPIListEndParsing == false {
-                        var active = 0
-                        var id = 0
-                        let typeOfKPI = TypeOfKPI.createdKPI
-                        
-                        //var image: ImageForKPIList!
-                        
-                        let source = Source.User
-                        var department: String
-                        var kpi_name: String
-                        var descriptionOfKPI: String?
-                        var executant: Int
-                        let timeInterval = TimeInterval.Daily.rawValue
-                        var timeZone: String
-                        var deadline: String
-                        var number: [(String, Double)]
-                        
-                        
-                        if let kpiData = dataKey[kpi] as? NSDictionary {
-                            active = (kpiData["active"] as? Int) ?? 0
-                            id = (kpiData["id"] as? Int) ?? 0
-                            kpi_name = (kpiData["name"] as? String) ?? "Error name"
-                            department = (kpiData["department"] as? String) ?? "Error department"
-                            descriptionOfKPI = kpiData["desc"] as? String
-                            executant = (self.model.profile?.userId)!
-                            timeZone = "no"
-                            deadline = (kpiData["datetime"] as? String)!
-                            number = []
-                            //debug
-                            //image = ImageForKPIList.Increases
-                            
-                            print("id: \(id); active: \(active)")
-                            
-                            let createdKPI = CreatedKPI(source: source, department: Departments(rawValue: department)!, KPI: kpi_name, descriptionOfKPI: descriptionOfKPI, executant: executant, timeInterval: TimeInterval(rawValue: timeInterval)!, timeZone: timeZone, deadline: deadline, number: number)
-                            let kpi = KPI(typeOfKPI: typeOfKPI, integratedKPI: nil, createdKPI: createdKPI, imageBacgroundColour: UIColor.clear)
-                            self.model.kpis.append(kpi)
-                            
-                        }
-                        
-                        kpi+=1
-                        if dataKey.count == kpi {
-                            KPIListEndParsing = true
-                        }
-                    }
-                    self.tableView.reloadData()
-                    
-                } else {
-                    print("Json data is broken")
-                }
-            } else {
-                let errorMessage = json["message"] as! String
-                print("Json error message: \(errorMessage)")
-                showAlert(title: "Error geting KPI", message: errorMessage)
-            }
-        } else {
-            print("Json file is broken!")
+        let request = GetKPIs(model: model)
+        request.getKPIsFromServer(success: { kpi in
+            self.model.kpis = kpi
+            self.tableView.reloadData()
+            self.refreshControl?.endRefreshing()
+        }, failure: { error in
+            print(error)
+            self.refreshControl?.endRefreshing()
+            self.showAlert(title: "Sorry!", message: error)
+            self.tableView.reloadData()
         }
-        refreshControl?.endRefreshing()
+        )
     }
     
     //MARK: Load User's KPI
     func loadUsersKPI(userID: Int) {
-        self.model.kpis.removeAll()
-        self.request = Request(model: model)
-        let data: [String : Any] = ["user_id": userID]
         
-        request.getJson(category: "/kpi/getUserKPIs", data: data,
-                        success: { json in
-                            self.parsingJson(json: json)
-        },
-                        failure: { (error) in
-                            self.refreshControl?.endRefreshing()
-                            print(error)
-                            self.showAlert(title: "Sorry!", message: error)
-                            self.tableView.reloadData()
-        })
+        let request = GetUserKPIs(model: model)
+        request.getUserKPIs(userID: userID, success: { kpi in
+            self.model.kpis = kpi
+            self.tableView.reloadData()
+            self.refreshControl?.endRefreshing()
+        }, failure: { error in
+            print(error)
+            self.refreshControl?.endRefreshing()
+            self.showAlert(title: "Sorry!", message: error)
+            self.tableView.reloadData()
+        }
+        )
     }
     
     //MARK: - Show alert method
@@ -278,7 +206,7 @@ class KPIsListTableViewController: UITableViewController, updateKPIListDelegate,
     //MARK: - KPIListButtonCellDelegate methods
     func editButtonDidTaped(sender: UIButton) {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ReportAndViewKPI") as! ReportAndViewKPITableViewController
-        destinatioVC.model = self.model
+        destinatioVC.model = ModelCoreKPI(model: model)
         destinatioVC.kpiIndex = sender.tag
         destinatioVC.buttonDidTaped = ButtonDidTaped.Edit
         

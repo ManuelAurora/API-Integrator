@@ -25,12 +25,10 @@ enum TypeOfKPIView: String {
     case Numbers
 }
 
-
-
-class ReportAndViewKPITableViewController: UITableViewController, updateSettingsDelegate {
+class ReportAndViewKPITableViewController: UITableViewController {
     
     var model: ModelCoreKPI!
-    var request: Request!
+    //var request: Request!
     weak var KPIListVC: KPIsListTableViewController!
     var delegate: updateKPIListDelegate!
     
@@ -365,7 +363,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             self.navigationItem.rightBarButtonItem?.title = "Save"
             self.navigationItem.title = "KPI Edit"
             tableView.isScrollEnabled = true
-            self.request = Request(model: self.model)
+            //self.request = Request(model: self.model)
             self.createExecutantArray()
             let nc = NotificationCenter.default
             nc.addObserver(forName:profileDidChangeNotification, object:nil, queue:nil, using:catchNotification)
@@ -376,7 +374,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         }
         tableView.autoresizesSubviews = true
         tableView.tableFooterView = UIView(frame: .zero)
-        self.updateKPIInfo()
+        updateKPIInfo()
     }
     
     override func didReceiveMemoryWarning() {
@@ -386,32 +384,32 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
     func updateKPIInfo() {
         switch self.model.kpis[kpiIndex].typeOfKPI {
         case .createdKPI:
-            let createdKPI = self.model.kpis[kpiIndex].createdKPI
+            let createdKPI = model.kpis[kpiIndex].createdKPI
             //Colour
-            var tempColourDictionary = self.colourDictionary
+            var tempColourDictionary = colourDictionary
             for _ in 0..<tempColourDictionary.count {
                 let temp = tempColourDictionary.popFirst()
-                if temp?.value == self.model.kpis[kpiIndex].imageBacgroundColour {
-                    self.colour = (temp?.key)!
+                if temp?.value == model.kpis[kpiIndex].imageBacgroundColour {
+                    colour = (temp?.key)!
                 }
             }
             //KPI name
-            self.kpiName = (createdKPI?.KPI)!
+            kpiName = (createdKPI?.KPI)!
             //KPI note
-            self.kpiDescription = createdKPI?.descriptionOfKPI
+            kpiDescription = createdKPI?.descriptionOfKPI
             //KPI department
-            self.department = (createdKPI?.department)!
+            department = (createdKPI?.department)!
             //Time interval
-            self.timeInterval = (createdKPI?.timeInterval)!
+            timeInterval = (createdKPI?.timeInterval)!
             //Time Zone
-            self.timeZone = (createdKPI?.timeZone)!
+            timeZone = (createdKPI?.timeZone)!
             //Deadline
-            self.deadline = (createdKPI?.deadline)!
+            deadline = (createdKPI?.deadline)!
             //Charts
-            self.KPIOneView = self.model.kpis[kpiIndex].KPIViewOne
-            self.KPITwoView = self.model.kpis[kpiIndex].KPIViewTwo!
-            self.typeOfChartOne = self.model.kpis[kpiIndex].KPIChartOne
-            self.typeOfChartTwo = self.model.kpis[kpiIndex].KPIChartTwo
+            KPIOneView = model.kpis[kpiIndex].KPIViewOne
+            KPITwoView = model.kpis[kpiIndex].KPIViewTwo!
+            typeOfChartOne = model.kpis[kpiIndex].KPIChartOne
+            typeOfChartTwo = model.kpis[kpiIndex].KPIChartTwo
             
         case .IntegratedKPI:
             //let integratedKPI = self.kpiArray[kpiIndex].integratedKPI
@@ -442,7 +440,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             let executantName = profile.firstName! + " " + profile.lastName!
             executantArray.append((executantName, false))
         }
-        let createdKPI = self.model.kpis[kpiIndex].createdKPI
+        let createdKPI = model.kpis[kpiIndex].createdKPI
         executant = createdKPI?.executant
     }
     
@@ -517,7 +515,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                 case .Manager:
                     switch section {
                     case 0:
-                        let interval = self.model.kpis[kpiIndex].createdKPI?.timeInterval
+                        let interval = model.kpis[kpiIndex].createdKPI?.timeInterval
                         switch interval! {
                         case .Daily:
                             return 4
@@ -552,24 +550,24 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                 cell.descriptionOfCell.text = ""
                 switch indexPath.row {
                 case 0:
-                    cell.headerOfCell.text = self.model.kpis[kpiIndex].createdKPI?.descriptionOfKPI ?? "No description"
+                    cell.headerOfCell.text = model.kpis[kpiIndex].createdKPI?.descriptionOfKPI ?? "No description"
                     cell.headerOfCell.textColor = UIColor.gray
                     cell.headerOfCell.numberOfLines = 0
                 case 1:
-                    cell.headerOfCell.text = self.model.kpis[kpiIndex].createdKPI?.department.rawValue
+                    cell.headerOfCell.text = model.kpis[kpiIndex].createdKPI?.department.rawValue
                 case 2:
-                    cell.headerOfCell.text = self.model.kpis[kpiIndex].createdKPI?.timeInterval.rawValue
+                    cell.headerOfCell.text = model.kpis[kpiIndex].createdKPI?.timeInterval.rawValue
                 case 3:
-                    cell.headerOfCell.text = "Time zone: " + (self.model.kpis[kpiIndex].createdKPI?.timeZone)!
+                    cell.headerOfCell.text = "Time zone: " + (model.kpis[kpiIndex].createdKPI?.timeZone)!
                 case 4:
-                    cell.headerOfCell.text = self.model.kpis[kpiIndex].createdKPI?.deadline
+                    cell.headerOfCell.text = model.kpis[kpiIndex].createdKPI?.deadline
                 default:
                     break
                 }
             case 1:
                 cell.selectionStyle = .default
                 cell.headerOfCell.text = "My Report"
-                if self.report == nil {
+                if report == nil {
                     cell.descriptionOfCell.text = "Add report"
                 } else {
                     let formatter: NumberFormatter = NumberFormatter()
@@ -586,7 +584,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
             }
         case .Edit:
             cell.accessoryType = .disclosureIndicator
-            switch self.model.kpis[kpiIndex].typeOfKPI {
+            switch model.kpis[kpiIndex].typeOfKPI {
             case .IntegratedKPI: break
                 //                switch section {
                 //                case 0:
@@ -603,8 +601,15 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                     case 0:
                         let colourCell = tableView.dequeueReusableCell(withIdentifier: "SelectColourCell", for: indexPath) as! KPIColourTableViewCell
                         colourCell.headerOfCell.text = "Colour"
-                        colourCell.descriptionOfCell.text = self.colour.rawValue
-                        colourCell.colourView.backgroundColor = self.model.kpis[kpiIndex].imageBacgroundColour
+                        colourCell.descriptionOfCell.text = colour.rawValue
+                        for color in colourDictionary {
+                            if color.key == colour {
+                                colourCell.colourView.backgroundColor = color.value
+                                colourCell.prepareForReuse()
+                                return colourCell
+                            }
+                        }
+                        colourCell.colourView.backgroundColor = UIColor.clear
                         colourCell.prepareForReuse()
                         return colourCell
                     case 1:
@@ -612,15 +617,15 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                         cell.descriptionOfCell.text = ""
                         switch indexPath.row {
                         case 0:
-                            cell.headerOfCell.text = self.kpiName
+                            cell.headerOfCell.text = kpiName
                         case 1:
-                            cell.headerOfCell.text = self.kpiDescription ?? "No description"
+                            cell.headerOfCell.text = kpiDescription ?? "No description"
                             cell.headerOfCell.numberOfLines = 0
-                            if self.kpiDescription == nil {
+                            if kpiDescription == nil {
                                 cell.headerOfCell.textColor = UIColor.lightGray
                             }
                         case 2:
-                            cell.headerOfCell.text = (self.department?.rawValue)! + " Department"
+                            cell.headerOfCell.text = (department?.rawValue)! + " Department"
                         default:
                             break
                         }
@@ -630,28 +635,27 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Numbers && KPITwoView == .Graph {
                                 switch indexPath.row {
                                 case 0:
-                                    //let createdKPI = self.model.kpis[kpiIndex].createdKPI
                                     cell.headerOfCell.text = "Executant"
-                                    cell.descriptionOfCell.text = getExecutantName(userID: executant) //?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
+                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)
                                 case 1:
                                     cell.headerOfCell.text = "Time interval"
-                                    cell.descriptionOfCell.text = self.timeInterval.rawValue
+                                    cell.descriptionOfCell.text = timeInterval.rawValue
                                 case 2:
                                     cell.headerOfCell.text = "Time zone"
-                                    cell.descriptionOfCell.text = self.timeZone
+                                    cell.descriptionOfCell.text = timeZone
                                 case 3:
                                     cell.headerOfCell.text = "Deadline"
-                                    cell.descriptionOfCell.text = self.deadline
+                                    cell.descriptionOfCell.text = deadline
                                     cell.accessoryType = .none
                                 case 4:
                                     cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = self.KPIOneView.rawValue
+                                    cell.descriptionOfCell.text = KPIOneView.rawValue
                                 case 5:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
+                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
                                 case 6:
                                     cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue
+                                    cell.descriptionOfCell.text = typeOfChartTwo?.rawValue
                                 default:
                                     break
                                 }
@@ -659,28 +663,27 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Graph && KPITwoView == .Numbers {
                                 switch indexPath.row {
                                 case 0:
-                                    //let createdKPI = self.model.kpis[kpiIndex].createdKPI
                                     cell.headerOfCell.text = "Executant"
-                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)// ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
+                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)
                                 case 1:
                                     cell.headerOfCell.text = "Time interval"
-                                    cell.descriptionOfCell.text = self.timeInterval.rawValue
+                                    cell.descriptionOfCell.text = timeInterval.rawValue
                                 case 2:
                                     cell.headerOfCell.text = "Time zone"
-                                    cell.descriptionOfCell.text = self.timeZone
+                                    cell.descriptionOfCell.text = timeZone
                                 case 3:
                                     cell.headerOfCell.text = "Deadline"
-                                    cell.descriptionOfCell.text = self.deadline
+                                    cell.descriptionOfCell.text = deadline
                                     cell.accessoryType = .none
                                 case 4:
                                     cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = self.KPIOneView.rawValue
+                                    cell.descriptionOfCell.text = KPIOneView.rawValue
                                 case 5:
                                     cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
+                                    cell.descriptionOfCell.text = typeOfChartOne?.rawValue
                                 case 6:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
+                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
                                 default:
                                     break
                                 }
@@ -688,31 +691,30 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Graph && KPITwoView == .Graph {
                                 switch indexPath.row {
                                 case 0:
-                                    //let createdKPI = self.model.kpis[kpiIndex].createdKPI
                                     cell.headerOfCell.text = "Executant"
-                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)// ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
+                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)
                                 case 1:
                                     cell.headerOfCell.text = "Time interval"
-                                    cell.descriptionOfCell.text = self.timeInterval.rawValue
+                                    cell.descriptionOfCell.text = timeInterval.rawValue
                                 case 2:
                                     cell.headerOfCell.text = "Time zone"
-                                    cell.descriptionOfCell.text = self.timeZone
+                                    cell.descriptionOfCell.text = timeZone
                                 case 3:
                                     cell.headerOfCell.text = "Deadline"
-                                    cell.descriptionOfCell.text = self.deadline
+                                    cell.descriptionOfCell.text = deadline
                                     cell.accessoryType = .none
                                 case 4:
                                     cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = self.KPIOneView.rawValue
+                                    cell.descriptionOfCell.text = KPIOneView.rawValue
                                 case 5:
                                     cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
+                                    cell.descriptionOfCell.text = typeOfChartOne?.rawValue
                                 case 6:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
+                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
                                 case 7:
                                     cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue
+                                    cell.descriptionOfCell.text = typeOfChartTwo?.rawValue
                                 default:
                                     break
                                 }
@@ -722,47 +724,46 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Numbers && KPITwoView == .Graph {
                                 switch indexPath.row {
                                 case 0:
-                                    //let createdKPI = self.model.kpis[kpiIndex].createdKPI
                                     cell.headerOfCell.text = "Executant"
-                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)// ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
+                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)
                                 case 1:
                                     cell.headerOfCell.text = "Time interval"
-                                    cell.descriptionOfCell.text = self.timeInterval.rawValue
+                                    cell.descriptionOfCell.text = timeInterval.rawValue
                                 case 2:
                                     cell.headerOfCell.text = "Day"
                                     switch timeInterval {
                                     case .Monthly:
                                         if self.mounthlyInterval != nil {
-                                            if self.mounthlyInterval! > 28 {
-                                                cell.descriptionOfCell.text = "\(self.mounthlyInterval!) or last day"
+                                            if mounthlyInterval! > 28 {
+                                                cell.descriptionOfCell.text = "\(mounthlyInterval!) or last day"
                                             } else {
-                                                cell.descriptionOfCell.text = "\(self.mounthlyInterval!)"
+                                                cell.descriptionOfCell.text = "\(mounthlyInterval!)"
                                             }
                                             
                                         } else {
                                             cell.descriptionOfCell.text = "Add day"
                                         }
                                     case .Weekly:
-                                        cell.descriptionOfCell.text = self.weeklyInterval?.rawValue
+                                        cell.descriptionOfCell.text = weeklyInterval?.rawValue
                                     default:
                                         break
                                     }
                                 case 3:
                                     cell.headerOfCell.text = "Time zone"
-                                    cell.descriptionOfCell.text = self.timeZone
+                                    cell.descriptionOfCell.text = timeZone
                                 case 4:
                                     cell.headerOfCell.text = "Deadline"
-                                    cell.descriptionOfCell.text = self.deadline
+                                    cell.descriptionOfCell.text = deadline
                                     cell.accessoryType = .none
                                 case 5:
                                     cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = self.KPIOneView.rawValue
+                                    cell.descriptionOfCell.text = KPIOneView.rawValue
                                 case 6:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
+                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
                                 case 7:
                                     cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue
+                                    cell.descriptionOfCell.text = typeOfChartTwo?.rawValue
                                 default:
                                     break
                                 }
@@ -770,46 +771,45 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Graph && KPITwoView == .Numbers {
                                 switch indexPath.row {
                                 case 0:
-                                    //let createdKPI = self.model.kpis[kpiIndex].createdKPI
                                     cell.headerOfCell.text = "Executant"
-                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)// ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
+                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)
                                 case 1:
                                     cell.headerOfCell.text = "Time interval"
-                                    cell.descriptionOfCell.text = self.timeInterval.rawValue
+                                    cell.descriptionOfCell.text = timeInterval.rawValue
                                 case 2:
                                     cell.headerOfCell.text = "Day"
                                     switch timeInterval {
                                     case .Monthly:
                                         if self.mounthlyInterval != nil {
                                             if self.mounthlyInterval! > 28 {
-                                                cell.descriptionOfCell.text = "\(self.mounthlyInterval!) or last day"
+                                                cell.descriptionOfCell.text = "\(mounthlyInterval!) or last day"
                                             } else {
-                                                cell.descriptionOfCell.text = "\(self.mounthlyInterval!)"
+                                                cell.descriptionOfCell.text = "\(mounthlyInterval!)"
                                             }
                                         } else {
                                             cell.descriptionOfCell.text = "Add day"
                                         }
                                     case .Weekly:
-                                        cell.descriptionOfCell.text = self.weeklyInterval?.rawValue
+                                        cell.descriptionOfCell.text = weeklyInterval?.rawValue
                                     default:
                                         break
                                     }
                                 case 3:
                                     cell.headerOfCell.text = "Time zone"
-                                    cell.descriptionOfCell.text = self.timeZone
+                                    cell.descriptionOfCell.text = timeZone
                                 case 4:
                                     cell.headerOfCell.text = "Deadline"
-                                    cell.descriptionOfCell.text = self.deadline
+                                    cell.descriptionOfCell.text = deadline
                                     cell.accessoryType = .none
                                 case 5:
                                     cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = self.KPIOneView.rawValue
+                                    cell.descriptionOfCell.text = KPIOneView.rawValue
                                 case 6:
                                     cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
+                                    cell.descriptionOfCell.text = typeOfChartOne?.rawValue
                                 case 7:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
+                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
                                 default:
                                     break
                                 }
@@ -817,49 +817,48 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Graph && KPITwoView == .Graph {
                                 switch indexPath.row {
                                 case 0:
-                                    //let createdKPI = self.model.kpis[kpiIndex].createdKPI
                                     cell.headerOfCell.text = "Executant"
-                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)// ?? ((createdKPI?.executant.firstName)! + " " + (createdKPI?.executant.lastName)!)
+                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)
                                 case 1:
                                     cell.headerOfCell.text = "Time interval"
-                                    cell.descriptionOfCell.text = self.timeInterval.rawValue
+                                    cell.descriptionOfCell.text = timeInterval.rawValue
                                 case 2:
                                     cell.headerOfCell.text = "Day"
                                     switch timeInterval {
                                     case .Monthly:
                                         if self.mounthlyInterval != nil {
                                             if self.mounthlyInterval! > 28 {
-                                                cell.descriptionOfCell.text = "\(self.mounthlyInterval!) or last day"
+                                                cell.descriptionOfCell.text = "\(mounthlyInterval!) or last day"
                                             } else {
-                                                cell.descriptionOfCell.text = "\(self.mounthlyInterval!)"
+                                                cell.descriptionOfCell.text = "\(mounthlyInterval!)"
                                             }
                                         } else {
                                             cell.descriptionOfCell.text = "Add day"
                                         }
                                     case .Weekly:
-                                        cell.descriptionOfCell.text = self.weeklyInterval?.rawValue
+                                        cell.descriptionOfCell.text = weeklyInterval?.rawValue
                                     default:
                                         break
                                     }
                                 case 3:
                                     cell.headerOfCell.text = "Time zone"
-                                    cell.descriptionOfCell.text = self.timeZone
+                                    cell.descriptionOfCell.text = timeZone
                                 case 4:
                                     cell.headerOfCell.text = "Deadline"
-                                    cell.descriptionOfCell.text = self.deadline
+                                    cell.descriptionOfCell.text = deadline
                                     cell.accessoryType = .none
                                 case 5:
                                     cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = self.KPIOneView.rawValue
+                                    cell.descriptionOfCell.text = KPIOneView.rawValue
                                 case 6:
                                     cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
+                                    cell.descriptionOfCell.text = typeOfChartOne?.rawValue
                                 case 7:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
+                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
                                 case 8:
                                     cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue
+                                    cell.descriptionOfCell.text = typeOfChartTwo?.rawValue
                                 default:
                                     break
                                 }
@@ -869,7 +868,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                         break
                     }
                 case .Manager:
-                    switch self.timeInterval {
+                    switch timeInterval {
                     case .Daily:
                         switch indexPath.section {
                         case 0:
@@ -878,13 +877,13 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             cell.accessoryType = .none
                             switch indexPath.row {
                             case 0:
-                                cell.headerOfCell.text = (self.department?.rawValue)! + " Department"
+                                cell.headerOfCell.text = (department?.rawValue)! + " Department"
                             case 1:
-                                cell.headerOfCell.text = self.timeInterval.rawValue
+                                cell.headerOfCell.text = timeInterval.rawValue
                             case 2:
-                                cell.headerOfCell.text = "Time zone: " + self.timeZone
+                                cell.headerOfCell.text = "Time zone: " + timeZone
                             case 3:
-                                cell.headerOfCell.text = "Before " + self.deadline
+                                cell.headerOfCell.text = "Before " + deadline
                             default:
                                 break
                             }
@@ -896,13 +895,13 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                 switch indexPath.row {
                                 case 0:
                                     cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = self.KPIOneView.rawValue
+                                    cell.descriptionOfCell.text = KPIOneView.rawValue
                                 case 1:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
+                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
                                 case 2:
                                     cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue
+                                    cell.descriptionOfCell.text = typeOfChartTwo?.rawValue
                                 default:
                                     break
                                 }
@@ -911,13 +910,13 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                 switch indexPath.row {
                                 case 0:
                                     cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = self.KPIOneView.rawValue
+                                    cell.descriptionOfCell.text = KPIOneView.rawValue
                                 case 1:
                                     cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
+                                    cell.descriptionOfCell.text = typeOfChartOne?.rawValue
                                 case 2:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
+                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
                                 default:
                                     break
                                 }
@@ -926,16 +925,16 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                 switch indexPath.row {
                                 case 0:
                                     cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = self.KPIOneView.rawValue
+                                    cell.descriptionOfCell.text = KPIOneView.rawValue
                                 case 1:
                                     cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
+                                    cell.descriptionOfCell.text = typeOfChartOne?.rawValue
                                 case 2:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
+                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
                                 case 3:
                                     cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue
+                                    cell.descriptionOfCell.text = typeOfChartTwo?.rawValue
                                 default:
                                     break
                                 }
@@ -951,31 +950,31 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             cell.accessoryType = .none
                             switch indexPath.row {
                             case 0:
-                                cell.headerOfCell.text = (self.department?.rawValue)! + " Department"
+                                cell.headerOfCell.text = (department?.rawValue)! + " Department"
                             case 1:
-                                cell.headerOfCell.text = self.timeInterval.rawValue
+                                cell.headerOfCell.text = timeInterval.rawValue
                             case 2:
                                 cell.headerOfCell.text = "Day"
                                 switch timeInterval {
                                 case .Monthly:
                                     if self.mounthlyInterval != nil {
                                         if self.mounthlyInterval! > 28 {
-                                            cell.headerOfCell.text = "\(self.mounthlyInterval!) or last day"
+                                            cell.headerOfCell.text = "\(mounthlyInterval!) or last day"
                                         } else {
-                                            cell.headerOfCell.text = "\(self.mounthlyInterval!)"
+                                            cell.headerOfCell.text = "\(mounthlyInterval!)"
                                         }
                                     } else {
                                         cell.headerOfCell.text = "Add day"
                                     }
                                 case .Weekly:
-                                    cell.headerOfCell.text = self.weeklyInterval?.rawValue
+                                    cell.headerOfCell.text = weeklyInterval?.rawValue
                                 default:
                                     break
                                 }
                             case 3:
-                                cell.headerOfCell.text = "Time zone: " + self.timeZone
+                                cell.headerOfCell.text = "Time zone: " + timeZone
                             case 4:
-                                cell.headerOfCell.text = "Before " + self.deadline
+                                cell.headerOfCell.text = "Before " + deadline
                             default:
                                 break
                             }
@@ -987,13 +986,13 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                 switch indexPath.row {
                                 case 0:
                                     cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = self.KPIOneView.rawValue
+                                    cell.descriptionOfCell.text = KPIOneView.rawValue
                                 case 1:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
+                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
                                 case 2:
                                     cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue
+                                    cell.descriptionOfCell.text = typeOfChartTwo?.rawValue
                                 default:
                                     break
                                 }
@@ -1002,13 +1001,13 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                 switch indexPath.row {
                                 case 0:
                                     cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = self.KPIOneView.rawValue
+                                    cell.descriptionOfCell.text = KPIOneView.rawValue
                                 case 1:
                                     cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
+                                    cell.descriptionOfCell.text = typeOfChartOne?.rawValue
                                 case 2:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
+                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
                                 default:
                                     break
                                 }
@@ -1017,16 +1016,16 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                                 switch indexPath.row {
                                 case 0:
                                     cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = self.KPIOneView.rawValue
+                                    cell.descriptionOfCell.text = KPIOneView.rawValue
                                 case 1:
                                     cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = self.typeOfChartOne?.rawValue
+                                    cell.descriptionOfCell.text = typeOfChartOne?.rawValue
                                 case 2:
                                     cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = self.KPITwoView?.rawValue
+                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
                                 case 3:
                                     cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = self.typeOfChartTwo?.rawValue
+                                    cell.descriptionOfCell.text = typeOfChartTwo?.rawValue
                                 default:
                                     break
                                 }
@@ -1055,7 +1054,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                 break
             }
         case .Edit:
-            switch self.model.kpis[kpiIndex].typeOfKPI {
+            switch model.kpis[kpiIndex].typeOfKPI {
             case .IntegratedKPI: break
                     //Warning!
             case .createdKPI:
@@ -1063,56 +1062,56 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                 case .Admin:
                     switch indexPath.section {
                     case 0:
-                        self.typeOfSetting = .Colour
-                        self.settingArray = self.colourArray
-                        self.showSelectSettingVC()
+                        typeOfSetting = .Colour
+                        settingArray = self.colourArray
+                        showSelectSettingVC()
                     case 1:
                         switch indexPath.row {
                         case 0:
-                            self.typeOfSetting = .KPIname
-                            self.showSelectSettingVC()
+                            typeOfSetting = .KPIname
+                            showSelectSettingVC()
                         case 1:
-                            self.typeOfSetting = .KPInote
-                            self.showSelectSettingVC()
+                            typeOfSetting = .KPInote
+                            showSelectSettingVC()
                         case 2:
-                            self.typeOfSetting = .Department
-                            self.settingArray = departmentArray
-                            self.showSelectSettingVC()
+                            typeOfSetting = .Department
+                            settingArray = departmentArray
+                            showSelectSettingVC()
                         default:
                             break
                         }
                     case 2:
-                        switch self.timeInterval {
+                        switch timeInterval {
                         case .Daily:
                             if KPIOneView == .Numbers && KPITwoView == .Graph {
                                 switch indexPath.row {
                                 case 0:
-                                    self.typeOfSetting = .Executant
-                                    self.settingArray = executantArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .Executant
+                                    settingArray = executantArray
+                                    showSelectSettingVC()
                                 case 1:
-                                    self.typeOfSetting = .TimeInterval
-                                    self.settingArray = timeIntervalArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .TimeInterval
+                                    settingArray = timeIntervalArray
+                                    showSelectSettingVC()
                                 case 2:
-                                    self.typeOfSetting = .TimeZone
-                                    self.settingArray = timeZoneArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .TimeZone
+                                    settingArray = timeZoneArray
+                                    showSelectSettingVC()
                                 case 3:
                                     break
                                 //deadline
                                 case 4:
-                                    self.typeOfSetting = .KPIViewOne
-                                    self.settingArray = KPIOneViewArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .KPIViewOne
+                                    settingArray = KPIOneViewArray
+                                    showSelectSettingVC()
                                 case 5:
-                                    self.typeOfSetting = .KPIViewTwo
-                                    self.settingArray = KPITwoViewArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .KPIViewTwo
+                                    settingArray = KPITwoViewArray
+                                    showSelectSettingVC()
                                 case 6:
-                                    self.typeOfSetting = .ChartTwo
-                                    self.settingArray = typeOfChartTwoArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .ChartTwo
+                                    settingArray = typeOfChartTwoArray
+                                    showSelectSettingVC()
                                 default:
                                     break
                                 }
@@ -1121,32 +1120,32 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Graph && KPITwoView == .Numbers {
                                 switch indexPath.row {
                                 case 0:
-                                    self.typeOfSetting = .Executant
-                                    self.settingArray = executantArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .Executant
+                                    settingArray = executantArray
+                                    showSelectSettingVC()
                                 case 1:
-                                    self.typeOfSetting = .TimeInterval
-                                    self.settingArray = timeIntervalArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .TimeInterval
+                                    settingArray = timeIntervalArray
+                                    showSelectSettingVC()
                                 case 2:
-                                    self.typeOfSetting = .TimeZone
-                                    self.settingArray = timeZoneArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .TimeZone
+                                    settingArray = timeZoneArray
+                                    showSelectSettingVC()
                                 case 3:
                                     break
                                 //deadline
                                 case 4:
-                                    self.typeOfSetting = .KPIViewOne
-                                    self.settingArray = KPIOneViewArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .KPIViewOne
+                                    settingArray = KPIOneViewArray
+                                    showSelectSettingVC()
                                 case 5:
-                                    self.typeOfSetting = .ChartOne
-                                    self.settingArray = typeOfChartOneArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .ChartOne
+                                    settingArray = typeOfChartOneArray
+                                    showSelectSettingVC()
                                 case 6:
-                                    self.typeOfSetting = .KPIViewTwo
-                                    self.settingArray = KPITwoViewArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .KPIViewTwo
+                                    settingArray = KPITwoViewArray
+                                    showSelectSettingVC()
                                 default:
                                     break
                                 }
@@ -1154,36 +1153,36 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Graph && KPITwoView == .Graph {
                                 switch indexPath.row {
                                 case 0:
-                                    self.typeOfSetting = .Executant
-                                    self.settingArray = executantArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .Executant
+                                    settingArray = executantArray
+                                    showSelectSettingVC()
                                 case 1:
-                                    self.typeOfSetting = .TimeInterval
-                                    self.settingArray = timeIntervalArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .TimeInterval
+                                    settingArray = timeIntervalArray
+                                    showSelectSettingVC()
                                 case 2:
-                                    self.typeOfSetting = .TimeZone
-                                    self.settingArray = timeZoneArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .TimeZone
+                                    settingArray = timeZoneArray
+                                    showSelectSettingVC()
                                 case 3:
                                     break
                                 //deadline
                                 case 4:
-                                    self.typeOfSetting = .KPIViewOne
-                                    self.settingArray = KPIOneViewArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .KPIViewOne
+                                    settingArray = KPIOneViewArray
+                                    showSelectSettingVC()
                                 case 5:
-                                    self.typeOfSetting = .ChartOne
-                                    self.settingArray = typeOfChartOneArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .ChartOne
+                                    settingArray = typeOfChartOneArray
+                                    showSelectSettingVC()
                                 case 6:
-                                    self.typeOfSetting = .KPIViewTwo
-                                    self.settingArray = KPITwoViewArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .KPIViewTwo
+                                    settingArray = KPITwoViewArray
+                                    showSelectSettingVC()
                                 case 7:
-                                    self.typeOfSetting = .ChartTwo
-                                    self.settingArray = typeOfChartTwoArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .ChartTwo
+                                    settingArray = typeOfChartTwoArray
+                                    showSelectSettingVC()
                                 default:
                                     break
                                 }
@@ -1192,43 +1191,43 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Numbers && KPITwoView == .Graph {
                                 switch indexPath.row {
                                 case 0:
-                                    self.typeOfSetting = .Executant
-                                    self.settingArray = executantArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .Executant
+                                    settingArray = executantArray
+                                    showSelectSettingVC()
                                 case 1:
-                                    self.typeOfSetting = .TimeInterval
-                                    self.settingArray = timeIntervalArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .TimeInterval
+                                    settingArray = timeIntervalArray
+                                    showSelectSettingVC()
                                 case 2:
-                                    self.typeOfSetting = .DeliveryDay
+                                    typeOfSetting = .DeliveryDay
                                     switch timeInterval {
                                     case .Monthly:
-                                        self.settingArray = mounthlyIntervalArray
+                                        settingArray = mounthlyIntervalArray
                                     case .Weekly:
-                                        self.settingArray = weeklyArray
+                                        settingArray = weeklyArray
                                     default:
                                         break
                                     }
-                                    self.showSelectSettingVC()
+                                    showSelectSettingVC()
                                 case 3:
-                                    self.typeOfSetting = .TimeZone
-                                    self.settingArray = timeZoneArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .TimeZone
+                                    settingArray = timeZoneArray
+                                    showSelectSettingVC()
                                 case 4:
                                     break
                                 //deadline
                                 case 5:
-                                    self.typeOfSetting = .KPIViewOne
-                                    self.settingArray = KPIOneViewArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .KPIViewOne
+                                    settingArray = KPIOneViewArray
+                                    showSelectSettingVC()
                                 case 6:
-                                    self.typeOfSetting = .KPIViewTwo
-                                    self.settingArray = KPITwoViewArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .KPIViewTwo
+                                    settingArray = KPITwoViewArray
+                                    showSelectSettingVC()
                                 case 7:
-                                    self.typeOfSetting = .ChartTwo
-                                    self.settingArray = typeOfChartTwoArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .ChartTwo
+                                    settingArray = typeOfChartTwoArray
+                                    showSelectSettingVC()
                                 default:
                                     break
                                 }
@@ -1237,43 +1236,43 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Graph && KPITwoView == .Numbers {
                                 switch indexPath.row {
                                 case 0:
-                                    self.typeOfSetting = .Executant
-                                    self.settingArray = executantArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .Executant
+                                    settingArray = executantArray
+                                    showSelectSettingVC()
                                 case 1:
-                                    self.typeOfSetting = .TimeInterval
-                                    self.settingArray = timeIntervalArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .TimeInterval
+                                    settingArray = timeIntervalArray
+                                    showSelectSettingVC()
                                 case 2:
-                                    self.typeOfSetting = .DeliveryDay
+                                    typeOfSetting = .DeliveryDay
                                     switch timeInterval {
                                     case .Monthly:
-                                        self.settingArray = mounthlyIntervalArray
+                                        settingArray = mounthlyIntervalArray
                                     case .Weekly:
-                                        self.settingArray = weeklyArray
+                                        settingArray = weeklyArray
                                     default:
                                         break
                                     }
                                     self.showSelectSettingVC()
                                 case 3:
-                                    self.typeOfSetting = .TimeZone
-                                    self.settingArray = timeZoneArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .TimeZone
+                                    settingArray = timeZoneArray
+                                    showSelectSettingVC()
                                 case 4:
                                     break
                                 //deadline
                                 case 5:
-                                    self.typeOfSetting = .KPIViewOne
-                                    self.settingArray = KPIOneViewArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .KPIViewOne
+                                    settingArray = KPIOneViewArray
+                                    showSelectSettingVC()
                                 case 6:
-                                    self.typeOfSetting = .ChartOne
-                                    self.settingArray = typeOfChartOneArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .ChartOne
+                                    settingArray = typeOfChartOneArray
+                                    showSelectSettingVC()
                                 case 7:
-                                    self.typeOfSetting = .KPIViewTwo
-                                    self.settingArray = KPITwoViewArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .KPIViewTwo
+                                    settingArray = KPITwoViewArray
+                                    showSelectSettingVC()
                                 default:
                                     break
                                 }
@@ -1281,47 +1280,47 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                             if KPIOneView == .Graph && KPITwoView == .Graph {
                                 switch indexPath.row {
                                 case 0:
-                                    self.typeOfSetting = .Executant
-                                    self.settingArray = executantArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .Executant
+                                    settingArray = executantArray
+                                    showSelectSettingVC()
                                 case 1:
-                                    self.typeOfSetting = .TimeInterval
-                                    self.settingArray = timeIntervalArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .TimeInterval
+                                    settingArray = timeIntervalArray
+                                    showSelectSettingVC()
                                 case 2:
-                                    self.typeOfSetting = .DeliveryDay
+                                    typeOfSetting = .DeliveryDay
                                     switch timeInterval {
                                     case .Monthly:
-                                        self.settingArray = mounthlyIntervalArray
+                                        settingArray = mounthlyIntervalArray
                                     case .Weekly:
-                                        self.settingArray = weeklyArray
+                                        settingArray = weeklyArray
                                     default:
                                         break
                                     }
                                     self.showSelectSettingVC()
                                 case 3:
-                                    self.typeOfSetting = .TimeZone
-                                    self.settingArray = timeZoneArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .TimeZone
+                                    settingArray = timeZoneArray
+                                    showSelectSettingVC()
                                 case 4:
                                     break
                                 //deadline
                                 case 5:
-                                    self.typeOfSetting = .KPIViewOne
-                                    self.settingArray = KPIOneViewArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .KPIViewOne
+                                    settingArray = KPIOneViewArray
+                                    showSelectSettingVC()
                                 case 6:
-                                    self.typeOfSetting = .ChartOne
-                                    self.settingArray = typeOfChartOneArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .ChartOne
+                                    settingArray = typeOfChartOneArray
+                                    showSelectSettingVC()
                                 case 7:
-                                    self.typeOfSetting = .KPIViewTwo
-                                    self.settingArray = KPITwoViewArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .KPIViewTwo
+                                    settingArray = KPITwoViewArray
+                                    showSelectSettingVC()
                                 case 8:
-                                    self.typeOfSetting = .ChartTwo
-                                    self.settingArray = typeOfChartTwoArray
-                                    self.showSelectSettingVC()
+                                    typeOfSetting = .ChartTwo
+                                    settingArray = typeOfChartTwoArray
+                                    showSelectSettingVC()
                                 default:
                                     break
                                 }
@@ -1336,17 +1335,17 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                         if KPIOneView == .Numbers && KPITwoView == .Graph {
                             switch indexPath.row {
                             case 0:
-                                self.typeOfSetting = .KPIViewOne
-                                self.settingArray = KPIOneViewArray
-                                self.showSelectSettingVC()
+                                typeOfSetting = .KPIViewOne
+                                settingArray = KPIOneViewArray
+                                showSelectSettingVC()
                             case 1:
-                                self.typeOfSetting = .KPIViewTwo
-                                self.settingArray = KPITwoViewArray
-                                self.showSelectSettingVC()
+                                typeOfSetting = .KPIViewTwo
+                                settingArray = KPITwoViewArray
+                                showSelectSettingVC()
                             case 2:
-                                self.typeOfSetting = .ChartTwo
-                                self.settingArray = typeOfChartTwoArray
-                                self.showSelectSettingVC()
+                                typeOfSetting = .ChartTwo
+                                settingArray = typeOfChartTwoArray
+                                showSelectSettingVC()
                             default:
                                 break
                             }
@@ -1354,17 +1353,17 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                         if KPIOneView == .Graph && KPITwoView == .Numbers {
                             switch indexPath.row {
                             case 0:
-                                self.typeOfSetting = .KPIViewOne
-                                self.settingArray = KPIOneViewArray
-                                self.showSelectSettingVC()
+                                typeOfSetting = .KPIViewOne
+                                settingArray = KPIOneViewArray
+                                showSelectSettingVC()
                             case 1:
-                                self.typeOfSetting = .ChartOne
-                                self.settingArray = typeOfChartOneArray
-                                self.showSelectSettingVC()
+                                typeOfSetting = .ChartOne
+                                settingArray = typeOfChartOneArray
+                                showSelectSettingVC()
                             case 2:
-                                self.typeOfSetting = .KPIViewTwo
-                                self.settingArray = KPITwoViewArray
-                                self.showSelectSettingVC()
+                                typeOfSetting = .KPIViewTwo
+                                settingArray = KPITwoViewArray
+                                showSelectSettingVC()
                             default:
                                 break
                             }
@@ -1372,21 +1371,21 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                         if KPIOneView == .Graph && KPITwoView == .Graph {
                             switch indexPath.row {
                             case 0:
-                                self.typeOfSetting = .KPIViewOne
-                                self.settingArray = KPIOneViewArray
-                                self.showSelectSettingVC()
+                                typeOfSetting = .KPIViewOne
+                                settingArray = KPIOneViewArray
+                                showSelectSettingVC()
                             case 1:
-                                self.typeOfSetting = .ChartOne
-                                self.settingArray = typeOfChartOneArray
-                                self.showSelectSettingVC()
+                                typeOfSetting = .ChartOne
+                                settingArray = typeOfChartOneArray
+                                showSelectSettingVC()
                             case 2:
-                                self.typeOfSetting = .KPIViewTwo
-                                self.settingArray = KPITwoViewArray
-                                self.showSelectSettingVC()
+                                typeOfSetting = .KPIViewTwo
+                                settingArray = KPITwoViewArray
+                                showSelectSettingVC()
                             case 3:
-                                self.typeOfSetting = .ChartTwo
-                                self.settingArray = typeOfChartTwoArray
-                                self.showSelectSettingVC()
+                                typeOfSetting = .ChartTwo
+                                settingArray = typeOfChartTwoArray
+                                showSelectSettingVC()
                             default:
                                 break
                             }
@@ -1441,7 +1440,7 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         case 0:
             switch buttonDidTaped {
             case .Report:
-                return self.model.kpis[kpiIndex].createdKPI?.KPI
+                return model.kpis[kpiIndex].createdKPI?.KPI
             case .Edit:
                 return " "
             }
@@ -1456,7 +1455,6 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         header.textLabel?.font = UIFont(name: "Helvetica Neue", size: 13)
         header.textLabel?.textColor = UIColor.lightGray
     }
-    
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
@@ -1480,11 +1478,6 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                 switch model.profile!.typeOfAccount {
                 case .Admin:
                     let executantProfile: Int! = executant
-//                    for profile in model.team {
-//                        if self.executant == profile.firstName! + " " + profile.lastName! {
-//                            executantProfile = Int(profile.userID)
-//                        }
-//                    }
                     newKpi = CreatedKPI(source: .User, department: self.department!, KPI: self.kpiName, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, timeZone: self.timeZone, deadline: self.deadline, number: (self.model.kpis[kpiIndex].createdKPI?.number)!)
                     self.model.kpis[kpiIndex].createdKPI = newKpi
                     self.model.kpis[kpiIndex].KPIViewOne = self.KPIOneView
@@ -1504,12 +1497,16 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
                 break
             }
         }
-        delegate = self.KPIListVC
+        delegate = KPIListVC
         delegate.updateKPIList(kpiArray: self.model.kpis)
         _ = navigationController?.popViewController(animated: true)
     }
     
-    //MARK: - updateSettingsArrayDelegate methods
+}
+
+//MARK: - updateSettingsArrayDelegate methods
+extension ReportAndViewKPITableViewController: updateSettingsDelegate {
+    
     func updateStringValue(string: String?) {
         switch typeOfSetting {
         case .KPIname:
@@ -1523,47 +1520,48 @@ class ReportAndViewKPITableViewController: UITableViewController, updateSettings
         }
         tableView.reloadData()
     }
+    
     func updateSettingsArray(array: [(SettingName: String, value: Bool)]) {
         switch typeOfSetting {
         case .Colour:
-            self.colourArray = array
-            self.model.kpis[kpiIndex].imageBacgroundColour = self.colourDictionary[self.colour]!
+            colourArray = array
         case .Department:
-            self.departmentArray = array
+            departmentArray = array
         case .Executant:
-            self.executantArray = array
+            executantArray = array
         case .TimeInterval:
-            self.timeIntervalArray = array
+            timeIntervalArray = array
         case .DeliveryDay:
-            switch self.timeInterval {
+            switch timeInterval {
             case .Monthly:
-                self.mounthlyIntervalArray = array
+                mounthlyIntervalArray = array
             case .Weekly:
-                self.weeklyArray = array
+                weeklyArray = array
             default:
                 break
             }
         case .TimeZone:
-            self.timeZoneArray = array
+            timeZoneArray = array
         case .KPIViewOne:
-            self.KPIOneViewArray = array
+            KPIOneViewArray = array
             if KPIOneView == .Numbers && KPITwoView == .Numbers {
                 KPITwoView = .Graph
             }
         case .ChartOne:
-            self.typeOfChartOneArray = array
+            typeOfChartOneArray = array
         case .KPIViewTwo:
-            self.KPITwoViewArray = array
+            KPITwoViewArray = array
             if KPIOneView == .Numbers && KPITwoView == .Numbers {
                 KPIOneView = .Graph
             }
         case .ChartTwo:
-            self.typeOfChartTwoArray = array
+            typeOfChartTwoArray = array
         default:
             break
         }
-        self.tableView.reloadData()
+        tableView.reloadData()
     }
+    
     func updateDoubleValue(number: Double?) {
         self.report = number
         self.tableView.reloadData()

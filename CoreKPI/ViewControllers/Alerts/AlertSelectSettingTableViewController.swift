@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AlertSelectSettingTableViewController: UITableViewController, UITextFieldDelegate {
+class AlertSelectSettingTableViewController: UITableViewController {
 
     weak var AlertSettingVC: AllertSettingsTableViewController!
     
@@ -38,7 +38,7 @@ class AlertSelectSettingTableViewController: UITableViewController, UITextFieldD
         if inputSettingCells == true {
             return 1
         } else {
-            return self.selectSetting.count
+            return selectSetting.count
         }
         
     }
@@ -103,20 +103,22 @@ class AlertSelectSettingTableViewController: UITableViewController, UITextFieldD
         if(!(parent?.isEqual(self.parent) ?? false)) {
             delegate = AlertSettingVC
             delegate.updateSettingsArray(array: selectSetting)
-            delegate.updateStringValue(string: self.textFieldInputData)
+            delegate.updateStringValue(string: textFieldInputData)
         }
     }
     
-    //MARK: - UITextFieldDelegate method
+}
+
+//MARK: - UITextFieldDelegate method
+extension AlertSelectSettingTableViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let textFieldText: NSString = (textField.text ?? "") as NSString
         let txtAfterUpdate = textFieldText.replacingCharacters(in: range, with: string)
         if txtAfterUpdate != "" {
-            self.textFieldInputData = txtAfterUpdate
+            textFieldInputData = txtAfterUpdate
         } else {
-            self.textFieldInputData = nil
+            textFieldInputData = nil
         }
         return true
     }
-    
 }

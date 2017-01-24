@@ -21,7 +21,6 @@ class SupportMainTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -29,8 +28,8 @@ class SupportMainTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
     }
+    
     @IBAction func didTapLogoutButton(_ sender: UIBarButtonItem) {
-        
         UserDefaults.standard.removeObject(forKey: "token")
         
         let startVC = storyboard?.instantiateViewController(withIdentifier: "StartVC")

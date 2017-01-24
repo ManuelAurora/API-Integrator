@@ -9,7 +9,7 @@
 import UIKit
 import MessageUI
 
-class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate, updateModelDelegate, updateProfileDelegate {
+class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var memberProfilePhotoImage: UIImageView!
     @IBOutlet weak var memberProfileNameLabel: UILabel!
@@ -49,15 +49,15 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         
         if let memberNickname = profile.nickname {
-            self.memberProfileNameLabel.text = memberNickname
+            memberProfileNameLabel.text = memberNickname
         } else {
-            self.memberProfileNameLabel.text = "\(profile.firstName!) \(profile.lastName!)"
+            memberProfileNameLabel.text = "\(profile.firstName!) \(profile.lastName!)"
         }
         
-        self.memberProfilePositionLabel.text = profile.position
+        memberProfilePositionLabel.text = profile.position
         
         if profile.photo != nil {
-            self.memberProfilePhotoImage.image = UIImage(data: profile.photo as! Data)
+            memberProfilePhotoImage.image = UIImage(data: profile.photo as! Data)
         } else {
             updateProfilePhoto()
         }
@@ -73,10 +73,10 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     @IBAction func tapPhoneButton(_ sender: UIButton) {
-        if self.profile.phoneNumber == nil {
+        if profile.phoneNumber == nil {
             let alertController = UIAlertController(title: "Can not call!", message: "Member has not a phone number", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                self.present(alertController, animated: true, completion: nil)
+                present(alertController, animated: true, completion: nil)
         } else {
             let url = URL(string: "tel://\(profile.phoneNumber!)")
             if UIApplication.shared.canOpenURL(url!) {
@@ -84,26 +84,10 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             } else {
                 let alertController = UIAlertController(title: "Error", message: "Can not call!", preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alertController, animated: true, completion: nil)
+                present(alertController, animated: true, completion: nil)
             }
         }
         
-    }
-    
-    @IBAction func tapMailButton(_ sender: UIButton) {
-        if MFMailComposeViewController.canSendMail() {
-            let mail = MFMailComposeViewController()
-            mail.mailComposeDelegate = self
-            mail.setToRecipients([profile.username!])
-            mail.setMessageBody("<p>Hello, \(profile.firstName) \(profile.lastName)</p>", isHTML: true)
-            present(mail, animated: true)
-        } else {
-            print("Email error")
-        }
-    }
-    
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -168,8 +152,8 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                 let vc = storyboard?.instantiateViewController(withIdentifier: "ChangeName") as! ChageNameTableViewController
                 updateModelDelegate = vc
                 updateProfileDelegate = vc
-                updateModelDelegate.updateModel(model: self.model)
-                updateProfileDelegate.updateProfile(profile: self.profile)
+                updateModelDelegate.updateModel(model: model)
+                updateProfileDelegate.updateProfile(profile: profile)
                 vc.memberInfoVC = self
                 self.navigationController?.show(vc, sender: nil)
             } else {
@@ -184,16 +168,16 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         let vc = storyboard?.instantiateViewController(withIdentifier: "EditMember") as! MemberEditViewController
         updateModelDelegate = vc
         updateProfileDelegate = vc
-        updateModelDelegate.updateModel(model: self.model)
-        updateProfileDelegate.updateProfile(profile: self.profile)
+        updateModelDelegate.updateModel(model: model)
+        updateProfileDelegate.updateProfile(profile: profile)
         vc.memberInfoVC = self
         self.navigationController?.show(vc, sender: nil)
     }
     
     @IBAction func tapResponsibleForButton(_ sender: UIButton) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "KPIListVC") as! KPIsListTableViewController
-        vc.model = self.model
-        vc.loadUsersKPI(userID: Int(self.profile.userID))
+        vc.model = model
+        vc.loadUsersKPI(userID: Int(profile.userID))
         vc.navigationItem.rightBarButtonItem = nil
         self.navigationController?.show(vc, sender: nil)
     }
@@ -209,18 +193,50 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                 //debug
                 self.profile.photoLink = "https://pp.vk.me/c624425/v624425140/1439b/3Ka-jAkA1Dw.jpg"
                 updateProfileDelegate = memberListVC
-                updateProfileDelegate.updateProfile(profile: self.profile)
+                updateProfileDelegate.updateProfile(profile: profile)
             }
         }
         self.navigationController?.hideTransparentNavigationBar()
     }
     
-    //MARK: - updateModelDelegate method
+    func updateProfilePhoto() {
+        if (profile.photo != nil) {
+            memberProfilePhotoImage.downloadedFrom(link: profile.photoLink!)
+        } else {
+            memberProfilePhotoImage.image = #imageLiteral(resourceName: "defaultProfile")
+        }
+    }
+    
+}
+
+//MARK: - MFMailComposeViewControllerDelegate methods
+extension MemberInfoViewController: MFMailComposeViewControllerDelegate {
+    @IBAction func tapMailButton(_ sender: UIButton) {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients([profile.username!])
+            mail.setMessageBody("<p>Hello, \(profile.firstName) \(profile.lastName)</p>", isHTML: true)
+            present(mail, animated: true)
+        } else {
+            print("Email error")
+        }
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    }
+}
+
+//MARK: - updateModelDelegate method
+extension MemberInfoViewController: updateModelDelegate {
     func updateModel(model: ModelCoreKPI) {
         self.model = model
     }
-    
-    //MARK: - updateProfileDelegate method
+}
+
+//MARK: - updateProfileDelegate method
+extension MemberInfoViewController: updateProfileDelegate {
     func updateProfile(profile: Team) {
         
         if let nickname = self.profile.nickname {
@@ -235,13 +251,4 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         tableView.reloadData()
         self.navigationController?.presentTransparentNavigationBar()
     }
-    
-    func updateProfilePhoto() {
-        if (profile.photo != nil) {
-            self.memberProfilePhotoImage.downloadedFrom(link: self.profile.photoLink!)
-        } else {
-            self.memberProfilePhotoImage.image = #imageLiteral(resourceName: "defaultProfile")
-        }
-    }
-    
 }

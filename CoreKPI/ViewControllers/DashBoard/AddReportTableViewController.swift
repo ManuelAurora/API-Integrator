@@ -14,7 +14,7 @@ extension String {
     }
 }
 
-class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
+class AddReportTableViewController: UITableViewController {
     
     @IBOutlet weak var numberOfCharactersLabel: UILabel!
     @IBOutlet weak var reportTextField: UITextField!
@@ -31,7 +31,7 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.formatter = NumberFormatter()
+        formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.groupingSeparator = ","
         formatter.decimalSeparator = "."
@@ -78,12 +78,36 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
         if report == nil {
             self.showAlert(title: "Error", description: "Add report value!")
         } else {
-            delegate = self.ReportAndViewVC
+            delegate = ReportAndViewVC
             delegate.updateDoubleValue(number: self.report)
             _ = navigationController?.popViewController(animated: true)
         }
     }
     
+    func formatNumberFromString(stringNumber: String) -> String {
+        if stringNumber.isEmpty {
+            return ""
+        }
+        
+        // Replace any formatting commas
+        let newStringNumber = stringNumber.replacingOccurrences(of: ",", with: "")
+        
+        let doubleFromString = Double(newStringNumber)
+        
+        let finalString = formatter.string(from: NSNumber(value: doubleFromString!))
+        return finalString!
+    }
+    
+    //MARK: - Show alert
+    func showAlert(title: String, description: String) {
+        let alertController = UIAlertController(title: title, message: description, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+}
+
+extension AddReportTableViewController: UITextFieldDelegate {
     //MARK: - UITextFieldDelegate method
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
@@ -94,8 +118,8 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
         if string.isEmpty {
             if originalString.isEmpty {
                 textField.text = ""
-                self.numberOfCharacters = 0
-                self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
+                numberOfCharacters = 0
+                numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
                 return false
                 
             }
@@ -106,20 +130,20 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
                 
                 if replacedString.hasSuffix(".") {
                     replacedString.remove(at: replacedString.index(before: replacedString.endIndex))
-                    self.report = Double(replacedString)
+                    report = Double(replacedString)
                     textField.text = formatNumberFromString(stringNumber: replacedString) + "."
                     return false
                 }
                 
                 if replacedString.hasSuffix("0") {
-                    self.report = Double(replacedString)
+                    report = Double(replacedString)
                     return true
                 }
             }
             let numbersSize = replacedString.replacingOccurrences(of: ".", with: "").characters.count
-            self.numberOfCharacters = numbersSize
-            self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numbersSize)"
-            self.report = Double(replacedString)
+            numberOfCharacters = numbersSize
+            numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numbersSize)"
+            report = Double(replacedString)
             textField.text = formatNumberFromString(stringNumber: replacedString)
             return false
             
@@ -138,20 +162,20 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
         if originalString.isEmpty {
             if string == "," || string == "." || string == "0" {
                 textField.text = "0."
-                self.numberOfCharacters += 1
-                self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
+                numberOfCharacters += 1
+                numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
                 return false
             }
             replacedString = string.replacingOccurrences(of: ",", with: "")
             let numbersSize = replacedString.replacingOccurrences(of: ".", with: "").characters.count
             
             if numbersSize > maxNumberOfCharacter {
-                self.showAlert(title: "Warning", description: "So long number!")
+                showAlert(title: "Warning", description: "So long number!")
                 return false
             } else {
-                self.numberOfCharacters = numbersSize
-                self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
-                self.report = Double(replacedString)
+                numberOfCharacters = numbersSize
+                numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
+                report = Double(replacedString)
                 textField.text = formatNumberFromString(stringNumber: string)
                 return false
             }
@@ -165,25 +189,25 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
                 
                 if string == "0" {
                     if numberOfCharacters < maxNumberOfCharacter {
-                        self.numberOfCharacters += 1
-                        self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter-numberOfCharacters)"
+                        numberOfCharacters += 1
+                        numberOfCharactersLabel.text = "\(maxNumberOfCharacter-numberOfCharacters)"
                         return true
                     } else {
                         showAlert(title: "Warning", description: "So long number!")
                         return false
                     }
-
+                    
                 }
                 
                 replacedString = originalString.replacingOccurrences(of: ",", with: "") + string.replacingOccurrences(of: ",", with: "")
                 let numbersSize = replacedString.replacingOccurrences(of: ".", with: "").characters.count
                 if numbersSize > maxNumberOfCharacter {
-                    self.showAlert(title: "Warning", description: "So long number!")
+                    showAlert(title: "Warning", description: "So long number!")
                     return false
                 } else {
-                    self.report = Double(replacedString)
-                    self.numberOfCharacters = numbersSize
-                    self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
+                    report = Double(replacedString)
+                    numberOfCharacters = numbersSize
+                    numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
                     textField.text = formatNumberFromString(stringNumber: replacedString)
                 }
             }
@@ -215,7 +239,7 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
                     
                     if numberOfCharacters + string.characters.count <= maxNumberOfCharacter {
                         numberOfCharacters += string.characters.count
-                        self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
+                        numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
                         return true
                     } else {
                         showAlert(title: "Warning", description: "So long number!")
@@ -228,12 +252,12 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
             let numbersSize = replacedString.replacingOccurrences(of: ".", with: "").characters.count
             
             if numbersSize > maxNumberOfCharacter {
-                self.showAlert(title: "Warning", description: "So long number!")
+                showAlert(title: "Warning", description: "So long number!")
                 return false
             } else {
-                self.report = Double(replacedString)
-                self.numberOfCharacters = numbersSize
-                self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
+                report = Double(replacedString)
+                numberOfCharacters = numbersSize
+                numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
                 textField.text = formatNumberFromString(stringNumber: replacedString)
                 return false
             }
@@ -241,33 +265,11 @@ class AddReportTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        self.report = nil
-        self.numberOfCharacters = 0
-        self.numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
+        report = nil
+        numberOfCharacters = 0
+        numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
         return true
     }
-    
-    func formatNumberFromString(stringNumber: String) -> String {
-        if stringNumber.isEmpty {
-            return ""
-        }
-        
-        // Replace any formatting commas
-        let newStringNumber = stringNumber.replacingOccurrences(of: ",", with: "")
-        
-        let doubleFromString = Double(newStringNumber)
-        
-        let finalString = formatter.string(from: NSNumber(value: doubleFromString!))
-        return finalString!
-    }
-    
-    //MARK: - Show alert
-    func showAlert(title: String, description: String) {
-        let alertController = UIAlertController(title: title, message: description, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
-}
 
+}
 
