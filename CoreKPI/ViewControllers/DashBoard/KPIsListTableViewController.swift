@@ -19,7 +19,7 @@ class KPIsListTableViewController: UITableViewController {
     
     var model: ModelCoreKPI! = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, nickname: nil, typeOfAccount: .Manager))
     
-    var updateProfileDelegate: updateProfileDelegate!
+    //var updateProfileDelegate: updateProfileDelegate!
     
     let profileDidChangeNotification = Notification.Name(rawValue:"profileDidChange")
     
@@ -50,6 +50,7 @@ class KPIsListTableViewController: UITableViewController {
         self.navigationController?.hideTransparentNavigationBar()
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
         tableView.tableFooterView = UIView(frame: .zero)
+        tableView.backgroundColor = UIColor(red: 249/255, green: 249/255, blue: 249/255, alpha: 1.0)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -281,9 +282,9 @@ extension KPIsListTableViewController: KPIListButtonCellDelegate {
         destinatioVC.navigationItem.rightBarButtonItem = nil
         let createdKPI = model.kpis[sender.tag].createdKPI
         let executantId = createdKPI?.executant
-        for profile in model.team {
-            if Int(profile.userID) == executantId {
-                destinatioVC.profile = profile
+        for i in 0..<model.team.count {
+            if Int(model.team[i].userID) == executantId {
+                destinatioVC.index = i
                 navigationController?.pushViewController(destinatioVC, animated: true)
                 return
             }

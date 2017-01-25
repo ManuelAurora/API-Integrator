@@ -21,13 +21,11 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var tableView: UITableView!
     
     var model: ModelCoreKPI!
-    var profile: Team!
-    //var profileImage: UIImage?
+    var index: Int!
     
     weak var memberListVC: MemberListTableViewController!
     
     var updateModelDelegate: updateModelDelegate!
-    var updateProfileDelegate: updateProfileDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +35,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             responsibleForButton.isHidden = false
             
             //Check is it my account
-            if Int(profile.userID) == model.profile?.userId {
+            if Int(model.team[index].userID) == model.profile?.userId {
                 responsibleForButton.isHidden = true
                 myKPIsButton.isHidden = false
                 securityButton.isHidden = false
@@ -48,16 +46,16 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             securityButton.isHidden = true
         }
         
-        if let memberNickname = profile.nickname {
+        if let memberNickname = model.team[index].nickname {
             memberProfileNameLabel.text = memberNickname
         } else {
-            memberProfileNameLabel.text = "\(profile.firstName!) \(profile.lastName!)"
+            memberProfileNameLabel.text = "\(model.team[index].firstName!) \(model.team[index].lastName!)"
         }
         
-        memberProfilePositionLabel.text = profile.position
+        memberProfilePositionLabel.text = model.team[index].position
         
-        if profile.photo != nil {
-            memberProfilePhotoImage.image = UIImage(data: profile.photo as! Data)
+        if model.team[index].photo != nil {
+            memberProfilePhotoImage.image = UIImage(data: model.team[index].photo as! Data)
         } else {
             updateProfilePhoto()
         }
@@ -73,12 +71,12 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     @IBAction func tapPhoneButton(_ sender: UIButton) {
-        if profile.phoneNumber == nil {
+        if model.team[index].phoneNumber == nil {
             let alertController = UIAlertController(title: "Can not call!", message: "Member has not a phone number", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                 present(alertController, animated: true, completion: nil)
         } else {
-            let url = URL(string: "tel://\(profile.phoneNumber!)")
+            let url = URL(string: "tel://\(model.team[index].phoneNumber!)")
             if UIApplication.shared.canOpenURL(url!) {
                 UIApplication.shared.open(url!, options: [:], completionHandler: nil)
             } else {
@@ -105,19 +103,19 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             switch indexPath.row {
             case 0:
                 cell.headerCellLabel.text = "Type of account"
-                cell.dataCellLabel.text = profile.isAdmin ? "Admin" : "Manager"
+                cell.dataCellLabel.text = model.team[index].isAdmin ? "Admin" : "Manager"
             case 1:
                 cell.headerCellLabel.text = "Phone"
-                if profile.phoneNumber == nil {
+                if model.team[index].phoneNumber == nil {
                     cell.dataCellLabel.text = "No Phone Number"
                     cell.dataCellLabel.textColor = UIColor(red: 143/255, green: 142/255, blue: 148/255, alpha: 1.0)
                 } else {
-                    cell.dataCellLabel.text = profile.phoneNumber
+                    cell.dataCellLabel.text = model.team[index].phoneNumber
                     cell.dataCellLabel.textColor = UIColor.black
                 }
             case 2:
                 cell.headerCellLabel.text = "E-mail"
-                cell.dataCellLabel.text = profile.username!
+                cell.dataCellLabel.text = model.team[index].username!
             default:
                 cell.headerCellLabel.text = ""
                 cell.dataCellLabel.text = ""
@@ -127,16 +125,16 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             switch indexPath.row {
             case 0:
                 cell.headerCellLabel.text = "Phone"
-                if profile.phoneNumber == nil {
+                if model.team[index].phoneNumber == nil {
                     cell.dataCellLabel.text = "No Phone Number"
                     cell.dataCellLabel.textColor = UIColor(red: 143/255, green: 142/255, blue: 148/255, alpha: 1.0)
                 } else {
-                    cell.dataCellLabel.text = profile.phoneNumber
+                    cell.dataCellLabel.text = model.team[index].phoneNumber
                     cell.dataCellLabel.textColor = UIColor.black
                 }
             case 1:
                 cell.headerCellLabel.text = "E-mail"
-                cell.dataCellLabel.text = profile.username!
+                cell.dataCellLabel.text = model.team[index].username!
             default:
                 cell.headerCellLabel.text = ""
                 cell.dataCellLabel.text = ""
@@ -148,12 +146,11 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     
     @IBAction func tapEditBautton(_ sender: UIBarButtonItem) {
         if model.profile?.typeOfAccount != TypeOfAccount.Admin {
-            if model.profile?.userId != Int(profile.userID) {
+            if model.profile?.userId != Int(model.team[index].userID) {
                 let vc = storyboard?.instantiateViewController(withIdentifier: "ChangeName") as! ChageNameTableViewController
                 updateModelDelegate = vc
-                updateProfileDelegate = vc
                 updateModelDelegate.updateModel(model: model)
-                updateProfileDelegate.updateProfile(profile: profile)
+                vc.index = index
                 vc.memberInfoVC = self
                 self.navigationController?.show(vc, sender: nil)
             } else {
@@ -167,9 +164,8 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     func updateEditMemberVC() {
         let vc = storyboard?.instantiateViewController(withIdentifier: "EditMember") as! MemberEditViewController
         updateModelDelegate = vc
-        updateProfileDelegate = vc
         updateModelDelegate.updateModel(model: model)
-        updateProfileDelegate.updateProfile(profile: profile)
+        vc.index = index
         vc.memberInfoVC = self
         self.navigationController?.show(vc, sender: nil)
     }
@@ -177,7 +173,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBAction func tapResponsibleForButton(_ sender: UIButton) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "KPIListVC") as! KPIsListTableViewController
         vc.model = model
-        vc.loadUsersKPI(userID: Int(profile.userID))
+        vc.loadUsersKPI(userID: Int(model.team[index].userID))
         vc.navigationItem.rightBarButtonItem = nil
         self.navigationController?.show(vc, sender: nil)
     }
@@ -191,17 +187,17 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         if(!(parent?.isEqual(self.parent) ?? false)) {
             if memberListVC != nil {
                 //debug
-                self.profile.photoLink = "https://pp.vk.me/c624425/v624425140/1439b/3Ka-jAkA1Dw.jpg"
-                updateProfileDelegate = memberListVC
-                updateProfileDelegate.updateProfile(profile: profile)
+                //self.profile.photoLink = "https://pp.vk.me/c624425/v624425140/1439b/3Ka-jAkA1Dw.jpg"
+                updateModelDelegate = memberListVC
+                updateModelDelegate.updateModel(model: model)
             }
         }
         self.navigationController?.hideTransparentNavigationBar()
     }
     
     func updateProfilePhoto() {
-        if (profile.photo != nil) {
-            memberProfilePhotoImage.downloadedFrom(link: profile.photoLink!)
+        if (model.team[index].photo != nil) {
+            memberProfilePhotoImage.downloadedFrom(link: model.team[index].photoLink!)
         } else {
             memberProfilePhotoImage.image = #imageLiteral(resourceName: "defaultProfile")
         }
@@ -215,8 +211,8 @@ extension MemberInfoViewController: MFMailComposeViewControllerDelegate {
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
-            mail.setToRecipients([profile.username!])
-            mail.setMessageBody("<p>Hello, \(profile.firstName) \(profile.lastName)</p>", isHTML: true)
+            mail.setToRecipients([model.team[index].username!])
+            mail.setMessageBody("<p>Hello, \(model.team[index].firstName) \(model.team[index].lastName)</p>", isHTML: true)
             present(mail, animated: true)
         } else {
             print("Email error")
@@ -231,22 +227,15 @@ extension MemberInfoViewController: MFMailComposeViewControllerDelegate {
 //MARK: - updateModelDelegate method
 extension MemberInfoViewController: updateModelDelegate {
     func updateModel(model: ModelCoreKPI) {
-        self.model = model
-    }
-}
-
-//MARK: - updateProfileDelegate method
-extension MemberInfoViewController: updateProfileDelegate {
-    func updateProfile(profile: Team) {
-        
-        if let nickname = self.profile.nickname {
+        self.model = ModelCoreKPI(model: model)
+        if let nickname = model.team[index].nickname {
             memberProfileNameLabel.text = nickname
         } else {
-            memberProfileNameLabel.text = profile.firstName! + " " + profile.lastName!
+            memberProfileNameLabel.text = model.team[index].firstName! + " " + model.team[index].lastName!
         }
-        memberProfilePositionLabel.text = profile.position
-        if profile.photo != nil {
-            memberProfilePhotoImage.image = UIImage(data: profile.photo as! Data)
+        memberProfilePositionLabel.text = model.team[index].position
+        if model.team[index].photo != nil {
+            memberProfilePhotoImage.image = UIImage(data: model.team[index].photo as! Data)
         }
         tableView.reloadData()
         self.navigationController?.presentTransparentNavigationBar()

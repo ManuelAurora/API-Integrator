@@ -11,10 +11,9 @@ import UIKit
 class ChageNameTableViewController: UITableViewController {
     
     var model: ModelCoreKPI!
-    var profile: Team!
-    var request: Request!
+    var index: Int!
     weak var memberInfoVC: MemberInfoViewController!
-    var delegate: updateProfileDelegate!
+    var delegate: updateModelDelegate!
     
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -23,10 +22,10 @@ class ChageNameTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let nickname = profile.nickname {
+        if let nickname = model.team[index].nickname {
             self.NameLabel.text = nickname
         } else {
-            self.NameLabel.text = profile.firstName! + " " + profile.lastName!
+            self.NameLabel.text = model.team[index].firstName! + " " + model.team[index].lastName!
         }
         
         tableView.tableFooterView = UIView(frame: .zero)
@@ -50,9 +49,9 @@ class ChageNameTableViewController: UITableViewController {
     
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
         if let nickname = NameLabel.text {
-            if nickname != profile.nickname && nickname != profile.firstName! + " " + profile.lastName! {
+            if nickname != model.team[index].nickname && nickname != model.team[index].firstName! + " " + model.team[index].lastName! {
                 sendNicknameToServer(nickName: nickname)
-                profile.nickname = nickname
+                model.team[index].nickname = nickname
                 
                 //debug ->
                 do {
@@ -100,7 +99,7 @@ class ChageNameTableViewController: UITableViewController {
     override func willMove(toParentViewController parent: UIViewController?) {
         if(!(parent?.isEqual(self.parent) ?? false)) {
             delegate = memberInfoVC
-            delegate.updateProfile(profile: self.profile)
+            delegate.updateModel(model: model)
         }
     }
 }
@@ -109,13 +108,6 @@ class ChageNameTableViewController: UITableViewController {
 extension ChageNameTableViewController: updateModelDelegate {
     func updateModel(model: ModelCoreKPI) {
         self.model = ModelCoreKPI(model: model)
-    }
-}
-
-//MARK: - updateProfileDelegate method
-extension ChageNameTableViewController: updateProfileDelegate {
-    func updateProfile(profile: Team) {
-        self.profile = profile
     }
 }
 

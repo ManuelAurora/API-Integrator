@@ -72,9 +72,12 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                 
                 let loginRequest = LoginRequest()
                 loginRequest.loginRequest(username: username, password: password,
-                                          success: {(userID, token) in
+                                          success: {(userID, token, typeOfAccount) in
                                             self.model = ModelCoreKPI(token: token, userID: userID)
-                                            self.getUserProfileFromServer()
+                                            self.model.profile?.typeOfAccount = typeOfAccount
+                                            //self.getUserProfileFromServer()
+                                            self.saveData()
+                                            self.showTabBarVC()
                 },
                                           failure: { error in
                                             print(error)
@@ -85,20 +88,20 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func getUserProfileFromServer() {
-        let getModelRequest = GetModelFromServer(userId: (model.profile?.userId)!, token: model.token)
-        
-        getModelRequest.getModelFromServer(
-            success: {model in
-                self.model = ModelCoreKPI(model: model)
-                self.saveData()
-                self.showTabBarVC()
-        },
-            failure: {error in
-                self.showAlert(title: "Error", errorMessage: error)
-        }
-        )
-    }
+//    func getUserProfileFromServer() {
+//        let getModelRequest = GetModelFromServer(userId: (model.profile?.userId)!, token: model.token)
+//        
+//        getModelRequest.getModelFromServer(
+//            success: {model in
+//                self.model = ModelCoreKPI(model: model)
+//                self.saveData()
+//                self.showTabBarVC()
+//        },
+//            failure: {error in
+//                self.showAlert(title: "Error", errorMessage: error)
+//        }
+//        )
+//    }
     
     //MARK: - segue to TabBar
     func showTabBarVC() {

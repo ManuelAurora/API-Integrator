@@ -20,7 +20,6 @@ class LaunchViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         if checkLocalToken() {
             getModelFromServer()
-            getDataFromCoreData()
         } else {
             let startVC = storyboard?.instantiateViewController(withIdentifier: "StartVC")
             present(startVC!, animated: true, completion: nil)
@@ -44,11 +43,10 @@ class LaunchViewController: UIViewController {
         request.getModelFromServer(
             success: { model in
                 self.model = ModelCoreKPI(model: model)
-                self.showTabBarVC()
+                self.getDataFromCoreData()
         },
             failure: { error in
-                //self.showAlert(title: "error", errorMessage: error)
-                self.showTabBarVC()
+                self.getDataFromCoreData()
         }
         )
     }
@@ -76,6 +74,7 @@ class LaunchViewController: UIViewController {
         let teamListNavigationViewController = tabBarController.viewControllers?[2] as! TeamListViewController
         let teamListController = teamListNavigationViewController.childViewControllers[0] as! MemberListTableViewController
         teamListController.model = ModelCoreKPI(model: model)
+        teamListController.loadTeamListFromServer()
         
         present(tabBarController, animated: true, completion: nil)
     }
@@ -88,6 +87,7 @@ class LaunchViewController: UIViewController {
         } catch {
             print("Fetching faild")
         }
+        showTabBarVC()
     }
     
 }

@@ -64,6 +64,7 @@ class AlertsListTableViewController: UITableViewController {
         tableView.addSubview(refreshControl!)
         
         tableView.tableFooterView = UIView(frame: .zero)
+        tableView.backgroundColor = UIColor(red: 249/255, green: 249/255, blue: 249/255, alpha: 1.0)
     }
 
     override func didReceiveMemoryWarning() {

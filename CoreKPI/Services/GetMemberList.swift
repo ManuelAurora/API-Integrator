@@ -37,8 +37,7 @@ class GetMemberList: Request {
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
                 if let dataKey = json["data"] as? NSArray {
-                    
-                    //self.model.team.removeAll()
+
                     var teamArray: [Team] = []
                     
                     var teamListIsFull = false
@@ -55,18 +54,12 @@ class GetMemberList: Request {
                             profile.lastName = userData["last_name"] as? String
                             profile.username = userData["username"] as? String
                             profile.userID = Int64((userData["user_id"] as? Int)!)
-                            if (userData["photo"] as? String) != "" {
-                                profile.photoLink = userData["photo"] as? String
-                            }
-                            
-                            profile.firstName = userData["first_name"] as? String
-                            
-//                            do {
-//                                try context.save()
-//                            } catch {
-//                                print(error)
-//                                return
+//                            if (userData["photo"] as? String) != "" {
+//                                profile.photoLink = userData["photo"] as? String
 //                            }
+                            
+                            profile.photoLink = "http://whatsappdp.net/wp-content/uploads/2016/03/funny-profile-pictures.jpg"
+                            profile.firstName = userData["first_name"] as? String
                             
                             teamArray.append(profile)
                             
@@ -77,11 +70,7 @@ class GetMemberList: Request {
                         }
                     }
                     return teamArray
-                    //let profileDidChangeNotification = Notification.Name(rawValue:"profileDidChange")
-                    //let nc = NotificationCenter.default
-                    //nc.post(name:profileDidChangeNotification,
-                            //object: nil,
-                           // userInfo:["teamList": model.team])
+
                 } else {
                     print("Json data is broken")
                 }

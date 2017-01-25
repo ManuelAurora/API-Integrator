@@ -10,7 +10,7 @@ import Foundation
 
 class LoginRequest: Request {
     
-    func loginRequest(username: String, password: String, success: @escaping (_ data: (userID: Int, token: String)) -> (), failure: @escaping failure) {
+    func loginRequest(username: String, password: String, success: @escaping (_ data: (userID: Int, token: String, typeOfAccount: TypeOfAccount)) -> (), failure: @escaping failure) {
         
         let data: [String : Any] = ["username" : username, "password" : password]
         
@@ -27,16 +27,19 @@ class LoginRequest: Request {
         })
     }
     
-    func parsingJson(json: NSDictionary) -> (userID: Int, token: String)? {
+    func parsingJson(json: NSDictionary) -> (userID: Int, token: String, typeOfAccount: TypeOfAccount)? {
         var userId: Int
         var token: String
+        var typeOfAccount: TypeOfAccount!
         
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
                 if let dataKey = json["data"] as? NSDictionary {
                     userId = dataKey["user_id"] as! Int
                     token = dataKey["token"] as! String
-                    return(userID: userId, token: token)
+                    let mode = 1//dataKey["mode"] as! Int
+                    typeOfAccount = (mode == 0) ? .Manager : .Admin
+                    return(userID: userId, token: token, typeOfAccount: typeOfAccount)
                 } else {
                     print("Json data is broken")
                 }

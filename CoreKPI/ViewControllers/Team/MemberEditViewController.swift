@@ -11,14 +11,12 @@ import UIKit
 class MemberEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var model: ModelCoreKPI!
-    var profile: Team!
+    var index: Int!
     var newProfile: Profile!
-    //var request: Request!
-    var profileImage: UIImage?
     
     weak var memberInfoVC: MemberInfoViewController!
-    var delegate: updateProfileDelegate!
     
+    //let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     let profileDidChangeNotification = Notification.Name(rawValue:"profileDidChange")
     
     @IBOutlet weak var tableView: UITableView!
@@ -29,16 +27,14 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.memberNameTextField.text = "\(profile.firstName!) \(profile.lastName!)"
-        self.memberPositionTextField.text = profile.position
+        self.memberNameTextField.text = "\(model.team[index].firstName!) \(model.team[index].lastName!)"
+        self.memberPositionTextField.text = model.team[index].position
         
-        if let photoData = profile.photo {
-            profileImage = UIImage(data: photoData as Data)
-            memberProfilePhotoImage.image = profileImage
+        if let photoData = model.team[index].photo {
+            memberProfilePhotoImage.image = UIImage(data: photoData as Data)
         }
         
-        self.newProfile = Profile(userId: Int(profile.userID), userName: profile.username!, firstName: profile.firstName!, lastName: profile.lastName!, position: profile.position, photo: profile.photoLink, phone: profile.phoneNumber, nickname: profile.nickname, typeOfAccount: profile.isAdmin ? .Admin : .Manager)
-        //self.request = Request(model: self.model)
+        self.newProfile = Profile(userId: Int(model.team[index].userID), userName: model.team[index].username!, firstName: model.team[index].firstName!, lastName: model.team[index].lastName!, position: model.team[index].position, photo: model.team[index].photoLink, phone: model.team[index].phoneNumber, nickname: model.team[index].nickname, typeOfAccount: model.team[index].isAdmin ? .Admin : .Manager)
         
         tableView.tableFooterView = UIView(frame: .zero)
         self.navigationController?.hideTransparentNavigationBar()
@@ -49,10 +45,9 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     //MARK: - TableViewDatasource methods
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         
-        if model.profile?.typeOfAccount == TypeOfAccount.Admin && model.profile?.userId != Int(profile.userID) {
+        if model.profile?.typeOfAccount == TypeOfAccount.Admin && model.profile?.userId != Int(model.team[index].userID) {
             return 2
         } else {
             return 1
@@ -62,7 +57,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            if model.profile?.typeOfAccount == TypeOfAccount.Admin && model.profile?.userId != Int(profile.userID) {
+            if model.profile?.typeOfAccount == TypeOfAccount.Admin && model.profile?.userId != Int(model.team[index].userID) {
                 return 1
             } else {
                 fallthrough
@@ -77,7 +72,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            if model.profile?.typeOfAccount == TypeOfAccount.Admin && model.profile?.userId != Int(profile.userID) {
+            if model.profile?.typeOfAccount == TypeOfAccount.Admin && model.profile?.userId != Int(model.team[index].userID) {
                 let cellTypeOfAccount = tableView.dequeueReusableCell(withIdentifier: "TypeOfAccount", for: indexPath) as! TypeAccountTableViewCell
                 cellTypeOfAccount.typeAccountLabel.text = self.newProfile.typeOfAccount.rawValue
                 return cellTypeOfAccount
@@ -138,8 +133,8 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         
         //debug only ->
         updateProfile()
-        delegate = memberInfoVC
-        delegate.updateProfile(profile: self.profile)
+        let delegate: updateModelDelegate = memberInfoVC
+        delegate.updateModel(model: model)
         self.navigationController!.popViewController(animated: true)
         //<- debug
         
@@ -204,27 +199,27 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
             photo = memberProfilePhotoImage.image
             newParams["photo"] = sendProfilePhotoToServer(photo: photo!) ?? ""
         }
-        if newProfile.firstName != profile.firstName {
+        if newProfile.firstName != model.team[index].firstName {
             firstname = newProfile.firstName
             newParams["first_name"] = firstname
         }
-        if newProfile.lastName != profile.lastName {
+        if newProfile.lastName != model.team[index].lastName {
             lastname = newProfile.lastName
             newParams["last_name"] = lastname
         }
-        if newProfile.position != profile.position {
+        if newProfile.position != model.team[index].position {
             position = newProfile.position
             newParams["position"] = position ?? ""
         }
-        if newProfile.phone != profile.phoneNumber {
+        if newProfile.phone != model.team[index].phoneNumber {
             phone = newProfile.phone
             newParams["phone"] = phone ?? ""
         }
-        if newProfile.userName != profile.username {
+        if newProfile.userName != model.team[index].username {
             email = newProfile.userName
             newParams["username"] = email
         }
-        if newProfile.typeOfAccount == .Admin && profile.isAdmin == false || newProfile.typeOfAccount == .Manager && profile.isAdmin == true {
+        if newProfile.typeOfAccount == .Admin && model.team[index].isAdmin == false || newProfile.typeOfAccount == .Manager && model.team[index].isAdmin == true {
             changeUserRights(typeOfAccount: newProfile.typeOfAccount)
             typeOfAccountWasChanged = true
         }
@@ -245,8 +240,8 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         let request = ChangeProfile(model: model)
         
         request.changeProfile(params: params, success: {
-            self.delegate = self.memberInfoVC
-            self.delegate.updateProfile(profile: self.profile)
+            let delegate: updateModelDelegate = self.memberInfoVC
+            delegate.updateModel(model: self.model)
             self.navigationController!.popViewController(animated: true)
         }, failure: { error in
         self.showAlert(title: "Error", message: error)
@@ -269,26 +264,27 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func updateProfile() {
-        let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
-        profile.userID = Int64(newProfile.userId)
-        profile.username = newProfile.userName
-        profile.firstName = newProfile.firstName
-        profile.lastName = newProfile.lastName
-        profile.nickname = newProfile.nickname
-        profile.isAdmin = newProfile.typeOfAccount == .Admin ? true : false
-        profile.photoLink = newProfile.photo
-        profile.phoneNumber = newProfile.phone
-        profile.position = newProfile.position
-        if let image = profileImage {
-            profile.photo = UIImagePNGRepresentation(image) as NSData?
-        }
         
-        do {
-            try context.save()
-        } catch {
-            print(error)
-            return
-        }
+        //model.team[index].setValue(Int64(newProfile.userId), forKey: "userID")
+        model.team[index].setValue(newProfile.userName, forKey: "username")
+        model.team[index].setValue(newProfile.firstName, forKey: "firstName")
+        model.team[index].setValue(newProfile.lastName, forKey: "lastName")
+        model.team[index].setValue(newProfile.nickname, forKey: "nickname")
+        model.team[index].setValue(newProfile.typeOfAccount == .Admin ? true : false, forKey: "isAdmin")
+        model.team[index].setValue(newProfile.photo, forKey: "photoLink")
+        model.team[index].setValue(newProfile.phone, forKey: "phoneNumber")
+        model.team[index].setValue(newProfile.position, forKey: "position")
+        
+//        if let image = profileImage {
+//            profile.photo = UIImagePNGRepresentation(image) as NSData?
+//        }
+        
+//        do {
+//            try context.save()
+//        } catch {
+//            print(error)
+//            return
+//        }
     }
     
     //MARK: - Show alert method
@@ -342,7 +338,17 @@ extension MemberEditViewController: UIImagePickerControllerDelegate, UINavigatio
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let newPhoto = info[UIImagePickerControllerOriginalImage] as! UIImage?
         memberProfilePhotoImage.image = newPhoto
-        profile.photo = UIImagePNGRepresentation(newPhoto!) as NSData?
+        let binaryPhoto = UIImagePNGRepresentation(newPhoto!) as NSData?
+        model.team[index].photo = binaryPhoto
+        
+        model.team[index].setValue(binaryPhoto, forKey: "photo")
+        
+//        do {
+//            try context.save()
+//        } catch {
+//            print(error)
+//        }
+        
         memberProfilePhotoImage.contentMode = UIViewContentMode.scaleAspectFill
         memberProfilePhotoImage.clipsToBounds = true
         newProfile.photo = "New photo link"
@@ -354,13 +360,6 @@ extension MemberEditViewController: UIImagePickerControllerDelegate, UINavigatio
 extension MemberEditViewController: updateModelDelegate {
     func updateModel(model: ModelCoreKPI) {
         self.model = ModelCoreKPI(model: model)
-    }
-}
-
-//MARK: - updateProfileDelegate method
-extension MemberEditViewController: updateProfileDelegate {
-    func updateProfile(profile: Team) {
-        self.profile = profile
     }
 }
 

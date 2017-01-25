@@ -12,7 +12,6 @@ import CoreData
 class MemberListTableViewController: UITableViewController {
     
     var model = ModelCoreKPI(token: "test", userID: 1) //debug!
-    var request: Request!
     
     var indexPath: IndexPath!
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
@@ -21,8 +20,6 @@ class MemberListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.request = Request(model: model)
         
         refreshControl = UIRefreshControl()
         refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -74,6 +71,12 @@ class MemberListTableViewController: UITableViewController {
             cell.userProfilePhotoImage?.downloadedFrom(link: model.team[indexPath.row].photoLink!)
             if cell.userProfilePhotoImage.image != #imageLiteral(resourceName: "defaultProfile") {
                 
+                model.team[indexPath.row].setValue(UIImagePNGRepresentation(cell.userProfilePhotoImage.image!)! as NSData?, forKey: "photo")
+//                do {
+//                    try context.save()
+//                } catch {
+//                    print(error)
+//                }
             }
         } else {
             cell.userProfilePhotoImage.image = #imageLiteral(resourceName: "defaultProfile")
@@ -99,10 +102,6 @@ class MemberListTableViewController: UITableViewController {
         return [deleteAction]
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.indexPath = indexPath
-    }
-    
     //MARK: -  Pull to refresh method
     func refresh(sender:AnyObject)
     {
@@ -114,8 +113,8 @@ class MemberListTableViewController: UITableViewController {
         if segue.identifier == "MemberInfo" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let destinationController = segue.destination as! MemberInfoViewController
-                destinationController.profile = self.model.team[indexPath.row]
-                destinationController.model = self.model
+                destinationController.index = indexPath.row
+                destinationController.model = ModelCoreKPI(model: model)
                 destinationController.memberListVC = self
             }
         }
@@ -168,9 +167,9 @@ class MemberListTableViewController: UITableViewController {
     }
 }
 
-//MARK: - updateProfileDelegate method
-extension MemberListTableViewController: updateProfileDelegate {
-    func updateProfile(profile: Team) {
+extension MemberListTableViewController: updateModelDelegate {
+    func updateModel(model: ModelCoreKPI) {
+        self.model = ModelCoreKPI(model: model)
         tableView.reloadData()
     }
 }

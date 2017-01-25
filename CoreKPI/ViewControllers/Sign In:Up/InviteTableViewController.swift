@@ -16,7 +16,6 @@ class InviteTableViewController: UITableViewController {
     
     var model: ModelCoreKPI!
     var invitePerson: Profile!
-    //var request: Request!
     var typeOfAccount = TypeOfAccount.Manager
     
     var numberOfInvations = 0
@@ -24,7 +23,6 @@ class InviteTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //request = Request(model: model)
         getNumberOfInvations()
         numberOfInvationsLAbel.text = "\(numberOfInvations) invitations left"
         typeOfAccountLabel.text = typeOfAccount.rawValue
@@ -97,11 +95,11 @@ class InviteTableViewController: UITableViewController {
     //MARK: - Function for send invations on server
     func sendInvations() {
         
-        let emailLowercased = self.emailTextField.text?.lowercased()
+        let emailLowercased = emailTextField.text?.lowercased()
         
         let inviteRequest = SendInvation(model: model)
         inviteRequest.sendInvations(email: emailLowercased!, typeOfAccount: typeOfAccount, success: {
-            self.showAlert(title: "Congratulation!", message: "You send invation for \(self.emailTextField.text)")
+            self.showAlert(title: "Congratulation!", message: "You send invation for \(self.emailTextField.text!)")
             self.numberOfInvations -= 1
             self.numberOfInvationsLAbel.text = "\(self.numberOfInvations) invitations left"
             self.typeOfAccount = .Manager
@@ -150,14 +148,15 @@ class InviteTableViewController: UITableViewController {
     //MARK: - get number of invations from server
     func getNumberOfInvations() {
         
-        let request = GetNumberOfInvations(model: model)
-        request.getNumberOfInvations(success: { number in
-            self.numberOfInvations = number
-            self.tableView.reloadData()
-        }, failure: { error in
-            self.showAlert(title: "Sorry!", message: error)
-        }
-        )
+        numberOfInvations = 5
+//        let request = GetNumberOfInvations(model: model)
+//        request.getNumberOfInvations(success: { number in
+//            self.numberOfInvations = number
+//            self.tableView.reloadData()
+//        }, failure: { error in
+//            self.showAlert(title: "Sorry!", message: error)
+//        }
+//        )
     }
     
 }

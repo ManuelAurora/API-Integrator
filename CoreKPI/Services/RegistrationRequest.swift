@@ -38,13 +38,16 @@ class RegistrationRequest: Request {
         
         var userId: Int
         var token: String
+        var typeOfAccount: TypeOfAccount!
         
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
                 if let dataKey = json["data"] as? NSDictionary {
                     userId = dataKey["user_id"] as! Int
                     token = dataKey["token"] as! String
-                    let profile = Profile(userId: userId, userName: username, firstName: firstname, lastName: lastname, position: position, photo: photo, phone: nil, nickname: nil, typeOfAccount: .Admin)
+                    let mode = dataKey["mode"] as! Int
+                    typeOfAccount = (mode == 0) ? .Manager : .Admin
+                    let profile = Profile(userId: userId, userName: username, firstName: firstname, lastName: lastname, position: position, photo: photo, phone: nil, nickname: nil, typeOfAccount: typeOfAccount)
                     let model = ModelCoreKPI(token: token, profile: profile)
                     return model
                     
