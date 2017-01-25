@@ -11,11 +11,10 @@ import UIKit
 class ChageNameTableViewController: UITableViewController {
     
     var model: ModelCoreKPI!
+    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     var index: Int!
     weak var memberInfoVC: MemberInfoViewController!
     var delegate: updateModelDelegate!
-    
-    let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     
     @IBOutlet weak var NameLabel: UILabel!
     
@@ -51,15 +50,13 @@ class ChageNameTableViewController: UITableViewController {
         if let nickname = NameLabel.text {
             if nickname != model.team[index].nickname && nickname != model.team[index].firstName! + " " + model.team[index].lastName! {
                 sendNicknameToServer(nickName: nickname)
-                model.team[index].nickname = nickname
                 
                 //debug ->
-                do {
-                    try context.save()
-                } catch {
-                    print(error)
-                    return
-                }
+                let nc = NotificationCenter.default
+                nc.post(name: self.modelDidChangeNotification,
+                        object: nil,
+                        userInfo:["model": self.model])
+                self.model.team[self.index].setValue(nickname, forKey: "nickname")
                 self.navigationController!.popViewController(animated: true)
                 //<- debug
                 
@@ -73,12 +70,11 @@ class ChageNameTableViewController: UITableViewController {
         
         let request = ChangeNickname(model: model)
         request.changeNickName(nickname: nickName, success: {
-            do {
-                try self.context.save()
-            } catch {
-                print(error)
-                return
-            }
+            self.model.team[self.index].setValue(nickName, forKey: "nickname")
+            let nc = NotificationCenter.default
+            nc.post(name: self.modelDidChangeNotification,
+                    object: nil,
+                    userInfo:["model": self.model])
             self.navigationController!.popViewController(animated: true)
         }, failure: { error in
             let alertController = UIAlertController(title: "Error set nickname", message: "\(error)", preferredStyle: .alert)

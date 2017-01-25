@@ -15,7 +15,7 @@ class KPISelectSettingTableViewController: UITableViewController {
     var selectSetting: [(SettingName: String, value: Bool)]!
     var textFieldInputData: String?
     var delegate: updateSettingsDelegate!
-    let profileDidChangeNotification = Notification.Name(rawValue:"profileDidChange")
+    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
     var integratedService = IntegratedServices.none
     var headerForTableView: String!
@@ -39,7 +39,7 @@ class KPISelectSettingTableViewController: UITableViewController {
         }
         
         let nc = NotificationCenter.default
-        nc.addObserver(forName:profileDidChangeNotification, object:nil, queue:nil, using:catchNotification)
+        nc.addObserver(forName: modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
         
         tableView.autoresizesSubviews = true
     }
@@ -189,9 +189,9 @@ class KPISelectSettingTableViewController: UITableViewController {
     //MARK: - catchNotification
     func catchNotification(notification:Notification) -> Void {
         
-        if notification.name == profileDidChangeNotification {
+        if notification.name == modelDidChangeNotification {
             guard let userInfo = notification.userInfo,
-                let _ = userInfo["teamList"] as? [Team] else {
+                let _ = userInfo["model"] as? ModelCoreKPI else {
                     print("No userInfo found in notification")
                     return
             }

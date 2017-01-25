@@ -88,21 +88,6 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-//    func getUserProfileFromServer() {
-//        let getModelRequest = GetModelFromServer(userId: (model.profile?.userId)!, token: model.token)
-//        
-//        getModelRequest.getModelFromServer(
-//            success: {model in
-//                self.model = ModelCoreKPI(model: model)
-//                self.saveData()
-//                self.showTabBarVC()
-//        },
-//            failure: {error in
-//                self.showAlert(title: "Error", errorMessage: error)
-//        }
-//        )
-//    }
-    
     //MARK: - segue to TabBar
     func showTabBarVC() {
         let tabBarController = storyboard?.instantiateViewController(withIdentifier: "TabBarVC") as! MainTabBarViewController

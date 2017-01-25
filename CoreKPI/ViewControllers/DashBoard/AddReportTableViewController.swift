@@ -8,12 +8,6 @@
 
 import UIKit
 
-extension String {
-    func toDouble() -> Double? {
-        return NumberFormatter().number(from: self)?.doubleValue
-    }
-}
-
 class AddReportTableViewController: UITableViewController {
     
     @IBOutlet weak var numberOfCharactersLabel: UILabel!

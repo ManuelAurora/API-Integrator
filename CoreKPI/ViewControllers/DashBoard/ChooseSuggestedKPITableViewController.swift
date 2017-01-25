@@ -130,13 +130,13 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     var typeOfSetting = TypeOfSetting.none
     var settingArray: [(SettingName: String, value: Bool)] = []
     
-    let profileDidChangeNotification = Notification.Name(rawValue:"profileDidChange")
+    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let nc = NotificationCenter.default
-        nc.addObserver(forName:profileDidChangeNotification, object:nil, queue:nil, using:catchNotification)
+        nc.addObserver(forName:modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
         
         createExecutantArray()
         
@@ -224,13 +224,13 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     //MARK: - catchNotification
     func catchNotification(notification:Notification) -> Void {
         
-        if notification.name == self.profileDidChangeNotification {
+        if notification.name == self.modelDidChangeNotification {
             guard let userInfo = notification.userInfo,
-                let team = userInfo["teamList"] as? [Team] else {
+                let model = userInfo["model"] as? ModelCoreKPI else {
                     print("No userInfo found in notification")
                     return
             }
-            model.team = team
+            self.model.team = model.team
             executantArray.removeAll()
             createExecutantArray()
             tableView.reloadData()

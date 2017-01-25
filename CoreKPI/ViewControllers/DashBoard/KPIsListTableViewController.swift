@@ -19,9 +19,7 @@ class KPIsListTableViewController: UITableViewController {
     
     var model: ModelCoreKPI! = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, nickname: nil, typeOfAccount: .Manager))
     
-    //var updateProfileDelegate: updateProfileDelegate!
-    
-    let profileDidChangeNotification = Notification.Name(rawValue:"profileDidChange")
+    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +38,7 @@ class KPIsListTableViewController: UITableViewController {
         self.model.kpis = [kpiOne, kpiTwo]
         //<-debug
         let nc = NotificationCenter.default
-        nc.addObserver(forName:profileDidChangeNotification, object:nil, queue:nil, using:catchNotification)
+        nc.addObserver(forName:modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
         
         refreshControl = UIRefreshControl()
         refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -213,13 +211,13 @@ class KPIsListTableViewController: UITableViewController {
     //MARK: - CatchNotification
     func catchNotification(notification:Notification) -> Void {
         
-        if notification.name == profileDidChangeNotification {
+        if notification.name == modelDidChangeNotification {
             guard let userInfo = notification.userInfo,
-                let teamList = userInfo["teamList"] as? [Team] else {
+                let model = userInfo["model"] as? ModelCoreKPI else {
                     print("No userInfo found in notification")
                     return
             }
-            model.team = teamList
+            self.model.team = model.team
             tableView.reloadData()
         }
     }

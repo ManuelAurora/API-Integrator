@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CoreKPI/ViewControllers/Team/MemberListTableViewController.swift"
-            timestampString = "507040996.831315"
+            filePath = "CoreKPI/ViewControllers/DashBoard/KPIsListTableViewController.swift"
+            timestampString = "507045088.658952"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
-            landmarkName = "loadTeamListFromServer()"
+            startingLineNumber = "214"
+            endingLineNumber = "214"
+            landmarkName = "catchNotification(notification:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -350,7 +350,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
     var typeOfSetting = Setting.none
     var settingArray: [(SettingName: String, value: Bool)] = []
     
-    let profileDidChangeNotification = Notification.Name(rawValue:"profileDidChange")
+    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -366,7 +366,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
             //self.request = Request(model: self.model)
             self.createExecutantArray()
             let nc = NotificationCenter.default
-            nc.addObserver(forName:profileDidChangeNotification, object:nil, queue:nil, using:catchNotification)
+            nc.addObserver(forName: modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
             
             for i in 1...31 {
                 self.mounthlyIntervalArray.append(("\(i)", false))
@@ -420,17 +420,16 @@ class ReportAndViewKPITableViewController: UITableViewController {
     //MARK: - catchNotification
     func catchNotification(notification:Notification) -> Void {
         
-        if notification.name == self.profileDidChangeNotification {
+        if notification.name == self.modelDidChangeNotification {
             guard let userInfo = notification.userInfo,
-                let team = userInfo["teamList"] as? [Team] else {
+                let model = userInfo["model"] as? ModelCoreKPI else {
                     print("No userInfo found in notification")
                     return
             }
-            model.team = team
+            self.model.team = model.team
             executantArray.removeAll()
             createExecutantArray()
             tableView.reloadData()
-            //updateKPIInfo()
         }
     }
     

@@ -16,8 +16,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     
     weak var memberInfoVC: MemberInfoViewController!
     
-    //let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
-    let profileDidChangeNotification = Notification.Name(rawValue:"profileDidChange")
+    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var memberProfilePhotoImage: UIImageView!
@@ -139,9 +138,9 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         //<- debug
         
         let nc = NotificationCenter.default
-        nc.post(name:profileDidChangeNotification,
+        nc.post(name:modelDidChangeNotification,
                 object: nil,
-                userInfo:["teamList": model.team])
+                userInfo:["model": model])
     }
     
     //MARK: - Check input value
@@ -197,7 +196,12 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         
         if newProfile.photo == "New photo link" {
             photo = memberProfilePhotoImage.image
-            newParams["photo"] = sendProfilePhotoToServer(photo: photo!) ?? ""
+            let _ = sendProfilePhotoToServer(photo: photo!, success: { photoLink in
+                newParams["photo"] = photoLink
+                model.team[index].setValue(photoLink, forKey: "photoLink")
+                self.model.team[index].setValue(UIImagePNGRepresentation(photo!) as NSData?, forKey: "photo")
+            }
+            )
         }
         if newProfile.firstName != model.team[index].firstName {
             firstname = newProfile.firstName
@@ -230,9 +234,10 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
-    func sendProfilePhotoToServer(photo: UIImage) -> String? {
+    func sendProfilePhotoToServer(photo: UIImage, success: (_ photoLink: String)->()) -> Bool {
         //send
-        return "https://photo.png"
+        success("https://photo.png")
+        return false
     }
     
     func sendRequest(params : [String : String?] ) {
@@ -265,26 +270,14 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func updateProfile() {
         
-        //model.team[index].setValue(Int64(newProfile.userId), forKey: "userID")
         model.team[index].setValue(newProfile.userName, forKey: "username")
         model.team[index].setValue(newProfile.firstName, forKey: "firstName")
         model.team[index].setValue(newProfile.lastName, forKey: "lastName")
         model.team[index].setValue(newProfile.nickname, forKey: "nickname")
         model.team[index].setValue(newProfile.typeOfAccount == .Admin ? true : false, forKey: "isAdmin")
-        model.team[index].setValue(newProfile.photo, forKey: "photoLink")
         model.team[index].setValue(newProfile.phone, forKey: "phoneNumber")
         model.team[index].setValue(newProfile.position, forKey: "position")
         
-//        if let image = profileImage {
-//            profile.photo = UIImagePNGRepresentation(image) as NSData?
-//        }
-        
-//        do {
-//            try context.save()
-//        } catch {
-//            print(error)
-//            return
-//        }
     }
     
     //MARK: - Show alert method
@@ -338,17 +331,6 @@ extension MemberEditViewController: UIImagePickerControllerDelegate, UINavigatio
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let newPhoto = info[UIImagePickerControllerOriginalImage] as! UIImage?
         memberProfilePhotoImage.image = newPhoto
-        let binaryPhoto = UIImagePNGRepresentation(newPhoto!) as NSData?
-        model.team[index].photo = binaryPhoto
-        
-        model.team[index].setValue(binaryPhoto, forKey: "photo")
-        
-//        do {
-//            try context.save()
-//        } catch {
-//            print(error)
-//        }
-        
         memberProfilePhotoImage.contentMode = UIViewContentMode.scaleAspectFill
         memberProfilePhotoImage.clipsToBounds = true
         newProfile.photo = "New photo link"

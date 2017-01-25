@@ -12,6 +12,7 @@ import CoreData
 class MemberListTableViewController: UITableViewController {
     
     var model = ModelCoreKPI(token: "test", userID: 1) //debug!
+    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
     var indexPath: IndexPath!
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
@@ -70,13 +71,7 @@ class MemberListTableViewController: UITableViewController {
             //load photo from server
             cell.userProfilePhotoImage?.downloadedFrom(link: model.team[indexPath.row].photoLink!)
             if cell.userProfilePhotoImage.image != #imageLiteral(resourceName: "defaultProfile") {
-                
                 model.team[indexPath.row].setValue(UIImagePNGRepresentation(cell.userProfilePhotoImage.image!)! as NSData?, forKey: "photo")
-//                do {
-//                    try context.save()
-//                } catch {
-//                    print(error)
-//                }
             }
         } else {
             cell.userProfilePhotoImage.image = #imageLiteral(resourceName: "defaultProfile")
@@ -97,6 +92,10 @@ class MemberListTableViewController: UITableViewController {
             } catch {
                 print("Fetching faild")
             }
+            let nc = NotificationCenter.default
+            nc.post(name: self.modelDidChangeNotification,
+                    object: nil,
+                    userInfo:["model": self.model])
         }
         )
         return [deleteAction]
@@ -140,11 +139,10 @@ class MemberListTableViewController: UITableViewController {
                 print(error)
                 return
             }
-            let profileDidChangeNotification = Notification.Name(rawValue:"profileDidChange")
             let nc = NotificationCenter.default
-            nc.post(name:profileDidChangeNotification,
+            nc.post(name: self.modelDidChangeNotification,
                     object: nil,
-                    userInfo:["teamList": self.model.team])
+                    userInfo:["model": self.model])
             self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
             
