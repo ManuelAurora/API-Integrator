@@ -13,6 +13,7 @@ class MemberListTableViewController: UITableViewController {
     
     var model = ModelCoreKPI(token: "test", userID: 1) //debug!
     let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
+    let profilePhotoDownloadNotification = Notification.Name(rawValue:"ProfilePhotoDownloaded")
     
     var indexPath: IndexPath!
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
@@ -33,6 +34,9 @@ class MemberListTableViewController: UITableViewController {
         }
         
         loadTeamListFromServer()
+        
+        let nc = NotificationCenter.default
+        nc.addObserver(forName: profilePhotoDownloadNotification, object:nil, queue:nil, using:catchNotification)
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
         tableView.tableFooterView = UIView(frame: .zero)
@@ -70,9 +74,10 @@ class MemberListTableViewController: UITableViewController {
         if (model.team[indexPath.row].photoLink != nil) {
             //load photo from server
             cell.userProfilePhotoImage?.downloadedFrom(link: model.team[indexPath.row].photoLink!)
-            if cell.userProfilePhotoImage.image != #imageLiteral(resourceName: "defaultProfile") {
-                model.team[indexPath.row].setValue(UIImagePNGRepresentation(cell.userProfilePhotoImage.image!)! as NSData?, forKey: "photo")
-            }
+            cell.userProfilePhotoImage.tag = indexPath.row
+//            if cell.userProfilePhotoImage.image != #imageLiteral(resourceName: "defaultProfile") {
+//                model.team[indexPath.row].setValue(UIImagePNGRepresentation(cell.userProfilePhotoImage.image!)! as NSData?, forKey: "photo")
+//            }
         } else {
             cell.userProfilePhotoImage.image = #imageLiteral(resourceName: "defaultProfile")
         }
@@ -162,6 +167,21 @@ class MemberListTableViewController: UITableViewController {
     }
     
     func updateProfilePhoto() {
+    }
+    
+    //MARK: - CatchNotification
+    func catchNotification(notification:Notification) -> Void {
+        
+        if notification.name == profilePhotoDownloadNotification {
+            guard let userInfo = notification.userInfo,
+                let tag = userInfo["UIImageViewTag"] as? Int,
+                let image = userInfo["photo"] as? UIImage
+                else {
+                    print("No userInfo found in notification")
+                    return
+            }
+            model.team[tag].setValue(UIImagePNGRepresentation(image), forKey: "photo")
+        }
     }
 }
 
