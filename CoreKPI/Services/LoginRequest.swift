@@ -37,7 +37,7 @@ class LoginRequest: Request {
                 if let dataKey = json["data"] as? NSDictionary {
                     userId = dataKey["user_id"] as! Int
                     token = dataKey["token"] as! String
-                    let mode = 1//dataKey["mode"] as! Int
+                    let mode = dataKey["mode"] as! Int
                     typeOfAccount = (mode == 0) ? .Manager : .Admin
                     return(userID: userId, token: token, typeOfAccount: typeOfAccount)
                 } else {

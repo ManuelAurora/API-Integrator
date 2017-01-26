@@ -10,7 +10,7 @@ import Foundation
 
 class ChangeUserRights: Request {
     
-    func changeUserRights(typeOfAccount: TypeOfAccount, success: @escaping () -> (), failure: @escaping failure) {
+    func changeUserRights(userID: Int, typeOfAccount: TypeOfAccount, success: @escaping () -> (), failure: @escaping failure) {
         
         let data: [String : Any] = ["user_id" : userID, "mode" : typeOfAccount == .Admin ? 1 : 0]
         
@@ -32,11 +32,9 @@ class ChangeUserRights: Request {
             if successKey == 1 {
                 if (json["data"] as? NSDictionary) != nil {
                     return true
-                } else {
-                    self.errorMessage = json["message"] as? String
                 }
             } else {
-                print("Json file is broken!")
+                self.errorMessage = json["message"] as? String
             }
         }
         return false

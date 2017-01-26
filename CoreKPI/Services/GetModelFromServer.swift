@@ -32,6 +32,7 @@ class GetModelFromServer: Request {
         var firstName: String!
         var lastName: String!
         var position: String!
+        var typeOfAccount: TypeOfAccount!
         var photo: String!
         
         if let successKey = json["success"] as? Int {
@@ -42,8 +43,9 @@ class GetModelFromServer: Request {
                     lastName = dataKey["last_name"] as! String
                     position = dataKey["position"] as! String
                     photo = dataKey["photo"] as! String
-                    
-                    profile = Profile(userId: self.userID, userName: userName, firstName: firstName, lastName: lastName, position: position, photo: photo, phone: nil, nickname: nil, typeOfAccount: .Admin)
+                    let mode = dataKey["mode"] as! Int
+                    typeOfAccount = (mode == 0) ? .Manager : .Admin
+                    profile = Profile(userId: self.userID, userName: userName, firstName: firstName, lastName: lastName, position: position, photo: photo, phone: nil, nickname: nil, typeOfAccount: typeOfAccount)
                     
                    return ModelCoreKPI(token: self.token, profile: profile)
 

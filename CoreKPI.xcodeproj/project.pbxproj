@@ -38,6 +38,9 @@
 		A26408F41E2239910034EEC2 /* ReportAndViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26408F31E2239910034EEC2 /* ReportAndViewTableViewCell.swift */; };
 		A26408F61E2271330034EEC2 /* AddReportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26408F51E2271330034EEC2 /* AddReportTableViewController.swift */; };
 		A26408F81E2280160034EEC2 /* WebViewChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26408F71E2280160034EEC2 /* WebViewChartViewController.swift */; };
+		A26D0F801E39E95000D69885 /* AddKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26D0F7F1E39E95000D69885 /* AddKPI.swift */; };
+		A26D0F821E3A0C3600D69885 /* UpdateKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26D0F811E3A0C3600D69885 /* UpdateKPI.swift */; };
+		A26D0F841E3A45C600D69885 /* DeleteUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26D0F831E3A45C600D69885 /* DeleteUser.swift */; };
 		A26D282A1E0D551D005342BA /* KPIListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26D28291E0D551D005342BA /* KPIListTableViewCell.swift */; };
 		A274DC0F1E0825DF008CBF36 /* InviteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A274DC0E1E0825DF008CBF36 /* InviteTableViewController.swift */; };
 		A274DC111E082617008CBF36 /* MemberListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A274DC101E082617008CBF36 /* MemberListTableViewController.swift */; };
@@ -186,6 +189,9 @@
 		A26408F31E2239910034EEC2 /* ReportAndViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportAndViewTableViewCell.swift; path = CustomTableViewCells/Dashboard/ReportAndViewTableViewCell.swift; sourceTree = "<group>"; };
 		A26408F51E2271330034EEC2 /* AddReportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddReportTableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/AddReportTableViewController.swift; sourceTree = "<group>"; };
 		A26408F71E2280160034EEC2 /* WebViewChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewChartViewController.swift; path = CoreKPI/ViewControllers/DashBoard/WebViewChartViewController.swift; sourceTree = "<group>"; };
+		A26D0F7F1E39E95000D69885 /* AddKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddKPI.swift; path = Services/AddKPI.swift; sourceTree = "<group>"; };
+		A26D0F811E3A0C3600D69885 /* UpdateKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpdateKPI.swift; path = Services/UpdateKPI.swift; sourceTree = "<group>"; };
+		A26D0F831E3A45C600D69885 /* DeleteUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteUser.swift; path = Services/DeleteUser.swift; sourceTree = "<group>"; };
 		A26D28291E0D551D005342BA /* KPIListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIListTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPIListTableViewCell.swift; sourceTree = "<group>"; };
 		A274DC0E1E0825DF008CBF36 /* InviteTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InviteTableViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/InviteTableViewController.swift"; sourceTree = "<group>"; };
 		A274DC101E082617008CBF36 /* MemberListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberListTableViewController.swift; path = CoreKPI/ViewControllers/Team/MemberListTableViewController.swift; sourceTree = "<group>"; };
@@ -387,6 +393,9 @@
 				A2E6A4171E374ACA00391703 /* ChangeNickname.swift */,
 				A2E6A4191E37504D00391703 /* GetKPIs.swift */,
 				A2E6A41B1E37532500391703 /* GetUser'sKPIs.swift */,
+				A26D0F7F1E39E95000D69885 /* AddKPI.swift */,
+				A26D0F811E3A0C3600D69885 /* UpdateKPI.swift */,
+				A26D0F831E3A45C600D69885 /* DeleteUser.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -870,6 +879,7 @@
 				A2A940CB1E1E70740088C7F1 /* UINavigationBurExtension.swift in Sources */,
 				A2E6A40E1E3734BB00391703 /* SendInvation.swift in Sources */,
 				A20B6BD01E31F5EC00FAF86A /* IntegratedKPI.swift in Sources */,
+				A26D0F841E3A45C600D69885 /* DeleteUser.swift in Sources */,
 				A2ACBD3B1E0D11AA0079EF3D /* AlertsListTableViewController.swift in Sources */,
 				A297F5D11E08241900F85963 /* MemberInfoTableViewCell.swift in Sources */,
 				A297F5DF1E08248000F85963 /* NewProfileTableViewCell.swift in Sources */,
@@ -894,6 +904,7 @@
 				A297F5CA1E0823D400F85963 /* RegisterViewController.swift in Sources */,
 				A2E6A4181E374ACA00391703 /* ChangeNickname.swift in Sources */,
 				A20045671E35D75C0019A78D /* LaunchViewController.swift in Sources */,
+				A26D0F801E39E95000D69885 /* AddKPI.swift in Sources */,
 				A27820971E001530009F83DB /* RequestServise.swift in Sources */,
 				A2E6A4121E373D7400391703 /* GetMemberList.swift in Sources */,
 				A278206E1E001503009F83DB /* CoreKPI.xcdatamodeld in Sources */,
@@ -903,6 +914,7 @@
 				A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */,
 				A297F5CB1E0823D400F85963 /* SignInUpViewController.swift in Sources */,
 				A21AEEF21E28AFF200577F4B /* KPIColourTableViewCell.swift in Sources */,
+				A26D0F821E3A0C3600D69885 /* UpdateKPI.swift in Sources */,
 				A2C9ABD71E2F455D00623659 /* ChartTableViewCell.swift in Sources */,
 				A297F5E01E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift in Sources */,
 				A2E6A40C1E37284100391703 /* RegistrationRequest.swift in Sources */,

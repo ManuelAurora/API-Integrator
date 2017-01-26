@@ -48,29 +48,30 @@ class GetKPIs: Request {
                         var kpi_name: String
                         var descriptionOfKPI: String?
                         var executant: Int
-                        let timeInterval = TimeInterval.Daily.rawValue
+                        let timeInterval: String
                         var timeZone: String
                         var deadline: String
                         var number: [(String, Double)]
                         
                         
                         if let kpiData = dataKey[kpi] as? NSDictionary {
-                            active = (kpiData["active"] as? Int) ?? 0
-                            id = (kpiData["id"] as? Int) ?? 0
-                            kpi_name = (kpiData["name"] as? String) ?? "Error name"
-                            department = (kpiData["department"] as? String) ?? "Error department"
+                            active = kpiData["active"] as! Int
+                            id = kpiData["id"] as! Int
+                            kpi_name = (kpiData["name"] as! String)
+                            department = (kpiData["department"] as? String) ?? "Sales"
                             descriptionOfKPI = kpiData["desc"] as? String
-                            executant = (self.userID)! // debug!
+                            executant = kpiData["responsive_id"] as! Int
                             timeZone = "no"
                             deadline = (kpiData["datetime"] as? String)!
                             number = []
+                            timeInterval = kpiData["interval"] as! String
                             //debug
                             //image = ImageForKPIList.Increases
                             
                             print("id: \(id); active: \(active)")
                             
-                            let createdKPI = CreatedKPI(source: source, department: Departments(rawValue: department)!, KPI: kpi_name, descriptionOfKPI: descriptionOfKPI, executant: executant, timeInterval: TimeInterval(rawValue: timeInterval)!, timeZone: timeZone, deadline: deadline, number: number)
-                            let kpi = KPI(typeOfKPI: typeOfKPI, integratedKPI: nil, createdKPI: createdKPI, imageBacgroundColour: UIColor.clear)
+                            let createdKPI = CreatedKPI(source: source, department: Departments(rawValue: department) ?? Departments.none , KPI: kpi_name, descriptionOfKPI: descriptionOfKPI, executant: executant, timeInterval: TimeInterval(rawValue: timeInterval)!, timeZone: timeZone, deadline: deadline, number: number)
+                            let kpi = KPI(kpiID: id, typeOfKPI: typeOfKPI, integratedKPI: nil, createdKPI: createdKPI, imageBacgroundColour: UIColor.clear)
                             arrayOfKPI.append(kpi)
                         }
                         

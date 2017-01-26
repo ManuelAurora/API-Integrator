@@ -28,16 +28,15 @@ class RecoveryPassword: Request {
     
     func parsingJson(json: NSDictionary) -> Bool {
         if let successKey = json["success"] as? Int {
-            if successKey == 0 {
-                self.errorMessage = json["message"] as? String
-                return false
-            } else {
+            if successKey == 1 {
                 return true
+            } else {
+                self.errorMessage = json["message"] as? String
             }
         } else {
             print("Json file is broken!")
-            return false
         }
+        return false
     }
     
 }

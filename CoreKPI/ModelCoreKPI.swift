@@ -77,18 +77,7 @@ class Profile {
         self.nickname = nickname
         self.typeOfAccount = typeOfAccount
     }
-    
-    init(profile: Profile) {
-        self.userId = profile.userId
-        self.userName = profile.userName
-        self.firstName = profile.firstName
-        self.lastName = profile.lastName
-        self.position = profile.position
-        self.photo = profile.photo
-        self.phone = profile.phone
-        self.nickname = profile.nickname
-        self.typeOfAccount = profile.typeOfAccount
-    }
+
     init(userID: Int) {
         self.userId = userID
         self.userName = ""
@@ -122,6 +111,7 @@ class KPI {
     var typeOfKPI: TypeOfKPI
     var integratedKPI: IntegratedKPI?
     var createdKPI: CreatedKPI?
+    var id: Int
     var image: ImageForKPIList? {
         
         switch typeOfKPI {
@@ -163,7 +153,8 @@ class KPI {
     var KPIViewTwo: TypeOfKPIView? = TypeOfKPIView.Graph
     var KPIChartTwo: TypeOfChart? = TypeOfChart.PieChart
     
-    init(typeOfKPI: TypeOfKPI, integratedKPI: IntegratedKPI?, createdKPI: CreatedKPI?, imageBacgroundColour: UIColor?) {
+    init(kpiID: Int ,typeOfKPI: TypeOfKPI, integratedKPI: IntegratedKPI?, createdKPI: CreatedKPI?, imageBacgroundColour: UIColor?) {
+        self.id = kpiID
         self.typeOfKPI = typeOfKPI
         self.integratedKPI = integratedKPI
         self.createdKPI = createdKPI

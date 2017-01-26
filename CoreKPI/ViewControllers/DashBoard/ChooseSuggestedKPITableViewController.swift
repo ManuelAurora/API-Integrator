@@ -589,7 +589,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
             }
             
             let integratedKPI = IntegratedKPI(service: self.integrated, saleForceKPIs: saleForceKPIs, quickBookKPIs: quickBooksKPIs, googleAnalytics: googleAnalyticsKPIs, hubSpotCRMKPIs: hubspotCRMKPIs, payPalKPIs: paypalKPIs, hubSpotMarketingKPIs: hubspotMarketingKPIs)
-            kpi = KPI(typeOfKPI: .IntegratedKPI, integratedKPI: integratedKPI, createdKPI: nil, imageBacgroundColour: UIColor.clear)
+            kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: integratedKPI, createdKPI: nil, imageBacgroundColour: UIColor.clear)
         case .User:
             if self.department == .none || self.kpiName == nil || self.executant == nil || (self.timeInterval == TimeInterval.Weekly && self.weeklyInterval == WeeklyInterval.none) || (self.timeInterval == TimeInterval.Monthly && self.mounthlyInterval == nil) || self.timeZone == nil || self.deadline == nil {
                 showAlert(title: "Error", message: "One ore more parameters are not selected")
@@ -604,18 +604,25 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 }
             }
             let userKPI = CreatedKPI(source: .User, department: self.department, KPI: self.kpiName!, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, timeZone: self.timeZone!, deadline: self.deadline!, number: [])
-            kpi = KPI(typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: userKPI, imageBacgroundColour: UIColor.clear)
+            kpi = KPI(kpiID: 0, typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: userKPI, imageBacgroundColour: UIColor.clear)
             
         default:
             self.showAlert(title: "Error", message: "Select a Sourse please")
             return
         }
         
-        self.delegate = self.KPIListVC
-        delegate.addNewKPI(kpi: kpi)
-        
-        let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
-        _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
+        let request = AddKPI(model: model)
+        request.addKPI(kpi: kpi, success: { id in
+            kpi.id = id
+            self.delegate = self.KPIListVC
+            self.delegate.addNewKPI(kpi: kpi)
+            let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
+            _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
+        }, failure: { error in
+            self.showAlert(title: "Sorry", message: error)
+            
+        }
+        )
     }
     
     //MARK: - Show KPISelectSettingTableViewController method

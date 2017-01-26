@@ -34,7 +34,12 @@ enum DataSource: String {
 
 enum Condition: String {
     case IsLessThan = "is less than"
-    case IncreasedOrDecreased = "increased or decreased"
+    case IsGreaterThan = "is greater than"
+    case DecreasedByMoreThan = "decreased by more than"
+    case IncreasedByMoreThan = "increased by more than"
+    case IncreasedOrDecreasedByMoreThan = "increased or decreased  by more than"
+    case PercentHasDecreasedByMoreThan = "% has decreased by more than"
+    case PercentHasIncreasedByMoreThan = "% has increased by more than"
     case PercentHasIncreasedOrDecreasedByMoreThan = "% has increased or decreased by more than"
 }
 
@@ -64,7 +69,7 @@ class AlertsListTableViewController: UITableViewController {
         tableView.addSubview(refreshControl!)
         
         tableView.tableFooterView = UIView(frame: .zero)
-        tableView.backgroundColor = UIColor(red: 249/255, green: 249/255, blue: 249/255, alpha: 1.0)
+        tableView.backgroundColor = UIColor(red: 241/255, green: 241/255, blue: 241/255, alpha: 1.0)
     }
 
     override func didReceiveMemoryWarning() {

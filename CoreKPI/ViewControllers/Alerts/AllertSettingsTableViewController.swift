@@ -370,12 +370,10 @@ class AllertSettingsTableViewController: AlertsListTableViewController {
             destinatioVC.inputSettingCells = true
             destinatioVC.textFieldInputData = self.threshold
             switch self.condition {
-            case .IncreasedOrDecreased:
-                destinatioVC.headerForTableView = "Add data"
-            case .IsLessThan:
-                destinatioVC.headerForTableView = "Add data"
-            case .PercentHasIncreasedOrDecreasedByMoreThan:
+            case .PercentHasDecreasedByMoreThan, .PercentHasIncreasedOrDecreasedByMoreThan, .PercentHasIncreasedByMoreThan:
                 destinatioVC.headerForTableView = "Add data %"
+            default:
+                destinatioVC.headerForTableView = "Add data"
             }
         case .DeliveryDay:
             destinatioVC.tableView.isScrollEnabled = true

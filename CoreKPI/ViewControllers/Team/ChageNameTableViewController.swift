@@ -52,12 +52,12 @@ class ChageNameTableViewController: UITableViewController {
                 sendNicknameToServer(nickName: nickname)
                 
                 //debug ->
-                let nc = NotificationCenter.default
-                nc.post(name: self.modelDidChangeNotification,
-                        object: nil,
-                        userInfo:["model": self.model])
-                self.model.team[self.index].setValue(nickname, forKey: "nickname")
-                self.navigationController!.popViewController(animated: true)
+                //let nc = NotificationCenter.default
+                //nc.post(name: self.modelDidChangeNotification,
+                        //object: nil,
+                        //userInfo:["model": self.model])
+                //self.model.team[self.index].setValue(nickname, forKey: "nickname")
+                //self.navigationController!.popViewController(animated: true)
                 //<- debug
                 
             } else {
@@ -69,19 +69,23 @@ class ChageNameTableViewController: UITableViewController {
     func sendNicknameToServer(nickName: String) {
         
         let request = ChangeNickname(model: model)
-        request.changeNickName(nickname: nickName, success: {
+        request.changeNickName(userID: Int(model.team[index].userID) ,nickname: nickName, success: {
             self.model.team[self.index].setValue(nickName, forKey: "nickname")
-            let nc = NotificationCenter.default
-            nc.post(name: self.modelDidChangeNotification,
-                    object: nil,
-                    userInfo:["model": self.model])
-            self.navigationController!.popViewController(animated: true)
+            self.dismissVC()
         }, failure: { error in
             let alertController = UIAlertController(title: "Error set nickname", message: "\(error)", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alertController, animated: true, completion: nil)
         }
         )
+    }
+    
+    func dismissVC() {
+        let nc = NotificationCenter.default
+        nc.post(name: modelDidChangeNotification,
+                object: nil,
+                userInfo:["model": self.model])
+        self.navigationController!.popViewController(animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

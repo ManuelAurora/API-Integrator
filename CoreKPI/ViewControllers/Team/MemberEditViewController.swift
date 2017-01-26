@@ -258,7 +258,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         
         let request = ChangeUserRights(model: model)
         
-        request.changeUserRights(typeOfAccount: typeOfAccount,
+        request.changeUserRights(userID: Int(model.team[index].userID), typeOfAccount: typeOfAccount,
                                  success: {
         print("TypeOfAccount was changed")
         },

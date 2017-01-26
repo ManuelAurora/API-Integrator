@@ -21,10 +21,6 @@ protocol updateTypeOfAccountDelegate {
     func updateTypeOfAccount(typeOfAccount: TypeOfAccount)
 }
 
-//protocol updateProfileDelegate {
-//    func updateProfile(profile: Team)
-//}
-
 protocol updateSettingsDelegate {
     func updateSettingsArray(array: [(SettingName: String, value: Bool)])
     func updateStringValue(string: String?)

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CoreData
 
 class MemberListTableViewController: UITableViewController {
     
@@ -75,9 +74,6 @@ class MemberListTableViewController: UITableViewController {
             //load photo from server
             cell.userProfilePhotoImage?.downloadedFrom(link: model.team[indexPath.row].photoLink!)
             cell.userProfilePhotoImage.tag = indexPath.row
-//            if cell.userProfilePhotoImage.image != #imageLiteral(resourceName: "defaultProfile") {
-//                model.team[indexPath.row].setValue(UIImagePNGRepresentation(cell.userProfilePhotoImage.image!)! as NSData?, forKey: "photo")
-//            }
         } else {
             cell.userProfilePhotoImage.image = #imageLiteral(resourceName: "defaultProfile")
         }
@@ -87,6 +83,7 @@ class MemberListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let deleteAction =  UITableViewRowAction(style: .default, title: "Delete", handler: {
             (action, indexPath) -> Void in
+            self.deleteUser(userID: self.model.team[indexPath.row].userID)
             self.context.delete(self.model.team[indexPath.row])
             (UIApplication.shared .delegate as! AppDelegate).saveContext()
             self.model.team.remove(at: indexPath.row)
@@ -103,7 +100,24 @@ class MemberListTableViewController: UITableViewController {
                     userInfo:["model": self.model])
         }
         )
-        return [deleteAction]
+        if model.profile?.typeOfAccount == TypeOfAccount.Admin {
+            return [deleteAction]
+        } else {
+            return []
+        }
+        
+    }
+    
+    //MARK: - Ban user
+    func deleteUser(userID: Int64) {
+        let request = DeleteUser(model: model)
+        request.deleteUser(withID: Int(userID), success: {
+        return
+        }, failure: { error in
+            print(error)
+        self.loadTeamListFromServer()
+        }
+        )
     }
     
     //MARK: -  Pull to refresh method

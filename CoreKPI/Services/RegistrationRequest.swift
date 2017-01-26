@@ -53,16 +53,14 @@ class RegistrationRequest: Request {
                     
                 } else {
                     print("Json data is broken")
-                    return nil
                 }
             } else {
                 self.errorMessage = json["message"] as? String
-                return nil
             }
         } else {
             print("Json file is broken!")
-            return nil
         }
+        return nil
     }
     
 }

@@ -104,6 +104,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         let teamListNavigationViewController = tabBarController.viewControllers?[2] as! TeamListViewController
         let teamListController = teamListNavigationViewController.childViewControllers[0] as! MemberListTableViewController
         teamListController.model = ModelCoreKPI(model: model)
+        teamListController.loadTeamListFromServer()
         
         present(tabBarController, animated: true, completion: nil)
     }
