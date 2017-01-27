@@ -115,6 +115,7 @@ class MemberListTableViewController: UITableViewController {
         return
         }, failure: { error in
             print(error)
+            self.showAlert(errorMessage: error)
         self.loadTeamListFromServer()
         }
         )

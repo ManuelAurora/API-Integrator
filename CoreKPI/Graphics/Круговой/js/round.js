@@ -13,7 +13,7 @@ function pie(w, h, data) {
     
     var radius = ((Math.min((width - margin), (height - margin)) / 2) * 0.9  ),
     outerRadius = radius - margin,
-    innerRadius = 20;
+    innerRadius = 0;
     
     var color = d3.scale.ordinal().range([
                                           '#30a5e3', '#ee5de0', '#d0e868', '#29e3b6', '#2dc7da'
@@ -33,7 +33,7 @@ function pie(w, h, data) {
     .attr("width", width)
     .attr("height", height)
     .append("g")
-//    .attr('class', 'pie-centroid')
+    .attr('class', 'pie-centroid')
     .attr("transform", "translate(" +(width / 2) + "," + (height / 2 ) + ")");
     // .style('filter', 'drop-shadow( 2em 2em 13px rgba(0,0,0, 0.5))');
     

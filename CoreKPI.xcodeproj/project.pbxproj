@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A20045671E35D75C0019A78D /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20045661E35D75C0019A78D /* LaunchViewController.swift */; };
 		A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340901E110CF200208EAB /* ChageNameTableViewController.swift */; };
 		A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340921E110D1C00208EAB /* NewNameViewController.swift */; };
 		A2048BC71E3369A4008792D2 /* WKWebViewTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2048BC61E3369A4008792D2 /* WKWebViewTestViewController.swift */; };
@@ -18,6 +17,8 @@
 		A21EDDF71E23A709001DE74C /* KPIList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21EDDF61E23A709001DE74C /* KPIList.swift */; };
 		A22302C31E1F96B900C9D0B4 /* ReminderViewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22302C21E1F96B900C9D0B4 /* ReminderViewTableViewController.swift */; };
 		A22302C51E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22302C41E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift */; };
+		A2263B0E1E3B7685005C812D /* SupportNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2263B0D1E3B7684005C812D /* SupportNavigationViewController.swift */; };
+		A2263B101E3B8174005C812D /* GetFAQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2263B0F1E3B8174005C812D /* GetFAQ.swift */; };
 		A2279D7A1E14DE1700669EB0 /* points.html in Resources */ = {isa = PBXBuildFile; fileRef = A2279D791E14DE1700669EB0 /* points.html */; };
 		A2279D7D1E14DE2100669EB0 /* d3.js in Resources */ = {isa = PBXBuildFile; fileRef = A2279D7B1E14DE2100669EB0 /* d3.js */; };
 		A2279D7E1E14DE2100669EB0 /* points.js in Resources */ = {isa = PBXBuildFile; fileRef = A2279D7C1E14DE2100669EB0 /* points.js */; };
@@ -38,9 +39,8 @@
 		A26408F41E2239910034EEC2 /* ReportAndViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26408F31E2239910034EEC2 /* ReportAndViewTableViewCell.swift */; };
 		A26408F61E2271330034EEC2 /* AddReportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26408F51E2271330034EEC2 /* AddReportTableViewController.swift */; };
 		A26408F81E2280160034EEC2 /* WebViewChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26408F71E2280160034EEC2 /* WebViewChartViewController.swift */; };
-		A26D0F801E39E95000D69885 /* AddKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26D0F7F1E39E95000D69885 /* AddKPI.swift */; };
-		A26D0F821E3A0C3600D69885 /* UpdateKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26D0F811E3A0C3600D69885 /* UpdateKPI.swift */; };
-		A26D0F841E3A45C600D69885 /* DeleteUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26D0F831E3A45C600D69885 /* DeleteUser.swift */; };
+		A26A40541E3B40D700108E5B /* AddReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26A40531E3B40D700108E5B /* AddReport.swift */; };
+		A26A40561E3B424B00108E5B /* GetReports.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26A40551E3B424B00108E5B /* GetReports.swift */; };
 		A26D282A1E0D551D005342BA /* KPIListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26D28291E0D551D005342BA /* KPIListTableViewCell.swift */; };
 		A274DC0F1E0825DF008CBF36 /* InviteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A274DC0E1E0825DF008CBF36 /* InviteTableViewController.swift */; };
 		A274DC111E082617008CBF36 /* MemberListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A274DC101E082617008CBF36 /* MemberListTableViewController.swift */; };
@@ -86,8 +86,6 @@
 		A2B720981E2E4AFD00471E91 /* d3-funnel.js in Resources */ = {isa = PBXBuildFile; fileRef = A2B720971E2E4AFC00471E91 /* d3-funnel.js */; };
 		A2B7209A1E2E5F9900471E91 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B720991E2E5F9900471E91 /* OnboardingPageViewController.swift */; };
 		A2B7209C1E2E5FBC00471E91 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B7209B1E2E5FBC00471E91 /* OnboardingViewController.swift */; };
-		A2BE454F1E36455300033F37 /* GetModelFromServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2BE454E1E36455300033F37 /* GetModelFromServer.swift */; };
-		A2BE45511E36500800033F37 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2BE45501E36500800033F37 /* LoginRequest.swift */; };
 		A2C9ABD71E2F455D00623659 /* ChartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C9ABD61E2F455D00623659 /* ChartTableViewCell.swift */; };
 		A2C9ABDA1E2F5BD600623659 /* positiveBar.html in Resources */ = {isa = PBXBuildFile; fileRef = A2C9ABD91E2F5BD600623659 /* positiveBar.html */; };
 		A2C9ABDC1E2F5BFE00623659 /* positiveBar.css in Resources */ = {isa = PBXBuildFile; fileRef = A2C9ABDB1E2F5BFE00623659 /* positiveBar.css */; };
@@ -97,16 +95,9 @@
 		A2C9FD261E13E1CD00433D43 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD251E13E1CD00433D43 /* style.css */; };
 		A2C9FD291E13E1D400433D43 /* Rd3.v3.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */; };
 		A2C9FD2A1E13E1D400433D43 /* round.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD281E13E1D400433D43 /* round.js */; };
-		A2E6A40A1E3723BF00391703 /* RecoveryPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A4091E3723BF00391703 /* RecoveryPassword.swift */; };
-		A2E6A40C1E37284100391703 /* RegistrationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A40B1E37284100391703 /* RegistrationRequest.swift */; };
-		A2E6A40E1E3734BB00391703 /* SendInvation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A40D1E3734BB00391703 /* SendInvation.swift */; };
-		A2E6A4101E37380900391703 /* GetNumberOfInvations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A40F1E37380900391703 /* GetNumberOfInvations.swift */; };
-		A2E6A4121E373D7400391703 /* GetMemberList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A4111E373D7400391703 /* GetMemberList.swift */; };
-		A2E6A4141E37469E00391703 /* ChangeProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A4131E37469E00391703 /* ChangeProfile.swift */; };
-		A2E6A4161E3748B800391703 /* ChangeUserRights.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A4151E3748B800391703 /* ChangeUserRights.swift */; };
-		A2E6A4181E374ACA00391703 /* ChangeNickname.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A4171E374ACA00391703 /* ChangeNickname.swift */; };
-		A2E6A41A1E37504D00391703 /* GetKPIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A4191E37504D00391703 /* GetKPIs.swift */; };
-		A2E6A41C1E37532500391703 /* GetUser'sKPIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E6A41B1E37532500391703 /* GetUser'sKPIs.swift */; };
+		A2E8F9FB1E3B1AB800046870 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E8F9FA1E3B1AB800046870 /* LaunchViewController.swift */; };
+		A2E8F9FD1E3B223500046870 /* EditKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E8F9FC1E3B223500046870 /* EditKPI.swift */; };
+		A2E8F9FF1E3B32D700046870 /* DeleteKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E8F9FE1E3B32D700046870 /* DeleteKPI.swift */; };
 		A2EFE2C61E2DF0A500BA2956 /* ChartsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EFE2C51E2DF0A500BA2956 /* ChartsPageViewController.swift */; };
 		A2EFE2C81E2DF0E300BA2956 /* TableViewChartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EFE2C71E2DF0E300BA2956 /* TableViewChartController.swift */; };
 		A2EFE2CA1E2E390900BA2956 /* Lines.html in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2C91E2E390900BA2956 /* Lines.html */; };
@@ -121,6 +112,19 @@
 		A2EFE2DF1E2E494200BA2956 /* jquery.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2DE1E2E494200BA2956 /* jquery.min.js */; };
 		A2EFE2E11E2E4A1300BA2956 /* d3V442.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2E01E2E4A1300BA2956 /* d3V442.min.js */; };
 		A2F0B1181E0C1B110095580B /* CoreKPIDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F0B1171E0C1B110095580B /* CoreKPIDelegates.swift */; };
+		A2F77E051E3B199400BB8318 /* AddKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77DF61E3B199400BB8318 /* AddKPI.swift */; };
+		A2F77E061E3B199400BB8318 /* ChangeNickname.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77DF71E3B199400BB8318 /* ChangeNickname.swift */; };
+		A2F77E071E3B199400BB8318 /* ChangeProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77DF81E3B199400BB8318 /* ChangeProfile.swift */; };
+		A2F77E081E3B199400BB8318 /* ChangeUserRights.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77DF91E3B199400BB8318 /* ChangeUserRights.swift */; };
+		A2F77E091E3B199400BB8318 /* DeleteUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77DFA1E3B199400BB8318 /* DeleteUser.swift */; };
+		A2F77E0A1E3B199400BB8318 /* GetKPIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77DFB1E3B199400BB8318 /* GetKPIs.swift */; };
+		A2F77E0B1E3B199400BB8318 /* GetMemberList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77DFC1E3B199400BB8318 /* GetMemberList.swift */; };
+		A2F77E0C1E3B199400BB8318 /* GetModelFromServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77DFD1E3B199400BB8318 /* GetModelFromServer.swift */; };
+		A2F77E0D1E3B199400BB8318 /* GetNumberOfInvations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77DFE1E3B199400BB8318 /* GetNumberOfInvations.swift */; };
+		A2F77E0F1E3B199400BB8318 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77E001E3B199400BB8318 /* LoginRequest.swift */; };
+		A2F77E101E3B199400BB8318 /* RecoveryPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77E011E3B199400BB8318 /* RecoveryPassword.swift */; };
+		A2F77E111E3B199400BB8318 /* RegistrationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77E021E3B199400BB8318 /* RegistrationRequest.swift */; };
+		A2F77E121E3B199400BB8318 /* SendInvation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77E031E3B199400BB8318 /* SendInvation.swift */; };
 		A2FB1AA21E252C110045824A /* KPIDescriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FB1AA11E252C110045824A /* KPIDescriptionTableViewCell.swift */; };
 		A2FB98A41E25FE6900A856E8 /* KPISettingInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FB98A31E25FE6900A856E8 /* KPISettingInputTableViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -158,7 +162,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		A20045661E35D75C0019A78D /* LaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LaunchViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/LaunchViewController.swift"; sourceTree = "<group>"; };
 		A20340901E110CF200208EAB /* ChageNameTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChageNameTableViewController.swift; path = CoreKPI/ViewControllers/Team/ChageNameTableViewController.swift; sourceTree = "<group>"; };
 		A20340921E110D1C00208EAB /* NewNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewNameViewController.swift; path = CoreKPI/ViewControllers/Team/NewNameViewController.swift; sourceTree = "<group>"; };
 		A2048BC61E3369A4008792D2 /* WKWebViewTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKWebViewTestViewController.swift; sourceTree = "<group>"; };
@@ -169,6 +172,8 @@
 		A21EDDF61E23A709001DE74C /* KPIList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIList.swift; path = ../KPIList.swift; sourceTree = "<group>"; };
 		A22302C21E1F96B900C9D0B4 /* ReminderViewTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderViewTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/ReminderViewTableViewController.swift; sourceTree = "<group>"; };
 		A22302C41E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertInputSettingTableViewCell.swift; path = CustomTableViewCells/Alerts/AlertInputSettingTableViewCell.swift; sourceTree = "<group>"; };
+		A2263B0D1E3B7684005C812D /* SupportNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SupportNavigationViewController.swift; path = CoreKPI/ViewControllers/SupportNavigationViewController.swift; sourceTree = "<group>"; };
+		A2263B0F1E3B8174005C812D /* GetFAQ.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetFAQ.swift; path = Services/GetFAQ.swift; sourceTree = "<group>"; };
 		A2279D791E14DE1700669EB0 /* points.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = points.html; path = Graphics/Point/points.html; sourceTree = "<group>"; };
 		A2279D7B1E14DE2100669EB0 /* d3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = d3.js; path = Graphics/Point/js/d3.js; sourceTree = "<group>"; };
 		A2279D7C1E14DE2100669EB0 /* points.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = points.js; path = Graphics/Point/js/points.js; sourceTree = "<group>"; };
@@ -189,9 +194,8 @@
 		A26408F31E2239910034EEC2 /* ReportAndViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportAndViewTableViewCell.swift; path = CustomTableViewCells/Dashboard/ReportAndViewTableViewCell.swift; sourceTree = "<group>"; };
 		A26408F51E2271330034EEC2 /* AddReportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddReportTableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/AddReportTableViewController.swift; sourceTree = "<group>"; };
 		A26408F71E2280160034EEC2 /* WebViewChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewChartViewController.swift; path = CoreKPI/ViewControllers/DashBoard/WebViewChartViewController.swift; sourceTree = "<group>"; };
-		A26D0F7F1E39E95000D69885 /* AddKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddKPI.swift; path = Services/AddKPI.swift; sourceTree = "<group>"; };
-		A26D0F811E3A0C3600D69885 /* UpdateKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpdateKPI.swift; path = Services/UpdateKPI.swift; sourceTree = "<group>"; };
-		A26D0F831E3A45C600D69885 /* DeleteUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteUser.swift; path = Services/DeleteUser.swift; sourceTree = "<group>"; };
+		A26A40531E3B40D700108E5B /* AddReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddReport.swift; path = Services/AddReport.swift; sourceTree = "<group>"; };
+		A26A40551E3B424B00108E5B /* GetReports.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetReports.swift; path = Services/GetReports.swift; sourceTree = "<group>"; };
 		A26D28291E0D551D005342BA /* KPIListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIListTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPIListTableViewCell.swift; sourceTree = "<group>"; };
 		A274DC0E1E0825DF008CBF36 /* InviteTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InviteTableViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/InviteTableViewController.swift"; sourceTree = "<group>"; };
 		A274DC101E082617008CBF36 /* MemberListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberListTableViewController.swift; path = CoreKPI/ViewControllers/Team/MemberListTableViewController.swift; sourceTree = "<group>"; };
@@ -241,8 +245,6 @@
 		A2B720971E2E4AFC00471E91 /* d3-funnel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "d3-funnel.js"; path = "Graphics/Funnel/d3-funnel.js"; sourceTree = "<group>"; };
 		A2B720991E2E5F9900471E91 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnboardingPageViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/OnboardingPageViewController.swift"; sourceTree = "<group>"; };
 		A2B7209B1E2E5FBC00471E91 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnboardingViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/OnboardingViewController.swift"; sourceTree = "<group>"; };
-		A2BE454E1E36455300033F37 /* GetModelFromServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetModelFromServer.swift; path = Services/GetModelFromServer.swift; sourceTree = "<group>"; };
-		A2BE45501E36500800033F37 /* LoginRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginRequest.swift; path = Services/LoginRequest.swift; sourceTree = "<group>"; };
 		A2C9ABD61E2F455D00623659 /* ChartTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChartTableViewCell.swift; path = CustomTableViewCells/ChartTableViewCell.swift; sourceTree = "<group>"; };
 		A2C9ABD91E2F5BD600623659 /* positiveBar.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = positiveBar.html; path = Graphics/PositiveBar/positiveBar.html; sourceTree = "<group>"; };
 		A2C9ABDB1E2F5BFE00623659 /* positiveBar.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = positiveBar.css; path = Graphics/PositiveBar/positiveBar.css; sourceTree = "<group>"; };
@@ -252,16 +254,9 @@
 		A2C9FD251E13E1CD00433D43 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = style.css; path = "Graphics/Круговой/css/style.css"; sourceTree = "<group>"; };
 		A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Rd3.v3.min.js; path = "Graphics/Круговой/js/Rd3.v3.min.js"; sourceTree = "<group>"; };
 		A2C9FD281E13E1D400433D43 /* round.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = round.js; path = "Graphics/Круговой/js/round.js"; sourceTree = "<group>"; };
-		A2E6A4091E3723BF00391703 /* RecoveryPassword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecoveryPassword.swift; path = Services/RecoveryPassword.swift; sourceTree = "<group>"; };
-		A2E6A40B1E37284100391703 /* RegistrationRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationRequest.swift; path = Services/RegistrationRequest.swift; sourceTree = "<group>"; };
-		A2E6A40D1E3734BB00391703 /* SendInvation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SendInvation.swift; path = Services/SendInvation.swift; sourceTree = "<group>"; };
-		A2E6A40F1E37380900391703 /* GetNumberOfInvations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetNumberOfInvations.swift; path = Services/GetNumberOfInvations.swift; sourceTree = "<group>"; };
-		A2E6A4111E373D7400391703 /* GetMemberList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetMemberList.swift; path = Services/GetMemberList.swift; sourceTree = "<group>"; };
-		A2E6A4131E37469E00391703 /* ChangeProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangeProfile.swift; path = Services/ChangeProfile.swift; sourceTree = "<group>"; };
-		A2E6A4151E3748B800391703 /* ChangeUserRights.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangeUserRights.swift; path = Services/ChangeUserRights.swift; sourceTree = "<group>"; };
-		A2E6A4171E374ACA00391703 /* ChangeNickname.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangeNickname.swift; path = Services/ChangeNickname.swift; sourceTree = "<group>"; };
-		A2E6A4191E37504D00391703 /* GetKPIs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetKPIs.swift; path = Services/GetKPIs.swift; sourceTree = "<group>"; };
-		A2E6A41B1E37532500391703 /* GetUser'sKPIs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "GetUser'sKPIs.swift"; path = "Services/GetUser'sKPIs.swift"; sourceTree = "<group>"; };
+		A2E8F9FA1E3B1AB800046870 /* LaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LaunchViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/LaunchViewController.swift"; sourceTree = "<group>"; };
+		A2E8F9FC1E3B223500046870 /* EditKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditKPI.swift; path = Services/EditKPI.swift; sourceTree = "<group>"; };
+		A2E8F9FE1E3B32D700046870 /* DeleteKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteKPI.swift; path = Services/DeleteKPI.swift; sourceTree = "<group>"; };
 		A2EFE2C51E2DF0A500BA2956 /* ChartsPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChartsPageViewController.swift; path = CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift; sourceTree = "<group>"; };
 		A2EFE2C71E2DF0E300BA2956 /* TableViewChartController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewChartController.swift; path = CoreKPI/ViewControllers/DashBoard/TableViewChartController.swift; sourceTree = "<group>"; };
 		A2EFE2C91E2E390900BA2956 /* Lines.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = Lines.html; path = Graphics/Lines/Lines.html; sourceTree = "<group>"; };
@@ -276,6 +271,19 @@
 		A2EFE2DE1E2E494200BA2956 /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jquery.min.js; path = Graphics/Funnel/jquery.min.js; sourceTree = "<group>"; };
 		A2EFE2E01E2E4A1300BA2956 /* d3V442.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = d3V442.min.js; path = Graphics/Funnel/d3V442.min.js; sourceTree = "<group>"; };
 		A2F0B1171E0C1B110095580B /* CoreKPIDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreKPIDelegates.swift; sourceTree = "<group>"; };
+		A2F77DF61E3B199400BB8318 /* AddKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddKPI.swift; path = Services/AddKPI.swift; sourceTree = "<group>"; };
+		A2F77DF71E3B199400BB8318 /* ChangeNickname.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangeNickname.swift; path = Services/ChangeNickname.swift; sourceTree = "<group>"; };
+		A2F77DF81E3B199400BB8318 /* ChangeProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangeProfile.swift; path = Services/ChangeProfile.swift; sourceTree = "<group>"; };
+		A2F77DF91E3B199400BB8318 /* ChangeUserRights.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangeUserRights.swift; path = Services/ChangeUserRights.swift; sourceTree = "<group>"; };
+		A2F77DFA1E3B199400BB8318 /* DeleteUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteUser.swift; path = Services/DeleteUser.swift; sourceTree = "<group>"; };
+		A2F77DFB1E3B199400BB8318 /* GetKPIs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetKPIs.swift; path = Services/GetKPIs.swift; sourceTree = "<group>"; };
+		A2F77DFC1E3B199400BB8318 /* GetMemberList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetMemberList.swift; path = Services/GetMemberList.swift; sourceTree = "<group>"; };
+		A2F77DFD1E3B199400BB8318 /* GetModelFromServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetModelFromServer.swift; path = Services/GetModelFromServer.swift; sourceTree = "<group>"; };
+		A2F77DFE1E3B199400BB8318 /* GetNumberOfInvations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetNumberOfInvations.swift; path = Services/GetNumberOfInvations.swift; sourceTree = "<group>"; };
+		A2F77E001E3B199400BB8318 /* LoginRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginRequest.swift; path = Services/LoginRequest.swift; sourceTree = "<group>"; };
+		A2F77E011E3B199400BB8318 /* RecoveryPassword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecoveryPassword.swift; path = Services/RecoveryPassword.swift; sourceTree = "<group>"; };
+		A2F77E021E3B199400BB8318 /* RegistrationRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationRequest.swift; path = Services/RegistrationRequest.swift; sourceTree = "<group>"; };
+		A2F77E031E3B199400BB8318 /* SendInvation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SendInvation.swift; path = Services/SendInvation.swift; sourceTree = "<group>"; };
 		A2FB1AA11E252C110045824A /* KPIDescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIDescriptionTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPIDescriptionTableViewCell.swift; sourceTree = "<group>"; };
 		A2FB98A31E25FE6900A856E8 /* KPISettingInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPISettingInputTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPISettingInputTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -381,21 +389,24 @@
 			isa = PBXGroup;
 			children = (
 				A27820961E001530009F83DB /* RequestServise.swift */,
-				A2BE45501E36500800033F37 /* LoginRequest.swift */,
-				A2BE454E1E36455300033F37 /* GetModelFromServer.swift */,
-				A2E6A4091E3723BF00391703 /* RecoveryPassword.swift */,
-				A2E6A40B1E37284100391703 /* RegistrationRequest.swift */,
-				A2E6A40D1E3734BB00391703 /* SendInvation.swift */,
-				A2E6A40F1E37380900391703 /* GetNumberOfInvations.swift */,
-				A2E6A4111E373D7400391703 /* GetMemberList.swift */,
-				A2E6A4131E37469E00391703 /* ChangeProfile.swift */,
-				A2E6A4151E3748B800391703 /* ChangeUserRights.swift */,
-				A2E6A4171E374ACA00391703 /* ChangeNickname.swift */,
-				A2E6A4191E37504D00391703 /* GetKPIs.swift */,
-				A2E6A41B1E37532500391703 /* GetUser'sKPIs.swift */,
-				A26D0F7F1E39E95000D69885 /* AddKPI.swift */,
-				A26D0F811E3A0C3600D69885 /* UpdateKPI.swift */,
-				A26D0F831E3A45C600D69885 /* DeleteUser.swift */,
+				A2F77E001E3B199400BB8318 /* LoginRequest.swift */,
+				A2F77E011E3B199400BB8318 /* RecoveryPassword.swift */,
+				A2F77E021E3B199400BB8318 /* RegistrationRequest.swift */,
+				A2F77DFE1E3B199400BB8318 /* GetNumberOfInvations.swift */,
+				A2F77E031E3B199400BB8318 /* SendInvation.swift */,
+				A2F77DFD1E3B199400BB8318 /* GetModelFromServer.swift */,
+				A2F77DFC1E3B199400BB8318 /* GetMemberList.swift */,
+				A2F77DF81E3B199400BB8318 /* ChangeProfile.swift */,
+				A2F77DF71E3B199400BB8318 /* ChangeNickname.swift */,
+				A2F77DF91E3B199400BB8318 /* ChangeUserRights.swift */,
+				A2F77DFA1E3B199400BB8318 /* DeleteUser.swift */,
+				A2F77DFB1E3B199400BB8318 /* GetKPIs.swift */,
+				A2F77DF61E3B199400BB8318 /* AddKPI.swift */,
+				A2E8F9FC1E3B223500046870 /* EditKPI.swift */,
+				A2E8F9FE1E3B32D700046870 /* DeleteKPI.swift */,
+				A26A40531E3B40D700108E5B /* AddReport.swift */,
+				A26A40551E3B424B00108E5B /* GetReports.swift */,
+				A2263B0F1E3B8174005C812D /* GetFAQ.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -506,6 +517,7 @@
 		A297F5BF1E08238A00F85963 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				A2263B0D1E3B7684005C812D /* SupportNavigationViewController.swift */,
 				A297F5B81E08234500F85963 /* SupportMainTableViewController.swift */,
 				A297F5B51E08234500F85963 /* AboutTableViewController.swift */,
 				A297F5B71E08234500F85963 /* faqTableViewController.swift */,
@@ -549,7 +561,7 @@
 		A297F5CE1E0823DA00F85963 /* Sign In/Up */ = {
 			isa = PBXGroup;
 			children = (
-				A20045661E35D75C0019A78D /* LaunchViewController.swift */,
+				A2E8F9FA1E3B1AB800046870 /* LaunchViewController.swift */,
 				A297F5C51E0823D400F85963 /* SignInUpViewController.swift */,
 				A297F5C61E0823D400F85963 /* SignInViewController.swift */,
 				A297F5C31E0823D400F85963 /* RecoveryPasswordViewController.swift */,
@@ -861,52 +873,52 @@
 				A21EDDF71E23A709001DE74C /* KPIList.swift in Sources */,
 				A297F5C81E0823D400F85963 /* NewProfileTableViewController.swift in Sources */,
 				A2EFE2C81E2DF0E300BA2956 /* TableViewChartController.swift in Sources */,
-				A2E6A41A1E37504D00391703 /* GetKPIs.swift in Sources */,
 				A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */,
 				A2279D821E14E86400669EB0 /* TeamListNavigationViewController.swift in Sources */,
 				A274DC111E082617008CBF36 /* MemberListTableViewController.swift in Sources */,
+				A2263B0E1E3B7685005C812D /* SupportNavigationViewController.swift in Sources */,
 				A26D282A1E0D551D005342BA /* KPIListTableViewCell.swift in Sources */,
 				A2ACBD3F1E0D12280079EF3D /* AlertsListTableViewCell.swift in Sources */,
 				A20B6BD21E31F62800FAF86A /* User's KPI.swift in Sources */,
 				A297F5BB1E08234500F85963 /* faqTableViewController.swift in Sources */,
-				A2E6A40A1E3723BF00391703 /* RecoveryPassword.swift in Sources */,
-				A2E6A4161E3748B800391703 /* ChangeUserRights.swift in Sources */,
 				A297F5BA1E08234500F85963 /* faqDetailViewController.swift in Sources */,
-				A2E6A41C1E37532500391703 /* GetUser'sKPIs.swift in Sources */,
 				A21B46C91E22B046000890D3 /* iOSChartsTestViewController.swift in Sources */,
 				A26408F41E2239910034EEC2 /* ReportAndViewTableViewCell.swift in Sources */,
 				A22302C31E1F96B900C9D0B4 /* ReminderViewTableViewController.swift in Sources */,
+				A2263B101E3B8174005C812D /* GetFAQ.swift in Sources */,
 				A2A940CB1E1E70740088C7F1 /* UINavigationBurExtension.swift in Sources */,
-				A2E6A40E1E3734BB00391703 /* SendInvation.swift in Sources */,
 				A20B6BD01E31F5EC00FAF86A /* IntegratedKPI.swift in Sources */,
-				A26D0F841E3A45C600D69885 /* DeleteUser.swift in Sources */,
+				A2F77E0C1E3B199400BB8318 /* GetModelFromServer.swift in Sources */,
 				A2ACBD3B1E0D11AA0079EF3D /* AlertsListTableViewController.swift in Sources */,
 				A297F5D11E08241900F85963 /* MemberInfoTableViewCell.swift in Sources */,
 				A297F5DF1E08248000F85963 /* NewProfileTableViewCell.swift in Sources */,
 				A297F5B01E08233100F85963 /* MainTabBarViewController.swift in Sources */,
+				A2E8F9FB1E3B1AB800046870 /* LaunchViewController.swift in Sources */,
 				A22EF0661E0901A20004DDB7 /* ModelCoreKPI.swift in Sources */,
+				A2F77E091E3B199400BB8318 /* DeleteUser.swift in Sources */,
 				A297F5B41E08233A00F85963 /* MemberInfoViewController.swift in Sources */,
 				A297F5BC1E08234500F85963 /* SupportMainTableViewController.swift in Sources */,
 				A2048BC71E3369A4008792D2 /* WKWebViewTestViewController.swift in Sources */,
 				A235CB321E0ACD5200636888 /* AllertSettingsTableViewController.swift in Sources */,
+				A2F77E0F1E3B199400BB8318 /* LoginRequest.swift in Sources */,
+				A26A40541E3B40D700108E5B /* AddReport.swift in Sources */,
+				A2F77E071E3B199400BB8318 /* ChangeProfile.swift in Sources */,
 				A2EFE2C61E2DF0A500BA2956 /* ChartsPageViewController.swift in Sources */,
 				A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */,
 				A297F5B91E08234500F85963 /* AboutTableViewController.swift in Sources */,
+				A2E8F9FF1E3B32D700046870 /* DeleteKPI.swift in Sources */,
 				A261D9201E12A81000638C56 /* SuggestedKPIDescriptionTableViewController.swift in Sources */,
+				A2F77E121E3B199400BB8318 /* SendInvation.swift in Sources */,
 				A258A70D1E21177000FBFBDF /* SelectIntegratedServicesViewController.swift in Sources */,
+				A2F77E101E3B199400BB8318 /* RecoveryPassword.swift in Sources */,
 				A297F5C91E0823D400F85963 /* RecoveryPasswordViewController.swift in Sources */,
 				A26408F81E2280160034EEC2 /* WebViewChartViewController.swift in Sources */,
-				A2E6A4101E37380900391703 /* GetNumberOfInvations.swift in Sources */,
+				A2F77E0B1E3B199400BB8318 /* GetMemberList.swift in Sources */,
+				A2F77E0A1E3B199400BB8318 /* GetKPIs.swift in Sources */,
 				A2F0B1181E0C1B110095580B /* CoreKPIDelegates.swift in Sources */,
-				A2BE45511E36500800033F37 /* LoginRequest.swift in Sources */,
-				A2E6A4141E37469E00391703 /* ChangeProfile.swift in Sources */,
 				A297F5D71E08244800F85963 /* AnswerFaqTableViewCell.swift in Sources */,
 				A297F5CA1E0823D400F85963 /* RegisterViewController.swift in Sources */,
-				A2E6A4181E374ACA00391703 /* ChangeNickname.swift in Sources */,
-				A20045671E35D75C0019A78D /* LaunchViewController.swift in Sources */,
-				A26D0F801E39E95000D69885 /* AddKPI.swift in Sources */,
 				A27820971E001530009F83DB /* RequestServise.swift in Sources */,
-				A2E6A4121E373D7400391703 /* GetMemberList.swift in Sources */,
 				A278206E1E001503009F83DB /* CoreKPI.xcdatamodeld in Sources */,
 				A297F5D81E08244800F85963 /* faqListTableViewCell.swift in Sources */,
 				A26408F21E22394F0034EEC2 /* ReportAndViewKPITableViewController.swift in Sources */,
@@ -914,17 +926,19 @@
 				A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */,
 				A297F5CB1E0823D400F85963 /* SignInUpViewController.swift in Sources */,
 				A21AEEF21E28AFF200577F4B /* KPIColourTableViewCell.swift in Sources */,
-				A26D0F821E3A0C3600D69885 /* UpdateKPI.swift in Sources */,
 				A2C9ABD71E2F455D00623659 /* ChartTableViewCell.swift in Sources */,
+				A2F77E051E3B199400BB8318 /* AddKPI.swift in Sources */,
 				A297F5E01E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift in Sources */,
-				A2E6A40C1E37284100391703 /* RegistrationRequest.swift in Sources */,
 				A261D9181E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift in Sources */,
+				A2F77E081E3B199400BB8318 /* ChangeUserRights.swift in Sources */,
 				A297F5E11E08248000F85963 /* TypeAccountTableViewCell.swift in Sources */,
 				A2B7209A1E2E5F9900471E91 /* OnboardingPageViewController.swift in Sources */,
 				A258A70B1E20D47700FBFBDF /* KPISelectSettingTableViewController.swift in Sources */,
+				A2F77E061E3B199400BB8318 /* ChangeNickname.swift in Sources */,
 				A297F5B31E08233A00F85963 /* MemberEditViewController.swift in Sources */,
 				A2FB1AA21E252C110045824A /* KPIDescriptionTableViewCell.swift in Sources */,
 				A274DC0F1E0825DF008CBF36 /* InviteTableViewController.swift in Sources */,
+				A2E8F9FD1E3B223500046870 /* EditKPI.swift in Sources */,
 				A2279D861E14EC3B00669EB0 /* DashboardsNavigationViewController.swift in Sources */,
 				A2844B3C1E0BC842002E297A /* MemberEditTableViewCell.swift in Sources */,
 				A2A215511E124AB800EEBCA2 /* AlertSettingTableViewCell.swift in Sources */,
@@ -934,12 +948,14 @@
 				A2FB98A41E25FE6900A856E8 /* KPISettingInputTableViewCell.swift in Sources */,
 				A2279D841E14EBF200669EB0 /* AlertsNavigationViewController.swift in Sources */,
 				A22302C51E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift in Sources */,
+				A2F77E111E3B199400BB8318 /* RegistrationRequest.swift in Sources */,
 				A2425CB41E1CE8EE00DFDF91 /* UIImageExtension.swift in Sources */,
 				A2A215531E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift in Sources */,
-				A2BE454F1E36455300033F37 /* GetModelFromServer.swift in Sources */,
 				A27820661E001503009F83DB /* AppDelegate.swift in Sources */,
 				A2ACBD411E0D1DFA0079EF3D /* KPIsListTableViewController.swift in Sources */,
 				A297F5CD1E0823D400F85963 /* TypeOfAccountTableViewController.swift in Sources */,
+				A26A40561E3B424B00108E5B /* GetReports.swift in Sources */,
+				A2F77E0D1E3B199400BB8318 /* GetNumberOfInvations.swift in Sources */,
 				A297F5D21E08241900F85963 /* MemberListTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,8 +10,15 @@ import UIKit
 
 class SupportMainTableViewController: UITableViewController {
 
+    var model: ModelCoreKPI!
+    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let nc = NotificationCenter.default
+        nc.addObserver(forName:modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
+        
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
         tableView.tableFooterView = UIView(frame: .zero)
     }
@@ -29,7 +36,24 @@ class SupportMainTableViewController: UITableViewController {
         return 4
     }
     
+    //MARK: - CatchNotification
+    func catchNotification(notification:Notification) -> Void {
+        
+        if notification.name == modelDidChangeNotification {
+            guard let userInfo = notification.userInfo,
+                let model = userInfo["model"] as? ModelCoreKPI else {
+                    print("No userInfo found in notification")
+                    return
+            }
+            self.model = ModelCoreKPI(model: model)
+        }
+    }
+    
     @IBAction func didTapLogoutButton(_ sender: UIBarButtonItem) {
+        let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
+        for profile in model.team {
+            context.delete(profile)
+        }
         UserDefaults.standard.removeObject(forKey: "token")
         
         let startVC = storyboard?.instantiateViewController(withIdentifier: "StartVC")

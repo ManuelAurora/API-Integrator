@@ -1,61 +1,122 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700');
+/*@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700');*/
+/*.funnel {*/
+/*    -ms-flex-align: center;*/
+/*    -webkit-box-align: center;*/
+/*    align-items: center;*/
+/*    display: -ms-flexbox;*/
+/*    display: -webkit-box;*/
+/*    display: flex;*/
+/*    -ms-flex-pack: center;*/
+/*    -webkit-box-pack: center;*/
+/*    justify-content: center;*/
+/*    -webkit-box-orient: vertical;*/
+/*    -webkit-box-direction: normal;*/
+/*    -ms-flex-direction: column;*/
+/*    flex-direction: column;*/
+/*    margin: auto;*/
+/*    background: #2062f2;*/
+/*}*/
+/*.funnel > * {*/
+/*    width: calc(  320px - ( 10px + 10px )  );*/
+/*}*/
+/*.funnel__title {*/
+/*    display: -webkit-box;*/
+/*    display: -ms-flexbox;*/
+/*    display: flex;*/
+/*    font-weight: 700;*/
+/*    color: #ffffff;*/
+/*    font-size: 20px;*/
+/*    font-family: 'Open Sans';*/
+/*}*/
+/*.funnel__table{*/
+/*    width: 100%;*/
+/*}*/
+/*.funnel__label, .funnel__persent, .funnel__table {*/
+/*    display: -webkit-box;*/
+/*    display: -ms-flexbox;*/
+/*    display: flex;*/
+/*    color: #ffffff;*/
+/*    font-size: 12px;*/
+/*    font-weight: 300;*/
+/*    font-family: 'Open Sans';*/
+/*}*/
+/*.funnel__chart {*/
+/*    margin: 10px 0;*/
+/*    padding-top: 10px;*/
+/*    padding-left: 10px;*/
+/*    padding-right: 10px;*/
+/*    padding-bottom: 10px;*/
+/*    width: calc(  320px - ( 10px + 10px )  );*/
+/*    height: calc(  320px - ( 10px + 10px )  );*/
+/*    -webkit-transform: rotate(-90deg);*/
+/*    transform: rotate(-90deg);*/
+/*}*/
+/*.funnel__chart text {*/
+/*    opacity: 0;*/
+/*}*/
+/**/
+/*.funnel__title + * {*/
+/*    margin-top: 20px;*/
+/*}*/
+/**/
+
+
 .funnel {
     -ms-flex-align: center;
     -webkit-box-align: center;
+    -webkit-align-items: center;
     align-items: center;
     display: -ms-flexbox;
     display: -webkit-box;
+    display: -webkit-flex;
     display: flex;
     -ms-flex-pack: center;
     -webkit-box-pack: center;
+    -webkit-justify-content: center;
     justify-content: center;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
     margin: auto;
-    background: #2062f2;
-}
+    padding: 10px 0;
+    background: #2062f2; }
 .funnel > * {
-    width: calc(  320px - ( 10px + 10px )  );
-}
+    width: -webkit-calc( 100% - ( 10px + 10px ));
+    width: calc( 100% - ( 10px + 10px )); }
 .funnel__title {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     font-weight: 700;
-    color: #ffffff;
+    color: #fff;
     font-size: 20px;
-    font-family: 'Open Sans';
-}
-.funnel__table{
-    width: 100%;
-}
-.funnel__label, .funnel__persent, .funnel__table {
+    line-height: 1.2; }
+.funnel__label, .funnel__persent {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    color: #ffffff;
+    color: #fff;
     font-size: 12px;
-    font-weight: 300;
-    font-family: 'Open Sans';
-}
+    font-weight: 300; }
 .funnel__chart {
-    margin: 10px 0;
-    padding-top: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 10px;
-    width: calc(  320px - ( 10px + 10px )  );
-    height: calc(  320px - ( 10px + 10px )  );
-    -webkit-transform: rotate(-90deg);
-    transform: rotate(-90deg);
-}
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    -webkit-transform-origin: 100% 0 0;
+    -ms-transform-origin: 100% 0 0;
+    transform-origin: 100% 0 0;
+    -webkit-transform: rotate(-90deg) translateX(0%) translateY(-50%);
+    -ms-transform: rotate(-90deg) translateX(0%) translateY(-50%);
+    transform: rotate(-90deg) translateX(0%) translateY(-50%); }
 .funnel__chart text {
-    opacity: 0;
-}
+    opacity: 0; }
 
 .funnel__title + * {
-    margin-top: 20px;
-}
+    margin-top: 1em; }
 
+.funnel__chart-wrapper {
+    margin: 1em 0; }

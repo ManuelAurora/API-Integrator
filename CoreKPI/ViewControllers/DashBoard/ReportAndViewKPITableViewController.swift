@@ -1471,6 +1471,14 @@ class ReportAndViewKPITableViewController: UITableViewController {
         case .Report:
             newKpi?.addReport(report: self.report!)
             self.model.kpis[kpiIndex].createdKPI = newKpi
+            let request = AddReport(model: model)
+            request.addReportForKPI(withID: self.model.kpis[kpiIndex].id, report: self.report!, success: {
+            self.prepareToMove()
+            }, failure: { error in
+                print(error)
+                self.showAlert(title: "Sorry",errorMessage: error)
+            }
+            )
         case .Edit:
             switch self.model.kpis[kpiIndex].typeOfKPI {
             case .createdKPI:
@@ -1495,10 +1503,30 @@ class ReportAndViewKPITableViewController: UITableViewController {
             default:
                 break
             }
+            let request = EditKPI(model: model)
+            request.editKPI(kpi: self.model.kpis[kpiIndex], success: {
+                self.prepareToMove()
+            }, failure: { error in
+                print(error)
+                self.showAlert(title: "Sorry",errorMessage: error)
+            }
+            )
         }
+        
+
+    }
+    
+    func prepareToMove() {
         delegate = KPIListVC
         delegate.updateKPIList(kpiArray: self.model.kpis)
         _ = navigationController?.popViewController(animated: true)
+    }
+    
+    //MARK: - show alert function
+    func showAlert(title: String, errorMessage: String) {
+        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        present(alertController, animated: true, completion: nil)
     }
     
 }

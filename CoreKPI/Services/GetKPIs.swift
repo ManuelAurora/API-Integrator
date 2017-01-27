@@ -28,6 +28,22 @@ class GetKPIs: Request {
         })
     }
     
+    func getUserKPI(userID: Int, success: @escaping (_ arrayOfKPI: [KPI]) -> (), failure: @escaping failure) {
+        let data: [String : Any] = ["user_id" : userID]
+        
+        self.getJson(category: "/kpi/getKPIList", data: data,
+                     success: { json in
+                        if let arrayOfKPI = self.parsingJson(json: json) {
+                            success(arrayOfKPI)
+                        } else {
+                            failure(self.errorMessage ?? "Wrong data from server")
+                        }
+        },
+                     failure: { (error) in
+                        failure(error)
+        })
+    }
+    
     func parsingJson(json: NSDictionary) -> [KPI]? {
         
         if let successKey = json["success"] as? Int {
@@ -54,7 +70,7 @@ class GetKPIs: Request {
                         var number: [(String, Double)]
                         
                         
-                        if let kpiData = dataKey[kpi] as? NSDictionary {
+                        if dataKey.count > 0, let kpiData = dataKey[kpi] as? NSDictionary {
                             active = kpiData["active"] as! Int
                             id = kpiData["id"] as! Int
                             kpi_name = (kpiData["name"] as! String)
@@ -73,6 +89,10 @@ class GetKPIs: Request {
                             let createdKPI = CreatedKPI(source: source, department: Departments(rawValue: department) ?? Departments.none , KPI: kpi_name, descriptionOfKPI: descriptionOfKPI, executant: executant, timeInterval: TimeInterval(rawValue: timeInterval)!, timeZone: timeZone, deadline: deadline, number: number)
                             let kpi = KPI(kpiID: id, typeOfKPI: typeOfKPI, integratedKPI: nil, createdKPI: createdKPI, imageBacgroundColour: UIColor.clear)
                             arrayOfKPI.append(kpi)
+                        } else {
+                            print("KPI list is empty")
+                            arrayOfKPI.removeAll()
+                            return arrayOfKPI
                         }
                         
                         kpi+=1

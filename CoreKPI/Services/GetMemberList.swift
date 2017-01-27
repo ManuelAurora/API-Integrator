@@ -46,7 +46,7 @@ class GetMemberList: Request {
                         
                         let profile = Team(context: context)
                         
-                        if let userData = dataKey[i] as? NSDictionary {
+                        if dataKey.count > 0, let userData = dataKey[i] as? NSDictionary {
                             profile.position = userData["position"] as? String
                             let mode = userData["mode"] as? Int
                             mode == 0 ? (profile.isAdmin = false) : (profile.isAdmin = true)
@@ -68,6 +68,10 @@ class GetMemberList: Request {
                             if dataKey.count == i {
                                 teamListIsFull = true
                             }
+                        } else {
+                            print("Member list is empty")
+                            teamArray.removeAll()
+                            return teamArray
                         }
                     }
                     return teamArray

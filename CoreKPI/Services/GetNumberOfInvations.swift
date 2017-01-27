@@ -32,7 +32,7 @@ class GetNumberOfInvations: Request {
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
                 if let data = json["data"] as? NSDictionary {
-                    if let numberOfInvations = data["number"] as? Int {  //debug!
+                    if let numberOfInvations = data["limit"] as? Int {
                         return numberOfInvations
                     }
                 } else {

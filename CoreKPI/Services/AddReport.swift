@@ -1,20 +1,20 @@
 //
-//  ChangeProfile.swift
+//  AddReport.swift
 //  CoreKPI
 //
-//  Created by Семен on 24.01.17.
+//  Created by Семен on 27.01.17.
 //  Copyright © 2017 SmiChrisSoft. All rights reserved.
 //
 
 import Foundation
 
-class ChangeProfile: Request {
+class AddReport: Request {
     
-    func changeProfile(userID: Int, params : [String : String?], success: @escaping () -> (), failure: @escaping failure) {
+    func addReportForKPI(withID kpiID: Int, report: Double, success: @escaping () -> (), failure: @escaping failure) {
         
-        let data: [String : Any] = ["user_id" : userID, "properties" : params]
+        let data: [String : Any] = ["kpi_id" : kpiID, "kpi_value" : report]
         
-        self.getJson(category: "/account/changeProfile", data: data,
+        self.getJson(category: "/kpi/addKPIDetails", data: data,
                      success: { json in
                         if self.parsingJson(json: json) {
                             success()
@@ -29,16 +29,15 @@ class ChangeProfile: Request {
     }
     
     func parsingJson(json: NSDictionary) -> Bool {
+        
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
-                if (json["data"] as? NSDictionary) != nil {
-                    return true
-                } else {
-                    print("Json file is broken!")
-                }
+                return true
             } else {
                 self.errorMessage = json["message"] as? String
             }
+        } else {
+            print("Json file is broken!")
         }
         return false
     }

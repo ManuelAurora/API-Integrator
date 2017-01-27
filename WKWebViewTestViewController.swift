@@ -10,7 +10,7 @@ import UIKit
 import WebKit
 
 class WKWebViewTestViewController: UIViewController {
-
+    
     var webView: WKWebView!
     var timer: Timer!
     
@@ -67,4 +67,7 @@ class WKWebViewTestViewController: UIViewController {
         
     }
     
+    @IBAction func closeVC(_ sender: UIBarButtonItem) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }

@@ -23,16 +23,16 @@ class KPIsListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         if model.profile?.typeOfAccount != TypeOfAccount.Admin {
             self.navigationItem.rightBarButtonItem = nil
         }
         
         //Debug ->
-        let kpiOne = KPI(kpiID: 0,typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: Departments.Sales, KPI: "Shop Supplies", descriptionOfKPI: "One of the key indicators for western organizations that mainly help to determine the economic efficiency of the Procurement Department.", executant: (model.profile?.userId)!, timeInterval: TimeInterval.Daily , timeZone: "GMT +0", deadline: "Before 16:00", number: [("08/01/17", 12000), ("08/01/16", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: nil)
+        let kpiOne = KPI(kpiID: 1,typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: Departments.Sales, KPI: "Shop Supplies", descriptionOfKPI: "One of the key indicators for western organizations that mainly help to determine the economic efficiency of the Procurement Department.", executant: (model.profile?.userId)!, timeInterval: TimeInterval.Daily , timeZone: "GMT +0", deadline: "Before 16:00", number: [("08/01/17", 12000), ("08/01/16", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: nil)
         kpiOne.KPIViewOne = .Graph
         kpiOne.KPIViewTwo = TypeOfKPIView.Numbers
-        let kpiTwo = KPI(kpiID: 1, typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: Departments.Procurement, KPI: "Shop Volume",descriptionOfKPI: nil, executant: 75 , timeInterval: TimeInterval.Weekly, timeZone: "MSK +3", deadline: "12.01.2017", number: [("08/01/17", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: nil)
+        let kpiTwo = KPI(kpiID: 2, typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: Departments.Procurement, KPI: "Shop Volume",descriptionOfKPI: nil, executant: 75 , timeInterval: TimeInterval.Weekly, timeZone: "MSK +3", deadline: "12.01.2017", number: [("08/01/17", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: nil)
         kpiTwo.KPIViewOne = .Graph
         kpiTwo.KPIChartTwo = TypeOfChart.PointChart
         self.model.kpis = [kpiOne, kpiTwo]
@@ -44,7 +44,7 @@ class KPIsListTableViewController: UITableViewController {
         refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl?.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
         tableView.addSubview(refreshControl!)
-
+        
         self.navigationController?.hideTransparentNavigationBar()
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
         tableView.tableFooterView = UIView(frame: .zero)
@@ -161,6 +161,33 @@ class KPIsListTableViewController: UITableViewController {
         
     }
     
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction =  UITableViewRowAction(style: .default, title: "Delete", handler: {
+            (action, indexPath) -> Void in
+            self.deleteKPI(kpiID: self.model.kpis[indexPath.row].id)
+            self.model.kpis.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        )
+        if model.profile?.typeOfAccount == TypeOfAccount.Admin {
+            return [deleteAction]
+        } else {
+            return []
+        }
+    }
+    
+    func deleteKPI(kpiID: Int) {
+        let request = DeleteKPI(model: model)
+        request.deleteKPI(kpiID: kpiID, success: {
+            print("KPI with id \(kpiID) was deleted")
+        }, failure: { error in
+            print(error)
+            self.showAlert(title: "Sorry", message: error)
+            self.loadKPIsFromServer()
+        }
+        )
+    }
+    
     //MARK: -  Pull to refresh method
     func refresh(sender:AnyObject)
     {
@@ -175,6 +202,7 @@ class KPIsListTableViewController: UITableViewController {
             self.model.kpis = kpi
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
+            self.loadReports()
         }, failure: { error in
             print(error)
             self.refreshControl?.endRefreshing()
@@ -184,11 +212,33 @@ class KPIsListTableViewController: UITableViewController {
         )
     }
     
+    //MARK: Load reports
+    func loadReports() {
+        let getReportRequest = GetReports(model: model)
+        for kpi in model.kpis {
+            getReportRequest.getReportForKPI(withID: kpi.id, success: {report in
+                kpi.createdKPI?.number.removeAll()
+                var dict = report
+                for _ in 0..<dict.count {
+                    let report = dict.popFirst()
+                    let date = report?.key
+                    let value = report?.value
+                    kpi.createdKPI?.number.append((date!,value!))
+                }
+                self.tableView.reloadData()
+            },
+                                             failure: { error in
+                                                print(error)
+            }
+            )
+        }
+    }
+    
     //MARK: Load User's KPI
     func loadUsersKPI(userID: Int) {
         
-        let request = GetUserKPIs(model: model)
-        request.getUserKPIs(userID: userID, success: { kpi in
+        let request = GetKPIs(model: model)
+        request.getUserKPI(userID: userID, success: { kpi in
             self.model.kpis = kpi
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()

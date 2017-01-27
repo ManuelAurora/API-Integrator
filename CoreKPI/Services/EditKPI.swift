@@ -1,20 +1,20 @@
 //
-//  ChangeProfile.swift
+//  EditKPI.swift
 //  CoreKPI
 //
-//  Created by Семен on 24.01.17.
+//  Created by Семен on 27.01.17.
 //  Copyright © 2017 SmiChrisSoft. All rights reserved.
 //
 
 import Foundation
 
-class ChangeProfile: Request {
+class EditKPI: Request {
     
-    func changeProfile(userID: Int, params : [String : String?], success: @escaping () -> (), failure: @escaping failure) {
+    func editKPI(kpi: KPI, success: @escaping () -> (), failure: @escaping failure) {
         
-        let data: [String : Any] = ["user_id" : userID, "properties" : params]
+        let data: [String : Any] = ["kpi_id" : kpi.id ,"name" : (kpi.createdKPI?.KPI)!, "description" : kpi.createdKPI?.descriptionOfKPI ?? "nil", "department" : (kpi.createdKPI?.department.rawValue)!, "responsible_id" : (kpi.createdKPI?.executant)!, "interval" : (kpi.createdKPI?.timeInterval.rawValue)!, "delivery_day" : 1] //deadline!
         
-        self.getJson(category: "/account/changeProfile", data: data,
+        self.getJson(category: "/kpi/updateKPI", data: data,
                      success: { json in
                         if self.parsingJson(json: json) {
                             success()
@@ -29,16 +29,15 @@ class ChangeProfile: Request {
     }
     
     func parsingJson(json: NSDictionary) -> Bool {
+        
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
-                if (json["data"] as? NSDictionary) != nil {
-                    return true
-                } else {
-                    print("Json file is broken!")
-                }
+                return true
             } else {
                 self.errorMessage = json["message"] as? String
             }
+        } else {
+            print("Json file is broken!")
         }
         return false
     }

@@ -72,7 +72,6 @@ class TypeOfAccountTableViewController: UITableViewController {
         
         if(!(parent?.isEqual(self.parent) ?? false)) {
             delegate = InviteVC ?? memberEditVC!
-            delegate = memberEditVC
             delegate.updateTypeOfAccount(typeOfAccount: typeOfAccount)
         }
     }

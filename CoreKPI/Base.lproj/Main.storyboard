@@ -851,7 +851,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <action selector="tapResponsibleForButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="QvD-ts-llu"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="i7a-fV-Yzm">
+                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="i7a-fV-Yzm">
                                 <rect key="frame" x="16" y="522" width="343" height="36"/>
                                 <subviews>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-cu-qgk">
@@ -2187,7 +2187,7 @@ The main advantage of a computer audio player is that you can play your audio CD
         <!--Support-->
         <scene sceneID="Ujo-ve-uH2">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="i7V-Gn-dB9" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="i7V-Gn-dB9" customClass="SupportNavigationViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" tag="4" title="Support" image="supportIcons1" id="0wG-gG-Qpc"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="vMh-4t-DDu">
@@ -3455,7 +3455,7 @@ Deliveries</string>
             </objects>
             <point key="canvasLocation" x="6742" y="-3695"/>
         </scene>
-        <!--Web View Test View Controller-->
+        <!--Title-->
         <scene sceneID="lTd-3p-LRb">
             <objects>
                 <viewController id="29f-4v-3Yf" customClass="WKWebViewTestViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
@@ -3468,6 +3468,13 @@ Deliveries</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="MJn-jf-UAK">
+                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="ChT-qT-G2w">
+                            <connections>
+                                <action selector="closeVC:" destination="29f-4v-3Yf" id="waW-ko-TGR"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>

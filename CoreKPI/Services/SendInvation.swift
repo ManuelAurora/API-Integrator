@@ -10,14 +10,14 @@ import Foundation
 
 class SendInvation: Request {
     
-    func sendInvations(email: String, typeOfAccount: TypeOfAccount, success: @escaping () -> (), failure: @escaping failure) {
+    func sendInvations(email: String, typeOfAccount: TypeOfAccount, success: @escaping (_ numberOfInvations: Int) -> (), failure: @escaping failure) {
         
         let data: [String : Any] = ["email" : email, "mode" : typeOfAccount == .Admin ? 1 : 0]
         
         self.getJson(category: "/account/invite", data: data,
                         success: { json in
-                            if self.parsingJson(json: json) {
-                                success()
+                            if let number = self.parsingJson(json: json) {
+                                success(number)
                             } else {
                                 failure(self.errorMessage ?? "Wrong data from server")
                             }
@@ -28,11 +28,12 @@ class SendInvation: Request {
         )
     }
     
-    func parsingJson(json: NSDictionary) -> Bool {
+    func parsingJson(json: NSDictionary) -> Int? {
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
-                if (json["data"] as? NSDictionary) != nil {
-                    return true
+                if let data = json["data"] as? NSDictionary {
+                    let number = data["inv_count"] as? Int
+                    return number
                 } else {
                     print("Json data is broken")
                 }
@@ -42,7 +43,7 @@ class SendInvation: Request {
         } else {
             print("Json file is broken!")
         }
-        return false
+        return nil
     }
     
 }

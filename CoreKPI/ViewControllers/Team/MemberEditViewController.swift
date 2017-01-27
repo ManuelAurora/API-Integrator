@@ -244,7 +244,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         
         let request = ChangeProfile(model: model)
         
-        request.changeProfile(params: params, success: {
+        request.changeProfile(userID: Int(model.team[index].userID) , params: params, success: {
             let delegate: updateModelDelegate = self.memberInfoVC
             delegate.updateModel(model: self.model)
             self.navigationController!.popViewController(animated: true)

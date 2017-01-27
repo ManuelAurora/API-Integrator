@@ -98,9 +98,9 @@ class InviteTableViewController: UITableViewController {
         let emailLowercased = emailTextField.text?.lowercased()
         
         let inviteRequest = SendInvation(model: model)
-        inviteRequest.sendInvations(email: emailLowercased!, typeOfAccount: typeOfAccount, success: {
+        inviteRequest.sendInvations(email: emailLowercased!, typeOfAccount: typeOfAccount, success: {number in
             self.showAlert(title: "Congratulation!", message: "You send invation for \(self.emailTextField.text!)")
-            self.numberOfInvations -= 1
+            self.numberOfInvations = number
             self.numberOfInvationsLAbel.text = "\(self.numberOfInvations) invitations left"
             self.typeOfAccount = .Manager
             self.typeOfAccountLabel.text = self.typeOfAccount.rawValue
@@ -148,15 +148,14 @@ class InviteTableViewController: UITableViewController {
     //MARK: - get number of invations from server
     func getNumberOfInvations() {
         
-        numberOfInvations = 5
-//        let request = GetNumberOfInvations(model: model)
-//        request.getNumberOfInvations(success: { number in
-//            self.numberOfInvations = number
-//            self.tableView.reloadData()
-//        }, failure: { error in
-//            self.showAlert(title: "Sorry!", message: error)
-//        }
-//        )
+        let request = GetNumberOfInvations(model: model)
+        request.getNumberOfInvations(success: { number in
+            self.numberOfInvations = number
+            self.numberOfInvationsLAbel.text = "\(self.numberOfInvations) invitations left"
+        }, failure: { error in
+            self.showAlert(title: "Sorry!", message: error)
+        }
+        )
     }
     
 }

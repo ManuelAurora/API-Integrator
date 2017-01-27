@@ -8,14 +8,14 @@
 
 import UIKit
 
+enum FAQSection : String {
+    case Dashboard = "Question: Dashboards"
+    case Alert = "Question: Alerts"
+    case Team = "Question: Team"
+    case Support = "Question: Support"
+}
+
 class faqTableViewController: UITableViewController {
-    
-    enum FAQSection : String {
-        case Dashboard = "Question: Dashboards"
-        case Alert = "Question: Alerts"
-        case Team = "Question: Team"
-        case Support = "Question: Support"
-    }
     
     let headersOfQuestion: [FAQSection] = [.Dashboard, .Dashboard, .Alert]
     let descriptionsOfQuestion = ["Linux Or Windows Which Is It?", "Help Finding Information Online", "Why inkjet printing is very appealing?"]
