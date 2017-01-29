@@ -55,6 +55,8 @@ class GetMemberList: Request {
                             profile.lastName = userData["last_name"] as? String
                             profile.username = userData["username"] as? String
                             profile.userID = Int64((userData["user_id"] as? Int)!)
+                            let phone = userData["phone"] as? String
+                            profile.phoneNumber = (phone == "") ? nil : phone
 //                            if (userData["photo"] as? String) != "" {
 //                                profile.photoLink = userData["photo"] as? String
 //                            }

@@ -175,6 +175,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         vc.model = model
         vc.loadUsersKPI(userID: Int(model.team[index].userID))
         vc.navigationItem.rightBarButtonItem = nil
+        vc.refreshControl = nil
         self.navigationController?.show(vc, sender: nil)
     }
     

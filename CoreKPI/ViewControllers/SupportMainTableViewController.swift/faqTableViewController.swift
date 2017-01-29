@@ -9,86 +9,124 @@
 import UIKit
 
 enum FAQSection : String {
-    case Dashboard = "Question: Dashboards"
-    case Alert = "Question: Alerts"
-    case Team = "Question: Team"
-    case Support = "Question: Support"
+    case Dashboard
+    case Alert
+    case Team
+    case Support
 }
 
 class faqTableViewController: UITableViewController {
     
-    let headersOfQuestion: [FAQSection] = [.Dashboard, .Dashboard, .Alert]
-    let descriptionsOfQuestion = ["Linux Or Windows Which Is It?", "Help Finding Information Online", "Why inkjet printing is very appealing?"]
-    let ansversForQuestion = ["Audio player software is used to play back sound recordings in one of the many formats available for computers today. It can also play back music CDs. There is audio player software that is native to the computer’s operating system (Windows, Macintosh, and Linux) and there are web-based audio players. The main advantage of a computer audio player is that you can play your audio CDs and there is no longer any need to have a separate CD player.", "Some text", "And some text too"]
+    struct FAQ {
+        var section: String
+        var data: [(description: String, answer: String)] = []
+    }
     
-    var sizeOfQuestionsInSections: [Int] = [0,0,0,0]
+    var faqDictionary: [FAQSection : [(description: String, answer: String)]] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.tableFooterView = UIView(frame: .zero)
         
-        for heads in headersOfQuestion {
-            switch heads {
-            case .Dashboard:
-                sizeOfQuestionsInSections[0] += 1
-            case .Alert:
-                sizeOfQuestionsInSections[1] += 1
-            case .Team:
-                sizeOfQuestionsInSections[2] += 1
-            case .Support:
-                sizeOfQuestionsInSections[3] += 1
-            }
-        }
+        loadLocalFAQ()
+        getFAQFromServer()
+        tableView.tableFooterView = UIView(frame: .zero)
+
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+    func getFAQFromServer() {
+        let request = GetFAQ()
+        request.getFAQ(success: { faq in
+            self.faqDictionary = faq
+            self.tableView.reloadData()
+            
+            //self.saveFAQ()
+        }, failure: { error in
+            print(error)
+        }
+        )
+    }
+    
+    //Load local FAQ
+    func loadLocalFAQ() {
+        if let data = UserDefaults.standard.data(forKey: "FAQ"),
+            let myFAQArray = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[FAQ]] {
+            let faqArray = myFAQArray[0]
+            
+            for faq in faqArray {
+                faqDictionary[FAQSection(rawValue: faq.section)!] = faq.data
+            }
+            
+        } else {
+            print("No local FAQ in app storage")
+        }
+    }
+    
+    //MARK: - Save FAQ
+    func saveFAQ() {
+        UserDefaults.standard.removeObject(forKey: "FAQ")
+        
+        var faqArray:[FAQ] = []
+        
+        for section in faqDictionary {
+            let faq = FAQ(section: section.key.rawValue, data: section.value)
+            faqArray.append(faq)
+        }
+        
+        let data: [[FAQ]] = [faqArray]
+        
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: data)
+        UserDefaults.standard.set(encodedData, forKey: "FAQ")
+        print("FAQ saved in NSKeyedArchive")
+    }
+    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 4
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return headersOfQuestion.count
+        switch section {
+        case 0:
+            return faqDictionary[.Dashboard]?.count ?? 0
+        case 1:
+            return faqDictionary[.Alert]?.count ?? 0
+        case 2:
+            return faqDictionary[.Team]?.count ?? 0
+        case 3:
+            return faqDictionary[.Support]?.count ?? 0
+        default:
+            return 0
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FAQCell", for: indexPath) as! faqListTableViewCell
         
-        cell.headerOfQuestionLabel.text = headersOfQuestion[indexPath.row].rawValue
+        var section: FAQSection!
         
-        var numberForLabel = 0
-        
-        switch indexPath.row {
-        case 0..<sizeOfQuestionsInSections[0]:
-            numberForLabel = indexPath.row
-            
-        case sizeOfQuestionsInSections[0]..<sizeOfQuestionsInSections[0]+sizeOfQuestionsInSections[1]:
-            numberForLabel = indexPath.row - sizeOfQuestionsInSections[0]
-        case sizeOfQuestionsInSections[0]+sizeOfQuestionsInSections[1]..<sizeOfQuestionsInSections[0]+sizeOfQuestionsInSections[1]+sizeOfQuestionsInSections[2]:
-            numberForLabel = indexPath.row - sizeOfQuestionsInSections[0]+sizeOfQuestionsInSections[1]
-        case sizeOfQuestionsInSections[0]+sizeOfQuestionsInSections[1]+sizeOfQuestionsInSections[2]..<sizeOfQuestionsInSections[0]+sizeOfQuestionsInSections[1]+sizeOfQuestionsInSections[2]+sizeOfQuestionsInSections[3]:
-            numberForLabel = indexPath.row - sizeOfQuestionsInSections[0]+sizeOfQuestionsInSections[1]+sizeOfQuestionsInSections[2]
-        default:
-            numberForLabel = 00
-        }
-        cell.numberOfQuestionLabel.text = String(numberForLabel+1)
-        
-        switch headersOfQuestion[indexPath.row] {
-        case .Dashboard:
+        switch indexPath.section {
+        case 0:
+            section = FAQSection.Dashboard
             cell.numberBackgroundView.backgroundColor = UIColor(red: 154.0/255.0, green: 18.0/255.0, blue: 179.0/255.0, alpha: 1.0)
-        case .Alert:
+        case 1:
+            section = FAQSection.Alert
             cell.numberBackgroundView.backgroundColor = UIColor(red: 31.0/255.0, green: 58.0/255.0, blue: 147.0/255.0, alpha: 1.0)
-        case .Team: cell.numberBackgroundView.backgroundColor = UIColor(red: 242.0/255.0, green: 121.0/255.0, blue: 53.0/255.0, alpha: 1.0)
-        case .Support:
+        case 2:
+            section = FAQSection.Team
+            cell.numberBackgroundView.backgroundColor = UIColor(red: 242.0/255.0, green: 121.0/255.0, blue: 53.0/255.0, alpha: 1.0)
+        case 3:
+            section = FAQSection.Support
             cell.numberBackgroundView.backgroundColor = UIColor(red: 46.0/255.0, green: 204.0/255.0, blue: 113.0/255.0, alpha: 1.0)
+        default:
+            break
         }
-        
-        cell.headerOfQuestionLabel.layer.cornerRadius = 14.5
-        
-        cell.describeOfQuestionLabel.text = descriptionsOfQuestion[indexPath.row]
+        cell.headerOfQuestionLabel.text = "Question: \(section.rawValue)"
+        cell.describeOfQuestionLabel.text = faqDictionary[section]?[indexPath.row].description
+        cell.numberOfQuestionLabel.text = "\(indexPath.row + 1)"
         
         return cell
     }
@@ -98,26 +136,27 @@ class faqTableViewController: UITableViewController {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let destinationController = segue.destination as! faqDetailViewController
                 //Настройка контроллера назначения
-                destinationController.headerOfQestion = headersOfQuestion[indexPath.row].rawValue
-                destinationController.descriptionOfQuestion = descriptionsOfQuestion[indexPath.row]
-                destinationController.ansverForQuestion = ansversForQuestion[indexPath.row]
                 
-                var numberForLabel = 0
+                var section: FAQSection!
                 
-                switch indexPath.row {
-                case 0..<sizeOfQuestionsInSections[0]:
-                    numberForLabel = indexPath.row
-                    
-                case sizeOfQuestionsInSections[0]..<sizeOfQuestionsInSections[0]+sizeOfQuestionsInSections[1]:
-                    numberForLabel = indexPath.row - sizeOfQuestionsInSections[0]
-                case sizeOfQuestionsInSections[0]+sizeOfQuestionsInSections[1]..<sizeOfQuestionsInSections[0]+sizeOfQuestionsInSections[1]+sizeOfQuestionsInSections[2]:
-                    numberForLabel = indexPath.row - sizeOfQuestionsInSections[0]+sizeOfQuestionsInSections[1]
-                case sizeOfQuestionsInSections[0]+sizeOfQuestionsInSections[1]+sizeOfQuestionsInSections[2]..<sizeOfQuestionsInSections[0]+sizeOfQuestionsInSections[1]+sizeOfQuestionsInSections[2]+sizeOfQuestionsInSections[3]:
-                    numberForLabel = indexPath.row - sizeOfQuestionsInSections[0]+sizeOfQuestionsInSections[1]+sizeOfQuestionsInSections[2]
+                switch indexPath.section {
+                case 0:
+                    section = FAQSection.Dashboard
+                case 1:
+                    section = FAQSection.Alert
+                case 2:
+                    section = FAQSection.Team
+                case 3:
+                    section = FAQSection.Support
                 default:
-                    numberForLabel = 00
+                    break
                 }
-                destinationController.numberOfQuestion = String(numberForLabel+1)
+                
+                destinationController.numberOfQuestion = String(indexPath.row + 1)
+                destinationController.headerOfQestion = "Question: \(section.rawValue)"
+                destinationController.descriptionOfQuestion = (faqDictionary[section]?[indexPath.row].description)!
+                destinationController.ansverForQuestion = (faqDictionary[section]?[indexPath.row].answer)!
+                
                 tableView.deselectRow(at: indexPath, animated: true)
             }
         }

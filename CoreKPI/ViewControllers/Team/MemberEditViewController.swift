@@ -131,16 +131,11 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         
         //debug only ->
-        updateProfile()
-        let delegate: updateModelDelegate = memberInfoVC
-        delegate.updateModel(model: model)
-        self.navigationController!.popViewController(animated: true)
+//        updateProfile()
+//        let delegate: updateModelDelegate = memberInfoVC
+//        delegate.updateModel(model: model)
+//        self.navigationController!.popViewController(animated: true)
         //<- debug
-        
-        let nc = NotificationCenter.default
-        nc.post(name:modelDidChangeNotification,
-                object: nil,
-                userInfo:["model": model])
     }
     
     //MARK: - Check input value
@@ -245,6 +240,11 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         let request = ChangeProfile(model: model)
         
         request.changeProfile(userID: Int(model.team[index].userID) , params: params, success: {
+            self.updateProfile()
+            let nc = NotificationCenter.default
+            nc.post(name:self.modelDidChangeNotification,
+                    object: nil,
+                    userInfo:["model": self.model])
             let delegate: updateModelDelegate = self.memberInfoVC
             delegate.updateModel(model: self.model)
             self.navigationController!.popViewController(animated: true)

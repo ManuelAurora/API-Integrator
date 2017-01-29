@@ -36,6 +36,8 @@ class MemberListTableViewController: UITableViewController {
         
         let nc = NotificationCenter.default
         nc.addObserver(forName: profilePhotoDownloadNotification, object:nil, queue:nil, using:catchNotification)
+        nc.addObserver(forName: modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
+
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
         tableView.tableFooterView = UIView(frame: .zero)
@@ -84,6 +86,7 @@ class MemberListTableViewController: UITableViewController {
         let deleteAction =  UITableViewRowAction(style: .default, title: "Delete", handler: {
             (action, indexPath) -> Void in
             self.deleteUser(userID: self.model.team[indexPath.row].userID)
+            self.changeExecutant(index: indexPath.row)
             self.context.delete(self.model.team[indexPath.row])
             (UIApplication.shared .delegate as! AppDelegate).saveContext()
             self.model.team.remove(at: indexPath.row)
@@ -94,6 +97,8 @@ class MemberListTableViewController: UITableViewController {
             } catch {
                 print("Fetching faild")
             }
+            
+            
             let nc = NotificationCenter.default
             nc.post(name: self.modelDidChangeNotification,
                     object: nil,
@@ -106,6 +111,17 @@ class MemberListTableViewController: UITableViewController {
             return []
         }
         
+    }
+    
+    func changeExecutant(index: Int) {
+        
+        let oldMemberID = Int(model.team[index].userID)
+        
+        for kpi in self.model.kpis {
+            if kpi.createdKPI?.executant == oldMemberID {
+                kpi.createdKPI?.executant = (model.profile?.userId)!
+            }
+        }
     }
     
     //MARK: - Ban user
@@ -196,6 +212,14 @@ class MemberListTableViewController: UITableViewController {
                     return
             }
             model.team[tag].setValue(UIImagePNGRepresentation(image), forKey: "photo")
+        }
+        if notification.name == modelDidChangeNotification {
+            guard let userInfo = notification.userInfo,
+                let model = userInfo["model"] as? ModelCoreKPI else {
+                    print("No userInfo found in notification")
+                    return
+            }
+            self.model.kpis = model.kpis
         }
     }
 }

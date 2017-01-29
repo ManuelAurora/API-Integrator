@@ -17,7 +17,7 @@ enum Source: String {
 
 class KPIsListTableViewController: UITableViewController {
     
-    var model: ModelCoreKPI! = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, nickname: nil, typeOfAccount: .Manager))
+    var model: ModelCoreKPI!// = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, nickname: nil, typeOfAccount: .Manager))
     
     let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
@@ -226,6 +226,10 @@ class KPIsListTableViewController: UITableViewController {
                     kpi.createdKPI?.number.append((date!,value!))
                 }
                 self.tableView.reloadData()
+                let nc = NotificationCenter.default
+                nc.post(name: self.modelDidChangeNotification,
+                        object: nil,
+                        userInfo:["model": self.model])
             },
                                              failure: { error in
                                                 print(error)

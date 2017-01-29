@@ -75,7 +75,8 @@ class GetKPIs: Request {
                             id = kpiData["id"] as! Int
                             kpi_name = (kpiData["name"] as! String)
                             department = (kpiData["department"] as? String) ?? "Sales"
-                            descriptionOfKPI = kpiData["desc"] as? String
+                            let kpiDescription = kpiData["desc"] as? String
+                            descriptionOfKPI = (kpiDescription == "nil") ? nil : kpiDescription
                             executant = kpiData["responsive_id"] as! Int
                             timeZone = "no"
                             deadline = (kpiData["datetime"] as? String)!

@@ -42,11 +42,12 @@ class faqDetailViewController: UIViewController, UITableViewDelegate, UITableVie
         titleCell.numberOfQuestionLabel.text = numberOfQuestion
         
         switch headerOfQestion {
-        case "Question: Dashboards":
+        case "Question: Dashboard":
             titleCell.numberOfQuestionLabel.backgroundColor = UIColor(red: 154.0/255.0, green: 18.0/255.0, blue: 179.0/255.0, alpha: 1.0)
-        case "Question: Alerts":
+        case "Question: Alert":
             titleCell.numberOfQuestionLabel.backgroundColor = UIColor(red: 31.0/255.0, green: 58.0/255.0, blue: 147.0/255.0, alpha: 1.0)
-        case "Question: Team": titleCell.numberOfQuestionLabel.backgroundColor = UIColor(red: 242.0/255.0, green: 121.0/255.0, blue: 53.0/255.0, alpha: 1.0)
+        case "Question: Team":
+            titleCell.numberOfQuestionLabel.backgroundColor = UIColor(red: 242.0/255.0, green: 121.0/255.0, blue: 53.0/255.0, alpha: 1.0)
         case "Question: Support":
             titleCell.numberOfQuestionLabel.backgroundColor = UIColor(red: 46.0/255.0, green: 204.0/255.0, blue: 113.0/255.0, alpha: 1.0)
         default:
