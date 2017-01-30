@@ -67,7 +67,7 @@ class GetKPIs: Request {
                         let timeInterval: String
                         var timeZone: String
                         var deadline: String
-                        var number: [(String, Double)]
+                        var number: [(Date, Double)]
                         
                         
                         if dataKey.count > 0, let kpiData = dataKey[kpi] as? NSDictionary {

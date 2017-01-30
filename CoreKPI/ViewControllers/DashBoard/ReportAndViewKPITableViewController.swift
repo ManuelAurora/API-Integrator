@@ -281,7 +281,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
             typeOfChartOneArray = newTypeOfChartOneArray
         }
     }
-    var typeOfChartOneArray: [(SettingName: String, value: Bool)] = [(TypeOfChart.PieChart.rawValue, true), (TypeOfChart.PointChart.rawValue, false), (TypeOfChart.LineChart.rawValue, false), (TypeOfChart.BarChart.rawValue, false), (TypeOfChart.Funnel.rawValue, false), (TypeOfChart.PositiveBar.rawValue, false)]
+    var typeOfChartOneArray: [(SettingName: String, value: Bool)] = [(TypeOfChart.PieChart.rawValue, true), (TypeOfChart.PointChart.rawValue, false), (TypeOfChart.LineChart.rawValue, false), (TypeOfChart.BarChart.rawValue, false), (TypeOfChart.Funnel.rawValue, false), (TypeOfChart.PositiveBar.rawValue, false), (TypeOfChart.AreaChart.rawValue, false)]
     //KPITwoView
     var KPITwoView: TypeOfKPIView? {
         get {
@@ -329,7 +329,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
             typeOfChartTwoArray = newTypeOfChartTwoArray
         }
     }
-    var typeOfChartTwoArray: [(SettingName: String, value: Bool)] = [(TypeOfChart.PieChart.rawValue, true), (TypeOfChart.PointChart.rawValue, false), (TypeOfChart.LineChart.rawValue, false), (TypeOfChart.BarChart.rawValue, false), (TypeOfChart.Funnel.rawValue, false), (TypeOfChart.PositiveBar.rawValue, false)]
+    var typeOfChartTwoArray: [(SettingName: String, value: Bool)] = [(TypeOfChart.PieChart.rawValue, true), (TypeOfChart.PointChart.rawValue, false), (TypeOfChart.LineChart.rawValue, false), (TypeOfChart.BarChart.rawValue, false), (TypeOfChart.Funnel.rawValue, false), (TypeOfChart.PositiveBar.rawValue, false), (TypeOfChart.AreaChart.rawValue, false)]
     //Setting
     enum Setting: String {
         case none
@@ -1469,7 +1469,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
         
         switch buttonDidTaped {
         case .Report:
-            newKpi?.addReport(report: self.report!)
+            newKpi?.addReport(date: Date(), report: self.report!)
             self.model.kpis[kpiIndex].createdKPI = newKpi
             let request = AddReport(model: model)
             request.addReportForKPI(withID: self.model.kpis[kpiIndex].id, report: self.report!, success: {

@@ -1,0 +1,31 @@
+/*
+ * @components   D3 styles
+ * Stack Area
+ */
+html, body{
+    margin: 0;}
+
+.chart-wrapper.chart-wrapper_stackArea svg {
+    background: #2062f2; }
+
+.chart-wrapper.chart-wrapper_stackArea * {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
+
+.chart-wrapper.chart-wrapper_stackArea .axis path, .chart-wrapper.chart-wrapper_stackArea .axis line {
+    fill: none;
+    stroke: #3872f2; }
+
+.chart-wrapper.chart-wrapper_stackArea .axis .grid-line {
+    stroke: #3872f2;
+    shape-rendering: crispedges;
+/*stroke-opacity: 0.2;*/ }
+
+.chart-wrapper.chart-wrapper_stackArea .axis text {
+    font-size: 10px;
+    fill: #fff;
+    fill-opacity: 0.5; }
+
+.chart-wrapper.chart-wrapper_stackArea .plotArea text {
+    text-anchor: start;
+    font-size: 12px;
+    font-weight: 700; }

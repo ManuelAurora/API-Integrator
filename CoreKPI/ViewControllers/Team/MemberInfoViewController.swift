@@ -213,7 +213,7 @@ extension MemberInfoViewController: MFMailComposeViewControllerDelegate {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
             mail.setToRecipients([model.team[index].username!])
-            mail.setMessageBody("<p>Hello, \(model.team[index].firstName) \(model.team[index].lastName)</p>", isHTML: true)
+            mail.setMessageBody("<p>Hello, \(model.team[index].firstName!) \(model.team[index].lastName!)</p>", isHTML: true)
             present(mail, animated: true)
         } else {
             print("Email error")

@@ -61,6 +61,14 @@
 /**/
 
 
+/*
+ * @components   D3 styles
+ * Funnel
+ */
+html, body{
+    margin: 0;
+}
+
 .funnel {
     -ms-flex-align: center;
     -webkit-box-align: center;
@@ -80,11 +88,28 @@
     -ms-flex-direction: column;
     flex-direction: column;
     margin: auto;
+    height: 100%;
     padding: 10px 0;
     background: #2062f2; }
 .funnel > * {
     width: -webkit-calc( 100% - ( 10px + 10px ));
     width: calc( 100% - ( 10px + 10px )); }
+
+.funnel__cnt {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
 .funnel__title {
     display: -webkit-box;
     display: -webkit-flex;
@@ -92,16 +117,15 @@
     display: flex;
     font-weight: 700;
     color: #fff;
-    font-size: 20px;
+/*    font-size: 20px;*/
+    font-size: 5em;
     line-height: 1.2; }
 .funnel__label, .funnel__persent {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
-    display: flex;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 300; }
+    display: flex;}
+
 .funnel__chart {
     top: 50%;
     left: 50%;
@@ -116,7 +140,9 @@
     opacity: 0; }
 
 .funnel__title + * {
-    margin-top: 1em; }
+    margin: auto}
 
 .funnel__chart-wrapper {
-    margin: 1em 0; }
+/*    margin: 1em 0;*/
+    margin: 0;
+}

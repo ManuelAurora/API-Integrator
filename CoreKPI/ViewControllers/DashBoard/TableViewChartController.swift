@@ -14,7 +14,7 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
     
     var index = 0
     var header: String = " "
-    var dataArray: [(String, Double)] = []
+    var dataArray: [(Date, Double)] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,10 +43,17 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
             cell.valueLabel.isHidden = true
         default:
             cell.metricsLabel.textColor = UIColor.black
-            cell.persentLabel.textColor = UIColor.black
+            cell.persentLabel.textColor = UIColor(red: 140/255, green: 140/255, blue: 140/255, alpha: 1.0)
             cell.valueLabel.isHidden = true
-            cell.metricsLabel.text = dataArray[indexPath.row - 1].0
-            cell.persentLabel.text = "\(dataArray[indexPath.row - 1].1)"
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MM/DD/YYYY"
+            cell.metricsLabel.text = dateFormatter.string(from: dataArray[indexPath.row - 1].0)
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = .decimal
+            numberFormatter.groupingSeparator = ","
+            numberFormatter.decimalSeparator = "."
+            numberFormatter.maximumFractionDigits = 10
+            cell.persentLabel.text = numberFormatter.string(from: NSNumber(value: dataArray[indexPath.row - 1].1))!
         }
         return cell
     }

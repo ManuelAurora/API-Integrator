@@ -16,6 +16,7 @@ enum TypeOfChart: String {
     case BarChart
     case Funnel
     case PositiveBar
+    case AreaChart
 }
 
 class WebViewChartViewController: UIViewController {
@@ -47,7 +48,7 @@ class WebViewChartViewController: UIViewController {
         switch typeOfChart {
         case .PieChart:
             loadPie()
-            timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(loadPie), userInfo: nil, repeats: true)
+            //timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(loadPie), userInfo: nil, repeats: true)
             
         case .PointChart:
             let htmlFile = Bundle.main.path(forResource:"points", ofType: "html")
@@ -105,7 +106,9 @@ class WebViewChartViewController: UIViewController {
             let jsD3Funnel = try? String(contentsOfFile: jsD3FunnelFile!, encoding: String.Encoding.utf8)
             let js = try? String(contentsOfFile: jsFile!, encoding: String.Encoding.utf8)
             
-            webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + jsJquerry! + "</script><script>" + jsD3! + "</script><script>" + jsD3Funnel! + "</script><script>" + js! + "</script>", baseURL: nil)
+            let jsHead = "var FunnelWidth = \(width), FunnelHeight = \(height)"
+            
+            webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + jsJquerry! + "</script><script>" + jsD3! + "</script><script>" + jsD3Funnel! + "</script><script>" + jsHead + js! + "</script>", baseURL: nil)
         case .PositiveBar:
             let htmlFile = Bundle.main.path(forResource:"positiveBar", ofType: "html")
             let cssFile = Bundle.main.path(forResource:"positiveBar", ofType: "css")
@@ -117,6 +120,19 @@ class WebViewChartViewController: UIViewController {
             let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
             let downOfJsFile = "positiveBar(\(width), \(height), data, 180, 0.35);"
+            
+            webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + js2! + downOfJsFile + "</script>", baseURL: nil)
+        case .AreaChart:
+            let htmlFile = Bundle.main.path(forResource:"stackArea", ofType: "html")
+            let cssFile = Bundle.main.path(forResource:"style", ofType: "css")
+            let jsFile1 = Bundle.main.path(forResource:"Rd3.v3.min", ofType: "js")
+            let jsFile2 = Bundle.main.path(forResource:"stackArea", ofType: "js")
+            
+            let html = try? String(contentsOfFile: htmlFile!, encoding: String.Encoding.utf8)
+            let css = try? String(contentsOfFile: cssFile!, encoding: String.Encoding.utf8)
+            let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
+            let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
+            let downOfJsFile = "stack_area(\(width) - 0, \(height), data_stack_area);"
             
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + js2! + downOfJsFile + "</script>", baseURL: nil)
         }

@@ -85,7 +85,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                 cellMemberEdit.headerOfCell.text = "Phone"
                 cellMemberEdit.textFieldOfCell.text = newProfile.phone
                 cellMemberEdit.textFieldOfCell.placeholder = "No Phone"
-                cellMemberEdit.textFieldOfCell.keyboardType = .numberPad
+                cellMemberEdit.textFieldOfCell.keyboardType = .phonePad
                 cellMemberEdit.textFieldOfCell.tag = 0
             case 1:
                 cellMemberEdit.headerOfCell.text = "E-mail"
@@ -125,17 +125,18 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBAction func tapSaveButton(_ sender: Any) {
         
         if checkInputValue() {
-            createDataForRequest()
+            if newProfile.typeOfAccount == .Admin && model.team[index].isAdmin == false || newProfile.typeOfAccount == .Manager && model.team[index].isAdmin == true {
+                changeUserRights(typeOfAccount: newProfile.typeOfAccount, success: {
+                    self.createDataForRequest(accountWasChanged: true)
+                }
+                )
+            } else {
+                createDataForRequest(accountWasChanged: false)
+            }
+            
         } else {
             return
         }
-        
-        //debug only ->
-//        updateProfile()
-//        let delegate: updateModelDelegate = memberInfoVC
-//        delegate.updateModel(model: model)
-//        self.navigationController!.popViewController(animated: true)
-        //<- debug
     }
     
     //MARK: - Check input value
@@ -179,7 +180,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         return true
     }
     
-    func createDataForRequest() {
+    func createDataForRequest(accountWasChanged: Bool) {
         var firstname: String?
         var lastname: String?
         var position: String?
@@ -187,7 +188,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         var email: String?
         var photo: UIImage?
         var newParams: [String : String?] = [:]
-        var typeOfAccountWasChanged = false
+        let typeOfAccountWasChanged = accountWasChanged
         
         if newProfile.photo == "New photo link" {
             photo = memberProfilePhotoImage.image
@@ -218,15 +219,21 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
             email = newProfile.userName
             newParams["username"] = email
         }
-        if newProfile.typeOfAccount == .Admin && model.team[index].isAdmin == false || newProfile.typeOfAccount == .Manager && model.team[index].isAdmin == true {
-            changeUserRights(typeOfAccount: newProfile.typeOfAccount)
-            typeOfAccountWasChanged = true
-        }
         if newParams.count > 0 {
             sendRequest(params: newParams)
-        } else if newParams.count < 1 && typeOfAccountWasChanged == false {
+        } else if newParams.count < 1 && typeOfAccountWasChanged == true {
+            self.updateProfile()
+            let nc = NotificationCenter.default
+            nc.post(name:self.modelDidChangeNotification,
+                    object: nil,
+                    userInfo:["model": self.model])
+            let delegate: updateModelDelegate = self.memberInfoVC
+            delegate.updateModel(model: self.model)
+            self.navigationController!.popViewController(animated: true)
+        } else {
             showAlert(title: "Warning", message: "Profile not changed")
         }
+        
     }
     
     func sendProfilePhotoToServer(photo: UIImage, success: (_ photoLink: String)->()) -> Bool {
@@ -249,21 +256,22 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
             delegate.updateModel(model: self.model)
             self.navigationController!.popViewController(animated: true)
         }, failure: { error in
-        self.showAlert(title: "Error", message: error)
+            self.showAlert(title: "Error", message: error)
         }
         )
     }
     
-    func changeUserRights(typeOfAccount: TypeOfAccount) {
+    func changeUserRights(typeOfAccount: TypeOfAccount, success: @escaping ()->()) {
         
         let request = ChangeUserRights(model: model)
         
         request.changeUserRights(userID: Int(model.team[index].userID), typeOfAccount: typeOfAccount,
                                  success: {
-        print("TypeOfAccount was changed")
+                                    print("TypeOfAccount was changed")
+                                    success()
         },
                                  failure: { error in
-            self.showAlert(title: "Error", message: error)
+                                    self.showAlert(title: "Error", message: error)
         }
         )
     }
@@ -361,15 +369,18 @@ extension MemberEditViewController: UITextFieldDelegate {
         case 0:
             let textFieldText: NSString = (textField.text ?? "") as NSString
             let txtAfterUpdate = textFieldText.replacingCharacters(in: range, with: string)
-            if (Int(txtAfterUpdate) != nil) || txtAfterUpdate == ""{
+            
+            switch string {
+            case "0"..."9", "+", "-", "":
                 self.newProfile.phone = txtAfterUpdate
                 if txtAfterUpdate == "" {
                     self.newProfile.phone = nil
                 }
                 return true
-            } else {
+            default:
                 return false
             }
+            
         case 1:
             let textFieldText: NSString = (textField.text ?? "") as NSString
             let txtAfterUpdate = textFieldText.replacingCharacters(in: range, with: string)

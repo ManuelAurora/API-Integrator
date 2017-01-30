@@ -13,7 +13,9 @@ function pie(w, h, data) {
     
     var radius = ((Math.min((width - margin), (height - margin)) / 2) * 0.9  ),
     outerRadius = radius - margin,
-    innerRadius = 0;
+    innerRadius = 0,
+    
+    MAGIC__WALLY = 2.25;
     
     var color = d3.scale.ordinal().range([
                                           '#30a5e3', '#ee5de0', '#d0e868', '#29e3b6', '#2dc7da'
@@ -34,14 +36,14 @@ function pie(w, h, data) {
     .attr("height", height)
     .append("g")
     .attr('class', 'pie-centroid')
-    .attr("transform", "translate(" +(width / 2) + "," + (height / 2 ) + ")");
+    .attr("transform", "translate(" +(width / 2) + "," + ((height / MAGIC__WALLY) ) + ")");
     // .style('filter', 'drop-shadow( 2em 2em 13px rgba(0,0,0, 0.5))');
     
-    // //text title
-    // var title = svg_wraper
-    // 	.append('div')
-    // 		.attr('class', 'chart-title')
-    // 		.text('Weekly')
+     //text title
+     var title = svg_wraper
+     	.append('div')
+     		.attr('class', 'chart-title')
+     		.text('Weekly')
     
     var tooltip_pie = d3.select('.chart-wrapper_pie .tooltip.tooltip-pie');
     
@@ -101,7 +103,7 @@ function pie(w, h, data) {
                           });
         tooltip_pie.style('top', function () {
                           console.log()
-                          return (arc.centroid(d)[1]) + height / 2 - (document.querySelector('.tooltip.tooltip-pie').offsetHeight) - 20 + 'px';
+                          return (arc.centroid(d)[1]) + height / MAGIC__WALLY - (document.querySelector('.tooltip.tooltip-pie').offsetHeight) - 20 + 'px';
                           });
         // tooltip_pie.style('left', function () {
         //     return arc.centroid(d)[0] + width / 2 - 65 + 'px';

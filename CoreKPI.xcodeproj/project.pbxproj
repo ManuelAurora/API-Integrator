@@ -41,6 +41,11 @@
 		A26408F81E2280160034EEC2 /* WebViewChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26408F71E2280160034EEC2 /* WebViewChartViewController.swift */; };
 		A26A40541E3B40D700108E5B /* AddReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26A40531E3B40D700108E5B /* AddReport.swift */; };
 		A26A40561E3B424B00108E5B /* GetReports.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26A40551E3B424B00108E5B /* GetReports.swift */; };
+		A26BEEA81E3F694C00C2D2AC /* aladin.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A26BEEA71E3F694C00C2D2AC /* aladin.jpg */; };
+		A26BEEAA1E3F70C800C2D2AC /* funnel.js in Resources */ = {isa = PBXBuildFile; fileRef = A26BEEA91E3F70C800C2D2AC /* funnel.js */; };
+		A26BEEAC1E3F86F900C2D2AC /* stackArea.html in Resources */ = {isa = PBXBuildFile; fileRef = A26BEEAB1E3F86F900C2D2AC /* stackArea.html */; };
+		A26BEEAF1E3F886500C2D2AC /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = A26BEEAE1E3F886500C2D2AC /* style.css */; };
+		A26BEEB11E3F8AD400C2D2AC /* stackArea.js in Resources */ = {isa = PBXBuildFile; fileRef = A26BEEB01E3F8AD400C2D2AC /* stackArea.js */; };
 		A26D282A1E0D551D005342BA /* KPIListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26D28291E0D551D005342BA /* KPIListTableViewCell.swift */; };
 		A274DC0F1E0825DF008CBF36 /* InviteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A274DC0E1E0825DF008CBF36 /* InviteTableViewController.swift */; };
 		A274DC111E082617008CBF36 /* MemberListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A274DC101E082617008CBF36 /* MemberListTableViewController.swift */; };
@@ -108,7 +113,6 @@
 		A2EFE2D61E2E400500BA2956 /* bar.css in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2D51E2E400500BA2956 /* bar.css */; };
 		A2EFE2D91E2E446900BA2956 /* funnel.html in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2D81E2E446900BA2956 /* funnel.html */; };
 		A2EFE2DB1E2E454A00BA2956 /* funnel.css in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2DA1E2E454A00BA2956 /* funnel.css */; };
-		A2EFE2DD1E2E459800BA2956 /* funnel.js in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2DC1E2E459800BA2956 /* funnel.js */; };
 		A2EFE2DF1E2E494200BA2956 /* jquery.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2DE1E2E494200BA2956 /* jquery.min.js */; };
 		A2EFE2E11E2E4A1300BA2956 /* d3V442.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2E01E2E4A1300BA2956 /* d3V442.min.js */; };
 		A2F0B1181E0C1B110095580B /* CoreKPIDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F0B1171E0C1B110095580B /* CoreKPIDelegates.swift */; };
@@ -196,6 +200,11 @@
 		A26408F71E2280160034EEC2 /* WebViewChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewChartViewController.swift; path = CoreKPI/ViewControllers/DashBoard/WebViewChartViewController.swift; sourceTree = "<group>"; };
 		A26A40531E3B40D700108E5B /* AddReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddReport.swift; path = Services/AddReport.swift; sourceTree = "<group>"; };
 		A26A40551E3B424B00108E5B /* GetReports.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetReports.swift; path = Services/GetReports.swift; sourceTree = "<group>"; };
+		A26BEEA71E3F694C00C2D2AC /* aladin.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = aladin.jpg; sourceTree = "<group>"; };
+		A26BEEA91E3F70C800C2D2AC /* funnel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = funnel.js; path = Graphics/Funnel/funnel.js; sourceTree = "<group>"; };
+		A26BEEAB1E3F86F900C2D2AC /* stackArea.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = stackArea.html; path = Graphics/StackArea/stackArea.html; sourceTree = "<group>"; };
+		A26BEEAE1E3F886500C2D2AC /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = style.css; path = Graphics/StackArea/style.css; sourceTree = "<group>"; };
+		A26BEEB01E3F8AD400C2D2AC /* stackArea.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = stackArea.js; path = Graphics/StackArea/stackArea.js; sourceTree = "<group>"; };
 		A26D28291E0D551D005342BA /* KPIListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIListTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPIListTableViewCell.swift; sourceTree = "<group>"; };
 		A274DC0E1E0825DF008CBF36 /* InviteTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InviteTableViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/InviteTableViewController.swift"; sourceTree = "<group>"; };
 		A274DC101E082617008CBF36 /* MemberListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberListTableViewController.swift; path = CoreKPI/ViewControllers/Team/MemberListTableViewController.swift; sourceTree = "<group>"; };
@@ -267,7 +276,6 @@
 		A2EFE2D51E2E400500BA2956 /* bar.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = bar.css; path = Graphics/BarChart/bar.css; sourceTree = "<group>"; };
 		A2EFE2D81E2E446900BA2956 /* funnel.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = funnel.html; path = Graphics/Funnel/funnel.html; sourceTree = "<group>"; };
 		A2EFE2DA1E2E454A00BA2956 /* funnel.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = funnel.css; path = Graphics/Funnel/funnel.css; sourceTree = "<group>"; };
-		A2EFE2DC1E2E459800BA2956 /* funnel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = funnel.js; path = Graphics/Funnel/funnel.js; sourceTree = "<group>"; };
 		A2EFE2DE1E2E494200BA2956 /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jquery.min.js; path = Graphics/Funnel/jquery.min.js; sourceTree = "<group>"; };
 		A2EFE2E01E2E4A1300BA2956 /* d3V442.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = d3V442.min.js; path = Graphics/Funnel/d3V442.min.js; sourceTree = "<group>"; };
 		A2F0B1171E0C1B110095580B /* CoreKPIDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreKPIDelegates.swift; sourceTree = "<group>"; };
@@ -324,8 +332,19 @@
 				A2EFE2CB1E2E391B00BA2956 /* Lines */,
 				A2B807E71E13A48800F2C1CB /* Points */,
 				A292F5C51E13ACFE009F9F48 /* Pie */,
+				A26BEEAD1E3F870B00C2D2AC /* StackArea */,
 			);
 			name = Graphics;
+			sourceTree = "<group>";
+		};
+		A26BEEAD1E3F870B00C2D2AC /* StackArea */ = {
+			isa = PBXGroup;
+			children = (
+				A26BEEAB1E3F86F900C2D2AC /* stackArea.html */,
+				A26BEEAE1E3F886500C2D2AC /* style.css */,
+				A26BEEB01E3F8AD400C2D2AC /* stackArea.js */,
+			);
+			name = StackArea;
 			sourceTree = "<group>";
 		};
 		A27820591E001503009F83DB = {
@@ -353,6 +372,7 @@
 			isa = PBXGroup;
 			children = (
 				A27820651E001503009F83DB /* AppDelegate.swift */,
+				A26BEEA71E3F694C00C2D2AC /* aladin.jpg */,
 				A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */,
 				A2F0B1171E0C1B110095580B /* CoreKPIDelegates.swift */,
 				A297F5D31E08241D00F85963 /* CustomTableViewCells */,
@@ -702,10 +722,10 @@
 			children = (
 				A2EFE2D81E2E446900BA2956 /* funnel.html */,
 				A2EFE2DA1E2E454A00BA2956 /* funnel.css */,
-				A2EFE2DC1E2E459800BA2956 /* funnel.js */,
 				A2EFE2DE1E2E494200BA2956 /* jquery.min.js */,
 				A2EFE2E01E2E4A1300BA2956 /* d3V442.min.js */,
 				A2B720971E2E4AFC00471E91 /* d3-funnel.js */,
+				A26BEEA91E3F70C800C2D2AC /* funnel.js */,
 			);
 			name = Funnel;
 			sourceTree = "<group>";
@@ -825,6 +845,8 @@
 				A2EFE2DB1E2E454A00BA2956 /* funnel.css in Resources */,
 				A2EFE2D21E2E3FAA00BA2956 /* bar.html in Resources */,
 				A27820731E001503009F83DB /* LaunchScreen.storyboard in Resources */,
+				A26BEEA81E3F694C00C2D2AC /* aladin.jpg in Resources */,
+				A26BEEAF1E3F886500C2D2AC /* style.css in Resources */,
 				A2C9FD291E13E1D400433D43 /* Rd3.v3.min.js in Resources */,
 				A2C9FD261E13E1CD00433D43 /* style.css in Resources */,
 				A2C9ABDE1E2F5C4100623659 /* positiveBar.js in Resources */,
@@ -834,17 +856,19 @@
 				A2279D7E1E14DE2100669EB0 /* points.js in Resources */,
 				A2C9ABDA1E2F5BD600623659 /* positiveBar.html in Resources */,
 				A2C9ABDC1E2F5BFE00623659 /* positiveBar.css in Resources */,
+				A26BEEAA1E3F70C800C2D2AC /* funnel.js in Resources */,
 				A2279D7D1E14DE2100669EB0 /* d3.js in Resources */,
 				A2B720981E2E4AFD00471E91 /* d3-funnel.js in Resources */,
 				A2279D7A1E14DE1700669EB0 /* points.html in Resources */,
 				A2C9FD2A1E13E1D400433D43 /* round.js in Resources */,
 				A2EFE2D61E2E400500BA2956 /* bar.css in Resources */,
 				A27820701E001503009F83DB /* Assets.xcassets in Resources */,
+				A26BEEAC1E3F86F900C2D2AC /* stackArea.html in Resources */,
 				A2EFE2DF1E2E494200BA2956 /* jquery.min.js in Resources */,
-				A2EFE2DD1E2E459800BA2956 /* funnel.js in Resources */,
 				A2EFE2E11E2E4A1300BA2956 /* d3V442.min.js in Resources */,
 				A2C9FD231E13E1C500433D43 /* index.html in Resources */,
 				A278206B1E001503009F83DB /* Main.storyboard in Resources */,
+				A26BEEB11E3F8AD400C2D2AC /* stackArea.js in Resources */,
 				A2279D801E14DE2A00669EB0 /* points.css in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

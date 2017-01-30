@@ -75,7 +75,6 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                                           success: {(userID, token, typeOfAccount) in
                                             self.model = ModelCoreKPI(token: token, userID: userID)
                                             self.model.profile?.typeOfAccount = typeOfAccount
-                                            //self.getUserProfileFromServer()
                                             self.saveData()
                                             self.showTabBarVC()
                 },

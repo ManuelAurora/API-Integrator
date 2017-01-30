@@ -17,7 +17,8 @@ enum Source: String {
 
 class KPIsListTableViewController: UITableViewController {
     
-    var model: ModelCoreKPI!// = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, nickname: nil, typeOfAccount: .Manager))
+    var model: ModelCoreKPI!
+    var arrayOfKPI: [KPI] = []
     
     let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
@@ -27,16 +28,7 @@ class KPIsListTableViewController: UITableViewController {
         if model.profile?.typeOfAccount != TypeOfAccount.Admin {
             self.navigationItem.rightBarButtonItem = nil
         }
-        
-        //Debug ->
-        let kpiOne = KPI(kpiID: 1,typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: Departments.Sales, KPI: "Shop Supplies", descriptionOfKPI: "One of the key indicators for western organizations that mainly help to determine the economic efficiency of the Procurement Department.", executant: (model.profile?.userId)!, timeInterval: TimeInterval.Daily , timeZone: "GMT +0", deadline: "Before 16:00", number: [("08/01/17", 12000), ("08/01/16", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: nil)
-        kpiOne.KPIViewOne = .Graph
-        kpiOne.KPIViewTwo = TypeOfKPIView.Numbers
-        let kpiTwo = KPI(kpiID: 2, typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: CreatedKPI(source: .Integrated, department: Departments.Procurement, KPI: "Shop Volume",descriptionOfKPI: nil, executant: 75 , timeInterval: TimeInterval.Weekly, timeZone: "MSK +3", deadline: "12.01.2017", number: [("08/01/17", 25800), ("07/01/2017", 24400)]), imageBacgroundColour: nil)
-        kpiTwo.KPIViewOne = .Graph
-        kpiTwo.KPIChartTwo = TypeOfChart.PointChart
-        self.model.kpis = [kpiOne, kpiTwo]
-        //<-debug
+
         let nc = NotificationCenter.default
         nc.addObserver(forName:modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
         
@@ -62,6 +54,10 @@ class KPIsListTableViewController: UITableViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.hideTransparentNavigationBar()
+    }
+    
     //MARK: - Save mark about first loading
     func saveData() {
         let data: Bool = true
@@ -80,7 +76,7 @@ class KPIsListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.model.kpis.count
+        return arrayOfKPI.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -90,24 +86,24 @@ class KPIsListTableViewController: UITableViewController {
         cell.reportButton.tag = indexPath.row
         cell.memberNameButton.tag = indexPath.row
         
-        if let imageString = model.kpis[indexPath.row].image {
+        if let imageString = arrayOfKPI[indexPath.row].image {
             cell.KPIListCellImageView.isHidden = false
             cell.KPIListCellImageView.image = UIImage(named: imageString.rawValue)
         } else {
             cell.KPIListCellImageView.isHidden = true
         }
         
-        cell.KPIListCellImageBacgroundView.backgroundColor = model.kpis[indexPath.row].imageBacgroundColour
+        cell.KPIListCellImageBacgroundView.backgroundColor = arrayOfKPI[indexPath.row].imageBacgroundColour
         
-        switch model.kpis[indexPath.row].typeOfKPI {
+        switch arrayOfKPI[indexPath.row].typeOfKPI {
         case .IntegratedKPI:
             cell.reportButton.isHidden = true
             cell.KPIListNumber.isHidden = true
             cell.ManagedByStack.isHidden = true
-            let integratedKPI = model.kpis[indexPath.row].integratedKPI
+            let integratedKPI = arrayOfKPI[indexPath.row].integratedKPI
             cell.KPIListHeaderLabel.text = integratedKPI?.service.rawValue
         case .createdKPI:
-            let createdKPI = model.kpis[indexPath.row].createdKPI
+            let createdKPI = arrayOfKPI[indexPath.row].createdKPI
             cell.KPIListHeaderLabel.text = createdKPI?.KPI
             if model.profile?.typeOfAccount == TypeOfAccount.Admin {
                 if model.profile?.userId == createdKPI?.executant {
@@ -156,7 +152,7 @@ class KPIsListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "PageVC") as! ChartsPageViewController
-        destinationVC.kpi = model.kpis[indexPath.row]
+        destinationVC.kpi = arrayOfKPI[indexPath.row]
         navigationController?.pushViewController(destinationVC, animated: true)
         
     }
@@ -166,6 +162,7 @@ class KPIsListTableViewController: UITableViewController {
             (action, indexPath) -> Void in
             self.deleteKPI(kpiID: self.model.kpis[indexPath.row].id)
             self.model.kpis.remove(at: indexPath.row)
+            self.arrayOfKPI.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
         )
@@ -200,6 +197,7 @@ class KPIsListTableViewController: UITableViewController {
         let request = GetKPIs(model: model)
         request.getKPIsFromServer(success: { kpi in
             self.model.kpis = kpi
+            self.arrayOfKPI = kpi
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
             self.loadReports()
@@ -215,14 +213,17 @@ class KPIsListTableViewController: UITableViewController {
     //MARK: Load reports
     func loadReports() {
         let getReportRequest = GetReports(model: model)
-        for kpi in model.kpis {
+        for kpi in arrayOfKPI {
             getReportRequest.getReportForKPI(withID: kpi.id, success: {report in
                 kpi.createdKPI?.number.removeAll()
                 var dict = report
                 for _ in 0..<dict.count {
                     let report = dict.popFirst()
-                    let date = report?.key
+                    let dateDtring = report?.key
                     let value = report?.value
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-mm-dd hh:mm:ss"
+                    let date = dateFormatter.date(from: dateDtring!)
                     kpi.createdKPI?.number.append((date!,value!))
                 }
                 self.tableView.reloadData()
@@ -243,7 +244,7 @@ class KPIsListTableViewController: UITableViewController {
         
         let request = GetKPIs(model: model)
         request.getUserKPI(userID: userID, success: { kpi in
-            self.model.kpis = kpi
+            self.arrayOfKPI = kpi
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
         }, failure: { error in
@@ -298,11 +299,13 @@ extension KPIsListTableViewController: updateKPIListDelegate {
     
     func addNewKPI(kpi: KPI) {
         self.model.kpis.append(kpi)
+        self.arrayOfKPI.append(kpi)
         self.tableView.reloadData()
     }
     
     func updateKPIList(kpiArray: [KPI]) {
         self.model.kpis = kpiArray
+        self.arrayOfKPI = kpiArray
         self.tableView.reloadData()
     }
 }
@@ -329,10 +332,18 @@ extension KPIsListTableViewController: KPIListButtonCellDelegate {
     }
     
     func memberNameDidTaped(sender: UIButton) {
+        
+        let stack = self.navigationController?.viewControllers
+        
+        if (stack?.count)! > 1, stack?[(stack?.count)! - 2] is MemberInfoViewController {
+            _ = self.navigationController?.popViewController(animated: true)
+            return
+        }
+        
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "MemberInfo") as! MemberInfoViewController
         destinatioVC.model = model
         destinatioVC.navigationItem.rightBarButtonItem = nil
-        let createdKPI = model.kpis[sender.tag].createdKPI
+        let createdKPI = arrayOfKPI[sender.tag].createdKPI
         let executantId = createdKPI?.executant
         for i in 0..<model.team.count {
             if Int(model.team[i].userID) == executantId {

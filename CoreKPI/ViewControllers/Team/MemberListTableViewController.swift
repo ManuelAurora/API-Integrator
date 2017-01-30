@@ -131,7 +131,7 @@ class MemberListTableViewController: UITableViewController {
         return
         }, failure: { error in
             print(error)
-            self.showAlert(errorMessage: error)
+            self.showAlert(title: "Sorry", errorMessage: error)
         self.loadTeamListFromServer()
         }
         )
@@ -179,20 +179,20 @@ class MemberListTableViewController: UITableViewController {
             nc.post(name: self.modelDidChangeNotification,
                     object: nil,
                     userInfo:["model": self.model])
-            self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
+            self.refreshControl?.endRefreshing()
             
         }, failure: { error in
             self.refreshControl?.endRefreshing()
-            self.showAlert(errorMessage: error)
+            self.showAlert(title: "Teamlist loading error", errorMessage: error)
             self.tableView.reloadData()
         }
         )
     }
     
     //MARK: - show alert function
-    func showAlert(errorMessage: String) {
-        let alertController = UIAlertController(title: "Team list loading error", message: errorMessage, preferredStyle: .alert)
+    func showAlert(title: String, errorMessage: String) {
+        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         present(alertController, animated: true, completion: nil)
     }

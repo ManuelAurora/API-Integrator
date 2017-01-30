@@ -35,8 +35,6 @@
 
 "use strict";
 
-var data_funnel = [{ number: "Week 1", rate: 50 }, { number: "Week 2", rate: 120 }, { number: "Week 3", rate: 200 }, { number: "Week 4", rate: 300 }, { number: "Week 5", rate: 200 }];
-
 function funnel_d3v4(id, heightCoef, bottomWidthCoef) {
     // funnel_d3v4(id, [heightCoef, bottomWidthCoef]);
     
@@ -199,4 +197,4 @@ function funnel_d3v4(id, heightCoef, bottomWidthCoef) {
     Funnel(dataByFunnel);
 }
 
-funnel_d3v4('#funnel-chart');
+funnel_d3v4('#funnel-chart', 0.7);

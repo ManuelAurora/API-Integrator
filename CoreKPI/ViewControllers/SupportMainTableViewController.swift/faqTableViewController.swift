@@ -17,17 +17,11 @@ enum FAQSection : String {
 
 class faqTableViewController: UITableViewController {
     
-    struct FAQ {
-        var section: String
-        var data: [(description: String, answer: String)] = []
-    }
-    
     var faqDictionary: [FAQSection : [(description: String, answer: String)]] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadLocalFAQ()
         getFAQFromServer()
         tableView.tableFooterView = UIView(frame: .zero)
 
@@ -42,45 +36,10 @@ class faqTableViewController: UITableViewController {
         request.getFAQ(success: { faq in
             self.faqDictionary = faq
             self.tableView.reloadData()
-            
-            //self.saveFAQ()
         }, failure: { error in
             print(error)
         }
         )
-    }
-    
-    //Load local FAQ
-    func loadLocalFAQ() {
-        if let data = UserDefaults.standard.data(forKey: "FAQ"),
-            let myFAQArray = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[FAQ]] {
-            let faqArray = myFAQArray[0]
-            
-            for faq in faqArray {
-                faqDictionary[FAQSection(rawValue: faq.section)!] = faq.data
-            }
-            
-        } else {
-            print("No local FAQ in app storage")
-        }
-    }
-    
-    //MARK: - Save FAQ
-    func saveFAQ() {
-        UserDefaults.standard.removeObject(forKey: "FAQ")
-        
-        var faqArray:[FAQ] = []
-        
-        for section in faqDictionary {
-            let faq = FAQ(section: section.key.rawValue, data: section.value)
-            faqArray.append(faq)
-        }
-        
-        let data: [[FAQ]] = [faqArray]
-        
-        let encodedData = NSKeyedArchiver.archivedData(withRootObject: data)
-        UserDefaults.standard.set(encodedData, forKey: "FAQ")
-        print("FAQ saved in NSKeyedArchive")
     }
     
     // MARK: - Table view data source
