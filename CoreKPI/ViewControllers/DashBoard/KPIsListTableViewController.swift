@@ -124,8 +124,6 @@ class KPIsListTableViewController: UITableViewController {
                 if let number = createdKPI?.number[(createdKPI?.number.count)! - 1] {
                     let formatter: NumberFormatter = NumberFormatter()
                     formatter.numberStyle = .decimal
-                    formatter.groupingSeparator = ","
-                    formatter.decimalSeparator = "."
                     formatter.maximumFractionDigits = 10
                     let formatedStr: String = formatter.string(from: NSNumber(value: number.number))!
                     cell.KPIListNumber.text = formatedStr

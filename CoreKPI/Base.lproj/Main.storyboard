@@ -851,11 +851,11 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <action selector="tapResponsibleForButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="QvD-ts-llu"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="i7a-fV-Yzm">
-                                <rect key="frame" x="16" y="522" width="343" height="36"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="i7a-fV-Yzm">
+                                <rect key="frame" x="16" y="522" width="343" height="0.0"/>
                                 <subviews>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-cu-qgk">
-                                        <rect key="frame" x="0.0" y="0.0" width="161" height="36"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-cu-qgk">
+                                        <rect key="frame" x="-16" y="-522" width="0.0" height="36"/>
                                         <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="wRD-v3-f5V"/>
@@ -873,8 +873,8 @@ The main advantage of a computer audio player is that you can play your audio CD
                                             <action selector="tapSecurityButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="kzs-n0-Rej"/>
                                         </connections>
                                     </button>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsv-ER-n9H">
-                                        <rect key="frame" x="182" y="0.0" width="161" height="36"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsv-ER-n9H">
+                                        <rect key="frame" x="-16" y="-522" width="0.0" height="36"/>
                                         <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="8jn-o6-fkr"/>
@@ -1450,7 +1450,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Nx-kD-2yg">
-                                <rect key="frame" x="64.5" y="236" width="246" height="26"/>
+                                <rect key="frame" x="65" y="236" width="246" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="245.80000000000001" id="DXP-PH-shF"/>
                                     <constraint firstAttribute="height" constant="26" id="Y8F-KV-Dkm"/>
@@ -1999,7 +1999,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IAq-0r-mAJ">
-                                <rect key="frame" x="64.5" y="259" width="246" height="26"/>
+                                <rect key="frame" x="65" y="259" width="246" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="7J9-UV-SmK"/>
                                     <constraint firstAttribute="width" constant="245.80000000000001" id="q4T-3F-13r"/>
@@ -2822,6 +2822,37 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <outlet property="headerOfCell" destination="pxV-cj-kaU" id="olU-Cx-erZ"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DataPickerCell" rowHeight="180" id="Me7-yG-xYj" customClass="DatePickerTableViewCell" customModule="CoreKPI" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="116" width="375" height="180"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Me7-yG-xYj" id="yGo-PY-gdc">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="179"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="S06-SJ-xJJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="179"/>
+                                            <date key="date" timeIntervalSinceReferenceDate="507555347.57797998">
+                                                <!--2017-01-31 11:35:47 +0000-->
+                                            </date>
+                                            <date key="minimumDate" timeIntervalSinceReferenceDate="504910800">
+                                                <!--2016-12-31 21:00:00 +0000-->
+                                            </date>
+                                            <connections>
+                                                <action selector="dataPickerDidMove:" destination="Me7-yG-xYj" eventType="valueChanged" id="KFe-gK-Our"/>
+                                            </connections>
+                                        </datePicker>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="S06-SJ-xJJ" secondAttribute="trailing" id="LCs-vy-wDc"/>
+                                        <constraint firstAttribute="bottom" secondItem="S06-SJ-xJJ" secondAttribute="bottom" id="ldf-aA-0ou"/>
+                                        <constraint firstItem="S06-SJ-xJJ" firstAttribute="leading" secondItem="yGo-PY-gdc" secondAttribute="leading" id="u6K-JJ-0ff"/>
+                                        <constraint firstItem="S06-SJ-xJJ" firstAttribute="top" secondItem="yGo-PY-gdc" secondAttribute="top" id="zjF-Ma-894"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="datePicker" destination="S06-SJ-xJJ" id="RyQ-r8-z62"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="GNY-Xt-9vq" id="uQf-fE-LsF"/>
@@ -3132,7 +3163,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="qf9-LI-KDz">
-                            <rect key="frame" x="0.0" y="250" width="375" height="440"/>
+                            <rect key="frame" x="0.0" y="430" width="375" height="440"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
@@ -3238,6 +3269,37 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <outlet property="descriptionOfCellLabel" destination="9Dk-ja-1z3" id="RHk-IU-pUP"/>
                                     <outlet property="headerOfCellLabel" destination="edH-ZN-Bd0" id="1FO-DB-lXZ"/>
                                     <outlet property="kpiInfoTextLabel" destination="ees-dH-A8p" id="yDH-qD-TnQ"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DataPickerCell" rowHeight="180" id="r6F-6s-jLJ" customClass="DatePickerTableViewCell" customModule="CoreKPI" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="250" width="375" height="180"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="r6F-6s-jLJ" id="Ytn-Fe-dXh">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="179"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="gmS-EF-6ZJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="179"/>
+                                            <date key="date" timeIntervalSinceReferenceDate="507538997.99703002">
+                                                <!--2017-01-31 07:03:17 +0000-->
+                                            </date>
+                                            <date key="minimumDate" timeIntervalSinceReferenceDate="504910800">
+                                                <!--2016-12-31 21:00:00 +0000-->
+                                            </date>
+                                            <connections>
+                                                <action selector="dataPickerDidMove:" destination="r6F-6s-jLJ" eventType="valueChanged" id="MIG-ER-QBs"/>
+                                            </connections>
+                                        </datePicker>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="gmS-EF-6ZJ" secondAttribute="trailing" id="0c9-4G-rBQ"/>
+                                        <constraint firstItem="gmS-EF-6ZJ" firstAttribute="top" secondItem="Ytn-Fe-dXh" secondAttribute="top" id="8gt-3Z-TQT"/>
+                                        <constraint firstAttribute="bottom" secondItem="gmS-EF-6ZJ" secondAttribute="bottom" id="cHX-kM-g9m"/>
+                                        <constraint firstItem="gmS-EF-6ZJ" firstAttribute="leading" secondItem="Ytn-Fe-dXh" secondAttribute="leading" id="eOH-Kn-m4R"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="datePicker" destination="gmS-EF-6ZJ" id="lgS-1G-XXu"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

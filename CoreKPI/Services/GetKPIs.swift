@@ -66,7 +66,7 @@ class GetKPIs: Request {
                         var executant: Int
                         let timeInterval: String
                         var timeZone: String
-                        var deadline: String
+                        var deadline: Date
                         var number: [(Date, Double)]
                         
                         
@@ -79,7 +79,9 @@ class GetKPIs: Request {
                             descriptionOfKPI = (kpiDescription == "nil") ? nil : kpiDescription
                             executant = kpiData["responsive_id"] as! Int
                             timeZone = "no"
-                            deadline = (kpiData["datetime"] as? String)!
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.dateFormat = "yyyy-mm-dd hh:mm:ss"
+                            deadline = dateFormatter.date(from: (kpiData["datetime"] as? String)!)!
                             number = []
                             timeInterval = kpiData["interval"] as! String
                             //debug

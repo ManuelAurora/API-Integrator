@@ -124,7 +124,7 @@ class WebViewChartViewController: UIViewController {
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + js2! + downOfJsFile + "</script>", baseURL: nil)
         case .AreaChart:
             let htmlFile = Bundle.main.path(forResource:"stackArea", ofType: "html")
-            let cssFile = Bundle.main.path(forResource:"style", ofType: "css")
+            let cssFile = Bundle.main.path(forResource:"stackArea", ofType: "css")
             let jsFile1 = Bundle.main.path(forResource:"Rd3.v3.min", ofType: "js")
             let jsFile2 = Bundle.main.path(forResource:"stackArea", ofType: "js")
             

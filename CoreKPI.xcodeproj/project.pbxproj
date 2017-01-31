@@ -44,7 +44,7 @@
 		A26BEEA81E3F694C00C2D2AC /* aladin.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A26BEEA71E3F694C00C2D2AC /* aladin.jpg */; };
 		A26BEEAA1E3F70C800C2D2AC /* funnel.js in Resources */ = {isa = PBXBuildFile; fileRef = A26BEEA91E3F70C800C2D2AC /* funnel.js */; };
 		A26BEEAC1E3F86F900C2D2AC /* stackArea.html in Resources */ = {isa = PBXBuildFile; fileRef = A26BEEAB1E3F86F900C2D2AC /* stackArea.html */; };
-		A26BEEAF1E3F886500C2D2AC /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = A26BEEAE1E3F886500C2D2AC /* style.css */; };
+		A26BEEAF1E3F886500C2D2AC /* stackArea.css in Resources */ = {isa = PBXBuildFile; fileRef = A26BEEAE1E3F886500C2D2AC /* stackArea.css */; };
 		A26BEEB11E3F8AD400C2D2AC /* stackArea.js in Resources */ = {isa = PBXBuildFile; fileRef = A26BEEB01E3F8AD400C2D2AC /* stackArea.js */; };
 		A26D282A1E0D551D005342BA /* KPIListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26D28291E0D551D005342BA /* KPIListTableViewCell.swift */; };
 		A274DC0F1E0825DF008CBF36 /* InviteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A274DC0E1E0825DF008CBF36 /* InviteTableViewController.swift */; };
@@ -84,6 +84,7 @@
 		A2A018E71E235F2200198E1A /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A2A018E51E235F2200198E1A /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A2A215511E124AB800EEBCA2 /* AlertSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A215501E124AB800EEBCA2 /* AlertSettingTableViewCell.swift */; };
 		A2A215531E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A215521E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift */; };
+		A2A5405E1E406F04001051F0 /* DatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A5405D1E406F04001051F0 /* DatePickerTableViewCell.swift */; };
 		A2A940CB1E1E70740088C7F1 /* UINavigationBurExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A940CA1E1E70740088C7F1 /* UINavigationBurExtension.swift */; };
 		A2ACBD3B1E0D11AA0079EF3D /* AlertsListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ACBD3A1E0D11AA0079EF3D /* AlertsListTableViewController.swift */; };
 		A2ACBD3F1E0D12280079EF3D /* AlertsListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ACBD3E1E0D12280079EF3D /* AlertsListTableViewCell.swift */; };
@@ -203,7 +204,7 @@
 		A26BEEA71E3F694C00C2D2AC /* aladin.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = aladin.jpg; sourceTree = "<group>"; };
 		A26BEEA91E3F70C800C2D2AC /* funnel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = funnel.js; path = Graphics/Funnel/funnel.js; sourceTree = "<group>"; };
 		A26BEEAB1E3F86F900C2D2AC /* stackArea.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = stackArea.html; path = Graphics/StackArea/stackArea.html; sourceTree = "<group>"; };
-		A26BEEAE1E3F886500C2D2AC /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = style.css; path = Graphics/StackArea/style.css; sourceTree = "<group>"; };
+		A26BEEAE1E3F886500C2D2AC /* stackArea.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = stackArea.css; path = Graphics/StackArea/stackArea.css; sourceTree = "<group>"; };
 		A26BEEB01E3F8AD400C2D2AC /* stackArea.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = stackArea.js; path = Graphics/StackArea/stackArea.js; sourceTree = "<group>"; };
 		A26D28291E0D551D005342BA /* KPIListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIListTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPIListTableViewCell.swift; sourceTree = "<group>"; };
 		A274DC0E1E0825DF008CBF36 /* InviteTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InviteTableViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/InviteTableViewController.swift"; sourceTree = "<group>"; };
@@ -247,6 +248,7 @@
 		A2A018E51E235F2200198E1A /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = Carthage/Build/iOS/Charts.framework; sourceTree = "<group>"; };
 		A2A215501E124AB800EEBCA2 /* AlertSettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertSettingTableViewCell.swift; path = CustomTableViewCells/AlertSettingTableViewCell.swift; sourceTree = "<group>"; };
 		A2A215521E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertSelectSettingTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AlertSelectSettingTableViewController.swift; sourceTree = "<group>"; };
+		A2A5405D1E406F04001051F0 /* DatePickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatePickerTableViewCell.swift; path = CustomTableViewCells/Dashboard/DatePickerTableViewCell.swift; sourceTree = "<group>"; };
 		A2A940CA1E1E70740088C7F1 /* UINavigationBurExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UINavigationBurExtension.swift; path = ../UINavigationBurExtension.swift; sourceTree = "<group>"; };
 		A2ACBD3A1E0D11AA0079EF3D /* AlertsListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertsListTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AlertsListTableViewController.swift; sourceTree = "<group>"; };
 		A2ACBD3E1E0D12280079EF3D /* AlertsListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertsListTableViewCell.swift; path = CustomTableViewCells/Alerts/AlertsListTableViewCell.swift; sourceTree = "<group>"; };
@@ -341,7 +343,7 @@
 			isa = PBXGroup;
 			children = (
 				A26BEEAB1E3F86F900C2D2AC /* stackArea.html */,
-				A26BEEAE1E3F886500C2D2AC /* style.css */,
+				A26BEEAE1E3F886500C2D2AC /* stackArea.css */,
 				A26BEEB01E3F8AD400C2D2AC /* stackArea.js */,
 			);
 			name = StackArea;
@@ -636,6 +638,7 @@
 				A2FB98A31E25FE6900A856E8 /* KPISettingInputTableViewCell.swift */,
 				A21AEEF11E28AFF200577F4B /* KPIColourTableViewCell.swift */,
 				A2C9ABD61E2F455D00623659 /* ChartTableViewCell.swift */,
+				A2A5405D1E406F04001051F0 /* DatePickerTableViewCell.swift */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -846,7 +849,7 @@
 				A2EFE2D21E2E3FAA00BA2956 /* bar.html in Resources */,
 				A27820731E001503009F83DB /* LaunchScreen.storyboard in Resources */,
 				A26BEEA81E3F694C00C2D2AC /* aladin.jpg in Resources */,
-				A26BEEAF1E3F886500C2D2AC /* style.css in Resources */,
+				A26BEEAF1E3F886500C2D2AC /* stackArea.css in Resources */,
 				A2C9FD291E13E1D400433D43 /* Rd3.v3.min.js in Resources */,
 				A2C9FD261E13E1CD00433D43 /* style.css in Resources */,
 				A2C9ABDE1E2F5C4100623659 /* positiveBar.js in Resources */,
@@ -941,6 +944,7 @@
 				A2F77E0A1E3B199400BB8318 /* GetKPIs.swift in Sources */,
 				A2F0B1181E0C1B110095580B /* CoreKPIDelegates.swift in Sources */,
 				A297F5D71E08244800F85963 /* AnswerFaqTableViewCell.swift in Sources */,
+				A2A5405E1E406F04001051F0 /* DatePickerTableViewCell.swift in Sources */,
 				A297F5CA1E0823D400F85963 /* RegisterViewController.swift in Sources */,
 				A27820971E001530009F83DB /* RequestServise.swift in Sources */,
 				A278206E1E001503009F83DB /* CoreKPI.xcdatamodeld in Sources */,

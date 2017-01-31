@@ -18,7 +18,7 @@ struct CreatedKPI {
     var executant: Int
     var timeInterval: TimeInterval
     var timeZone: String
-    var deadline: String
+    var deadline: Date
     var number: [(date: Date, number: Double)]
     mutating func addReport(date: Date, report: Double) {
         number.append((date, report))

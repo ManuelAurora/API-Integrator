@@ -28,7 +28,6 @@ enum TypeOfKPIView: String {
 class ReportAndViewKPITableViewController: UITableViewController {
     
     var model: ModelCoreKPI!
-    //var request: Request!
     weak var KPIListVC: KPIsListTableViewController!
     var delegate: updateKPIListDelegate!
     
@@ -233,7 +232,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
     }
     var timeZoneArray: [(SettingName: String, value: Bool)] = [("Hawaii Time (HST)",false), ("Alaska Time (AKST)", false), ("Pacific Time (PST)",false), ("Mountain Time (MST)", false), ("Central Time (CST)", false), ("Eastern Time (EST)",false)]
     //Deadline
-    var deadline: String = "10:15AM"
+    var deadline: Date!
     //KPIOneView
     var KPIOneView: TypeOfKPIView {
         get {
@@ -352,6 +351,8 @@ class ReportAndViewKPITableViewController: UITableViewController {
     
     let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
+    var datePickerIsVisible = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         switch buttonDidTaped {
@@ -363,7 +364,6 @@ class ReportAndViewKPITableViewController: UITableViewController {
             self.navigationItem.rightBarButtonItem?.title = "Save"
             self.navigationItem.title = "KPI Edit"
             tableView.isScrollEnabled = true
-            //self.request = Request(model: self.model)
             self.createExecutantArray()
             let nc = NotificationCenter.default
             nc.addObserver(forName: modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
@@ -497,15 +497,15 @@ class ReportAndViewKPITableViewController: UITableViewController {
                         switch self.timeInterval {
                         case .Daily:
                             if KPIOneView == .Numbers && KPITwoView == .Graph || KPIOneView == .Graph && KPITwoView == .Numbers {
-                                return 7
+                                return datePickerIsVisible ? 8 : 7
                             } else {
-                                return 8
+                                return datePickerIsVisible ? 9 : 8
                             }
                         default:
                             if KPIOneView == .Numbers && KPITwoView == .Graph || KPIOneView == .Graph && KPITwoView == .Numbers {
-                                return 8
+                                return datePickerIsVisible ? 9 : 8
                             } else {
-                                return 9
+                                return datePickerIsVisible ? 10 : 9
                             }
                         }
                     default:
@@ -559,7 +559,10 @@ class ReportAndViewKPITableViewController: UITableViewController {
                 case 3:
                     cell.headerOfCell.text = "Time zone: " + (model.kpis[kpiIndex].createdKPI?.timeZone)!
                 case 4:
-                    cell.headerOfCell.text = model.kpis[kpiIndex].createdKPI?.deadline
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "hh:mm"
+                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                    cell.headerOfCell.text = date
                 default:
                     break
                 }
@@ -571,8 +574,6 @@ class ReportAndViewKPITableViewController: UITableViewController {
                 } else {
                     let formatter: NumberFormatter = NumberFormatter()
                     formatter.numberStyle = .decimal
-                    formatter.groupingSeparator = ","
-                    formatter.decimalSeparator = "."
                     formatter.maximumFractionDigits = 10
                     let formattedStr: String = formatter.string(from: NSNumber(value: report!))!
                     cell.descriptionOfCell.text = formattedStr
@@ -644,7 +645,10 @@ class ReportAndViewKPITableViewController: UITableViewController {
                                     cell.descriptionOfCell.text = timeZone
                                 case 3:
                                     cell.headerOfCell.text = "Deadline"
-                                    cell.descriptionOfCell.text = deadline
+                                    let dateFormatter = DateFormatter()
+                                    dateFormatter.dateFormat = "hh:mm"
+                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                                    cell.descriptionOfCell.text = date
                                     cell.accessoryType = .none
                                 case 4:
                                     cell.headerOfCell.text = "KPI's 1 st view"
@@ -672,7 +676,10 @@ class ReportAndViewKPITableViewController: UITableViewController {
                                     cell.descriptionOfCell.text = timeZone
                                 case 3:
                                     cell.headerOfCell.text = "Deadline"
-                                    cell.descriptionOfCell.text = deadline
+                                    let dateFormatter = DateFormatter()
+                                    dateFormatter.dateFormat = "hh:mm"
+                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                                    cell.descriptionOfCell.text = date
                                     cell.accessoryType = .none
                                 case 4:
                                     cell.headerOfCell.text = "KPI's 1 st view"
@@ -700,7 +707,10 @@ class ReportAndViewKPITableViewController: UITableViewController {
                                     cell.descriptionOfCell.text = timeZone
                                 case 3:
                                     cell.headerOfCell.text = "Deadline"
-                                    cell.descriptionOfCell.text = deadline
+                                    let dateFormatter = DateFormatter()
+                                    dateFormatter.dateFormat = "hh:mm"
+                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                                    cell.descriptionOfCell.text = date
                                     cell.accessoryType = .none
                                 case 4:
                                     cell.headerOfCell.text = "KPI's 1 st view"
@@ -752,7 +762,10 @@ class ReportAndViewKPITableViewController: UITableViewController {
                                     cell.descriptionOfCell.text = timeZone
                                 case 4:
                                     cell.headerOfCell.text = "Deadline"
-                                    cell.descriptionOfCell.text = deadline
+                                    let dateFormatter = DateFormatter()
+                                    dateFormatter.dateFormat = "hh:mm"
+                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                                    cell.descriptionOfCell.text = date
                                     cell.accessoryType = .none
                                 case 5:
                                     cell.headerOfCell.text = "KPI's 1 st view"
@@ -798,7 +811,10 @@ class ReportAndViewKPITableViewController: UITableViewController {
                                     cell.descriptionOfCell.text = timeZone
                                 case 4:
                                     cell.headerOfCell.text = "Deadline"
-                                    cell.descriptionOfCell.text = deadline
+                                    let dateFormatter = DateFormatter()
+                                    dateFormatter.dateFormat = "hh:mm"
+                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                                    cell.descriptionOfCell.text = date
                                     cell.accessoryType = .none
                                 case 5:
                                     cell.headerOfCell.text = "KPI's 1 st view"
@@ -844,7 +860,10 @@ class ReportAndViewKPITableViewController: UITableViewController {
                                     cell.descriptionOfCell.text = timeZone
                                 case 4:
                                     cell.headerOfCell.text = "Deadline"
-                                    cell.descriptionOfCell.text = deadline
+                                    let dateFormatter = DateFormatter()
+                                    dateFormatter.dateFormat = "hh:mm"
+                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                                    cell.descriptionOfCell.text = date
                                     cell.accessoryType = .none
                                 case 5:
                                     cell.headerOfCell.text = "KPI's 1 st view"
@@ -882,7 +901,10 @@ class ReportAndViewKPITableViewController: UITableViewController {
                             case 2:
                                 cell.headerOfCell.text = "Time zone: " + timeZone
                             case 3:
-                                cell.headerOfCell.text = "Before " + deadline
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "hh:mm"
+                                let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                                cell.headerOfCell.text = "Before " + date
                             default:
                                 break
                             }
@@ -973,7 +995,10 @@ class ReportAndViewKPITableViewController: UITableViewController {
                             case 3:
                                 cell.headerOfCell.text = "Time zone: " + timeZone
                             case 4:
-                                cell.headerOfCell.text = "Before " + deadline
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "hh:mm"
+                                let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                                cell.headerOfCell.text = "Before " + date
                             default:
                                 break
                             }

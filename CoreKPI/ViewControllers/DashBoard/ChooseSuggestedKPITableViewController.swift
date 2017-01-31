@@ -82,7 +82,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         }
         return nil
     }
-   
+    
     var executantArray:  [(SettingName: String, value: Bool)] = []
     
     var timeInterval: TimeInterval {
@@ -125,12 +125,14 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     }
     var timeZoneArray: [(SettingName: String, value: Bool)] = [("Hawaii Time (HST)",false), ("Alaska Time (AKST)", false), ("Pacific Time (PST)",false), ("Mountain Time (MST)", false), ("Central Time (CST)", false), ("Eastern Time (EST)",false)]
     
-    var deadline: String? = "10:15AM"
+    var deadline: Date?
     
     var typeOfSetting = TypeOfSetting.none
     var settingArray: [(SettingName: String, value: Bool)] = []
     
     let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
+    
+    var datePickerIsVisible = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -256,9 +258,9 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         case .User:
             switch timeInterval {
             case .Daily:
-                return 9
+                return datePickerIsVisible == false ? 9 : 10
             default:
-                return 10
+                return datePickerIsVisible == false ? 10 : 11
             }
         case .Integrated:
             var numberOfKPIs = 0
@@ -325,7 +327,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                         DescriptionCell.kpiInfoTextLabel.isHidden = false
                         DescriptionCell.kpiInfoTextLabel.text = self.kpiDescription
                     }
-//                  DescriptionCell.kpiInfoTextLabel.text = self.kpiDescription ?? ""
                     DescriptionCell.prepareForReuse()
                     return DescriptionCell
                 case 5:
@@ -339,7 +340,17 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     SuggestedCell.descriptionOfCell.text = timeZone ?? "Select"
                 case 8:
                     SuggestedCell.headerOfCell.text = "Deadline"
-                    SuggestedCell.descriptionOfCell.text = "12:15AM"
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.timeStyle = .short
+                    if deadline == nil {
+                        SuggestedCell.descriptionOfCell.text = "Select time"
+                    } else {
+                        SuggestedCell.descriptionOfCell.text = dateFormatter.string(for: deadline)
+                    }
+                case 9:
+                    let dataPickerCell = tableView.dequeueReusableCell(withIdentifier: "DataPickerCell", for: indexPath)  as! DatePickerTableViewCell
+                    dataPickerCell.addKPIVC = self
+                    return dataPickerCell
                 default:
                     break
                 }
@@ -393,7 +404,17 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     SuggestedCell.descriptionOfCell.text = timeZone ?? "Select"
                 case 9:
                     SuggestedCell.headerOfCell.text = "Deadline"
-                    SuggestedCell.descriptionOfCell.text = "12:15AM"
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.timeStyle = .short
+                    if deadline == nil {
+                        SuggestedCell.descriptionOfCell.text = "Select time"
+                    } else {
+                        SuggestedCell.descriptionOfCell.text = dateFormatter.string(for: deadline)
+                    }
+                case 10:
+                    let dataPickerCell = tableView.dequeueReusableCell(withIdentifier: "DataPickerCell", for: indexPath) as! DatePickerTableViewCell
+                    dataPickerCell.addKPIVC = self
+                    return dataPickerCell
                 default:
                     break
                 }
@@ -435,12 +456,45 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         return SuggestedCell
     }
     
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        switch source {
+        case .none:
+            break
+        case .User:
+            var newIndexPath = IndexPath()
+            switch timeInterval {
+            case .Daily:
+                switch indexPath.row {
+                case 8,9:
+                    return indexPath
+                default:
+                    newIndexPath = IndexPath(item: 9, section: 0)
+                }
+            default:
+                switch indexPath.row {
+                case 9,10:
+                    return indexPath
+                default:
+                    newIndexPath = IndexPath(item: 10, section: 0)
+                }
+            }
+            
+            if datePickerIsVisible {
+                datePickerIsVisible = false
+                tableView.deleteRows(at: [newIndexPath], with: .top)
+            }
+        case .Integrated:
+            break
+        }
+        return indexPath
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         switch source {
         case .none:
-            self.typeOfSetting = .Source
-            self.settingArray = self.sourceArray
+            typeOfSetting = .Source
+            settingArray = sourceArray
             showSelectSettingVC()
         case .User:
             
@@ -448,96 +502,100 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
             case .Daily:
                 switch indexPath.row {
                 case 0:
-                    self.typeOfSetting = .Source
-                    self.settingArray = self.sourceArray
+                    typeOfSetting = .Source
+                    settingArray = sourceArray
                     showSelectSettingVC()
                 case 1:
-                    self.typeOfSetting = .Departament
-                    self.settingArray = self.departmentArray
+                    typeOfSetting = .Departament
+                    settingArray = departmentArray
                     showSelectSettingVC()
                 case 2:
-                    if self.department == .none {
-                        self.showAlert(title: "Error", message: "First select a department please")
+                    if department == .none {
+                        showAlert(title: "Error", message: "First select a department please")
                         tableView.deselectRow(at: indexPath, animated: true)
                     } else {
-                        self.typeOfSetting = .SuggestedKPI
-                        self.settingArray = self.kpiArray
+                        typeOfSetting = .SuggestedKPI
+                        settingArray = kpiArray
                         showSelectSettingVC()
                     }
                 case 3:
-                    self.typeOfSetting = .KPIName
-                    self.showSelectSettingVC()
+                    typeOfSetting = .KPIName
+                    showSelectSettingVC()
                 case 4:
-                    self.typeOfSetting = .KPINote
-                    self.showSelectSettingVC()
+                    typeOfSetting = .KPINote
+                    showSelectSettingVC()
                 case 5:
-                    self.typeOfSetting = .Executant
-                    self.settingArray = self.executantArray
+                    typeOfSetting = .Executant
+                    settingArray = executantArray
                     showSelectSettingVC()
                 case 6:
-                    self.typeOfSetting = .TimeInterval
-                    self.settingArray = self.timeIntervalArray
+                    typeOfSetting = .TimeInterval
+                    settingArray = timeIntervalArray
                     showSelectSettingVC()
                 case 7:
-                    self.typeOfSetting = .TimeZone
-                    self.settingArray = self.timeZoneArray
+                    typeOfSetting = .TimeZone
+                    settingArray = timeZoneArray
                     showSelectSettingVC()
-                    //                case 6:
-                    //                    SuggestedCell.headerOfCell.text = "Deadline"
-                //                    SuggestedCell.descriptionOfCell.text = "12:15AM"
+                case 8:
+                    showDatePicker(row: indexPath.row)
+                    tableView.deselectRow(at: indexPath, animated: true)
                 default:
                     break
                 }
             default:
                 switch indexPath.row {
                 case 0:
-                    self.typeOfSetting = .Source
-                    self.settingArray = self.sourceArray
+                    typeOfSetting = .Source
+                    settingArray = sourceArray
                     showSelectSettingVC()
                 case 1:
-                    self.typeOfSetting = .Departament
-                    self.settingArray = self.departmentArray
+                    typeOfSetting = .Departament
+                    settingArray = departmentArray
                     showSelectSettingVC()
                 case 2:
-                    if self.department == .none {
-                        self.showAlert(title: "Error", message: "First select a department please")
+                    if department == .none {
+                        showAlert(title: "Error", message: "First select a department please")
                         tableView.deselectRow(at: indexPath, animated: true)
                     } else {
-                        self.typeOfSetting = .SuggestedKPI
-                        self.settingArray = self.kpiArray
+                        typeOfSetting = .SuggestedKPI
+                        settingArray = kpiArray
                         showSelectSettingVC()
                     }
                 case 3:
-                    self.typeOfSetting = .KPIName
-                    self.showSelectSettingVC()
+                    typeOfSetting = .KPIName
+                    showSelectSettingVC()
                 case 4:
-                    self.typeOfSetting = .KPINote
-                    self.showSelectSettingVC()
+                    typeOfSetting = .KPINote
+                    showSelectSettingVC()
                 case 5:
-                    self.typeOfSetting = .Executant
-                    self.settingArray = self.executantArray
+                    typeOfSetting = .Executant
+                    settingArray = executantArray
                     showSelectSettingVC()
                 case 6:
-                    self.typeOfSetting = .TimeInterval
-                    self.settingArray = self.timeIntervalArray
+                    typeOfSetting = .TimeInterval
+                    settingArray = timeIntervalArray
                     showSelectSettingVC()
                 case 7:
-                    switch self.timeInterval {
+                    switch timeInterval {
                     case .Weekly:
-                        self.typeOfSetting = .WeeklyInterval
-                        self.settingArray = self.weeklyArray
+                        typeOfSetting = .WeeklyInterval
+                        settingArray = weeklyArray
                         showSelectSettingVC()
                     case .Monthly:
-                        self.typeOfSetting = .MounthlyInterval
-                        self.settingArray = self.mounthlyIntervalArray
+                        typeOfSetting = .MounthlyInterval
+                        settingArray = mounthlyIntervalArray
                         showSelectSettingVC()
                     default:
                         break
                     }
                 case 8:
-                    self.typeOfSetting = .TimeZone
-                    self.settingArray = self.timeZoneArray
+                    typeOfSetting = .TimeZone
+                    settingArray = timeZoneArray
                     showSelectSettingVC()
+                case 9:
+                    showDatePicker(row: indexPath.row)
+                    tableView.deselectRow(at: indexPath, animated: true)
+                    
                 default:
                     break
                 }
@@ -545,17 +603,40 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         case .Integrated:
             switch indexPath.row {
             case 0:
-                self.typeOfSetting = .Source
-                self.settingArray = self.sourceArray
+                typeOfSetting = .Source
+                settingArray = sourceArray
                 showSelectSettingVC()
             case 1:
-                self.typeOfSetting = .Service
-                self.showIntegratedServicesVC()
+                typeOfSetting = .Service
+                showIntegratedServicesVC()
             default:
                 break
             }
         }
     }
+    
+//    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+//        switch source {
+//        case .none:
+//            break
+//        case .User:
+//            let newIndexPath = IndexPath(item: indexPath.row + 1, section: 0)
+//            var row = 0
+//            switch timeInterval {
+//            case .Daily:
+//                row = 8
+//            default:
+//                row = 9
+//            }
+//            if indexPath.row == row {
+//                datePickerIsVisible = false
+//                tableView.deleteRows(at: [newIndexPath], with: .top)
+//            }
+//        case .Integrated:
+//            break
+//        }
+//    }
+    
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return " "
@@ -575,6 +656,25 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         return UITableViewAutomaticDimension
     }
     
+    //MARK: - Date Picker
+    
+    func showDatePicker (row: Int) {
+        datePickerIsVisible = !datePickerIsVisible
+        
+        let indexPath = IndexPath(item: row + 1, section: 0)
+        
+        if datePickerIsVisible {
+            tableView.insertRows(at: [indexPath], with: .top)
+            tableView.scrollToNearestSelectedRow(at: .top, animated: true)
+        } else {
+            tableView.deleteRows(at: [indexPath], with: .top)
+            tableView.deselectRow(at: IndexPath(item: row, section: 0), animated: true)
+        }
+        
+        
+        
+    }
+    
     //MARK: - Save KPI
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
         
@@ -584,14 +684,14 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         case .Integrated:
             
             if source == .none || (source == .Integrated && integrated == .none) {
-                self.showAlert(title: "Error", message: "One ore more parameters are not selected")
+                showAlert(title: "Error", message: "One ore more parameters are not selected")
                 return
             }
             
-            let integratedKPI = IntegratedKPI(service: self.integrated, saleForceKPIs: saleForceKPIs, quickBookKPIs: quickBooksKPIs, googleAnalytics: googleAnalyticsKPIs, hubSpotCRMKPIs: hubspotCRMKPIs, payPalKPIs: paypalKPIs, hubSpotMarketingKPIs: hubspotMarketingKPIs)
+            let integratedKPI = IntegratedKPI(service: integrated, saleForceKPIs: saleForceKPIs, quickBookKPIs: quickBooksKPIs, googleAnalytics: googleAnalyticsKPIs, hubSpotCRMKPIs: hubspotCRMKPIs, payPalKPIs: paypalKPIs, hubSpotMarketingKPIs: hubspotMarketingKPIs)
             kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: integratedKPI, createdKPI: nil, imageBacgroundColour: UIColor.clear)
         case .User:
-            if self.department == .none || self.kpiName == nil || self.executant == nil || (self.timeInterval == TimeInterval.Weekly && self.weeklyInterval == WeeklyInterval.none) || (self.timeInterval == TimeInterval.Monthly && self.mounthlyInterval == nil) || self.timeZone == nil || self.deadline == nil {
+            if department == .none || kpiName == nil || executant == nil || (timeInterval == TimeInterval.Weekly && weeklyInterval == WeeklyInterval.none) || (timeInterval == TimeInterval.Monthly && mounthlyInterval == nil) || timeZone == nil || deadline == nil {
                 showAlert(title: "Error", message: "One ore more parameters are not selected")
                 return
             }
@@ -603,7 +703,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     executantProfile = Int(profile.userID)
                 }
             }
-            let userKPI = CreatedKPI(source: .User, department: self.department, KPI: self.kpiName!, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, timeZone: self.timeZone!, deadline: self.deadline!, number: [])
+            let userKPI = CreatedKPI(source: .User, department: department, KPI: kpiName!, descriptionOfKPI: kpiDescription, executant: executantProfile, timeInterval: timeInterval, timeZone: timeZone!, deadline: deadline!, number: [])
             kpi = KPI(kpiID: 0, typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: userKPI, imageBacgroundColour: UIColor.clear)
             
         default:
@@ -826,5 +926,19 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate {
     }
     func updateDoubleValue(number: Double?) {
     }
+    
+}
 
+extension ChooseSuggestedKPITableViewController: UpdateTimeDelegate {
+    
+    func updateTime(newTime time: Date) {
+        deadline = time
+        
+        let rowNumber = tableView.numberOfRows(inSection: 0) - 2
+        
+        let indexPath = IndexPath(item: rowNumber, section: 0)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+        
+    }
+    
 }

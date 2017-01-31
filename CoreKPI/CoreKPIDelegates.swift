@@ -50,3 +50,7 @@ protocol KPIListButtonCellDelegate {
 protocol AlertButtonCellDelegate {
     func deleteButtonDidTaped(sender: UIButton)
 }
+
+protocol UpdateTimeDelegate {
+    func updateTime(newTime time: Date)
+}
