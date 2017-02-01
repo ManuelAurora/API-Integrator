@@ -38,6 +38,14 @@ class KPISelectSettingTableViewController: UITableViewController {
             self.tableView.alwaysBounceVertical = false
         }
         
+        if selectSetting.isEmpty {
+            let alertVC = UIAlertController(title: "Sorry!", message: "No Data for select", preferredStyle: .alert)
+            alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) -> Void in
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+            ))
+        }
+        
         let nc = NotificationCenter.default
         nc.addObserver(forName: modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
         

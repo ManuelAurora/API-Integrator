@@ -58,6 +58,7 @@
 		A27820891E001503009F83DB /* CoreKPIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27820881E001503009F83DB /* CoreKPIUITests.swift */; };
 		A27820971E001530009F83DB /* RequestServise.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27820961E001530009F83DB /* RequestServise.swift */; };
 		A2844B3C1E0BC842002E297A /* MemberEditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2844B3B1E0BC842002E297A /* MemberEditTableViewCell.swift */; };
+		A28889911E4206DC00113220 /* AddAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28889901E4206DC00113220 /* AddAlert.swift */; };
 		A297F5B01E08233100F85963 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5AF1E08233100F85963 /* MainTabBarViewController.swift */; };
 		A297F5B31E08233A00F85963 /* MemberEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5B11E08233A00F85963 /* MemberEditViewController.swift */; };
 		A297F5B41E08233A00F85963 /* MemberInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5B21E08233A00F85963 /* MemberInfoViewController.swift */; };
@@ -84,7 +85,9 @@
 		A2A018E71E235F2200198E1A /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A2A018E51E235F2200198E1A /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A2A215511E124AB800EEBCA2 /* AlertSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A215501E124AB800EEBCA2 /* AlertSettingTableViewCell.swift */; };
 		A2A215531E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A215521E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift */; };
-		A2A5405E1E406F04001051F0 /* DatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A5405D1E406F04001051F0 /* DatePickerTableViewCell.swift */; };
+		A2A7D5111E41B0E5008779A0 /* CellsCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A7D5101E41B0E5008779A0 /* CellsCreator.swift */; };
+		A2A7D5131E41B13B008779A0 /* DatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A7D5121E41B13B008779A0 /* DatePickerTableViewCell.swift */; };
+		A2A7D5151E41B661008779A0 /* GetAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A7D5141E41B661008779A0 /* GetAlerts.swift */; };
 		A2A940CB1E1E70740088C7F1 /* UINavigationBurExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A940CA1E1E70740088C7F1 /* UINavigationBurExtension.swift */; };
 		A2ACBD3B1E0D11AA0079EF3D /* AlertsListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ACBD3A1E0D11AA0079EF3D /* AlertsListTableViewController.swift */; };
 		A2ACBD3F1E0D12280079EF3D /* AlertsListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ACBD3E1E0D12280079EF3D /* AlertsListTableViewCell.swift */; };
@@ -224,6 +227,7 @@
 		A278208A1E001503009F83DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A27820961E001530009F83DB /* RequestServise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestServise.swift; sourceTree = "<group>"; };
 		A2844B3B1E0BC842002E297A /* MemberEditTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberEditTableViewCell.swift; path = CustomTableViewCells/Team/MemberEditTableViewCell.swift; sourceTree = "<group>"; };
+		A28889901E4206DC00113220 /* AddAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddAlert.swift; path = Services/AddAlert.swift; sourceTree = "<group>"; };
 		A297F5AF1E08233100F85963 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainTabBarViewController.swift; path = CoreKPI/ViewControllers/MainTabBarViewController.swift; sourceTree = "<group>"; };
 		A297F5B11E08233A00F85963 /* MemberEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberEditViewController.swift; path = CoreKPI/ViewControllers/Team/MemberEditViewController.swift; sourceTree = "<group>"; };
 		A297F5B21E08233A00F85963 /* MemberInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberInfoViewController.swift; path = CoreKPI/ViewControllers/Team/MemberInfoViewController.swift; sourceTree = "<group>"; };
@@ -248,7 +252,9 @@
 		A2A018E51E235F2200198E1A /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = Carthage/Build/iOS/Charts.framework; sourceTree = "<group>"; };
 		A2A215501E124AB800EEBCA2 /* AlertSettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertSettingTableViewCell.swift; path = CustomTableViewCells/AlertSettingTableViewCell.swift; sourceTree = "<group>"; };
 		A2A215521E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertSelectSettingTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AlertSelectSettingTableViewController.swift; sourceTree = "<group>"; };
-		A2A5405D1E406F04001051F0 /* DatePickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatePickerTableViewCell.swift; path = CustomTableViewCells/Dashboard/DatePickerTableViewCell.swift; sourceTree = "<group>"; };
+		A2A7D5101E41B0E5008779A0 /* CellsCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CellsCreator.swift; path = CoreKPI/CellsCreator.swift; sourceTree = "<group>"; };
+		A2A7D5121E41B13B008779A0 /* DatePickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatePickerTableViewCell.swift; path = CustomTableViewCells/Dashboard/DatePickerTableViewCell.swift; sourceTree = "<group>"; };
+		A2A7D5141E41B661008779A0 /* GetAlerts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetAlerts.swift; path = Services/GetAlerts.swift; sourceTree = "<group>"; };
 		A2A940CA1E1E70740088C7F1 /* UINavigationBurExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UINavigationBurExtension.swift; path = ../UINavigationBurExtension.swift; sourceTree = "<group>"; };
 		A2ACBD3A1E0D11AA0079EF3D /* AlertsListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertsListTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AlertsListTableViewController.swift; sourceTree = "<group>"; };
 		A2ACBD3E1E0D12280079EF3D /* AlertsListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertsListTableViewCell.swift; path = CustomTableViewCells/Alerts/AlertsListTableViewCell.swift; sourceTree = "<group>"; };
@@ -429,6 +435,8 @@
 				A26A40531E3B40D700108E5B /* AddReport.swift */,
 				A26A40551E3B424B00108E5B /* GetReports.swift */,
 				A2263B0F1E3B8174005C812D /* GetFAQ.swift */,
+				A2A7D5141E41B661008779A0 /* GetAlerts.swift */,
+				A28889901E4206DC00113220 /* AddAlert.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -570,6 +578,7 @@
 				A258A70C1E21177000FBFBDF /* SelectIntegratedServicesViewController.swift */,
 				A261D91F1E12A81000638C56 /* SuggestedKPIDescriptionTableViewController.swift */,
 				A26408F11E22394F0034EEC2 /* ReportAndViewKPITableViewController.swift */,
+				A2A7D5101E41B0E5008779A0 /* CellsCreator.swift */,
 				A26408F51E2271330034EEC2 /* AddReportTableViewController.swift */,
 				A2EFE2C51E2DF0A500BA2956 /* ChartsPageViewController.swift */,
 				A26408F71E2280160034EEC2 /* WebViewChartViewController.swift */,
@@ -638,7 +647,7 @@
 				A2FB98A31E25FE6900A856E8 /* KPISettingInputTableViewCell.swift */,
 				A21AEEF11E28AFF200577F4B /* KPIColourTableViewCell.swift */,
 				A2C9ABD61E2F455D00623659 /* ChartTableViewCell.swift */,
-				A2A5405D1E406F04001051F0 /* DatePickerTableViewCell.swift */,
+				A2A7D5121E41B13B008779A0 /* DatePickerTableViewCell.swift */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -898,6 +907,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A21EDDF71E23A709001DE74C /* KPIList.swift in Sources */,
+				A28889911E4206DC00113220 /* AddAlert.swift in Sources */,
 				A297F5C81E0823D400F85963 /* NewProfileTableViewController.swift in Sources */,
 				A2EFE2C81E2DF0E300BA2956 /* TableViewChartController.swift in Sources */,
 				A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */,
@@ -929,8 +939,11 @@
 				A235CB321E0ACD5200636888 /* AllertSettingsTableViewController.swift in Sources */,
 				A2F77E0F1E3B199400BB8318 /* LoginRequest.swift in Sources */,
 				A26A40541E3B40D700108E5B /* AddReport.swift in Sources */,
+				A2A7D5131E41B13B008779A0 /* DatePickerTableViewCell.swift in Sources */,
+				A2A7D5111E41B0E5008779A0 /* CellsCreator.swift in Sources */,
 				A2F77E071E3B199400BB8318 /* ChangeProfile.swift in Sources */,
 				A2EFE2C61E2DF0A500BA2956 /* ChartsPageViewController.swift in Sources */,
+				A2A7D5151E41B661008779A0 /* GetAlerts.swift in Sources */,
 				A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */,
 				A297F5B91E08234500F85963 /* AboutTableViewController.swift in Sources */,
 				A2E8F9FF1E3B32D700046870 /* DeleteKPI.swift in Sources */,
@@ -944,7 +957,6 @@
 				A2F77E0A1E3B199400BB8318 /* GetKPIs.swift in Sources */,
 				A2F0B1181E0C1B110095580B /* CoreKPIDelegates.swift in Sources */,
 				A297F5D71E08244800F85963 /* AnswerFaqTableViewCell.swift in Sources */,
-				A2A5405E1E406F04001051F0 /* DatePickerTableViewCell.swift in Sources */,
 				A297F5CA1E0823D400F85963 /* RegisterViewController.swift in Sources */,
 				A27820971E001530009F83DB /* RequestServise.swift in Sources */,
 				A278206E1E001503009F83DB /* CoreKPI.xcdatamodeld in Sources */,

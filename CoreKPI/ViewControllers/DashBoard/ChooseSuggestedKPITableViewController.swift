@@ -615,29 +615,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         }
     }
     
-//    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-//        switch source {
-//        case .none:
-//            break
-//        case .User:
-//            let newIndexPath = IndexPath(item: indexPath.row + 1, section: 0)
-//            var row = 0
-//            switch timeInterval {
-//            case .Daily:
-//                row = 8
-//            default:
-//                row = 9
-//            }
-//            if indexPath.row == row {
-//                datePickerIsVisible = false
-//                tableView.deleteRows(at: [newIndexPath], with: .top)
-//            }
-//        case .Integrated:
-//            break
-//        }
-//    }
-    
-    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return " "
     }
@@ -670,9 +647,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
             tableView.deleteRows(at: [indexPath], with: .top)
             tableView.deselectRow(at: IndexPath(item: row, section: 0), animated: true)
         }
-        
-        
-        
     }
     
     //MARK: - Save KPI

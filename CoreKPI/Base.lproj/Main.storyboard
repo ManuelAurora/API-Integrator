@@ -851,11 +851,11 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <action selector="tapResponsibleForButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="QvD-ts-llu"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="i7a-fV-Yzm">
-                                <rect key="frame" x="16" y="522" width="343" height="0.0"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="i7a-fV-Yzm">
+                                <rect key="frame" x="16" y="522" width="343" height="36"/>
                                 <subviews>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-cu-qgk">
-                                        <rect key="frame" x="-16" y="-522" width="0.0" height="36"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-cu-qgk">
+                                        <rect key="frame" x="0.0" y="0.0" width="161" height="36"/>
                                         <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="wRD-v3-f5V"/>
@@ -873,8 +873,8 @@ The main advantage of a computer audio player is that you can play your audio CD
                                             <action selector="tapSecurityButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="kzs-n0-Rej"/>
                                         </connections>
                                     </button>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsv-ER-n9H">
-                                        <rect key="frame" x="-16" y="-522" width="0.0" height="36"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsv-ER-n9H">
+                                        <rect key="frame" x="182" y="0.0" width="161" height="36"/>
                                         <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="8jn-o6-fkr"/>
@@ -2409,6 +2409,37 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <outlet property="headerCellLabel" destination="Mhu-97-TMA" id="0Qc-AH-QsR"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DatePickerCell" rowHeight="180" id="Xvd-v7-WMz" customClass="DatePickerTableViewCell" customModule="CoreKPI" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="375" height="180"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xvd-v7-WMz" id="cuW-gU-qhT">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="180"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="NWQ-Cb-QUz">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="179"/>
+                                            <date key="date" timeIntervalSinceReferenceDate="507633255.180897">
+                                                <!--2017-02-01 09:14:15 +0000-->
+                                            </date>
+                                            <date key="minimumDate" timeIntervalSinceReferenceDate="504910800">
+                                                <!--2016-12-31 21:00:00 +0000-->
+                                            </date>
+                                            <connections>
+                                                <action selector="dataPickerDidMove:" destination="Xvd-v7-WMz" eventType="valueChanged" id="9Ul-Wr-JA7"/>
+                                            </connections>
+                                        </datePicker>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="NWQ-Cb-QUz" firstAttribute="top" secondItem="cuW-gU-qhT" secondAttribute="top" id="Ad3-gf-NCh"/>
+                                        <constraint firstAttribute="bottom" secondItem="NWQ-Cb-QUz" secondAttribute="bottom" id="JT9-nz-Z0z"/>
+                                        <constraint firstItem="NWQ-Cb-QUz" firstAttribute="leading" secondItem="cuW-gU-qhT" secondAttribute="leading" id="krT-qs-gRR"/>
+                                        <constraint firstAttribute="trailing" secondItem="NWQ-Cb-QUz" secondAttribute="trailing" id="paE-cJ-HoQ"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="datePicker" destination="NWQ-Cb-QUz" id="3M0-uX-HaA"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <sections/>
                         <connections>
@@ -2826,7 +2857,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 <rect key="frame" x="0.0" y="116" width="375" height="180"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Me7-yG-xYj" id="yGo-PY-gdc">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="179"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="180"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="S06-SJ-xJJ">
@@ -3275,7 +3306,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 <rect key="frame" x="0.0" y="250" width="375" height="180"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="r6F-6s-jLJ" id="Ytn-Fe-dXh">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="179"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="180"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="gmS-EF-6ZJ">

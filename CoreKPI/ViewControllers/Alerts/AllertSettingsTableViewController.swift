@@ -8,22 +8,24 @@
 
 import UIKit
 
-class AllertSettingsTableViewController: AlertsListTableViewController {
+class AllertSettingsTableViewController: UITableViewController {
     
     weak var AlertListVC: AlertsListTableViewController!
     weak var ReminderViewVC: ReminderViewTableViewController!
-    var delegate: updateAlertListDelegate!
+    
+    var model: ModelCoreKPI!
+    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
     var typeOfSetting = Setting.none
     var settingsArray: [(SettingName: String, value: Bool)] = []
     
-    var dataSource = DataSource.MyShopSupples
+    var dataSource: Int?
     var dataSourceArray: [(SettingName: String, value: Bool)] = []
     
     var timeInterval = TimeInterval.Daily
     var timeIntervalArray: [(SettingName: String, value: Bool)] = []
     
-    var deliveryDay: String!
+    var deliveryDay: String?
     var deliveryDayArray: [(SettingName: String, value: Bool)] = []
     
     var timeZone: String? {
@@ -39,30 +41,52 @@ class AllertSettingsTableViewController: AlertsListTableViewController {
     var condition = Condition.IsLessThan
     var conditionArray: [(SettingName: String, value: Bool)] = []
     
-    var threshold: String?
+    var threshold: Double?
     
-    var deliveryTime: String!//Date!
+    var deliveryAt: String {
+        get {
+            for item in deliveryAtArray {
+                if item.value == true {
+                    return item.SettingName
+                }
+            }
+            return ""
+        }
+        set {
+            var newDeliveryAtArray: [(SettingName: String, value: Bool)] = []
+            for item in deliveryAtArray {
+                if newValue == item.SettingName {
+                    newDeliveryAtArray.append((item.SettingName, true))
+                } else {
+                    newDeliveryAtArray.append((item.SettingName, false))
+                }
+            }
+            deliveryAtArray = newDeliveryAtArray
+        }
+    }
+    var deliveryAtArray: [(SettingName: String, value: Bool)] = [("At work hours", true),("AllTime", false)]
+    
+    var deliveryTime: Date?
     
     var typeOfNotification: [TypeOfNotification] = []
     var typeOfNotificationArray: [(SettingName: String, value: Bool)] = [(TypeOfNotification.Email.rawValue, false), (TypeOfNotification.SMS.rawValue, false), (TypeOfNotification.Push.rawValue, false)]
+    
+    var datePickerIsVisible = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         createArrays()
-        
-        deliveryTime = "12:15 PM"  //debug
-        
         tableView.tableFooterView = UIView(frame: .zero)
     }
     
     //MARK: - CreateArrays
     func createArrays() {
-        for dataSource in iterateEnum(DataSource.self) {
-            if dataSource == self.dataSource {
-                dataSourceArray.append((dataSource.rawValue, true))
+        for kpi in model.kpis {
+            if dataSource == kpi.id {
+                dataSourceArray.append((model.getNameKPI(FromID: kpi.id)!, true))
             } else {
-                dataSourceArray.append((dataSource.rawValue, false))
+                dataSourceArray.append((model.getNameKPI(FromID: kpi.id)!, false))
             }
         }
         for timeInterval in iterateEnum(TimeInterval.self) {
@@ -108,7 +132,12 @@ class AllertSettingsTableViewController: AlertsListTableViewController {
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        
+        if dataSource == nil {
+            return 3 //1
+        } else {
+            return 3
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -117,10 +146,15 @@ class AllertSettingsTableViewController: AlertsListTableViewController {
         case 0:
             return 1
         case 1:
-            if timeInterval == TimeInterval.Daily || dataSource == .Balance {
-                return 3
+            for kpi in model.kpis {
+                if kpi.id == dataSource && kpi.createdKPI?.executant != model.profile?.userId {
+                    return 3
+                }
+            }
+            if timeInterval == TimeInterval.Daily {
+                return datePickerIsVisible ? 4 : 3
             } else {
-                return 4
+                return datePickerIsVisible ? 5 : 4
             }
         case 2:
             return 1
@@ -132,56 +166,79 @@ class AllertSettingsTableViewController: AlertsListTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "AlertSettingCell", for: indexPath) as! AlertSettingTableViewCell
-        
+
         switch indexPath.section {
         case 0:
             cell.headerCellLabel.text = "Select a data source"
-            cell.descriptionCellLabel.text = self.dataSource.rawValue
+            if dataSource != nil {
+                cell.descriptionCellLabel.text = model.getNameKPI(FromID: dataSource!)
+            } else {
+                cell.descriptionCellLabel.text = "Select data source"
+            }
+            
         case 1:
-            if timeInterval == TimeInterval.Daily || dataSource == .Balance {
-                if dataSource == .Balance {
+            for kpi in model.kpis {
+                if kpi.id == dataSource && kpi.createdKPI?.executant != model.profile?.userId {
                     switch indexPath.row {
                     case 0:
                         cell.headerCellLabel.text = "Condition"
                         cell.descriptionCellLabel.text = condition.rawValue
                     case 1:
                         cell.headerCellLabel.text = "Threshold"
-                        cell.descriptionCellLabel.text = threshold ?? "Add data"
+                        if threshold == nil {
+                            cell.descriptionCellLabel.text = "Add data"
+                        } else {
+                            let formatter: NumberFormatter = NumberFormatter()
+                            formatter.numberStyle = .decimal
+                            formatter.maximumFractionDigits = 10
+                            let formatedStr: String = formatter.string(from: NSNumber(value: threshold!))!
+                            cell.descriptionCellLabel.text = formatedStr
+                        }
                     case 2:
                         cell.headerCellLabel.text = "Delivery time"
-                        cell.descriptionCellLabel.text = deliveryTime
+                        cell.descriptionCellLabel.text = deliveryAt
+                        cell.accessoryType = .disclosureIndicator
+                        cell.descriptionCellLabel.textAlignment = .right
                     default:
                         break
                     }
-                } else {
-                    switch indexPath.row {
-                    case 0:
-                        cell.headerCellLabel.text = "Time interval"
-                        cell.descriptionCellLabel.text = self.timeInterval.rawValue
-                    case 1:
-                        cell.headerCellLabel.text  = "Time zone"
-                        cell.descriptionCellLabel.text = timeZone
-                    case 2:
-                        cell.headerCellLabel.text = "Delivery time"
-                        cell.descriptionCellLabel.text = timeToString(/*(date: self.deliveryTime*/)
-                        cell.descriptionCellLabel.textAlignment = .center
-                        cell.accessoryType = .none
-                    default:
-                        break
-                    }
+                }
+            }
+            
+            if timeInterval == TimeInterval.Daily   {
+                switch indexPath.row {
+                case 0:
+                    cell.headerCellLabel.text = "Time interval"
+                    cell.descriptionCellLabel.text = timeInterval.rawValue
+                case 1:
+                    cell.headerCellLabel.text  = "Time zone"
+                    cell.descriptionCellLabel.text = timeZone
+                case 2:
+                    cell.headerCellLabel.text = "Delivery time"
+                    cell.descriptionCellLabel.text = timeToString()
+                    cell.descriptionCellLabel.textAlignment = .center
+                    cell.accessoryType = .none
+                case 3:
+                    let dateCell =  tableView.dequeueReusableCell(withIdentifier: "DatePickerCell", for: indexPath) as! DatePickerTableViewCell
+                    dateCell.datePicker.date = deliveryTime ?? Date()
+                    dateCell.alertSettingVC = self
+                    dateCell.prepareForReuse()
+                    return dateCell
+                default:
+                    break
                 }
                 
             } else {
                 switch indexPath.row {
                 case 0:
                     cell.headerCellLabel.text = "Time interval"
-                    cell.descriptionCellLabel.text = self.timeInterval.rawValue
+                    cell.descriptionCellLabel.text = timeInterval.rawValue
                 case 1:
                     cell.headerCellLabel.text = "Delivery day"
-                    if self.deliveryDay != nil && Int(self.deliveryDay)! > 28 {
-                        cell.descriptionCellLabel.text = self.deliveryDay + " or last day"
+                    if deliveryDay != nil && Int(deliveryDay!)! > 28 {
+                        cell.descriptionCellLabel.text = deliveryDay! + " or last day"
                     } else {
-                        cell.descriptionCellLabel.text = self.deliveryDay
+                        cell.descriptionCellLabel.text = deliveryDay
                     }
                     
                     
@@ -191,9 +248,15 @@ class AllertSettingsTableViewController: AlertsListTableViewController {
                     cell.accessoryType = .disclosureIndicator
                 case 3:
                     cell.headerCellLabel.text = "Delivery time"
-                    cell.descriptionCellLabel.text = timeToString(/*date: self.deliveryTime*/)
+                    cell.descriptionCellLabel.text = timeToString()
                     cell.descriptionCellLabel.textAlignment = .center
                     cell.accessoryType = .none
+                case 4:
+                    let dateCell =  tableView.dequeueReusableCell(withIdentifier: "DatePickerCell", for: indexPath) as! DatePickerTableViewCell
+                    dateCell.datePicker.date = deliveryTime ?? Date()
+                    dateCell.alertSettingVC = self
+                    dateCell.prepareForReuse()
+                    return dateCell
                 default:
                     break
                 }
@@ -218,7 +281,16 @@ class AllertSettingsTableViewController: AlertsListTableViewController {
         default:
             break
         }
+        cell.prepareForReuse()
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -240,46 +312,47 @@ class AllertSettingsTableViewController: AlertsListTableViewController {
         
         switch indexPath.section {
         case 0:
-            self.typeOfSetting = Setting.DataSource
-            self.settingsArray = self.dataSourceArray
-            self.showSelectSettingVC()
+            typeOfSetting = Setting.DataSource
+            settingsArray = dataSourceArray
+            showSelectSettingVC()
         case 1:
-            
-            if timeInterval == TimeInterval.Daily || dataSource == .Balance {
-                if dataSource == .Balance {
+            for kpi in model.kpis {
+                if kpi.id == dataSource && kpi.createdKPI?.executant != model.profile?.userId {
                     switch indexPath.row {
                     case 0:
-                        self.typeOfSetting = .Condition
-                        self.settingsArray = self.conditionArray
-                        self.showSelectSettingVC()
+                        typeOfSetting = .Condition
+                        settingsArray = conditionArray
+                        showSelectSettingVC()
                     case 1:
-                        self.typeOfSetting = .Threshold
-                        self.showSelectSettingVC()
+                        typeOfSetting = .Threshold
+                        showSelectSettingVC()
                     case 2:
-                        break
+                        typeOfSetting = .OnlyWorksHours
+                        settingsArray = deliveryAtArray
+                        showSelectSettingVC()
                     default:
                         break
                     }
-                } else {
-                    switch indexPath.row {
-                    case 0:
-                        self.typeOfSetting = Setting.TimeInterval
-                        self.settingsArray = self.timeIntervalArray
-                        self.showSelectSettingVC()
-                    case 1:
-                        self.typeOfSetting = Setting.TimeZone
-                        self.settingsArray = self.timeZoneArray
-                        self.showSelectSettingVC()
-                    case 2: break
-                        //cell.headerCellLabel.text = "Delivery time"
-                        //cell.descriptionCellLabel.text = timeToString(/*(date: self.deliveryTime*/)
-                    //cell.accessoryType = .none
-                    default:
-                        break
-                    }
+                    return
                 }
-                
-                
+            }
+            
+            if timeInterval == TimeInterval.Daily   {
+                switch indexPath.row {
+                case 0:
+                    self.typeOfSetting = Setting.TimeInterval
+                    self.settingsArray = self.timeIntervalArray
+                    self.showSelectSettingVC()
+                case 1:
+                    self.typeOfSetting = Setting.TimeZone
+                    self.settingsArray = self.timeZoneArray
+                    self.showSelectSettingVC()
+                case 2:
+                    showDatePicker(row: indexPath.row)
+                    tableView.deselectRow(at: indexPath, animated: true)
+                default:
+                    break
+                }
             } else {
                 switch indexPath.row {
                 case 0:
@@ -294,10 +367,9 @@ class AllertSettingsTableViewController: AlertsListTableViewController {
                     self.typeOfSetting = Setting.TimeZone
                     self.settingsArray = self.timeZoneArray
                     self.showSelectSettingVC()
-                case 3: break
-                    //                        cell.headerCellLabel.text = "Delivery time"
-                    //                        cell.descriptionCellLabel.text = timeToString(/*date: self.deliveryTime*/)
-                //                        cell.accessoryType = .none
+                case 3:
+                    showDatePicker(row: indexPath.row)
+                    tableView.deselectRow(at: indexPath, animated: true)
                 default:
                     break
                 }
@@ -311,9 +383,60 @@ class AllertSettingsTableViewController: AlertsListTableViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        
+        if indexPath.section == 1 {
+            
+            var newIndexPath = IndexPath()
+            
+            if timeInterval == TimeInterval.Daily {
+                switch indexPath.row {
+                case 2,3:
+                    return indexPath
+                default:
+                    newIndexPath = IndexPath(item: 3, section: 1)
+                }
+            } else {
+                switch indexPath.row {
+                case 3,4:
+                    return indexPath
+                default:
+                    newIndexPath = IndexPath(item: 4, section: 1)
+                }
+            }
+            if datePickerIsVisible {
+                datePickerIsVisible = false
+                tableView.deleteRows(at: [newIndexPath], with: .top)
+            }
+        }
+        return indexPath
+    }
+    
+    
+    //MARK: - Date Picker
+    func showDatePicker (row: Int) {
+        datePickerIsVisible = !datePickerIsVisible
+        
+        let indexPath = IndexPath(item: row + 1, section: 1)
+        
+        if datePickerIsVisible {
+            tableView.insertRows(at: [indexPath], with: .top)
+            tableView.scrollToNearestSelectedRow(at: .top, animated: true)
+        } else {
+            tableView.deleteRows(at: [indexPath], with: .top)
+            tableView.deselectRow(at: IndexPath(item: row, section: 1), animated: true)
+        }
+    }
+    
     //MARK: - convert time to string
-    func timeToString(/*date: Date*/) -> String {
-        return "12:15 PM"
+    func timeToString() -> String {
+        if deliveryTime == nil {
+            return "Add time"
+        } else {
+            let formatter = DateFormatter()
+            formatter.timeStyle = .short
+            return formatter.string(from: deliveryTime!)
+        }
     }
     
     //MARK: - Show alert method
@@ -324,38 +447,60 @@ class AllertSettingsTableViewController: AlertsListTableViewController {
     }
     
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
-        let alert: Alert!
-        switch dataSource {
-        case .Balance:
-            if threshold == nil || deliveryTime == nil {
-                let alertController = UIAlertController(title: "Error", message: "One are more field(s) are empty", preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alertController, animated: true, completion: nil)
-                return
-            } else {
-                alert = Alert(image: "", dataSource: self.dataSource, timeInterval: nil, deliveryDay: nil, timeZone: nil, condition: self.condition, threshold: self.threshold, deliveryTime: self.deliveryTime, typeOfNotification: self.typeOfNotification)
+        let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
+        let alert = Alert(context: context)
+        
+        for kpi in model.kpis {
+            if kpi.id == dataSource {
+                if kpi.createdKPI?.executant == model.profile?.userId {
+                    if timeZone == nil || deliveryTime == nil || typeOfNotification.isEmpty || (deliveryDay == nil && timeInterval != .Daily) {
+                        showAlert(title: "Error", message: "One are more field(s) are empty")
+                        return
+                    } else {
+                        alert.sourceID = Int64(dataSource!)
+                        alert.timeInterval = timeInterval.rawValue
+                        alert.timeZone = timeZone
+                        alert.deliveryTime = deliveryTime as NSDate?
+                        
+                        for notification in typeOfNotification {
+                            switch notification {
+                            case .Email:
+                                alert.emailNotificationIsActive = true
+                            case .Push:
+                                alert.pushNotificationIsActive = true
+                            case .SMS:
+                                alert.smsNotificationIsAcive = true
+                            default: break
+                            }
+                        }
+                    }
+                } else {
+                    if threshold == nil || typeOfNotification.isEmpty {
+                        showAlert(title: "Error", message: "One are more field(s) are empty")
+                        return
+                    } else {
+                        alert.sourceID = Int64(dataSource!)
+                        alert.condition = condition.rawValue
+                        alert.threshold = threshold!
+                        alert.onlyWorkHours = deliveryAt == "At work hours" ? true : false
+                    }
+                }
             }
-        default:
-            if timeZone == nil || deliveryTime == nil || typeOfNotification.isEmpty || (deliveryDay == nil && timeInterval != .Daily) {
-                let alertController = UIAlertController(title: "Error", message: "One are more field(s) are empty", preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alertController, animated: true, completion: nil)
-                return
-            } else {
-                alert = Alert(image: "", dataSource: self.dataSource, timeInterval: self.timeInterval, deliveryDay: self.deliveryDay, timeZone: self.timeZone, condition: nil, threshold: nil, deliveryTime: self.deliveryTime, typeOfNotification: self.typeOfNotification)
-            }
-        }
-        if AlertListVC != nil {
-            delegate = self.AlertListVC
-            delegate.addAlert(alert: alert)
         }
         
-        if ReminderViewVC != nil {
-            delegate = self.ReminderViewVC
-            delegate.addAlert(alert: alert)
+        //Send data to server
+        let request = AddAlert(model: model)
+        request.addAlert(success: {
+            self.model.alerts.append(alert)
+            let nc = NotificationCenter.default
+            nc.post(name: self.modelDidChangeNotification,
+                    object: nil,
+                    userInfo:["model": self.model])
+            self.navigationController!.popViewController(animated: true)
+        }, failure: { error in
+        self.showAlert(title: "Sorry", message: error)
         }
-        
-        self.navigationController!.popViewController(animated: true)
+        )
     }
     
     //MARK: - Show AlertSelectSettingViewController method
@@ -368,7 +513,7 @@ class AllertSettingsTableViewController: AlertsListTableViewController {
             destinatioVC.selectSeveralEnable = true
         case .Threshold:
             destinatioVC.inputSettingCells = true
-            destinatioVC.textFieldInputData = self.threshold
+            destinatioVC.textFieldInputData = "\(threshold)"
             switch self.condition {
             case .PercentHasDecreasedByMoreThan, .PercentHasIncreasedOrDecreasedByMoreThan, .PercentHasIncreasedByMoreThan:
                 destinatioVC.headerForTableView = "Add data %"
@@ -383,25 +528,24 @@ class AllertSettingsTableViewController: AlertsListTableViewController {
         navigationController?.pushViewController(destinatioVC, animated: true)
     }
     
-    //MARK: - update all parameters from Alert struct
-    func updateParameters(alert: Alert) {
+    //MARK: - update all parameters from AlertViewVC
+    func updateParameters(index: Int) {
+        let alert = model.alerts[index]
         //dataSource
-        self.dataSource = alert.dataSource
-        var newDataSourceArray: [(SettingName: String, value: Bool)] = []
-        for source in self.dataSourceArray {
-            if source.SettingName == self.dataSource.rawValue {
-                newDataSourceArray.append((source.SettingName, true))
+        dataSource = Int(alert.sourceID)
+        for kpi in model.kpis {
+            if dataSource == kpi.id {
+                dataSourceArray.append((model.getNameKPI(FromID: kpi.id)!, true))
             } else {
-                newDataSourceArray.append((source.SettingName, false))
+                dataSourceArray.append((model.getNameKPI(FromID: kpi.id)!, false))
             }
         }
-        self.dataSourceArray = newDataSourceArray
         //TimeInterval
         if let alertTimeInterval = alert.timeInterval {
-            self.timeInterval = alertTimeInterval
+            timeInterval = TimeInterval(rawValue: alertTimeInterval)!
             var newTimeIntervalArray: [(SettingName: String, value: Bool)] = []
-            for interval in self.timeIntervalArray {
-                if interval.SettingName == self.timeInterval.rawValue {
+            for interval in timeIntervalArray {
+                if interval.SettingName == timeInterval.rawValue {
                     newTimeIntervalArray.append((interval.SettingName, true))
                 } else {
                     newTimeIntervalArray.append((interval.SettingName, false))
@@ -411,49 +555,57 @@ class AllertSettingsTableViewController: AlertsListTableViewController {
         }
 
         //DeliveryDay
-        if let alertDeliveryDay = alert.deliveryDay {
-            self.deliveryDay = alertDeliveryDay
+            deliveryDay = String(alert.deliveryDay)
             var newDeliveryDayArray: [(SettingName: String, value: Bool)] = []
-            for day in self.deliveryDayArray {
-                if day.SettingName == self.deliveryDay {
+            for day in deliveryDayArray {
+                if day.SettingName == deliveryDay {
                     newDeliveryDayArray.append((day.SettingName, true))
                 } else {
                     newDeliveryDayArray.append((day.SettingName, false))
                 }
             }
             self.deliveryDayArray = newDeliveryDayArray
-        }
-  
+        
+
         //TimeZone
         var newTimeZoneArray: [(SettingName: String, value: Bool)] = []
-        for zone in self.timeZoneArray {
+        for zone in timeZoneArray {
             if zone.SettingName == alert.timeZone {
                 newTimeZoneArray.append((zone.SettingName, true))
             } else {
                 newTimeZoneArray.append((zone.SettingName, false))
             }
         }
-        self.timeZoneArray = newTimeZoneArray
+        timeZoneArray = newTimeZoneArray
         //Condition
         if let alertCondition = alert.condition {
-            self.condition = alertCondition
+            condition = Condition(rawValue: alertCondition)!
             var newConditionArray: [(SettingName: String, value: Bool)] = []
-            for condition in self.conditionArray {
+            for condition in conditionArray {
                 if condition.SettingName == self.condition.rawValue {
                     newConditionArray.append((condition.SettingName, true))
                 } else {
                     newConditionArray.append((condition.SettingName, false))
                 }
             }
-            self.conditionArray = newConditionArray
+            conditionArray = newConditionArray
         }
 
         //Threshold
-        self.threshold = alert.threshold
+        threshold = alert.threshold
         //DeliveryTime
-        self.deliveryTime = alert.deliveryTime
+        deliveryTime = alert.deliveryTime as Date?
         //TipeOfNotification
-        self.typeOfNotification = alert.typeOfNotification
+        
+        if alert.emailNotificationIsActive {
+            typeOfNotification.append(.Email)
+        }
+        if alert.pushNotificationIsActive {
+            typeOfNotification.append(.Push)
+        }
+        if alert.smsNotificationIsAcive {
+            typeOfNotification.append(.SMS)
+        }
         var newTypeOfNotificationArray: [(SettingName: String, value: Bool)] = []
         for notification in self.typeOfNotificationArray {
             var notificationDidSelected = false
@@ -472,66 +624,93 @@ class AllertSettingsTableViewController: AlertsListTableViewController {
     }
     
 }
-    //MARK: - updateSettingsArrayDelegate methods
-    extension AllertSettingsTableViewController: updateSettingsDelegate {
-        
-        func updateDoubleValue(number: Double?) {
-        }
-        
-        func updateSettingsArray(array: [(SettingName: String, value: Bool)]) {
-            switch typeOfSetting {
-            case .DataSource:
-                self.dataSourceArray = array
-                for source in array {
-                    if source.value == true {
-                        self.dataSource = DataSource(rawValue: source.SettingName)!
-                    }
-                }
-            case .TimeInterval:
-                self.timeIntervalArray = array
-                for interval in array {
-                    if interval.value == true {
-                        self.timeInterval = TimeInterval(rawValue: interval.SettingName)!
-                    }
-                }
-            case .DeliveryDay:
-                self.deliveryDayArray = array
-                for day in array {
-                    if day.value == true {
-                        self.deliveryDay = day.SettingName
-                    }
-                }
-            case .TimeZone:
-                self.timeZoneArray = array
-            case .Condition:
-                self.conditionArray = array
-                for condition in array {
-                    if condition.value == true {
-                        self.condition = Condition(rawValue:condition.SettingName)!
-                    }
-                }
-            case .TypeOfNotification:
-                self.typeOfNotificationArray = array
-                self.typeOfNotification.removeAll()
-                for notification in array {
-                    if notification.value == true {
-                        self.typeOfNotification.append(TypeOfNotification(rawValue: notification.SettingName)!)
-                    }
-                }
-            default:
-                return
-            }
-            tableView.reloadData()
-            self.typeOfSetting = .none
-        }
-        
-        func updateStringValue(string: String?) {
-            switch typeOfSetting {
-            case .Threshold:
-                self.threshold = string
-            default:
-                return
-            }
-            tableView.reloadData()
-        }
+
+//MARK: - updateSettingsArrayDelegate methods
+extension AllertSettingsTableViewController: updateSettingsDelegate {
+    
+    func updateDoubleValue(number: Double?) {
     }
+    
+    func updateSettingsArray(array: [(SettingName: String, value: Bool)]) {
+        switch typeOfSetting {
+        case .DataSource:
+            dataSourceArray = array
+            for source in array {
+                if source.value == true {
+                    for kpi in model.kpis {
+                        if kpi.createdKPI?.KPI == source.SettingName {
+                            dataSource = kpi.id
+                        }
+                    }
+                }
+            }
+            for kpi in model.kpis {
+                if kpi.id == dataSource {
+                    if kpi.createdKPI?.executant == model.profile?.userId {
+                        navigationItem.title = "Reminder"
+                    } else {
+                        navigationItem.title = "Alert"
+                    }
+                }
+            }
+        case .TimeInterval:
+            timeIntervalArray = array
+            for interval in array {
+                if interval.value == true {
+                    timeInterval = TimeInterval(rawValue: interval.SettingName)!
+                }
+            }
+        case .DeliveryDay:
+            deliveryDayArray = array
+            for day in array {
+                if day.value == true {
+                    deliveryDay = day.SettingName
+                }
+            }
+        case .TimeZone:
+            timeZoneArray = array
+        case .Condition:
+            conditionArray = array
+            for condition in array {
+                if condition.value == true {
+                    self.condition = Condition(rawValue:condition.SettingName)!
+                }
+            }
+        case .OnlyWorksHours:
+            deliveryAtArray = array
+        case .TypeOfNotification:
+            typeOfNotificationArray = array
+            typeOfNotification.removeAll()
+            for notification in array {
+                if notification.value == true {
+                    typeOfNotification.append(TypeOfNotification(rawValue: notification.SettingName)!)
+                }
+            }
+        default:
+            return
+        }
+        tableView.reloadData()
+        typeOfSetting = .none
+    }
+    
+    func updateStringValue(string: String?) {
+        switch typeOfSetting {
+        case .Threshold:
+            threshold = Double(string!)
+        default:
+            return
+        }
+        tableView.reloadData()
+    }
+}
+
+extension AllertSettingsTableViewController: UpdateTimeDelegate {
+    func updateTime(newTime time: Date) {
+        deliveryTime = time
+        
+        let rowNumber = tableView.numberOfRows(inSection: 1) - 2
+        
+        let indexPath = IndexPath(item: rowNumber, section: 1)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+}

@@ -9,22 +9,20 @@
 import UIKit
 
 class ReminderViewTableViewController: UITableViewController {
-    var alertList: [Alert]!
+
+    var model: ModelCoreKPI!
     var index: Int!
-    var alert: Alert!
     weak var AlertListVC: AlertsListTableViewController!
-    var delegate: updateAlertListDelegate!
-    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         tableView.tableFooterView = UIView(frame: .zero)
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
+
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -33,13 +31,29 @@ class ReminderViewTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            if alert.timeInterval == .Daily || alert.dataSource == .Balance {
+            for kpi in model.kpis {
+                let alertID = model.alerts[index].sourceID
+                if kpi.id == Int(alertID) && kpi.createdKPI?.executant != model.profile?.userId {
+                    return 3
+                }
+            }
+            if model.alerts[index].timeInterval == TimeInterval.Daily.rawValue {
                 return 3
             } else {
                 return 4
             }
         case 1:
-            return alert.typeOfNotification.count
+            var rows = 0
+            if model.alerts[index].emailNotificationIsActive {
+                rows += 1
+            }
+            if model.alerts[index].pushNotificationIsActive {
+                rows += 1
+            }
+            if model.alerts[index].smsNotificationIsAcive {
+                rows += 1
+            }
+            return rows
         default:
             return 0
         }
@@ -51,54 +65,72 @@ class ReminderViewTableViewController: UITableViewController {
         
         switch indexPath.section {
         case 0:
-            
-            switch alert.dataSource {
-            case .Balance:
-                switch indexPath.row {
-                case 0:
-                    cell.textLabel?.text = "Condition - " + (alert.condition?.rawValue)!
-                case 1:
-                    cell.textLabel?.text = "Threshold " + alert.threshold! + (alert.condition == Condition.PercentHasIncreasedOrDecreasedByMoreThan ? "%" : "")
-                case 2:
-                    cell.textLabel?.text = "Delivery at " + alert.deliveryTime
-                default:
-                    break
-                }
-            default:
-                if alert.timeInterval == .Daily {
+            for kpi in model.kpis {
+                let alertID = model.alerts[index].sourceID
+                if kpi.id == Int(alertID) && kpi.createdKPI?.executant != model.profile?.userId {
                     switch indexPath.row {
                     case 0:
-                        cell.textLabel?.text = alert.timeInterval?.rawValue
+                        cell.textLabel?.text = "Condition - " + (model.alerts[index].condition)!
                     case 1:
-                        cell.textLabel?.text = "Time zone: " + alert.timeZone!
+                        cell.textLabel?.text = "Threshold " + "\(model.alerts[index].threshold)" + (model.alerts[index].condition == Condition.PercentHasIncreasedOrDecreasedByMoreThan.rawValue ? "%" : "")
                     case 2:
-                        cell.textLabel?.text = "Delivery at " + alert.deliveryTime
-                    default:
-                        break
-                    }
-                } else {
-                    switch indexPath.row {
-                    case 0:
-                        cell.textLabel?.text = alert.timeInterval?.rawValue
-                    case 1:
-                        cell.textLabel?.text = "Day: " + alert.deliveryDay!
-                    case 2:
-                        cell.textLabel?.text = "Time zone: " + alert.timeZone!
-                    case 3:
-                        cell.textLabel?.text = "Delivery at " + alert.deliveryTime
+                        cell.textLabel?.text = "Delivery at " + (model.alerts[index].onlyWorkHours ? "work hours" : "Alltime")
                     default:
                         break
                     }
                 }
             }
+            if model.alerts[index].timeInterval == TimeInterval.Daily.rawValue {
+                switch indexPath.row {
+                case 0:
+                    cell.textLabel?.text = model.alerts[index].timeInterval
+                case 1:
+                    cell.textLabel?.text = "Time zone: " + model.alerts[index].timeZone!
+                case 2:
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.timeStyle = .short
+                    cell.textLabel?.text = "Delivery at " + dateFormatter.string(from: model.alerts[index].deliveryTime as! Date)
+                default:
+                    break
+                }
+
+            } else {
+                switch indexPath.row {
+                case 0:
+                    cell.textLabel?.text = model.alerts[index].timeInterval
+                case 1:
+                    cell.textLabel?.text = "Day: \(model.alerts[index].deliveryDay)"
+                case 2:
+                    cell.textLabel?.text = "Time zone: " + model.alerts[index].timeZone!
+                case 3:
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.timeStyle = .short
+                    cell.textLabel?.text = "Delivery at " + dateFormatter.string(from: model.alerts[index].deliveryTime as! Date)
+                default:
+                    break
+                }
+
+            }
         case 1:
             switch indexPath.row {
             case 0:
-                cell.textLabel?.text = alert.typeOfNotification[0].rawValue
+                if model.alerts[index].emailNotificationIsActive {
+                    cell.textLabel?.text = "Email"
+                } else {
+                    fallthrough
+                }
             case 1:
-                cell.textLabel?.text = alert.typeOfNotification[1].rawValue
+                if model.alerts[index].smsNotificationIsAcive {
+                    cell.textLabel?.text = "SMS"
+                } else {
+                    fallthrough
+                }
             case 2:
-                cell.textLabel?.text = alert.typeOfNotification[2].rawValue
+                if model.alerts[index].pushNotificationIsActive {
+                    cell.textLabel?.text = "Email"
+                } else {
+                    break
+                }
             default:
                 break
             }
@@ -111,7 +143,7 @@ class ReminderViewTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
-            return alert.dataSource.rawValue
+            return model.getNameKPI(FromID: Int(model.alerts[index].sourceID))
         case 1:
             return "Type of notification"
         default:
@@ -129,34 +161,9 @@ class ReminderViewTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "EditReminder" {
             let destinationVC = segue.destination as! AllertSettingsTableViewController
+            destinationVC.model = ModelCoreKPI(model: model)
             destinationVC.ReminderViewVC = self
-            destinationVC.updateParameters(alert: self.alert)
+            destinationVC.updateParameters(index: index)
         }
-    }
-    
-    override func willMove(toParentViewController parent: UIViewController?) {
-        delegate = AlertListVC
-        delegate.updateAlertList(alertArray: self.alertList)
-    }
-}
-
-//MARK: - updateAlertListDelegate methods
-extension ReminderViewTableViewController: updateAlertListDelegate {
-    
-    func updateAlertList(alertArray: [Alert]) {
-    }
-
-    func addAlert(alert: Alert) {
-        self.alert = alert
-        tableView.reloadData()
-        var newArrayList: [Alert] = []
-        for i in 0..<alertList.count {
-            if i == index {
-                newArrayList.append(alert)
-            } else {
-                newArrayList.append(self.alertList[i])
-            }
-        }
-        self.alertList = newArrayList
     }
 }

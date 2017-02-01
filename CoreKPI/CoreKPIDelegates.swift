@@ -31,10 +31,10 @@ protocol updateNicknameDelegate {
     func updateNickname(nickname: String)
 }
 
-protocol updateAlertListDelegate {
-    func updateAlertList(alertArray: [Alert])
-    func addAlert(alert: Alert)
-}
+//protocol updateAlertListDelegate {
+//    func updateAlertList(alertArray: [Alert])
+//    func addAlert(alert: Alert)
+//}
 
 protocol updateKPIListDelegate {
     func updateKPIList(kpiArray: [KPI])

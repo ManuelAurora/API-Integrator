@@ -11,6 +11,7 @@ import UIKit
 class AlertSelectSettingTableViewController: UITableViewController {
 
     weak var AlertSettingVC: AllertSettingsTableViewController!
+    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
     var selectSetting: [(SettingName: String, value: Bool)]!
     var textFieldInputData: String?
@@ -22,6 +23,16 @@ class AlertSelectSettingTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if selectSetting.isEmpty {
+            let alertVC = UIAlertController(title: "Sorry!", message: "No Data for select", preferredStyle: .alert)
+            alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) -> Void in
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+            ))
+            present(alertVC, animated: true, completion: nil)
+        }
+        let nc = NotificationCenter.default
+        nc.addObserver(forName: modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
         tableView.tableFooterView = UIView(frame: .zero)
     }
     
@@ -104,6 +115,18 @@ class AlertSelectSettingTableViewController: UITableViewController {
             delegate = AlertSettingVC
             delegate.updateSettingsArray(array: selectSetting)
             delegate.updateStringValue(string: textFieldInputData)
+        }
+    }
+    //MARK: - catchNotification
+    func catchNotification(notification:Notification) -> Void {
+        
+        if notification.name == modelDidChangeNotification {
+            guard let userInfo = notification.userInfo,
+                let _ = userInfo["model"] as? ModelCoreKPI else {
+                    print("No userInfo found in notification")
+                    return
+            }
+            _ = navigationController?.popViewController(animated: true)
         }
     }
     

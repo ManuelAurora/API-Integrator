@@ -52,6 +52,15 @@ class ModelCoreKPI: NSObject, NSCoding {
         self.team = model.team
     }
     
+    func getNameKPI(FromID id: Int) -> String? {
+        for kpi in kpis {
+            if kpi.id == id {
+                return (kpi.createdKPI?.KPI)!
+            }
+        }
+        return nil
+    }
+    
 }
 
 //Profile
@@ -94,17 +103,17 @@ class Profile {
 }
 
 //Alerts
-struct Alert {
-    var image: String
-    var dataSource: DataSource
-    var timeInterval: TimeInterval?
-    var deliveryDay: String?
-    var timeZone: String?
-    var condition: Condition?
-    var threshold: String?
-    var deliveryTime: String
-    var typeOfNotification: [TypeOfNotification]
-}
+//struct Alert {
+//    var image: String
+//    var dataSource: DataSource
+//    var timeInterval: TimeInterval?
+//    var deliveryDay: String?
+//    var timeZone: String?
+//    var condition: Condition?
+//    var threshold: String?
+//    var deliveryTime: String
+//    var typeOfNotification: [TypeOfNotification]
+//}
 
 //KPI
 class KPI {

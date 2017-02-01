@@ -17,6 +17,7 @@ enum Setting: String {
     case Condition
     case Threshold
     case DeliveryTime
+    case OnlyWorksHours
     case TypeOfNotification
 }
 
@@ -24,12 +25,6 @@ enum TimeInterval: String {
     case Daily
     case Weekly
     case Monthly
-}
-
-enum DataSource: String {
-    case MyShopSupples = "My shop supples"
-    case MyShopSales = "My shop sales"
-    case Balance
 }
 
 enum Condition: String {
@@ -51,17 +46,18 @@ enum TypeOfNotification: String {
 }
 
 class AlertsListTableViewController: UITableViewController {
-
-    var model = ModelCoreKPI(token: "123", profile: Profile(userId: 1, userName: "user@mail.ru", firstName: "user", lastName: "user", position: "CEO", photo: nil, phone: nil, nickname: nil, typeOfAccount: .Admin))//: ModelCoreKPI!
+    
+    var model: ModelCoreKPI!
+    let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
+    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let alertOne = Alert(image: "", dataSource: .MyShopSales, timeInterval: .Daily, deliveryDay: nil, timeZone: "+3", condition: nil, threshold: nil, deliveryTime: "18:00", typeOfNotification: [.Push])
-        let alertTwo = Alert(image: "", dataSource: .MyShopSupples, timeInterval: .Daily, deliveryDay: nil, timeZone: "+3", condition: nil, threshold: nil, deliveryTime: "18:00", typeOfNotification: [.SMS])
-        model.alerts = [alertOne, alertTwo]
-        
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
+        
+        let nc = NotificationCenter.default
+        nc.addObserver(forName:modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
         
         refreshControl = UIRefreshControl()
         refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -70,40 +66,99 @@ class AlertsListTableViewController: UITableViewController {
         
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.backgroundColor = UIColor(red: 241/255, green: 241/255, blue: 241/255, alpha: 1.0)
+        test()
     }
-
+    
+    func test() {
+        let alertOne = Alert(context: context)
+        alertOne.sourceID = 13
+        alertOne.pushNotificationIsActive = true
+        alertOne.backgroundColor = "Green"
+        alertOne.condition = "is less than"
+        alertOne.deliveryDay = 5
+        alertOne.deliveryTime = Date(timeIntervalSinceNow: 600) as NSDate?
+        alertOne.onlyWorkHours = true
+        alertOne.threshold = 140.45
+        alertOne.timeInterval = "Daily"
+        alertOne.timeZone = "Pacific Time (PST)"
+        model.alerts.append(alertOne)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
+    //MARK: - CatchNotification
+    func catchNotification(notification:Notification) -> Void {
+        
+        if notification.name == modelDidChangeNotification {
+            guard let userInfo = notification.userInfo,
+                let model = userInfo["model"] as? ModelCoreKPI else {
+                    print("No userInfo found in notification")
+                    return
+            }
+            self.model.alerts = model.alerts
+            self.model.kpis = model.kpis
+            tableView.reloadData()
+        }
+    }
+    
     //MARK: -  Pull to refresh method
     func refresh(sender:AnyObject)
     {
-        //load alerts from server
-        print("updating alert list")
-        refreshControl?.endRefreshing()
+        loadAlerts()
+    }
+    
+    //MARK: - Load Alerts from server
+    func loadAlerts() {
+        let request = GetAlerts(model: model)
+        request.getAlerts(success: { alerts in
+            
+            for alert in self.model.alerts {
+                self.context.delete(alert)
+            }
+            self.model.alerts.removeAll()
+            self.model.alerts = alerts
+            do {
+                try self.context.save()
+            } catch {
+                print(error)
+                return
+            }
+            self.tableView.reloadData()
+            self.refreshControl?.endRefreshing()
+        }, failure: { error in
+            self.showAlert(title: "Sorry", message: error)
+            self.refreshControl?.endRefreshing()
+        }
+        )
+    }
+    
+    //MARK: - Show alert
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
     }
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return model.alerts.count
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AlertsCell", for: indexPath) as! AlertsListTableViewCell
-        cell.alertNameLabel.text = model.alerts[indexPath.row].dataSource.rawValue
+        
+        cell.alertNameLabel.text = model.getNameKPI(FromID: Int(model.alerts[indexPath.row].sourceID))
         cell.numberOfCell = indexPath.row
-        if indexPath.row % 2 == 0 {
-            cell.alertImageView.layer.backgroundColor = UIColor(red: 251/255, green: 233/255, blue: 231/255, alpha: 1.0).cgColor
-        } else {
-            cell.alertImageView.layer.backgroundColor = UIColor(red: 216/255, green: 247/255, blue: 215/255, alpha: 1.0).cgColor
-        }
+        cell.alertImageView.layer.backgroundColor = UIColor.green.cgColor //Debug
         cell.deleteButton.tag = indexPath.row
         cell.AlertListVC = self
+        
         return cell
     }
     
@@ -117,9 +172,8 @@ class AlertsListTableViewController: UITableViewController {
         if segue.identifier == "ReminderView" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let destinationController = segue.destination as! ReminderViewTableViewController
-                destinationController.alert = self.model.alerts[indexPath.row]
-                destinationController.alertList = self.model.alerts
                 destinationController.index = indexPath.row
+                destinationController.model = ModelCoreKPI(model: model)
                 destinationController.AlertListVC = self
             }
         }
@@ -127,19 +181,6 @@ class AlertsListTableViewController: UITableViewController {
     
 }
 
-//MARK: - updateAlertListDelegate method
-extension AlertsListTableViewController: updateAlertListDelegate {
-    
-    func updateAlertList(alertArray: [Alert]) {
-        model.alerts = alertArray
-        tableView.reloadData()
-    }
-    
-    func addAlert(alert: Alert) {
-        model.alerts.append(alert)
-        tableView.reloadData()
-    }
-}
 
 //MARK: - AlertButtonCellDelegate method
 extension AlertsListTableViewController: AlertButtonCellDelegate {

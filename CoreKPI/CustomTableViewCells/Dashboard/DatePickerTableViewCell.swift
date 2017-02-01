@@ -12,6 +12,8 @@ class DatePickerTableViewCell: UITableViewCell {
 
     var addKPIVC: ChooseSuggestedKPITableViewController!
     var editKPIVC: ReportAndViewKPITableViewController!
+    var alertSettingVC: AllertSettingsTableViewController!
+    
     var delegate: UpdateTimeDelegate!
     
     @IBOutlet weak var datePicker: UIDatePicker!
@@ -22,7 +24,15 @@ class DatePickerTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-         delegate = addKPIVC// ?? editKPIVC
+        if addKPIVC != nil {
+            delegate = addKPIVC
+        }
+//        if editKPIVC != nil {
+//            delegate = editKPIVC
+//        }
+        if alertSettingVC != nil {
+            delegate = alertSettingVC
+        }
     }
     @IBAction func dataPickerDidMove(_ sender: UIDatePicker) {
         delegate.updateTime(newTime: datePicker.date)

@@ -10,7 +10,7 @@ import UIKit
 
 class MemberListTableViewController: UITableViewController {
     
-    var model = ModelCoreKPI(token: "test", userID: 1) //debug!
+    var model: ModelCoreKPI!
     let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     let profilePhotoDownloadNotification = Notification.Name(rawValue:"ProfilePhotoDownloaded")
     

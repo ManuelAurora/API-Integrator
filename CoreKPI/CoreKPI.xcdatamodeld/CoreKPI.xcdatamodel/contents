@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Alerts" representedClassName="Alerts" syncable="YES" codeGenerationType="class">
+    <entity name="Alert" representedClassName="Alert" syncable="YES" codeGenerationType="class">
         <attribute name="backgroundColor" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="condition" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="deliveryDay" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deliveryDay" optional="YES" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="deliveryTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="emailNotificationIsActive" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="onlyWorkHours" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="pushNotificationIsActive" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="smsNotificationIsAcive" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="sourceID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="threshold" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="timeInterval" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="timeInterval" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timeZone" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="KPIs" representedClassName="KPIs" syncable="YES" codeGenerationType="class"/>
     <entity name="Team" representedClassName="Team" syncable="YES" codeGenerationType="class">
         <attribute name="firstName" attributeType="String" syncable="YES"/>
         <attribute name="isAdmin" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
@@ -26,8 +27,7 @@
         <attribute name="username" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Alerts" positionX="-54" positionY="63" width="128" height="195"/>
-        <element name="KPIs" positionX="-36" positionY="72" width="128" height="45"/>
+        <element name="Alert" positionX="-54" positionY="63" width="128" height="225"/>
         <element name="Team" positionX="-63" positionY="-18" width="128" height="195"/>
     </elements>
 </model>
