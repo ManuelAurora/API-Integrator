@@ -34,8 +34,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        let action = UNNotificationAction(identifier: "remindLater", title: "Remind me later", options: [])
-        let category = UNNotificationCategory(identifier: "myCategory", actions: [action], intentIdentifiers: [], options: [])
+        let later = UNNotificationAction(identifier: "remindLater", title: "Remind me later", options: [])
+        let addReport = UNNotificationAction(identifier: "addReport", title: "Add report", options: [])
+        let category = UNNotificationCategory(identifier: "myCategory", actions: [addReport, later], intentIdentifiers: [], options: [])
         UNUserNotificationCenter.current().setNotificationCategories([category])
         
         return true
@@ -58,16 +59,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         content.sound = UNNotificationSound.default()
         content.categoryIdentifier = "myCategory"
         
-        if let path = Bundle.main.path(forResource: "aladin", ofType: "jpg") {
-            let url = URL(fileURLWithPath: path)
-            
-            do {
-                let attachment = try UNNotificationAttachment(identifier: "logo", url: url, options: nil)
-                content.attachments = [attachment]
-            } catch {
-                print("The attachment was not loaded.")
-            }
-        }
+//        if let path = Bundle.main.path(forResource: "aladin", ofType: "jpg") {
+//            let url = URL(fileURLWithPath: path)
+//            
+//            do {
+//                let attachment = try UNNotificationAttachment(identifier: "logo", url: url, options: nil)
+//                content.attachments = [attachment]
+//            } catch {
+//                print("The attachment was not loaded.")
+//            }
+//        }
         
         let request = UNNotificationRequest(identifier: "textNotification", content: content, trigger: trigger)
         

@@ -15,12 +15,6 @@ class LaunchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        let delegate = UIApplication.shared.delegate as? AppDelegate
-        let date = Date(timeIntervalSinceNow: 60)
-        
-        delegate?.scheduleNotification(at: date, title: "CoreKPI", message: "Hello from CoreKPI!")
     }
     
     override func viewDidAppear(_ animated: Bool) {

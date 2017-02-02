@@ -214,6 +214,7 @@ class KPIsListTableViewController: UITableViewController {
         for kpi in arrayOfKPI {
             getReportRequest.getReportForKPI(withID: kpi.id, success: {report in
                 kpi.createdKPI?.number.removeAll()
+                var newNumbers: [(date: Date, number: Double)] = []
                 var dict = report
                 for _ in 0..<dict.count {
                     let report = dict.popFirst()
@@ -222,8 +223,9 @@ class KPIsListTableViewController: UITableViewController {
                     let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "yyyy-mm-dd hh:mm:ss"
                     let date = dateFormatter.date(from: dateDtring!)
-                    kpi.createdKPI?.number.append((date!,value!))
+                    newNumbers.append((date!,value!))
                 }
+                kpi.createdKPI?.number = newNumbers.sorted(by: { $0.0 < $1.0 })
                 self.tableView.reloadData()
                 let nc = NotificationCenter.default
                 nc.post(name: self.modelDidChangeNotification,

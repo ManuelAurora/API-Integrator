@@ -488,6 +488,15 @@ class AllertSettingsTableViewController: UITableViewController {
             }
         }
         
+        //debug ->
+        if alert.pushNotificationIsActive {
+            let delegate = UIApplication.shared.delegate as? AppDelegate
+            let date = alert.deliveryTime
+            delegate?.scheduleNotification(at: date as! Date, title: model.getNameKPI(FromID: Int(alert.sourceID))!, message: "Time to add a new report!")
+        }
+        self.navigationController!.popViewController(animated: true)
+        //<-
+        
         //Send data to server
         let request = AddAlert(model: model)
         request.addAlert(success: {
@@ -496,6 +505,9 @@ class AllertSettingsTableViewController: UITableViewController {
             nc.post(name: self.modelDidChangeNotification,
                     object: nil,
                     userInfo:["model": self.model])
+            let delegate = UIApplication.shared.delegate as? AppDelegate
+            let date = alert.deliveryTime
+            delegate?.scheduleNotification(at: date as! Date, title: self.model.getNameKPI(FromID: Int(alert.sourceID))!, message: "Time to add a new report!")
             self.navigationController!.popViewController(animated: true)
         }, failure: { error in
         self.showAlert(title: "Sorry", message: error)

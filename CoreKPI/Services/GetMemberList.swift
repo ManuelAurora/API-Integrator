@@ -57,13 +57,15 @@ class GetMemberList: Request {
                             profile.userID = Int64((userData["user_id"] as? Int)!)
                             let phone = userData["phone"] as? String
                             profile.phoneNumber = (phone == "") ? nil : phone
-//                            if (userData["photo"] as? String) != "" {
-//                                profile.photoLink = userData["photo"] as? String
-//                            }
-                            
-                            profile.photoLink = "http://whatsappdp.net/wp-content/uploads/2016/03/funny-profile-pictures.jpg"
+                            if (userData["photo"] as? String) != "" {
+                                profile.photoLink = userData["photo"] as? String
+                            } else {
+                                profile.photoLink = nil
+                            }
                             profile.firstName = userData["first_name"] as? String
-                            
+                            //Debug ->
+                            profile.photoLink = "http://whatsappdp.net/wp-content/uploads/2016/03/funny-profile-pictures.jpg"
+                            //<-
                             teamArray.append(profile)
                             
                             i+=1
