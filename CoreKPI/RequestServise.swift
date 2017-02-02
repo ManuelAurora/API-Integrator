@@ -17,9 +17,9 @@ class Request {
     
     var errorMessage: String?
     
-    //let serverIp = "http://dashmob.smichrissoft.com:8888"
+    let serverIp = "http://dashmob.smichrissoft.com:8888"
     //debug!
-    let serverIp = "http://192.168.0.118:8888"
+    //let serverIp = "http://192.168.0.118:8888"
     
     var userID: Int!
     var token: String!

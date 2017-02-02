@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         let later = UNNotificationAction(identifier: "remindLater", title: "Remind me later", options: [])
-        let addReport = UNNotificationAction(identifier: "addReport", title: "Add report", options: [])
+        let addReport = UNNotificationAction(identifier: "addReport", title: "Add report", options: [.foreground])
         let category = UNNotificationCategory(identifier: "myCategory", actions: [addReport, later], intentIdentifiers: [], options: [])
         UNUserNotificationCenter.current().setNotificationCategories([category])
         
@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let components = calendar.dateComponents(in: .current, from: date)
         let newComponents = DateComponents(calendar: calendar, timeZone: .current, month: components.month, day: components.day, hour: components.hour, minute: components.minute)
         
-        let trigger = UNCalendarNotificationTrigger(dateMatching: newComponents, repeats: false)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: newComponents, repeats: true)
         
         let content = UNMutableNotificationContent()
         content.title = title
@@ -157,6 +157,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         if response.actionIdentifier == "remindLater" {
             let newDate = Date(timeInterval: 900, since: Date())
             scheduleNotification(at: newDate, title: "CoreKPI", message: "Add report, please!")
+        }
+        if response.actionIdentifier == "addReport" {
+            //
         }
     }
 }

@@ -18,13 +18,16 @@ enum FAQSection : String {
 class faqTableViewController: UITableViewController {
     
     var faqDictionary: [FAQSection : [(description: String, answer: String)]] = [:]
+    let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        dictionaryCreator()
         getFAQFromServer()
+        
         tableView.tableFooterView = UIView(frame: .zero)
-
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -36,6 +39,7 @@ class faqTableViewController: UITableViewController {
         request.getFAQ(success: { faq in
             self.faqDictionary = faq
             self.tableView.reloadData()
+            self.saveFAQ()
         }, failure: { error in
             print(error)
         }
@@ -90,6 +94,76 @@ class faqTableViewController: UITableViewController {
         return cell
     }
     
+    //MARK: - CoreData methods
+    func dictionaryCreator() {
+        let array = loadFAQFromCoreData()
+        var dashboard: [(description: String, answer: String)] = []
+        var alerts: [(description: String, answer: String)] = []
+        var team: [(description: String, answer: String)] = []
+        var support: [(description: String, answer: String)] = []
+        for faq in array {
+            switch (faq.section)! {
+            case "Dashboard":
+                let descr = faq.descript
+                let answer = faq.answer
+                dashboard.append((descr!, answer!))
+            case "Alert":
+                let descr = faq.descript
+                let answer = faq.answer
+                alerts.append((descr!, answer!))
+            case "Team":
+                let descr = faq.descript
+                let answer = faq.answer
+                team.append((descr!, answer!))
+            case "Support":
+                let descr = faq.descript
+                let answer = faq.answer
+                support.append((descr!, answer!))
+            default:
+                break
+            }
+        }
+        faqDictionary[FAQSection.Dashboard] = dashboard
+        faqDictionary[FAQSection.Alert] = alerts
+        faqDictionary[FAQSection.Team] = team
+        faqDictionary[FAQSection.Support] = support
+        
+    }
+    
+    func loadFAQFromCoreData() -> [FAQ] {
+        do {
+            let faqArray = try context.fetch(FAQ.fetchRequest())
+            return faqArray as! [FAQ]
+        } catch {
+            print("Fetching faild")
+            return []
+        }
+    }
+    
+    func saveFAQ() {
+        for faq in loadFAQFromCoreData() {
+            self.context.delete(faq)
+        }
+        
+        for section in faqDictionary {
+            let key = section.key
+            let array = section.value
+            for item in array {
+                let faq = FAQ(context: context)
+                faq.section = key.rawValue
+                faq.descript = item.description
+                faq.answer = item.answer
+            }
+        }
+        do {
+            try self.context.save()
+        } catch {
+            print(error)
+            return
+        }
+    }
+    
+    //MARK: - Navigations
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "FAQDetail" {
             if let indexPath = tableView.indexPathForSelectedRow {
