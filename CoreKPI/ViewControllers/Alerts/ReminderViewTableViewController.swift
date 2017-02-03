@@ -13,9 +13,14 @@ class ReminderViewTableViewController: UITableViewController {
     var model: ModelCoreKPI!
     var index: Int!
     weak var AlertListVC: AlertsListTableViewController!
-  
+    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let nc = NotificationCenter.default
+        nc.addObserver(forName:modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
+        
         tableView.tableFooterView = UIView(frame: .zero)
     }
 
@@ -164,6 +169,20 @@ class ReminderViewTableViewController: UITableViewController {
             destinationVC.model = ModelCoreKPI(model: model)
             destinationVC.ReminderViewVC = self
             destinationVC.updateParameters(index: index)
+        }
+    }
+    
+    //MARK: - catchNotification
+    func catchNotification(notification:Notification) -> Void {
+        
+        if notification.name == modelDidChangeNotification {
+            guard let userInfo = notification.userInfo,
+                let _ = userInfo["model"] as? ModelCoreKPI else {
+                    print("No userInfo found in notification")
+                    return
+            }
+            let firstVC = navigationController?.viewControllers[0]
+            _ = navigationController?.popToViewController(firstVC!, animated: true)
         }
     }
 }

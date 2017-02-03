@@ -470,7 +470,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
         case .Edit:
             switch model.kpis[kpiIndex].typeOfKPI {
             case .IntegratedKPI: break
-                    //Warning!
+            //Warning!
             case .createdKPI:
                 switch typeOfAccount {
                 case .Admin:
@@ -884,11 +884,11 @@ class ReportAndViewKPITableViewController: UITableViewController {
         
         switch buttonDidTaped {
         case .Report:
-            newKpi?.addReport(date: Date(), report: self.report!)
-            self.model.kpis[kpiIndex].createdKPI = newKpi
             let request = AddReport(model: model)
             request.addReportForKPI(withID: self.model.kpis[kpiIndex].id, report: self.report!, success: {
-            self.prepareToMove()
+                newKpi?.addReport(date: Date(), report: self.report!)
+                self.model.kpis[self.kpiIndex].createdKPI = newKpi
+                self.prepareToMove()
             }, failure: { error in
                 print(error)
                 self.showAlert(title: "Sorry",errorMessage: error)
@@ -928,7 +928,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
             )
         }
         
-
+        
     }
     
     func prepareToMove() {

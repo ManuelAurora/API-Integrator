@@ -32,6 +32,12 @@ class KPIsListTableViewController: UITableViewController {
         let nc = NotificationCenter.default
         nc.addObserver(forName:modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
         
+        //
+        let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.longPress(_:)))
+        longPressGesture.minimumPressDuration = 1 // 1 second press
+        self.tableView.addGestureRecognizer(longPressGesture)
+        //
+        
         refreshControl = UIRefreshControl()
         refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl?.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
@@ -41,6 +47,19 @@ class KPIsListTableViewController: UITableViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.backgroundColor = UIColor(red: 241/255, green: 241/255, blue: 241/255, alpha: 1.0)
+    }
+    
+    //Called, when long press occurred
+    func longPress(_ longPressGestureRecognizer: UILongPressGestureRecognizer) {
+        
+        if longPressGestureRecognizer.state == UIGestureRecognizerState.began {
+            
+            let touchPoint = longPressGestureRecognizer.location(in: self.view)
+            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
+                let cell = tableView.cellForRow(at: indexPath) as! KPIListTableViewCell
+                cell.deleteButton.isHidden = false
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -85,6 +104,7 @@ class KPIsListTableViewController: UITableViewController {
         cell.editButton.tag = indexPath.row
         cell.reportButton.tag = indexPath.row
         cell.memberNameButton.tag = indexPath.row
+        cell.deleteButton.tag = indexPath.row
         
         if let imageString = arrayOfKPI[indexPath.row].image {
             cell.KPIListCellImageView.isHidden = false
@@ -153,6 +173,20 @@ class KPIsListTableViewController: UITableViewController {
         destinationVC.kpi = arrayOfKPI[indexPath.row]
         navigationController?.pushViewController(destinationVC, animated: true)
         
+    }
+    
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        let selectCell = tableView.cellForRow(at: indexPath) as! KPIListTableViewCell
+        if !selectCell.deleteButton.isHidden {
+            return indexPath
+        } else {
+//            for i in 0..<arrayOfKPI.count {
+//                let index = IndexPath(item: i, section: 1)
+//                let cell = tableView.cellForRow(at: index) as! KPIListTableViewCell
+//                cell.deleteButton.isHidden = true
+//            }
+        }
+        return indexPath
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
@@ -247,6 +281,9 @@ class KPIsListTableViewController: UITableViewController {
             self.arrayOfKPI = kpi
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
+            if self.arrayOfKPI.isEmpty {
+                self.showAlert(title: "Sorry", message: "No KPI!")
+            }
         }, failure: { error in
             print(error)
             self.refreshControl?.endRefreshing()
@@ -354,5 +391,14 @@ extension KPIsListTableViewController: KPIListButtonCellDelegate {
         }
         showAlert(title: "Error", message: "Unknown member!")
         return
+    }
+    
+    func deleteDidTaped(sender: UIButton) {
+        let indexPath = IndexPath(item: sender.tag, section: 1)
+
+        deleteKPI(kpiID: model.kpis[indexPath.row].id)
+        model.kpis.remove(at: indexPath.row)
+        arrayOfKPI.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .fade)
     }
 }

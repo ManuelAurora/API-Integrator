@@ -76,6 +76,9 @@ class AllertSettingsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let nc = NotificationCenter.default
+        nc.addObserver(forName:modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
+        
         createArrays()
         tableView.tableFooterView = UIView(frame: .zero)
     }
@@ -202,6 +205,8 @@ class AllertSettingsTableViewController: UITableViewController {
                     default:
                         break
                     }
+                    cell.prepareForReuse()
+                    return cell
                 }
             }
             
@@ -525,7 +530,9 @@ class AllertSettingsTableViewController: UITableViewController {
             destinatioVC.selectSeveralEnable = true
         case .Threshold:
             destinatioVC.inputSettingCells = true
-            destinatioVC.textFieldInputData = "\(threshold)"
+            if threshold != nil {
+                destinatioVC.textFieldInputData = "\(threshold!)"
+            }
             switch self.condition {
             case .PercentHasDecreasedByMoreThan, .PercentHasIncreasedOrDecreasedByMoreThan, .PercentHasIncreasedByMoreThan:
                 destinatioVC.headerForTableView = "Add data %"
@@ -635,12 +642,33 @@ class AllertSettingsTableViewController: UITableViewController {
         self.typeOfNotificationArray = newTypeOfNotificationArray
     }
     
+    //MARK: - CatchNotification
+    func catchNotification(notification:Notification) -> Void {
+        
+        if notification.name == modelDidChangeNotification {
+            guard let userInfo = notification.userInfo,
+                let _ = userInfo["model"] as? ModelCoreKPI else {
+                    print("No userInfo found in notification")
+                    return
+            }
+            let firstVC = navigationController?.viewControllers[0]
+            _ = navigationController?.popToViewController(firstVC!, animated: true)
+        }
+    }
+    
 }
 
 //MARK: - updateSettingsArrayDelegate methods
 extension AllertSettingsTableViewController: updateSettingsDelegate {
     
     func updateDoubleValue(number: Double?) {
+        switch typeOfSetting {
+        case .Threshold:
+            threshold = number
+        default:
+            return
+        }
+        tableView.reloadData()
     }
     
     func updateSettingsArray(array: [(SettingName: String, value: Bool)]) {
@@ -706,13 +734,6 @@ extension AllertSettingsTableViewController: updateSettingsDelegate {
     }
     
     func updateStringValue(string: String?) {
-        switch typeOfSetting {
-        case .Threshold:
-            threshold = Double(string!)
-        default:
-            return
-        }
-        tableView.reloadData()
     }
 }
 

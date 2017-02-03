@@ -70,6 +70,7 @@ class LaunchViewController: UIViewController {
         let alertsNavigationViewController = tabBarController.viewControllers?[1] as! AlertsNavigationViewController
         let alertsViewController = alertsNavigationViewController.childViewControllers[0] as! AlertsListTableViewController
         alertsViewController.model = ModelCoreKPI(model: model)
+        alertsViewController.loadAlerts()
         
         let teamListNavigationViewController = tabBarController.viewControllers?[2] as! TeamListViewController
         let teamListController = teamListNavigationViewController.childViewControllers[0] as! MemberListTableViewController

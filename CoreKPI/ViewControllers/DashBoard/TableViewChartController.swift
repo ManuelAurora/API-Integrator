@@ -46,12 +46,10 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
             cell.persentLabel.textColor = UIColor(red: 140/255, green: 140/255, blue: 140/255, alpha: 1.0)
             cell.valueLabel.isHidden = true
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MM/DD/YYYY"
+            dateFormatter.dateStyle = .short
             cell.metricsLabel.text = dateFormatter.string(from: dataArray[indexPath.row - 1].0)
             let numberFormatter = NumberFormatter()
             numberFormatter.numberStyle = .decimal
-            numberFormatter.groupingSeparator = ","
-            numberFormatter.decimalSeparator = "."
             numberFormatter.maximumFractionDigits = 10
             cell.persentLabel.text = numberFormatter.string(from: NSNumber(value: dataArray[indexPath.row - 1].1))!
         }

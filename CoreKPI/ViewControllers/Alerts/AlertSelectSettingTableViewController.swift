@@ -9,7 +9,7 @@
 import UIKit
 
 class AlertSelectSettingTableViewController: UITableViewController {
-
+    
     weak var AlertSettingVC: AllertSettingsTableViewController!
     let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
@@ -78,6 +78,9 @@ class AlertSelectSettingTableViewController: UITableViewController {
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "InputSettingCell", for: indexPath) as! AlertInputSettingTableViewCell
+            if textFieldInputData != nil {
+                cell.inputDataTextField.text = textFieldInputData
+            }
             cell.inputDataTextField.placeholder = "Add data"
             cell.accessoryType = .none
             cell.selectionStyle = .none
@@ -112,9 +115,23 @@ class AlertSelectSettingTableViewController: UITableViewController {
     //MARK: - Send data to parent ViewController
     override func willMove(toParentViewController parent: UIViewController?) {
         if(!(parent?.isEqual(self.parent) ?? false)) {
+            
             delegate = AlertSettingVC
+            
+            if inputSettingCells {
+                let formatter = NumberFormatter()
+                formatter.numberStyle = .decimal
+                if textFieldInputData != nil    {
+                    if let double: Double = formatter.number(from: textFieldInputData!) as Double? {
+                        delegate.updateDoubleValue(number: double)
+                    } else {
+                        let alertVC = UIAlertController(title: "Error", message: "Data is incorrect", preferredStyle: .alert)
+                        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        present(alertVC, animated: true, completion: nil)
+                    }
+                }
+            }
             delegate.updateSettingsArray(array: selectSetting)
-            delegate.updateStringValue(string: textFieldInputData)
         }
     }
     //MARK: - catchNotification
@@ -126,7 +143,8 @@ class AlertSelectSettingTableViewController: UITableViewController {
                     print("No userInfo found in notification")
                     return
             }
-            _ = navigationController?.popViewController(animated: true)
+            let firstVC = navigationController?.viewControllers[0]
+            _ = navigationController?.popToViewController(firstVC!, animated: true)
         }
     }
     
@@ -137,6 +155,7 @@ extension AlertSelectSettingTableViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let textFieldText: NSString = (textField.text ?? "") as NSString
         let txtAfterUpdate = textFieldText.replacingCharacters(in: range, with: string)
+        
         if txtAfterUpdate != "" {
             textFieldInputData = txtAfterUpdate
         } else {

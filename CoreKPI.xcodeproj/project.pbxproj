@@ -58,6 +58,7 @@
 		A27820971E001530009F83DB /* RequestServise.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27820961E001530009F83DB /* RequestServise.swift */; };
 		A2844B3C1E0BC842002E297A /* MemberEditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2844B3B1E0BC842002E297A /* MemberEditTableViewCell.swift */; };
 		A28889911E4206DC00113220 /* AddAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28889901E4206DC00113220 /* AddAlert.swift */; };
+		A28BAB0B1E447718006C03AF /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A018E11E235F1800198E1A /* Alamofire.framework */; };
 		A297F5B01E08233100F85963 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5AF1E08233100F85963 /* MainTabBarViewController.swift */; };
 		A297F5B31E08233A00F85963 /* MemberEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5B11E08233A00F85963 /* MemberEditViewController.swift */; };
 		A297F5B41E08233A00F85963 /* MemberInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5B21E08233A00F85963 /* MemberInfoViewController.swift */; };
@@ -78,10 +79,7 @@
 		A297F5DF1E08248000F85963 /* NewProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5DC1E08248000F85963 /* NewProfileTableViewCell.swift */; };
 		A297F5E01E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5DD1E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift */; };
 		A297F5E11E08248000F85963 /* TypeAccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5DE1E08248000F85963 /* TypeAccountTableViewCell.swift */; };
-		A2A018E21E235F1800198E1A /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A018E11E235F1800198E1A /* Alamofire.framework */; };
 		A2A018E31E235F1800198E1A /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A2A018E11E235F1800198E1A /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		A2A018E61E235F2200198E1A /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A018E51E235F2200198E1A /* Charts.framework */; };
-		A2A018E71E235F2200198E1A /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A2A018E51E235F2200198E1A /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A2A215511E124AB800EEBCA2 /* AlertSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A215501E124AB800EEBCA2 /* AlertSettingTableViewCell.swift */; };
 		A2A215531E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A215521E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift */; };
 		A2A7D5111E41B0E5008779A0 /* CellsCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A7D5101E41B0E5008779A0 /* CellsCreator.swift */; };
@@ -103,6 +101,9 @@
 		A2C9FD261E13E1CD00433D43 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD251E13E1CD00433D43 /* style.css */; };
 		A2C9FD291E13E1D400433D43 /* Rd3.v3.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */; };
 		A2C9FD2A1E13E1D400433D43 /* round.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD281E13E1D400433D43 /* round.js */; };
+		A2CD7B521E44790000170819 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2CD7B511E44790000170819 /* Charts.framework */; };
+		A2CD7B531E44790700170819 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2CD7B511E44790000170819 /* Charts.framework */; };
+		A2CD7B541E44790700170819 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A2CD7B511E44790000170819 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A2E8F9FB1E3B1AB800046870 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E8F9FA1E3B1AB800046870 /* LaunchViewController.swift */; };
 		A2E8F9FD1E3B223500046870 /* EditKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E8F9FC1E3B223500046870 /* EditKPI.swift */; };
 		A2E8F9FF1E3B32D700046870 /* DeleteKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E8F9FE1E3B32D700046870 /* DeleteKPI.swift */; };
@@ -161,7 +162,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				A2A018E31E235F1800198E1A /* Alamofire.framework in Embed Frameworks */,
-				A2A018E71E235F2200198E1A /* Charts.framework in Embed Frameworks */,
+				A2CD7B541E44790700170819 /* Charts.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -247,7 +248,6 @@
 		A297F5DD1E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewProfileTypeAccountTableViewCell.swift; path = "CustomTableViewCells/Sign In:Up/NewProfileTypeAccountTableViewCell.swift"; sourceTree = "<group>"; };
 		A297F5DE1E08248000F85963 /* TypeAccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TypeAccountTableViewCell.swift; path = "CustomTableViewCells/Sign In:Up/TypeAccountTableViewCell.swift"; sourceTree = "<group>"; };
 		A2A018E11E235F1800198E1A /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
-		A2A018E51E235F2200198E1A /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = Carthage/Build/iOS/Charts.framework; sourceTree = "<group>"; };
 		A2A215501E124AB800EEBCA2 /* AlertSettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertSettingTableViewCell.swift; path = CustomTableViewCells/AlertSettingTableViewCell.swift; sourceTree = "<group>"; };
 		A2A215521E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertSelectSettingTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AlertSelectSettingTableViewController.swift; sourceTree = "<group>"; };
 		A2A7D5101E41B0E5008779A0 /* CellsCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CellsCreator.swift; path = CoreKPI/CellsCreator.swift; sourceTree = "<group>"; };
@@ -269,6 +269,7 @@
 		A2C9FD251E13E1CD00433D43 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = style.css; path = "Graphics/Круговой/css/style.css"; sourceTree = "<group>"; };
 		A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Rd3.v3.min.js; path = "Graphics/Круговой/js/Rd3.v3.min.js"; sourceTree = "<group>"; };
 		A2C9FD281E13E1D400433D43 /* round.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = round.js; path = "Graphics/Круговой/js/round.js"; sourceTree = "<group>"; };
+		A2CD7B511E44790000170819 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = Carthage/Build/iOS/Charts.framework; sourceTree = "<group>"; };
 		A2E8F9FA1E3B1AB800046870 /* LaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LaunchViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/LaunchViewController.swift"; sourceTree = "<group>"; };
 		A2E8F9FC1E3B223500046870 /* EditKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditKPI.swift; path = Services/EditKPI.swift; sourceTree = "<group>"; };
 		A2E8F9FE1E3B32D700046870 /* DeleteKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteKPI.swift; path = Services/DeleteKPI.swift; sourceTree = "<group>"; };
@@ -307,8 +308,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A2A018E21E235F1800198E1A /* Alamofire.framework in Frameworks */,
-				A2A018E61E235F2200198E1A /* Charts.framework in Frameworks */,
+				A2CD7B531E44790700170819 /* Charts.framework in Frameworks */,
+				A28BAB0B1E447718006C03AF /* Alamofire.framework in Frameworks */,
+				A2CD7B521E44790000170819 /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,7 +482,7 @@
 		A278209E1E001A0B009F83DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A2A018E51E235F2200198E1A /* Charts.framework */,
+				A2CD7B511E44790000170819 /* Charts.framework */,
 				A2A018E11E235F1800198E1A /* Alamofire.framework */,
 			);
 			name = Frameworks;

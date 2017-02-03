@@ -17,6 +17,7 @@ class KPIListTableViewCell: UITableViewCell {
     @IBOutlet weak var KPIListNumber: UILabel!
     @IBOutlet weak var ManagedByStack: UIStackView!
     
+    @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var memberNameButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var reportButton: UIButton!
@@ -40,6 +41,8 @@ class KPIListTableViewCell: UITableViewCell {
             delegate.reportButtonDidTaped(sender: sender)
         case memberNameButton:
             delegate.memberNameDidTaped(sender: sender)
+        case deleteButton:
+            delegate.deleteDidTaped(sender: sender)
         default:
             break
         }

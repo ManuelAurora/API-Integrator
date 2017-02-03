@@ -31,11 +31,6 @@ protocol updateNicknameDelegate {
     func updateNickname(nickname: String)
 }
 
-//protocol updateAlertListDelegate {
-//    func updateAlertList(alertArray: [Alert])
-//    func addAlert(alert: Alert)
-//}
-
 protocol updateKPIListDelegate {
     func updateKPIList(kpiArray: [KPI])
     func addNewKPI(kpi: KPI)
@@ -45,6 +40,7 @@ protocol KPIListButtonCellDelegate {
     func editButtonDidTaped(sender: UIButton)
     func reportButtonDidTaped(sender: UIButton)
     func memberNameDidTaped(sender: UIButton)
+    func deleteDidTaped(sender: UIButton)
 }
 
 protocol AlertButtonCellDelegate {

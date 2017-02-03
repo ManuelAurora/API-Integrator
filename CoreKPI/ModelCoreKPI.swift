@@ -127,6 +127,13 @@ class KPI {
         case .createdKPI:
             let numbers = createdKPI?.number
             if (numbers?.count)! > 1 {
+                switch (createdKPI?.timeInterval)! {
+                case .Daily: break
+                    //let date = Date()
+                    //date.compare(Date(timeIntervalSinceNow: 20))
+                case .Weekly: break
+                case .Monthly: break
+                }
                 if (numbers?[(numbers?.count)! - 1])! < (numbers?[(numbers?.count)! - 2])! {
                     return ImageForKPIList.Decreases
                 }

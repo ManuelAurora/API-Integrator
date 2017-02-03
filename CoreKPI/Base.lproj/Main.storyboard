@@ -851,7 +851,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <action selector="tapResponsibleForButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="QvD-ts-llu"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="i7a-fV-Yzm">
+                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="i7a-fV-Yzm">
                                 <rect key="frame" x="16" y="522" width="343" height="36"/>
                                 <subviews>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-cu-qgk">
@@ -2576,7 +2576,7 @@ The main advantage of a computer audio player is that you can play your audio CD
         <scene sceneID="zb1-Ks-nR2">
             <objects>
                 <tableViewController storyboardIdentifier="KPIListVC" id="Unc-k5-vIr" customClass="KPIsListTableViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="144" sectionHeaderHeight="28" sectionFooterHeight="28" id="5hR-Lv-01p">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="144" sectionHeaderHeight="28" sectionFooterHeight="28" id="5hR-Lv-01p">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2700,6 +2700,17 @@ The main advantage of a computer audio player is that you can play your audio CD
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </imageView>
+                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LIO-vL-TfU">
+                                            <rect key="frame" x="349" y="0.0" width="26" height="26"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="26" id="GBk-q8-Nlr"/>
+                                                <constraint firstAttribute="width" constant="26" id="jwX-36-LZi"/>
+                                            </constraints>
+                                            <state key="normal" image="Close"/>
+                                            <connections>
+                                                <action selector="buttonDidTaped:" destination="abo-uK-HkH" eventType="touchUpInside" id="31V-8T-4yK"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <color key="backgroundColor" red="0.94509803921568625" green="0.94509803921568625" blue="0.94509803921568625" alpha="0.0" colorSpace="calibratedRGB"/>
                                     <constraints>
@@ -2713,9 +2724,11 @@ The main advantage of a computer audio player is that you can play your audio CD
                                         <constraint firstAttribute="trailingMargin" secondItem="p3R-K0-b7x" secondAttribute="trailing" constant="18" id="UFz-Nu-6Ee"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="uOw-tB-a1x" secondAttribute="trailing" constant="18" id="VGB-rT-rVt"/>
                                         <constraint firstItem="oX4-z8-HeP" firstAttribute="top" secondItem="J3A-Kk-izT" secondAttribute="topMargin" id="b0D-mK-7Jk"/>
+                                        <constraint firstAttribute="trailing" secondItem="LIO-vL-TfU" secondAttribute="trailing" id="ceY-op-Ux1"/>
                                         <constraint firstItem="mu1-RR-may" firstAttribute="centerY" secondItem="J3A-Kk-izT" secondAttribute="centerY" constant="-19" id="fVL-1Z-Jzw"/>
                                         <constraint firstAttribute="bottom" secondItem="G5f-V9-eoP" secondAttribute="bottom" constant="10" id="hs0-hH-Yu8"/>
                                         <constraint firstItem="p3R-K0-b7x" firstAttribute="centerY" secondItem="J3A-Kk-izT" secondAttribute="centerY" id="kOF-v8-xbu"/>
+                                        <constraint firstItem="LIO-vL-TfU" firstAttribute="top" secondItem="J3A-Kk-izT" secondAttribute="top" id="tsu-1c-Z7r"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.94509803921568625" green="0.94509803921568625" blue="0.94509803921568625" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -2725,6 +2738,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <outlet property="KPIListHeaderLabel" destination="q0I-RY-Oap" id="MAl-hp-Q6l"/>
                                     <outlet property="KPIListNumber" destination="cM5-lu-Pak" id="wPa-92-DYM"/>
                                     <outlet property="ManagedByStack" destination="mjL-zc-w2j" id="QNV-KU-GYK"/>
+                                    <outlet property="deleteButton" destination="LIO-vL-TfU" id="3NY-b4-CcP"/>
                                     <outlet property="editButton" destination="GK8-xQ-WZC" id="tA8-VJ-Ci8"/>
                                     <outlet property="memberNameButton" destination="4dX-It-zer" id="602-BR-HMR"/>
                                     <outlet property="reportButton" destination="hMl-HO-Lvn" id="Rr7-iu-Or0"/>
@@ -3069,67 +3083,6 @@ The main advantage of a computer audio player is that you can play your audio CD
             </objects>
             <point key="canvasLocation" x="7877.6000000000004" y="-2508.3958020989508"/>
         </scene>
-        <!--iOS Charts Test View Controller-->
-        <scene sceneID="xRi-SV-tws">
-            <objects>
-                <viewController storyboardIdentifier="ChartsiOS" id="EZo-OG-Dlh" customClass="iOSChartsTestViewController" customModule="CoreKPI" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="odI-YK-ccl"/>
-                        <viewControllerLayoutGuide type="bottom" id="jJk-cJ-wqA"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="mKE-JJ-mM4">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xXt-Ec-Oo8">
-                                <rect key="frame" x="329" y="72" width="30" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="IxB-AB-tzl"/>
-                                    <constraint firstAttribute="width" constant="30" id="Rx9-y8-aMg"/>
-                                </constraints>
-                                <state key="normal" title="Add"/>
-                                <connections>
-                                    <action selector="buttonDidTaped:" destination="EZo-OG-Dlh" eventType="touchUpInside" id="q1h-Ar-B5y"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PRt-kh-BFg">
-                                <rect key="frame" x="8" y="72" width="250" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="jds-wo-vzy"/>
-                                    <constraint firstAttribute="width" constant="250" id="kB6-2j-NFc"/>
-                                </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                            </textField>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X92-1B-PdU" customClass="BarChartView" customModule="Charts">
-                                <rect key="frame" x="0.0" y="110" width="375" height="508"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="xXt-Ec-Oo8" firstAttribute="top" secondItem="odI-YK-ccl" secondAttribute="bottom" constant="8" id="I7c-Yb-WlH"/>
-                            <constraint firstItem="jJk-cJ-wqA" firstAttribute="top" secondItem="X92-1B-PdU" secondAttribute="bottom" id="Nte-8z-orI"/>
-                            <constraint firstItem="PRt-kh-BFg" firstAttribute="leading" secondItem="mKE-JJ-mM4" secondAttribute="leading" constant="8" id="OpA-Ys-aaB"/>
-                            <constraint firstItem="X92-1B-PdU" firstAttribute="leading" secondItem="mKE-JJ-mM4" secondAttribute="leading" id="Q4u-FH-yMa"/>
-                            <constraint firstItem="xXt-Ec-Oo8" firstAttribute="trailing" secondItem="mKE-JJ-mM4" secondAttribute="trailingMargin" id="W1c-4M-Rlc"/>
-                            <constraint firstAttribute="trailing" secondItem="X92-1B-PdU" secondAttribute="trailing" id="ZT0-rx-wPZ"/>
-                            <constraint firstItem="X92-1B-PdU" firstAttribute="top" secondItem="PRt-kh-BFg" secondAttribute="bottom" constant="8" id="hzs-fv-kQw"/>
-                            <constraint firstItem="PRt-kh-BFg" firstAttribute="top" secondItem="odI-YK-ccl" secondAttribute="bottom" constant="8" id="iSV-2V-YuJ"/>
-                        </constraints>
-                    </view>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="barView" destination="X92-1B-PdU" id="kFT-oa-rQ4"/>
-                        <outlet property="textField" destination="PRt-kh-BFg" id="Hc3-R4-cwd"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HmZ-Fw-acc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="8702" y="-2835"/>
-        </scene>
         <!--Web View Chart View Controller-->
         <scene sceneID="bAf-tX-HkV">
             <objects>
@@ -3203,7 +3156,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 <rect key="frame" x="0.0" y="46" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RkP-nZ-BOJ" id="xmN-0v-RZl">
-                                    <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Interval" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kh7-UV-XMO">
@@ -3246,7 +3199,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 <rect key="frame" x="0.0" y="90" width="375" height="160"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jqA-uG-Gw2" id="ltr-4z-ByW">
-                                    <rect key="frame" x="0.0" y="0.0" width="342" height="160"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="342" height="159.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="cR7-we-09g">
@@ -3367,7 +3320,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6My-mm-nKh" id="S6l-uC-uMf">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -3375,7 +3328,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 <rect key="frame" x="0.0" y="72" width="375" height="150"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="in3-Ig-nXr" id="xo5-Pa-KVK">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="149.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="5Md-Cy-Ogr">
@@ -3403,7 +3356,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 <rect key="frame" x="0.0" y="222" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DZV-zY-C4E" id="rXg-AM-Mcq">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pink" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BBQ-g9-5VY">
@@ -3772,6 +3725,7 @@ Deliveries</string>
     </scenes>
     <resources>
         <image name="About" width="60" height="61"/>
+        <image name="Close" width="26" height="26"/>
         <image name="F.A.Q." width="60" height="61"/>
         <image name="GoogleAnalytics" width="159" height="22"/>
         <image name="HubSpotCRM" width="100" height="45"/>

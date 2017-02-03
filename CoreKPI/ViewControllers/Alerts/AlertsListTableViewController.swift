@@ -69,6 +69,10 @@ class AlertsListTableViewController: UITableViewController {
         test()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        loadAlerts()
+    }
+    
     func test() {
         let alertOne = Alert(context: context)
         alertOne.sourceID = 13
