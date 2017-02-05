@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import UserNotifications
+import OAuthSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -161,5 +162,30 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         if response.actionIdentifier == "addReport" {
             //
         }
+    }
+}
+
+// MARK: handle callback url
+extension AppDelegate {
+    
+    func applicationHandle(url: URL) {
+        if (url.host == "oauth-callback") {
+            OAuthSwift.handle(url: url)
+        } else {
+            // Google provider is the only one wuth your.bundle.id url schema.
+            OAuthSwift.handle(url: url)
+        }
+    }
+    
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        applicationHandle(url: url)
+        return true
+    }
+    
+    @available(iOS 9.0, *)
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        //OAuth2Swift.handle(url: url)
+        applicationHandle(url: url)
+        return true
     }
 }

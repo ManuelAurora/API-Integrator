@@ -48,17 +48,17 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     //MARK: - integarted services
     var integrated = IntegratedServices.none
     var saleForceKPIs: [SalesForceKPIs] = []
-    var saleForceKPIArray: [(SettingName: String, value: Bool)] = [(SalesForceKPIs.RevenueNewLeads.rawValue, false), (SalesForceKPIs.KeyMetrics.rawValue, false), (SalesForceKPIs.ConvertedLeads.rawValue, false), (SalesForceKPIs.OpenOpportunitiesByStage.rawValue, false), (SalesForceKPIs.TopSalesRep.rawValue, false), (SalesForceKPIs.NewLeadsByIndustry.rawValue, false), (SalesForceKPIs.CampaignROI.rawValue, false)]
+    var saleForceKPIArray: [(SettingName: String, value: Bool)] = []
     var quickBooksKPIs: [QiuckBooksKPIs] = []
-    var quickBooksKPIArray: [(SettingName: String, value: Bool)] = [(QiuckBooksKPIs.Test.rawValue, true)]
+    var quickBooksKPIArray: [(SettingName: String, value: Bool)] = []
     var googleAnalyticsKPIs: [GoogleAnalyticsKPIs] = []
-    var googleAnalyticsKPIArray: [(SettingName: String, value: Bool)] = [(GoogleAnalyticsKPIs.Test.rawValue, true)]
+    var googleAnalyticsKPIArray: [(SettingName: String, value: Bool)] = []
     var hubspotCRMKPIs: [HubSpotCRMKPIs] = []
-    var hubSpotCRMKPIArray: [(SettingName: String, value: Bool)] = [(HubSpotCRMKPIs.Test.rawValue, true)]
+    var hubSpotCRMKPIArray: [(SettingName: String, value: Bool)] = []
     var paypalKPIs: [PayPalKPIs] = []
-    var payPalKPIArray: [(SettingName: String, value: Bool)] = [(PayPalKPIs.Test.rawValue, true)]
+    var payPalKPIArray: [(SettingName: String, value: Bool)] = []
     var hubspotMarketingKPIs: [HubSpotMarketingKPIs] = []
-    var hubSpotMarketingKPIArray: [(SettingName: String, value: Bool)] = [(HubSpotMarketingKPIs.Test.rawValue, true)]
+    var hubSpotMarketingKPIArray: [(SettingName: String, value: Bool)] = []
     
     //MARK: User's KPI
     var department: Departments {
@@ -148,6 +148,44 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    //MARK: - Create arrays for external services KPI
+    func createExternalServisecArrays() {
+
+        for saleforceKPI in iterateEnum(SalesForceKPIs.self) {
+            saleForceKPIArray.append((saleforceKPI.rawValue, false))
+        }
+        for quickbookKPI in iterateEnum(QiuckBooksKPIs.self) {
+            quickBooksKPIArray.append((quickbookKPI.rawValue, false))
+        }
+        for googleAnalyticsKPI in iterateEnum(GoogleAnalyticsKPIs.self) {
+            googleAnalyticsKPIArray.append((googleAnalyticsKPI.rawValue, false))
+        }
+        for hubSpotmarketingKPI in iterateEnum(HubSpotMarketingKPIs.self) {
+            hubSpotMarketingKPIArray.append((hubSpotmarketingKPI.rawValue, false))
+        }
+        for payPalKPI in iterateEnum(PayPalKPIs.self) {
+            payPalKPIArray.append((payPalKPI.rawValue, false))
+        }
+        for hubSpotCrmKPI in iterateEnum(HubSpotCRMKPIs.self) {
+            hubSpotCRMKPIArray.append((hubSpotCrmKPI.rawValue, false))
+        }
+    }
+    
+    //MARK: Enum iterator method
+    func iterateEnum<T: Hashable>(_: T.Type) -> AnyIterator<T> {
+        var i = 0
+        return AnyIterator {
+            let next = withUnsafePointer(to: &i) {
+                $0.withMemoryRebound(to: T.self, capacity: 1) { $0.pointee }
+            }
+            if next.hashValue != i { return nil }
+            i += 1
+            return next
+        }
+    }
+    
+    
     
     //MARK: - updateKPIArray method
     func updateKPIArray() {
@@ -755,6 +793,7 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate {
                 self.tableView.isScrollEnabled = true
             } else {
                 self.tableView.isScrollEnabled = false
+                createExternalServisecArrays()
             }
         case .Service:
             switch integrated {

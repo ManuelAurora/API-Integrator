@@ -36,29 +36,31 @@ class SelectIntegratedServicesViewController: UIViewController {
     
     @IBAction func buttonDidTaped(_ sender: UIButton) {
         
-        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "SelectSettingForKPI") as! KPISelectSettingTableViewController
+        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ConfigureExternal") as! ExternalKPIViewController
+        
+        //let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "SelectSettingForKPI") as! KPISelectSettingTableViewController
         destinatioVC.ChoseSuggestedVC = chooseSuggestKPIVC
-        destinatioVC.selectSeveralEnable = true
+        //destinatioVC.selectSeveralEnable = true
         
         switch sender {
         case saleforceButton:
-            destinatioVC.selectSetting = saleForceKPIArray
-            destinatioVC.integratedService = .SalesForce
+            destinatioVC.serviceKPI = saleForceKPIArray
+            destinatioVC.servive = .SalesForce
         case quickbooksButton:
-            destinatioVC.selectSetting = quickBooksKPIArray
-            destinatioVC.integratedService = .Quickbooks
+            destinatioVC.serviceKPI = quickBooksKPIArray
+            destinatioVC.servive = .Quickbooks
         case googleAnalyticsButton:
-            destinatioVC.selectSetting = googleAnalyticsKPIArray
-            destinatioVC.integratedService = .GoogleAnalytics
+            destinatioVC.serviceKPI = googleAnalyticsKPIArray
+            destinatioVC.servive = .GoogleAnalytics
         case hubSpotCRMButton:
-            destinatioVC.selectSetting = hubSpotCRMKPIArray
-            destinatioVC.integratedService = .HubSpotCRM
+            destinatioVC.serviceKPI = hubSpotCRMKPIArray
+            destinatioVC.servive = .HubSpotCRM
         case payPalButton:
-            destinatioVC.selectSetting = payPalKPIArray
-            destinatioVC.integratedService = .PayPal
+            destinatioVC.serviceKPI = payPalKPIArray
+            destinatioVC.servive = .PayPal
         case hubSpotButton:
-            destinatioVC.selectSetting = hubSpotMarketingKPIArray
-            destinatioVC.integratedService = .HubSpotMarketing
+            destinatioVC.serviceKPI = hubSpotMarketingKPIArray
+            destinatioVC.servive = .HubSpotMarketing
         default:
             break
         }
