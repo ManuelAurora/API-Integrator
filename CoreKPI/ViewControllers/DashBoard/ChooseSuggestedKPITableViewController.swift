@@ -23,6 +23,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     
     var model: ModelCoreKPI!
     weak var KPIListVC: KPIsListTableViewController!
+    let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     
     enum TypeOfSetting: String {
         case none
@@ -59,6 +60,10 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     var payPalKPIArray: [(SettingName: String, value: Bool)] = []
     var hubspotMarketingKPIs: [HubSpotMarketingKPIs] = []
     var hubSpotMarketingKPIArray: [(SettingName: String, value: Bool)] = []
+    
+    var oauthToken: String?
+    var oauthRefreshToken: String?
+    var oauthTokenExpiresAt: Date?
     
     //MARK: User's KPI
     var department: Departments {
@@ -699,9 +704,48 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 showAlert(title: "Error", message: "One ore more parameters are not selected")
                 return
             }
+            var arrayOfKPI: [(SettingName: String, value: Bool)] = []
+            switch integrated {
+            case .SalesForce:
+                arrayOfKPI = saleForceKPIArray
+            case .Quickbooks:
+                arrayOfKPI = quickBooksKPIArray
+            case .GoogleAnalytics:
+                arrayOfKPI = googleAnalyticsKPIArray
+            case .PayPal:
+                arrayOfKPI = payPalKPIArray
+            case .HubSpotCRM:
+                arrayOfKPI = hubSpotCRMKPIArray
+            case .HubSpotMarketing:
+                arrayOfKPI = hubSpotMarketingKPIArray
+            default:
+                break
+            }
             
-            let integratedKPI = IntegratedKPI(service: integrated, saleForceKPIs: saleForceKPIs, quickBookKPIs: quickBooksKPIs, googleAnalytics: googleAnalyticsKPIs, hubSpotCRMKPIs: hubspotCRMKPIs, payPalKPIs: paypalKPIs, hubSpotMarketingKPIs: hubspotMarketingKPIs)
-            kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: integratedKPI, createdKPI: nil, imageBacgroundColour: UIColor.clear)
+            for extKpi in arrayOfKPI {
+                if extKpi.value {
+                    let externalKPI = ExternalKPI(context: context)
+                    externalKPI.serviceName = integrated.rawValue
+                    externalKPI.kpiName = extKpi.SettingName
+                    externalKPI.oauthToken = oauthToken
+                    externalKPI.oauthRefreshToken = oauthRefreshToken
+                    externalKPI.oauthTokenExpiresAt = oauthTokenExpiresAt! as NSDate
+                    
+                    kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: externalKPI, createdKPI: nil, imageBacgroundColour: UIColor.clear)
+                    
+                    self.delegate = self.KPIListVC
+                    self.delegate.addNewKPI(kpi: kpi)
+
+                }
+            }
+            
+            let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
+            _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
+
+            
+            
+//            let integratedKPI = IntegratedKPI(service: integrated, saleForceKPIs: saleForceKPIs, quickBookKPIs: quickBooksKPIs, googleAnalytics: googleAnalyticsKPIs, hubSpotCRMKPIs: hubspotCRMKPIs, payPalKPIs: paypalKPIs, hubSpotMarketingKPIs: hubspotMarketingKPIs)
+//            kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: integratedKPI, createdKPI: nil, imageBacgroundColour: UIColor.clear)
         case .User:
             if department == .none || kpiName == nil || executant == nil || (timeInterval == TimeInterval.Weekly && weeklyInterval == WeeklyInterval.none) || (timeInterval == TimeInterval.Monthly && mounthlyInterval == nil) || timeZone == nil || deadline == nil {
                 showAlert(title: "Error", message: "One ore more parameters are not selected")
@@ -718,23 +762,22 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
             let userKPI = CreatedKPI(source: .User, department: department, KPI: kpiName!, descriptionOfKPI: kpiDescription, executant: executantProfile, timeInterval: timeInterval, timeZone: timeZone!, deadline: deadline!, number: [])
             kpi = KPI(kpiID: 0, typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: userKPI, imageBacgroundColour: UIColor.clear)
             
+            let request = AddKPI(model: model)
+            request.addKPI(kpi: kpi, success: { id in
+                kpi.id = id
+                self.delegate = self.KPIListVC
+                self.delegate.addNewKPI(kpi: kpi)
+                let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
+                _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
+            }, failure: { error in
+                self.showAlert(title: "Sorry", message: error)
+                
+            }
+            )
         default:
             self.showAlert(title: "Error", message: "Select a Sourse please")
             return
         }
-        
-        let request = AddKPI(model: model)
-        request.addKPI(kpi: kpi, success: { id in
-            kpi.id = id
-            self.delegate = self.KPIListVC
-            self.delegate.addNewKPI(kpi: kpi)
-            let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
-            _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
-        }, failure: { error in
-            self.showAlert(title: "Sorry", message: error)
-            
-        }
-        )
     }
     
     //MARK: - Show KPISelectSettingTableViewController method
@@ -953,5 +996,12 @@ extension ChooseSuggestedKPITableViewController: UpdateTimeDelegate {
         tableView.reloadRows(at: [indexPath], with: .automatic)
         
     }
-    
+}
+
+extension ChooseSuggestedKPITableViewController: UpdateExternalTokensDelegate {
+    func updateTokens(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date) {
+        self.oauthToken = oauthToken
+        self.oauthRefreshToken = oauthRefreshToken
+        self.oauthTokenExpiresAt = oauthTokenExpiresAt
+    }
 }

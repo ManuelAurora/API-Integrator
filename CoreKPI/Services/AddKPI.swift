@@ -18,7 +18,7 @@ class AddKPI: Request {
         case .createdKPI:
             data = ["name" : (kpi.createdKPI?.KPI)!, "description" : kpi.createdKPI?.descriptionOfKPI ?? "nil", "department" : (kpi.createdKPI?.department.rawValue)!, "responsible_id" : (kpi.createdKPI?.executant)!, "interval" : (kpi.createdKPI?.timeInterval.rawValue)!, "delivery_day" : 1] //deadline!
         case .IntegratedKPI:
-            data = ["name" : (kpi.integratedKPI?.service.rawValue)!, "description" : (kpi.integratedKPI?.service.rawValue)!, "department" : "", "responsible_id" : "", "interval" : "", "delivery_day" : ""]
+            break//data = ["name" : (kpi.integratedKPI?.serviceName)!, "description" : (kpi.integratedKPI?.service.rawValue)!, "department" : "", "responsible_id" : "", "interval" : "", "delivery_day" : ""]
         }
         
         self.getJson(category: "/kpi/addKPI", data: data,

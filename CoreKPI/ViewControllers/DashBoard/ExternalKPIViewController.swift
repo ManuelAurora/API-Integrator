@@ -8,17 +8,19 @@
 
 import UIKit
 import OAuthSwift
+import Alamofire
 
 class ExternalKPIViewController: OAuthViewController {
     
     @IBOutlet weak var tableView: UITableView!
-
+    
     var oauthswift: OAuthSwift?
     
     weak var ChoseSuggestedVC: ChooseSuggestedKPITableViewController!
     var servive: IntegratedServices!
     var serviceKPI: [(SettingName: String, value: Bool)]!
-    var delegate: updateSettingsDelegate!
+    var tokenDelegate: UpdateExternalTokensDelegate!
+    var settingDelegate: updateSettingsDelegate!
     let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
     override func viewDidLoad() {
@@ -26,7 +28,7 @@ class ExternalKPIViewController: OAuthViewController {
         navigationItem.title = servive.rawValue + " KPI"
         tableView.tableFooterView = UIView(frame: .zero)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -45,7 +47,7 @@ class ExternalKPIViewController: OAuthViewController {
         }
         
     }
-
+    
     func showAlert(title: String, message: String) {
         let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -118,7 +120,7 @@ extension ExternalKPIViewController {
         oauthswift.authorizeURLHandler = SafariURLHandler(viewController: self, oauthSwift: oauthswift)
         let state = generateState(withLength: 20)
         let _ = oauthswift.authorize(
-            withCallbackURL: URL(string: "com.smichrissoft.mobile.android.corekpi:/oauth2callback")!, scope: "full", state: state,
+            withCallbackURL: URL(string: "CoreKPI.CoreKPI:/oauth2Callback")!, scope: "full", state: state,
             success: { credential, response, parameters in
                 self.showAlert(title: "saleForce", message: credential.oauthToken)
         },
@@ -147,36 +149,13 @@ extension ExternalKPIViewController {
             accessTokenUrl: "https://accounts.google.com/o/oauth2/token",
             responseType:   "code"
         )
-        
-
-        
-        // For googgle the redirect_uri should match your this syntax: your.bundle.id:/oauth2Callback
         self.oauthswift = oauthswift
         oauthswift.allowMissingStateCheck = true
-        oauthswift.authorizeURLHandler = SafariURLHandler(viewController: self, oauthSwift: oauthswift) //"urn:ietf:wg:oauth:2.0:oob"
-        // in plist define a url schem with: your.bundle.id:
+        oauthswift.authorizeURLHandler = SafariURLHandler(viewController: self, oauthSwift: oauthswift) // magic redirect - "urn:ietf:wg:oauth:2.0:oob"
         let _ = oauthswift.authorize(
-            withCallbackURL: URL(string: "CoreKPI.CoreKPI:/oauth2Callback")!, scope: "https://www.googleapis.com/auth/analytics.readonly", state: "",
+            withCallbackURL: URL(string: "CoreKPI.CoreKPI:/oauth2Callback")!, scope: "https://www.googleapis.com/auth/analytics.readonly", state: "123",
             success: { credential, response, parameters in
-                self.showAlert(title: "Google", message: credential.oauthToken)
-                //let parameters =  Dictionary<String, AnyObject>()
-                // Multi-part upload
-                let _ = oauthswift.client.post("", success: { response in
-                    let jsonDict = try? response.jsonObject()
-                    print("SUCCESS: \(jsonDict)")
-                }, failure: { error in
-                    print(error)
-                })
-//                let _ = oauthswift.client.postImage(
-//                    "https://www.googleapis.com/upload/drive/v2/files", parameters: parameters, image:  UIImagePNGRepresentation(#imageLiteral(resourceName: "SaleForce"))!,
-//                    success: { response in
-//                        let jsonDict = try? response.jsonObject()
-//                        print("SUCCESS: \(jsonDict)")
-//                },
-//                    failure: { error in
-//                        print(error)
-//                }
-//                )
+                self.saveData(credential: credential)
         },
             failure: { error in
                 print("ERROR: \(error.localizedDescription)")
@@ -192,4 +171,23 @@ extension ExternalKPIViewController {
     // MARK: HubSpotCRM
     func doOAuthHubSpotCRM(){
     }
+    
+    func saveData(credential: OAuthSwiftCredential) {
+        //test
+        let google = GoogleAnalytics(oauthToken: credential.oauthToken, oauthRefreshToken: credential.oauthRefreshToken, oauthTokenExpiresAt: credential.oauthTokenExpiresAt!)
+        google.getAnalytics()
+        //test
+        
+        let oauthToken = credential.oauthToken
+        let oauthRefreshToken = credential.oauthRefreshToken
+        let oauthTokenExpiresAt = credential.oauthTokenExpiresAt
+        ChoseSuggestedVC.integrated = servive
+        settingDelegate = ChoseSuggestedVC
+        settingDelegate.updateSettingsArray(array: serviceKPI)
+        tokenDelegate = ChoseSuggestedVC
+        tokenDelegate.updateTokens(oauthToken: oauthToken, oauthRefreshToken: oauthRefreshToken, oauthTokenExpiresAt: oauthTokenExpiresAt!)
+        let stackVC = navigationController?.viewControllers
+        _ = navigationController?.popToViewController((stackVC?[(stackVC?.count)! - 3])!, animated: true)
+    }
+    
 }

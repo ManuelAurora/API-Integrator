@@ -38,9 +38,7 @@ class SelectIntegratedServicesViewController: UIViewController {
         
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ConfigureExternal") as! ExternalKPIViewController
         
-        //let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "SelectSettingForKPI") as! KPISelectSettingTableViewController
         destinatioVC.ChoseSuggestedVC = chooseSuggestKPIVC
-        //destinatioVC.selectSeveralEnable = true
         
         switch sender {
         case saleforceButton:

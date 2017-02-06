@@ -88,6 +88,7 @@ class LaunchViewController: UIViewController {
     func getDataFromCoreData() {
         let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
         do {
+            //model.alerts = try context.fetch(Alert.fetchRequest())
             model.team = try context.fetch(Team.fetchRequest())
         } catch {
             print("Fetching faild")

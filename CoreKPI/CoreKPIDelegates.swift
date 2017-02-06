@@ -50,3 +50,7 @@ protocol AlertButtonCellDelegate {
 protocol UpdateTimeDelegate {
     func updateTime(newTime time: Date)
 }
+
+protocol UpdateExternalTokensDelegate {
+    func updateTokens(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date)
+}

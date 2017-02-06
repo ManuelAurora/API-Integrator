@@ -28,9 +28,17 @@
 		A2279D861E14EC3B00669EB0 /* DashboardsNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2279D851E14EC3B00669EB0 /* DashboardsNavigationViewController.swift */; };
 		A22EF0661E0901A20004DDB7 /* ModelCoreKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */; };
 		A235CB321E0ACD5200636888 /* AllertSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A235CB311E0ACD5100636888 /* AllertSettingsTableViewController.swift */; };
-		A23DE26F1E473BB00018176B /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A23DE26E1E473BB00018176B /* OAuthSwift.framework */; };
-		A23DE2701E473BB00018176B /* OAuthSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A23DE26E1E473BB00018176B /* OAuthSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A2425CB41E1CE8EE00DFDF91 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */; };
+		A24A84031E486DD400440151 /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84021E486DD400440151 /* OAuthSwift.framework */; };
+		A24A84041E486DD400440151 /* OAuthSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84021E486DD400440151 /* OAuthSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A24A84071E486DF500440151 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84061E486DF500440151 /* Alamofire.framework */; };
+		A24A84081E486DF500440151 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84061E486DF500440151 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A24A840A1E486EFE00440151 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84091E486EFE00440151 /* Charts.framework */; };
+		A24A840B1E486EFE00440151 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84091E486EFE00440151 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A24A840E1E4898EF00440151 /* GoogleAnalyticsRequestDataCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24A840D1E4898EF00440151 /* GoogleAnalyticsRequestDataCreator.swift */; };
+		A24A84111E48992100440151 /* GoogleAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24A84101E48992100440151 /* GoogleAnalytics.swift */; };
+		A24A84131E48BD8B00440151 /* EVReflection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84121E48BD8B00440151 /* EVReflection.framework */; };
+		A24A84141E48BD8B00440151 /* EVReflection.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84121E48BD8B00440151 /* EVReflection.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A258A70B1E20D47700FBFBDF /* KPISelectSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A258A70A1E20D47700FBFBDF /* KPISelectSettingTableViewController.swift */; };
 		A258A70D1E21177000FBFBDF /* SelectIntegratedServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A258A70C1E21177000FBFBDF /* SelectIntegratedServicesViewController.swift */; };
 		A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25B4A561E0275B400F315F9 /* CustomTextField.swift */; };
@@ -60,7 +68,6 @@
 		A27820971E001530009F83DB /* RequestServise.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27820961E001530009F83DB /* RequestServise.swift */; };
 		A2844B3C1E0BC842002E297A /* MemberEditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2844B3B1E0BC842002E297A /* MemberEditTableViewCell.swift */; };
 		A28889911E4206DC00113220 /* AddAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28889901E4206DC00113220 /* AddAlert.swift */; };
-		A28BAB0B1E447718006C03AF /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A018E11E235F1800198E1A /* Alamofire.framework */; };
 		A297F5B01E08233100F85963 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5AF1E08233100F85963 /* MainTabBarViewController.swift */; };
 		A297F5B31E08233A00F85963 /* MemberEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5B11E08233A00F85963 /* MemberEditViewController.swift */; };
 		A297F5B41E08233A00F85963 /* MemberInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5B21E08233A00F85963 /* MemberInfoViewController.swift */; };
@@ -81,7 +88,6 @@
 		A297F5DF1E08248000F85963 /* NewProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5DC1E08248000F85963 /* NewProfileTableViewCell.swift */; };
 		A297F5E01E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5DD1E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift */; };
 		A297F5E11E08248000F85963 /* TypeAccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5DE1E08248000F85963 /* TypeAccountTableViewCell.swift */; };
-		A2A018E31E235F1800198E1A /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A2A018E11E235F1800198E1A /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A2A215511E124AB800EEBCA2 /* AlertSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A215501E124AB800EEBCA2 /* AlertSettingTableViewCell.swift */; };
 		A2A215531E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A215521E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift */; };
 		A2A7D5111E41B0E5008779A0 /* CellsCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A7D5101E41B0E5008779A0 /* CellsCreator.swift */; };
@@ -103,8 +109,6 @@
 		A2C9FD261E13E1CD00433D43 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD251E13E1CD00433D43 /* style.css */; };
 		A2C9FD291E13E1D400433D43 /* Rd3.v3.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */; };
 		A2C9FD2A1E13E1D400433D43 /* round.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD281E13E1D400433D43 /* round.js */; };
-		A2CD7B521E44790000170819 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2CD7B511E44790000170819 /* Charts.framework */; };
-		A2CD7B541E44790700170819 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A2CD7B511E44790000170819 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A2E8F9FB1E3B1AB800046870 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E8F9FA1E3B1AB800046870 /* LaunchViewController.swift */; };
 		A2E8F9FD1E3B223500046870 /* EditKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E8F9FC1E3B223500046870 /* EditKPI.swift */; };
 		A2E8F9FF1E3B32D700046870 /* DeleteKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E8F9FE1E3B32D700046870 /* DeleteKPI.swift */; };
@@ -157,15 +161,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		A2A018E41E235F1800198E1A /* Embed Frameworks */ = {
+		A24A84051E486DD400440151 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				A2A018E31E235F1800198E1A /* Alamofire.framework in Embed Frameworks */,
-				A2CD7B541E44790700170819 /* Charts.framework in Embed Frameworks */,
-				A23DE2701E473BB00018176B /* OAuthSwift.framework in Embed Frameworks */,
+				A24A84141E48BD8B00440151 /* EVReflection.framework in Embed Frameworks */,
+				A24A840B1E486EFE00440151 /* Charts.framework in Embed Frameworks */,
+				A24A84041E486DD400440151 /* OAuthSwift.framework in Embed Frameworks */,
+				A24A84081E486DF500440151 /* Alamofire.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -194,8 +199,13 @@
 		A2279D851E14EC3B00669EB0 /* DashboardsNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardsNavigationViewController.swift; path = CoreKPI/ViewControllers/DashBoard/DashboardsNavigationViewController.swift; sourceTree = "<group>"; };
 		A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelCoreKPI.swift; sourceTree = "<group>"; };
 		A235CB311E0ACD5100636888 /* AllertSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllertSettingsTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AllertSettingsTableViewController.swift; sourceTree = "<group>"; };
-		A23DE26E1E473BB00018176B /* OAuthSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthSwift.framework; path = Carthage/Build/iOS/OAuthSwift.framework; sourceTree = "<group>"; };
 		A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		A24A84021E486DD400440151 /* OAuthSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthSwift.framework; path = Carthage/Build/iOS/OAuthSwift.framework; sourceTree = "<group>"; };
+		A24A84061E486DF500440151 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		A24A84091E486EFE00440151 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = Carthage/Build/iOS/Charts.framework; sourceTree = "<group>"; };
+		A24A840D1E4898EF00440151 /* GoogleAnalyticsRequestDataCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GoogleAnalyticsRequestDataCreator.swift; path = ExternalServices/GoogleAnalyticsRequestDataCreator.swift; sourceTree = "<group>"; };
+		A24A84101E48992100440151 /* GoogleAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GoogleAnalytics.swift; path = ExternalServices/GoogleAnalytics.swift; sourceTree = "<group>"; };
+		A24A84121E48BD8B00440151 /* EVReflection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EVReflection.framework; path = Carthage/Build/iOS/EVReflection.framework; sourceTree = "<group>"; };
 		A258A70A1E20D47700FBFBDF /* KPISelectSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPISelectSettingTableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/KPISelectSettingTableViewController.swift; sourceTree = "<group>"; };
 		A258A70C1E21177000FBFBDF /* SelectIntegratedServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectIntegratedServicesViewController.swift; path = CoreKPI/ViewControllers/DashBoard/SelectIntegratedServicesViewController.swift; sourceTree = "<group>"; };
 		A25B4A561E0275B400F315F9 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
@@ -251,7 +261,6 @@
 		A297F5DC1E08248000F85963 /* NewProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewProfileTableViewCell.swift; path = "CustomTableViewCells/Sign In:Up/NewProfileTableViewCell.swift"; sourceTree = "<group>"; };
 		A297F5DD1E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewProfileTypeAccountTableViewCell.swift; path = "CustomTableViewCells/Sign In:Up/NewProfileTypeAccountTableViewCell.swift"; sourceTree = "<group>"; };
 		A297F5DE1E08248000F85963 /* TypeAccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TypeAccountTableViewCell.swift; path = "CustomTableViewCells/Sign In:Up/TypeAccountTableViewCell.swift"; sourceTree = "<group>"; };
-		A2A018E11E235F1800198E1A /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		A2A215501E124AB800EEBCA2 /* AlertSettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertSettingTableViewCell.swift; path = CustomTableViewCells/AlertSettingTableViewCell.swift; sourceTree = "<group>"; };
 		A2A215521E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertSelectSettingTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AlertSelectSettingTableViewController.swift; sourceTree = "<group>"; };
 		A2A7D5101E41B0E5008779A0 /* CellsCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CellsCreator.swift; path = CoreKPI/CellsCreator.swift; sourceTree = "<group>"; };
@@ -273,7 +282,6 @@
 		A2C9FD251E13E1CD00433D43 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = style.css; path = "Graphics/Круговой/css/style.css"; sourceTree = "<group>"; };
 		A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Rd3.v3.min.js; path = "Graphics/Круговой/js/Rd3.v3.min.js"; sourceTree = "<group>"; };
 		A2C9FD281E13E1D400433D43 /* round.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = round.js; path = "Graphics/Круговой/js/round.js"; sourceTree = "<group>"; };
-		A2CD7B511E44790000170819 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = Carthage/Build/iOS/Charts.framework; sourceTree = "<group>"; };
 		A2E8F9FA1E3B1AB800046870 /* LaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LaunchViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/LaunchViewController.swift"; sourceTree = "<group>"; };
 		A2E8F9FC1E3B223500046870 /* EditKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditKPI.swift; path = Services/EditKPI.swift; sourceTree = "<group>"; };
 		A2E8F9FE1E3B32D700046870 /* DeleteKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteKPI.swift; path = Services/DeleteKPI.swift; sourceTree = "<group>"; };
@@ -313,9 +321,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A28BAB0B1E447718006C03AF /* Alamofire.framework in Frameworks */,
-				A2CD7B521E44790000170819 /* Charts.framework in Frameworks */,
-				A23DE26F1E473BB00018176B /* OAuthSwift.framework in Frameworks */,
+				A24A84131E48BD8B00440151 /* EVReflection.framework in Frameworks */,
+				A24A840A1E486EFE00440151 /* Charts.framework in Frameworks */,
+				A24A84031E486DD400440151 /* OAuthSwift.framework in Frameworks */,
+				A24A84071E486DF500440151 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,6 +357,43 @@
 				A26BEEAD1E3F870B00C2D2AC /* StackArea */,
 			);
 			name = Graphics;
+			sourceTree = "<group>";
+		};
+		A24A840C1E48941C00440151 /* CoreKPI API */ = {
+			isa = PBXGroup;
+			children = (
+				A27820961E001530009F83DB /* RequestServise.swift */,
+				A2F77E001E3B199400BB8318 /* LoginRequest.swift */,
+				A2F77E011E3B199400BB8318 /* RecoveryPassword.swift */,
+				A2F77E021E3B199400BB8318 /* RegistrationRequest.swift */,
+				A2F77DFE1E3B199400BB8318 /* GetNumberOfInvations.swift */,
+				A2F77E031E3B199400BB8318 /* SendInvation.swift */,
+				A2F77DFD1E3B199400BB8318 /* GetModelFromServer.swift */,
+				A2F77DFC1E3B199400BB8318 /* GetMemberList.swift */,
+				A2F77DF81E3B199400BB8318 /* ChangeProfile.swift */,
+				A2F77DF71E3B199400BB8318 /* ChangeNickname.swift */,
+				A2F77DF91E3B199400BB8318 /* ChangeUserRights.swift */,
+				A2F77DFA1E3B199400BB8318 /* DeleteUser.swift */,
+				A2F77DFB1E3B199400BB8318 /* GetKPIs.swift */,
+				A2F77DF61E3B199400BB8318 /* AddKPI.swift */,
+				A2E8F9FC1E3B223500046870 /* EditKPI.swift */,
+				A2E8F9FE1E3B32D700046870 /* DeleteKPI.swift */,
+				A26A40531E3B40D700108E5B /* AddReport.swift */,
+				A26A40551E3B424B00108E5B /* GetReports.swift */,
+				A2263B0F1E3B8174005C812D /* GetFAQ.swift */,
+				A2A7D5141E41B661008779A0 /* GetAlerts.swift */,
+				A28889901E4206DC00113220 /* AddAlert.swift */,
+			);
+			name = "CoreKPI API";
+			sourceTree = "<group>";
+		};
+		A24A840F1E4898FE00440151 /* External Services */ = {
+			isa = PBXGroup;
+			children = (
+				A24A84101E48992100440151 /* GoogleAnalytics.swift */,
+				A24A840D1E4898EF00440151 /* GoogleAnalyticsRequestDataCreator.swift */,
+			);
+			name = "External Services";
 			sourceTree = "<group>";
 		};
 		A26BEEAD1E3F870B00C2D2AC /* StackArea */ = {
@@ -420,27 +466,8 @@
 		A27820981E001539009F83DB /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				A27820961E001530009F83DB /* RequestServise.swift */,
-				A2F77E001E3B199400BB8318 /* LoginRequest.swift */,
-				A2F77E011E3B199400BB8318 /* RecoveryPassword.swift */,
-				A2F77E021E3B199400BB8318 /* RegistrationRequest.swift */,
-				A2F77DFE1E3B199400BB8318 /* GetNumberOfInvations.swift */,
-				A2F77E031E3B199400BB8318 /* SendInvation.swift */,
-				A2F77DFD1E3B199400BB8318 /* GetModelFromServer.swift */,
-				A2F77DFC1E3B199400BB8318 /* GetMemberList.swift */,
-				A2F77DF81E3B199400BB8318 /* ChangeProfile.swift */,
-				A2F77DF71E3B199400BB8318 /* ChangeNickname.swift */,
-				A2F77DF91E3B199400BB8318 /* ChangeUserRights.swift */,
-				A2F77DFA1E3B199400BB8318 /* DeleteUser.swift */,
-				A2F77DFB1E3B199400BB8318 /* GetKPIs.swift */,
-				A2F77DF61E3B199400BB8318 /* AddKPI.swift */,
-				A2E8F9FC1E3B223500046870 /* EditKPI.swift */,
-				A2E8F9FE1E3B32D700046870 /* DeleteKPI.swift */,
-				A26A40531E3B40D700108E5B /* AddReport.swift */,
-				A26A40551E3B424B00108E5B /* GetReports.swift */,
-				A2263B0F1E3B8174005C812D /* GetFAQ.swift */,
-				A2A7D5141E41B661008779A0 /* GetAlerts.swift */,
-				A28889901E4206DC00113220 /* AddAlert.swift */,
+				A24A840F1E4898FE00440151 /* External Services */,
+				A24A840C1E48941C00440151 /* CoreKPI API */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -487,9 +514,10 @@
 		A278209E1E001A0B009F83DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A23DE26E1E473BB00018176B /* OAuthSwift.framework */,
-				A2CD7B511E44790000170819 /* Charts.framework */,
-				A2A018E11E235F1800198E1A /* Alamofire.framework */,
+				A24A84121E48BD8B00440151 /* EVReflection.framework */,
+				A24A84091E486EFE00440151 /* Charts.framework */,
+				A24A84061E486DF500440151 /* Alamofire.framework */,
+				A24A84021E486DD400440151 /* OAuthSwift.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -758,7 +786,7 @@
 				A278205E1E001503009F83DB /* Sources */,
 				A278205F1E001503009F83DB /* Frameworks */,
 				A27820601E001503009F83DB /* Resources */,
-				A2A018E41E235F1800198E1A /* Embed Frameworks */,
+				A24A84051E486DD400440151 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -924,6 +952,7 @@
 				A20B6BD21E31F62800FAF86A /* User's KPI.swift in Sources */,
 				A297F5BB1E08234500F85963 /* faqTableViewController.swift in Sources */,
 				A297F5BA1E08234500F85963 /* faqDetailViewController.swift in Sources */,
+				A24A840E1E4898EF00440151 /* GoogleAnalyticsRequestDataCreator.swift in Sources */,
 				A21B46C91E22B046000890D3 /* iOSChartsTestViewController.swift in Sources */,
 				A26408F41E2239910034EEC2 /* ReportAndViewTableViewCell.swift in Sources */,
 				A22302C31E1F96B900C9D0B4 /* ReminderViewTableViewController.swift in Sources */,
@@ -1003,6 +1032,7 @@
 				A26A40561E3B424B00108E5B /* GetReports.swift in Sources */,
 				A2F77E0D1E3B199400BB8318 /* GetNumberOfInvations.swift in Sources */,
 				A297F5D21E08241900F85963 /* MemberListTableViewCell.swift in Sources */,
+				A24A84111E48992100440151 /* GoogleAnalytics.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

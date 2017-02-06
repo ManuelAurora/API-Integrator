@@ -25,7 +25,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         case .createdKPI:
             self.navigationItem.title = "Report"
         case .IntegratedKPI:
-            self.navigationItem.title = kpi.integratedKPI?.service.rawValue
+            self.navigationItem.title = kpi.integratedKPI?.serviceName
         }
     }
 

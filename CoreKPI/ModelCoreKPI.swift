@@ -102,23 +102,11 @@ class Profile {
     
 }
 
-//Alerts
-//struct Alert {
-//    var image: String
-//    var dataSource: DataSource
-//    var timeInterval: TimeInterval?
-//    var deliveryDay: String?
-//    var timeZone: String?
-//    var condition: Condition?
-//    var threshold: String?
-//    var deliveryTime: String
-//    var typeOfNotification: [TypeOfNotification]
-//}
-
 //KPI
 class KPI {
     var typeOfKPI: TypeOfKPI
-    var integratedKPI: IntegratedKPI?
+    var integratedKPI: ExternalKPI!
+    //var integratedKPI: IntegratedKPI?
     var createdKPI: CreatedKPI?
     var id: Int
     var image: ImageForKPIList? {
@@ -144,7 +132,7 @@ class KPI {
             }
             return nil
         case .IntegratedKPI:
-            let service = integratedKPI?.service
+            let service = IntegratedServices(rawValue: integratedKPI.serviceName!) //integratedKPI?.service
             switch service! {
             case .none:
                 return nil
@@ -169,7 +157,7 @@ class KPI {
     var KPIViewTwo: TypeOfKPIView? = TypeOfKPIView.Graph
     var KPIChartTwo: TypeOfChart? = TypeOfChart.PieChart
     
-    init(kpiID: Int ,typeOfKPI: TypeOfKPI, integratedKPI: IntegratedKPI?, createdKPI: CreatedKPI?, imageBacgroundColour: UIColor?) {
+    init(kpiID: Int ,typeOfKPI: TypeOfKPI, integratedKPI: ExternalKPI?, createdKPI: CreatedKPI?, imageBacgroundColour: UIColor?) {
         self.id = kpiID
         self.typeOfKPI = typeOfKPI
         self.integratedKPI = integratedKPI

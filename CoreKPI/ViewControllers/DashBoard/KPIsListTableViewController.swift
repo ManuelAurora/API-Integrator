@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import OAuthSwift
 
 //MARK: - Enums for setting
 enum Source: String {
@@ -121,7 +122,7 @@ class KPIsListTableViewController: UITableViewController {
             cell.KPIListNumber.isHidden = true
             cell.ManagedByStack.isHidden = true
             let integratedKPI = arrayOfKPI[indexPath.row].integratedKPI
-            cell.KPIListHeaderLabel.text = integratedKPI?.service.rawValue
+            cell.KPIListHeaderLabel.text = integratedKPI?.kpiName
         case .createdKPI:
             let createdKPI = arrayOfKPI[indexPath.row].createdKPI
             cell.KPIListHeaderLabel.text = createdKPI?.KPI
@@ -230,6 +231,7 @@ class KPIsListTableViewController: UITableViewController {
         request.getKPIsFromServer(success: { kpi in
             self.model.kpis = kpi
             self.arrayOfKPI = kpi
+            self.loadExternal()
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
             self.loadReports()
@@ -240,6 +242,20 @@ class KPIsListTableViewController: UITableViewController {
             self.tableView.reloadData()
         }
         )
+    }
+    
+    func loadExternal() {
+        let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
+        do {
+            let external = try context.fetch(ExternalKPI.fetchRequest())
+            for kpi in external {
+                let kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: (kpi as! ExternalKPI), createdKPI: nil, imageBacgroundColour: UIColor.clear)
+                arrayOfKPI.append(kpi)
+            }
+        } catch {
+            print("Fetching faild")
+        }
+
     }
     
     //MARK: Load reports
@@ -400,5 +416,26 @@ extension KPIsListTableViewController: KPIListButtonCellDelegate {
         model.kpis.remove(at: indexPath.row)
         arrayOfKPI.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .fade)
+    }
+}
+
+//MARK: - get External services data
+extension KPIsListTableViewController {
+    func getGoogleAnalyticsData() {
+
+        
+        
+        
+//        let parameters =  Dictionary<String, AnyObject>()
+//        let _ = oauthswift.client.postImage(
+//            "https://www.googleapis.com/upload/drive/v2/files", parameters: parameters, image: ),
+//            success: { response in
+//                let jsonDict = try? response.jsonObject()
+//                print("SUCCESS: \(jsonDict)")
+//        },
+//            failure: { error in
+//                print(error)
+//        }
+//        )
     }
 }
