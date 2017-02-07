@@ -106,7 +106,7 @@
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Sem/Desktop/CoreKPI/CoreKPI/ViewControllers/Alerts/AlertSelectSettingTableViewController.swift"
-                  timestampString = "508086106.5068"
+                  timestampString = "508164039.526061"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "17"
@@ -121,7 +121,7 @@
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Sem/Desktop/CoreKPI/CoreKPI/ViewControllers/Alerts/AlertSelectSettingTableViewController.swift"
-                  timestampString = "508086106.508332"
+                  timestampString = "508164039.53136"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "17"
@@ -136,7 +136,7 @@
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Sem/Desktop/CoreKPI/CoreKPI/ViewControllers/Alerts/AlertSelectSettingTableViewController.swift"
-                  timestampString = "508086106.512882"
+                  timestampString = "508164039.545571"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "17"
@@ -151,7 +151,7 @@
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Sem/Desktop/CoreKPI/CoreKPI/ViewControllers/Alerts/AlertSelectSettingTableViewController.swift"
-                  timestampString = "508086106.521136"
+                  timestampString = "508164039.551585"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "17"
@@ -168,12 +168,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/ExternalServices/GoogleAnalytics.swift"
-            timestampString = "508084723.833132"
+            timestampString = "508162007.947905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "getAnalytics()"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "getAnalytics(viewId:success:failure:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -183,14 +183,46 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CoreKPI/ExternalServices/GoogleAnalytics.swift"
-            timestampString = "508085637.092709"
+            filePath = "CoreKPI/ExternalServices/GoogleAnalyticsRequestDataCreator.swift"
+            timestampString = "508161949.33511"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
-            landmarkName = "getAnalytics()"
-            landmarkType = "7">
+            startingLineNumber = "249"
+            endingLineNumber = "249"
+            landmarkName = "Report"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CoreKPI.Report.columnHeader.getter : CoreKPI.Report.ColumnHeader"
+                  moduleName = "CoreKPI"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Sem/Desktop/CoreKPI/CoreKPI/ExternalServices/GoogleAnalyticsRequestDataCreator.swift"
+                  timestampString = "508164039.574414"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "249"
+                  endingLineNumber = "249"
+                  offsetFromSymbolStart = "79">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CoreKPI.Report.columnHeader.setter : CoreKPI.Report.ColumnHeader"
+                  moduleName = "CoreKPI"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Sem/Desktop/CoreKPI/CoreKPI/ExternalServices/GoogleAnalyticsRequestDataCreator.swift"
+                  timestampString = "508164039.57962"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "249"
+                  endingLineNumber = "249"
+                  offsetFromSymbolStart = "157">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -112,8 +112,5 @@ class SuggestedKPIDescriptionTableViewController: UITableViewController {
         let vc = self.navigationController?.viewControllers[1] as! ChooseSuggestedKPITableViewController
         _ = self.navigationController?.popToViewController(vc, animated: true)
     }
-
-    
-
     
 }

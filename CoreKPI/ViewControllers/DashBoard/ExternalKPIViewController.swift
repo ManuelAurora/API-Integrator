@@ -155,7 +155,8 @@ extension ExternalKPIViewController {
         let _ = oauthswift.authorize(
             withCallbackURL: URL(string: "CoreKPI.CoreKPI:/oauth2Callback")!, scope: "https://www.googleapis.com/auth/analytics.readonly", state: "123",
             success: { credential, response, parameters in
-                self.saveData(credential: credential)
+                self.selectViewID(credential: credential)
+                //self.saveData(credential: credential)
         },
             failure: { error in
                 print("ERROR: \(error.localizedDescription)")
@@ -172,10 +173,32 @@ extension ExternalKPIViewController {
     func doOAuthHubSpotCRM(){
     }
     
-    func saveData(credential: OAuthSwiftCredential) {
+    //MARK: - get ViewID for google analytics
+    func selectViewID(credential: OAuthSwiftCredential) {
+        let request = GoogleAnalytics(oauthToken: credential.oauthToken, oauthRefreshToken: credential.oauthRefreshToken, oauthTokenExpiresAt: credential.oauthTokenExpiresAt!)
+        request.getViewID(success: { viewIDArray in
+            let alertVC = UIAlertController(title: "Select source", message: "Please!", preferredStyle: .actionSheet)
+            for viewID in viewIDArray {
+                alertVC.addAction(UIAlertAction(title: viewID.webSiteUri, style: .default, handler: { (UIAlertAction) in
+                    self.saveData(credential: credential, viewID: viewID)
+                }
+                ))
+            }
+            alertVC.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(alertVC, animated: true, completion: nil)
+        }, failure: { error in
+        self.showAlert(title: "Sorry", message: error)
+        }
+        )
+    }
+    
+    func saveData(credential: OAuthSwiftCredential, viewID: (viewID: String, webSiteUri: String)) {
         //test
         let google = GoogleAnalytics(oauthToken: credential.oauthToken, oauthRefreshToken: credential.oauthRefreshToken, oauthTokenExpiresAt: credential.oauthTokenExpiresAt!)
-        google.getAnalytics()
+        google.getAnalytics(viewId: viewID.viewID, success: {}, failure: { error in
+        self.showAlert(title: "Sorry", message: error)
+        }
+        )
         //test
         
         let oauthToken = credential.oauthToken

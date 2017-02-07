@@ -39,6 +39,7 @@
 		A24A84111E48992100440151 /* GoogleAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24A84101E48992100440151 /* GoogleAnalytics.swift */; };
 		A24A84131E48BD8B00440151 /* EVReflection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84121E48BD8B00440151 /* EVReflection.framework */; };
 		A24A84141E48BD8B00440151 /* EVReflection.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84121E48BD8B00440151 /* EVReflection.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A256F0601E49B631004DAF75 /* ExternalRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A256F05F1E49B631004DAF75 /* ExternalRequestService.swift */; };
 		A258A70B1E20D47700FBFBDF /* KPISelectSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A258A70A1E20D47700FBFBDF /* KPISelectSettingTableViewController.swift */; };
 		A258A70D1E21177000FBFBDF /* SelectIntegratedServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A258A70C1E21177000FBFBDF /* SelectIntegratedServicesViewController.swift */; };
 		A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25B4A561E0275B400F315F9 /* CustomTextField.swift */; };
@@ -206,6 +207,7 @@
 		A24A840D1E4898EF00440151 /* GoogleAnalyticsRequestDataCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GoogleAnalyticsRequestDataCreator.swift; path = ExternalServices/GoogleAnalyticsRequestDataCreator.swift; sourceTree = "<group>"; };
 		A24A84101E48992100440151 /* GoogleAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GoogleAnalytics.swift; path = ExternalServices/GoogleAnalytics.swift; sourceTree = "<group>"; };
 		A24A84121E48BD8B00440151 /* EVReflection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EVReflection.framework; path = Carthage/Build/iOS/EVReflection.framework; sourceTree = "<group>"; };
+		A256F05F1E49B631004DAF75 /* ExternalRequestService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExternalRequestService.swift; path = ExternalServices/ExternalRequestService.swift; sourceTree = "<group>"; };
 		A258A70A1E20D47700FBFBDF /* KPISelectSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPISelectSettingTableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/KPISelectSettingTableViewController.swift; sourceTree = "<group>"; };
 		A258A70C1E21177000FBFBDF /* SelectIntegratedServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectIntegratedServicesViewController.swift; path = CoreKPI/ViewControllers/DashBoard/SelectIntegratedServicesViewController.swift; sourceTree = "<group>"; };
 		A25B4A561E0275B400F315F9 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
@@ -390,10 +392,19 @@
 		A24A840F1E4898FE00440151 /* External Services */ = {
 			isa = PBXGroup;
 			children = (
+				A256F05F1E49B631004DAF75 /* ExternalRequestService.swift */,
+				A256F0611E49F56B004DAF75 /* GoogleAnalytics */,
+			);
+			name = "External Services";
+			sourceTree = "<group>";
+		};
+		A256F0611E49F56B004DAF75 /* GoogleAnalytics */ = {
+			isa = PBXGroup;
+			children = (
 				A24A84101E48992100440151 /* GoogleAnalytics.swift */,
 				A24A840D1E4898EF00440151 /* GoogleAnalyticsRequestDataCreator.swift */,
 			);
-			name = "External Services";
+			name = GoogleAnalytics;
 			sourceTree = "<group>";
 		};
 		A26BEEAD1E3F870B00C2D2AC /* StackArea */ = {
@@ -968,6 +979,7 @@
 				A22EF0661E0901A20004DDB7 /* ModelCoreKPI.swift in Sources */,
 				A2F77E091E3B199400BB8318 /* DeleteUser.swift in Sources */,
 				A297F5B41E08233A00F85963 /* MemberInfoViewController.swift in Sources */,
+				A256F0601E49B631004DAF75 /* ExternalRequestService.swift in Sources */,
 				A297F5BC1E08234500F85963 /* SupportMainTableViewController.swift in Sources */,
 				A2048BC71E3369A4008792D2 /* WKWebViewTestViewController.swift in Sources */,
 				A235CB321E0ACD5200636888 /* AllertSettingsTableViewController.swift in Sources */,

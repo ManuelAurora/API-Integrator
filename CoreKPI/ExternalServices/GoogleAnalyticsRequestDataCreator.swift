@@ -244,3 +244,82 @@ extension ReportRequest {
         let lifetimeValue: Bool
     }
 }
+
+class Report: EVObject {
+    var columnHeader: ColumnHeader
+    var data: ReportData
+    var nextPageToken: String = ""
+    
+    required init() {
+        let metricHeader = MetricHeader(metricHeaderEntries: [], pivotHeaders: [])
+        
+        columnHeader = ColumnHeader(dimensions: [], metricHeader: metricHeader)
+        data = ReportData(rows: [], totals: [], rowCount: 0, minimums: [], maximums: [], samplesReadCounts: [], samplingSpaceSizes: [], isDataGolden: false)
+    }
+    required convenience init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension Report {
+    
+    enum MetricType: String {
+        case METRIC_TYPE_UNSPECIFIED
+        case INTEGER
+        case FLOAT
+        case CURRENCY
+        case PERCENT
+        case TIME
+    }
+    
+    struct MetricHeaderEntry {
+        var name: String = ""
+        var type: String = ""//MetricType
+    }
+    
+    struct PivotHeaderEntry {
+        var dimensionNames: [String] = []
+        var dimensionValues: [String] = []
+        var metric: MetricHeaderEntry
+    }
+    
+    struct PivotHeader {
+        var pivotHeaderEntries: [PivotHeaderEntry] = []
+        var totalPivotGroupsCount: NSNumber = 0
+    }
+    
+    struct MetricHeader {
+        var metricHeaderEntries: [MetricHeaderEntry] = []
+        var pivotHeaders: [PivotHeader] = []
+    }
+    
+    struct ColumnHeader {
+        var dimensions: [String] = []
+        var metricHeader: MetricHeader
+    }
+    
+    struct PivotValueRegion {
+        var values: [String] = []
+    }
+    
+    struct DateRangeValues {
+        var values: [String] = []
+        var pivotValueRegions: [PivotValueRegion] = []
+    }
+    
+    struct ReportRow {
+        var dimensions: [String] = []
+        var metrics: [DateRangeValues] = []
+    }
+    
+    struct ReportData {
+        var rows: [ReportRow] = []
+        var totals: [DateRangeValues] = []
+        var rowCount: NSNumber = 0
+        var minimums: [DateRangeValues] = []
+        var maximums: [DateRangeValues] = []
+        var samplesReadCounts: [String] = []
+        var samplingSpaceSizes: [String] = []
+        var isDataGolden: Bool = false
+    }
+}
