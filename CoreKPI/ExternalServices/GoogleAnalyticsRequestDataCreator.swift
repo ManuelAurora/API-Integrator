@@ -8,6 +8,7 @@
 
 import Foundation
 import EVReflection
+import ObjectMapper
 
 class ReportRequest: EVObject {
     
@@ -245,19 +246,20 @@ extension ReportRequest {
     }
 }
 
-class Report: EVObject {
-    var columnHeader: ColumnHeader
-    var data: ReportData
-    var nextPageToken: String = ""
+class Report: Mappable {
+    var columnHeader: ColumnHeader?
+    var data: ReportData?
+    var nextPageToken: String?
     
-    required init() {
-        let metricHeader = MetricHeader(metricHeaderEntries: [], pivotHeaders: [])
+    required init?(map: Map) {
         
-        columnHeader = ColumnHeader(dimensions: [], metricHeader: metricHeader)
-        data = ReportData(rows: [], totals: [], rowCount: 0, minimums: [], maximums: [], samplesReadCounts: [], samplingSpaceSizes: [], isDataGolden: false)
     }
-    required convenience init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    
+    // Mappable
+    func mapping(map: Map) {
+        columnHeader  <- map["columnHeader"]
+        data          <- map["data"]
+        nextPageToken <- map["nextPageToken"]
     }
 }
 
@@ -273,19 +275,19 @@ extension Report {
     }
     
     struct MetricHeaderEntry {
-        var name: String = ""
-        var type: String = ""//MetricType
+        var name: String?
+        var type: MetricType
     }
     
     struct PivotHeaderEntry {
         var dimensionNames: [String] = []
         var dimensionValues: [String] = []
-        var metric: MetricHeaderEntry
+        var metric: MetricHeaderEntry?
     }
     
     struct PivotHeader {
         var pivotHeaderEntries: [PivotHeaderEntry] = []
-        var totalPivotGroupsCount: NSNumber = 0
+        var totalPivotGroupsCount: Int?
     }
     
     struct MetricHeader {
@@ -315,11 +317,11 @@ extension Report {
     struct ReportData {
         var rows: [ReportRow] = []
         var totals: [DateRangeValues] = []
-        var rowCount: NSNumber = 0
+        var rowCount: Int?
         var minimums: [DateRangeValues] = []
         var maximums: [DateRangeValues] = []
         var samplesReadCounts: [String] = []
         var samplingSpaceSizes: [String] = []
-        var isDataGolden: Bool = false
+        var isDataGolden: Bool?
     }
 }

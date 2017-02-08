@@ -64,6 +64,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     var oauthToken: String?
     var oauthRefreshToken: String?
     var oauthTokenExpiresAt: Date?
+    var viewID: String?
     
     //MARK: User's KPI
     var department: Departments {
@@ -731,6 +732,18 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     externalKPI.oauthRefreshToken = oauthRefreshToken
                     externalKPI.oauthTokenExpiresAt = oauthTokenExpiresAt! as NSDate
                     
+                    let googleKPI = GoogleKPI(context: context)
+                    googleKPI.viewID = viewID
+                    externalKPI.googleAnalyticsKPI = googleKPI
+                    //externalKPI.viewID = viewID
+                    
+                    do {
+                        try self.context.save()
+                    } catch {
+                        print(error)
+                        return
+                    }
+                    
                     kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: externalKPI, createdKPI: nil, imageBacgroundColour: UIColor.clear)
                     
                     self.delegate = self.KPIListVC
@@ -999,9 +1012,10 @@ extension ChooseSuggestedKPITableViewController: UpdateTimeDelegate {
 }
 
 extension ChooseSuggestedKPITableViewController: UpdateExternalTokensDelegate {
-    func updateTokens(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date) {
+    func updateTokens(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date, viewID: String) {
         self.oauthToken = oauthToken
         self.oauthRefreshToken = oauthRefreshToken
         self.oauthTokenExpiresAt = oauthTokenExpiresAt
+        self.viewID = viewID
     }
 }

@@ -22,6 +22,7 @@ class KPIsListTableViewController: UITableViewController {
     var arrayOfKPI: [KPI] = []
     
     let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
+    let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -193,8 +194,15 @@ class KPIsListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let deleteAction =  UITableViewRowAction(style: .default, title: "Delete", handler: {
             (action, indexPath) -> Void in
-            self.deleteKPI(kpiID: self.model.kpis[indexPath.row].id)
-            self.model.kpis.remove(at: indexPath.row)
+            
+            if self.arrayOfKPI[indexPath.row].typeOfKPI == .IntegratedKPI {
+                self.context.delete(self.arrayOfKPI[indexPath.row].integratedKPI)
+                (UIApplication.shared .delegate as! AppDelegate).saveContext()
+            } else {
+                self.deleteKPI(kpiID: self.model.kpis[indexPath.row].id)
+                self.model.kpis.remove(at: indexPath.row)
+            }
+            
             self.arrayOfKPI.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
@@ -251,6 +259,7 @@ class KPIsListTableViewController: UITableViewController {
             for kpi in external {
                 let kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: (kpi as! ExternalKPI), createdKPI: nil, imageBacgroundColour: UIColor.clear)
                 arrayOfKPI.append(kpi)
+                getGoogleAnalyticsData(index: arrayOfKPI.count - 1)
             }
         } catch {
             print("Fetching faild")
@@ -273,7 +282,7 @@ class KPIsListTableViewController: UITableViewController {
                     let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "yyyy-mm-dd hh:mm:ss"
                     let date = dateFormatter.date(from: dateDtring!)
-                    newNumbers.append((date!,value!))
+                    newNumbers.append((date ?? Date(),value!)) //debug!
                 }
                 kpi.createdKPI?.number = newNumbers.sorted(by: { $0.0 < $1.0 })
                 self.tableView.reloadData()
@@ -421,21 +430,61 @@ extension KPIsListTableViewController: KPIListButtonCellDelegate {
 
 //MARK: - get External services data
 extension KPIsListTableViewController {
-    func getGoogleAnalyticsData() {
-
+    func getGoogleAnalyticsData(index: Int) {
+        let external = arrayOfKPI[index].integratedKPI
+        let request = GoogleAnalytics(oauthToken: (external?.oauthToken)!, oauthRefreshToken: (external?.oauthRefreshToken)!, oauthTokenExpiresAt: (external?.oauthTokenExpiresAt)! as Date)
         
+        var expression = ""
+        switch (GoogleAnalyticsKPIs(rawValue: (external?.kpiName)!))! {
+        case .UsersSessions:
+            expression = "ga:users/ga:sessions"
+        case .AudienceOverview:
+            expression = "ga:userAgeBracket"
+        case .GoalOverview:
+            expression = "ga:users"
+        case .TopPagesByPageviews:
+            expression = "ga:users"
+        case .TopSourcesBySessions:
+            expression = "ga:users"
+        case .TopOrganicKeywordsBySession:
+            expression = "ga:users"
+        case .TopChannelsBySessions:
+            expression = "ga:users"
+        case .RevenueTransactions:
+            expression = "ga:users"
+        case .EcommerceOverview:
+            expression = "ga:users"
+        case .RevenueByLandingPage:
+            expression = "ga:users"
+        case .RevenueByChannels:
+            expression = "ga:users"
+        case .TopKeywordsByRevenue:
+            expression = "ga:users"
+        case .TopSourcesByRevenue:
+            expression = "ga:users"
+        }
         
+        let param = ReportRequest(viewId: (external?.googleAnalyticsKPI?.viewID)!, startDate: "2017-01-01", endDate: "2017-02-01", expression: expression, alias: "", formattingType: "INTEGER")
         
-//        let parameters =  Dictionary<String, AnyObject>()
-//        let _ = oauthswift.client.postImage(
-//            "https://www.googleapis.com/upload/drive/v2/files", parameters: parameters, image: ),
-//            success: { response in
-//                let jsonDict = try? response.jsonObject()
-//                print("SUCCESS: \(jsonDict)")
-//        },
-//            failure: { error in
-//                print(error)
-//        }
-//        )
+        request.getAnalytics(param: param, success: { report in
+            print("ok")
+        }, failure: { error in
+            if error == "401" {
+                self.refreshAccessToken(external: external!, index: index)
+            }
+        }
+        )
+    }
+    
+    func refreshAccessToken(external: ExternalKPI, index: Int) {
+        let request = ExternalRequest(oauthToken: external.oauthToken!, oauthRefreshToken: external.oauthRefreshToken!, oauthTokenExpiresAt: external.oauthTokenExpiresAt as! Date)
+        request.updateAccessToken(servise: IntegratedServices(rawValue: external.serviceName!)!, success: { accessToken in
+            external.setValue(accessToken, forKey: "oauthToken")
+            self.getGoogleAnalyticsData(index: index)
+        }, failure: { error in
+            print(error)
+            //TODO: authorisation again
+        }
+        )
     }
 }

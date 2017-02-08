@@ -156,7 +156,6 @@ extension ExternalKPIViewController {
             withCallbackURL: URL(string: "CoreKPI.CoreKPI:/oauth2Callback")!, scope: "https://www.googleapis.com/auth/analytics.readonly", state: "123",
             success: { credential, response, parameters in
                 self.selectViewID(credential: credential)
-                //self.saveData(credential: credential)
         },
             failure: { error in
                 print("ERROR: \(error.localizedDescription)")
@@ -193,13 +192,6 @@ extension ExternalKPIViewController {
     }
     
     func saveData(credential: OAuthSwiftCredential, viewID: (viewID: String, webSiteUri: String)) {
-        //test
-        let google = GoogleAnalytics(oauthToken: credential.oauthToken, oauthRefreshToken: credential.oauthRefreshToken, oauthTokenExpiresAt: credential.oauthTokenExpiresAt!)
-        google.getAnalytics(viewId: viewID.viewID, success: {}, failure: { error in
-        self.showAlert(title: "Sorry", message: error)
-        }
-        )
-        //test
         
         let oauthToken = credential.oauthToken
         let oauthRefreshToken = credential.oauthRefreshToken
@@ -208,7 +200,7 @@ extension ExternalKPIViewController {
         settingDelegate = ChoseSuggestedVC
         settingDelegate.updateSettingsArray(array: serviceKPI)
         tokenDelegate = ChoseSuggestedVC
-        tokenDelegate.updateTokens(oauthToken: oauthToken, oauthRefreshToken: oauthRefreshToken, oauthTokenExpiresAt: oauthTokenExpiresAt!)
+        tokenDelegate.updateTokens(oauthToken: oauthToken, oauthRefreshToken: oauthRefreshToken, oauthTokenExpiresAt: oauthTokenExpiresAt!, viewID: viewID.viewID)
         let stackVC = navigationController?.viewControllers
         _ = navigationController?.popToViewController((stackVC?[(stackVC?.count)! - 3])!, animated: true)
     }

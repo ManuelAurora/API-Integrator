@@ -43,6 +43,8 @@
 		A258A70B1E20D47700FBFBDF /* KPISelectSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A258A70A1E20D47700FBFBDF /* KPISelectSettingTableViewController.swift */; };
 		A258A70D1E21177000FBFBDF /* SelectIntegratedServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A258A70C1E21177000FBFBDF /* SelectIntegratedServicesViewController.swift */; };
 		A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25B4A561E0275B400F315F9 /* CustomTextField.swift */; };
+		A25CA8531E4B21D8008B6331 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A25CA8521E4B21D8008B6331 /* ObjectMapper.framework */; };
+		A25CA8541E4B21D8008B6331 /* ObjectMapper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A25CA8521E4B21D8008B6331 /* ObjectMapper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A261D9181E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A261D9171E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift */; };
 		A261D91C1E129F1600638C56 /* DashboardSetingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A261D91B1E129F1600638C56 /* DashboardSetingTableViewCell.swift */; };
 		A261D9201E12A81000638C56 /* SuggestedKPIDescriptionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A261D91F1E12A81000638C56 /* SuggestedKPIDescriptionTableViewController.swift */; };
@@ -170,6 +172,7 @@
 			files = (
 				A24A84141E48BD8B00440151 /* EVReflection.framework in Embed Frameworks */,
 				A24A840B1E486EFE00440151 /* Charts.framework in Embed Frameworks */,
+				A25CA8541E4B21D8008B6331 /* ObjectMapper.framework in Embed Frameworks */,
 				A24A84041E486DD400440151 /* OAuthSwift.framework in Embed Frameworks */,
 				A24A84081E486DF500440151 /* Alamofire.framework in Embed Frameworks */,
 			);
@@ -211,6 +214,7 @@
 		A258A70A1E20D47700FBFBDF /* KPISelectSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPISelectSettingTableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/KPISelectSettingTableViewController.swift; sourceTree = "<group>"; };
 		A258A70C1E21177000FBFBDF /* SelectIntegratedServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectIntegratedServicesViewController.swift; path = CoreKPI/ViewControllers/DashBoard/SelectIntegratedServicesViewController.swift; sourceTree = "<group>"; };
 		A25B4A561E0275B400F315F9 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		A25CA8521E4B21D8008B6331 /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Build/iOS/ObjectMapper.framework; sourceTree = "<group>"; };
 		A261D9171E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseSuggestedKPITableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/ChooseSuggestedKPITableViewController.swift; sourceTree = "<group>"; };
 		A261D91B1E129F1600638C56 /* DashboardSetingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardSetingTableViewCell.swift; path = CustomTableViewCells/Dashboard/DashboardSetingTableViewCell.swift; sourceTree = "<group>"; };
 		A261D91F1E12A81000638C56 /* SuggestedKPIDescriptionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SuggestedKPIDescriptionTableViewController.swift; path = CoreKPI/ViewControllers/DashBoard/SuggestedKPIDescriptionTableViewController.swift; sourceTree = "<group>"; };
@@ -325,6 +329,7 @@
 			files = (
 				A24A84131E48BD8B00440151 /* EVReflection.framework in Frameworks */,
 				A24A840A1E486EFE00440151 /* Charts.framework in Frameworks */,
+				A25CA8531E4B21D8008B6331 /* ObjectMapper.framework in Frameworks */,
 				A24A84031E486DD400440151 /* OAuthSwift.framework in Frameworks */,
 				A24A84071E486DF500440151 /* Alamofire.framework in Frameworks */,
 			);
@@ -525,6 +530,7 @@
 		A278209E1E001A0B009F83DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A25CA8521E4B21D8008B6331 /* ObjectMapper.framework */,
 				A24A84121E48BD8B00440151 /* EVReflection.framework */,
 				A24A84091E486EFE00440151 /* Charts.framework */,
 				A24A84061E486DF500440151 /* Alamofire.framework */,
