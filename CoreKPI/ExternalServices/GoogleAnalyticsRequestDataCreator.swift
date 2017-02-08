@@ -274,47 +274,95 @@ extension Report {
         case TIME
     }
     
-    struct MetricHeaderEntry {
+    struct MetricHeaderEntry: Mappable {
         var name: String?
-        var type: MetricType
+        var type: MetricType?
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            name <- map["name"]
+            type <- map["type"]
+        }
     }
     
-    struct PivotHeaderEntry {
+    struct PivotHeaderEntry: Mappable {
         var dimensionNames: [String] = []
         var dimensionValues: [String] = []
         var metric: MetricHeaderEntry?
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            dimensionNames  <- map["dimensionNames"]
+            dimensionValues <- map["dimensionValues"]
+            metric          <- map["metric"]
+        }
     }
     
-    struct PivotHeader {
+    struct PivotHeader: Mappable {
         var pivotHeaderEntries: [PivotHeaderEntry] = []
         var totalPivotGroupsCount: Int?
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            pivotHeaderEntries    <- map["pivotHeaderEntries"]
+            totalPivotGroupsCount <- map["totalPivotGroupsCount"]
+        }
     }
     
-    struct MetricHeader {
+    struct MetricHeader: Mappable {
         var metricHeaderEntries: [MetricHeaderEntry] = []
         var pivotHeaders: [PivotHeader] = []
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            metricHeaderEntries <- map["metricHeaderEntries"]
+            pivotHeaders        <- map["pivotHeaders"]
+        }
     }
     
-    struct ColumnHeader {
+    struct ColumnHeader: Mappable {
         var dimensions: [String] = []
-        var metricHeader: MetricHeader
+        var metricHeader: MetricHeader?
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            dimensions   <- map["dimensions"]
+            metricHeader <- map["metricHeader"]
+        }
     }
     
-    struct PivotValueRegion {
+    struct PivotValueRegion: Mappable {
         var values: [String] = []
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            values   <- map["values"]
+        }
     }
     
-    struct DateRangeValues {
+    struct DateRangeValues: Mappable {
         var values: [String] = []
         var pivotValueRegions: [PivotValueRegion] = []
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            values            <- map["values"]
+            pivotValueRegions <- map["pivotValueRegions"]
+        }
     }
     
-    struct ReportRow {
+    struct ReportRow: Mappable {
         var dimensions: [String] = []
         var metrics: [DateRangeValues] = []
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            dimensions <- map["dimensions"]
+            metrics    <- map["metrics"]
+        }
     }
     
-    struct ReportData {
+    struct ReportData: Mappable {
         var rows: [ReportRow] = []
         var totals: [DateRangeValues] = []
         var rowCount: Int?
@@ -323,5 +371,18 @@ extension Report {
         var samplesReadCounts: [String] = []
         var samplingSpaceSizes: [String] = []
         var isDataGolden: Bool?
+        init?(map: Map) {
+        }
+
+        mutating func mapping(map: Map) {
+            rows              <- map["rows"]
+            totals            <- map["totals"]
+            rowCount          <- map["rowCount"]
+            minimums          <- map["minimums"]
+            maximums          <- map["maximums"]
+            samplesReadCounts <- map["samplesReadCounts"]
+            isDataGolden      <- map["isDataGolden"]
+            totals            <- map["totals"]
+        }
     }
 }

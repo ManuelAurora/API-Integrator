@@ -464,7 +464,7 @@ extension KPIsListTableViewController {
             expression = "ga:users"
         }
         
-        let param = ReportRequest(viewId: (external?.googleAnalyticsKPI?.viewID)!, startDate: "2017-01-01", endDate: "2017-02-01", expression: expression, alias: "", formattingType: "INTEGER")
+        let param = ReportRequest(viewId: (external?.googleAnalyticsKPI?.viewID)!, startDate: "2017-01-01", endDate: "2017-02-01", expression: expression, alias: "", formattingType: "FLOAT")
         
         request.getAnalytics(param: param, success: { report in
             print("ok")
