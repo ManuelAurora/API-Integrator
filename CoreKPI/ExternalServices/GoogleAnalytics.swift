@@ -37,7 +37,7 @@ class GoogleAnalytics: ExternalRequest {
         let url = "https://analyticsreporting.googleapis.com."
         let uri = "/v4/reports:batchGet"
     
-        let jsonString = param.toDictionary()
+        let jsonString = param.toJSON()
         
         let params: [String : Any] = ["reportRequests" : jsonString]
         let headers = ["Authorization" : "Bearer \(oauthToken)"]
@@ -45,8 +45,7 @@ class GoogleAnalytics: ExternalRequest {
         self.getJson(url: url+uri, header: headers, params: params, method: .post, success: { json in
             if let reports = json["reports"] as? NSArray {
                 let data = reports[0] as! NSDictionary
-                let jsonStr = data.toJsonString()
-                let rep = Report(JSONString: jsonStr)
+                let rep = Report(JSON: data as! [String : Any])
                 success(rep!)
             } else {
                 if let error = json["error"] as? NSDictionary {

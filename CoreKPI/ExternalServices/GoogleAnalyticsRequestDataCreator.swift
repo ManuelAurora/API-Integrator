@@ -7,79 +7,107 @@
 //
 
 import Foundation
-import EVReflection
 import ObjectMapper
 
-class ReportRequest: EVObject {
+class ReportRequest: Mappable {
     
     var viewId: String = ""
-    var dateRanges: [DateRange]
-    //var samplingLevel: Sampling?
-    //var dimensions: [Dimension]?
-    //var dimensionFilterClauses: [DimensionFilter]?
-    var metrics: [Metric]
-    //var metricFilterClauses: [MetricFilterClause]?
-    //var filtersExpression: String?
-    //var orderBys: [OrderBy]?
-    //var segments: [Segment]?
-    //var pivots: [Pivot]?
-    //var cohortGroup: CohortGroup?
+    var dateRanges: [DateRange] = []
+    var samplingLevel: Sampling?
+    var dimensions: [Dimension]?
+    var dimensionFilterClauses: [DimensionFilter]?
+    var metrics: [Metric] = []
+    var metricFilterClauses: [MetricFilterClause]?
+    var filtersExpression: String?
+    var orderBys: [OrderBy]?
+    var segments: [Segment]?
+    var pivots: [Pivot]?
+    var cohortGroup: CohortGroup?
     
-    //var pageToken: String?
-    //var pageSize: Int?
-    //var includeEmptyRows: Bool?
-    //var hideTotals: Bool?
-    //var hideValueRanges: Bool?
+    var pageToken: String?
+    var pageSize: Int?
+    var includeEmptyRows: Bool?
+    var hideTotals: Bool?
+    var hideValueRanges: Bool?
     
-    init(viewId: String, startDate: String, endDate: String, expression: String, alias: String, formattingType: String) {
+    required init?(map: Map) {
+    }
+    
+    init(viewId: String, startDate: String, endDate: String, expression: String, formattingType: String) {
         self.viewId = viewId
         self.dateRanges = [DateRange(startDate: startDate, endDate: endDate)]
-        self.metrics = [Metric(expression: expression, alias: alias, formattingType: MetricType(rawValue: formattingType)!)]
+        self.metrics = [Metric(expression: expression, formattingType: MetricType(rawValue: formattingType)!)]
     }
     
-    required convenience init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    required init() {
-        fatalError("init() has not been implemented")
+    // Mappable
+    func mapping(map: Map) {
+        viewId      <- map["viewId"]
+        dateRanges  <- map["dateRanges"]
+        metrics     <- map["metrics"]
     }
 }
 
 extension ReportRequest {
     
-    struct DateRange {
-        let startDate: String
-        let endDate: String
+    struct DateRange: Mappable {
+        var startDate: String?
+        var endDate: String?
+        
+        init?(map: Map) {
+        }
+        init(startDate: String, endDate: String) {
+            self.startDate = startDate
+            self.endDate = endDate
+        }
+        mutating func mapping(map: Map) {
+            startDate <- map["startDate"]
+            endDate   <- map["endDate"]
+        }
     }
     
-    enum Sampling {
+    enum Sampling: String {
         case SAMPLING_UNSPECIFIED
         case DEFAULT
         case SMALL
         case LARGE
     }
     
-    struct Dimension {
-        let name: String
-        let histogramBuckets: [String]
+    struct Dimension: Mappable {
+        var name: String?
+        var histogramBuckets: [String]? = []
+        
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            name             <- map["name"]
+            histogramBuckets <- map["histogramBuckets"]
+        }
     }
     
-    enum FilterLogicalOperator {
+    enum FilterLogicalOperator: String {
         case OPERATOR_UNSPECIFIED
         case OR
         case AND
     }
     
-    struct DimensionFilter {
-        let dimensionName: String
-        let not: Bool
-        let operat: Operator
-        let expressions: [String]
-        let caseSensitive: Bool
+    struct DimensionFilter: Mappable {
+        var dimensionName: String?
+        var not: Bool?
+        var operat: Operator?
+        var expressions: [String]? = []
+        var caseSensitive: Bool?
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            dimensionName <- map["dimensionName"]
+            not           <- map["not"]
+            operat        <- map["operator"]
+            expressions   <- map["expressions"]
+            caseSensitive <- map["caseSensitive"]
+        }
     }
     
-    enum Operator {
+    enum Operator: String {
         case OPERATOR_UNSPECIFIED
         case REGEXP
         case BEGINS_WITH
@@ -92,9 +120,16 @@ extension ReportRequest {
         case IN_LIST
     }
     
-    struct DimensionFilterClause {
-        let operat: FilterLogicalOperator
-        let filters: [DimensionFilter]
+    struct DimensionFilterClause: Mappable {
+        var operat: FilterLogicalOperator?
+        var filters: [DimensionFilter]? = []
+        
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            operat    <- map["operator"]
+            filters   <- map["filters"]
+        }
     }
     
     enum MetricType: String {
@@ -106,25 +141,50 @@ extension ReportRequest {
         case TIME
     }
     
-    struct Metric {
-        let expression: String
-        let alias: String
-        let formattingType: MetricType
+    struct Metric: Mappable {
+        var expression: String?
+        var alias: String?
+        var formattingType: MetricType?
+        init?(map: Map) {
+        }
+        init(expression: String, formattingType: MetricType) {
+            self.expression = expression
+            self.formattingType = formattingType
+        }
+        mutating func mapping(map: Map) {
+            expression     <- map["expression"]
+            alias          <- map["alias"]
+            formattingType <- map["formattingType"]
+        }
     }
     
-    struct MetricFilter {
-        let metricName: String
-        let not: Bool
-        let operat: Operator
-        let comparisonValue: String
+    struct MetricFilter: Mappable {
+        var metricName: String?
+        var not: Bool?
+        var operat: Operator?
+        var comparisonValue: String?
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            metricName      <- map["metricName"]
+            not             <- map["not"]
+            operat          <- map["operator"]
+            comparisonValue <- map["comparisonValue"]
+        }
     }
     
-    struct MetricFilterClause {
-        let operat: FilterLogicalOperator
-        let filters: MetricFilter
+    struct MetricFilterClause: Mappable {
+        var operat: FilterLogicalOperator?
+        var filters: MetricFilter?
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            operat  <- map["operator"]
+            filters <- map["filters"]
+        }
     }
     
-    enum OrderType {
+    enum OrderType: String {
         case ORDER_TYPE_UNSPECIFIED
         case VALUE
         case DELTA
@@ -133,28 +193,45 @@ extension ReportRequest {
         case DIMENSION_AS_INTEGER
     }
     
-    enum SortOrder {
+    enum SortOrder: String {
         case SORT_ORDER_UNSPECIFIED
         case ASCENDING
         case DESCENDING
     }
     
-    struct OrderBy {
-        let fieldName: String
-        let orderType: OrderType
-        let sortOrder: SortOrder
+    struct OrderBy: Mappable {
+        var fieldName: String?
+        var orderType: OrderType?
+        var sortOrder: SortOrder?
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            fieldName <- map["fieldName"]
+            orderType <- map["orderType"]
+            sortOrder <- map["sortOrder"]
+        }
     }
     
-    struct SegmentDimensionFilter {
-        let dimensionName: String
-        let operat: Operator
-        let caseSensitive: Bool
-        let expressions: [String]
-        let minComparisonValue: String
-        let maxComparisonValue: String
+    struct SegmentDimensionFilter: Mappable {
+        var dimensionName: String?
+        var operat: Operator?
+        var caseSensitive: Bool?
+        var expressions: [String]? = []
+        var minComparisonValue: String?
+        var maxComparisonValue: String?
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            dimensionName      <- map["dimensionName"]
+            operat             <- map["operator"]
+            caseSensitive      <- map["caseSensitive"]
+            expressions        <- map["expressions"]
+            minComparisonValue <- map["minComparisonValue"]
+            maxComparisonValue <- map["maxComparisonValue"]
+        }
     }
     
-    enum Scope {
+    enum Scope: String {
         case UNSPECIFIED_SCOPE
         case PRODUCT
         case HIT
@@ -162,87 +239,172 @@ extension ReportRequest {
         case USER
     }
     
-    struct SegmentMetricFilter {
-        let scope: Scope
-        let metricName: String
-        let operat: Operator
-        let comparisonValue: String
-        let maxComparisonValue: String
+    struct SegmentMetricFilter: Mappable {
+        var scope: Scope?
+        var metricName: String?
+        var operat: Operator?
+        var comparisonValue: String?
+        var maxComparisonValue: String?
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            scope              <- map["scope"]
+            metricName         <- map["metricName"]
+            operat             <- map["operator"]
+            comparisonValue    <- map["comparisonValue"]
+            maxComparisonValue <- map["maxComparisonValue"]
+        }
     }
     
-    struct SegmentFilterClause {
-        let not: Bool
-        let dimensionFilter: SegmentDimensionFilter
-        let metricFilter: SegmentMetricFilter
+    struct SegmentFilterClause: Mappable {
+        var not: Bool?
+        var dimensionFilter: SegmentDimensionFilter?
+        var metricFilter: SegmentMetricFilter?
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            not             <- map["not"]
+            dimensionFilter <- map["dimensionFilter"]
+            metricFilter    <- map["metricFilter"]
+        }
     }
     
-    struct OrFiltersForSegment {
-        let segmentFilterClauses: [SegmentFilterClause]
+    struct OrFiltersForSegment: Mappable {
+        var segmentFilterClauses: [SegmentFilterClause]? = []
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            segmentFilterClauses <- map["segmentFilterClauses"]
+        }
     }
     
-    struct SimpleSegment {
-        let orFiltersForSegment: [OrFiltersForSegment]
+    struct SimpleSegment: Mappable {
+        var orFiltersForSegment: [OrFiltersForSegment]? = []
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            orFiltersForSegment <- map["orFiltersForSegment"]
+        }
     }
     
-    enum MatchType {
+    enum MatchType: String {
         case UNSPECIFIED_MATCH_TYPE
         case PRECEDES
         case IMMEDIATELY_PRECEDES
     }
     
-    struct SegmentSequenceStep {
-        let orFiltersForSegment: [OrFiltersForSegment]
-        let matchType: MatchType
+    struct SegmentSequenceStep: Mappable {
+        var orFiltersForSegment: [OrFiltersForSegment]? = []
+        var matchType: MatchType?
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            orFiltersForSegment <- map["orFiltersForSegment"]
+            matchType           <- map["matchType"]
+        }
     }
     
-    struct SequenceSegment {
-        let segmentSequenceSteps: SegmentSequenceStep
-        let firstStepShouldMatchFirstHit: Bool
+    struct SequenceSegment: Mappable {
+        var segmentSequenceSteps: SegmentSequenceStep?
+        var firstStepShouldMatchFirstHit: Bool?
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            segmentSequenceSteps         <- map["segmentSequenceSteps"]
+            firstStepShouldMatchFirstHit <- map["firstStepShouldMatchFirstHit"]
+        }
     }
     
-    struct SegmentFilter {
-        let not: Bool
-        let simpleSegment: SimpleSegment
-        let sequenceSegment: SequenceSegment
+    struct SegmentFilter: Mappable {
+        var not: Bool?
+        var simpleSegment: SimpleSegment?
+        var sequenceSegment: SequenceSegment?
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            not             <- map["not"]
+            simpleSegment   <- map["simpleSegment"]
+            sequenceSegment <- map["sequenceSegment"]
+        }
     }
     
-    struct SegmentDefinition {
-        let segmentFilters: [SegmentFilter]
+    struct SegmentDefinition: Mappable {
+        var segmentFilters: [SegmentFilter]? = []
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            segmentFilters <- map["segmentFilters"]
+        }
     }
     
-    struct DynamicSegment {
-        let name: String
-        let userSegment: SegmentDefinition
-        let sessionSegment: SegmentDefinition
+    struct DynamicSegment: Mappable {
+        var name: String?
+        var userSegment: SegmentDefinition?
+        var sessionSegment: SegmentDefinition?
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            name           <- map["name"]
+            userSegment    <- map["userSegment"]
+            sessionSegment <- map["sessionSegment"]
+        }
     }
     
-    struct Segment {
-        let dynamicSegment: DynamicSegment
-        let segmentId: String
+    struct Segment: Mappable {
+        var dynamicSegment: DynamicSegment?
+        var segmentId: String?
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            dynamicSegment <- map["dynamicSegment"]
+            segmentId      <- map["segmentId"]
+        }
     }
     
-    struct Pivot {
-        let dimensions: [Dimension]
-        let dimensionFilterClauses: [DimensionFilterClause]
-        let metrics: [Metric]
-        let startGroup: Int
-        let maxGroupCount: Int
+    struct Pivot: Mappable {
+        var dimensions: [Dimension]? = []
+        var dimensionFilterClauses: [DimensionFilterClause]? = []
+        var metrics: [Metric]? = []
+        var startGroup: Int?
+        var maxGroupCount: Int?
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            dimensions             <- map["dimensions"]
+            dimensionFilterClauses <- map["dimensionFilterClauses"]
+            metrics                <- map["metrics"]
+            startGroup             <- map["startGroup"]
+            maxGroupCount          <- map["maxGroupCount"]
+        }
     }
     
-    enum CohortType {
+    enum CohortType: String {
         case UNSPECIFIED_COHORT_TYPE
         case FIRST_VISIT_DATE
     }
     
-    struct Cohort {
-        let name: String
-        let type: CohortType
-        let dateRange: DateRange
+    struct Cohort: Mappable {
+        var name: String?
+        var type: CohortType?
+        var dateRange: DateRange?
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            name      <- map["name"]
+            type      <- map["type"]
+            dateRange <- map["dateRange"]
+        }
     }
     
-    struct CohortGroup {
-        let cohorts: [Cohort]
-        let lifetimeValue: Bool
+    struct CohortGroup: Mappable {
+        var cohorts: [Cohort]? = []
+        var lifetimeValue: Bool?
+        init?(map: Map) {
+        }
+        mutating func mapping(map: Map) {
+            cohorts       <- map["cohorts"]
+            lifetimeValue <- map["lifetimeValue"]
+        }
     }
 }
 

@@ -16,8 +16,8 @@
     </entity>
     <entity name="ExternalKPI" representedClassName="ExternalKPI" syncable="YES" codeGenerationType="class">
         <attribute name="kpiName" attributeType="String" syncable="YES"/>
-        <attribute name="oauthRefreshToken" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="oauthToken" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="oauthRefreshToken" attributeType="String" syncable="YES"/>
+        <attribute name="oauthToken" attributeType="String" syncable="YES"/>
         <attribute name="oauthTokenExpiresAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="serviceName" attributeType="String" syncable="YES"/>
         <relationship name="googleAnalyticsKPI" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GoogleKPI" inverseName="externalKPI" inverseEntity="GoogleKPI" syncable="YES"/>
@@ -47,7 +47,7 @@
         <element name="Alert" positionX="-54" positionY="63" width="128" height="225"/>
         <element name="ExternalKPI" positionX="-54" positionY="117" width="128" height="135"/>
         <element name="FAQ" positionX="-54" positionY="117" width="128" height="90"/>
-        <element name="Team" positionX="-63" positionY="-18" width="128" height="195"/>
         <element name="GoogleKPI" positionX="-54" positionY="117" width="128" height="75"/>
+        <element name="Team" positionX="-63" positionY="-18" width="128" height="195"/>
     </elements>
 </model>

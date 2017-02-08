@@ -464,7 +464,8 @@ extension KPIsListTableViewController {
             expression = "ga:users"
         }
         
-        let param = ReportRequest(viewId: (external?.googleAnalyticsKPI?.viewID)!, startDate: "2017-01-01", endDate: "2017-02-01", expression: expression, alias: "", formattingType: "FLOAT")
+        
+        let param = ReportRequest(viewId: (external?.googleAnalyticsKPI?.viewID)!, startDate: "2017-01-01", endDate: "2017-01-31", expression: expression, formattingType: "FLOAT")
         
         request.getAnalytics(param: param, success: { report in
             print("ok")
@@ -479,7 +480,9 @@ extension KPIsListTableViewController {
     func refreshAccessToken(external: ExternalKPI, index: Int) {
         let request = ExternalRequest(oauthToken: external.oauthToken!, oauthRefreshToken: external.oauthRefreshToken!, oauthTokenExpiresAt: external.oauthTokenExpiresAt as! Date)
         request.updateAccessToken(servise: IntegratedServices(rawValue: external.serviceName!)!, success: { accessToken in
-            external.setValue(accessToken, forKey: "oauthToken")
+            print(accessToken)
+            //external.setValue(accessToken, forKey: "oauthToken")
+            external.oauthToken = accessToken
             self.getGoogleAnalyticsData(index: index)
         }, failure: { error in
             print(error)
