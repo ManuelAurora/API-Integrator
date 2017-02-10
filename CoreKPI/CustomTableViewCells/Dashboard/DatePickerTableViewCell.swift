@@ -12,7 +12,7 @@ class DatePickerTableViewCell: UITableViewCell {
 
     var addKPIVC: ChooseSuggestedKPITableViewController!
     var editKPIVC: ReportAndViewKPITableViewController!
-    var alertSettingVC: AllertSettingsTableViewController!
+    var alertSettingVC: AlertSettingsTableViewController!
     
     var delegate: UpdateTimeDelegate!
     
@@ -33,6 +33,9 @@ class DatePickerTableViewCell: UITableViewCell {
         if alertSettingVC != nil {
             delegate = alertSettingVC
         }
+        
+        print(datePicker.date)
+        
     }
     @IBAction func dataPickerDidMove(_ sender: UIDatePicker) {
         delegate.updateTime(newTime: datePicker.date)

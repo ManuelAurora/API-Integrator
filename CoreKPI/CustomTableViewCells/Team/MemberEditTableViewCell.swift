@@ -7,20 +7,20 @@
 //
 
 import UIKit
+import PhoneNumberKit
 
 class MemberEditTableViewCell: UITableViewCell {
+    
     @IBOutlet weak var headerOfCell: UILabel!
-
     @IBOutlet weak var textFieldOfCell: UITextField!
+    @IBOutlet weak var phoneNumberTextField: PhoneNumberTextField!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
 }

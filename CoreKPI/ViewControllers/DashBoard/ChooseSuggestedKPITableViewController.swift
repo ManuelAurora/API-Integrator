@@ -9,7 +9,7 @@
 import UIKit
 
 enum WeeklyInterval: String {
-    case none = "Select day"
+    case none = ""
     case Monday
     case Tuesday
     case Wednesday
@@ -151,13 +151,17 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         tableView.tableFooterView = UIView(frame: .zero)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        checkInputValues()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
     //MARK: - Create arrays for external services KPI
     func createExternalServisecArrays() {
-
+        
         for saleforceKPI in iterateEnum(SalesForceKPIs.self) {
             saleForceKPIArray.append((saleforceKPI.rawValue, false))
         }
@@ -356,11 +360,11 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     SuggestedCell.headerOfCell.text = "Department"
                     SuggestedCell.descriptionOfCell.text = department.rawValue
                 case 2:
-                    SuggestedCell.headerOfCell.text = "Select suggested KPI"
+                    SuggestedCell.headerOfCell.text = "Suggested KPI"
                     SuggestedCell.descriptionOfCell.text = "(Optional)"
                 case 3:
                     SuggestedCell.headerOfCell.text = "KPI Name"
-                    SuggestedCell.descriptionOfCell.text = self.kpiName ?? "Add name"
+                    SuggestedCell.descriptionOfCell.text = self.kpiName ?? ""
                 case 4:
                     let DescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell", for: indexPath) as! KPIDescriptionTableViewCell
                     DescriptionCell.headerOfCellLabel.text = "KPI Note"
@@ -375,24 +379,25 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     return DescriptionCell
                 case 5:
                     SuggestedCell.headerOfCell.text = "Executant"
-                    SuggestedCell.descriptionOfCell.text = self.executant ?? "Choose"
+                    SuggestedCell.descriptionOfCell.text = self.executant ?? ""
                 case 6:
                     SuggestedCell.headerOfCell.text = "Time Interval"
                     SuggestedCell.descriptionOfCell.text = timeInterval.rawValue
                 case 7:
                     SuggestedCell.headerOfCell.text = "Time Zone"
-                    SuggestedCell.descriptionOfCell.text = timeZone ?? "Select"
+                    SuggestedCell.descriptionOfCell.text = timeZone ?? ""
                 case 8:
                     SuggestedCell.headerOfCell.text = "Deadline"
                     let dateFormatter = DateFormatter()
                     dateFormatter.timeStyle = .short
                     if deadline == nil {
-                        SuggestedCell.descriptionOfCell.text = "Select time"
+                        SuggestedCell.descriptionOfCell.text = ""
                     } else {
                         SuggestedCell.descriptionOfCell.text = dateFormatter.string(for: deadline)
                     }
                 case 9:
                     let dataPickerCell = tableView.dequeueReusableCell(withIdentifier: "DataPickerCell", for: indexPath)  as! DatePickerTableViewCell
+                    dataPickerCell.datePicker.setDate(deadline ?? Date(), animated: true)
                     dataPickerCell.addKPIVC = self
                     return dataPickerCell
                 default:
@@ -407,11 +412,11 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     SuggestedCell.headerOfCell.text = "Department"
                     SuggestedCell.descriptionOfCell.text = department.rawValue
                 case 2:
-                    SuggestedCell.headerOfCell.text = "Select suggested KPI"
+                    SuggestedCell.headerOfCell.text = "Suggested KPI"
                     SuggestedCell.descriptionOfCell.text = "(Optional)"
                 case 3:
                     SuggestedCell.headerOfCell.text = "KPI Name"
-                    SuggestedCell.descriptionOfCell.text = self.kpiName ?? "Add name"
+                    SuggestedCell.descriptionOfCell.text = self.kpiName ?? ""
                 case 4:
                     let DescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell", for: indexPath) as! KPIDescriptionTableViewCell
                     DescriptionCell.headerOfCellLabel.text = "KPI Note"
@@ -421,7 +426,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     return DescriptionCell
                 case 5:
                     SuggestedCell.headerOfCell.text = "Executant"
-                    SuggestedCell.descriptionOfCell.text = self.executant ?? "Choose"
+                    SuggestedCell.descriptionOfCell.text = self.executant ?? ""
                 case 6:
                     SuggestedCell.headerOfCell.text = "Time Interval"
                     SuggestedCell.descriptionOfCell.text = timeInterval.rawValue
@@ -445,13 +450,13 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     SuggestedCell.descriptionOfCell.text = text
                 case 8:
                     SuggestedCell.headerOfCell.text = "Time Zone"
-                    SuggestedCell.descriptionOfCell.text = timeZone ?? "Select"
+                    SuggestedCell.descriptionOfCell.text = timeZone ?? ""
                 case 9:
                     SuggestedCell.headerOfCell.text = "Deadline"
                     let dateFormatter = DateFormatter()
                     dateFormatter.timeStyle = .short
                     if deadline == nil {
-                        SuggestedCell.descriptionOfCell.text = "Select time"
+                        SuggestedCell.descriptionOfCell.text = ""
                     } else {
                         SuggestedCell.descriptionOfCell.text = dateFormatter.string(for: deadline)
                     }
@@ -463,8 +468,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     break
                 }
             }
-            
-            
         case .Integrated:
             switch indexPath.row {
             case 0:
@@ -690,21 +693,51 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         } else {
             tableView.deleteRows(at: [indexPath], with: .top)
             tableView.deselectRow(at: IndexPath(item: row, section: 0), animated: true)
+            if deadline == nil {
+                deadline = Date()
+                tableView.reloadRows(at: [IndexPath(item: row, section: 0)], with: .automatic)
+            }
+            checkInputValues()
         }
+    }
+    
+    //MARK: - Check input values
+    func checkInputValues() {
+        if dataIsEntered() {
+            navigationItem.rightBarButtonItem?.isEnabled = true
+        } else {
+            navigationItem.rightBarButtonItem?.isEnabled = false
+        }
+    }
+    
+    func dataIsEntered() -> Bool {
+        switch source {
+        case .Integrated:
+            if source == .none || (source == .Integrated && integrated == .none) {
+                return false
+            }
+        case .User:
+            if department == .none || kpiName == nil || executant == nil || (timeInterval == TimeInterval.Weekly && weeklyInterval == WeeklyInterval.none) || (timeInterval == TimeInterval.Monthly && mounthlyInterval == nil) || timeZone == nil || deadline == nil {
+                return false
+            }
+        default:
+            return false
+        }
+        return true
     }
     
     //MARK: - Save KPI
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
         
+        if !dataIsEntered() {
+            //showAlert(title: "Error", message: "One ore more parameters are not selected")
+            return
+        }
+        
         var kpi: KPI!
         
         switch source {
         case .Integrated:
-            
-            if source == .none || (source == .Integrated && integrated == .none) {
-                showAlert(title: "Error", message: "One ore more parameters are not selected")
-                return
-            }
             var arrayOfKPI: [(SettingName: String, value: Bool)] = []
             switch integrated {
             case .SalesForce:
@@ -748,23 +781,13 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     
                     self.delegate = self.KPIListVC
                     self.delegate.addNewKPI(kpi: kpi)
-
+                    
                 }
             }
             
             let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
             _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
-
-            
-            
-//            let integratedKPI = IntegratedKPI(service: integrated, saleForceKPIs: saleForceKPIs, quickBookKPIs: quickBooksKPIs, googleAnalytics: googleAnalyticsKPIs, hubSpotCRMKPIs: hubspotCRMKPIs, payPalKPIs: paypalKPIs, hubSpotMarketingKPIs: hubspotMarketingKPIs)
-//            kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: integratedKPI, createdKPI: nil, imageBacgroundColour: UIColor.clear)
         case .User:
-            if department == .none || kpiName == nil || executant == nil || (timeInterval == TimeInterval.Weekly && weeklyInterval == WeeklyInterval.none) || (timeInterval == TimeInterval.Monthly && mounthlyInterval == nil) || timeZone == nil || deadline == nil {
-                showAlert(title: "Error", message: "One ore more parameters are not selected")
-                return
-            }
-            
             var executantProfile: Int!
             
             for profile in model.team {
@@ -788,8 +811,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
             }
             )
         default:
-            self.showAlert(title: "Error", message: "Select a Sourse please")
-            return
+            break
         }
     }
     
@@ -798,6 +820,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "SelectSettingForKPI") as! KPISelectSettingTableViewController
         destinatioVC.ChoseSuggestedVC = self
         destinatioVC.selectSetting = settingArray
+        destinatioVC.segueWithSelecting = true
         switch typeOfSetting {
         case .SuggestedKPI:
             destinatioVC.rowsWithInfoAccesory = true
@@ -813,8 +836,18 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         default:
             break
         }
+        
         destinatioVC.navigationItem.rightBarButtonItem = nil
+        let backItem = UIBarButtonItem()
+        backItem.title = " "
+        navigationItem.backBarButtonItem = backItem
         navigationController?.pushViewController(destinatioVC, animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let backItem = UIBarButtonItem()
+        backItem.title = " "
+        navigationItem.backBarButtonItem = backItem
     }
     
     //MARK: - Show SelectIntegratedServicesViewController method
@@ -1001,13 +1034,15 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate {
 extension ChooseSuggestedKPITableViewController: UpdateTimeDelegate {
     
     func updateTime(newTime time: Date) {
-        deadline = time
-        
-        let rowNumber = tableView.numberOfRows(inSection: 0) - 2
-        
-        let indexPath = IndexPath(item: rowNumber, section: 0)
-        tableView.reloadRows(at: [indexPath], with: .automatic)
-        
+        if datePickerIsVisible {
+            deadline = time
+            let rowNumber = tableView.numberOfRows(inSection: 0) - 2
+            let indexPath = IndexPath(item: rowNumber, section: 0)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+            checkInputValues()
+        } else {
+            return
+        }
     }
 }
 

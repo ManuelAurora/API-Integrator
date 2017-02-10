@@ -38,12 +38,12 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             if Int(model.team[index].userID) == model.profile?.userId {
                 responsibleForButton.isHidden = true
                 myKPIsButton.isHidden = false
-                securityButton.isHidden = false
+                //securityButton.isHidden = false
             }
         } else {
             responsibleForButton.isHidden = true
             myKPIsButton.isHidden = true
-            securityButton.isHidden = true
+            //securityButton.isHidden = true
         }
         
         if let memberNickname = model.team[index].nickname {

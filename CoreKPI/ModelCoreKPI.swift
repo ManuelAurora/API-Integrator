@@ -17,7 +17,7 @@ enum TypeOfAccount: String {
 
 class ModelCoreKPI: NSObject, NSCoding {
     
-    let token: String
+    var token: String
     var profile: Profile?
     
     var alerts: [Alert] = []

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PhoneNumberKit
 
 class MemberEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -79,26 +80,28 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                 fallthrough
             }
         case 1:
-            let cellMemberEdit = tableView.dequeueReusableCell(withIdentifier: "MemberInfoEdit", for: indexPath) as! MemberEditTableViewCell
             switch indexPath.row {
             case 0:
-                cellMemberEdit.headerOfCell.text = "Phone"
-                cellMemberEdit.textFieldOfCell.text = newProfile.phone
-                cellMemberEdit.textFieldOfCell.placeholder = "No Phone"
-                cellMemberEdit.textFieldOfCell.keyboardType = .phonePad
-                cellMemberEdit.textFieldOfCell.tag = 0
+                let phoneCell = tableView.dequeueReusableCell(withIdentifier: "phoneNumber") as! MemberEditTableViewCell
+                phoneCell.headerOfCell.text = "Phone"
+                phoneCell.phoneNumberTextField.text = newProfile.phone
+                phoneCell.textFieldOfCell.placeholder = "No Phone"
+                phoneCell.textFieldOfCell.keyboardType = .phonePad
+                phoneCell.textFieldOfCell.tag = 0
+                phoneCell.prepareForReuse()
+                return phoneCell
             case 1:
+                let cellMemberEdit = tableView.dequeueReusableCell(withIdentifier: "MemberInfoEdit", for: indexPath) as! MemberEditTableViewCell
                 cellMemberEdit.headerOfCell.text = "E-mail"
                 cellMemberEdit.textFieldOfCell.text = newProfile.userName
                 cellMemberEdit.textFieldOfCell.placeholder = "No E-mail"
                 cellMemberEdit.textFieldOfCell.keyboardType = .emailAddress
                 cellMemberEdit.textFieldOfCell.tag = 1
+                cellMemberEdit.prepareForReuse()
+                return cellMemberEdit
             default:
-                cellMemberEdit.headerOfCell.text = ""
-                cellMemberEdit.textFieldOfCell.text = ""
-                print("Cell create by default case")
+                break
             }
-            return cellMemberEdit
         default:
             break
         }
@@ -173,8 +176,17 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
             }
         }
         
-        if self.newProfile.phone == "" {
-            self.newProfile.phone = nil
+        if newProfile.phone == "" {
+            newProfile.phone = nil
+        } else {
+            let phoneNumberKit = PhoneNumberKit()
+            do {
+                _ = try phoneNumberKit.parse(newProfile.phone!)
+            }
+            catch {
+                showAlert(title: "Error", message: "Phone number incorect")
+                return false
+            }
         }
         
         return true
@@ -371,7 +383,7 @@ extension MemberEditViewController: UITextFieldDelegate {
             let txtAfterUpdate = textFieldText.replacingCharacters(in: range, with: string)
             
             switch string {
-            case "0"..."9", "+", "-", "":
+            case "0"..."9", "+", "-", "", "(", ")":
                 self.newProfile.phone = txtAfterUpdate
                 if txtAfterUpdate == "" {
                     self.newProfile.phone = nil
@@ -380,7 +392,6 @@ extension MemberEditViewController: UITextFieldDelegate {
             default:
                 return false
             }
-            
         case 1:
             let textFieldText: NSString = (textField.text ?? "") as NSString
             let txtAfterUpdate = textFieldText.replacingCharacters(in: range, with: string)

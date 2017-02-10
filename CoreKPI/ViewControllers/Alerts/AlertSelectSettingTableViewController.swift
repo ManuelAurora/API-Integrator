@@ -10,7 +10,7 @@ import UIKit
 
 class AlertSelectSettingTableViewController: UITableViewController {
     
-    weak var AlertSettingVC: AllertSettingsTableViewController!
+    weak var AlertSettingVC: AlertSettingsTableViewController!
     let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
     var selectSetting: [(SettingName: String, value: Bool)]!

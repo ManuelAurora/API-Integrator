@@ -38,15 +38,34 @@ class LaunchViewController: UIViewController {
     }
     
     func getModelFromServer() {
+        
+//        let req = LoginRequest(model: model)
+//        req.checkToken(success: { data in
+//            self.model.token = data.token
+//            self.model.profile?.userId = data.userID
+//            self.model.profile?.typeOfAccount = data.typeOfAccount
+//            self.getDataFromCoreData()
+//            self.showTabBarVC()
+//        }, failure: { error in
+//            self.getDataFromCoreData()
+//            self.LogOut()
+//            print(error)
+//        }
+//        )
+        
         request = GetModelFromServer(model: model)
         
         request.getModelFromServer(
             success: { model in
                 self.model = ModelCoreKPI(model: model)
                 self.getDataFromCoreData()
+                self.showTabBarVC()
         },
             failure: { error in
                 self.getDataFromCoreData()
+                self.LogOut()
+                self.showAlert(title: "Sorry", errorMessage: error)
+                self.showTabBarVC()
         }
         )
     }
@@ -93,7 +112,19 @@ class LaunchViewController: UIViewController {
         } catch {
             print("Fetching faild")
         }
-        showTabBarVC()
+        //showTabBarVC()
+    }
+    
+    //MARK: - Token incorect
+    func LogOut() {
+        let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
+        for profile in model.team {
+            context.delete(profile)
+        }
+        UserDefaults.standard.removeObject(forKey: "token")
+        
+        let startVC = storyboard?.instantiateViewController(withIdentifier: "StartVC")
+        present(startVC!, animated: true, completion: nil)
     }
     
 }

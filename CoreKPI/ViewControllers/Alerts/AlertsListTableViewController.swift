@@ -169,7 +169,7 @@ class AlertsListTableViewController: UITableViewController {
     //MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AddAlert" {
-            let destinationVC = segue.destination as! AllertSettingsTableViewController
+            let destinationVC = segue.destination as! AlertSettingsTableViewController
             destinationVC.model = ModelCoreKPI(model: self.model)
             destinationVC.AlertListVC = self
         }

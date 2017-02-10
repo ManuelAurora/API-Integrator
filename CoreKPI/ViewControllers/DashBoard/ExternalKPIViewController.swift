@@ -120,7 +120,7 @@ extension ExternalKPIViewController {
         oauthswift.authorizeURLHandler = SafariURLHandler(viewController: self, oauthSwift: oauthswift)
         let state = generateState(withLength: 20)
         let _ = oauthswift.authorize(
-            withCallbackURL: URL(string: "CoreKPI.CoreKPI:/oauth2Callback")!, scope: "full", state: state,
+            withCallbackURL: URL(string: "https://appauth.demo-app.io:/oauth2redirect")!, scope: "full", state: state,
             success: { credential, response, parameters in
                 self.showAlert(title: "saleForce", message: credential.oauthToken)
         },
@@ -153,7 +153,7 @@ extension ExternalKPIViewController {
         oauthswift.allowMissingStateCheck = true
         oauthswift.authorizeURLHandler = SafariURLHandler(viewController: self, oauthSwift: oauthswift) // magic redirect - "urn:ietf:wg:oauth:2.0:oob"
         let _ = oauthswift.authorize(
-            withCallbackURL: URL(string: "CoreKPI.CoreKPI:/oauth2Callback")!, scope: "https://www.googleapis.com/auth/analytics.readonly", state: "123",
+            withCallbackURL: URL(string: "CoreKPI.CoreKPI:/oauth2Callback")!, scope: "https://www.googleapis.com/auth/analytics.readonly", state: "",
             success: { credential, response, parameters in
                 self.selectViewID(credential: credential)
         },
@@ -166,6 +166,28 @@ extension ExternalKPIViewController {
     
     // MARK: PayPal
     func doOAuthPayPal(){
+        //payPalTest()
+        
+        let oauthswift = OAuth2Swift(
+            consumerKey: "AdA0F4asoYIoJoGK1Mat3i0apr1bdYeeRiZ6ktSgPrNmAMIQBO_TZtn_U80H7KwPdmd72CJhUTY5LYJH",
+            consumerSecret: "",
+            authorizeUrl: "https://www.sandbox.paypal.com/signin/authorize",
+            responseType: "token")
+        
+        self.oauthswift = oauthswift
+        oauthswift.allowMissingStateCheck = true
+        oauthswift.accessTokenBasicAuthentification = true
+        oauthswift.authorizeURLHandler = SafariURLHandler(viewController: self, oauthSwift: oauthswift)
+        let _ = oauthswift.authorize(
+            withCallbackURL: URL(string: "https://appauth.demo-app.io:/oauth2redirect")!, scope: "profile+email+address+phone", state: "",
+            success: { credential, response, parameters in
+                print(credential.oauthToken)
+                //self.selectViewID(credential: credential)
+        },
+            failure: { error in
+                print("ERROR: \(error.localizedDescription)")
+        }
+        )
     }
     
     // MARK: HubSpotCRM

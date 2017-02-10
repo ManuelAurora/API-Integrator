@@ -115,7 +115,7 @@ enum ImageForKPIList: String {
 }
 
 enum Departments: String {
-    case none = "Select"
+    case none = ""
     case Sales
     case Procurement
     case Projects

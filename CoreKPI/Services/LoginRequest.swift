@@ -27,6 +27,22 @@ class LoginRequest: Request {
         })
     }
     
+    func checkToken(success: @escaping (_ data: (userID: Int, token: String, typeOfAccount: TypeOfAccount)) -> (), failure: @escaping failure) {
+        
+        let data: [String : Any] = [:]
+        
+        self.getJson(category: "/auth/auth", data: data, success: { json in
+            if let tokenUserID = self.parsingJson(json: json) {
+                success(tokenUserID)
+            } else {
+                failure(self.errorMessage ?? "Wrong data from server")
+            }
+        }, failure: { error in
+            failure(error)
+        }
+        )
+    }
+    
     func parsingJson(json: NSDictionary) -> (userID: Int, token: String, typeOfAccount: TypeOfAccount)? {
         var userId: Int
         var token: String

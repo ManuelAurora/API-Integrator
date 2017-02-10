@@ -51,7 +51,7 @@ class GetMemberList: Request {
                             let mode = userData["mode"] as? Int
                             mode == 0 ? (profile.isAdmin = false) : (profile.isAdmin = true)
                             let nickname = userData["nickname"] as? String
-                            profile.nickname = nickname == "None" ? nil : nickname
+                            profile.nickname = nickname == "" ? nil : nickname
                             profile.lastName = userData["last_name"] as? String
                             profile.username = userData["username"] as? String
                             profile.userID = Int64((userData["user_id"] as? Int)!)

@@ -14,7 +14,7 @@ class GetAlerts: Request {
         
         let data: [String : Any] = [:]
         
-        self.getJson(category: "/alert/getAlerts", data: data,
+        self.getJson(category: "/alerts/getAlerts", data: data,
                      success: { json in
                         if let alertArray = self.parsingJson(json: json) {
                             success(alertArray)

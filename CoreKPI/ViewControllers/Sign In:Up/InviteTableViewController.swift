@@ -100,6 +100,7 @@ class InviteTableViewController: UITableViewController {
         let inviteRequest = SendInvation(model: model)
         inviteRequest.sendInvations(email: emailLowercased!, typeOfAccount: typeOfAccount, success: {number in
             self.showAlert(title: "Congratulation!", message: "You send invation for \(self.emailTextField.text!)")
+            self.emailTextField.text = ""
             self.numberOfInvations = number
             self.numberOfInvationsLAbel.text = "\(self.numberOfInvations) invitations left"
             self.typeOfAccount = .Manager

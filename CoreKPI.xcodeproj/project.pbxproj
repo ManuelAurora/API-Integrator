@@ -10,6 +10,8 @@
 		A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340901E110CF200208EAB /* ChageNameTableViewController.swift */; };
 		A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340921E110D1C00208EAB /* NewNameViewController.swift */; };
 		A2048BC71E3369A4008792D2 /* WKWebViewTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2048BC61E3369A4008792D2 /* WKWebViewTestViewController.swift */; };
+		A2066D431E4DE25A00DCBA84 /* PhoneNumberKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2066D421E4DE25A00DCBA84 /* PhoneNumberKit.framework */; };
+		A2066D441E4DE25A00DCBA84 /* PhoneNumberKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A2066D421E4DE25A00DCBA84 /* PhoneNumberKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A20B6BD01E31F5EC00FAF86A /* IntegratedKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20B6BCF1E31F5EC00FAF86A /* IntegratedKPI.swift */; };
 		A20B6BD21E31F62800FAF86A /* User's KPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20B6BD11E31F62800FAF86A /* User's KPI.swift */; };
 		A21AEEF21E28AFF200577F4B /* KPIColourTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21AEEF11E28AFF200577F4B /* KPIColourTableViewCell.swift */; };
@@ -27,7 +29,7 @@
 		A2279D841E14EBF200669EB0 /* AlertsNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2279D831E14EBF200669EB0 /* AlertsNavigationViewController.swift */; };
 		A2279D861E14EC3B00669EB0 /* DashboardsNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2279D851E14EC3B00669EB0 /* DashboardsNavigationViewController.swift */; };
 		A22EF0661E0901A20004DDB7 /* ModelCoreKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */; };
-		A235CB321E0ACD5200636888 /* AllertSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A235CB311E0ACD5100636888 /* AllertSettingsTableViewController.swift */; };
+		A235CB321E0ACD5200636888 /* AlertSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A235CB311E0ACD5100636888 /* AlertSettingsTableViewController.swift */; };
 		A2425CB41E1CE8EE00DFDF91 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */; };
 		A24A84031E486DD400440151 /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84021E486DD400440151 /* OAuthSwift.framework */; };
 		A24A84041E486DD400440151 /* OAuthSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84021E486DD400440151 /* OAuthSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -171,6 +173,7 @@
 				A24A840B1E486EFE00440151 /* Charts.framework in Embed Frameworks */,
 				A25CA8541E4B21D8008B6331 /* ObjectMapper.framework in Embed Frameworks */,
 				A24A84041E486DD400440151 /* OAuthSwift.framework in Embed Frameworks */,
+				A2066D441E4DE25A00DCBA84 /* PhoneNumberKit.framework in Embed Frameworks */,
 				A24A84081E486DF500440151 /* Alamofire.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -182,6 +185,7 @@
 		A20340901E110CF200208EAB /* ChageNameTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChageNameTableViewController.swift; path = CoreKPI/ViewControllers/Team/ChageNameTableViewController.swift; sourceTree = "<group>"; };
 		A20340921E110D1C00208EAB /* NewNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewNameViewController.swift; path = CoreKPI/ViewControllers/Team/NewNameViewController.swift; sourceTree = "<group>"; };
 		A2048BC61E3369A4008792D2 /* WKWebViewTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKWebViewTestViewController.swift; sourceTree = "<group>"; };
+		A2066D421E4DE25A00DCBA84 /* PhoneNumberKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhoneNumberKit.framework; path = Carthage/Build/iOS/PhoneNumberKit.framework; sourceTree = "<group>"; };
 		A20B6BCF1E31F5EC00FAF86A /* IntegratedKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegratedKPI.swift; sourceTree = "<group>"; };
 		A20B6BD11E31F62800FAF86A /* User's KPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User's KPI.swift"; sourceTree = "<group>"; };
 		A21AEEF11E28AFF200577F4B /* KPIColourTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIColourTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPIColourTableViewCell.swift; sourceTree = "<group>"; };
@@ -199,7 +203,7 @@
 		A2279D831E14EBF200669EB0 /* AlertsNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertsNavigationViewController.swift; path = CoreKPI/AlertsNavigationViewController.swift; sourceTree = "<group>"; };
 		A2279D851E14EC3B00669EB0 /* DashboardsNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardsNavigationViewController.swift; path = CoreKPI/ViewControllers/DashBoard/DashboardsNavigationViewController.swift; sourceTree = "<group>"; };
 		A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelCoreKPI.swift; sourceTree = "<group>"; };
-		A235CB311E0ACD5100636888 /* AllertSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllertSettingsTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AllertSettingsTableViewController.swift; sourceTree = "<group>"; };
+		A235CB311E0ACD5100636888 /* AlertSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertSettingsTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AlertSettingsTableViewController.swift; sourceTree = "<group>"; };
 		A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		A24A84021E486DD400440151 /* OAuthSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthSwift.framework; path = Carthage/Build/iOS/OAuthSwift.framework; sourceTree = "<group>"; };
 		A24A84061E486DF500440151 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
@@ -326,6 +330,7 @@
 				A24A840A1E486EFE00440151 /* Charts.framework in Frameworks */,
 				A25CA8531E4B21D8008B6331 /* ObjectMapper.framework in Frameworks */,
 				A24A84031E486DD400440151 /* OAuthSwift.framework in Frameworks */,
+				A2066D431E4DE25A00DCBA84 /* PhoneNumberKit.framework in Frameworks */,
 				A24A84071E486DF500440151 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -525,6 +530,7 @@
 		A278209E1E001A0B009F83DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A2066D421E4DE25A00DCBA84 /* PhoneNumberKit.framework */,
 				A25CA8521E4B21D8008B6331 /* ObjectMapper.framework */,
 				A24A84091E486EFE00440151 /* Charts.framework */,
 				A24A84061E486DF500440151 /* Alamofire.framework */,
@@ -605,7 +611,7 @@
 			children = (
 				A2279D831E14EBF200669EB0 /* AlertsNavigationViewController.swift */,
 				A2ACBD3A1E0D11AA0079EF3D /* AlertsListTableViewController.swift */,
-				A235CB311E0ACD5100636888 /* AllertSettingsTableViewController.swift */,
+				A235CB311E0ACD5100636888 /* AlertSettingsTableViewController.swift */,
 				A2A215521E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift */,
 				A22302C21E1F96B900C9D0B4 /* ReminderViewTableViewController.swift */,
 			);
@@ -982,7 +988,7 @@
 				A256F0601E49B631004DAF75 /* ExternalRequestService.swift in Sources */,
 				A297F5BC1E08234500F85963 /* SupportMainTableViewController.swift in Sources */,
 				A2048BC71E3369A4008792D2 /* WKWebViewTestViewController.swift in Sources */,
-				A235CB321E0ACD5200636888 /* AllertSettingsTableViewController.swift in Sources */,
+				A235CB321E0ACD5200636888 /* AlertSettingsTableViewController.swift in Sources */,
 				A2F77E0F1E3B199400BB8318 /* LoginRequest.swift in Sources */,
 				A26A40541E3B40D700108E5B /* AddReport.swift in Sources */,
 				A2A7D5131E41B13B008779A0 /* DatePickerTableViewCell.swift in Sources */,

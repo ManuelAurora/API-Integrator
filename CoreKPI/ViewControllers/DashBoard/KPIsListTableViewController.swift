@@ -11,7 +11,7 @@ import OAuthSwift
 
 //MARK: - Enums for setting
 enum Source: String {
-    case none = "Choose"
+    case none = ""
     case User
     case Integrated
 }
@@ -463,7 +463,6 @@ extension KPIsListTableViewController {
         case .TopSourcesByRevenue:
             expression = "ga:users"
         }
-        
         
         let param = ReportRequest(viewId: (external?.googleAnalyticsKPI?.viewID)!, startDate: "2017-01-01", endDate: "2017-01-31", expression: expression, formattingType: "FLOAT")
         
