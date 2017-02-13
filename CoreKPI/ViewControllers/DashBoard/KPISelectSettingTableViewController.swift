@@ -212,10 +212,20 @@ class KPISelectSettingTableViewController: UITableViewController {
 //MARK: - UITextFieldDelegate method
 extension KPISelectSettingTableViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
+        
         if textView.text == "" {
             textFieldInputData = nil
         } else {
             textFieldInputData = textView.text
         }
     }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if(text == "\n") {
+            let _ = navigationController?.popViewController(animated: true)
+            return false
+        }
+        return true
+    }
 }
+

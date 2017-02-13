@@ -20,6 +20,7 @@ class AlertSelectSettingTableViewController: UITableViewController {
     var headerForTableView: String!
     var selectSeveralEnable = false
     var inputSettingCells = false
+    var segueWithSelect = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,6 +110,10 @@ class AlertSelectSettingTableViewController: UITableViewController {
             cell.accessoryType = .none
         }
         
+        if segueWithSelect == true {
+            let _ = navigationController?.popViewController(animated: true)
+        }
+        
         tableView.deselectRow(at: indexPath, animated: true)
         tableView.reloadData()
     }
@@ -156,11 +161,21 @@ extension AlertSelectSettingTableViewController: UITextFieldDelegate {
         let textFieldText: NSString = (textField.text ?? "") as NSString
         let txtAfterUpdate = textFieldText.replacingCharacters(in: range, with: string)
         
-        if txtAfterUpdate != "" {
-            textFieldInputData = txtAfterUpdate
-        } else {
+        if txtAfterUpdate == "" {
             textFieldInputData = nil
+            return true
         }
-        return true
+        
+        switch string {
+        case "0"..."9", ".", "":
+            textFieldInputData = txtAfterUpdate
+            return true
+        case ",":
+            textField.text = (textFieldText as String) + "."
+            textFieldInputData = txtAfterUpdate
+            return false
+        default:
+            return false
+        }
     }
 }

@@ -66,6 +66,7 @@ class TypeOfAccountTableViewController: UITableViewController {
         }
         tableView.deselectRow(at: indexPath, animated: true)
         tableView.reloadData()
+        _ = navigationController?.popViewController(animated: true)
     }
     
     override func willMove(toParentViewController parent: UIViewController?) {

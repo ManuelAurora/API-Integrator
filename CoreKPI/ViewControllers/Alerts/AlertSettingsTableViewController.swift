@@ -540,9 +540,10 @@ class AlertSettingsTableViewController: UITableViewController {
                 destinatioVC.headerForTableView = "Add data"
             }
         case .DeliveryDay:
+            destinatioVC.segueWithSelect = true
             destinatioVC.tableView.isScrollEnabled = true
         default:
-            break
+            destinatioVC.segueWithSelect = true
         }
         navigationController?.pushViewController(destinatioVC, animated: true)
     }

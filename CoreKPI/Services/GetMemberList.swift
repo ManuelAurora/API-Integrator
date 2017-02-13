@@ -34,6 +34,7 @@ class GetMemberList: Request {
     func parsingJson(json: NSDictionary) -> [Team]? {
         
         let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
+        let photoServer = "http://192.168.0.118:8888/avatars/"
         
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
@@ -75,14 +76,11 @@ class GetMemberList: Request {
                             }
                             
                             if (userData["photo"] as? String) != "" {
-                                profile.photoLink = userData["photo"] as? String
+                                profile.photoLink = photoServer + (userData["photo"] as? String)!
                             } else {
                                 profile.photoLink = nil
                             }
                             profile.firstName = userData["first_name"] as? String
-                            //Debug ->
-                            profile.photoLink = "http://whatsappdp.net/wp-content/uploads/2016/03/funny-profile-pictures.jpg"
-                            //<-
                             teamArray.append(profile)
                             
                             i+=1

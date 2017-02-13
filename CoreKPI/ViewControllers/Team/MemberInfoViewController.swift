@@ -8,6 +8,7 @@
 
 import UIKit
 import MessageUI
+import PhoneNumberKit
 
 class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -76,11 +77,20 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                 present(alertController, animated: true, completion: nil)
         } else {
-            let url = URL(string: "tel://\(model.team[index].phoneNumber!)")
+            var url: URL!
+            let phoneNumberKit = PhoneNumberKit()
+            do {
+                let phoneNumber = try phoneNumberKit.parse(model.team[index].phoneNumber!)
+                url = URL(string: "tel://+\(phoneNumber.countryCode)\(phoneNumber.nationalNumber)")
+            }
+            catch {
+                print("Generic parser error")
+                return
+            }
             if UIApplication.shared.canOpenURL(url!) {
                 UIApplication.shared.open(url!, options: [:], completionHandler: nil)
             } else {
-                let alertController = UIAlertController(title: "Error", message: "Can not call!", preferredStyle: .alert)
+                let alertController = UIAlertController(title: "Sorry", message: "Can not call!", preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 present(alertController, animated: true, completion: nil)
             }
@@ -188,7 +198,6 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         if(!(parent?.isEqual(self.parent) ?? false)) {
             if memberListVC != nil {
                 //debug
-                //self.profile.photoLink = "https://pp.vk.me/c624425/v624425140/1439b/3Ka-jAkA1Dw.jpg"
                 updateModelDelegate = memberListVC
                 updateModelDelegate.updateModel(model: model)
             }

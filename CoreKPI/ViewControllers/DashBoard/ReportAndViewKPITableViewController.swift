@@ -842,7 +842,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
             destinatioVC.inputSettingCells = true
             destinatioVC.textFieldInputData = self.kpiDescription
         default:
-            break
+            destinatioVC.segueWithSelecting = true
         }
         destinatioVC.navigationItem.rightBarButtonItem = nil
         navigationController?.pushViewController(destinatioVC, animated: true)

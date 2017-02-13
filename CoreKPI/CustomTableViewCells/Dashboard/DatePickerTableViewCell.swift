@@ -34,8 +34,6 @@ class DatePickerTableViewCell: UITableViewCell {
             delegate = alertSettingVC
         }
         
-        print(datePicker.date)
-        
     }
     @IBAction func dataPickerDidMove(_ sender: UIDatePicker) {
         delegate.updateTime(newTime: datePicker.date)

@@ -27,6 +27,12 @@ class InviteTableViewController: UITableViewController {
         numberOfInvationsLAbel.text = "\(numberOfInvations) invitations left"
         typeOfAccountLabel.text = typeOfAccount.rawValue
         
+        let controllers = navigationController?.viewControllers
+        
+        if controllers?[(controllers?.count)! - 2] is NewProfileTableViewController {
+            navigationItem.hidesBackButton = true
+        }
+        
         tableView.tableFooterView = UIView(frame: .zero)
     }
     

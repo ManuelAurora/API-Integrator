@@ -14,6 +14,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     var model: ModelCoreKPI!
     var index: Int!
     var newProfile: Profile!
+    var profilePhotoData: Data!
     
     weak var memberInfoVC: MemberInfoViewController!
     
@@ -195,18 +196,16 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         var position: String?
         var phone: String?
         var email: String?
-        var photo: UIImage?
+        var photo: String?
         var newParams: [String : String?] = [:]
         let typeOfAccountWasChanged = accountWasChanged
         
         if newProfile.photo == "New photo link" {
-            photo = memberProfilePhotoImage.image
-            let _ = sendProfilePhotoToServer(photo: photo!, success: { photoLink in
-                newParams["photo"] = photoLink
-                model.team[index].setValue(photoLink, forKey: "photoLink")
-                self.model.team[index].setValue(UIImagePNGRepresentation(photo!) as NSData?, forKey: "photo")
-            }
-            )
+            let image = memberProfilePhotoImage.image?.resized(toWidth: CGFloat(320.0))
+            let imageData: NSData = UIImagePNGRepresentation(image!)! as NSData
+            photo = imageData.base64EncodedString(options: .lineLength64Characters)
+            profilePhotoData = UIImagePNGRepresentation(image!)!
+            newParams["photo"] = photo
         }
         if newProfile.firstName != model.team[index].firstName {
             firstname = newProfile.firstName
@@ -246,7 +245,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         if newParams.count > 0 {
             sendRequest(params: newParams)
         } else if newParams.count < 1 && typeOfAccountWasChanged == true {
-            self.updateProfile()
+            self.updateProfile(photoLink: nil)
             let nc = NotificationCenter.default
             nc.post(name:self.modelDidChangeNotification,
                     object: nil,
@@ -260,18 +259,12 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         
     }
     
-    func sendProfilePhotoToServer(photo: UIImage, success: (_ photoLink: String)->()) -> Bool {
-        //send
-        success("https://photo.png")
-        return false
-    }
-    
     func sendRequest(params : [String : String?] ) {
         
         let request = ChangeProfile(model: model)
         
-        request.changeProfile(userID: Int(model.team[index].userID) , params: params, success: {
-            self.updateProfile()
+        request.changeProfile(userID: Int(model.team[index].userID) , params: params, success: { link in
+            self.updateProfile(photoLink: link)
             let nc = NotificationCenter.default
             nc.post(name:self.modelDidChangeNotification,
                     object: nil,
@@ -300,7 +293,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         )
     }
     
-    func updateProfile() {
+    func updateProfile(photoLink: String?) {
         
         model.team[index].setValue(newProfile.userName, forKey: "username")
         model.team[index].setValue(newProfile.firstName, forKey: "firstName")
@@ -310,6 +303,12 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         model.team[index].setValue(newProfile.phone, forKey: "phoneNumber")
         model.team[index].setValue(newProfile.position, forKey: "position")
         
+        if newProfile.photo != nil {
+            model.team[index].setValue(profilePhotoData, forKey: "photo")
+        }
+        if photoLink != nil {
+            model.team[index].setValue(photoLink, forKey: "photoLink")
+        }
     }
     
     //MARK: - Show alert method
@@ -344,7 +343,7 @@ extension MemberEditViewController: UIImagePickerControllerDelegate, UINavigatio
             imagePicker.delegate = self
             imagePicker.allowsEditing = false
             imagePicker.sourceType = .photoLibrary
-            
+    
             present(imagePicker, animated: true, completion: nil)
         }
     }
@@ -389,11 +388,12 @@ extension MemberEditViewController: updateTypeOfAccountDelegate {
 extension MemberEditViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let textFieldText: NSString = (textField.text ?? "") as NSString
+        let txtAfterUpdate = textFieldText.replacingCharacters(in: range, with: string)
+        
         switch textField.tag {
         case 0:
-            let textFieldText: NSString = (textField.text ?? "") as NSString
-            let txtAfterUpdate = textFieldText.replacingCharacters(in: range, with: string)
-            
             switch string {
             case "0"..."9", "+", "-", "", "(", ")":
                 self.newProfile.phone = txtAfterUpdate
@@ -410,8 +410,6 @@ extension MemberEditViewController: UITextFieldDelegate {
                 return false
             }
         case 1:
-            let textFieldText: NSString = (textField.text ?? "") as NSString
-            let txtAfterUpdate = textFieldText.replacingCharacters(in: range, with: string)
             newProfile.userName = txtAfterUpdate
             return true
         default:
