@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import PhoneNumberKit
 
 class GetMemberList: Request {
     
@@ -47,6 +48,7 @@ class GetMemberList: Request {
                         let profile = Team(context: context)
                         
                         if dataKey.count > 0, let userData = dataKey[i] as? NSDictionary {
+                            
                             profile.position = userData["position"] as? String
                             let mode = userData["mode"] as? Int
                             mode == 0 ? (profile.isAdmin = false) : (profile.isAdmin = true)
@@ -55,8 +57,23 @@ class GetMemberList: Request {
                             profile.lastName = userData["last_name"] as? String
                             profile.username = userData["username"] as? String
                             profile.userID = Int64((userData["user_id"] as? Int)!)
+                            
                             let phone = userData["phone"] as? String
-                            profile.phoneNumber = (phone == "") ? nil : phone
+                            if phone == "" {
+                                profile.phoneNumber = nil
+                            } else {
+                                let phoneNumberKit = PhoneNumberKit()
+                                
+                                do {
+                                    let phoneNumber = try phoneNumberKit.parse("+" + phone!)
+                                    
+                                    profile.phoneNumber = phoneNumberKit.format(phoneNumber, toType: .international)
+                                }
+                                catch {
+                                    print("\(profile.lastName!)'s phone number incorect")
+                                }
+                            }
+                            
                             if (userData["photo"] as? String) != "" {
                                 profile.photoLink = userData["photo"] as? String
                             } else {

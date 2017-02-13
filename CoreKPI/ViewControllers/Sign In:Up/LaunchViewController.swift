@@ -39,33 +39,17 @@ class LaunchViewController: UIViewController {
     
     func getModelFromServer() {
         
-//        let req = LoginRequest(model: model)
-//        req.checkToken(success: { data in
-//            self.model.token = data.token
-//            self.model.profile?.userId = data.userID
-//            self.model.profile?.typeOfAccount = data.typeOfAccount
-//            self.getDataFromCoreData()
-//            self.showTabBarVC()
-//        }, failure: { error in
-//            self.getDataFromCoreData()
-//            self.LogOut()
-//            print(error)
-//        }
-//        )
-        
-        request = GetModelFromServer(model: model)
-        
-        request.getModelFromServer(
-            success: { model in
-                self.model = ModelCoreKPI(model: model)
-                self.getDataFromCoreData()
-                self.showTabBarVC()
-        },
-            failure: { error in
-                self.getDataFromCoreData()
-                self.LogOut()
-                self.showAlert(title: "Sorry", errorMessage: error)
-                self.showTabBarVC()
+        let req = LoginRequest(model: model)
+        req.checkToken(success: { data in
+            self.model.token = data.token
+            self.model.profile?.userId = data.userID
+            self.model.profile?.typeOfAccount = data.typeOfAccount
+            self.getDataFromCoreData()
+            self.showTabBarVC()
+        }, failure: { error in
+            self.getDataFromCoreData()
+            self.LogOut()
+            print(error)
         }
         )
     }

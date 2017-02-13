@@ -86,7 +86,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                 phoneCell.headerOfCell.text = "Phone"
                 phoneCell.phoneNumberTextField.text = newProfile.phone
                 phoneCell.textFieldOfCell.placeholder = "No Phone"
-                phoneCell.textFieldOfCell.keyboardType = .phonePad
+                phoneCell.textFieldOfCell.keyboardType = .numberPad
                 phoneCell.textFieldOfCell.tag = 0
                 phoneCell.prepareForReuse()
                 return phoneCell
@@ -176,9 +176,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
             }
         }
         
-        if newProfile.phone == "" {
-            newProfile.phone = nil
-        } else {
+        if newProfile.phone != nil {
             let phoneNumberKit = PhoneNumberKit()
             do {
                 _ = try phoneNumberKit.parse(newProfile.phone!)
@@ -188,7 +186,6 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                 return false
             }
         }
-        
         return true
     }
     
@@ -225,7 +222,22 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         if newProfile.phone != model.team[index].phoneNumber {
             phone = newProfile.phone
-            newParams["phone"] = phone ?? ""
+            
+            if phone == nil {
+                newParams["phone"] = ""
+            } else {
+                let phoneNumberKit = PhoneNumberKit()
+                do {
+                    let phoneNumber = try phoneNumberKit.parse(phone!)
+                    let countryCode = phoneNumber.countryCode
+                    let nationalNumber = phoneNumber.adjustedNationalNumber()
+                    newParams["phone"] = "\(countryCode)\(nationalNumber)"
+                }
+                catch {
+                    print("Generic parser error")
+                }
+                
+            }
         }
         if newProfile.userName != model.team[index].username {
             email = newProfile.userName
@@ -385,8 +397,13 @@ extension MemberEditViewController: UITextFieldDelegate {
             switch string {
             case "0"..."9", "+", "-", "", "(", ")":
                 self.newProfile.phone = txtAfterUpdate
+                if txtAfterUpdate == "+" {
+                    newProfile.phone = nil
+                }
                 if txtAfterUpdate == "" {
-                    self.newProfile.phone = nil
+                    newProfile.phone = nil
+                    textField.text = "+"
+                    return false
                 }
                 return true
             default:
@@ -395,7 +412,7 @@ extension MemberEditViewController: UITextFieldDelegate {
         case 1:
             let textFieldText: NSString = (textField.text ?? "") as NSString
             let txtAfterUpdate = textFieldText.replacingCharacters(in: range, with: string)
-            self.newProfile.userName = txtAfterUpdate
+            newProfile.userName = txtAfterUpdate
             return true
         default:
             return true
@@ -410,6 +427,21 @@ extension MemberEditViewController: UITextFieldDelegate {
             memberNameTextField.becomeFirstResponder()
         }
         return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField.tag == 0 {
+            if newProfile.phone == nil {
+                textField.text = "+"
+            }
+        }
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.tag == 0 {
+            if newProfile.phone == nil {
+                textField.text = ""
+            }
+        }
     }
     
 }
