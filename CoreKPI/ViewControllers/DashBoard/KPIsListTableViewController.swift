@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import OAuthSwift
+//import OAuthSwift
 
 //MARK: - Enums for setting
 enum Source: String {
@@ -259,7 +259,7 @@ class KPIsListTableViewController: UITableViewController {
             for kpi in external {
                 let kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: (kpi as! ExternalKPI), createdKPI: nil, imageBacgroundColour: UIColor.clear)
                 arrayOfKPI.append(kpi)
-                getGoogleAnalyticsData(index: arrayOfKPI.count - 1)
+                //getGoogleAnalyticsData(index: arrayOfKPI.count - 1)
             }
         } catch {
             print("Fetching faild")
@@ -428,65 +428,97 @@ extension KPIsListTableViewController: KPIListButtonCellDelegate {
     }
 }
 
-//MARK: - get External services data
-extension KPIsListTableViewController {
-    func getGoogleAnalyticsData(index: Int) {
-        let external = arrayOfKPI[index].integratedKPI
-        let request = GoogleAnalytics(oauthToken: (external?.oauthToken)!, oauthRefreshToken: (external?.oauthRefreshToken)!, oauthTokenExpiresAt: (external?.oauthTokenExpiresAt)! as Date)
-        
-        var expression = ""
-        switch (GoogleAnalyticsKPIs(rawValue: (external?.kpiName)!))! {
-        case .UsersSessions:
-            expression = "ga:users/ga:sessions"
-        case .AudienceOverview:
-            expression = "ga:userAgeBracket"
-        case .GoalOverview:
-            expression = "ga:users"
-        case .TopPagesByPageviews:
-            expression = "ga:users"
-        case .TopSourcesBySessions:
-            expression = "ga:users"
-        case .TopOrganicKeywordsBySession:
-            expression = "ga:users"
-        case .TopChannelsBySessions:
-            expression = "ga:users"
-        case .RevenueTransactions:
-            expression = "ga:users"
-        case .EcommerceOverview:
-            expression = "ga:users"
-        case .RevenueByLandingPage:
-            expression = "ga:users"
-        case .RevenueByChannels:
-            expression = "ga:users"
-        case .TopKeywordsByRevenue:
-            expression = "ga:users"
-        case .TopSourcesByRevenue:
-            expression = "ga:users"
-        }
-        
-        let param = ReportRequest(viewId: (external?.googleAnalyticsKPI?.viewID)!, startDate: "2017-01-01", endDate: "2017-01-31", expression: expression, formattingType: "FLOAT")
-        
-        request.getAnalytics(param: param, success: { report in
-            print("ok")
-        }, failure: { error in
-            if error == "401" {
-                self.refreshAccessToken(external: external!, index: index)
-            }
-        }
-        )
-    }
-    
-    func refreshAccessToken(external: ExternalKPI, index: Int) {
-        let request = ExternalRequest(oauthToken: external.oauthToken!, oauthRefreshToken: external.oauthRefreshToken!, oauthTokenExpiresAt: external.oauthTokenExpiresAt as! Date)
-        request.updateAccessToken(servise: IntegratedServices(rawValue: external.serviceName!)!, success: { accessToken in
-            print(accessToken)
-            //external.setValue(accessToken, forKey: "oauthToken")
-            external.oauthToken = accessToken
-            self.getGoogleAnalyticsData(index: index)
-        }, failure: { error in
-            print(error)
-            //TODO: authorisation again
-        }
-        )
-    }
-}
+////MARK: - get External services data
+//extension KPIsListTableViewController {
+//    func getGoogleAnalyticsData(index: Int) {
+//        let external = arrayOfKPI[index].integratedKPI
+//        let request = GoogleAnalytics(oauthToken: (external?.oauthToken)!, oauthRefreshToken: (external?.oauthRefreshToken)!, oauthTokenExpiresAt: (external?.oauthTokenExpiresAt)! as Date)
+//        let param = ReportRequest()
+//        param.viewId = (external?.googleAnalyticsKPI?.viewID)!
+//        
+//        let ranges:[ReportRequest.DateRange] = [ReportRequest.DateRange(startDate: "2017-01-01", endDate: "2017-01-31")]
+//        var metrics: [ReportRequest.Metric] = []
+//        var dimentions: [ReportRequest.Dimension] = []
+//        
+//        switch (GoogleAnalyticsKPIs(rawValue: (external?.kpiName)!))! {
+//        case .UsersSessions:
+//            metrics.append(ReportRequest.Metric(expression: "ga:users/ga:sessions", formattingType: .FLOAT))
+//        case .AudienceOverview:
+//            metrics.append(ReportRequest.Metric(expression: "ga:sessionsPerUser", formattingType: .FLOAT))
+//            //TODO:
+//        case .GoalOverview:
+//            metrics.append(ReportRequest.Metric(expression: "ga:goalCompletionsAll", formattingType: .FLOAT))
+//        case .TopPagesByPageviews:
+//            metrics.append(ReportRequest.Metric(expression: "ga:pageviews", formattingType: .FLOAT))
+//            dimentions.append(ReportRequest.Dimension(name: "ga:pagePath"))
+//        case .TopSourcesBySessions:
+//            metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .FLOAT))
+//            dimentions.append(ReportRequest.Dimension(name: "ga:source"))
+//        case .TopOrganicKeywordsBySession:
+//            metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .FLOAT))
+//            dimentions.append(ReportRequest.Dimension(name: "ga:keyword"))
+//        case .TopChannelsBySessions:
+//            metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .FLOAT))
+//            dimentions.append(ReportRequest.Dimension(name: "ga:channelGrouping"))
+//        case .RevenueTransactions:
+//            metrics.append(ReportRequest.Metric(expression: "ga:totalValue/ga:transactions", formattingType: .FLOAT))
+//        case .EcommerceOverview:
+//            metrics.append(ReportRequest.Metric(expression: "ga:sessionsPerUser", formattingType: .FLOAT))
+//        case .RevenueByLandingPage:
+//            metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
+//            dimentions.append(ReportRequest.Dimension(name: "ga:landingPagePath"))
+//        case .RevenueByChannels:
+//            metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
+//            dimentions.append(ReportRequest.Dimension(name: "ga:channelGrouping"))
+//        case .TopKeywordsByRevenue:
+//            metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
+//            dimentions.append(ReportRequest.Dimension(name: "ga:keyword"))
+//        case .TopSourcesByRevenue:
+//            metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
+//            dimentions.append(ReportRequest.Dimension(name: "ga:source"))
+//        }
+//        
+//        param.dateRanges = ranges
+//        param.metrics = metrics
+//        
+//        //viewId: (external?.googleAnalyticsKPI?.viewID)!, startDate: "2017-01-01", endDate: "2017-01-31", expression: expression, formattingType: "FLOAT")
+//        
+//        request.getAnalytics(param: param, success: { report in
+//            print("ok")
+//        }, failure: { error in
+//            if error == "401" {
+//                self.refreshAccessToken(external: external!, index: index)
+//            }
+//        }
+//        )
+//    }
+//    
+//    func refreshAccessToken(external: ExternalKPI, index: Int) {
+//        let request = ExternalRequest(oauthToken: external.oauthToken!, oauthRefreshToken: external.oauthRefreshToken!, oauthTokenExpiresAt: external.oauthTokenExpiresAt as! Date)
+//        request.updateAccessToken(servise: IntegratedServices(rawValue: external.serviceName!)!, success: { accessToken in
+//            print(accessToken)
+//            external.oauthToken = accessToken
+//            self.getGoogleAnalyticsData(index: index)
+//        }, failure: { error in
+//            print(error)
+//            //TODO: authorisation again
+//        }
+//        )
+//    }
+//    
+//    func autorisationAgain(external: ExternalKPI) {
+//        let alertVC = UIAlertController(title: "Sorry", message: "You should autorisation again", preferredStyle: .alert)
+//        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: { (UIAlertAction) in
+//            let request = ExternalRequest()
+//            request.oAuthAutorisation(servise: IntegratedServices(rawValue: external.serviceName!)!, viewController: self, success: { credential in
+//                external.setValue(credential.oauthToken, forKey: "oauthToken")
+//                external.setValue(credential.oauthRefreshToken, forKey: "oauthRefreshToken")
+//                external.setValue(credential.oauthTokenExpiresAt, forKey: "oauthTokenExpiresAt")
+//            }, failure: { error in
+//                self.showAlert(title: "Sorry", message: error)
+//            }
+//            )
+//        }
+//        ))
+//    }
+//}

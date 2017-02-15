@@ -33,10 +33,25 @@ class ReportRequest: Mappable {
     required init?(map: Map) {
     }
     
-    init(viewId: String, startDate: String, endDate: String, expression: String, formattingType: String) {
-        self.viewId = viewId
-        self.dateRanges = [DateRange(startDate: startDate, endDate: endDate)]
-        self.metrics = [Metric(expression: expression, formattingType: MetricType(rawValue: formattingType)!)]
+    init(){}
+    init(reportRequest: ReportRequest) {
+        self.viewId = reportRequest.viewId
+        self.dateRanges = reportRequest.dateRanges
+        self.samplingLevel = reportRequest.samplingLevel
+        self.dimensions = reportRequest.dimensions
+        self.dimensionFilterClauses = reportRequest.dimensionFilterClauses
+        self.metrics = reportRequest.metrics
+        self.metricFilterClauses = reportRequest.metricFilterClauses
+        self.filtersExpression = reportRequest.filtersExpression
+        self.orderBys = reportRequest.orderBys
+        self.segments = reportRequest.segments
+        self.pivots = reportRequest.pivots
+        self.cohortGroup = reportRequest.cohortGroup
+        self.pageToken = reportRequest.pageToken
+        self.pageSize = reportRequest.pageSize
+        self.includeEmptyRows = reportRequest.includeEmptyRows
+        self.hideTotals = reportRequest.hideTotals
+        self.hideValueRanges = reportRequest.hideValueRanges
     }
     
     // Mappable
@@ -77,6 +92,9 @@ extension ReportRequest {
         var histogramBuckets: [String]? = []
         
         init?(map: Map) {
+        }
+        init(name: String) {
+            self.name = name
         }
         mutating func mapping(map: Map) {
             name             <- map["name"]

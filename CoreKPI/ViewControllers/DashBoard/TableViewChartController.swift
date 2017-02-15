@@ -14,7 +14,13 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
     
     var index = 0
     var header: String = " "
-    var dataArray: [(Date, Double)] = []
+    
+    var reportArray: [(Date, Double)] = []
+    
+    var dataArray: [(leftValue: String, centralValue: String, rightValue: String)] = []
+    var titleOfTable: (leftTitle: String, centralTitle: String, rightTitle: String) = ("","","")
+    
+    var typeOfKPI: TypeOfKPI = .createdKPI
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,28 +37,51 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataArray.count + 1
+        
+        switch typeOfKPI {
+        case .createdKPI:
+            return reportArray.count + 1
+        case .IntegratedKPI:
+            return dataArray.count + 1
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DataCell", for: indexPath) as! ChartTableViewCell
-        switch indexPath.row {
-        case 0:
-            cell.metricsLabel.text = "Date"
-            cell.persentLabel.text = "Value"
-            cell.valueLabel.isHidden = true
-        default:
-            cell.metricsLabel.textColor = UIColor.black
-            cell.persentLabel.textColor = UIColor(red: 140/255, green: 140/255, blue: 140/255, alpha: 1.0)
-            cell.valueLabel.isHidden = true
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = .short
-            cell.metricsLabel.text = dateFormatter.string(from: dataArray[indexPath.row - 1].0)
-            let numberFormatter = NumberFormatter()
-            numberFormatter.numberStyle = .decimal
-            numberFormatter.maximumFractionDigits = 10
-            cell.persentLabel.text = numberFormatter.string(from: NSNumber(value: dataArray[indexPath.row - 1].1))!
+        
+        switch typeOfKPI {
+        case .createdKPI:
+            switch indexPath.row {
+            case 0:
+                cell.leftLabel.text = "Date"
+                cell.centralLabel.text = "Value"
+                cell.rightLabel.isHidden = true
+            default:
+                cell.leftLabel.textColor = UIColor.black
+                cell.centralLabel.textColor = UIColor(red: 140/255, green: 140/255, blue: 140/255, alpha: 1.0)
+                cell.rightLabel.isHidden = true
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateStyle = .short
+                cell.leftLabel.text = dateFormatter.string(from: reportArray[indexPath.row - 1].0)
+                let numberFormatter = NumberFormatter()
+                numberFormatter.numberStyle = .decimal
+                numberFormatter.maximumFractionDigits = 10
+                cell.rightLabel.text = numberFormatter.string(from: NSNumber(value: reportArray[indexPath.row - 1].1))!
+            }
+        case .IntegratedKPI:
+            switch indexPath.row {
+            case 0:
+                cell.leftLabel.text = titleOfTable.leftTitle
+                cell.centralLabel.text = titleOfTable.centralTitle
+                cell.rightLabel.text = titleOfTable.rightTitle
+            default:
+                cell.leftLabel.text = dataArray[indexPath.row - 1].leftValue
+                cell.centralLabel.text = dataArray[indexPath.row - 1].centralValue
+                cell.rightLabel.text = dataArray[indexPath.row - 1].rightValue
+            }
         }
+        
+
         return cell
     }
     

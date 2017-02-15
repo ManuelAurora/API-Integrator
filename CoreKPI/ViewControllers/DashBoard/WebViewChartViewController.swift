@@ -75,7 +75,6 @@ class WebViewChartViewController: UIViewController {
             let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
             let topOfJsFile = "var margin    = {top: 50, right: 30, bottom: 30, left: 30}; var width = \(width) - (margin.left + margin.right); var height = \(height) - (margin.top + margin.bottom);"
-            
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + topOfJsFile + js2! + "</script>", baseURL: nil)
         case  .BarChart:
             let htmlFile = Bundle.main.path(forResource:"bar", ofType: "html")

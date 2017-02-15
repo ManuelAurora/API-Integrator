@@ -8,7 +8,7 @@
 
 import Foundation
 import Alamofire
-//import OAuthSwift
+import OAuthSwift
 
 class ExternalRequest {
     
@@ -22,6 +22,12 @@ class ExternalRequest {
         self.oauthToken = oauthToken
         self.oauthRefreshToken = oauthRefreshToken
         self.oauthTokenExpiresAt = oauthTokenExpiresAt
+    }
+    
+    init() {
+        self.oauthToken = ""
+        self.oauthRefreshToken = ""
+        self.oauthTokenExpiresAt = Date()
     }
     
     typealias success = (_ json: NSDictionary) -> ()
@@ -100,6 +106,73 @@ class ExternalRequest {
                     }
                 }
             }
-        }    }
+        }
+    }
     
+    //Autorisation OAuth 1.0/2.0
+    func oAuthAutorisation(servise: IntegratedServices, viewController: UIViewController, success: @escaping (_ credential: OAuthSwiftCredential) -> (), failure: @escaping failure) {
+        
+        switch servise {
+        case .GoogleAnalytics:
+            doOAuthGoogle(viewController: viewController, success: { credential in
+                success(credential)
+            }, failure: { error in
+                failure(error)
+            }
+            )
+        case .SalesForce:
+            doOAuthSalesforce(viewController: viewController, success: { credential in
+                success(credential)
+            }, failure: {error in
+                failure(error)
+            }
+            )
+        default:
+            break
+        }
+    }
+    
+    private func doOAuthGoogle(viewController: UIViewController, success: @escaping (_ credential: OAuthSwiftCredential) -> (), failure: @escaping failure) {
+        let oauthswift = OAuth2Swift(
+            consumerKey:    "988266735713-9ruvi1tjo1bk6gckjuiqnncuq6otn0ko.apps.googleusercontent.com",
+            consumerSecret: "",
+            authorizeUrl:   "https://accounts.google.com/o/oauth2/v2/auth",
+            accessTokenUrl: "https://accounts.google.com/o/oauth2/token",
+            responseType:   "code"
+        )
+        // magic redirect - "urn:ietf:wg:oauth:2.0:oob"
+        oauthswift.allowMissingStateCheck = true
+        oauthswift.authorizeURLHandler = SafariURLHandler(viewController: viewController, oauthSwift: oauthswift)
+        let _ = oauthswift.authorize(
+            withCallbackURL: URL(string: "CoreKPI.CoreKPI:/oauth2Callback")!, scope: "https://www.googleapis.com/auth/analytics.readonly", state: "",
+            success: { credential, response, parameters in
+                success(credential)
+        },
+            failure: { error in
+                failure("\(error.localizedDescription)")
+        }
+        )
+    }
+    
+    private func doOAuthSalesforce(viewController: UIViewController, success: @escaping (_ credential: OAuthSwiftCredential) -> (), failure: @escaping failure) {
+        let oauthswift = OAuth2Swift(
+            consumerKey:    "3MVG9HxRZv05HarSOV2Bh.pnwumGqpwVny5raeBxpjMwIQCVzeb7HmzJvGTOxEm6N3S2Q7LFo48KvA.0DrKYt",
+            consumerSecret: "2273564242408453432",
+            authorizeUrl:   "https://login.salesforce.com/services/oauth2/authorize",
+            accessTokenUrl: "https://login.salesforce.com/services/oauth2/token",
+            responseType:   "code"
+        )
+        oauthswift.authorizeURLHandler = SafariURLHandler(viewController: viewController, oauthSwift: oauthswift)
+        let state = generateState(withLength: 20)
+        let _ = oauthswift.authorize(
+            withCallbackURL: URL(string: "https://appauth.demo-app.io:/oauth2redirect")!, scope: "full", state: state,
+            success: { credential, response, parameters in
+                success(credential)
+        },
+            failure: { error in
+                failure(error.description)
+        }
+        )
+    }
+
 }

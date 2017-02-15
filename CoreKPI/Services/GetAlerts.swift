@@ -33,7 +33,6 @@ class GetAlerts: Request {
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
                 if let dataKey = json["data"] as? NSArray, dataKey.count > 0 {
-                    
                     let alertArray: [Alert] = []
                     
 //                    for i in 0..<dataKey.count {
@@ -58,6 +57,7 @@ class GetAlerts: Request {
                     return alertArray
                 } else {
                     print("Alert list is empty")
+                    return []
                 }
             } else {
                 self.errorMessage = json["message"] as? String

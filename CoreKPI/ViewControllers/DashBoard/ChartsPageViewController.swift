@@ -20,13 +20,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         self.view.backgroundColor = UIColor.white
         
         self.navigationController?.navigationBar.backgroundColor = UIColor.white
-        
-        switch kpi.typeOfKPI {
-        case .createdKPI:
-            self.navigationItem.title = "Report"
-        case .IntegratedKPI:
-            self.navigationItem.title = kpi.integratedKPI?.serviceName
-        }
+    
     }
 
     override func didReceiveMemoryWarning() {
@@ -67,9 +61,11 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         
         switch kpi.typeOfKPI {
         case .createdKPI:
+            navigationItem.title = "Report"
+            
             if kpi.KPIViewOne == .Numbers && kpi.KPIViewTwo == .Graph {
                 for i in (kpi.createdKPI?.number)! {
-                    tableViewChartVC.dataArray.append(i)
+                    tableViewChartVC.reportArray.append(i)
                 }
                 tableViewChartVC.header = (kpi.createdKPI?.KPI)!
                 tableViewChartVC.index = 0
@@ -88,7 +84,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 webViewChartOneVC.typeOfChart = kpi.KPIChartOne!
                 webViewChartOneVC.index = 0
                 for i in (kpi.createdKPI?.number)! {
-                    tableViewChartVC.dataArray.append(i)
+                    tableViewChartVC.reportArray.append(i)
                 }
                 tableViewChartVC.header = (kpi.createdKPI?.KPI)!
                 tableViewChartVC.index = 1
@@ -118,7 +114,62 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 }
             }
         case .IntegratedKPI:
-            break
+            
+            tableViewChartVC.typeOfKPI = .IntegratedKPI
+            
+            //debug->
+            tableViewChartVC.header = kpi.integratedKPI.kpiName!
+            tableViewChartVC.index = 0
+            //<-debug
+            
+            switch (IntegratedServices(rawValue: kpi.integratedKPI.serviceName!))! {
+            case .GoogleAnalytics:
+                navigationItem.title = "Google Analytics"
+                switch (GoogleAnalyticsKPIs(rawValue: kpi.integratedKPI.kpiName!))! {
+                case .UsersSessions:
+                    //tableViewChartVC.header = kpi.integratedKPI.kpiName!
+                    tableViewChartVC.titleOfTable = ("Users/sessions","","Value")
+                    //tableViewChartVC.index = 0
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    }
+                    )
+                    //return tableViewChartVC
+                case .AudienceOverview:
+                    tableViewChartVC.titleOfTable = ("Users/sessions","","Value")
+                    showAlert(title: "Sorry", message: "Coming soon")
+                    //return tableViewChartVC
+                case .GoalOverview:
+                    tableViewChartVC.titleOfTable = ("Goal Overview","","Value")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    }
+                    )
+                case .TopPagesByPageviews:
+                    tableViewChartVC.titleOfTable = ("Top Pages","","Value")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    }
+                    )
+                case .TopOrganicKeywordsBySession:
+                    tableViewChartVC.titleOfTable = ("Top Keywords","","Value")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    }
+                    )
+                default:
+                    break
+                }
+                //debug->
+                return tableViewChartVC
+                //<-debug
+            default:
+                break
+            }
         }
         return UIViewController()
     }
@@ -148,3 +199,151 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     
 }
 
+//load data from external services
+extension ChartsPageViewController {
+    
+    //MARK: - get analytics data
+    func getGoogleAnalyticsData(success: @escaping (_ report: Report) -> ()) {
+        let external = kpi.integratedKPI
+        let request = GoogleAnalytics(oauthToken: (external?.oauthToken)!, oauthRefreshToken: (external?.oauthRefreshToken)!, oauthTokenExpiresAt: (external?.oauthTokenExpiresAt)! as Date)
+        let param = ReportRequest()
+        param.viewId = (external?.googleAnalyticsKPI?.viewID)!
+        
+        let ranges:[ReportRequest.DateRange] = [ReportRequest.DateRange(startDate: "2017-01-01", endDate: "2017-01-31")]
+        var metrics: [ReportRequest.Metric] = []
+        var dimentions: [ReportRequest.Dimension] = []
+        
+        switch (GoogleAnalyticsKPIs(rawValue: (external?.kpiName)!))! {
+        case .UsersSessions:
+            metrics.append(ReportRequest.Metric(expression: "ga:users/ga:sessions", formattingType: .FLOAT))
+        case .AudienceOverview:
+            metrics.append(ReportRequest.Metric(expression: "ga:sessionsPerUser", formattingType: .FLOAT))
+        //TODO: уточнить у заказчика
+        case .GoalOverview:
+            metrics.append(ReportRequest.Metric(expression: "ga:goalCompletionsAll", formattingType: .FLOAT))
+        case .TopPagesByPageviews:
+            metrics.append(ReportRequest.Metric(expression: "ga:pageviews", formattingType: .FLOAT))
+            dimentions.append(ReportRequest.Dimension(name: "ga:pagePath"))
+        case .TopSourcesBySessions:
+            metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .FLOAT))
+            dimentions.append(ReportRequest.Dimension(name: "ga:source"))
+        case .TopOrganicKeywordsBySession:
+            metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .FLOAT))
+            dimentions.append(ReportRequest.Dimension(name: "ga:keyword"))
+        case .TopChannelsBySessions:
+            metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .FLOAT))
+            dimentions.append(ReportRequest.Dimension(name: "ga:channelGrouping"))
+        case .RevenueTransactions:
+            metrics.append(ReportRequest.Metric(expression: "ga:totalValue/ga:transactions", formattingType: .FLOAT))
+        case .EcommerceOverview:
+            metrics.append(ReportRequest.Metric(expression: "ga:sessionsPerUser", formattingType: .FLOAT))
+        case .RevenueByLandingPage:
+            metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
+            dimentions.append(ReportRequest.Dimension(name: "ga:landingPagePath"))
+        case .RevenueByChannels:
+            metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
+            dimentions.append(ReportRequest.Dimension(name: "ga:channelGrouping"))
+        case .TopKeywordsByRevenue:
+            metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
+            dimentions.append(ReportRequest.Dimension(name: "ga:keyword"))
+        case .TopSourcesByRevenue:
+            metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
+            dimentions.append(ReportRequest.Dimension(name: "ga:source"))
+        }
+        
+        param.dateRanges = ranges
+        param.metrics = metrics
+        
+        request.getAnalytics(param: param, success: { report in
+            success(report)
+        }, failure: { error in
+            if error == "401" {
+                self.refreshAccessToken()
+            }
+        }
+        )
+    }
+    
+    //MARK: - crate data from request
+    func createDataFromRequest(success: @escaping ([(leftValue: String, centralValue: String, rightValue: String)])->()) {
+        
+        var dataForPresent: [(leftValue: String, centralValue: String, rightValue: String)] = []
+        
+        switch (IntegratedServices(rawValue: kpi.integratedKPI.serviceName!))! {
+        case .GoogleAnalytics:
+            getGoogleAnalyticsData(success: { report in
+                switch (GoogleAnalyticsKPIs(rawValue: self.kpi.integratedKPI.kpiName!))! {
+                case .UsersSessions:
+                    for _ in 0..<(report.data?.rowCount)! {
+                        for data in (report.data?.totals)! {
+                            dataForPresent.append(("Users", "", "\(data.values[0])"))
+                        }
+                    }
+                    success(dataForPresent)
+                case .AudienceOverview:
+                    break //TODO: AudienceOverview
+                case .GoalOverview:
+                    for _ in 0..<(report.data?.rowCount)! {
+                        for data in (report.data?.totals)! {
+                            dataForPresent.append(("Goal", "", "\(data.values[0])"))
+                        }
+                    }
+                    success(dataForPresent)
+                case .TopPagesByPageviews:
+                    for _ in 0..<(report.data?.rowCount)! {
+                        for data in (report.data?.totals)! {
+                            dataForPresent.append(("Goal", "", "\(data.values[0])"))
+                        }
+                    }
+                    success(dataForPresent)
+                case .TopSourcesBySessions:
+                    break //TODO: доделать
+                default:
+                    break
+                }
+            })
+        default:
+            break
+        }
+    }
+    
+    //TODO: load data again
+    //MARK: - refresh token method
+    func refreshAccessToken() {
+        let request = ExternalRequest(oauthToken: kpi.integratedKPI.oauthToken!, oauthRefreshToken: kpi.integratedKPI.oauthRefreshToken!, oauthTokenExpiresAt: kpi.integratedKPI.oauthTokenExpiresAt as! Date)
+        request.updateAccessToken(servise: IntegratedServices(rawValue: kpi.integratedKPI.serviceName!)!, success: { accessToken in
+            print(accessToken)
+            self.kpi.integratedKPI.oauthToken = accessToken
+            //self.getGoogleAnalyticsData(index: index, success: {})
+        }, failure: { error in
+            print(error)
+            self.autorisationAgain(external: self.kpi.integratedKPI)
+        }
+        )
+    }
+    
+    //MARK: - Autorisation again method
+    func autorisationAgain(external: ExternalKPI) {
+        let alertVC = UIAlertController(title: "Sorry", message: "You should autorisation again", preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: { (UIAlertAction) in
+            let request = ExternalRequest()
+            request.oAuthAutorisation(servise: IntegratedServices(rawValue: external.serviceName!)!, viewController: self, success: { credential in
+                external.setValue(credential.oauthToken, forKey: "oauthToken")
+                external.setValue(credential.oauthRefreshToken, forKey: "oauthRefreshToken")
+                external.setValue(credential.oauthTokenExpiresAt, forKey: "oauthTokenExpiresAt")
+            }, failure: { error in
+                self.showAlert(title: "Sorry", message: error)
+            }
+            )
+        }
+        ))
+    }
+    
+    //MARK: - Show alert method
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
+    }
+
+}

@@ -19,7 +19,7 @@ class LaunchViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         if checkLocalToken() {
-            getModelFromServer()
+            checkTokenOnServer()
         } else {
             let startVC = storyboard?.instantiateViewController(withIdentifier: "StartVC")
             present(startVC!, animated: true, completion: nil)
@@ -37,7 +37,7 @@ class LaunchViewController: UIViewController {
         }
     }
     
-    func getModelFromServer() {
+    func checkTokenOnServer() {
         
         let req = LoginRequest(model: model)
         req.checkToken(success: { data in
@@ -47,8 +47,14 @@ class LaunchViewController: UIViewController {
             self.getDataFromCoreData()
             self.showTabBarVC()
         }, failure: { error in
-            self.getDataFromCoreData()
-            self.LogOut()
+            if error == "" {
+                self.getDataFromCoreData()
+                self.LogOut()
+            } else {
+                self.showAlert(title: "Sorry", errorMessage: error)
+                self.getDataFromCoreData()
+                self.showTabBarVC()
+            }
             print(error)
         }
         )

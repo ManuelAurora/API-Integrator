@@ -720,7 +720,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="36" translatesAutoresizingMaskIntoConstraints="NO" id="d8T-GV-d3c">
-                                <rect key="frame" x="132" y="209" width="112" height="57.5"/>
+                                <rect key="frame" x="132" y="209" width="112" height="58"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="vEY-Wv-LPL">
                                         <rect key="frame" x="0.0" y="0.0" width="38" height="57.5"/>
@@ -784,7 +784,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="62" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="i15-st-LzW">
-                                <rect key="frame" x="0.0" y="281" width="375" height="188"/>
+                                <rect key="frame" x="0.0" y="282" width="375" height="188"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="188" id="mpV-et-YvT"/>
@@ -833,7 +833,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </connections>
                             </tableView>
                             <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PCg-CY-yE3">
-                                <rect key="frame" x="32" y="521.5" width="311" height="36"/>
+                                <rect key="frame" x="32" y="522" width="311" height="36"/>
                                 <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="27Z-Lg-dfm"/>
@@ -851,11 +851,11 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <action selector="tapResponsibleForButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="QvD-ts-llu"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="i7a-fV-Yzm">
-                                <rect key="frame" x="16" y="522" width="343" height="36"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="i7a-fV-Yzm">
+                                <rect key="frame" x="16" y="523" width="343" height="0.0"/>
                                 <subviews>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-cu-qgk">
-                                        <rect key="frame" x="0.0" y="0.0" width="161" height="36"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-cu-qgk">
+                                        <rect key="frame" x="-16" y="-522.5" width="0.0" height="36"/>
                                         <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="wRD-v3-f5V"/>
@@ -873,8 +873,8 @@ The main advantage of a computer audio player is that you can play your audio CD
                                             <action selector="tapSecurityButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="kzs-n0-Rej"/>
                                         </connections>
                                     </button>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsv-ER-n9H">
-                                        <rect key="frame" x="182" y="0.0" width="161" height="36"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsv-ER-n9H">
+                                        <rect key="frame" x="-16" y="-522.5" width="0.0" height="36"/>
                                         <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="8jn-o6-fkr"/>
@@ -1298,7 +1298,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="42" translatesAutoresizingMaskIntoConstraints="NO" id="REa-er-V3J">
-                                <rect key="frame" x="87" y="166" width="200" height="288"/>
+                                <rect key="frame" x="87.5" y="166" width="200" height="288"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-c-copy" translatesAutoresizingMaskIntoConstraints="NO" id="gGr-jh-3d7">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
@@ -1401,7 +1401,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     </button>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gfU-9Z-nn9">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gfU-9Z-nn9">
                                 <rect key="frame" x="119" y="512" width="137" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="137" id="0uG-jP-OYo"/>
@@ -1412,7 +1412,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <segue destination="udg-mv-H6B" kind="presentation" id="zXO-Hx-wDi"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gD1-ML-0VR">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gD1-ML-0VR">
                                 <rect key="frame" x="158" y="621" width="59" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="dqi-FX-tUM"/>
@@ -1494,7 +1494,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Nx-kD-2yg">
-                                <rect key="frame" x="65" y="236" width="246" height="26"/>
+                                <rect key="frame" x="64.5" y="236" width="246" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="245.80000000000001" id="DXP-PH-shF"/>
                                     <constraint firstAttribute="height" constant="26" id="Y8F-KV-Dkm"/>
@@ -1723,14 +1723,14 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </constraints>
                             </pageControl>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="onboarding1" translatesAutoresizingMaskIntoConstraints="NO" id="txf-Uo-bkG">
-                                <rect key="frame" x="89" y="153" width="198" height="192"/>
+                                <rect key="frame" x="88.5" y="153" width="198" height="192"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="198" id="Bvk-LU-BXz"/>
                                     <constraint firstAttribute="height" constant="192" id="wp8-XP-LUF"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jHU-xp-TfN">
-                                <rect key="frame" x="65" y="510" width="246" height="26"/>
+                                <rect key="frame" x="64.5" y="510" width="246" height="26"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="246" id="5Mo-vk-ySu"/>
@@ -1981,6 +1981,9 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="send" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="LTD-j6-AVi" id="Sf4-fH-3fi"/>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ehT-ja-DRh">
                                 <rect key="frame" x="64.5" y="259" width="246" height="26"/>
@@ -2039,7 +2042,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IAq-0r-mAJ">
-                                <rect key="frame" x="65" y="259" width="246" height="26"/>
+                                <rect key="frame" x="64.5" y="259" width="246" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="7J9-UV-SmK"/>
                                     <constraint firstAttribute="width" constant="245.80000000000001" id="q4T-3F-13r"/>
@@ -2629,7 +2632,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oX4-z8-HeP" userLabel="background">
-                                            <rect key="frame" x="8" y="8" width="359" height="127.5"/>
+                                            <rect key="frame" x="8" y="8" width="359" height="128"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -2671,7 +2674,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                             </subviews>
                                         </stackView>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="mu1-RR-may">
-                                            <rect key="frame" x="24" y="11.5" width="237" height="83"/>
+                                            <rect key="frame" x="24" y="12" width="237" height="83"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sales Volume" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q0I-RY-Oap">
                                                     <rect key="frame" x="0.0" y="0.0" width="144" height="29"/>
@@ -3095,9 +3098,9 @@ The main advantage of a computer audio player is that you can play your audio CD
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="metricsLabel" destination="Rss-uT-vTv" id="Wmf-r5-wzy"/>
-                                            <outlet property="persentLabel" destination="4xj-PN-LzZ" id="scc-Om-AE5"/>
-                                            <outlet property="valueLabel" destination="M3t-UW-ivQ" id="z8p-sP-cUF"/>
+                                            <outlet property="centralLabel" destination="M3t-UW-ivQ" id="aka-cZ-gO0"/>
+                                            <outlet property="leftLabel" destination="Rss-uT-vTv" id="8q7-Sc-8WI"/>
+                                            <outlet property="rightLabel" destination="4xj-PN-LzZ" id="68c-3s-3a9"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -3122,6 +3125,204 @@ The main advantage of a computer audio player is that you can play your audio CD
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QcB-RO-l1x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="7877.6000000000004" y="-2508.3958020989508"/>
+        </scene>
+        <!--Title-->
+        <scene sceneID="zau-Vq-A2f">
+            <objects>
+                <viewController storyboardIdentifier="NumberViewController" id="5C5-52-CVp" customClass="NumberChartViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="r1v-gE-pdS"/>
+                        <viewControllerLayoutGuide type="bottom" id="fHb-u8-2rs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="vht-P9-i49">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RbM-e7-1Ri">
+                                <rect key="frame" x="8" y="73" width="359" height="179"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="IFl-SL-rj9">
+                                        <rect key="frame" x="15" y="21" width="155" height="49.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Goal Overview" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Wh-H6-od7">
+                                                <rect key="frame" x="0.0" y="0.0" width="155" height="29"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Metric today" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="APl-TY-kkx">
+                                                <rect key="frame" x="0.0" y="29" width="96.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="Zih-Nt-cTF">
+                                        <rect key="frame" x="225.5" y="81.5" width="113.5" height="72.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15,003" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hfs-Vp-qhR">
+                                                <rect key="frame" x="0.0" y="0.0" width="113.5" height="43"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                                <color key="textColor" red="0.48627450980392156" green="0.30196078431372547" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="yesterday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cIV-Zb-sfB">
+                                                <rect key="frame" x="0.0" y="52" width="75" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="0.48627450980392156" green="0.30196078431372547" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="3GB-qH-TZO">
+                                        <rect key="frame" x="20" y="85" width="111.5" height="66"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="18,879" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KDZ-6R-JDP">
+                                                <rect key="frame" x="0.0" y="0.0" width="111.5" height="43"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                                <color key="textColor" red="0.48627450980392156" green="0.30196078431372547" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LJa-XY-veE">
+                                                <rect key="frame" x="0.0" y="52" width="111.5" height="14"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Green up" translatesAutoresizingMaskIntoConstraints="NO" id="gZq-at-BWe">
+                                                        <rect key="frame" x="0.0" y="0.0" width="14" height="14"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="14" id="CGg-fW-2vE"/>
+                                                            <constraint firstAttribute="height" constant="14" id="pwU-4Q-1o8"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="e3A-YR-chn">
+                                                        <rect key="frame" x="22" y="0.0" width="89.5" height="14"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="25%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V2s-Sy-hMj">
+                                                                <rect key="frame" x="0.0" y="0.0" width="41.5" height="14"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <color key="textColor" red="0.48627450980392156" green="0.30196078431372547" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="today" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1SV-Ri-gJp">
+                                                                <rect key="frame" x="46.5" y="0.0" width="43" height="14"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <color key="textColor" red="0.48627450980392156" green="0.30196078431372547" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="179" id="9G2-fF-Jcn"/>
+                                    <constraint firstAttribute="bottom" secondItem="3GB-qH-TZO" secondAttribute="bottom" priority="750" constant="28" id="A3u-ji-wxA"/>
+                                    <constraint firstAttribute="bottom" secondItem="Zih-Nt-cTF" secondAttribute="bottom" constant="25" id="FJP-bo-Xqw"/>
+                                    <constraint firstItem="3GB-qH-TZO" firstAttribute="leading" secondItem="RbM-e7-1Ri" secondAttribute="leading" priority="750" constant="20" id="HMM-LB-y7f"/>
+                                    <constraint firstItem="IFl-SL-rj9" firstAttribute="top" secondItem="RbM-e7-1Ri" secondAttribute="top" priority="750" constant="21" id="Wpm-g4-JZb"/>
+                                    <constraint firstItem="3GB-qH-TZO" firstAttribute="top" relation="greaterThanOrEqual" secondItem="IFl-SL-rj9" secondAttribute="bottom" constant="5" id="Xj1-N9-8if"/>
+                                    <constraint firstItem="Zih-Nt-cTF" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="3GB-qH-TZO" secondAttribute="trailing" constant="5" id="dIN-ch-dne"/>
+                                    <constraint firstItem="IFl-SL-rj9" firstAttribute="leading" secondItem="RbM-e7-1Ri" secondAttribute="leading" constant="15" id="oQh-aa-A7J"/>
+                                    <constraint firstAttribute="trailing" secondItem="Zih-Nt-cTF" secondAttribute="trailing" priority="750" constant="20" id="sTC-XO-Gnq"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="6"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g04-pD-aE2">
+                                <rect key="frame" x="8" y="261" width="359" height="160"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="nfl-H0-UuP">
+                                        <rect key="frame" x="15" y="21" width="173.5" height="49.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Balance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d7z-Y0-iW7">
+                                                <rect key="frame" x="0.0" y="0.0" width="85.5" height="29"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detroit shop “Batman”" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wg3-JH-fmb">
+                                                <rect key="frame" x="0.0" y="29" width="173.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$592,440" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3Q-JF-4vu">
+                                        <rect key="frame" x="17" y="85" width="162.5" height="43"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                        <color key="textColor" red="0.48627450980392156" green="0.30196078431372547" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kpT-g4-99r">
+                                        <rect key="frame" x="222" y="114" width="120" height="14"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Green up" translatesAutoresizingMaskIntoConstraints="NO" id="g9x-KV-53m">
+                                                <rect key="frame" x="0.0" y="0.0" width="14" height="14"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="14" id="Hp0-kB-jzF"/>
+                                                    <constraint firstAttribute="width" constant="14" id="aPc-TL-34u"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2,440 (2.19%)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Yc-oe-9gt">
+                                                <rect key="frame" x="14" y="0.0" width="106" height="14"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="0.48627450980392156" green="0.30196078431372547" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="nfl-H0-UuP" firstAttribute="top" secondItem="g04-pD-aE2" secondAttribute="top" priority="750" constant="21" id="5ws-Q8-P4o"/>
+                                    <constraint firstAttribute="trailing" secondItem="kpT-g4-99r" secondAttribute="trailing" priority="750" constant="17" id="Hqv-0v-O71"/>
+                                    <constraint firstItem="nfl-H0-UuP" firstAttribute="leading" secondItem="g04-pD-aE2" secondAttribute="leading" priority="750" constant="15" id="I5l-tS-hjI"/>
+                                    <constraint firstItem="kpT-g4-99r" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="f3Q-JF-4vu" secondAttribute="trailing" constant="5" id="OTG-fP-l5b"/>
+                                    <constraint firstItem="f3Q-JF-4vu" firstAttribute="top" relation="greaterThanOrEqual" secondItem="nfl-H0-UuP" secondAttribute="bottom" constant="5" id="ea5-SD-jfG"/>
+                                    <constraint firstAttribute="bottom" secondItem="kpT-g4-99r" secondAttribute="bottom" constant="32" id="o7D-Gn-wHk"/>
+                                    <constraint firstAttribute="height" constant="160" id="uyw-pY-7II"/>
+                                    <constraint firstAttribute="bottom" secondItem="f3Q-JF-4vu" secondAttribute="bottom" constant="32" id="xTI-Mn-b3U"/>
+                                    <constraint firstItem="f3Q-JF-4vu" firstAttribute="leading" secondItem="g04-pD-aE2" secondAttribute="leading" constant="17" id="yfT-vi-dWn"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.98431372549019602" green="0.98431372549019602" blue="0.98431372549019602" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="RbM-e7-1Ri" secondAttribute="trailing" constant="8" id="7YL-3T-emo"/>
+                            <constraint firstAttribute="trailing" secondItem="g04-pD-aE2" secondAttribute="trailing" constant="8" id="Bi2-iT-jQM"/>
+                            <constraint firstItem="RbM-e7-1Ri" firstAttribute="leading" secondItem="vht-P9-i49" secondAttribute="leading" constant="8" id="HUD-HR-vqa"/>
+                            <constraint firstItem="g04-pD-aE2" firstAttribute="top" secondItem="RbM-e7-1Ri" secondAttribute="bottom" constant="9" id="UJU-u5-c6v"/>
+                            <constraint firstItem="RbM-e7-1Ri" firstAttribute="top" secondItem="r1v-gE-pdS" secondAttribute="bottom" constant="9" id="Uzb-M9-lXB"/>
+                            <constraint firstItem="g04-pD-aE2" firstAttribute="leading" secondItem="vht-P9-i49" secondAttribute="leading" constant="8" id="Yd4-gQ-hBR"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Title" id="pmN-le-IRh"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="doubleDataView" destination="RbM-e7-1Ri" id="wWx-Ve-OTQ"/>
+                        <outlet property="doubleKPIName" destination="6Wh-H6-od7" id="zGF-lG-udr"/>
+                        <outlet property="doubleTodayArrow" destination="gZq-at-BWe" id="nNw-fa-pIb"/>
+                        <outlet property="doubleTodayNumber" destination="KDZ-6R-JDP" id="ngi-TY-xYC"/>
+                        <outlet property="doubleTodayPercent" destination="V2s-Sy-hMj" id="QVm-MT-Kxd"/>
+                        <outlet property="doubleYesterdayNumber" destination="Hfs-Vp-qhR" id="aId-P3-fNK"/>
+                        <outlet property="singleDataKPIName" destination="d7z-Y0-iW7" id="GKt-6N-o5t"/>
+                        <outlet property="singleDataView" destination="g04-pD-aE2" id="MXH-yt-qwg"/>
+                        <outlet property="singleTodayArrow" destination="g9x-KV-53m" id="tBU-th-Kt5"/>
+                        <outlet property="singleTodayNumber" destination="f3Q-JF-4vu" id="J0S-A0-Ddq"/>
+                        <outlet property="singleTodayValueAndPercent" destination="7Yc-oe-9gt" id="KlR-58-bkO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Npf-51-174" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7876" y="-4003.4482758620693"/>
         </scene>
         <!--Web View Chart View Controller-->
         <scene sceneID="bAf-tX-HkV">
@@ -3164,13 +3365,7 @@ The main advantage of a computer audio player is that you can play your audio CD
             <objects>
                 <pageViewController storyboardIdentifier="PageVC" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="OZT-7r-fnh" customClass="ChartsPageViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
-                    <navigationItem key="navigationItem" title="Title" id="juB-Mj-VdQ">
-                        <barButtonItem key="rightBarButtonItem" title="WKWeb" id="u66-0l-pih">
-                            <connections>
-                                <segue destination="29f-4v-3Yf" kind="show" action="showDetailViewController:sender:" id="3aZ-J4-aGj"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Title" id="juB-Mj-VdQ"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </pageViewController>
@@ -3541,33 +3736,6 @@ Deliveries</string>
             </objects>
             <point key="canvasLocation" x="6050" y="-3696"/>
         </scene>
-        <!--Title-->
-        <scene sceneID="lTd-3p-LRb">
-            <objects>
-                <viewController id="29f-4v-3Yf" customClass="WKWebViewTestViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Jza-ph-SPk"/>
-                        <viewControllerLayoutGuide type="bottom" id="r6E-mS-fun"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="nLE-Be-XXI">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Title" id="MJn-jf-UAK">
-                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="ChT-qT-G2w">
-                            <connections>
-                                <action selector="closeVC:" destination="29f-4v-3Yf" id="waW-ko-TGR"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Cab-Qb-2We" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="7874" y="-3950"/>
-        </scene>
         <!--Integrated Services-->
         <scene sceneID="jHX-fd-gev">
             <objects>
@@ -3826,6 +3994,7 @@ Deliveries</string>
         <image name="Close" width="26" height="26"/>
         <image name="F.A.Q." width="60" height="61"/>
         <image name="GoogleAnalytics" width="159" height="22"/>
+        <image name="Green up" width="50" height="50"/>
         <image name="HubSpotCRM" width="100" height="45"/>
         <image name="HubSpotMarketing" width="100" height="45"/>
         <image name="PayPal" width="112" height="28"/>
@@ -3850,11 +4019,11 @@ Deliveries</string>
         <image name="teamsIcons1" width="25" height="26"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="2ts-IQ-pe6"/>
-        <segue reference="z63-ET-xrJ"/>
-        <segue reference="b7M-Dv-TzG"/>
         <segue reference="3k5-ee-EEG"/>
         <segue reference="jgU-QK-nbY"/>
+        <segue reference="zXO-Hx-wDi"/>
+        <segue reference="z63-ET-xrJ"/>
+        <segue reference="b7M-Dv-TzG"/>
         <segue reference="hOe-3T-3Gf"/>
     </inferredMetricsTieBreakers>
 </document>
