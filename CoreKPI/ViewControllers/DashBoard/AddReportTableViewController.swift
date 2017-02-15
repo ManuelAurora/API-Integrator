@@ -25,6 +25,8 @@ class AddReportTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        reportTextField.becomeFirstResponder()
+        
         formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.groupingSeparator = ","
@@ -154,7 +156,7 @@ extension AddReportTableViewController: UITextFieldDelegate {
         }
         // Adding text
         if originalString.isEmpty {
-            if string == "," || string == "." || string == "0" {
+            if string == "," || string == "." {
                 textField.text = "0."
                 numberOfCharacters += 1
                 numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"

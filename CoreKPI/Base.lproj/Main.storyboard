@@ -720,7 +720,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="36" translatesAutoresizingMaskIntoConstraints="NO" id="d8T-GV-d3c">
-                                <rect key="frame" x="132" y="209" width="112" height="58"/>
+                                <rect key="frame" x="132" y="209" width="112" height="57.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="vEY-Wv-LPL">
                                         <rect key="frame" x="0.0" y="0.0" width="38" height="57.5"/>
@@ -784,7 +784,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="62" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="i15-st-LzW">
-                                <rect key="frame" x="0.0" y="282" width="375" height="188"/>
+                                <rect key="frame" x="0.0" y="281.5" width="375" height="188"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="188" id="mpV-et-YvT"/>
@@ -833,7 +833,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </connections>
                             </tableView>
                             <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PCg-CY-yE3">
-                                <rect key="frame" x="32" y="522" width="311" height="36"/>
+                                <rect key="frame" x="32" y="522.5" width="311" height="36"/>
                                 <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="27Z-Lg-dfm"/>
@@ -851,11 +851,11 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <action selector="tapResponsibleForButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="QvD-ts-llu"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="i7a-fV-Yzm">
-                                <rect key="frame" x="16" y="523" width="343" height="0.0"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="i7a-fV-Yzm">
+                                <rect key="frame" x="16" y="523" width="343" height="36"/>
                                 <subviews>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-cu-qgk">
-                                        <rect key="frame" x="-16" y="-522.5" width="0.0" height="36"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-cu-qgk">
+                                        <rect key="frame" x="0.0" y="0.0" width="161" height="36"/>
                                         <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="wRD-v3-f5V"/>
@@ -873,8 +873,8 @@ The main advantage of a computer audio player is that you can play your audio CD
                                             <action selector="tapSecurityButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="kzs-n0-Rej"/>
                                         </connections>
                                     </button>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsv-ER-n9H">
-                                        <rect key="frame" x="-16" y="-522.5" width="0.0" height="36"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsv-ER-n9H">
+                                        <rect key="frame" x="182" y="0.0" width="161" height="36"/>
                                         <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="8jn-o6-fkr"/>
@@ -1107,8 +1107,11 @@ The main advantage of a computer audio player is that you can play your audio CD
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" spellCheckingType="yes" returnKeyType="next"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="Dd8-dT-xiq" id="o9F-jN-7Sk"/>
+                                                </connections>
                                             </textField>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Salse Manager" placeholder="Position" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dAq-dr-59z" customClass="BottomBorderTextField" customModule="CoreKPI">
+                                            <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Salse Manager" placeholder="Position" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dAq-dr-59z" customClass="BottomBorderTextField" customModule="CoreKPI">
                                                 <rect key="frame" x="0.0" y="43" width="226" height="43"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="43" id="Dra-v4-eXI"/>
@@ -1116,6 +1119,9 @@ The main advantage of a computer audio player is that you can play your audio CD
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes" returnKeyType="next"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="Dd8-dT-xiq" id="S31-yn-akY"/>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                     </stackView>
@@ -1143,14 +1149,14 @@ The main advantage of a computer audio player is that you can play your audio CD
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Admin" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bEd-h1-Zzd">
-                                                    <rect key="frame" x="288" y="11" width="49" height="21"/>
+                                                    <rect key="frame" x="293" y="11" width="49" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.5607843137254902" green="0.55686274509803924" blue="0.58039215686274503" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="bEd-h1-Zzd" secondAttribute="trailing" constant="5" id="Qgm-8w-88e"/>
+                                                <constraint firstAttribute="trailing" secondItem="bEd-h1-Zzd" secondAttribute="trailing" id="Qgm-8w-88e"/>
                                                 <constraint firstItem="bEd-h1-Zzd" firstAttribute="centerY" secondItem="THm-sU-iSx" secondAttribute="centerY" id="jke-eD-tac"/>
                                                 <constraint firstItem="Npf-mQ-9H0" firstAttribute="leading" secondItem="THm-sU-iSx" secondAttribute="leadingMargin" constant="16" id="o15-wx-2BI"/>
                                                 <constraint firstItem="Npf-mQ-9H0" firstAttribute="centerY" secondItem="THm-sU-iSx" secondAttribute="centerY" id="y6T-G1-gjM"/>
@@ -1168,7 +1174,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JZD-eB-LHi">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JZD-eB-LHi">
                                                     <rect key="frame" x="24" y="11" width="108" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="01N-fm-3MH"/>
@@ -1178,14 +1184,14 @@ The main advantage of a computer audio player is that you can play your audio CD
                                                     <color key="textColor" red="0.0" green="0.59215686274509804" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="No Phone" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fYQ-OT-97H">
-                                                    <rect key="frame" x="132" y="7" width="227" height="30"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="No Email" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fYQ-OT-97H">
+                                                    <rect key="frame" x="132" y="7" width="208" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="YeH-Eo-R73"/>
                                                     </constraints>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="done"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="Dd8-dT-xiq" id="j5t-lZ-Eia"/>
                                                     </connections>
@@ -1195,7 +1201,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                                 <constraint firstItem="fYQ-OT-97H" firstAttribute="centerY" secondItem="N2J-4B-au3" secondAttribute="centerY" id="QfN-K3-efp"/>
                                                 <constraint firstItem="JZD-eB-LHi" firstAttribute="centerY" secondItem="N2J-4B-au3" secondAttribute="centerY" id="Rxo-2p-74A"/>
                                                 <constraint firstItem="fYQ-OT-97H" firstAttribute="leading" secondItem="JZD-eB-LHi" secondAttribute="trailing" id="eSU-FV-qDh"/>
-                                                <constraint firstAttribute="trailing" secondItem="fYQ-OT-97H" secondAttribute="trailing" constant="16" id="gKN-TJ-4Cc"/>
+                                                <constraint firstAttribute="trailing" secondItem="fYQ-OT-97H" secondAttribute="trailing" constant="35" id="gKN-TJ-4Cc"/>
                                                 <constraint firstItem="JZD-eB-LHi" firstAttribute="leading" secondItem="N2J-4B-au3" secondAttribute="leadingMargin" constant="16" id="raI-cu-HVk"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -1221,14 +1227,14 @@ The main advantage of a computer audio player is that you can play your audio CD
                                                     <color key="textColor" red="0.0" green="0.59215686270000001" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="No Phone" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OJh-uL-ahT" customClass="PhoneNumberTextField" customModule="PhoneNumberKit">
-                                                    <rect key="frame" x="132" y="7" width="227" height="30"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="No Phone" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OJh-uL-ahT" customClass="PhoneNumberTextField" customModule="PhoneNumberKit">
+                                                    <rect key="frame" x="132" y="7" width="208" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="GhH-fo-nCl"/>
                                                     </constraints>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="Dd8-dT-xiq" id="2cn-Td-P5G"/>
                                                     </connections>
@@ -1238,7 +1244,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                                 <constraint firstItem="OJh-uL-ahT" firstAttribute="centerY" secondItem="kLh-zk-2qE" secondAttribute="centerY" id="29u-Kt-eM3"/>
                                                 <constraint firstItem="OJh-uL-ahT" firstAttribute="leading" secondItem="cQS-CA-0Pe" secondAttribute="trailing" id="HaN-st-3Un"/>
                                                 <constraint firstItem="cQS-CA-0Pe" firstAttribute="leading" secondItem="kLh-zk-2qE" secondAttribute="leadingMargin" constant="16" id="Zby-Ak-6kE"/>
-                                                <constraint firstAttribute="trailing" secondItem="OJh-uL-ahT" secondAttribute="trailing" constant="16" id="ha2-sD-BUO"/>
+                                                <constraint firstAttribute="trailing" secondItem="OJh-uL-ahT" secondAttribute="trailing" constant="35" id="ha2-sD-BUO"/>
                                                 <constraint firstItem="cQS-CA-0Pe" firstAttribute="centerY" secondItem="kLh-zk-2qE" secondAttribute="centerY" id="stJ-E8-gfg"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -1267,7 +1273,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1jO-ta-Ni0">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="g0X-YC-Ybn">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="save" id="g0X-YC-Ybn">
                             <connections>
                                 <action selector="tapSaveButton:" destination="Dd8-dT-xiq" id="elX-IZ-xBS"/>
                             </connections>
@@ -1278,6 +1284,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                         <outlet property="memberNameTextField" destination="Rnt-y8-pKn" id="e7A-kk-Vic"/>
                         <outlet property="memberPositionTextField" destination="dAq-dr-59z" id="m1v-Kv-0WT"/>
                         <outlet property="memberProfilePhotoImage" destination="GOK-iQ-67C" id="8l0-bj-pxX"/>
+                        <outlet property="saveButton" destination="g0X-YC-Ybn" id="r0l-Bq-xco"/>
                         <outlet property="tableView" destination="FUu-XW-dE4" id="iCg-yQ-8xV"/>
                     </connections>
                 </viewController>
