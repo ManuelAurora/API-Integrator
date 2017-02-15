@@ -54,12 +54,12 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
             switch indexPath.row {
             case 0:
                 cell.leftLabel.text = "Date"
-                cell.centralLabel.text = "Value"
-                cell.rightLabel.isHidden = true
+                cell.rightLabel.text = "Value"
+                cell.centralLabel.isHidden = true
             default:
                 cell.leftLabel.textColor = UIColor.black
-                cell.centralLabel.textColor = UIColor(red: 140/255, green: 140/255, blue: 140/255, alpha: 1.0)
-                cell.rightLabel.isHidden = true
+                cell.rightLabel.textColor = UIColor(red: 140/255, green: 140/255, blue: 140/255, alpha: 1.0)
+                cell.centralLabel.isHidden = true
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateStyle = .short
                 cell.leftLabel.text = dateFormatter.string(from: reportArray[indexPath.row - 1].0)
