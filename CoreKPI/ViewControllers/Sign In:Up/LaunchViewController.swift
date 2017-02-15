@@ -47,11 +47,10 @@ class LaunchViewController: UIViewController {
             self.getDataFromCoreData()
             self.showTabBarVC()
         }, failure: { error in
-            if error == "" {
+            if error == "" { //TODO: Токен невалидный
                 self.getDataFromCoreData()
                 self.LogOut()
             } else {
-                self.showAlert(title: "Sorry", errorMessage: error)
                 self.getDataFromCoreData()
                 self.showTabBarVC()
             }

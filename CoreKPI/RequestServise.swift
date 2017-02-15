@@ -68,9 +68,16 @@ class Request {
                 } catch {
                     guard response.result.isSuccess else {
                         let error = response.result.error
-                        if let error = error, (error as NSError).code != NSURLErrorCancelled {
+            
+                        if let error = error {
                             let requestError = error.localizedDescription
-                            failure(requestError)
+                            
+                            switch (error as NSError).code {
+                            case NSURLErrorNotConnectedToInternet:
+                                failure(requestError)
+                            default:
+                                print(requestError)
+                            }
                         }
                         return
                     }
