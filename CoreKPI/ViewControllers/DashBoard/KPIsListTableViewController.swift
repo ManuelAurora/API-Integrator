@@ -280,9 +280,9 @@ class KPIsListTableViewController: UITableViewController {
                     let dateDtring = report?.key
                     let value = report?.value
                     let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-mm-dd hh:mm:ss"
+                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
                     let date = dateFormatter.date(from: dateDtring!)
-                    newNumbers.append((date ?? Date(),value!)) //debug!
+                    newNumbers.append((date!, value!)) //debug!
                 }
                 kpi.createdKPI?.number = newNumbers.sorted(by: { $0.0 < $1.0 })
                 self.tableView.reloadData()

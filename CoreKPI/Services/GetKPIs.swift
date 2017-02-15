@@ -76,9 +76,9 @@ class GetKPIs: Request {
                             executant = kpiData["responsive_id"] as! Int
                             timeZone = "no"
                             let dateFormatter = DateFormatter()
-                            dateFormatter.dateFormat = "yyyy-mm-dd hh:mm:ss"
+                            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
                             let dateStr = kpiData["datetime"] as! String //deadline
-                            deadline = dateFormatter.date(from: dateStr) ?? Date() //debug
+                            deadline = dateFormatter.date(from: dateStr)!
                             number = []
                             timeInterval = kpiData["interval"] as! String
                             if let imageBacgroundColourString = kpiData["card_color"] as? String {

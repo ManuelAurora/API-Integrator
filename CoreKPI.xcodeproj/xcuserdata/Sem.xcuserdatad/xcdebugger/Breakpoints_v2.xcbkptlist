@@ -115,5 +115,85 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/Services/GetReports.swift"
+            timestampString = "508850154.66618"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "parsingJson(json:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/ViewControllers/DashBoard/KPIsListTableViewController.swift"
+            timestampString = "508850630.18761"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "275"
+            endingLineNumber = "275"
+            landmarkName = "loadReports()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/ViewControllers/DashBoard/KPIsListTableViewController.swift"
+            timestampString = "508851537.513188"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "287"
+            endingLineNumber = "287"
+            landmarkName = "loadReports()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CoreKPI.KPIsListTableViewController.(loadReports () -&gt; ()).(closure #1)"
+                  moduleName = "CoreKPI"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Sem/Desktop/CoreKPI/CoreKPI/ViewControllers/DashBoard/KPIsListTableViewController.swift"
+                  timestampString = "508851767.112048"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "287"
+                  endingLineNumber = "287"
+                  offsetFromSymbolStart = "2535">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CoreKPI.KPIsListTableViewController.(loadReports () -&gt; ()).(closure #1).(closure #1)"
+                  moduleName = "CoreKPI"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Sem/Desktop/CoreKPI/CoreKPI/ViewControllers/DashBoard/KPIsListTableViewController.swift"
+                  timestampString = "508851767.115513"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "287"
+                  endingLineNumber = "287"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
