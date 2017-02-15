@@ -60,7 +60,7 @@ class AlertsListTableViewController: UITableViewController {
         nc.addObserver(forName:modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
         
         refreshControl = UIRefreshControl()
-        refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl?.backgroundColor = UIColor.clear
         refreshControl?.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
         tableView.addSubview(refreshControl!)
         

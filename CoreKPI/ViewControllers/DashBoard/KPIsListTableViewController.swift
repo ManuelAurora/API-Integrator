@@ -41,8 +41,8 @@ class KPIsListTableViewController: UITableViewController {
         //
         
         refreshControl = UIRefreshControl()
-        refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl?.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
+        refreshControl?.backgroundColor = UIColor.clear
         tableView.addSubview(refreshControl!)
         
         self.navigationController?.hideTransparentNavigationBar()
