@@ -9,29 +9,12 @@
 import UIKit
 import Foundation
 
-@IBDesignable
-class PassLockButton: UIButton
-{
-    @IBInspectable
-    var borderColor: UIColor = .blue {
-        didSet {
-            setupButtonView()
-        }
-    }
-   
-    @IBInspectable
-    var borderRadius: CGFloat = 30 {
-        didSet {
-            setupButtonView()
-        }
-    }
+class PinCodeButton: UIButton
+{    
+    var borderColor = UIColor(red: 124.0/255.0, green: 77.0/255.0, blue: 255.0/255.0, alpha: 1.0)
     
-    @IBInspectable
-    var borderWidth:  CGFloat = 1 {
-        didSet {
-            setupButtonView()
-        }
-    }
+    var borderRadius: CGFloat = 30
+    var borderWidth:  CGFloat = 1
     
     var actualNumber: String {
         get {
@@ -39,14 +22,8 @@ class PassLockButton: UIButton
         }
     }
     
-    var defaultBGColor: UIColor = .clear
-    
-    @IBInspectable
-    var highlightBGColor: UIColor = .clear {
-        didSet {
-            setupButtonView()
-        }
-    }
+    private var defaultBGColor:   UIColor!
+    private var highlightBGColor: UIColor!
     
     override var intrinsicContentSize: CGSize {
         return CGSize(width: 60, height: 60)
@@ -54,14 +31,17 @@ class PassLockButton: UIButton
     
     func setupButtonView() {
         
+        defaultBGColor     = .clear
+        highlightBGColor   = .green
         layer.borderColor  = borderColor.cgColor
         layer.borderWidth  = borderWidth
         layer.cornerRadius = borderRadius
+        
+        setTitleColor(borderColor, for: .normal)
+        setTitleColor(.white, for: .highlighted)
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
+    override func didMoveToSuperview() {
         setupButtonView()
     }
     
@@ -73,8 +53,8 @@ class PassLockButton: UIButton
     
     func setupActions() {
         
-        addTarget(self, action: #selector(PassLockButton.touchUpHanler), for: [.touchUpInside, .touchCancel, .touchDragOutside])
-        addTarget(self, action: #selector(PassLockButton.touchDownHandler), for: .touchDown)
+        addTarget(self, action: #selector(PinCodeButton.touchUpHanler), for: [.touchUpInside, .touchCancel, .touchDragOutside])
+        addTarget(self, action: #selector(PinCodeButton.touchDownHandler), for: .touchDown)
     }
     
     func touchUpHanler() {

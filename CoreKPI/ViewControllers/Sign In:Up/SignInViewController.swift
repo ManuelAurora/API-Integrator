@@ -17,14 +17,14 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var emailTextField: BottomBorderTextField!
     
     @IBOutlet weak var signInButton: UIButton!
+    @IBOutlet weak var enterByKeyButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.hideKeyboardWhenTappedAround()
         
-        signInButton.layer.borderWidth = 1.0
-        signInButton.layer.borderColor = UIColor(red: 124.0/255.0, green: 77.0/255.0, blue: 255.0/255.0, alpha: 1.0).cgColor
+        configure(buttons: [signInButton, enterByKeyButton])
     }
     
     override func didReceiveMemoryWarning() {
@@ -40,6 +40,11 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             tapSignInButton(signInButton)
         }
         return true
+    }
+    
+    @IBAction func enterByKeyButtonTapped(_ sender: UIButton) {
+        
+        showPinCodeViewController()
     }
     
     @IBAction func tapSignInButton(_ sender: UIButton) {
@@ -63,6 +68,22 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         }
         
         loginRequest()
+    }
+    
+    private func configure(buttons: [UIButton]) {
+        
+        _ = buttons.map {
+            $0.layer.borderWidth = 1.0
+            $0.layer.borderColor = UIColor(red: 124.0/255.0, green: 77.0/255.0, blue: 255.0/255.0, alpha: 1.0).cgColor
+        }
+    }
+    
+    private func showPinCodeViewController() {
+        
+        guard let pinCodeViewController = storyboard?.instantiateViewController(withIdentifier: "PinCodeViewController") as? PinCodeViewController else { print("DEBUG: An error occured while trying instantiate pin code VC"); return }
+        
+        present(pinCodeViewController, animated: true, completion: nil)
+        
     }
     
     func loginRequest() {

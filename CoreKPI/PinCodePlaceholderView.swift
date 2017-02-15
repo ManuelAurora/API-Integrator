@@ -9,39 +9,34 @@
 import Foundation
 import UIKit
 
-@IBDesignable
-class PassLocPlaceholderView: UIView
+class PinCodePlaceholderView: UIView
 {
-    @IBInspectable
-    var borderColor: UIColor  = .blue {
-        didSet {
-            setupView()
-        }
+    public enum PlaceholderState
+    {
+        case empty
+        case filled
     }
     
-    @IBInspectable
-    var borderRadius: CGFloat = 16 {
-        didSet {
-            setupView()
-        }
-    }
-    
-    @IBInspectable
-    var borderWidth: CGFloat  = 1 {
-        didSet {
-            setupView()
-        }
-    }
+    private var borderColor = UIColor(red: 124.0/255.0, green: 77.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+    private var borderRadius: CGFloat = 8
+    private var borderWidth: CGFloat  = 1
+    private var emptyColor: UIColor   = .white
+    private var filledColor: UIColor  = .blue
     
     override var intrinsicContentSize: CGSize {
         return CGSize(width: 16, height: 16)
     }
     
-    func setupView() {
+    override func didMoveToSuperview() {
+        setupView()
+    }
+    
+    private func setupView() {
         
         layer.borderWidth  = borderWidth
         layer.borderColor  = borderColor.cgColor
         layer.cornerRadius = borderRadius
+        backgroundColor    = emptyColor
     }
     
     override init(frame: CGRect) {
@@ -53,4 +48,27 @@ class PassLocPlaceholderView: UIView
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    
+    private func getColorFor(state: PlaceholderState) -> UIColor {
+        
+        switch state {
+        case .empty:  return emptyColor
+        case .filled: return filledColor
+        }
+    }
+    
+    func animate(state: PlaceholderState) {
+        
+        let color = getColorFor(state: state)
+        
+        UIView.animate(withDuration: 0.4,
+                       delay: 0,
+                       usingSpringWithDamping: 1.0,
+                       initialSpringVelocity: 0,
+                       options: [], animations: {
+                        
+            self.backgroundColor = color
+        }, completion: nil)
+    }
+    
 }
