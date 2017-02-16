@@ -12,6 +12,8 @@
 		64936AEF1E543B480059D80A /* PinCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AEE1E543B480059D80A /* PinCodeViewController.swift */; };
 		64936AF21E543DC00059D80A /* PinCodeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AF01E543DC00059D80A /* PinCodeButton.swift */; };
 		64936AF31E543DC00059D80A /* PinCodePlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */; };
+		64EE4DF81E55ADD80007926F /* PinCodeVCPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EE4DF71E55ADD80007926F /* PinCodeVCPresenter.swift */; };
+		64EE4DFA1E55B6DC0007926F /* PinCodeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 64EE4DF91E55B6DC0007926F /* PinCodeView.xib */; };
 		A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340901E110CF200208EAB /* ChageNameTableViewController.swift */; };
 		A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340921E110D1C00208EAB /* NewNameViewController.swift */; };
 		A2048BC71E3369A4008792D2 /* WKWebViewTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2048BC61E3369A4008792D2 /* WKWebViewTestViewController.swift */; };
@@ -192,6 +194,8 @@
 		64936AEE1E543B480059D80A /* PinCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeViewController.swift; sourceTree = "<group>"; };
 		64936AF01E543DC00059D80A /* PinCodeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeButton.swift; sourceTree = "<group>"; };
 		64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodePlaceholderView.swift; sourceTree = "<group>"; };
+		64EE4DF71E55ADD80007926F /* PinCodeVCPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeVCPresenter.swift; sourceTree = "<group>"; };
+		64EE4DF91E55B6DC0007926F /* PinCodeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PinCodeView.xib; sourceTree = "<group>"; };
 		A20340901E110CF200208EAB /* ChageNameTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChageNameTableViewController.swift; path = CoreKPI/ViewControllers/Team/ChageNameTableViewController.swift; sourceTree = "<group>"; };
 		A20340921E110D1C00208EAB /* NewNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewNameViewController.swift; path = CoreKPI/ViewControllers/Team/NewNameViewController.swift; sourceTree = "<group>"; };
 		A2048BC61E3369A4008792D2 /* WKWebViewTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKWebViewTestViewController.swift; sourceTree = "<group>"; };
@@ -535,6 +539,7 @@
 				64936AF01E543DC00059D80A /* PinCodeButton.swift */,
 				64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */,
 				A278209C1E0015BA009F83DB /* StoryBoards */,
+				64EE4DF91E55B6DC0007926F /* PinCodeView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -616,6 +621,7 @@
 				A297F5B61E08234500F85963 /* faqDetailViewController.swift */,
 				644691CE1E55870900D964D5 /* PinCodeLock.swift */,
 				644691D01E55874F00D964D5 /* Miscellaneous.swift */,
+				64EE4DF71E55ADD80007926F /* PinCodeVCPresenter.swift */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -933,6 +939,7 @@
 				A2279D7E1E14DE2100669EB0 /* points.js in Resources */,
 				A2C9ABDA1E2F5BD600623659 /* positiveBar.html in Resources */,
 				A2C9ABDC1E2F5BFE00623659 /* positiveBar.css in Resources */,
+				64EE4DFA1E55B6DC0007926F /* PinCodeView.xib in Resources */,
 				A26BEEAA1E3F70C800C2D2AC /* funnel.js in Resources */,
 				A2279D7D1E14DE2100669EB0 /* d3.js in Resources */,
 				A2B720981E2E4AFD00471E91 /* d3-funnel.js in Resources */,
@@ -1047,6 +1054,7 @@
 				A258A70B1E20D47700FBFBDF /* KPISelectSettingTableViewController.swift in Sources */,
 				A2F77E061E3B199400BB8318 /* ChangeNickname.swift in Sources */,
 				A297F5B31E08233A00F85963 /* MemberEditViewController.swift in Sources */,
+				64EE4DF81E55ADD80007926F /* PinCodeVCPresenter.swift in Sources */,
 				A2FB1AA21E252C110045824A /* KPIDescriptionTableViewCell.swift in Sources */,
 				A274DC0F1E0825DF008CBF36 /* InviteTableViewController.swift in Sources */,
 				A2E8F9FD1E3B223500046870 /* EditKPI.swift in Sources */,

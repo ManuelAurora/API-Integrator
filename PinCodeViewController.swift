@@ -14,10 +14,12 @@ class PinCodeViewController: UIViewController
     
     private var isAnimationCompleted = true
     
+    var dismissCompletion: (() -> Void)?
+    
     @IBOutlet weak private var infoLabel: UILabel!
-    @IBOutlet weak private var deleteButton: UIButton!
+    @IBOutlet weak fileprivate var deleteButton: UIButton!
     @IBOutlet weak private var placeholdersConstrainX: NSLayoutConstraint!
-    @IBOutlet fileprivate var pinCodePlaceholderViews: [PinCodePlaceholderView]!
+    @IBOutlet fileprivate  var pinCodePlaceholderViews: [PinCodePlaceholderView]!
     
     @IBAction private func pinCodeButtonTapped(_ sender: PinCodeButton) {
         guard isAnimationCompleted == true else { return }
@@ -25,11 +27,17 @@ class PinCodeViewController: UIViewController
         pincodeLock.add(value: sender.actualNumber)
     }
     
+    @IBAction func deleteButtonTapped(_ sender: UIButton) {
+        pincodeLock.removeLast()
+        if pincodeLock.passcode.count == 0 { deleteButton.isEnabled = false }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        pincodeLock.delegate = self
-        infoLabel.textColor = OurColors.violet
+        pincodeLock.delegate   = self
+        infoLabel.textColor    = OurColors.violet
+        deleteButton.isEnabled = false
     }
     
     fileprivate func checkOut(pinCode: [String]) {
@@ -42,12 +50,25 @@ class PinCodeViewController: UIViewController
             pincodeLock.attempts -= 1
             
             if pinCode == testPinCode {
-                dismiss(animated: true, completion: nil)
+                
+                if presentingViewController?.presentedViewController == self {
+                    
+                    dismiss(animated: true, completion: { [weak self] _ in
+                        
+                        self?.dismissCompletion?()
+                    })
+                } else if navigationController != nil {
+                    
+                  _ = navigationController?.popViewController(animated: true)
+                }
+                
+                dismissCompletion?()
             }
             else {
                 animateFailedLoginAttempt()
             }
             
+            deleteButton.isEnabled = false
             _ = pinCodePlaceholderViews.map { $0.animate(state: .empty) }
         }
         else {
@@ -78,19 +99,17 @@ class PinCodeViewController: UIViewController
     }
 }
 
-
 extension PinCodeViewController: PinCodeLockDelegate
 {
     func addedValue(at index: Int) {
         
         pinCodePlaceholderViews[index].animate(state: .filled)
-        //deleteButton.isEnabled = true
+        deleteButton.isEnabled = true
     }
     
     func removedValue(at index: Int) {
         
-        pinCodePlaceholderViews[index].animate(state: .empty)
-        pincodeLock.removeLast()
+        pinCodePlaceholderViews[index].animate(state: .empty)        
     }
     
     func handleAuthorizationBy(pinCode: [String]) {

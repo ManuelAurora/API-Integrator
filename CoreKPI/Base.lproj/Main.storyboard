@@ -2613,18 +2613,28 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     </button>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u7Z-Pc-621">
+                                <rect key="frame" x="314" y="617" width="45" height="30"/>
+                                <state key="normal" title="Delete"/>
+                                <connections>
+                                    <action selector="deleteButtonTapped:" destination="ozc-HH-hk9" eventType="touchUpInside" id="Ntz-b3-WYh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Qa5-05-54I" firstAttribute="centerX" secondItem="Kwg-aa-eJq" secondAttribute="centerX" id="4TW-2h-bry"/>
                             <constraint firstItem="Qa5-05-54I" firstAttribute="top" secondItem="FPr-j3-kFv" secondAttribute="bottom" constant="12" id="Avx-j1-Eir"/>
                             <constraint firstItem="Tg5-NM-HoQ" firstAttribute="centerX" secondItem="Kwg-aa-eJq" secondAttribute="centerX" constant="-0.5" id="Ckd-H0-hui"/>
+                            <constraint firstItem="u7Z-Pc-621" firstAttribute="trailing" secondItem="Kwg-aa-eJq" secondAttribute="trailingMargin" id="DxP-yG-HZA"/>
                             <constraint firstItem="Tg5-NM-HoQ" firstAttribute="top" secondItem="Qa5-05-54I" secondAttribute="bottom" constant="80" id="WYe-n7-JI7"/>
+                            <constraint firstItem="xGc-in-MQA" firstAttribute="top" secondItem="u7Z-Pc-621" secondAttribute="bottom" constant="20" id="bvf-Rl-j7Z"/>
                             <constraint firstItem="Tg5-NM-HoQ" firstAttribute="centerY" secondItem="Kwg-aa-eJq" secondAttribute="centerY" constant="37.5" id="hzt-gI-Col"/>
                             <constraint firstItem="FPr-j3-kFv" firstAttribute="centerX" secondItem="Kwg-aa-eJq" secondAttribute="centerX" id="k5R-SY-H7t"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="deleteButton" destination="u7Z-Pc-621" id="rBa-tl-ytL"/>
                         <outlet property="infoLabel" destination="FPr-j3-kFv" id="eFF-G3-Nau"/>
                         <outlet property="placeholdersConstrainX" destination="4TW-2h-bry" id="Xfp-Kl-Qz5"/>
                         <outletCollection property="pinCodePlaceholderViews" destination="qD4-xH-ooN" collectionClass="NSMutableArray" id="Web-nB-wN6"/>
@@ -2635,7 +2645,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hOM-qi-JNc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-345" y="-543"/>
+            <point key="canvasLocation" x="-337" y="-544"/>
         </scene>
         <!--Type of account-->
         <scene sceneID="iPx-ga-s2Y">

@@ -16,7 +16,7 @@ class PinCodeLock
         static let attempts = 3
     }
     
-    private var passcode = [String]()
+    var passcode = [String]()
     var attempts = Configuration.attempts
     
     var delegate: PinCodeLockDelegate?
@@ -38,8 +38,8 @@ class PinCodeLock
     
     func removeLast() {
         
-        passcode.removeLast()
         delegate?.removedValue(at: currentIndex)
+        passcode.removeLast()        
     }
     
 }
