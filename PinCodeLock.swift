@@ -8,16 +8,16 @@
 
 import Foundation
 
+struct PinLockConfiguration
+{
+    static let pinCodeLength = 4
+    static let attempts = 3
+}
+
 class PinCodeLock
 {
-    struct Configuration
-    {
-        static let pinCodeLength = 4
-        static let attempts = 3
-    }
-    
     var passcode = [String]()
-    var attempts = Configuration.attempts
+    var attempts = PinLockConfiguration.attempts
     
     var delegate: PinCodeLockDelegate?
     
@@ -30,18 +30,30 @@ class PinCodeLock
         passcode.append(value)
         delegate?.addedValue(at: currentIndex)
         
-        if passcode.count == Configuration.pinCodeLength {
-            delegate?.handleAuthorizationBy(pinCode: passcode)
-            passcode.removeAll()
+        if passcode.count == PinLockConfiguration.pinCodeLength {
+            if let delegate = delegate as? PinCodeViewController {                
+                if delegate.mode == .logIn {
+                    delegate.handleAuthorizationBy(pinCode: passcode)
+                    passcode.removeAll()
+                }
+                else {
+                    if delegate.pinToConfirm.count > 0 {
+                        delegate.createNew(pinCode: passcode)
+                        passcode.removeAll()
+                    }
+                    
+                    delegate.pinToConfirm = passcode
+                    passcode.removeAll()                    
+                }
+            }
+        }
+        
+        func removeLast() {
+            
+            delegate?.removedValue(at: currentIndex)
+            passcode.removeLast()
         }
     }
-    
-    func removeLast() {
-        
-        delegate?.removedValue(at: currentIndex)
-        passcode.removeLast()        
-    }
-    
 }
 
 protocol PinCodeLockDelegate: class {

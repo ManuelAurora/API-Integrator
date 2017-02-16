@@ -154,6 +154,11 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         return cell
     }
     
+    @IBAction func securityButtonTapped(_ sender: UIButton) {
+        let pinViewController = PinCodeViewController(mode: .createNewPin)
+        present(pinViewController, animated: true, completion: nil)
+    }
+    
     @IBAction func tapEditBautton(_ sender: UIBarButtonItem) {
         if model.profile?.typeOfAccount != TypeOfAccount.Admin {
             if model.profile?.userId != Int(model.team[index].userID) {
@@ -251,3 +256,4 @@ extension MemberInfoViewController: updateModelDelegate {
         self.navigationController?.presentTransparentNavigationBar()
     }
 }
+

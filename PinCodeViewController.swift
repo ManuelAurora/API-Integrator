@@ -8,13 +8,25 @@
 
 import UIKit
 
+enum PinMode: String
+{
+    case createNewPin
+    case logIn
+}
+
 class PinCodeViewController: UIViewController
 {
-    struct ButtonLabels
+    struct TextForLabels
     {
         static let cancel = "Cancel"
         static let delete = "Delete"
+        static let confirm = "Confirm Passcode"
+        static let newPin = "Enter New Passcode"
+        static let enter = "Enter Passcode"
+        static let tryAgain = "Try Again"
     }
+    
+    var pinToConfirm = [String]()
     
     fileprivate let pincodeLock = PinCodeLock()
     private var isAnimationCompleted = true
@@ -22,6 +34,8 @@ class PinCodeViewController: UIViewController
     var presenter: PinCodeVCPresenter?
     var dismissCompletion: (() -> Void)?
     var successCompletion: (() -> Void)?
+    var mode: PinMode?
+    var confirmed = false
     
     lazy var model: ModelCoreKPI? = {
         if let data = UserDefaults.standard.data(forKey: "token"),
@@ -46,17 +60,38 @@ class PinCodeViewController: UIViewController
     }
     
     @IBAction func deleteButtonTapped(_ sender: UIButton) {
-        if sender.titleLabel?.text == ButtonLabels.cancel {
+        if sender.titleLabel?.text == TextForLabels.cancel {
             dismiss(animated: true, completion: nil)
         }
         else {
-            pincodeLock.removeLast()
+            pincodeLock.passcode.removeLast()
         }
         toggleDeleteButton()
     }
     
+    convenience init(mode: PinMode) {
+        self.init(nibName: "PinCodeView", bundle: nil)
+        self.mode = mode
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var textForLabel = ""
+        
+        if let mode = mode
+        {
+            switch mode
+            {
+            case .createNewPin:
+                textForLabel = TextForLabels.newPin
+                
+            case PinMode.logIn:
+                textForLabel = TextForLabels.enter
+            }
+        }
+        
+        infoLabel.text = textForLabel
         
         pincodeLock.delegate   = self
         infoLabel.textColor    = OurColors.violet
@@ -65,16 +100,30 @@ class PinCodeViewController: UIViewController
         deleteButton.setTitleColor(.lightGray, for: .disabled)
     }
     
+    func createNew(pinCode: [String]) {
+        
+        if pinToConfirm == pinCode {
+            model?.profile?.pinCode = pinCode
+            dismiss(animated: true, completion: nil)
+        }
+        else if pincodeLock.attempts != 0 {
+            infoLabel.text = TextForLabels.tryAgain
+        }
+        else {
+            dismiss(animated: true, completion: nil)
+        }
+    }
+    
     fileprivate func checkOut(pinCode: [String]) {
         
-        let testPinCode = ["1", "2", "3", "4"]
+        let pinCode = model!.profile!.pinCode
         
         if pincodeLock.attempts > 1 {
             
             isAnimationCompleted  = false
             pincodeLock.attempts -= 1
             
-            if pinCode == testPinCode {
+            if pinCode == pinCode {
                 
                 if presentingViewController?.presentedViewController == self {
                     
@@ -118,7 +167,7 @@ class PinCodeViewController: UIViewController
         if dismissCompletion != nil { dismissCompletion!(); return }
         
         let isPassCodeEmpty = pincodeLock.passcode.count == 0
-        let title = isPassCodeEmpty ? ButtonLabels.cancel : ButtonLabels.delete
+        let title = isPassCodeEmpty ? TextForLabels.cancel : TextForLabels.delete
         
         deleteButton.setTitle(title, for: .normal)
     }

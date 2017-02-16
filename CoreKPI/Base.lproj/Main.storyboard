@@ -870,6 +870,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
+                                            <action selector="securityButtonTapped:" destination="iHP-49-jTh" eventType="touchUpInside" id="cSe-Yn-tM9"/>
                                             <action selector="tapSecurityButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="kzs-n0-Rej"/>
                                         </connections>
                                     </button>

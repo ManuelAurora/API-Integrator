@@ -73,6 +73,7 @@ class Profile {
     var photo: String?
     var phone: String?
     var nickname: String?
+    var pinCode: [String] = []
     var typeOfAccount: TypeOfAccount
     
     init(userId: Int, userName: String, firstName: String, lastName: String, position: String?, photo: String?, phone: String?, nickname: String?, typeOfAccount: TypeOfAccount) {
