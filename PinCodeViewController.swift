@@ -10,20 +10,45 @@ import UIKit
 
 class PinCodeViewController: UIViewController
 {
-    @IBOutlet weak var infoLabel: UILabel!
+    fileprivate let pincodeLock = PinCodeLock()
     
+    @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet var pinCodePlaceholderViews: [PinCodePlaceholderView]!
     
     @IBAction func pinCodeButtonTapped(_ sender: PinCodeButton) {
-        pinCodePlaceholderViews[0].animate(state: .filled)
+        
+        pincodeLock.add(value: sender.actualNumber)
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        infoLabel.textColor = UIColor(red: 124.0/255.0, green: 77.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+        pincodeLock.delegate = self
+        infoLabel.textColor = OurColors.violet
     }
+    
    
     
-
 }
+
+extension PinCodeViewController: PinCodeLockDelegate
+{
+    func addedValue(at index: Int) {
+        
+        pinCodePlaceholderViews[index].animate(state: .filled)
+        //cancelButton.isEnabled = true
+    }
+    
+    func removedValue(at index: Int) {
+        
+        pinCodePlaceholderViews[index].animate(state: .empty)
+        pincodeLock.removeLast()
+    }
+    
+    func handleAuthorizationBy(pinCode: [String]) {
+        
+        _ = pinCodePlaceholderViews.map { $0.animate(state: .empty) }
+    }
+}
+

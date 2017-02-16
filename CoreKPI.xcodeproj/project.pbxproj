@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		644691CF1E55870900D964D5 /* PinCodeLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644691CE1E55870900D964D5 /* PinCodeLock.swift */; };
+		644691D11E55874F00D964D5 /* Miscellaneous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644691D01E55874F00D964D5 /* Miscellaneous.swift */; };
 		64936AEF1E543B480059D80A /* PinCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AEE1E543B480059D80A /* PinCodeViewController.swift */; };
 		64936AF21E543DC00059D80A /* PinCodeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AF01E543DC00059D80A /* PinCodeButton.swift */; };
 		64936AF31E543DC00059D80A /* PinCodePlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */; };
@@ -185,6 +187,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		644691CE1E55870900D964D5 /* PinCodeLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeLock.swift; sourceTree = "<group>"; };
+		644691D01E55874F00D964D5 /* Miscellaneous.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Miscellaneous.swift; sourceTree = "<group>"; };
 		64936AEE1E543B480059D80A /* PinCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeViewController.swift; sourceTree = "<group>"; };
 		64936AF01E543DC00059D80A /* PinCodeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeButton.swift; sourceTree = "<group>"; };
 		64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodePlaceholderView.swift; sourceTree = "<group>"; };
@@ -610,6 +614,8 @@
 				A297F5B51E08234500F85963 /* AboutTableViewController.swift */,
 				A297F5B71E08234500F85963 /* faqTableViewController.swift */,
 				A297F5B61E08234500F85963 /* faqDetailViewController.swift */,
+				644691CE1E55870900D964D5 /* PinCodeLock.swift */,
+				644691D01E55874F00D964D5 /* Miscellaneous.swift */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -1030,6 +1036,7 @@
 				A297F5CB1E0823D400F85963 /* SignInUpViewController.swift in Sources */,
 				A21AEEF21E28AFF200577F4B /* KPIColourTableViewCell.swift in Sources */,
 				A2C9ABD71E2F455D00623659 /* ChartTableViewCell.swift in Sources */,
+				644691CF1E55870900D964D5 /* PinCodeLock.swift in Sources */,
 				A2F77E051E3B199400BB8318 /* AddKPI.swift in Sources */,
 				A297F5E01E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift in Sources */,
 				A261D9181E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift in Sources */,
@@ -1050,6 +1057,7 @@
 				A26408F61E2271330034EEC2 /* AddReportTableViewController.swift in Sources */,
 				A261D91C1E129F1600638C56 /* DashboardSetingTableViewCell.swift in Sources */,
 				A2FB98A41E25FE6900A856E8 /* KPISettingInputTableViewCell.swift in Sources */,
+				644691D11E55874F00D964D5 /* Miscellaneous.swift in Sources */,
 				A2279D841E14EBF200669EB0 /* AlertsNavigationViewController.swift in Sources */,
 				A22302C51E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift in Sources */,
 				A2F77E111E3B199400BB8318 /* RegistrationRequest.swift in Sources */,

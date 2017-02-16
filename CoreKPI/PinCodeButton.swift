@@ -10,8 +10,8 @@ import UIKit
 import Foundation
 
 class PinCodeButton: UIButton
-{    
-    var borderColor = UIColor(red: 124.0/255.0, green: 77.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+{
+    var borderColor = OurColors.violet
     
     var borderRadius: CGFloat = 30
     var borderWidth:  CGFloat = 1
