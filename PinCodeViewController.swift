@@ -10,6 +10,12 @@ import UIKit
 
 class PinCodeViewController: UIViewController
 {
+    struct ButtonLabels
+    {
+        static let cancel = "Cancel"
+        static let delete = "Delete"
+    }
+    
     fileprivate let pincodeLock = PinCodeLock()
     private var isAnimationCompleted = true
     
@@ -36,11 +42,17 @@ class PinCodeViewController: UIViewController
         guard isAnimationCompleted == true else { return }
         
         pincodeLock.add(value: sender.actualNumber)
+        toggleDeleteButton()
     }
     
     @IBAction func deleteButtonTapped(_ sender: UIButton) {
-        pincodeLock.removeLast()
-        if pincodeLock.passcode.count == 0 { deleteButton.isEnabled = false }
+        if sender.titleLabel?.text == ButtonLabels.cancel {
+            dismiss(animated: true, completion: nil)
+        }
+        else {
+            pincodeLock.removeLast()
+        }
+        toggleDeleteButton()
     }
     
     override func viewDidLoad() {
@@ -48,8 +60,9 @@ class PinCodeViewController: UIViewController
         
         pincodeLock.delegate   = self
         infoLabel.textColor    = OurColors.violet
-        deleteButton.isEnabled = false
+        toggleDeleteButton()
         deleteButton.setTitleColor(OurColors.violet, for: .normal)
+        deleteButton.setTitleColor(.lightGray, for: .disabled)
     }
     
     fileprivate func checkOut(pinCode: [String]) {
@@ -82,7 +95,7 @@ class PinCodeViewController: UIViewController
                 animateFailedLoginAttempt()
             }
             
-            deleteButton.isEnabled = false
+            toggleDeleteButton()
             _ = pinCodePlaceholderViews.map { $0.animate(state: .empty) }
         }
         else {
@@ -100,14 +113,24 @@ class PinCodeViewController: UIViewController
         }
     }
     
+    fileprivate func toggleDeleteButton() {
+        
+        if dismissCompletion != nil { dismissCompletion!(); return }
+        
+        let isPassCodeEmpty = pincodeLock.passcode.count == 0
+        let title = isPassCodeEmpty ? ButtonLabels.cancel : ButtonLabels.delete
+        
+        deleteButton.setTitle(title, for: .normal)
+    }
+    
     private func logOut() {
         
         let appDelegate = UIApplication.shared .delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         
         if let model = model {
-        for profile in model.team {
-            context.delete(profile)
+            for profile in model.team {
+                context.delete(profile)
             }
         }
         
@@ -141,12 +164,11 @@ extension PinCodeViewController: PinCodeLockDelegate
     func addedValue(at index: Int) {
         
         pinCodePlaceholderViews[index].animate(state: .filled)
-        deleteButton.isEnabled = true
     }
     
     func removedValue(at index: Int) {
         
-        pinCodePlaceholderViews[index].animate(state: .empty)        
+        pinCodePlaceholderViews[index].animate(state: .empty)
     }
     
     func handleAuthorizationBy(pinCode: [String]) {
