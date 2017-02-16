@@ -18,8 +18,14 @@ class LaunchViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
         if checkLocalToken() {
-            getModelFromServer()
+            
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            appDelegate.pinCodeVCPresenter.launchController = self
+            appDelegate.pinCodeVCPresenter.presentPinCodeVC()            
+            
         } else {
             let startVC = storyboard?.instantiateViewController(withIdentifier: "StartVC")
             present(startVC!, animated: true, completion: nil)
@@ -27,6 +33,7 @@ class LaunchViewController: UIViewController {
     }
     
     func checkLocalToken() -> Bool {
+        
         if let data = UserDefaults.standard.data(forKey: "token"),
             let myTokenArray = NSKeyedUnarchiver.unarchiveObject(with: data) as? [ModelCoreKPI] {
             model = ModelCoreKPI(model: myTokenArray[0])

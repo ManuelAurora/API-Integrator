@@ -11,10 +11,21 @@ import UIKit
 class PinCodeViewController: UIViewController
 {
     fileprivate let pincodeLock = PinCodeLock()
-    
     private var isAnimationCompleted = true
     
+    var presenter: PinCodeVCPresenter?
     var dismissCompletion: (() -> Void)?
+    var successCompletion: (() -> Void)?
+    
+    lazy var model: ModelCoreKPI? = {
+        if let data = UserDefaults.standard.data(forKey: "token"),
+            let myTokenArray = NSKeyedUnarchiver.unarchiveObject(with: data) as? [ModelCoreKPI] {
+            let model = ModelCoreKPI(model: myTokenArray[0])
+            return model
+        }
+        
+        return nil
+    }()
     
     @IBOutlet weak private var infoLabel: UILabel!
     @IBOutlet weak fileprivate var deleteButton: UIButton!
@@ -38,6 +49,7 @@ class PinCodeViewController: UIViewController
         pincodeLock.delegate   = self
         infoLabel.textColor    = OurColors.violet
         deleteButton.isEnabled = false
+        deleteButton.setTitleColor(OurColors.violet, for: .normal)
     }
     
     fileprivate func checkOut(pinCode: [String]) {
@@ -56,6 +68,7 @@ class PinCodeViewController: UIViewController
                     dismiss(animated: true, completion: { [weak self] _ in
                         
                         self?.dismissCompletion?()
+                        self?.successCompletion?()
                     })
                 } else if navigationController != nil {
                     
@@ -63,6 +76,7 @@ class PinCodeViewController: UIViewController
                 }
                 
                 dismissCompletion?()
+                successCompletion?()
             }
             else {
                 animateFailedLoginAttempt()
@@ -72,13 +86,36 @@ class PinCodeViewController: UIViewController
             _ = pinCodePlaceholderViews.map { $0.animate(state: .empty) }
         }
         else {
-            guard let navController = presentingViewController as? UINavigationController,
-                 let presenter = navController.topViewController as? SignInViewController else { return }
-            
-            presenter.toggleEnterByKeyButton(isEnabled: false)
-            
-            dismiss(animated: true, completion: nil)
+            if let navController = presentingViewController as? UINavigationController,
+                let presenter = navController.topViewController as? SignInViewController {
+                
+                presenter.toggleEnterByKeyButton(isEnabled: false)
+                
+                dismiss(animated: true, completion: nil)
+            }
+            else {
+                dismissCompletion!()
+                logOut()
+            }
         }
+    }
+    
+    private func logOut() {
+        
+        let appDelegate = UIApplication.shared .delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        if let model = model {
+        for profile in model.team {
+            context.delete(profile)
+            }
+        }
+        
+        UserDefaults.standard.removeObject(forKey: "token")
+        appDelegate.loggedIn = false
+        
+        let startVC = storyboard?.instantiateViewController(withIdentifier: "StartVC")
+        present(startVC!, animated: true, completion: nil)
     }
     
     func animateFailedLoginAttempt() {

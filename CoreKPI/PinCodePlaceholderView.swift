@@ -21,7 +21,7 @@ class PinCodePlaceholderView: UIView
     private var borderRadius: CGFloat = 8
     private var borderWidth: CGFloat  = 1
     private var emptyColor: UIColor   = .white
-    private var filledColor: UIColor  = .blue
+    private var filledColor: UIColor  = OurColors.violet
            
     override var intrinsicContentSize: CGSize {
         return CGSize(width: 16, height: 16)

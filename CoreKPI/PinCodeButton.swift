@@ -32,7 +32,7 @@ class PinCodeButton: UIButton
     func setupButtonView() {
         
         defaultBGColor     = .clear
-        highlightBGColor   = .green
+        highlightBGColor   = OurColors.violet
         layer.borderColor  = borderColor.cgColor
         layer.borderWidth  = borderWidth
         layer.cornerRadius = borderRadius
