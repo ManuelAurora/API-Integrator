@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum TypeOfDigit: String {
+    case Alert
+    case Reminder
+}
+
 enum Setting: String {
     case none
     case DataSource
@@ -28,11 +33,11 @@ enum TimeInterval: String {
 }
 
 enum Condition: String {
-    case IsLessThan = "is less than"
-    case IsGreaterThan = "is greater than"
-    case DecreasedByMoreThan = "decreased by more than"
-    case IncreasedByMoreThan = "increased by more than"
-    case IncreasedOrDecreasedByMoreThan = "increased or decreased  by more than"
+    case IsLessThan = "Is less than"
+    case IsGreaterThan = "Is greater than"
+    case DecreasedByMoreThan = "Decreased by more than"
+    case IncreasedByMoreThan = "Increased by more than"
+    case IncreasedOrDecreasedByMoreThan = "Increased or decreased  by more than"
     case PercentHasDecreasedByMoreThan = "% has decreased by more than"
     case PercentHasIncreasedByMoreThan = "% has increased by more than"
     case PercentHasIncreasedOrDecreasedByMoreThan = "% has increased or decreased by more than"
@@ -41,7 +46,7 @@ enum Condition: String {
 enum TypeOfNotification: String {
     case none
     case SMS
-    case Push = "Push notification"
+    case Push
     case Email
 }
 
@@ -66,26 +71,11 @@ class AlertsListTableViewController: UITableViewController {
         
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.backgroundColor = UIColor(red: 241/255, green: 241/255, blue: 241/255, alpha: 1.0)
-        test()
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        loadReminders()
         loadAlerts()
-    }
-    
-    func test() {
-        let alertOne = Alert(context: context)
-        alertOne.sourceID = 13
-        alertOne.pushNotificationIsActive = true
-        alertOne.backgroundColor = "Green"
-        alertOne.condition = "is less than"
-        alertOne.deliveryDay = 5
-        alertOne.deliveryTime = Date(timeIntervalSinceNow: 600) as NSDate?
-        alertOne.onlyWorkHours = true
-        alertOne.threshold = 140.45
-        alertOne.timeInterval = "Daily"
-        alertOne.timeZone = "Pacific Time (PST)"
-        model.alerts.append(alertOne)
     }
     
     override func didReceiveMemoryWarning() {
@@ -110,6 +100,7 @@ class AlertsListTableViewController: UITableViewController {
     //MARK: -  Pull to refresh method
     func refresh(sender:AnyObject)
     {
+        loadReminders()
         loadAlerts()
     }
     
@@ -129,7 +120,10 @@ class AlertsListTableViewController: UITableViewController {
                 print(error)
                 return
             }
-            self.tableView.reloadData()
+            
+            let sectionIndex = IndexSet(integer: 1)
+            self.tableView.reloadSections(sectionIndex, with: .automatic)
+            
             self.refreshControl?.endRefreshing()
         }, failure: { error in
             self.showAlert(title: "Sorry", message: error)
@@ -138,7 +132,36 @@ class AlertsListTableViewController: UITableViewController {
         )
     }
     
-    //MARK: - Show alert
+    //MARK: - Load Reminders from server
+    func loadReminders() {
+        let request = GetReminders(model: model)
+        request.getReminders(success: { reminders in
+            
+            for reminder in self.model.reminders {
+                self.context.delete(reminder)
+            }
+            self.model.reminders.removeAll()
+            self.model.reminders = reminders
+            do {
+                try self.context.save()
+            } catch {
+                print(error)
+                return
+            }
+            
+            let sectionIndex = IndexSet(integer: 0)
+            self.tableView.reloadSections(sectionIndex, with: .automatic)
+            
+            self.refreshControl?.endRefreshing()
+        }, failure: { error in
+            self.showAlert(title: "Sorry", message: error)
+            self.refreshControl?.endRefreshing()
+        }
+        )
+        
+    }
+    
+    //MARK: - Show alert controller
     func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -147,22 +170,42 @@ class AlertsListTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0:
+            return model.reminders.count
+        case 1:
+            return model.alerts.count
+        default:
+            break
+        }
         return model.alerts.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AlertsCell", for: indexPath) as! AlertsListTableViewCell
         
-        cell.alertNameLabel.text = model.getNameKPI(FromID: Int(model.alerts[indexPath.row].sourceID))
-        cell.numberOfCell = indexPath.row
-        cell.alertImageView.layer.backgroundColor = UIColor.green.cgColor //Debug
-        cell.deleteButton.tag = indexPath.row
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AlertsCell", for: indexPath) as! AlertsListTableViewCell
         cell.AlertListVC = self
         
+        switch indexPath.section {
+        case 0:
+            cell.alertNameLabel.text = model.getNameKPI(FromID: Int(model.reminders[indexPath.row].sourceID))
+            cell.numberOfCell = indexPath.row
+            cell.alertImageView.layer.backgroundColor = model.getBackgroundColourOfKPI(FromID: model.reminders[indexPath.row].sourceID).cgColor
+            cell.deleteButton.tag = indexPath.row
+            
+        case 1:
+            cell.alertNameLabel.text = model.getNameKPI(FromID: Int(model.alerts[indexPath.row].sourceID))
+            cell.numberOfCell = indexPath.row + (model.reminders.count - 1)
+            cell.alertImageView.layer.backgroundColor = model.getBackgroundColourOfKPI(FromID: model.alerts[indexPath.row].sourceID).cgColor
+            let num = indexPath.row + (model.reminders.count)
+            cell.deleteButton.tag = indexPath.row + (model.reminders.count)
+        default:
+            break
+        }
         return cell
     }
     
@@ -176,6 +219,7 @@ class AlertsListTableViewController: UITableViewController {
         if segue.identifier == "ReminderView" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let destinationController = segue.destination as! ReminderViewTableViewController
+                destinationController.typeOfDigit = indexPath.section == 0 ? .Reminder : .Alert
                 destinationController.index = indexPath.row
                 destinationController.model = ModelCoreKPI(model: model)
                 destinationController.AlertListVC = self
@@ -190,13 +234,33 @@ class AlertsListTableViewController: UITableViewController {
 extension AlertsListTableViewController: AlertButtonCellDelegate {
     
     func deleteButtonDidTaped(sender: UIButton) {
-        var newAlertList: [Alert] = []
-        for i in 0..<model.alerts.count {
-            if i != sender.tag {
-                newAlertList.append(model.alerts[i])
+        
+        switch sender.tag {
+        case 0..<model.reminders.count:
+            //it is reminders
+            let request = DeleteReminder(model: model)
+            request.deleteReminder(reminderID: Int(model.reminders[sender.tag].reminderID), success: {
+                self.model.reminders.remove(at: sender.tag)
+                let indexPath = IndexPath(item: sender.tag, section: 0)
+                self.tableView.deleteRows(at: [indexPath], with: .top)
+            }, failure: { error in
+                self.showAlert(title: "Sorry", message: error)
+                self.loadReminders()
             }
+            )
+            
+        default:
+            //it is alerts
+            let request = DeleteAlert(model: model)
+            request.deleteAlert(alertID: Int(model.alerts[sender.tag - model.reminders.count].alertID), success: {
+                self.model.alerts.remove(at: sender.tag - self.model.reminders.count)
+                let indexPath = IndexPath(item: sender.tag - self.model.reminders.count, section: 1)
+                self.tableView.deleteRows(at: [indexPath], with: .top)
+            }, failure: { error in
+                self.showAlert(title: "Sorry", message: error)
+                self.loadAlerts()
+            }
+            )
         }
-        self.model.alerts = newAlertList
-        tableView.reloadData()
     }
 }

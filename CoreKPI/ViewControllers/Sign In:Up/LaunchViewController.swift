@@ -101,7 +101,6 @@ class LaunchViewController: UIViewController {
         } catch {
             print("Fetching faild")
         }
-        //showTabBarVC()
     }
     
     //MARK: - Token incorect

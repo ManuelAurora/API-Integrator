@@ -21,6 +21,7 @@ class ModelCoreKPI: NSObject, NSCoding {
     var profile: Profile?
     
     var alerts: [Alert] = []
+    var reminders: [Reminder] = []
     var kpis: [KPI] = []
     var team: [Team] = []
     
@@ -48,6 +49,7 @@ class ModelCoreKPI: NSObject, NSCoding {
         self.token = model.token
         self.profile = model.profile
         self.alerts = model.alerts
+        self.reminders = model.reminders
         self.kpis = model.kpis
         self.team = model.team
     }
@@ -59,6 +61,15 @@ class ModelCoreKPI: NSObject, NSCoding {
             }
         }
         return nil
+    }
+    
+    func getBackgroundColourOfKPI(FromID id: Int64) -> UIColor {
+        for kpi in kpis {
+            if kpi.id == Int(id) {
+                return kpi.imageBacgroundColour
+            }
+        }
+        return UIColor.clear
     }
     
 }

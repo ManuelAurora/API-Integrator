@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class GetAlerts: Request {
     
@@ -30,34 +31,53 @@ class GetAlerts: Request {
     
     func parsingJson(json: NSDictionary) -> [Alert]?  {
         
+        let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
+        
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
-                if let dataKey = json["data"] as? NSArray, dataKey.count > 0 {
-                    let alertArray: [Alert] = []
-                    
-//                    for i in 0..<dataKey.count {
-//                        if let section = dataKey[i] as? NSDictionary {
-//                            if let sectionName = section["title"] as? String, let sectionFAQ = FAQSection(rawValue: sectionName) {
-//                                var faqArray: [(description: String, answer: String)] = []
-//                                if let items = section["items"] as? NSArray, items.count > 0 {
-//                                    for item in 0..<items.count {
-//                                        let question = items[item] as? NSDictionary
-//                                        let faqDescription = question?["title"] as! String
-//                                        let faqAnswer = question?["text"] as! String
-//                                        faqArray.append((faqDescription, faqAnswer))
-//                                    }
-//                                    faqDictionary[sectionFAQ] = faqArray
-//                                } else {
-//                                    print("Answers for \(sectionName) is empty")
-//                                }
-//                            }
-//                        }
-//                    }
-                    
-                    return alertArray
+                if let dataKey = json["data"] as? NSDictionary {
+                    if let items = dataKey["items"] as? NSArray, items.count > 0 {
+                        var alertArray: [Alert] = []
+                        for i in 0..<items.count {
+                            let alert = items[i] as! NSDictionary
+                            let newAlert = Alert(context: context)
+                            newAlert.sourceID = alert["kpi_id"] as! Int64
+                            newAlert.condition = alert["condition"] as? String
+                            newAlert.threshold = alert["condition_value"] as! Double
+                            let days = alert["days"] as! Int64
+                            newAlert.onlyWorkHours = days == 0 ? false : true
+                            newAlert.alertID = alert["id"] as! Int64
+                            if let typeOfNotifications = alert["methods"] as? NSArray, typeOfNotifications.count > 0 {
+                                
+                                newAlert.emailNotificationIsActive = false
+                                newAlert.smsNotificationIsAcive = false
+                                newAlert.pushNotificationIsActive = false
+                                
+                                for notification in 0..<typeOfNotifications.count {
+                                    
+                                    switch typeOfNotifications[notification] as! String {
+                                    case "E-mail":
+                                        newAlert.emailNotificationIsActive = true
+                                    case "SMS":
+                                        newAlert.smsNotificationIsAcive = true
+                                    case "Push":
+                                        newAlert.pushNotificationIsActive = true
+                                    default:
+                                        break
+                                    }
+                                }
+                                alertArray.append(newAlert)
+                            } else {
+                                print("Alert with id: \(newAlert.alertID) has not notification!")
+                            }
+                        }
+                        return alertArray
+                    } else {
+                        print("Alert list is empty")
+                        return []
+                    }
                 } else {
-                    print("Alert list is empty")
-                    return []
+                    print("Json file is broken!")
                 }
             } else {
                 self.errorMessage = json["message"] as? String

@@ -52,7 +52,6 @@ class AlertSelectSettingTableViewController: UITableViewController {
         } else {
             return selectSetting.count
         }
-        
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -85,6 +84,7 @@ class AlertSelectSettingTableViewController: UITableViewController {
             cell.inputDataTextField.placeholder = "Add data"
             cell.accessoryType = .none
             cell.selectionStyle = .none
+            cell.inputDataTextField.becomeFirstResponder()
             return cell
         }
     }
@@ -117,6 +117,7 @@ class AlertSelectSettingTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         tableView.reloadData()
     }
+    
     //MARK: - Send data to parent ViewController
     override func willMove(toParentViewController parent: UIViewController?) {
         if(!(parent?.isEqual(self.parent) ?? false)) {
@@ -139,6 +140,7 @@ class AlertSelectSettingTableViewController: UITableViewController {
             delegate.updateSettingsArray(array: selectSetting)
         }
     }
+    
     //MARK: - catchNotification
     func catchNotification(notification:Notification) -> Void {
         
@@ -158,24 +160,130 @@ class AlertSelectSettingTableViewController: UITableViewController {
 //MARK: - UITextFieldDelegate method
 extension AlertSelectSettingTableViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let textFieldText: NSString = (textField.text ?? "") as NSString
-        let txtAfterUpdate = textFieldText.replacingCharacters(in: range, with: string)
         
-        if txtAfterUpdate == "" {
-            textFieldInputData = nil
-            return true
+        let originalString =  textField.text!
+        var replacedString = ""
+        
+        // Deleting text
+        if string.isEmpty {
+            if originalString.isEmpty {
+                textField.text = ""
+                return false
+            }
+            replacedString = originalString.replacingOccurrences(of: ",", with: "")
+            replacedString.remove(at: replacedString.index(before: replacedString.endIndex))
+            
+            if replacedString.contains(".") {
+                
+                if replacedString.hasSuffix(".") {
+                    replacedString.remove(at: replacedString.index(before: replacedString.endIndex))
+                    textFieldInputData = replacedString
+                    textField.text = formatNumberFromString(stringNumber: replacedString) + "."
+                    return false
+                }
+                
+                if replacedString.hasSuffix("0") {
+                    textFieldInputData = replacedString
+                    return true
+                }
+            }
+            textFieldInputData = replacedString
+            textField.text = formatNumberFromString(stringNumber: replacedString)
+            return false
+            
         }
         
-        switch string {
-        case "0"..."9", ".", "":
-            textFieldInputData = txtAfterUpdate
-            return true
-        case ",":
-            textField.text = (textFieldText as String) + "."
-            textFieldInputData = txtAfterUpdate
+        //Check input symbols
+        for number in string.characters {
+            switch number {
+            case "0"..."9", ".", ",":
+                break
+            default:
+                return false
+            }
+        }
+        // Adding text
+        if originalString.isEmpty {
+            if string == "," || string == "." {
+                textField.text = "0."
+                return false
+            }
+            replacedString = string.replacingOccurrences(of: ",", with: "")
+            
+            textFieldInputData = replacedString
+            textField.text = formatNumberFromString(stringNumber: string)
             return false
-        default:
+            
+        } else {
+            
+            if originalString.hasSuffix(".") {
+                
+                if string == "." || string == "," {
+                    return false
+                }
+                
+                if string == "0" {
+                    return true
+                }
+                
+                replacedString = originalString.replacingOccurrences(of: ",", with: "") + string.replacingOccurrences(of: ",", with: "")
+                
+                textFieldInputData = replacedString
+                textField.text = formatNumberFromString(stringNumber: replacedString)
+                
+            }
+            
+            if string == "." {
+                if originalString.contains(".") {
+                    return false
+                } else {
+                    return true
+                }
+            }
+            if string == "," {
+                if originalString.contains(".") {
+                    return false
+                } else {
+                    textField.text = originalString + "."
+                    return false
+                }
+            }
+            
+            if originalString.contains(".") {
+                var allZerro = true
+                for number in string.characters {
+                    if number != "0" {
+                        allZerro = false
+                    }
+                }
+                if allZerro {
+                    return true
+                }
+            }
+            
+            replacedString = originalString.replacingOccurrences(of: ",", with: "") + string.replacingOccurrences(of: ",", with: "")
+            
+            textFieldInputData = replacedString
+            textField.text = formatNumberFromString(stringNumber: replacedString)
             return false
         }
     }
+    
+    func formatNumberFromString(stringNumber: String) -> String {
+        if stringNumber.isEmpty {
+            return ""
+        }
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        
+        // Replace any formatting commas
+        let newStringNumber = stringNumber.replacingOccurrences(of: ",", with: "")
+        
+        let doubleFromString = Double(newStringNumber)
+        
+        let finalString = formatter.string(from: NSNumber(value: doubleFromString!))
+        return finalString!
+    }
+    
 }

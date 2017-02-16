@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340901E110CF200208EAB /* ChageNameTableViewController.swift */; };
 		A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340921E110D1C00208EAB /* NewNameViewController.swift */; };
+		A20440BB1E5483E300D540F8 /* GetReminders.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20440BA1E5483E300D540F8 /* GetReminders.swift */; };
+		A20440BD1E5483FD00D540F8 /* AddReminders.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20440BC1E5483FD00D540F8 /* AddReminders.swift */; };
 		A2066D431E4DE25A00DCBA84 /* PhoneNumberKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2066D421E4DE25A00DCBA84 /* PhoneNumberKit.framework */; };
 		A2066D441E4DE25A00DCBA84 /* PhoneNumberKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A2066D421E4DE25A00DCBA84 /* PhoneNumberKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A20B6BD01E31F5EC00FAF86A /* IntegratedKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20B6BCF1E31F5EC00FAF86A /* IntegratedKPI.swift */; };
@@ -91,6 +93,7 @@
 		A297F5DF1E08248000F85963 /* NewProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5DC1E08248000F85963 /* NewProfileTableViewCell.swift */; };
 		A297F5E01E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5DD1E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift */; };
 		A297F5E11E08248000F85963 /* TypeAccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5DE1E08248000F85963 /* TypeAccountTableViewCell.swift */; };
+		A2A0DE001E55F78D00D37B8B /* DeleteReminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A0DDFF1E55F78D00D37B8B /* DeleteReminder.swift */; };
 		A2A215511E124AB800EEBCA2 /* AlertSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A215501E124AB800EEBCA2 /* AlertSettingTableViewCell.swift */; };
 		A2A215531E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A215521E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift */; };
 		A2A7D5111E41B0E5008779A0 /* CellsCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A7D5101E41B0E5008779A0 /* CellsCreator.swift */; };
@@ -103,6 +106,7 @@
 		A2B720981E2E4AFD00471E91 /* d3-funnel.js in Resources */ = {isa = PBXBuildFile; fileRef = A2B720971E2E4AFC00471E91 /* d3-funnel.js */; };
 		A2B7209A1E2E5F9900471E91 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B720991E2E5F9900471E91 /* OnboardingPageViewController.swift */; };
 		A2B7209C1E2E5FBC00471E91 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B7209B1E2E5FBC00471E91 /* OnboardingViewController.swift */; };
+		A2C431771E558EA500AA2B7C /* DeleteAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C431761E558EA500AA2B7C /* DeleteAlert.swift */; };
 		A2C9ABD71E2F455D00623659 /* ChartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C9ABD61E2F455D00623659 /* ChartTableViewCell.swift */; };
 		A2C9ABDA1E2F5BD600623659 /* positiveBar.html in Resources */ = {isa = PBXBuildFile; fileRef = A2C9ABD91E2F5BD600623659 /* positiveBar.html */; };
 		A2C9ABDC1E2F5BFE00623659 /* positiveBar.css in Resources */ = {isa = PBXBuildFile; fileRef = A2C9ABDB1E2F5BFE00623659 /* positiveBar.css */; };
@@ -184,6 +188,8 @@
 /* Begin PBXFileReference section */
 		A20340901E110CF200208EAB /* ChageNameTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChageNameTableViewController.swift; path = CoreKPI/ViewControllers/Team/ChageNameTableViewController.swift; sourceTree = "<group>"; };
 		A20340921E110D1C00208EAB /* NewNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewNameViewController.swift; path = CoreKPI/ViewControllers/Team/NewNameViewController.swift; sourceTree = "<group>"; };
+		A20440BA1E5483E300D540F8 /* GetReminders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetReminders.swift; path = Services/GetReminders.swift; sourceTree = "<group>"; };
+		A20440BC1E5483FD00D540F8 /* AddReminders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddReminders.swift; path = Services/AddReminders.swift; sourceTree = "<group>"; };
 		A2066D421E4DE25A00DCBA84 /* PhoneNumberKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhoneNumberKit.framework; path = Carthage/Build/iOS/PhoneNumberKit.framework; sourceTree = "<group>"; };
 		A20B6BCF1E31F5EC00FAF86A /* IntegratedKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegratedKPI.swift; sourceTree = "<group>"; };
 		A20B6BD11E31F62800FAF86A /* User's KPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User's KPI.swift"; sourceTree = "<group>"; };
@@ -267,6 +273,7 @@
 		A297F5DC1E08248000F85963 /* NewProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewProfileTableViewCell.swift; path = "CustomTableViewCells/Sign In:Up/NewProfileTableViewCell.swift"; sourceTree = "<group>"; };
 		A297F5DD1E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewProfileTypeAccountTableViewCell.swift; path = "CustomTableViewCells/Sign In:Up/NewProfileTypeAccountTableViewCell.swift"; sourceTree = "<group>"; };
 		A297F5DE1E08248000F85963 /* TypeAccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TypeAccountTableViewCell.swift; path = "CustomTableViewCells/Sign In:Up/TypeAccountTableViewCell.swift"; sourceTree = "<group>"; };
+		A2A0DDFF1E55F78D00D37B8B /* DeleteReminder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteReminder.swift; path = Services/DeleteReminder.swift; sourceTree = "<group>"; };
 		A2A215501E124AB800EEBCA2 /* AlertSettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertSettingTableViewCell.swift; path = CustomTableViewCells/AlertSettingTableViewCell.swift; sourceTree = "<group>"; };
 		A2A215521E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertSelectSettingTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AlertSelectSettingTableViewController.swift; sourceTree = "<group>"; };
 		A2A7D5101E41B0E5008779A0 /* CellsCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CellsCreator.swift; path = CoreKPI/CellsCreator.swift; sourceTree = "<group>"; };
@@ -279,6 +286,7 @@
 		A2B720971E2E4AFC00471E91 /* d3-funnel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "d3-funnel.js"; path = "Graphics/Funnel/d3-funnel.js"; sourceTree = "<group>"; };
 		A2B720991E2E5F9900471E91 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnboardingPageViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/OnboardingPageViewController.swift"; sourceTree = "<group>"; };
 		A2B7209B1E2E5FBC00471E91 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnboardingViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/OnboardingViewController.swift"; sourceTree = "<group>"; };
+		A2C431761E558EA500AA2B7C /* DeleteAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteAlert.swift; path = Services/DeleteAlert.swift; sourceTree = "<group>"; };
 		A2C9ABD61E2F455D00623659 /* ChartTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChartTableViewCell.swift; path = CustomTableViewCells/ChartTableViewCell.swift; sourceTree = "<group>"; };
 		A2C9ABD91E2F5BD600623659 /* positiveBar.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = positiveBar.html; path = Graphics/PositiveBar/positiveBar.html; sourceTree = "<group>"; };
 		A2C9ABDB1E2F5BFE00623659 /* positiveBar.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = positiveBar.css; path = Graphics/PositiveBar/positiveBar.css; sourceTree = "<group>"; };
@@ -390,6 +398,10 @@
 				A2263B0F1E3B8174005C812D /* GetFAQ.swift */,
 				A2A7D5141E41B661008779A0 /* GetAlerts.swift */,
 				A28889901E4206DC00113220 /* AddAlert.swift */,
+				A2C431761E558EA500AA2B7C /* DeleteAlert.swift */,
+				A20440BA1E5483E300D540F8 /* GetReminders.swift */,
+				A20440BC1E5483FD00D540F8 /* AddReminders.swift */,
+				A2A0DDFF1E55F78D00D37B8B /* DeleteReminder.swift */,
 			);
 			name = "CoreKPI API";
 			sourceTree = "<group>";
@@ -957,6 +969,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A21EDDF71E23A709001DE74C /* KPIList.swift in Sources */,
+				A2C431771E558EA500AA2B7C /* DeleteAlert.swift in Sources */,
 				A28889911E4206DC00113220 /* AddAlert.swift in Sources */,
 				A297F5C81E0823D400F85963 /* NewProfileTableViewController.swift in Sources */,
 				A2EFE2C81E2DF0E300BA2956 /* TableViewChartController.swift in Sources */,
@@ -978,6 +991,7 @@
 				A25F658D1E52F5D500AD30F5 /* NumberChartViewController.swift in Sources */,
 				A2F77E0C1E3B199400BB8318 /* GetModelFromServer.swift in Sources */,
 				A2ACBD3B1E0D11AA0079EF3D /* AlertsListTableViewController.swift in Sources */,
+				A20440BB1E5483E300D540F8 /* GetReminders.swift in Sources */,
 				A297F5D11E08241900F85963 /* MemberInfoTableViewCell.swift in Sources */,
 				A297F5DF1E08248000F85963 /* NewProfileTableViewCell.swift in Sources */,
 				A297F5B01E08233100F85963 /* MainTabBarViewController.swift in Sources */,
@@ -1004,6 +1018,7 @@
 				A2F77E101E3B199400BB8318 /* RecoveryPassword.swift in Sources */,
 				A297F5C91E0823D400F85963 /* RecoveryPasswordViewController.swift in Sources */,
 				A26408F81E2280160034EEC2 /* WebViewChartViewController.swift in Sources */,
+				A20440BD1E5483FD00D540F8 /* AddReminders.swift in Sources */,
 				A2F77E0B1E3B199400BB8318 /* GetMemberList.swift in Sources */,
 				A2FA504A1E4713230062D61E /* ExternalKPIViewController.swift in Sources */,
 				A2F77E0A1E3B199400BB8318 /* GetKPIs.swift in Sources */,
@@ -1045,6 +1060,7 @@
 				A2A215531E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift in Sources */,
 				A27820661E001503009F83DB /* AppDelegate.swift in Sources */,
 				A2ACBD411E0D1DFA0079EF3D /* KPIsListTableViewController.swift in Sources */,
+				A2A0DE001E55F78D00D37B8B /* DeleteReminder.swift in Sources */,
 				A297F5CD1E0823D400F85963 /* TypeOfAccountTableViewController.swift in Sources */,
 				A26A40561E3B424B00108E5B /* GetReports.swift in Sources */,
 				A2F77E0D1E3B199400BB8318 /* GetNumberOfInvations.swift in Sources */,
