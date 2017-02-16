@@ -10,7 +10,14 @@ import Foundation
 
 class PinCodeLock
 {
+    struct Configuration
+    {
+        static let pinCodeLength = 4
+        static let attempts = 3
+    }
+    
     private var passcode = [String]()
+    var attempts = Configuration.attempts
     
     var delegate: PinCodeLockDelegate?
     
@@ -23,7 +30,7 @@ class PinCodeLock
         passcode.append(value)
         delegate?.addedValue(at: currentIndex)
         
-        if passcode.count == 4 {
+        if passcode.count == Configuration.pinCodeLength {
             delegate?.handleAuthorizationBy(pinCode: passcode)
             passcode.removeAll()
         }

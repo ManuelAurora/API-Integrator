@@ -39,7 +39,8 @@ class PinCodeButton: UIButton
         
         setTitleColor(borderColor, for: .normal)
         setTitleColor(.white, for: .highlighted)
-    }
+        setTitleColor(.lightGray, for: .disabled)
+    }    
     
     override func didMoveToSuperview() {
         setupButtonView()

@@ -86,6 +86,12 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    func toggleEnterByKeyButton(isEnabled: Bool) {
+        
+        enterByKeyButton.layer.borderColor = isEnabled ? OurColors.violet.cgColor : UIColor.lightGray.cgColor
+        enterByKeyButton.isEnabled = isEnabled
+    }
+    
     func loginRequest() {
         
         if let username = self.emailTextField.text?.lowercased() {

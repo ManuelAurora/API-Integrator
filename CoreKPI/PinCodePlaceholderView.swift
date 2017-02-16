@@ -22,9 +22,7 @@ class PinCodePlaceholderView: UIView
     private var borderWidth: CGFloat  = 1
     private var emptyColor: UIColor   = .white
     private var filledColor: UIColor  = .blue
-    
-    var isAnimationCompleted = false
-    
+           
     override var intrinsicContentSize: CGSize {
         return CGSize(width: 16, height: 16)
     }
@@ -63,16 +61,15 @@ class PinCodePlaceholderView: UIView
         
         let color = getColorFor(state: state)
         
-        UIView.animate(withDuration: 0.4,
+        UIView.animate(withDuration: 0.3,
                        delay: 0,
                        usingSpringWithDamping: 1.0,
                        initialSpringVelocity: 0,
                        options: [], animations: {
                         
                         self.backgroundColor = color
-        }) { _ in
-            self.isAnimationCompleted = true
-        }
+        }, completion: nil )
+        
     }
     
 }
