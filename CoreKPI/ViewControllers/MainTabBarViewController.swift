@@ -12,6 +12,10 @@ class MainTabBarViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        appDelegate.loggedIn = true
     }
 
     override func didReceiveMemoryWarning() {
