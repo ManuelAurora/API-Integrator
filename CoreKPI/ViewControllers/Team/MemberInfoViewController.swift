@@ -39,7 +39,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             if Int(model.team[index].userID) == model.profile?.userId {
                 responsibleForButton.isHidden = true
                 myKPIsButton.isHidden = false
-                securityButton.isHidden = false
+                //securityButton.isHidden = false
             }
         } else {
             responsibleForButton.isHidden = true
@@ -154,11 +154,6 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         return cell
     }
     
-    @IBAction func securityButtonTapped(_ sender: UIButton) {
-        let pinViewController = PinCodeViewController(mode: .createNewPin)
-        present(pinViewController, animated: true, completion: nil)
-    }
-    
     @IBAction func tapEditBautton(_ sender: UIBarButtonItem) {
         if model.profile?.typeOfAccount != TypeOfAccount.Admin {
             if model.profile?.userId != Int(model.team[index].userID) {
@@ -256,4 +251,3 @@ extension MemberInfoViewController: updateModelDelegate {
         self.navigationController?.presentTransparentNavigationBar()
     }
 }
-

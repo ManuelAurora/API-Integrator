@@ -14,21 +14,8 @@ import OAuthSwift
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    var window: UIWindow?    
-    var loggedIn = false {
-        didSet {
-            pinCodeAttempts = loggedIn ? PinLockConfiguration.attempts : 0
-        }
-    }
+    var window: UIWindow?
     
-    var pinCodeAttempts = 0
-    
-    lazy var pinCodeVCPresenter: PinCodeVCPresenter = {
-        
-        let presenter = PinCodeVCPresenter(in: self.window!)
-        
-        return presenter
-    }()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -52,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let addReport = UNNotificationAction(identifier: "addReport", title: "Add report", options: [.foreground])
         let category = UNNotificationCategory(identifier: "myCategory", actions: [addReport, later], intentIdentifiers: [], options: [])
         UNUserNotificationCenter.current().setNotificationCategories([category])
-                
+        
         return true
     }
     
@@ -101,14 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.        
-        let usersPin = UserDefaults.standard.value(forKey: "PinCode") as? [String]
-        
-        if loggedIn && usersPin != nil {
-            pinCodeVCPresenter.presentPinCodeVC()
-            pinCodeVCPresenter.presentedFromBG = true
-            pinCodeVCPresenter.launchController = window?.rootViewController as? LaunchViewController
-        }
+        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {

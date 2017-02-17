@@ -7,13 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		644691CF1E55870900D964D5 /* PinCodeLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644691CE1E55870900D964D5 /* PinCodeLock.swift */; };
-		644691D11E55874F00D964D5 /* Miscellaneous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644691D01E55874F00D964D5 /* Miscellaneous.swift */; };
-		64936AEF1E543B480059D80A /* PinCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AEE1E543B480059D80A /* PinCodeViewController.swift */; };
-		64936AF21E543DC00059D80A /* PinCodeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AF01E543DC00059D80A /* PinCodeButton.swift */; };
-		64936AF31E543DC00059D80A /* PinCodePlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */; };
-		64EE4DF81E55ADD80007926F /* PinCodeVCPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EE4DF71E55ADD80007926F /* PinCodeVCPresenter.swift */; };
-		64EE4DFA1E55B6DC0007926F /* PinCodeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 64EE4DF91E55B6DC0007926F /* PinCodeView.xib */; };
 		A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340901E110CF200208EAB /* ChageNameTableViewController.swift */; };
 		A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340921E110D1C00208EAB /* NewNameViewController.swift */; };
 		A20440BB1E5483E300D540F8 /* GetReminders.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20440BA1E5483E300D540F8 /* GetReminders.swift */; };
@@ -195,13 +188,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		644691CE1E55870900D964D5 /* PinCodeLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeLock.swift; sourceTree = "<group>"; };
-		644691D01E55874F00D964D5 /* Miscellaneous.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Miscellaneous.swift; sourceTree = "<group>"; };
-		64936AEE1E543B480059D80A /* PinCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeViewController.swift; sourceTree = "<group>"; };
-		64936AF01E543DC00059D80A /* PinCodeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeButton.swift; sourceTree = "<group>"; };
-		64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodePlaceholderView.swift; sourceTree = "<group>"; };
-		64EE4DF71E55ADD80007926F /* PinCodeVCPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeVCPresenter.swift; sourceTree = "<group>"; };
-		64EE4DF91E55B6DC0007926F /* PinCodeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PinCodeView.xib; sourceTree = "<group>"; };
 		A20340901E110CF200208EAB /* ChageNameTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChageNameTableViewController.swift; path = CoreKPI/ViewControllers/Team/ChageNameTableViewController.swift; sourceTree = "<group>"; };
 		A20340921E110D1C00208EAB /* NewNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewNameViewController.swift; path = CoreKPI/ViewControllers/Team/NewNameViewController.swift; sourceTree = "<group>"; };
 		A20440BA1E5483E300D540F8 /* GetReminders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetReminders.swift; path = Services/GetReminders.swift; sourceTree = "<group>"; };
@@ -555,10 +541,7 @@
 		A278209D1E0015D5009F83DB /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				64936AF01E543DC00059D80A /* PinCodeButton.swift */,
-				64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */,
 				A278209C1E0015BA009F83DB /* StoryBoards */,
-				64EE4DF91E55B6DC0007926F /* PinCodeView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -638,9 +621,6 @@
 				A297F5B51E08234500F85963 /* AboutTableViewController.swift */,
 				A297F5B71E08234500F85963 /* faqTableViewController.swift */,
 				A297F5B61E08234500F85963 /* faqDetailViewController.swift */,
-				644691CE1E55870900D964D5 /* PinCodeLock.swift */,
-				644691D01E55874F00D964D5 /* Miscellaneous.swift */,
-				64EE4DF71E55ADD80007926F /* PinCodeVCPresenter.swift */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -691,7 +671,6 @@
 				A274DC0E1E0825DF008CBF36 /* InviteTableViewController.swift */,
 				A2B720991E2E5F9900471E91 /* OnboardingPageViewController.swift */,
 				A2B7209B1E2E5FBC00471E91 /* OnboardingViewController.swift */,
-				64936AEE1E543B480059D80A /* PinCodeViewController.swift */,
 			);
 			name = "Sign In/Up";
 			sourceTree = "<group>";
@@ -901,7 +880,7 @@
 				TargetAttributes = {
 					A27820611E001503009F83DB = {
 						CreatedOnToolsVersion = 8.2;
-						DevelopmentTeam = 2FNB386G38;
+						DevelopmentTeam = YQ8GHY7F3C;
 						ProvisioningStyle = Automatic;
 					};
 					A27820781E001503009F83DB = {
@@ -957,7 +936,6 @@
 				A2279D7E1E14DE2100669EB0 /* points.js in Resources */,
 				A2C9ABDA1E2F5BD600623659 /* positiveBar.html in Resources */,
 				A2C9ABDC1E2F5BFE00623659 /* positiveBar.css in Resources */,
-				64EE4DFA1E55B6DC0007926F /* PinCodeView.xib in Resources */,
 				A26BEEAA1E3F70C800C2D2AC /* funnel.js in Resources */,
 				A2279D7D1E14DE2100669EB0 /* d3.js in Resources */,
 				A2B720981E2E4AFD00471E91 /* d3-funnel.js in Resources */,
@@ -1040,7 +1018,6 @@
 				A2DA8E651E56D6C100D302C7 /* EditReminder.swift in Sources */,
 				A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */,
 				A297F5B91E08234500F85963 /* AboutTableViewController.swift in Sources */,
-				64936AF31E543DC00059D80A /* PinCodePlaceholderView.swift in Sources */,
 				A2E8F9FF1E3B32D700046870 /* DeleteKPI.swift in Sources */,
 				A261D9201E12A81000638C56 /* SuggestedKPIDescriptionTableViewController.swift in Sources */,
 				A2F77E121E3B199400BB8318 /* SendInvation.swift in Sources */,
@@ -1064,18 +1041,15 @@
 				A297F5CB1E0823D400F85963 /* SignInUpViewController.swift in Sources */,
 				A21AEEF21E28AFF200577F4B /* KPIColourTableViewCell.swift in Sources */,
 				A2C9ABD71E2F455D00623659 /* ChartTableViewCell.swift in Sources */,
-				644691CF1E55870900D964D5 /* PinCodeLock.swift in Sources */,
 				A2F77E051E3B199400BB8318 /* AddKPI.swift in Sources */,
 				A297F5E01E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift in Sources */,
 				A261D9181E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift in Sources */,
-				64936AF21E543DC00059D80A /* PinCodeButton.swift in Sources */,
 				A2F77E081E3B199400BB8318 /* ChangeUserRights.swift in Sources */,
 				A297F5E11E08248000F85963 /* TypeAccountTableViewCell.swift in Sources */,
 				A2B7209A1E2E5F9900471E91 /* OnboardingPageViewController.swift in Sources */,
 				A258A70B1E20D47700FBFBDF /* KPISelectSettingTableViewController.swift in Sources */,
 				A2F77E061E3B199400BB8318 /* ChangeNickname.swift in Sources */,
 				A297F5B31E08233A00F85963 /* MemberEditViewController.swift in Sources */,
-				64EE4DF81E55ADD80007926F /* PinCodeVCPresenter.swift in Sources */,
 				A2FB1AA21E252C110045824A /* KPIDescriptionTableViewCell.swift in Sources */,
 				A274DC0F1E0825DF008CBF36 /* InviteTableViewController.swift in Sources */,
 				A2E8F9FD1E3B223500046870 /* EditKPI.swift in Sources */,
@@ -1087,12 +1061,10 @@
 				A261D91C1E129F1600638C56 /* DashboardSetingTableViewCell.swift in Sources */,
 				A2DA8E631E56D6AE00D302C7 /* EditAlert.swift in Sources */,
 				A2FB98A41E25FE6900A856E8 /* KPISettingInputTableViewCell.swift in Sources */,
-				644691D11E55874F00D964D5 /* Miscellaneous.swift in Sources */,
 				A2279D841E14EBF200669EB0 /* AlertsNavigationViewController.swift in Sources */,
 				A22302C51E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift in Sources */,
 				A2F77E111E3B199400BB8318 /* RegistrationRequest.swift in Sources */,
 				A2425CB41E1CE8EE00DFDF91 /* UIImageExtension.swift in Sources */,
-				64936AEF1E543B480059D80A /* PinCodeViewController.swift in Sources */,
 				A2A215531E12667800EEBCA2 /* AlertSelectSettingTableViewController.swift in Sources */,
 				A27820661E001503009F83DB /* AppDelegate.swift in Sources */,
 				A2ACBD411E0D1DFA0079EF3D /* KPIsListTableViewController.swift in Sources */,
@@ -1253,7 +1225,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2FNB386G38;
+				DEVELOPMENT_TEAM = YQ8GHY7F3C;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1273,7 +1245,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2FNB386G38;
+				DEVELOPMENT_TEAM = YQ8GHY7F3C;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",

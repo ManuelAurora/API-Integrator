@@ -66,7 +66,7 @@ class GetMemberList: Request {
                                 let phoneNumberKit = PhoneNumberKit()
                                 
                                 do {
-                                    let phoneNumber = try phoneNumberKit.parse("+")
+                                    let phoneNumber = try phoneNumberKit.parse("+" + phone!)
                                     
                                     profile.phoneNumber = phoneNumberKit.format(phoneNumber, toType: .international)
                                 }

@@ -50,15 +50,11 @@ class SupportMainTableViewController: UITableViewController {
     }
     
     @IBAction func didTapLogoutButton(_ sender: UIBarButtonItem) {
-        
-        let appDelegate = UIApplication.shared .delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        
+        let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
         for profile in model.team {
             context.delete(profile)
         }
         UserDefaults.standard.removeObject(forKey: "token")
-        appDelegate.loggedIn = false
         
         let startVC = storyboard?.instantiateViewController(withIdentifier: "StartVC")
         present(startVC!, animated: true, completion: nil)
