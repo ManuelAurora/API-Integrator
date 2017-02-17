@@ -12,21 +12,36 @@ class LaunchViewController: UIViewController {
     
     var request: GetModelFromServer!
     var model: ModelCoreKPI!
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if checkLocalToken() {
-            checkTokenOnServer()
+
+        let usersPin = UserDefaults.standard.value(forKey: "PinCode") as? [String]
+        
+        if checkLocalToken() && usersPin != nil {
+            tryLoginByPinCode()
+            
         } else {
             let startVC = storyboard?.instantiateViewController(withIdentifier: "StartVC")
             present(startVC!, animated: true, completion: nil)
         }
     }
     
+    func tryLoginByPinCode() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        appDelegate.pinCodeAttempts = PinLockConfiguration.attempts
+        appDelegate.pinCodeVCPresenter.launchController = self
+        appDelegate.pinCodeVCPresenter.presentedFromBG = false
+        appDelegate.pinCodeVCPresenter.presentPinCodeVC()
+    }
+    
     func checkLocalToken() -> Bool {
+        
         if let data = UserDefaults.standard.data(forKey: "token"),
             let myTokenArray = NSKeyedUnarchiver.unarchiveObject(with: data) as? [ModelCoreKPI] {
             model = ModelCoreKPI(model: myTokenArray[0])
@@ -106,11 +121,26 @@ class LaunchViewController: UIViewController {
     //MARK: - Token incorect
     func LogOut() {
         let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
-        for profile in model.team {
-            context.delete(profile)
-        }
-        UserDefaults.standard.removeObject(forKey: "token")
         
+        if model != nil {
+            for profile in model.team {
+                context.delete(profile)
+            }
+        }
+        else {
+            print("DEBUG: Model is nil")
+        }
+        
+        appDelegate.loggedIn = false
+        
+        UserDefaults.standard.removeObject(forKey: "token")
+        UserDefaults.standard.removeObject(forKey: "PinCode")
+        
+        let startVC = storyboard?.instantiateViewController(withIdentifier: "StartVC")
+        present(startVC!, animated: true, completion: nil)
+    }
+    
+    func presentStartVC() {
         let startVC = storyboard?.instantiateViewController(withIdentifier: "StartVC")
         present(startVC!, animated: true, completion: nil)
     }

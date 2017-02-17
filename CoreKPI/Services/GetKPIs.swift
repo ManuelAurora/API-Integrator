@@ -81,7 +81,7 @@ class GetKPIs: Request {
                             let dateFormatter = DateFormatter()
                             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
                             let dateStr = kpiData["deadline"] as! String //deadline
-                            deadline = dateFormatter.date(from: dateStr)!
+                            deadline = Date()//dateFormatter.date(from: dateStr)!
                             
                             number = []
                             timeInterval = kpiData["interval"] as! String
