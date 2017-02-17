@@ -26,7 +26,11 @@ class PinCodeViewController: UIViewController
         static let tryAgain = "Try Again"
     }
     
-    var pinToConfirm = [String]()
+    var pinToConfirm = [String]() {
+        didSet {
+            if pinToConfirm.count > 0 { infoLabel.text = TextForLabels.confirm }
+        }
+    }
     
     fileprivate let pincodeLock = PinCodeLock()
     private var isAnimationCompleted = true
