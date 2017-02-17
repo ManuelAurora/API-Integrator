@@ -142,7 +142,7 @@ class PinCodeViewController: UIViewController
         let usersPin = UserDefaults.standard.value(forKey: "PinCode") as? [String] ?? []
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
-        if appDelegate.pinCodeAttempts > 0 {
+        if appDelegate.pinCodeAttempts > 1 {
             
             isAnimationCompleted  = false
             appDelegate.pinCodeAttempts -= 1
@@ -184,6 +184,9 @@ class PinCodeViewController: UIViewController
             }
             else {
                 if presenter!.presentedFromBG {
+                    logOutCompletion!()
+                }
+                else if appDelegate.pinCodeAttempts == 1 {
                     logOutCompletion!()
                 }
                 else {

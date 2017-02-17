@@ -25,7 +25,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         configure(buttons: [signInButton, enterByKeyButton])
-        toggleEnterByKeyButton(isEnabled: appDelegate.pinCodeAttempts > 0)
+        toggleEnterByKeyButton(isEnabled: appDelegate.pinCodeAttempts > 1)
         
         self.hideKeyboardWhenTappedAround()        
     }
