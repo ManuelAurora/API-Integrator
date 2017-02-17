@@ -11,6 +11,7 @@ import UIKit
 class AlertSettingTableViewCell: UITableViewCell {
     @IBOutlet weak var headerCellLabel: UILabel!
     @IBOutlet weak var descriptionCellLabel: UILabel!
+    @IBOutlet weak var descriptionCellRightTrailing: NSLayoutConstraint!
 
     override func awakeFromNib() {
         super.awakeFromNib()

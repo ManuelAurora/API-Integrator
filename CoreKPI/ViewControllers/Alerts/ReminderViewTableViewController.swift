@@ -98,7 +98,21 @@ class ReminderViewTableViewController: UITableViewController {
                 case 0:
                     cell.textLabel?.text = "Condition - " + (model.alerts[index].condition)!
                 case 1:
-                    cell.textLabel?.text = "Threshold " + "\(model.alerts[index].threshold)" + (model.alerts[index].condition == Condition.PercentHasIncreasedOrDecreasedByMoreThan.rawValue ? "%" : "")
+                    let numberFormatter = NumberFormatter()
+                    numberFormatter.numberStyle = .decimal
+                    let thresholdNumber = model.alerts[index].threshold as NSNumber
+                    let thresholdString = numberFormatter.string(from: thresholdNumber)
+                    
+                    var persentEnabled = false
+                    
+                    switch (Condition(rawValue: model.alerts[index].condition!))! {
+                    case .PercentHasDecreasedByMoreThan, .PercentHasIncreasedByMoreThan, .PercentHasIncreasedOrDecreasedByMoreThan:
+                        persentEnabled = true
+                    default:
+                        break
+                    }
+                
+                    cell.textLabel?.text = "Threshold " + "\(thresholdString!)" + (persentEnabled ? "%" : "")
                 case 2:
                     cell.textLabel?.text = "Delivery at " + (model.alerts[index].onlyWorkHours ? "work hours" : "Alltime")
                 default:

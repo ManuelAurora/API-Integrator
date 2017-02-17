@@ -201,7 +201,6 @@ class AlertsListTableViewController: UITableViewController {
             cell.alertNameLabel.text = model.getNameKPI(FromID: Int(model.alerts[indexPath.row].sourceID))
             cell.numberOfCell = indexPath.row + (model.reminders.count - 1)
             cell.alertImageView.layer.backgroundColor = model.getBackgroundColourOfKPI(FromID: model.alerts[indexPath.row].sourceID).cgColor
-            let num = indexPath.row + (model.reminders.count)
             cell.deleteButton.tag = indexPath.row + (model.reminders.count)
         default:
             break
@@ -248,7 +247,6 @@ extension AlertsListTableViewController: AlertButtonCellDelegate {
                 self.loadReminders()
             }
             )
-            
         default:
             //it is alerts
             let request = DeleteAlert(model: model)

@@ -116,6 +116,8 @@
 		A2C9FD261E13E1CD00433D43 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD251E13E1CD00433D43 /* style.css */; };
 		A2C9FD291E13E1D400433D43 /* Rd3.v3.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */; };
 		A2C9FD2A1E13E1D400433D43 /* round.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD281E13E1D400433D43 /* round.js */; };
+		A2DA8E631E56D6AE00D302C7 /* EditAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DA8E621E56D6AE00D302C7 /* EditAlert.swift */; };
+		A2DA8E651E56D6C100D302C7 /* EditReminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DA8E641E56D6C100D302C7 /* EditReminder.swift */; };
 		A2E8F9FB1E3B1AB800046870 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E8F9FA1E3B1AB800046870 /* LaunchViewController.swift */; };
 		A2E8F9FD1E3B223500046870 /* EditKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E8F9FC1E3B223500046870 /* EditKPI.swift */; };
 		A2E8F9FF1E3B32D700046870 /* DeleteKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E8F9FE1E3B32D700046870 /* DeleteKPI.swift */; };
@@ -296,6 +298,8 @@
 		A2C9FD251E13E1CD00433D43 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = style.css; path = "Graphics/Круговой/css/style.css"; sourceTree = "<group>"; };
 		A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Rd3.v3.min.js; path = "Graphics/Круговой/js/Rd3.v3.min.js"; sourceTree = "<group>"; };
 		A2C9FD281E13E1D400433D43 /* round.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = round.js; path = "Graphics/Круговой/js/round.js"; sourceTree = "<group>"; };
+		A2DA8E621E56D6AE00D302C7 /* EditAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditAlert.swift; path = Services/EditAlert.swift; sourceTree = "<group>"; };
+		A2DA8E641E56D6C100D302C7 /* EditReminder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditReminder.swift; path = Services/EditReminder.swift; sourceTree = "<group>"; };
 		A2E8F9FA1E3B1AB800046870 /* LaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LaunchViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/LaunchViewController.swift"; sourceTree = "<group>"; };
 		A2E8F9FC1E3B223500046870 /* EditKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditKPI.swift; path = Services/EditKPI.swift; sourceTree = "<group>"; };
 		A2E8F9FE1E3B32D700046870 /* DeleteKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteKPI.swift; path = Services/DeleteKPI.swift; sourceTree = "<group>"; };
@@ -398,9 +402,11 @@
 				A2263B0F1E3B8174005C812D /* GetFAQ.swift */,
 				A2A7D5141E41B661008779A0 /* GetAlerts.swift */,
 				A28889901E4206DC00113220 /* AddAlert.swift */,
+				A2DA8E621E56D6AE00D302C7 /* EditAlert.swift */,
 				A2C431761E558EA500AA2B7C /* DeleteAlert.swift */,
 				A20440BA1E5483E300D540F8 /* GetReminders.swift */,
 				A20440BC1E5483FD00D540F8 /* AddReminders.swift */,
+				A2DA8E641E56D6C100D302C7 /* EditReminder.swift */,
 				A2A0DDFF1E55F78D00D37B8B /* DeleteReminder.swift */,
 			);
 			name = "CoreKPI API";
@@ -1009,6 +1015,7 @@
 				A2F77E071E3B199400BB8318 /* ChangeProfile.swift in Sources */,
 				A2EFE2C61E2DF0A500BA2956 /* ChartsPageViewController.swift in Sources */,
 				A2A7D5151E41B661008779A0 /* GetAlerts.swift in Sources */,
+				A2DA8E651E56D6C100D302C7 /* EditReminder.swift in Sources */,
 				A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */,
 				A297F5B91E08234500F85963 /* AboutTableViewController.swift in Sources */,
 				A2E8F9FF1E3B32D700046870 /* DeleteKPI.swift in Sources */,
@@ -1052,6 +1059,7 @@
 				A2B7209C1E2E5FBC00471E91 /* OnboardingViewController.swift in Sources */,
 				A26408F61E2271330034EEC2 /* AddReportTableViewController.swift in Sources */,
 				A261D91C1E129F1600638C56 /* DashboardSetingTableViewCell.swift in Sources */,
+				A2DA8E631E56D6AE00D302C7 /* EditAlert.swift in Sources */,
 				A2FB98A41E25FE6900A856E8 /* KPISettingInputTableViewCell.swift in Sources */,
 				A2279D841E14EBF200669EB0 /* AlertsNavigationViewController.swift in Sources */,
 				A22302C51E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift in Sources */,
