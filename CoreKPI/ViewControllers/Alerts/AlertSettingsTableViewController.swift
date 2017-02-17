@@ -351,6 +351,12 @@ class AlertSettingsTableViewController: UITableViewController {
                         self.settingsArray = self.timeZoneArray
                         self.showSelectSettingVC()
                     case 2:
+                        if datePickerIsVisible && deliveryTime == nil {
+                            let cell = tableView.cellForRow(at: indexPath) as! AlertSettingTableViewCell
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.timeStyle = .short
+                            cell.descriptionCellLabel.text = dateFormatter.string(from: Date())
+                        }
                         showDatePicker(row: indexPath.row)
                         tableView.deselectRow(at: indexPath, animated: true)
                     default:
@@ -371,6 +377,12 @@ class AlertSettingsTableViewController: UITableViewController {
                         self.settingsArray = self.timeZoneArray
                         self.showSelectSettingVC()
                     case 3:
+                        if datePickerIsVisible && deliveryTime == nil {
+                            let cell = tableView.cellForRow(at: indexPath) as! AlertSettingTableViewCell
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.timeStyle = .short
+                            cell.descriptionCellLabel.text = dateFormatter.string(from: Date())
+                        }
                         showDatePicker(row: indexPath.row)
                         tableView.deselectRow(at: indexPath, animated: true)
                     default:
@@ -783,11 +795,14 @@ extension AlertSettingsTableViewController: updateSettingsDelegate {
 
 extension AlertSettingsTableViewController: UpdateTimeDelegate {
     func updateTime(newTime time: Date) {
-        deliveryTime = time
-        
-        let rowNumber = tableView.numberOfRows(inSection: 1) - 2
-        
-        let indexPath = IndexPath(item: rowNumber, section: 1)
-        tableView.reloadRows(at: [indexPath], with: .automatic)
+
+        if datePickerIsVisible {
+            deliveryTime = time
+            
+            let rowNumber = tableView.numberOfRows(inSection: 1) - 2
+            
+            let indexPath = IndexPath(item: rowNumber, section: 1)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
     }
 }
