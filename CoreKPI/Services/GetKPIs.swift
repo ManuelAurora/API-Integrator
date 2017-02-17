@@ -74,11 +74,15 @@ class GetKPIs: Request {
                             let kpiDescription = kpiData["desc"] as? String
                             descriptionOfKPI = (kpiDescription == "nil") ? nil : kpiDescription
                             executant = kpiData["responsive_id"] as! Int
-                            timeZone = "no"
+                            
+                            let timeZoneString = kpiData["timezone"] as! String
+                            timeZone = timeZoneString //TODO: parsing timeZones
+                            
                             let dateFormatter = DateFormatter()
                             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                            let dateStr = kpiData["datetime"] as! String //deadline
+                            let dateStr = kpiData["deadline"] as! String //deadline
                             deadline = dateFormatter.date(from: dateStr)!
+                            
                             number = []
                             timeInterval = kpiData["interval"] as! String
                             if let imageBacgroundColourString = kpiData["card_color"] as? String {
@@ -89,6 +93,15 @@ class GetKPIs: Request {
                             
                             let createdKPI = CreatedKPI(source: source, department: Departments(rawValue: department) ?? Departments.none , KPI: kpi_name, descriptionOfKPI: descriptionOfKPI, executant: executant, timeInterval: TimeInterval(rawValue: timeInterval)!, timeZone: timeZone, deadline: deadline, number: number)
                             let kpi = KPI(kpiID: id, typeOfKPI: typeOfKPI, integratedKPI: nil, createdKPI: createdKPI, imageBacgroundColour: imageBacgroundColour)
+                            
+                            //let kpiViewOne = kpiData["view1"] as? String
+                            //let kpiViewTwo = kpiData["view2"] as? String
+                            
+                            //let graphicTypeOne = kpiData["graph_mode1"] as? String
+                            //let graphicTypeTwo = kpiData["graph_mode2"] as? String
+                            
+                            //kpi.
+                            
                             arrayOfKPI.append(kpi)
                         } else {
                             print("KPI list is empty")

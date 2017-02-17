@@ -117,25 +117,6 @@ extension ExternalKPIViewController {
             self.showAlert(title: "Sorry!", message: error)
         }
         )
-//        let oauthswift = OAuth2Swift(
-//            consumerKey:    "3MVG9HxRZv05HarSOV2Bh.pnwumGqpwVny5raeBxpjMwIQCVzeb7HmzJvGTOxEm6N3S2Q7LFo48KvA.0DrKYt",
-//            consumerSecret: "2273564242408453432",
-//            authorizeUrl:   "https://login.salesforce.com/services/oauth2/authorize",
-//            accessTokenUrl: "https://login.salesforce.com/services/oauth2/token",
-//            responseType:   "code"
-//        )
-//        self.oauthswift = oauthswift
-//        oauthswift.authorizeURLHandler = SafariURLHandler(viewController: self, oauthSwift: oauthswift)
-//        let state = generateState(withLength: 20)
-//        let _ = oauthswift.authorize(
-//            withCallbackURL: URL(string: "https://appauth.demo-app.io:/oauth2redirect")!, scope: "full", state: state,
-//            success: { credential, response, parameters in
-//                self.showAlert(title: "saleForce", message: credential.oauthToken)
-//        },
-//            failure: { error in
-//                print(error.description)
-//        }
-//        )
     }
     
     //MARK: QuickBooks
