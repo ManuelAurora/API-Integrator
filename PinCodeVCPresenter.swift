@@ -11,12 +11,10 @@ import UIKit
 
 class PinCodeVCPresenter
 {
-    var pinCodeController: PinCodeViewController = {
-        let pinvc = PinCodeViewController(nibName: "PinCodeView", bundle: nil)
-        return pinvc
-    }()
+    var pinCodeController: PinCodeViewController!
+    var presentedFromBG = false
     
-    var launchController: LaunchViewController?
+    weak var launchController: LaunchViewController?
     
     var accessGranted = false
     let mainWindow: UIWindow?
@@ -34,18 +32,29 @@ class PinCodeVCPresenter
     
     func presentPinCodeVC() {
         
-        secondaryWindow.rootViewController = pinCodeController
+        pinCodeController = PinCodeViewController(mode: .logIn)
+        pinCodeController.presenter = self
+        
         secondaryWindow.isHidden  = false
         secondaryWindow.windowLevel = 2
         secondaryWindow.makeKeyAndVisible()
+        secondaryWindow.rootViewController = pinCodeController
         mainWindow?.windowLevel = 1
         mainWindow?.endEditing(true)
         
-        pinCodeController.dismissCompletion = { [weak self] in
+        pinCodeController.logOutCompletion = { [weak self] in
             self?.mainWindow?.windowLevel = 1
             self?.mainWindow?.makeKeyAndVisible()
-            
             self?.animateDismissal()
+            self?.launchController?.LogOut()
+            self?.launchController?.dismiss(animated: true, completion: nil)            
+        }
+        
+        pinCodeController.dismissCompletion = { [weak self] in
+            self?.mainWindow?.windowLevel = 1
+            self?.mainWindow?.makeKeyAndVisible()            
+            self?.animateDismissal()
+            self?.launchController?.LogOut()
         }
         
         _ = pinCodeController.successCompletion = { [weak self] in

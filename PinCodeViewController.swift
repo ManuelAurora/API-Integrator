@@ -31,9 +31,12 @@ class PinCodeViewController: UIViewController
     fileprivate let pincodeLock = PinCodeLock()
     private var isAnimationCompleted = true
     
-    var presenter: PinCodeVCPresenter?
+    weak var presenter: PinCodeVCPresenter?
+    
     var dismissCompletion: (() -> Void)?
     var successCompletion: (() -> Void)?
+    var logOutCompletion:  (() -> Void)?
+    
     var mode: PinMode?
     var confirmed = false
     
@@ -61,12 +64,22 @@ class PinCodeViewController: UIViewController
     
     @IBAction func deleteButtonTapped(_ sender: UIButton) {
         if sender.titleLabel?.text == TextForLabels.cancel {
-            dismiss(animated: true, completion: nil)
+            
+            if presenter!.presentedFromBG {
+                logOutCompletion!()
+            }
+            else {
+                dismissCompletion!()
+            }
         }
         else {
-            pincodeLock.passcode.removeLast()
+            pincodeLock.removeLast()
         }
         toggleDeleteButton()
+    }
+    
+    deinit {
+        print("DEBUG: Deinitialized")
     }
     
     convenience init(mode: PinMode) {
@@ -93,8 +106,8 @@ class PinCodeViewController: UIViewController
         
         infoLabel.text = textForLabel
         
-        pincodeLock.delegate   = self
-        infoLabel.textColor    = OurColors.violet
+        pincodeLock.delegate = self
+        infoLabel.textColor  = OurColors.violet
         toggleDeleteButton()
         deleteButton.setTitleColor(OurColors.violet, for: .normal)
         deleteButton.setTitleColor(.lightGray, for: .disabled)
@@ -116,19 +129,20 @@ class PinCodeViewController: UIViewController
     
     fileprivate func checkOut(pinCode: [String]) {
         
-        let pinCode = model!.profile!.pinCode
+        //let pinCode = model!.profile!.pinCode
+        let testCode = ["1","2","3","4"]
         
         if pincodeLock.attempts > 1 {
             
             isAnimationCompleted  = false
             pincodeLock.attempts -= 1
             
-            if pinCode == pinCode {
+            if pinCode == testCode {
                 
                 if presentingViewController?.presentedViewController == self {
                     
                     dismiss(animated: true, completion: { [weak self] _ in
-                        
+                        self?.isAnimationCompleted = true
                         self?.dismissCompletion?()
                         self?.successCompletion?()
                     })
@@ -136,7 +150,7 @@ class PinCodeViewController: UIViewController
                     
                   _ = navigationController?.popViewController(animated: true)
                 }
-                
+                isAnimationCompleted = true
                 dismissCompletion?()
                 successCompletion?()
             }
@@ -156,38 +170,19 @@ class PinCodeViewController: UIViewController
                 dismiss(animated: true, completion: nil)
             }
             else {
-                dismissCompletion!()
-                logOut()
+                logOutCompletion!()            
             }
         }
     }
     
     fileprivate func toggleDeleteButton() {
         
-        if dismissCompletion != nil { dismissCompletion!(); return }
+       // if dismissCompletion != nil { dismissCompletion!(); return }
         
         let isPassCodeEmpty = pincodeLock.passcode.count == 0
         let title = isPassCodeEmpty ? TextForLabels.cancel : TextForLabels.delete
         
         deleteButton.setTitle(title, for: .normal)
-    }
-    
-    private func logOut() {
-        
-        let appDelegate = UIApplication.shared .delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        
-        if let model = model {
-            for profile in model.team {
-                context.delete(profile)
-            }
-        }
-        
-        UserDefaults.standard.removeObject(forKey: "token")
-        appDelegate.loggedIn = false
-        
-        let startVC = storyboard?.instantiateViewController(withIdentifier: "StartVC")
-        present(startVC!, animated: true, completion: nil)
     }
     
     func animateFailedLoginAttempt() {

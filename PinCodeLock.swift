@@ -47,12 +47,12 @@ class PinCodeLock
                 }
             }
         }
+    }
+    
+    func removeLast() {
         
-        func removeLast() {
-            
-            delegate?.removedValue(at: currentIndex)
-            passcode.removeLast()
-        }
+        delegate?.removedValue(at: currentIndex)
+        passcode.removeLast()
     }
 }
 

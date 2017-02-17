@@ -24,6 +24,7 @@ class LaunchViewController: UIViewController {
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             
             appDelegate.pinCodeVCPresenter.launchController = self
+            appDelegate.pinCodeVCPresenter.presentedFromBG = false
             appDelegate.pinCodeVCPresenter.presentPinCodeVC()            
             
         } else {
@@ -109,11 +110,18 @@ class LaunchViewController: UIViewController {
     //MARK: - Token incorect
     func LogOut() {
         let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
-        for profile in model.team {
-            context.delete(profile)
-        }
-        UserDefaults.standard.removeObject(forKey: "token")
         
+        if model != nil {
+            for profile in model.team {
+                context.delete(profile)
+            }
+        }
+        else {
+            print("DEBUG: Model is nil")
+        }
+        
+        UserDefaults.standard.removeObject(forKey: "token")
+    
         let startVC = storyboard?.instantiateViewController(withIdentifier: "StartVC")
         present(startVC!, animated: true, completion: nil)
     }
