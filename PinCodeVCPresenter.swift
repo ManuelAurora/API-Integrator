@@ -58,7 +58,9 @@ class PinCodeVCPresenter
         }
         
         _ = pinCodeController.successCompletion = { [weak self] in
-            
+            self?.mainWindow?.windowLevel = 1
+            self?.mainWindow?.makeKeyAndVisible()
+            self?.animateDismissal()
             self?.launchController?.getModelFromServer()
         }
     }

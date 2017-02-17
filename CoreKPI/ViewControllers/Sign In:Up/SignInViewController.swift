@@ -81,7 +81,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     private func showPinCodeViewController() {
         
         guard let pinCodeViewController = storyboard?.instantiateViewController(withIdentifier: "PinCodeViewController") as? PinCodeViewController else { print("DEBUG: An error occured while trying instantiate pin code VC"); return }
-        
+        pinCodeViewController.mode = .logIn
         present(pinCodeViewController, animated: true, completion: nil)
         
     }

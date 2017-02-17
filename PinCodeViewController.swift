@@ -65,11 +65,16 @@ class PinCodeViewController: UIViewController
     @IBAction func deleteButtonTapped(_ sender: UIButton) {
         if sender.titleLabel?.text == TextForLabels.cancel {
             
-            if presenter!.presentedFromBG {
-                logOutCompletion!()
+            if let presenter = presenter {
+                if presenter.presentedFromBG {
+                    logOutCompletion!()
+                }
+                else {
+                    dismissCompletion!()
+                }
             }
             else {
-                dismissCompletion!()
+                dismiss(animated: true, completion: nil)
             }
         }
         else {
@@ -143,7 +148,6 @@ class PinCodeViewController: UIViewController
                     
                     dismiss(animated: true, completion: { [weak self] _ in
                         self?.isAnimationCompleted = true
-                        self?.dismissCompletion?()
                         self?.successCompletion?()
                     })
                 } else if navigationController != nil {
@@ -151,7 +155,6 @@ class PinCodeViewController: UIViewController
                   _ = navigationController?.popViewController(animated: true)
                 }
                 isAnimationCompleted = true
-                dismissCompletion?()
                 successCompletion?()
             }
             else {
@@ -170,7 +173,12 @@ class PinCodeViewController: UIViewController
                 dismiss(animated: true, completion: nil)
             }
             else {
-                logOutCompletion!()            
+                if presenter!.presentedFromBG {
+                    logOutCompletion!()
+                }
+                else {
+                    dismissCompletion!()
+                }
             }
         }
     }
