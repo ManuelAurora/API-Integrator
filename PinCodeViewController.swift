@@ -121,11 +121,16 @@ class PinCodeViewController: UIViewController
     func createNew(pinCode: [String]) {
         
         if pinToConfirm == pinCode {
-            model?.profile?.pinCode = pinCode
+            UserDefaults.standard.set(pinCode, forKey: "PinCode")
+            
             dismiss(animated: true, completion: nil)
         }
-        else if pincodeLock.attempts != 0 {
+        else if pincodeLock.attempts > 1 {
             infoLabel.text = TextForLabels.tryAgain
+            pincodeLock.passcode.removeAll()
+            pincodeLock.attempts -= 1
+            clearAllPlaceholders()
+            animateFailedLoginAttempt()
         }
         else {
             dismiss(animated: true, completion: nil)
@@ -134,21 +139,27 @@ class PinCodeViewController: UIViewController
     
     fileprivate func checkOut(pinCode: [String]) {
         
-        //let pinCode = model!.profile!.pinCode
-        let testCode = ["1","2","3","4"]
+        let usersPin = UserDefaults.standard.value(forKey: "PinCode") as? [String] ?? []
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
-        if pincodeLock.attempts > 1 {
+        if appDelegate.pinCodeAttempts > 0 {
             
             isAnimationCompleted  = false
-            pincodeLock.attempts -= 1
+            appDelegate.pinCodeAttempts -= 1
             
-            if pinCode == testCode {
+            if pinCode == usersPin {
                 
                 if presentingViewController?.presentedViewController == self {
                     
+                    let navController = self.presentingViewController as! UINavigationController
+                    let presentingVC = navController.viewControllers[0] as! SignInViewController
+                    
+                    presentingVC.model = self.model
+                    
                     dismiss(animated: true, completion: { [weak self] _ in
                         self?.isAnimationCompleted = true
-                        self?.successCompletion?()
+                        presentingVC.saveData()
+                        presentingVC.showTabBarVC()
                     })
                 } else if navigationController != nil {
                     
@@ -158,17 +169,16 @@ class PinCodeViewController: UIViewController
                 successCompletion?()
             }
             else {
+                
                 animateFailedLoginAttempt()
             }
             
             toggleDeleteButton()
-            _ = pinCodePlaceholderViews.map { $0.animate(state: .empty) }
+            clearAllPlaceholders()
         }
         else {
             if let navController = presentingViewController as? UINavigationController,
                 let presenter = navController.topViewController as? SignInViewController {
-                
-                presenter.toggleEnterByKeyButton(isEnabled: false)
                 
                 dismiss(animated: true, completion: nil)
             }
@@ -191,6 +201,10 @@ class PinCodeViewController: UIViewController
         let title = isPassCodeEmpty ? TextForLabels.cancel : TextForLabels.delete
         
         deleteButton.setTitle(title, for: .normal)
+    }
+    
+    func clearAllPlaceholders() {
+        _ = pinCodePlaceholderViews.map { $0.animate(state: .empty) }
     }
     
     func animateFailedLoginAttempt() {

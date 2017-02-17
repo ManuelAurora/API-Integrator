@@ -12,7 +12,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     var model: ModelCoreKPI!
     var delegate: updateModelDelegate!
-    
+        
     @IBOutlet weak var passwordTextField: BottomBorderTextField!
     @IBOutlet weak var emailTextField: BottomBorderTextField!
     
@@ -22,9 +22,12 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.hideKeyboardWhenTappedAround()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         configure(buttons: [signInButton, enterByKeyButton])
+        toggleEnterByKeyButton(isEnabled: appDelegate.pinCodeAttempts > 0)
+        
+        self.hideKeyboardWhenTappedAround()        
     }
     
     override func didReceiveMemoryWarning() {
@@ -81,9 +84,9 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     private func showPinCodeViewController() {
         
         guard let pinCodeViewController = storyboard?.instantiateViewController(withIdentifier: "PinCodeViewController") as? PinCodeViewController else { print("DEBUG: An error occured while trying instantiate pin code VC"); return }
-        pinCodeViewController.mode = .logIn
-        present(pinCodeViewController, animated: true, completion: nil)
         
+        pinCodeViewController.mode = .logIn
+        present(pinCodeViewController, animated: true, completion: nil)        
     }
     
     func toggleEnterByKeyButton(isEnabled: Bool) {
@@ -91,7 +94,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         enterByKeyButton.layer.borderColor = isEnabled ? OurColors.violet.cgColor : UIColor.lightGray.cgColor
         enterByKeyButton.isEnabled = isEnabled
     }
-    
+        
     func loginRequest() {
         
         if let username = self.emailTextField.text?.lowercased() {

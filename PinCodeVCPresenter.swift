@@ -54,7 +54,7 @@ class PinCodeVCPresenter
             self?.mainWindow?.windowLevel = 1
             self?.mainWindow?.makeKeyAndVisible()            
             self?.animateDismissal()
-            self?.launchController?.LogOut()
+            self?.launchController?.presentStartVC()
         }
         
         _ = pinCodeController.successCompletion = { [weak self] in

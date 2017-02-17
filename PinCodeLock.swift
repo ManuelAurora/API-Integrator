@@ -39,11 +39,12 @@ class PinCodeLock
                 else {
                     if delegate.pinToConfirm.count > 0 {
                         delegate.createNew(pinCode: passcode)
-                        passcode.removeAll()
                     }
-                    
-                    delegate.pinToConfirm = passcode
-                    passcode.removeAll()                    
+                    else {
+                        delegate.pinToConfirm = passcode                        
+                        passcode.removeAll()
+                        delegate.clearAllPlaceholders()
+                    }
                 }
             }
         }
