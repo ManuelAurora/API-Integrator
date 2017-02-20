@@ -16,6 +16,16 @@ class ExternalKPIViewController: OAuthViewController {
     
     var oauthswift: OAuthSwift?
     
+    lazy var internalWebViewController: WebViewController = {
+        let controller = WebViewController()
+        
+        controller.delegate = self
+        controller.view = UIView(frame: UIScreen.main.bounds)       
+        controller.viewDidLoad()
+        
+        return controller
+    }()
+    
     weak var ChoseSuggestedVC: ChooseSuggestedKPITableViewController!
     var servive: IntegratedServices!
     var serviceKPI: [(SettingName: String, value: Bool)]!
@@ -45,7 +55,6 @@ class ExternalKPIViewController: OAuthViewController {
         } else {
             showAlert(title: "Sorry!", message: "First you should select one or more KPI")
         }
-        
     }
     
     func showAlert(title: String, message: String) {
@@ -121,6 +130,30 @@ extension ExternalKPIViewController {
     
     //MARK: QuickBooks
     func doOAuthQuickbooks() {
+        
+        if internalWebViewController.parent == nil {
+            self.addChildViewController(internalWebViewController)
+        }
+        
+        let oauthswift = OAuth1Swift(
+            consumerKey:    "qyprdLYMArOQwomSilhpS7v9Ge8kke",
+            consumerSecret: "ogPRVftZXLA1A03QyWNyJBax1qOOphuVJVP121np",
+            requestTokenUrl: "https://oauth.intuit.com/oauth/v1/get_request_token",
+            authorizeUrl:    "https://appcenter.intuit.com/Connect/Begin",
+            accessTokenUrl:  "https://oauth.intuit.com/oauth/v1/get_access_token"
+        )
+        
+        self.oauthswift = oauthswift
+        oauthswift.authorizeURLHandler = internalWebViewController
+        let _ = oauthswift.authorize(
+            withCallbackURL: URL(string: "oauth-swift://oauth-callback/intuit")!,
+            success: { credential, response, parameters in
+                self.showAlert(title: "ss", message: "\(credential)")
+                print(parameters)
+        },
+            failure: { error in
+                print(error.description)
+        })        
         
     }
     
@@ -204,5 +237,30 @@ extension ExternalKPIViewController {
         let stackVC = navigationController?.viewControllers
         _ = navigationController?.popToViewController((stackVC?[(stackVC?.count)! - 3])!, animated: true)
     }
+}
+
+extension ExternalKPIViewController: OAuthWebViewControllerDelegate {
+    #if os(iOS) || os(tvOS)
     
+    func oauthWebViewControllerDidPresent() {
+        
+    }
+    func oauthWebViewControllerDidDismiss() {
+        
+    }
+    #endif
+    
+    func oauthWebViewControllerWillAppear() {
+        
+    }
+    func oauthWebViewControllerDidAppear() {
+        
+    }
+    func oauthWebViewControllerWillDisappear() {
+        
+    }
+    func oauthWebViewControllerDidDisappear() {
+        // Ensure all listeners are removed if presented web view close
+        oauthswift?.cancel()
+    }
 }

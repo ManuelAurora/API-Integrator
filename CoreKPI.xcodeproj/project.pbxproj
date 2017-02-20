@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		641F74641E5AE27B00672534 /* QuickBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F74631E5AE27B00672534 /* QuickBook.swift */; };
+		641F74661E5B0F4200672534 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F74651E5B0F4200672534 /* WebViewController.swift */; };
 		644691CF1E55870900D964D5 /* PinCodeLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644691CE1E55870900D964D5 /* PinCodeLock.swift */; };
 		644691D11E55874F00D964D5 /* Miscellaneous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644691D01E55874F00D964D5 /* Miscellaneous.swift */; };
 		64936AEF1E543B480059D80A /* PinCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AEE1E543B480059D80A /* PinCodeViewController.swift */; };
@@ -195,6 +197,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		641F74631E5AE27B00672534 /* QuickBook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBook.swift; sourceTree = "<group>"; };
+		641F74651E5B0F4200672534 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		644691CE1E55870900D964D5 /* PinCodeLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeLock.swift; sourceTree = "<group>"; };
 		644691D01E55874F00D964D5 /* Miscellaneous.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Miscellaneous.swift; sourceTree = "<group>"; };
 		64936AEE1E543B480059D80A /* PinCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeViewController.swift; sourceTree = "<group>"; };
@@ -431,6 +435,7 @@
 			children = (
 				A256F05F1E49B631004DAF75 /* ExternalRequestService.swift */,
 				A256F0611E49F56B004DAF75 /* GoogleAnalytics */,
+				641F74631E5AE27B00672534 /* QuickBook.swift */,
 			);
 			name = "External Services";
 			sourceTree = "<group>";
@@ -674,6 +679,7 @@
 				A26408F71E2280160034EEC2 /* WebViewChartViewController.swift */,
 				A2EFE2C71E2DF0E300BA2956 /* TableViewChartController.swift */,
 				A25F658C1E52F5D500AD30F5 /* NumberChartViewController.swift */,
+				641F74651E5B0F4200672534 /* WebViewController.swift */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -1002,6 +1008,7 @@
 				A297F5C81E0823D400F85963 /* NewProfileTableViewController.swift in Sources */,
 				A2EFE2C81E2DF0E300BA2956 /* TableViewChartController.swift in Sources */,
 				A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */,
+				641F74641E5AE27B00672534 /* QuickBook.swift in Sources */,
 				A2279D821E14E86400669EB0 /* TeamListNavigationViewController.swift in Sources */,
 				A274DC111E082617008CBF36 /* MemberListTableViewController.swift in Sources */,
 				A2263B0E1E3B7685005C812D /* SupportNavigationViewController.swift in Sources */,
@@ -1016,6 +1023,7 @@
 				A2263B101E3B8174005C812D /* GetFAQ.swift in Sources */,
 				A2A940CB1E1E70740088C7F1 /* UINavigationBurExtension.swift in Sources */,
 				A20B6BD01E31F5EC00FAF86A /* IntegratedKPI.swift in Sources */,
+				641F74661E5B0F4200672534 /* WebViewController.swift in Sources */,
 				A25F658D1E52F5D500AD30F5 /* NumberChartViewController.swift in Sources */,
 				A2F77E0C1E3B199400BB8318 /* GetModelFromServer.swift in Sources */,
 				A2ACBD3B1E0D11AA0079EF3D /* AlertsListTableViewController.swift in Sources */,
