@@ -53,5 +53,18 @@ class RecoveryPasswordViewController: UIViewController {
         }
         )
     }
-    
 }
+
+    //MARK: - UITextFieldDelegate method
+    extension RecoveryPasswordViewController: UITextFieldDelegate {
+        
+        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            if textField == emailTextField {
+                emailTextField.resignFirstResponder()
+                self.tapSendButton(sendButton)
+            }
+            return true
+            
+    }
+}
+

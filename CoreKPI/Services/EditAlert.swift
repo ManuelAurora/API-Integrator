@@ -1,16 +1,16 @@
 //
-//  AddAlert.swift
+//  EditAlert.swift
 //  CoreKPI
 //
-//  Created by Семен on 01.02.17.
+//  Created by Семен on 17.02.17.
 //  Copyright © 2017 SmiChrisSoft. All rights reserved.
 //
 
 import Foundation
 
-class AddAlert: Request {
+class EditAlert: Request {
     
-    func addAlert(alert: Alert, success: @escaping () -> (), failure: @escaping failure) {
+    func editAlert(alert: Alert, success: @escaping () -> (), failure: @escaping failure) {
         
         var notificationArray: [String] = []
         if alert.emailNotificationIsActive {
@@ -29,7 +29,7 @@ class AddAlert: Request {
         
         let data: [String : Any] = ["kpi_id" : alert.sourceID, "methods" : notificationArray, "condition" : alert.condition!, "condition_value" : alert.threshold, "days" : alert.onlyWorkHours ? 1 : 0, "timezone" : timeZoneNumber!]
         
-        self.getJson(category: "/alerts/addAlert", data: data,
+        self.getJson(category: "/alerts/editAlert", data: data,
                      success: { json in
                         if self.parsingJson(json: json) {
                             success()

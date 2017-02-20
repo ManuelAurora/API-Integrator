@@ -10,9 +10,9 @@ import UIKit
 
 class ChartTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var metricsLabel: UILabel!
-    @IBOutlet weak var valueLabel: UILabel!
-    @IBOutlet weak var persentLabel: UILabel!
+    @IBOutlet weak var leftLabel: UILabel!
+    @IBOutlet weak var centralLabel: UILabel!
+    @IBOutlet weak var rightLabel: UILabel!
     
     
     override func awakeFromNib() {

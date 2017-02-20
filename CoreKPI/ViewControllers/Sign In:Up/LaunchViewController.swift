@@ -19,7 +19,7 @@ class LaunchViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
+
         let usersPin = UserDefaults.standard.value(forKey: "PinCode") as? [String]
         
         if checkLocalToken() && usersPin != nil {
@@ -52,7 +52,7 @@ class LaunchViewController: UIViewController {
         }
     }
     
-    func getModelFromServer() {
+    func checkTokenOnServer() {
         
         let req = LoginRequest(model: model)
         req.checkToken(success: { data in
@@ -62,8 +62,13 @@ class LaunchViewController: UIViewController {
             self.getDataFromCoreData()
             self.showTabBarVC()
         }, failure: { error in
-            self.getDataFromCoreData()
-            self.LogOut()
+            if error == "" { //TODO: Токен невалидный
+                self.getDataFromCoreData()
+                self.LogOut()
+            } else {
+                self.getDataFromCoreData()
+                self.showTabBarVC()
+            }
             print(error)
         }
         )
@@ -111,7 +116,6 @@ class LaunchViewController: UIViewController {
         } catch {
             print("Fetching faild")
         }
-        //showTabBarVC()
     }
     
     //MARK: - Token incorect

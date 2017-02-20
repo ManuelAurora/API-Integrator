@@ -17,9 +17,9 @@ class Request {
     
     var errorMessage: String?
     
-    let serverIp = "http://dashmob.smichrissoft.com:8888"
+    //let serverIp = "http://dashmob.smichrissoft.com:8888"
     //debug!
-    //let serverIp = "http://192.168.0.118:8888"
+    let serverIp = "http://192.168.0.118:8888"
     
     var userID: Int!
     var token: String!
@@ -68,9 +68,16 @@ class Request {
                 } catch {
                     guard response.result.isSuccess else {
                         let error = response.result.error
-                        if let error = error, (error as NSError).code != NSURLErrorCancelled {
+            
+                        if let error = error {
                             let requestError = error.localizedDescription
-                            failure(requestError)
+                            
+                            switch (error as NSError).code {
+                            case NSURLErrorNotConnectedToInternet:
+                                failure(requestError)
+                            default:
+                                print(requestError)
+                            }
                         }
                         return
                     }

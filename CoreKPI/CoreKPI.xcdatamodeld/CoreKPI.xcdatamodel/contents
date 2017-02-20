@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Alert" representedClassName="Alert" syncable="YES" codeGenerationType="class">
+        <attribute name="alertID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="backgroundColor" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="condition" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="deliveryDay" optional="YES" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="deliveryTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="condition" attributeType="String" syncable="YES"/>
         <attribute name="emailNotificationIsActive" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="onlyWorkHours" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="onlyWorkHours" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="pushNotificationIsActive" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="smsNotificationIsAcive" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="sourceID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="threshold" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="timeInterval" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="timeZone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="threshold" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="ExternalKPI" representedClassName="ExternalKPI" syncable="YES" codeGenerationType="class">
         <attribute name="kpiName" attributeType="String" syncable="YES"/>
@@ -31,6 +28,21 @@
         <attribute name="viewID" attributeType="String" syncable="YES"/>
         <relationship name="externalKPI" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ExternalKPI" inverseName="googleAnalyticsKPI" inverseEntity="ExternalKPI" syncable="YES"/>
     </entity>
+    <entity name="OverallKPI" representedClassName="OverallKPI" syncable="YES" codeGenerationType="class">
+        <attribute name="backgroundColour" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="Reminder" representedClassName="Reminder" syncable="YES" codeGenerationType="class">
+        <attribute name="deliveryDay" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="deliveryTime" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="emailNotificationIsActive" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="pushNotificationIsActive" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="reminderID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="smsNotificationIsActive" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="sourceID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="timeInterval" attributeType="String" syncable="YES"/>
+        <attribute name="timeZone" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="Team" representedClassName="Team" syncable="YES" codeGenerationType="class">
         <attribute name="firstName" attributeType="String" syncable="YES"/>
         <attribute name="isAdmin" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
@@ -43,11 +55,15 @@
         <attribute name="userID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="username" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="UserKPI" representedClassName="UserKPI" syncable="YES" codeGenerationType="class"/>
     <elements>
-        <element name="Alert" positionX="-54" positionY="63" width="128" height="225"/>
+        <element name="Alert" positionX="-54" positionY="63" width="128" height="180"/>
         <element name="ExternalKPI" positionX="-54" positionY="117" width="128" height="135"/>
         <element name="FAQ" positionX="-54" positionY="117" width="128" height="90"/>
         <element name="GoogleKPI" positionX="-54" positionY="117" width="128" height="75"/>
+        <element name="OverallKPI" positionX="-27" positionY="117" width="128" height="75"/>
+        <element name="Reminder" positionX="-45" positionY="117" width="128" height="180"/>
         <element name="Team" positionX="-63" positionY="-18" width="128" height="195"/>
+        <element name="UserKPI" positionX="-36" positionY="108" width="128" height="45"/>
     </elements>
 </model>

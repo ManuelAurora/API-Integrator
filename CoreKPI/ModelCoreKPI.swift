@@ -21,6 +21,7 @@ class ModelCoreKPI: NSObject, NSCoding {
     var profile: Profile?
     
     var alerts: [Alert] = []
+    var reminders: [Reminder] = []
     var kpis: [KPI] = []
     var team: [Team] = []
     
@@ -48,6 +49,7 @@ class ModelCoreKPI: NSObject, NSCoding {
         self.token = model.token
         self.profile = model.profile
         self.alerts = model.alerts
+        self.reminders = model.reminders
         self.kpis = model.kpis
         self.team = model.team
     }
@@ -59,6 +61,15 @@ class ModelCoreKPI: NSObject, NSCoding {
             }
         }
         return nil
+    }
+    
+    func getBackgroundColourOfKPI(FromID id: Int64) -> UIColor {
+        for kpi in kpis {
+            if kpi.id == Int(id) {
+                return kpi.imageBacgroundColour
+            }
+        }
+        return UIColor.clear
     }
     
 }
@@ -115,20 +126,12 @@ class KPI {
         case .createdKPI:
             let numbers = createdKPI?.number
             if (numbers?.count)! > 1 {
-                switch (createdKPI?.timeInterval)! {
-                case .Daily: break
-                    //let date = Date()
-                    //date.compare(Date(timeIntervalSinceNow: 20))
-                case .Weekly: break
-                case .Monthly: break
-                }
-                if (numbers?[(numbers?.count)! - 1])! < (numbers?[(numbers?.count)! - 2])! {
+                if (numbers?[(numbers?.count)! - 1].number)! < (numbers?[(numbers?.count)! - 2].number)! {
                     return ImageForKPIList.Decreases
                 }
-                if (numbers?[(numbers?.count)! - 1])! > (numbers?[(numbers?.count)! - 2])! {
+                if (numbers?[(numbers?.count)! - 1].number)! > (numbers?[(numbers?.count)! - 2].number)! {
                     return ImageForKPIList.Increases
                 }
-                
             }
             return nil
         case .IntegratedKPI:

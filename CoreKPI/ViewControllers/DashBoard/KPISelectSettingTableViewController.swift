@@ -108,6 +108,7 @@ class KPISelectSettingTableViewController: UITableViewController {
             return selectCell
         }
         if inputSettingCells == true {
+            inputCell.inputTextView.becomeFirstResponder()
             if (textFieldInputData != nil) {
                 inputCell.inputTextView.text = textFieldInputData
             }

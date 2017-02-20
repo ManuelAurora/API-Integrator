@@ -1,35 +1,41 @@
 //
-//  AddAlert.swift
+//  AddReminders.swift
 //  CoreKPI
 //
-//  Created by Семен on 01.02.17.
+//  Created by Семен on 15.02.17.
 //  Copyright © 2017 SmiChrisSoft. All rights reserved.
 //
 
 import Foundation
 
-class AddAlert: Request {
+class AddReminder: Request {
     
-    func addAlert(alert: Alert, success: @escaping () -> (), failure: @escaping failure) {
+    func addReminder(reminder: Reminder, success: @escaping () -> (), failure: @escaping failure) {
         
         var notificationArray: [String] = []
-        if alert.emailNotificationIsActive {
+        if reminder.emailNotificationIsActive {
             notificationArray.append("E-mail")
         }
-        if alert.smsNotificationIsAcive {
+        if reminder.smsNotificationIsActive {
             notificationArray.append("SMS")
         }
-        if alert.pushNotificationIsActive {
+        if reminder.pushNotificationIsActive {
             notificationArray.append("Push")
         }
         
-        let timeZone = TimeZone.current.abbreviation()
-        let timeZoneNumber  = timeZone?.replacingOccurrences(of: "GMT", with: "")
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let deliveryTime = dateFormatter.string(from: reminder.deliveryTime as! Date)
+        
+        let abbreviaion = reminder.timeZone?.components(separatedBy: "(")[1].replacingOccurrences(of: ")", with: "")
+        print(abbreviaion ?? "nil")
+        let timeZone = TimeZone(abbreviation: abbreviaion!)
+        let timeZoneHoursFromGMT = (timeZone?.secondsFromGMT())!/3600
         
         
-        let data: [String : Any] = ["kpi_id" : alert.sourceID, "methods" : notificationArray, "condition" : alert.condition!, "condition_value" : alert.threshold, "days" : alert.onlyWorkHours ? 1 : 0, "timezone" : timeZoneNumber!]
+        let data: [String : Any] = ["kpi_id" : reminder.sourceID, "methods" : notificationArray, "delivery_day" : reminder.deliveryDay, "delivery_time" : deliveryTime, "interval_type" : reminder.timeInterval ?? "Daily", "timezone" : timeZoneHoursFromGMT]
         
-        self.getJson(category: "/alerts/addAlert", data: data,
+        self.getJson(category: "/reminders/addReminder", data: data,
                      success: { json in
                         if self.parsingJson(json: json) {
                             success()

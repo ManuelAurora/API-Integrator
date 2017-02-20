@@ -24,6 +24,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var memberProfilePhotoImage: UIImageView!
     @IBOutlet weak var memberNameTextField: BottomBorderTextField!
     @IBOutlet weak var memberPositionTextField: BottomBorderTextField!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,7 +89,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                 phoneCell.phoneNumberTextField.text = newProfile.phone
                 phoneCell.textFieldOfCell.placeholder = "No Phone"
                 phoneCell.textFieldOfCell.keyboardType = .numberPad
-                phoneCell.textFieldOfCell.tag = 0
+                phoneCell.textFieldOfCell.tag = indexPath.row + 2
                 phoneCell.prepareForReuse()
                 return phoneCell
             case 1:
@@ -97,7 +98,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                 cellMemberEdit.textFieldOfCell.text = newProfile.userName
                 cellMemberEdit.textFieldOfCell.placeholder = "No E-mail"
                 cellMemberEdit.textFieldOfCell.keyboardType = .emailAddress
-                cellMemberEdit.textFieldOfCell.tag = 1
+                cellMemberEdit.textFieldOfCell.tag = indexPath.row + 2
                 cellMemberEdit.prepareForReuse()
                 return cellMemberEdit
             default:
@@ -147,12 +148,12 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     func checkInputValue() -> Bool {
         
         if self.memberNameTextField.text == "" {
-            showAlert(title: "Error saving", message: "Name text field is empty")
+            //showAlert(title: "Error saving", message: "Name text field is empty")
             return false
         } else {
             let name = self.memberNameTextField.text?.components(separatedBy: " ")
             if (name?.count)! < 2 || name?[0] == "" || name?[1] == "" || name?[0] == " " || name?[1] == " "{
-                self.showAlert(title: "Error", message: "Member should have first name and last name")
+                //self.showAlert(title: "Error", message: "Member should have first name and last name")
                 return false
             } else {
                 self.newProfile.firstName = (name?[0])!
@@ -167,12 +168,12 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         
         if self.newProfile.userName == "" {
-            showAlert(title: "Error", message: "Email text field is empty")
+            //showAlert(title: "Error", message: "Email text field is empty")
             return false
         } else {
             
             if self.newProfile.userName.range(of: "@") == nil || (self.newProfile.userName.components(separatedBy: "@")[0].isEmpty) ||  (self.newProfile.userName.components(separatedBy: "@")[1].isEmpty) {
-                showAlert(title: "Error", message: "Invalid E-mail adress")
+                //showAlert(title: "Error", message: "Invalid E-mail adress")
                 return false
             }
         }
@@ -183,7 +184,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                 _ = try phoneNumberKit.parse(newProfile.phone!)
             }
             catch {
-                showAlert(title: "Error", message: "Phone number incorect")
+                //showAlert(title: "Error", message: "Phone number incorect")
                 return false
             }
         }
@@ -365,6 +366,9 @@ extension MemberEditViewController: UIImagePickerControllerDelegate, UINavigatio
         memberProfilePhotoImage.contentMode = UIViewContentMode.scaleAspectFill
         memberProfilePhotoImage.clipsToBounds = true
         newProfile.photo = "New photo link"
+        
+        saveButton.isEnabled = checkInputValue() ? true : false
+        
         dismiss(animated: true, completion: nil)
     }
 }
@@ -381,6 +385,7 @@ extension MemberEditViewController: updateTypeOfAccountDelegate {
     func updateTypeOfAccount(typeOfAccount: TypeOfAccount) {
         self.newProfile.typeOfAccount = typeOfAccount
         tableView.reloadData()
+        saveButton.isEnabled = checkInputValue() ? true : false
     }
 }
 
@@ -393,7 +398,7 @@ extension MemberEditViewController: UITextFieldDelegate {
         let txtAfterUpdate = textFieldText.replacingCharacters(in: range, with: string)
         
         switch textField.tag {
-        case 0:
+        case 2:
             switch string {
             case "0"..."9", "+", "-", "", "(", ")":
                 self.newProfile.phone = txtAfterUpdate
@@ -405,14 +410,17 @@ extension MemberEditViewController: UITextFieldDelegate {
                     textField.text = "+"
                     return false
                 }
+                saveButton.isEnabled = checkInputValue() ? true : false
                 return true
             default:
                 return false
             }
-        case 1:
+        case 3:
             newProfile.userName = txtAfterUpdate
+            saveButton.isEnabled = checkInputValue() ? true : false
             return true
         default:
+            saveButton.isEnabled = checkInputValue() ? true : false
             return true
         }
     }
@@ -422,7 +430,12 @@ extension MemberEditViewController: UITextFieldDelegate {
             memberPositionTextField.becomeFirstResponder()
         }
         if textField == memberPositionTextField {
-            memberNameTextField.becomeFirstResponder()
+            let indexPath = IndexPath(item: 0, section: 1)
+            let cell = tableView.cellForRow(at: indexPath) as! MemberEditTableViewCell
+            cell.textFieldOfCell.becomeFirstResponder()
+        }
+        if textField.tag == 3 {
+            textField.resignFirstResponder()
         }
         return true
     }

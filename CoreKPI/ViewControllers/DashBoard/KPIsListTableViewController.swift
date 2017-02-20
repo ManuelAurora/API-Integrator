@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import OAuthSwift
 
 //MARK: - Enums for setting
 enum Source: String {
@@ -41,8 +40,8 @@ class KPIsListTableViewController: UITableViewController {
         //
         
         refreshControl = UIRefreshControl()
-        refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl?.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
+        refreshControl?.backgroundColor = UIColor.clear
         tableView.addSubview(refreshControl!)
         
         self.navigationController?.hideTransparentNavigationBar()
@@ -259,7 +258,7 @@ class KPIsListTableViewController: UITableViewController {
             for kpi in external {
                 let kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: (kpi as! ExternalKPI), createdKPI: nil, imageBacgroundColour: UIColor.clear)
                 arrayOfKPI.append(kpi)
-                getGoogleAnalyticsData(index: arrayOfKPI.count - 1)
+                //getGoogleAnalyticsData(index: arrayOfKPI.count - 1)
             }
         } catch {
             print("Fetching faild")
@@ -280,9 +279,9 @@ class KPIsListTableViewController: UITableViewController {
                     let dateDtring = report?.key
                     let value = report?.value
                     let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-mm-dd hh:mm:ss"
+                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
                     let date = dateFormatter.date(from: dateDtring!)
-                    newNumbers.append((date ?? Date(),value!)) //debug!
+                    newNumbers.append((date!, value!)) //debug!
                 }
                 kpi.createdKPI?.number = newNumbers.sorted(by: { $0.0 < $1.0 })
                 self.tableView.reloadData()
@@ -425,68 +424,5 @@ extension KPIsListTableViewController: KPIListButtonCellDelegate {
         model.kpis.remove(at: indexPath.row)
         arrayOfKPI.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .fade)
-    }
-}
-
-//MARK: - get External services data
-extension KPIsListTableViewController {
-    func getGoogleAnalyticsData(index: Int) {
-        let external = arrayOfKPI[index].integratedKPI
-        let request = GoogleAnalytics(oauthToken: (external?.oauthToken)!, oauthRefreshToken: (external?.oauthRefreshToken)!, oauthTokenExpiresAt: (external?.oauthTokenExpiresAt)! as Date)
-        
-        var expression = ""
-        switch (GoogleAnalyticsKPIs(rawValue: (external?.kpiName)!))! {
-        case .UsersSessions:
-            expression = "ga:users/ga:sessions"
-        case .AudienceOverview:
-            expression = "ga:userAgeBracket"
-        case .GoalOverview:
-            expression = "ga:users"
-        case .TopPagesByPageviews:
-            expression = "ga:users"
-        case .TopSourcesBySessions:
-            expression = "ga:users"
-        case .TopOrganicKeywordsBySession:
-            expression = "ga:users"
-        case .TopChannelsBySessions:
-            expression = "ga:users"
-        case .RevenueTransactions:
-            expression = "ga:users"
-        case .EcommerceOverview:
-            expression = "ga:users"
-        case .RevenueByLandingPage:
-            expression = "ga:users"
-        case .RevenueByChannels:
-            expression = "ga:users"
-        case .TopKeywordsByRevenue:
-            expression = "ga:users"
-        case .TopSourcesByRevenue:
-            expression = "ga:users"
-        }
-        
-        let param = ReportRequest(viewId: (external?.googleAnalyticsKPI?.viewID)!, startDate: "2017-01-01", endDate: "2017-01-31", expression: expression, formattingType: "FLOAT")
-        
-        request.getAnalytics(param: param, success: { report in
-            print("ok")
-        }, failure: { error in
-            if error == "401" {
-                self.refreshAccessToken(external: external!, index: index)
-            }
-        }
-        )
-    }
-    
-    func refreshAccessToken(external: ExternalKPI, index: Int) {
-        let request = ExternalRequest(oauthToken: external.oauthToken!, oauthRefreshToken: external.oauthRefreshToken!, oauthTokenExpiresAt: external.oauthTokenExpiresAt as! Date)
-        request.updateAccessToken(servise: IntegratedServices(rawValue: external.serviceName!)!, success: { accessToken in
-            print(accessToken)
-            //external.setValue(accessToken, forKey: "oauthToken")
-            external.oauthToken = accessToken
-            self.getGoogleAnalyticsData(index: index)
-        }, failure: { error in
-            print(error)
-            //TODO: authorisation again
-        }
-        )
     }
 }

@@ -109,23 +109,12 @@ extension ExternalKPIViewController {
     
     //MARK: Salesforce
     func doOAuthSalesforce() {
-        let oauthswift = OAuth2Swift(
-            consumerKey:    "3MVG9HxRZv05HarSOV2Bh.pnwumGqpwVny5raeBxpjMwIQCVzeb7HmzJvGTOxEm6N3S2Q7LFo48KvA.0DrKYt",
-            consumerSecret: "2273564242408453432",
-            authorizeUrl:   "https://login.salesforce.com/services/oauth2/authorize",
-            accessTokenUrl: "https://login.salesforce.com/services/oauth2/token",
-            responseType:   "code"
-        )
-        self.oauthswift = oauthswift
-        oauthswift.authorizeURLHandler = SafariURLHandler(viewController: self, oauthSwift: oauthswift)
-        let state = generateState(withLength: 20)
-        let _ = oauthswift.authorize(
-            withCallbackURL: URL(string: "https://appauth.demo-app.io:/oauth2redirect")!, scope: "full", state: state,
-            success: { credential, response, parameters in
-                self.showAlert(title: "saleForce", message: credential.oauthToken)
-        },
-            failure: { error in
-                print(error.description)
+        let request = ExternalRequest()
+        request.oAuthAutorisation(servise: .SalesForce, viewController: self, success: { crededential in
+            //TODO:
+            print(crededential.oauthToken)
+        }, failure: { error in
+            self.showAlert(title: "Sorry!", message: error)
         }
         )
     }
@@ -142,23 +131,12 @@ extension ExternalKPIViewController {
     
     // MARK: Google
     func doOAuthGoogle(){
-        let oauthswift = OAuth2Swift(
-            consumerKey:    "988266735713-9ruvi1tjo1bk6gckjuiqnncuq6otn0ko.apps.googleusercontent.com",
-            consumerSecret: "",
-            authorizeUrl:   "https://accounts.google.com/o/oauth2/v2/auth",
-            accessTokenUrl: "https://accounts.google.com/o/oauth2/token",
-            responseType:   "code"
-        )
-        self.oauthswift = oauthswift
-        oauthswift.allowMissingStateCheck = true
-        oauthswift.authorizeURLHandler = SafariURLHandler(viewController: self, oauthSwift: oauthswift) // magic redirect - "urn:ietf:wg:oauth:2.0:oob"
-        let _ = oauthswift.authorize(
-            withCallbackURL: URL(string: "CoreKPI.CoreKPI:/oauth2Callback")!, scope: "https://www.googleapis.com/auth/analytics.readonly", state: "",
-            success: { credential, response, parameters in
-                self.selectViewID(credential: credential)
-        },
-            failure: { error in
-                print("ERROR: \(error.localizedDescription)")
+        let request = ExternalRequest()
+        request.oAuthAutorisation(servise: .GoogleAnalytics, viewController: self, success: { credential in
+            self.selectViewID(credential: credential)
+        
+        }, failure: { error in
+            self.showAlert(title: "Sorry", message: error)
         }
         )
     }
