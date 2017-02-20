@@ -778,7 +778,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                         return
                     }
                     
-                    kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: externalKPI, createdKPI: nil, imageBacgroundColour: UIColor.clear)
+                    kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: externalKPI, createdKPI: nil, imageBacgroundColour: UIColor(hex: "D8F7D7".hex!))
                     
                     self.delegate = self.KPIListVC
                     self.delegate.addNewKPI(kpi: kpi)
@@ -827,7 +827,14 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
             }
             
             let userKPI = CreatedKPI(source: .User, department: department, KPI: kpiName!, descriptionOfKPI: kpiDescription, executant: executantProfile, timeInterval: timeInterval, deadlineDay: deadlineDay, timeZone: timeZone!, deadlineTime: deadline!, number: [])
-            kpi = KPI(kpiID: 0, typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: userKPI, imageBacgroundColour: UIColor.clear)
+            var imageBacgroundColour: UIColor = .clear
+            if userKPI.executant == model.profile?.userId {
+                imageBacgroundColour = UIColor(hex: "E3F2FD".hex!)
+            } else {
+                imageBacgroundColour = UIColor(hex: "FBE9E7".hex!)
+            }
+            
+            kpi = KPI(kpiID: 0, typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: userKPI, imageBacgroundColour: imageBacgroundColour)
             
             let request = AddKPI(model: model)
             request.addKPI(kpi: kpi, success: { id in

@@ -441,14 +441,14 @@ extension MemberEditViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField.tag == 0 {
+        if textField.tag == 2 {
             if newProfile.phone == nil {
                 textField.text = "+"
             }
         }
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField.tag == 0 {
+        if textField.tag == 2 {
             if newProfile.phone == nil {
                 textField.text = ""
             }

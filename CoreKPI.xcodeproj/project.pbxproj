@@ -37,6 +37,7 @@
 		A2279D861E14EC3B00669EB0 /* DashboardsNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2279D851E14EC3B00669EB0 /* DashboardsNavigationViewController.swift */; };
 		A22EF0661E0901A20004DDB7 /* ModelCoreKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */; };
 		A235CB321E0ACD5200636888 /* AlertSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A235CB311E0ACD5100636888 /* AlertSettingsTableViewController.swift */; };
+		A23E79471E5AE83900EEBABE /* UIColorExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23E79461E5AE83900EEBABE /* UIColorExtention.swift */; };
 		A2425CB41E1CE8EE00DFDF91 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */; };
 		A24A84031E486DD400440151 /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84021E486DD400440151 /* OAuthSwift.framework */; };
 		A24A84041E486DD400440151 /* OAuthSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84021E486DD400440151 /* OAuthSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -224,6 +225,7 @@
 		A2279D851E14EC3B00669EB0 /* DashboardsNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardsNavigationViewController.swift; path = CoreKPI/ViewControllers/DashBoard/DashboardsNavigationViewController.swift; sourceTree = "<group>"; };
 		A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelCoreKPI.swift; sourceTree = "<group>"; };
 		A235CB311E0ACD5100636888 /* AlertSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertSettingsTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AlertSettingsTableViewController.swift; sourceTree = "<group>"; };
+		A23E79461E5AE83900EEBABE /* UIColorExtention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtention.swift; sourceTree = "<group>"; };
 		A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		A24A84021E486DD400440151 /* OAuthSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthSwift.framework; path = Carthage/Build/iOS/OAuthSwift.framework; sourceTree = "<group>"; };
 		A24A84061E486DF500440151 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
@@ -392,6 +394,17 @@
 			name = Graphics;
 			sourceTree = "<group>";
 		};
+		A23E79481E5AE84C00EEBABE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */,
+				A23E79461E5AE83900EEBABE /* UIColorExtention.swift */,
+				A2A940CA1E1E70740088C7F1 /* UINavigationBurExtension.swift */,
+				A25F658E1E530CEA00AD30F5 /* UIViewControllerExtension.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		A24A840C1E48941C00440151 /* CoreKPI API */ = {
 			isa = PBXGroup;
 			children = (
@@ -531,13 +544,11 @@
 		A278209A1E001581009F83DB /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				A23E79481E5AE84C00EEBABE /* Extensions */,
 				A20B6BCF1E31F5EC00FAF86A /* IntegratedKPI.swift */,
 				A20B6BD11E31F62800FAF86A /* User's KPI.swift */,
 				A21EDDF61E23A709001DE74C /* KPIList.swift */,
 				A25B4A561E0275B400F315F9 /* CustomTextField.swift */,
-				A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */,
-				A2A940CA1E1E70740088C7F1 /* UINavigationBurExtension.swift */,
-				A25F658E1E530CEA00AD30F5 /* UIViewControllerExtension.swift */,
 				A27820741E001503009F83DB /* Info.plist */,
 			);
 			name = SupportingFiles;
@@ -1076,6 +1087,7 @@
 				A2F77E061E3B199400BB8318 /* ChangeNickname.swift in Sources */,
 				A297F5B31E08233A00F85963 /* MemberEditViewController.swift in Sources */,
 				64EE4DF81E55ADD80007926F /* PinCodeVCPresenter.swift in Sources */,
+				A23E79471E5AE83900EEBABE /* UIColorExtention.swift in Sources */,
 				A2FB1AA21E252C110045824A /* KPIDescriptionTableViewCell.swift in Sources */,
 				A274DC0F1E0825DF008CBF36 /* InviteTableViewController.swift in Sources */,
 				A2E8F9FD1E3B223500046870 /* EditKPI.swift in Sources */,

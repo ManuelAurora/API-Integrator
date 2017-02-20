@@ -232,7 +232,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
     }
     var timeZoneArray: [(SettingName: String, value: Bool)] = [("Hawaii Time (HST)",false), ("Alaska Time (AKST)", false), ("Pacific Time (PST)",false), ("Mountain Time (MST)", false), ("Central Time (CST)", false), ("Eastern Time (EST)",false)]
     //Deadline
-    var deadline: Date!
+    var deadlineTime: Date!
     //KPIOneView
     var KPIOneView: TypeOfKPIView {
         get {
@@ -403,7 +403,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
             //Time Zone
             timeZone = (createdKPI?.timeZone)!
             //DeadlineTime
-            deadline = (createdKPI?.deadlineTime)!
+            deadlineTime = (createdKPI?.deadlineTime)!
             //Charts
             KPIOneView = model.kpis[kpiIndex].KPIViewOne
             KPITwoView = model.kpis[kpiIndex].KPIViewTwo!
@@ -899,9 +899,9 @@ class ReportAndViewKPITableViewController: UITableViewController {
             case .createdKPI:
                 switch model.profile!.typeOfAccount {
                 case .Admin:
-                    let deadlineDay = 1//debug
+                    let deadlineDay = 1
                     let executantProfile: Int! = executant
-                    newKpi = CreatedKPI(source: .User, department: self.department!, KPI: self.kpiName, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, deadlineDay: deadlineDay, timeZone: self.timeZone, deadlineTime: self.deadline, number: (self.model.kpis[kpiIndex].createdKPI?.number)!)
+                    newKpi = CreatedKPI(source: .User, department: self.department!, KPI: self.kpiName, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, deadlineDay: deadlineDay, timeZone: self.timeZone, deadlineTime: self.deadlineTime, number: (self.model.kpis[kpiIndex].createdKPI?.number)!)
                     self.model.kpis[kpiIndex].createdKPI = newKpi
                     self.model.kpis[kpiIndex].KPIViewOne = self.KPIOneView
                     self.model.kpis[kpiIndex].KPIChartOne = self.typeOfChartOne
