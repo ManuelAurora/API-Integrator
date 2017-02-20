@@ -12,13 +12,6 @@ import Alamofire
 
 class QuickBook
 {
-    let s = ExternalRequest()
-    
-    func test() {
-        
-        
-    }
-    
-    
+       
     
 }

@@ -144,12 +144,27 @@ extension ExternalKPIViewController {
         )
         
         self.oauthswift = oauthswift
+        
         oauthswift.authorizeURLHandler = internalWebViewController
+        
         let _ = oauthswift.authorize(
-            withCallbackURL: URL(string: "oauth-swift://oauth-callback/intuit")!,
+            withCallbackURL: URL(string: "CoreKPI.CoreKPI:/oauth-callback/intuit")!,
             success: { credential, response, parameters in
-                self.showAlert(title: "ss", message: "\(credential)")
-                print(parameters)
+                let token = credential.oauthToken
+                let timeSince = Date().timeIntervalSince1970
+                                
+                var headers = HTTPHeaders()
+                
+                headers["oauth_token"] = token
+                headers["oauth_consumer_key"] = "qyprdLYMArOQwomSilhpS7v9Ge8kke"
+                headers["oauth_signature_method"] = "HMAC-SHA1"
+                headers["oauth_timestamp"] = "\(timeSince)"
+                headers["oauth_version"] = "1"
+                headers["oauth_signature"] = ""
+                
+                
+                
+        
         },
             failure: { error in
                 print(error.description)
@@ -240,7 +255,6 @@ extension ExternalKPIViewController {
 }
 
 extension ExternalKPIViewController: OAuthWebViewControllerDelegate {
-    #if os(iOS) || os(tvOS)
     
     func oauthWebViewControllerDidPresent() {
         
@@ -248,7 +262,6 @@ extension ExternalKPIViewController: OAuthWebViewControllerDelegate {
     func oauthWebViewControllerDidDismiss() {
         
     }
-    #endif
     
     func oauthWebViewControllerWillAppear() {
         

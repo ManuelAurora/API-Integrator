@@ -14,6 +14,7 @@
 		64936AEF1E543B480059D80A /* PinCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AEE1E543B480059D80A /* PinCodeViewController.swift */; };
 		64936AF21E543DC00059D80A /* PinCodeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AF01E543DC00059D80A /* PinCodeButton.swift */; };
 		64936AF31E543DC00059D80A /* PinCodePlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */; };
+		64A32B921E5B394B008438DA /* String + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A32B911E5B394B008438DA /* String + Extension.swift */; };
 		64EE4DF81E55ADD80007926F /* PinCodeVCPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EE4DF71E55ADD80007926F /* PinCodeVCPresenter.swift */; };
 		64EE4DFA1E55B6DC0007926F /* PinCodeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 64EE4DF91E55B6DC0007926F /* PinCodeView.xib */; };
 		A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20340901E110CF200208EAB /* ChageNameTableViewController.swift */; };
@@ -204,6 +205,8 @@
 		64936AEE1E543B480059D80A /* PinCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeViewController.swift; sourceTree = "<group>"; };
 		64936AF01E543DC00059D80A /* PinCodeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeButton.swift; sourceTree = "<group>"; };
 		64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodePlaceholderView.swift; sourceTree = "<group>"; };
+		64A32B911E5B394B008438DA /* String + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String + Extension.swift"; sourceTree = "<group>"; };
+		64A32B941E5B3B85008438DA /* BridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		64EE4DF71E55ADD80007926F /* PinCodeVCPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeVCPresenter.swift; sourceTree = "<group>"; };
 		64EE4DF91E55B6DC0007926F /* PinCodeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PinCodeView.xib; sourceTree = "<group>"; };
 		A20340901E110CF200208EAB /* ChageNameTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChageNameTableViewController.swift; path = CoreKPI/ViewControllers/Team/ChageNameTableViewController.swift; sourceTree = "<group>"; };
@@ -544,6 +547,8 @@
 				A2A940CA1E1E70740088C7F1 /* UINavigationBurExtension.swift */,
 				A25F658E1E530CEA00AD30F5 /* UIViewControllerExtension.swift */,
 				A27820741E001503009F83DB /* Info.plist */,
+				64A32B911E5B394B008438DA /* String + Extension.swift */,
+				64A32B941E5B3B85008438DA /* BridgingHeader.h */,
 			);
 			name = SupportingFiles;
 			sourceTree = "<group>";
@@ -1064,6 +1069,7 @@
 				A297F5D71E08244800F85963 /* AnswerFaqTableViewCell.swift in Sources */,
 				A297F5CA1E0823D400F85963 /* RegisterViewController.swift in Sources */,
 				A27820971E001530009F83DB /* RequestServise.swift in Sources */,
+				64A32B921E5B394B008438DA /* String + Extension.swift in Sources */,
 				A278206E1E001503009F83DB /* CoreKPI.xcdatamodeld in Sources */,
 				A297F5D81E08244800F85963 /* faqListTableViewCell.swift in Sources */,
 				A26408F21E22394F0034EEC2 /* ReportAndViewKPITableViewController.swift in Sources */,
@@ -1271,6 +1277,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = CoreKPI.CoreKPI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = CoreKPI/BridgingHeader.h;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1291,6 +1298,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = CoreKPI.CoreKPI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = CoreKPI/BridgingHeader.h;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

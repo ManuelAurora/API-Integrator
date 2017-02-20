@@ -119,14 +119,7 @@ class ExternalRequest {
             }, failure: { error in
                 failure(error)
             })
-            
-        case .Quickbooks:
-            doAuthQuickBooks(viewController: viewController, success: { credential in
-                success(credential)
-            }, failure: { error in
-                failure(error)
-            })
-            
+                  
         case .SalesForce:
             doOAuthSalesforce(viewController: viewController, success: { credential in
                 success(credential)
@@ -136,27 +129,6 @@ class ExternalRequest {
             
         default:
             break
-        }
-    }
-    
-    private func doAuthQuickBooks(viewController: UIViewController,
-                                  success: @escaping (_ credential: OAuthSwiftCredential) -> (),
-                                  failure: @escaping failure) {
-        
-        let oauthswift = OAuth1Swift(
-            consumerKey:    "qyprdLYMArOQwomSilhpS7v9Ge8kke",
-            consumerSecret: "ogPRVftZXLA1A03QyWNyJBax1qOOphuVJVP121np",
-            requestTokenUrl: "https://oauth.intuit.com/oauth/v1/get_request_token",
-            authorizeUrl:    "https://appcenter.intuit.com/Connect/Begin",
-            accessTokenUrl:  "https://oauth.intuit.com/oauth/v1/get_access_token"
-        )
-        
-        //let handler = SafariURLHandler(viewController: viewController, oauthSwift: oauthswift)
-        
-        let _ = oauthswift.authorize(withCallbackURL: URL(string: "oauth-swift://oauth-callback/intuit")!, success: { (credential, response, parameters) in
-            success(credential)
-        }) { error in
-            failure("\(error.localizedDescription)")
         }
     }
     
