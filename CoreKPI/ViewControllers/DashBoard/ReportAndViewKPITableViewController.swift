@@ -402,8 +402,8 @@ class ReportAndViewKPITableViewController: UITableViewController {
             timeInterval = (createdKPI?.timeInterval)!
             //Time Zone
             timeZone = (createdKPI?.timeZone)!
-            //Deadline
-            deadline = (createdKPI?.deadline)!
+            //DeadlineTime
+            deadline = (createdKPI?.deadlineTime)!
             //Charts
             KPIOneView = model.kpis[kpiIndex].KPIViewOne
             KPITwoView = model.kpis[kpiIndex].KPIViewTwo!
@@ -899,8 +899,9 @@ class ReportAndViewKPITableViewController: UITableViewController {
             case .createdKPI:
                 switch model.profile!.typeOfAccount {
                 case .Admin:
+                    let deadlineDay = 1//debug
                     let executantProfile: Int! = executant
-                    newKpi = CreatedKPI(source: .User, department: self.department!, KPI: self.kpiName, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, timeZone: self.timeZone, deadline: self.deadline, number: (self.model.kpis[kpiIndex].createdKPI?.number)!)
+                    newKpi = CreatedKPI(source: .User, department: self.department!, KPI: self.kpiName, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, deadlineDay: deadlineDay, timeZone: self.timeZone, deadlineTime: self.deadline, number: (self.model.kpis[kpiIndex].createdKPI?.number)!)
                     self.model.kpis[kpiIndex].createdKPI = newKpi
                     self.model.kpis[kpiIndex].KPIViewOne = self.KPIOneView
                     self.model.kpis[kpiIndex].KPIChartOne = self.typeOfChartOne

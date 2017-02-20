@@ -126,7 +126,7 @@ extension ReportAndViewKPITableViewController {
                 case 4:
                     let dateFormatter = DateFormatter()
                     dateFormatter.timeStyle = .short
-                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadlineTime)!)
                     cell.headerOfCell.text = date
                 default:
                     break
@@ -205,7 +205,7 @@ extension ReportAndViewKPITableViewController {
                                     cell.headerOfCell.text = "Deadline"
                                     let dateFormatter = DateFormatter()
                                     dateFormatter.timeStyle = .short
-                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadlineTime)!)
                                     cell.descriptionOfCell.text = date
                                     cell.accessoryType = .none
                                 case 4:
@@ -236,7 +236,7 @@ extension ReportAndViewKPITableViewController {
                                     cell.headerOfCell.text = "Deadline"
                                     let dateFormatter = DateFormatter()
                                     dateFormatter.timeStyle = .short
-                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadlineTime)!)
                                     cell.descriptionOfCell.text = date
                                     cell.accessoryType = .none
                                 case 4:
@@ -267,7 +267,7 @@ extension ReportAndViewKPITableViewController {
                                     cell.headerOfCell.text = "Deadline"
                                     let dateFormatter = DateFormatter()
                                     dateFormatter.timeStyle = .short
-                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadlineTime)!)
                                     cell.descriptionOfCell.text = date
                                     cell.accessoryType = .none
                                 case 4:
@@ -322,7 +322,7 @@ extension ReportAndViewKPITableViewController {
                                     cell.headerOfCell.text = "Deadline"
                                     let dateFormatter = DateFormatter()
                                     dateFormatter.timeStyle = .short
-                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadlineTime)!)
                                     cell.descriptionOfCell.text = date
                                     cell.accessoryType = .none
                                 case 5:
@@ -371,7 +371,7 @@ extension ReportAndViewKPITableViewController {
                                     cell.headerOfCell.text = "Deadline"
                                     let dateFormatter = DateFormatter()
                                     dateFormatter.timeStyle = .short
-                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadlineTime)!)
                                     cell.descriptionOfCell.text = date
                                     cell.accessoryType = .none
                                 case 5:
@@ -420,7 +420,7 @@ extension ReportAndViewKPITableViewController {
                                     cell.headerOfCell.text = "Deadline"
                                     let dateFormatter = DateFormatter()
                                     dateFormatter.timeStyle = .short
-                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadlineTime)!)
                                     cell.descriptionOfCell.text = date
                                     cell.accessoryType = .none
                                 case 5:
@@ -461,7 +461,7 @@ extension ReportAndViewKPITableViewController {
                             case 3:
                                 let dateFormatter = DateFormatter()
                                 dateFormatter.timeStyle = .short
-                                let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                                let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadlineTime)!)
                                 cell.headerOfCell.text = "Before " + date
                             default:
                                 break
@@ -555,7 +555,7 @@ extension ReportAndViewKPITableViewController {
                             case 4:
                                 let dateFormatter = DateFormatter()
                                 dateFormatter.timeStyle = .short
-                                let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                                let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadlineTime)!)
                                 cell.headerOfCell.text = "Before " + date
                             default:
                                 break

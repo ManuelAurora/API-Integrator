@@ -122,14 +122,3 @@ enum Departments: String {
     case FinancialManagement = "Financial management"
     case Staff
 }
-
-//MARK: - Structs for KPIs
-//struct IntegratedKPI {
-//    var service: IntegratedServices
-//    var saleForceKPIs: [SalesForceKPIs]?
-//    var quickBookKPIs: [QiuckBooksKPIs]?
-//    var googleAnalytics: [GoogleAnalyticsKPIs]?
-//    var hubSpotCRMKPIs: [HubSpotCRMKPIs]?
-//    var payPalKPIs: [PayPalKPIs]?
-//    var hubSpotMarketingKPIs: [HubSpotMarketingKPIs]?
-//}

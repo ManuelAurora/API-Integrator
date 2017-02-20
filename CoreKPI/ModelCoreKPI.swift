@@ -117,7 +117,6 @@ class Profile {
 class KPI {
     var typeOfKPI: TypeOfKPI
     var integratedKPI: ExternalKPI!
-    //var integratedKPI: IntegratedKPI?
     var createdKPI: CreatedKPI?
     var id: Int
     var image: ImageForKPIList? {

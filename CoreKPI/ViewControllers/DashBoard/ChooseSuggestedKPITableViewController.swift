@@ -238,7 +238,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                         failure: { (error) in
                             print(error)
                             self.showAlert(title: "Sorry!", message: error)
-        })
+        }
+        )
     }
     
     func parsingJson(json: NSDictionary) {
@@ -795,7 +796,37 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     executantProfile = Int(profile.userID)
                 }
             }
-            let userKPI = CreatedKPI(source: .User, department: department, KPI: kpiName!, descriptionOfKPI: kpiDescription, executant: executantProfile, timeInterval: timeInterval, timeZone: timeZone!, deadline: deadline!, number: [])
+            
+            var deadlineDay = 1
+            switch timeInterval {
+            case .Daily:
+                deadlineDay = 1
+            case .Weekly:
+                switch weeklyInterval {
+                case .Monday:
+                    deadlineDay = 1
+                case .Tuesday:
+                    deadlineDay = 2
+                case .Wednesday:
+                    deadlineDay = 3
+                case .Thursday:
+                    deadlineDay = 4
+                case .Friday:
+                    deadlineDay = 5
+                case .Saturday:
+                    deadlineDay = 6
+                case .Sunday:
+                    deadlineDay = 7
+                case .none:
+                    break
+                }
+            case .Monthly:
+                if let day = mounthlyInterval {
+                    deadlineDay = day
+                }
+            }
+            
+            let userKPI = CreatedKPI(source: .User, department: department, KPI: kpiName!, descriptionOfKPI: kpiDescription, executant: executantProfile, timeInterval: timeInterval, deadlineDay: deadlineDay, timeZone: timeZone!, deadlineTime: deadline!, number: [])
             kpi = KPI(kpiID: 0, typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: userKPI, imageBacgroundColour: UIColor.clear)
             
             let request = AddKPI(model: model)
