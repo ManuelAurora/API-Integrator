@@ -127,19 +127,19 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 navigationItem.title = "Google Analytics"
                 switch (GoogleAnalyticsKPIs(rawValue: kpi.integratedKPI.kpiName!))! {
                 case .UsersSessions:
-                    //tableViewChartVC.header = kpi.integratedKPI.kpiName!
                     tableViewChartVC.titleOfTable = ("Users/sessions","","Value")
-                    //tableViewChartVC.index = 0
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
                     }
                     )
-                    //return tableViewChartVC
                 case .AudienceOverview:
                     tableViewChartVC.titleOfTable = ("Users/sessions","","Value")
-                    showAlert(title: "Sorry", message: "Coming soon")
-                    //return tableViewChartVC
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    }
+                    )
                 case .GoalOverview:
                     tableViewChartVC.titleOfTable = ("Goal Overview","","Value")
                     createDataFromRequest(success: { dataForPresent in
@@ -154,6 +154,13 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                         tableViewChartVC.tableView.reloadData()
                     }
                     )
+                case .TopSourcesBySessions:
+                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    }
+                    )
                 case .TopOrganicKeywordsBySession:
                     tableViewChartVC.titleOfTable = ("Top Keywords","","Value")
                     createDataFromRequest(success: { dataForPresent in
@@ -161,8 +168,55 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                         tableViewChartVC.tableView.reloadData()
                     }
                     )
-                default:
-                    break
+                case .TopChannelsBySessions:
+                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    }
+                    )
+                case .RevenueTransactions:
+                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    }
+                    )
+                case .EcommerceOverview:
+                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    }
+                    )
+                case .RevenueByLandingPage:
+                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    }
+                    )
+                case .RevenueByChannels:
+                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    }
+                    )
+                case .TopKeywordsByRevenue:
+                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    }
+                    )
+                case .TopSourcesByRevenue:
+                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    }
+                    )
                 }
                 //debug->
                 return tableViewChartVC
@@ -209,50 +263,68 @@ extension ChartsPageViewController {
         let param = ReportRequest()
         param.viewId = (external?.googleAnalyticsKPI?.viewID)!
         
-        let ranges:[ReportRequest.DateRange] = [ReportRequest.DateRange(startDate: "2017-01-01", endDate: "2017-01-31")]
+        var ranges:[ReportRequest.DateRange] = []
         var metrics: [ReportRequest.Metric] = []
         var dimentions: [ReportRequest.Dimension] = []
+        var cohorts: [ReportRequest.Cohort] = []
         
         switch (GoogleAnalyticsKPIs(rawValue: (external?.kpiName)!))! {
         case .UsersSessions:
+            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
             metrics.append(ReportRequest.Metric(expression: "ga:users/ga:sessions", formattingType: .FLOAT))
         case .AudienceOverview:
-            metrics.append(ReportRequest.Metric(expression: "ga:sessionsPerUser", formattingType: .FLOAT))
-        //TODO: уточнить у заказчика
+            metrics.append(ReportRequest.Metric(expression: "ga:interestInMarketCategory", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:userAgeBracket", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:userGender", formattingType: .FLOAT))
+            dimentions.append(ReportRequest.Dimension(name: "ga:cohort"))
+            cohorts.append(ReportRequest.Cohort(name: "chogort1", type: ReportRequest.CohortType.FIRST_VISIT_DATE, startDate: "2017-02-12", endDate: "2017-02-19")!)
         case .GoalOverview:
+            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
             metrics.append(ReportRequest.Metric(expression: "ga:goalCompletionsAll", formattingType: .FLOAT))
         case .TopPagesByPageviews:
+            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
             metrics.append(ReportRequest.Metric(expression: "ga:pageviews", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:pagePath"))
         case .TopSourcesBySessions:
+            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
             metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:source"))
         case .TopOrganicKeywordsBySession:
+            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
             metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:keyword"))
         case .TopChannelsBySessions:
+            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
             metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:channelGrouping"))
         case .RevenueTransactions:
+            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
             metrics.append(ReportRequest.Metric(expression: "ga:totalValue/ga:transactions", formattingType: .FLOAT))
         case .EcommerceOverview:
+            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
             metrics.append(ReportRequest.Metric(expression: "ga:sessionsPerUser", formattingType: .FLOAT))
         case .RevenueByLandingPage:
+            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
             metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:landingPagePath"))
         case .RevenueByChannels:
+            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
             metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:channelGrouping"))
         case .TopKeywordsByRevenue:
+            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
             metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:keyword"))
         case .TopSourcesByRevenue:
+            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
             metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:source"))
         }
         
         param.dateRanges = ranges
         param.metrics = metrics
+        param.dimensions = dimentions
+        param.cohortGroup = ReportRequest.CohortGroup(cohorts: cohorts)
         
         request.getAnalytics(param: param, success: { report in
             success(report)
@@ -274,14 +346,14 @@ extension ChartsPageViewController {
             getGoogleAnalyticsData(success: { report in
                 switch (GoogleAnalyticsKPIs(rawValue: self.kpi.integratedKPI.kpiName!))! {
                 case .UsersSessions:
-                    for _ in 0..<(report.data?.rowCount)! {
-                        for data in (report.data?.totals)! {
-                            dataForPresent.append(("Users", "", "\(data.values[0])"))
-                        }
-                    }
+                    dataForPresent.append(("users", "", "\((report.data?.totals[0].values[0])!)"))
                     success(dataForPresent)
                 case .AudienceOverview:
-                    break //TODO: AudienceOverview
+                    for i in 0..<(report.data?.rowCount)! {
+                        let data = report.data?.rows[i]
+                        dataForPresent.append(("\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
+                    }
+                    success(dataForPresent)
                 case .GoalOverview:
                     for _ in 0..<(report.data?.rowCount)! {
                         for data in (report.data?.totals)! {
@@ -290,18 +362,53 @@ extension ChartsPageViewController {
                     }
                     success(dataForPresent)
                 case .TopPagesByPageviews:
-                    for _ in 0..<(report.data?.rowCount)! {
-                        for data in (report.data?.totals)! {
-                            dataForPresent.append(("Goal", "", "\(data.values[0])"))
-                        }
+                    for i in 0..<(report.data?.rowCount)! {
+                        let data = report.data?.rows[i]
+                        dataForPresent.append(("\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
                     }
                     success(dataForPresent)
                 case .TopSourcesBySessions:
-                    break //TODO: доделать
-                default:
-                    break
+                    for i in 0..<(report.data?.rowCount)! {
+                        let data = report.data?.rows[i]
+                        dataForPresent.append(("\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
+                    }
+                    success(dataForPresent)
+                case .TopOrganicKeywordsBySession:
+                    for i in 0..<(report.data?.rowCount)! {
+                        let data = report.data?.rows[i]
+                        dataForPresent.append(("\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
+                    }
+                    success(dataForPresent)
+                case .TopChannelsBySessions:
+                    for i in 0..<(report.data?.rowCount)! {
+                        let data = report.data?.rows[i]
+                        dataForPresent.append(("\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
+                    }
+                    success(dataForPresent)
+                case .RevenueTransactions:
+                    dataForPresent.append(("Revenue", "", "\((report.data?.totals[0].values[0])!)"))
+                    success(dataForPresent)
+                case .EcommerceOverview:
+                    for i in 0..<(report.data?.rowCount)! {
+                        let data = report.data?.rows[i]
+                        dataForPresent.append(("\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
+                    }
+                    success(dataForPresent)
+                case .RevenueByLandingPage:
+                    dataForPresent.append(("Revenue", "", "\((report.data?.totals[0].values[0])!)"))
+                    success(dataForPresent)
+                case .RevenueByChannels:
+                    dataForPresent.append(("Revenue", "", "\((report.data?.totals[0].values[0])!)"))
+                    success(dataForPresent)
+                case .TopKeywordsByRevenue:
+                    dataForPresent.append(("Revenue", "", "\((report.data?.totals[0].values[0])!)"))
+                    success(dataForPresent)
+                case .TopSourcesByRevenue:
+                    dataForPresent.append(("Revenue", "", "\((report.data?.totals[0].values[0])!)"))
+                    success(dataForPresent)
                 }
-            })
+            }
+            )
         default:
             break
         }

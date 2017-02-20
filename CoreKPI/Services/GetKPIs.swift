@@ -69,55 +69,57 @@ class GetKPIs: Request {
                         
                         
                         if dataKey.count > 0, let kpiData = dataKey[kpi] as? NSDictionary {
-                            id = kpiData["id"] as! Int
-                            kpi_name = (kpiData["name"] as! String)
-                            department = (kpiData["department"] as? String) ?? "Sales"
-                            let kpiDescription = kpiData["desc"] as? String
-                            descriptionOfKPI = (kpiDescription == "nil") ? nil : kpiDescription
-                            executant = kpiData["responsive_id"] as! Int
                             
-                            let timeZoneString = kpiData["timezone"] as! String
-                            timeZone = timeZoneString //TODO: parsing timeZones
-                            
-                            let dateFormatter = DateFormatter()
-                            dateFormatter.dateFormat = "HH:mm:ss"
-                            let dateStr = kpiData["deadline"] as! String
-                            deadlineTime = dateFormatter.date(from: dateStr)!
-                            
-                            timeInterval = kpiData["interval"] as! String
-                            if let imageBacgroundColourString = kpiData["color"] as? String {
-                                imageBacgroundColour = UIColor(hex: imageBacgroundColourString.hex!)
-                            } else {
-                                imageBacgroundColour = UIColor.clear
+                            if let active = kpiData["active"] as? Int, active == 1 {
+                                id = kpiData["id"] as! Int
+                                kpi_name = (kpiData["name"] as! String)
+                                department = (kpiData["department"] as? String) ?? "Sales"
+                                let kpiDescription = kpiData["desc"] as? String
+                                descriptionOfKPI = (kpiDescription == "nil") ? nil : kpiDescription
+                                executant = kpiData["responsive_id"] as! Int
+                                
+                                let timeZoneString = kpiData["timezone"] as! String
+                                timeZone = timeZoneString //TODO: parsing timeZones
+                                
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "HH:mm:ss"
+                                let dateStr = kpiData["deadline"] as! String
+                                deadlineTime = dateFormatter.date(from: dateStr)!
+                                
+                                timeInterval = kpiData["interval"] as! String
+                                if let imageBacgroundColourString = kpiData["color"] as? String {
+                                    imageBacgroundColour = UIColor(hex: imageBacgroundColourString.hex!)
+                                } else {
+                                    imageBacgroundColour = UIColor.clear
+                                }
+                                
+                                deadlineDay = kpiData["delivery_day"] as! Int
+                                number = []
+                                
+                                let createdKPI = CreatedKPI(source: source, department: Departments(rawValue: department) ?? Departments.none , KPI: kpi_name, descriptionOfKPI: descriptionOfKPI, executant: executant, timeInterval: TimeInterval(rawValue: timeInterval)!,deadlineDay: deadlineDay, timeZone: timeZone, deadlineTime: deadlineTime, number: number)
+                                let kpi = KPI(kpiID: id, typeOfKPI: typeOfKPI, integratedKPI: nil, createdKPI: createdKPI, imageBacgroundColour: imageBacgroundColour)
+                                
+                                let kpiViewOne = kpiData["view1"] as? String
+                                let kpiViewTwo = kpiData["view2"] as? String
+                                
+                                if kpiViewOne == "Numbers" {
+                                    kpi.KPIViewOne = .Numbers
+                                    kpi.KPIChartOne = nil
+                                } else {
+                                    kpi.KPIViewOne = .Graph
+                                    kpi.KPIChartOne = TypeOfChart(rawValue: kpiViewOne!)
+                                }
+                                
+                                if kpiViewTwo == "Numbers" {
+                                    kpi.KPIViewTwo = .Numbers
+                                    kpi.KPIChartTwo = nil
+                                } else {
+                                    kpi.KPIViewTwo = .Graph
+                                    kpi.KPIChartTwo = TypeOfChart(rawValue: kpiViewOne!)
+                                }
+                
+                                arrayOfKPI.append(kpi)
                             }
-                            
-                            deadlineDay = kpiData["delivery_day"] as! Int
-                            number = []
-                            
-                            let createdKPI = CreatedKPI(source: source, department: Departments(rawValue: department) ?? Departments.none , KPI: kpi_name, descriptionOfKPI: descriptionOfKPI, executant: executant, timeInterval: TimeInterval(rawValue: timeInterval)!,deadlineDay: deadlineDay, timeZone: timeZone, deadlineTime: deadlineTime, number: number)
-                            let kpi = KPI(kpiID: id, typeOfKPI: typeOfKPI, integratedKPI: nil, createdKPI: createdKPI, imageBacgroundColour: imageBacgroundColour)
-                            
-                            let kpiViewOne = kpiData["view1"] as? String
-                            let kpiViewTwo = kpiData["view2"] as? String
-                        
-                            if kpiViewOne == "Numbers" {
-                                kpi.KPIViewOne = .Numbers
-                                kpi.KPIChartOne = nil
-                            } else {
-                                kpi.KPIViewOne = .Graph
-                                kpi.KPIChartOne = TypeOfChart(rawValue: kpiViewOne!)
-                            }
-                            
-                            if kpiViewTwo == "Numbers" {
-                                kpi.KPIViewTwo = .Numbers
-                                kpi.KPIChartTwo = nil
-                            } else {
-                                kpi.KPIViewTwo = .Graph
-                                kpi.KPIChartTwo = TypeOfChart(rawValue: kpiViewOne!)
-                            }
-                            
-                            arrayOfKPI.append(kpi)
-                            
                         } else {
                             print("KPI list is empty")
                             arrayOfKPI.removeAll()

@@ -12,16 +12,16 @@ import ObjectMapper
 class ReportRequest: Mappable {
     
     var viewId: String = ""
-    var dateRanges: [DateRange] = []
+    var dateRanges: [DateRange]? = []
     var samplingLevel: Sampling?
-    var dimensions: [Dimension]?
-    var dimensionFilterClauses: [DimensionFilter]?
-    var metrics: [Metric] = []
-    var metricFilterClauses: [MetricFilterClause]?
+    var dimensions: [Dimension]? = []
+    var dimensionFilterClauses: [DimensionFilter]? = []
+    var metrics: [Metric]? = []
+    var metricFilterClauses: [MetricFilterClause]? = []
     var filtersExpression: String?
-    var orderBys: [OrderBy]?
-    var segments: [Segment]?
-    var pivots: [Pivot]?
+    var orderBys: [OrderBy]? = []
+    var segments: [Segment]? = []
+    var pivots: [Pivot]? = []
     var cohortGroup: CohortGroup?
     
     var pageToken: String?
@@ -56,9 +56,23 @@ class ReportRequest: Mappable {
     
     // Mappable
     func mapping(map: Map) {
-        viewId      <- map["viewId"]
-        dateRanges  <- map["dateRanges"]
-        metrics     <- map["metrics"]
+        viewId                 <- map["viewId"]
+        dateRanges             <- map["dateRanges"]
+        metrics                <- map["metrics"]
+        samplingLevel          <- map["samplingLevel"]
+        dimensions             <- map["dimensions"]
+        dimensionFilterClauses <- map["dimensionFilterClauses"]
+        metricFilterClauses    <- map["metricFilterClauses"]
+        filtersExpression      <- map["filtersExpression"]
+        orderBys               <- map["orderBys"]
+        segments               <- map["segments"]
+        pivots                 <- map["pivots"]
+        cohortGroup            <- map["cohortGroup"]
+        pageToken              <- map["pageToken"]
+        pageSize               <- map["pageSize"]
+        includeEmptyRows       <- map["includeEmptyRows"]
+        hideTotals             <- map["hideTotals"]
+        hideValueRanges        <- map["hideValueRanges"]
     }
 }
 
@@ -407,6 +421,11 @@ extension ReportRequest {
         var dateRange: DateRange?
         init?(map: Map) {
         }
+        init?(name: String?, type: CohortType, startDate: String, endDate: String) {
+            self.name = name
+            self.type = type
+            self.dateRange = DateRange(startDate: startDate, endDate: endDate)
+        }
         mutating func mapping(map: Map) {
             name      <- map["name"]
             type      <- map["type"]
@@ -417,6 +436,9 @@ extension ReportRequest {
     struct CohortGroup: Mappable {
         var cohorts: [Cohort]? = []
         var lifetimeValue: Bool?
+        init(cohorts: [Cohort]) {
+            self.cohorts = cohorts
+        }
         init?(map: Map) {
         }
         mutating func mapping(map: Map) {
@@ -550,7 +572,7 @@ extension Report {
         var maximums: [DateRangeValues] = []
         var samplesReadCounts: [String] = []
         var samplingSpaceSizes: [String] = []
-        var isDataGolden: Bool?
+        var isDataGolden: Bool? = false
         init?(map: Map) {
         }
 
