@@ -9,13 +9,8 @@
 import UIKit
 
 class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSource {
-
-    var arrayOfKPI: [KPI] = []
-    var indexOfKPI: Int!
     
-    var kpi: KPI {
-        return arrayOfKPI[indexOfKPI]
-    }
+    var kpi: KPI!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -139,7 +134,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                     }
                     )
                 case .AudienceOverview:
-                    tableViewChartVC.titleOfTable = ("Users/sessions","","Value")
+                    tableViewChartVC.titleOfTable = ("Ages","Genders","Market category")
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
@@ -271,43 +266,48 @@ extension ChartsPageViewController {
         var ranges:[ReportRequest.DateRange] = []
         var metrics: [ReportRequest.Metric] = []
         var dimentions: [ReportRequest.Dimension] = []
-        var cohorts: [ReportRequest.Cohort] = []
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let curentDate = dateFormatter.string(from: Date())
+        let sevenDaysAgo = dateFormatter.string(from: Date(timeIntervalSinceNow: -(7*24*3600)))
+        let mounthAgo = dateFormatter.string(from: Date(timeIntervalSinceNow: -(30*24*3600)))
         
         switch (GoogleAnalyticsKPIs(rawValue: (external?.kpiName)!))! {
         case .UsersSessions:
-            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
             metrics.append(ReportRequest.Metric(expression: "ga:users/ga:sessions", formattingType: .FLOAT))
         case .AudienceOverview:
+            metrics.append(ReportRequest.Metric(expression: "ga:users", formattingType: .FLOAT))
+            ranges.append(ReportRequest.DateRange(startDate: mounthAgo, endDate: curentDate))
             dimentions.append(ReportRequest.Dimension(name: "ga:interestInMarketCategory"))
             dimentions.append(ReportRequest.Dimension(name: "ga:userAgeBracket"))
             dimentions.append(ReportRequest.Dimension(name: "ga:userGender"))
-            cohorts.append(ReportRequest.Cohort(name: "chogort1", type: ReportRequest.CohortType.FIRST_VISIT_DATE, startDate: "2017-02-12", endDate: "2017-02-19")!)
-            cohorts.append(ReportRequest.Cohort(name: "chogort2", type: ReportRequest.CohortType.FIRST_VISIT_DATE, startDate: "2017-02-05", endDate: "2017-02-12")!)
-            param.cohortGroup = ReportRequest.CohortGroup(cohorts: cohorts)
+
         case .GoalOverview:
-            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
             metrics.append(ReportRequest.Metric(expression: "ga:goalCompletionsAll", formattingType: .FLOAT))
         case .TopPagesByPageviews:
-            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
             metrics.append(ReportRequest.Metric(expression: "ga:pageviews", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:pagePath"))
         case .TopSourcesBySessions:
-            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
             metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:source"))
         case .TopOrganicKeywordsBySession:
-            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
             metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:keyword"))
         case .TopChannelsBySessions:
-            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
             metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:channelGrouping"))
         case .RevenueTransactions:
-            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
             metrics.append(ReportRequest.Metric(expression: "ga:totalValue/ga:transactions", formattingType: .FLOAT))
         case .EcommerceOverview:
-            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
             metrics.append(ReportRequest.Metric(expression: "ga:itemQuantity", formattingType: .FLOAT))
             metrics.append(ReportRequest.Metric(expression: "ga:uniquePurchases", formattingType: .FLOAT))
             metrics.append(ReportRequest.Metric(expression: "ga:localTransactionShipping", formattingType: .FLOAT))
@@ -318,19 +318,19 @@ extension ChartsPageViewController {
             metrics.append(ReportRequest.Metric(expression: "ga:revenuePerUser", formattingType: .FLOAT))
             metrics.append(ReportRequest.Metric(expression: "ga:transactionsPerUser", formattingType: .FLOAT))
         case .RevenueByLandingPage:
-            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
             metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:landingPagePath"))
         case .RevenueByChannels:
-            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
             metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:channelGrouping"))
         case .TopKeywordsByRevenue:
-            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
             metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:keyword"))
         case .TopSourcesByRevenue:
-            ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
+            ranges.append(ReportRequest.DateRange(startDate: mounthAgo, endDate: curentDate))
             metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:source"))
         }
@@ -373,10 +373,9 @@ extension ChartsPageViewController {
                     dataForPresent.append(("Users", "", "\((report.data?.totals[0].values[0])!)"))
                     success(dataForPresent)
                 case .AudienceOverview:
-                    for item in (report.data?.totals)! {
-                        for _ in item.values {
-                            dataForPresent.append(("Audience", "", "\((report.data?.totals[0].values[0])!)"))
-                        }
+                    for i in 0..<(report.data?.rowCount)! {
+                        let data = report.data?.rows[i]
+                        dataForPresent.append(("\((data?.dimensions[1])!)", "\((data?.dimensions[2])!)", "\((data?.dimensions[0])!)"))
                     }
                     success(dataForPresent)
                 case .GoalOverview:

@@ -119,6 +119,7 @@ class KPIsListTableViewController: UITableViewController {
         switch arrayOfKPI[indexPath.row].typeOfKPI {
         case .IntegratedKPI:
             cell.reportButton.isHidden = true
+            cell.editButton.isHidden = true
             cell.KPIListNumber.isHidden = true
             cell.ManagedByStack.isHidden = true
             let integratedKPI = arrayOfKPI[indexPath.row].integratedKPI
@@ -171,9 +172,7 @@ class KPIsListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "PageVC") as! ChartsPageViewController
-        destinationVC.arrayOfKPI = arrayOfKPI
-        destinationVC.indexOfKPI = indexPath.row
-        //destinationVC.kpi = arrayOfKPI[indexPath.row]
+        destinationVC.kpi = arrayOfKPI[indexPath.row]
         navigationController?.pushViewController(destinationVC, animated: true)
         
     }
@@ -258,9 +257,8 @@ class KPIsListTableViewController: UITableViewController {
         do {
             let external = try context.fetch(ExternalKPI.fetchRequest())
             for kpi in external {
-                let kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: (kpi as! ExternalKPI), createdKPI: nil, imageBacgroundColour: UIColor.clear)
+                let kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: (kpi as! ExternalKPI), createdKPI: nil, imageBacgroundColour: UIColor(hex: "D8F7D7".hex!))
                 arrayOfKPI.append(kpi)
-                //getGoogleAnalyticsData(index: arrayOfKPI.count - 1)
             }
         } catch {
             print("Fetching faild")
