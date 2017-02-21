@@ -91,6 +91,37 @@ class QuickBookDataManager
 
         return fullUrlPath
     }
+    
+    func handle(response: OAuthSwiftResponse ) -> String {
+        
+        guard let queryMethod = queryMethod else { print("DEBUG: Query method not found"); return "" }
+        
+        switch queryMethod.methodName
+        {
+        case .balanceSheet:
+            if let jsonDict = try? response.jsonObject(options: .allowFragments) as? [String: Any] {
+                
+                let rows = jsonDict!["Rows"] as! [String: Any]
+                let rows2 = rows["Row"] as! [[String: Any]]
+                var rowSummary = ""
+                
+                for row in rows2
+                {
+                    let summary = row["Summary"] as! [String: Any]
+                    let colDataSum = summary["ColData"] as! [[String: Any]]
+                    let value2 = colDataSum[1] as! [String: String]
+                    rowSummary = value2["value"]!
+                }
+                
+                return rowSummary
+            }
+            else {
+                print("no json response")
+            }
+            
+            return ""
+        }
+    }
 }
 
 protocol QuickBookMethod

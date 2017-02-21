@@ -33,7 +33,7 @@ class ExternalKPIViewController: OAuthViewController {
     }()    
     
     weak var ChoseSuggestedVC: ChooseSuggestedKPITableViewController!
-    var servive: IntegratedServices!
+    var selectedService: IntegratedServices!
     var serviceKPI: [(SettingName: String, value: Bool)]!
     var tokenDelegate: UpdateExternalTokensDelegate!
     var settingDelegate: updateSettingsDelegate!
@@ -41,7 +41,7 @@ class ExternalKPIViewController: OAuthViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = servive.rawValue + " KPI"
+        navigationItem.title = selectedService.rawValue + " KPI"
         tableView.tableFooterView = UIView(frame: .zero)
         quickBookDataManager = QuickBookDataManager()
     }
@@ -54,13 +54,17 @@ class ExternalKPIViewController: OAuthViewController {
         var kpiNotSelected = true
         for service in serviceKPI {
             if service.value == true {
-                kpiNotSelected = false
+                
+                if service.SettingName == "Balance"
+                {
+                    kpiNotSelected = false
+                }
             }
         }
         if !kpiNotSelected {
             doAuthService()
         } else {
-            showAlert(title: "Sorry!", message: "First you should select one or more KPI")
+            showAlert(title: "Sorry!", message: "First you should select one or more KPI, or service not integrated yet")
         }
     }
     
@@ -105,7 +109,7 @@ extension ExternalKPIViewController {
     // MARK: - do authentification
     func doAuthService() {
         
-        switch servive! {
+        switch selectedService! {
         case .SalesForce:
             doOAuthSalesforce()
         case .Quickbooks:
@@ -174,28 +178,22 @@ extension ExternalKPIViewController {
             .dateMacro : QBPredifinedDateRange.thisMonth.rawValue
         ]
         
-        let method = QBBalanceSheet(with: queryParameters)        
+        let method = QBBalanceSheet(with: queryParameters)
+        
+        quickBookDataManager.queryMethod = method
+        
         let fullUrlPath = quickBookDataManager.formUrlPath(method: method)
         
         let _ = oauthswift.client.get(
             fullUrlPath, headers: ["Accept":"application/json"],
             success: { response in
                 
-                if let jsonDict = try? response.jsonObject(options: .allowFragments) , let dico = jsonDict as? [String: AnyObject] {
-                    
-                  
-                    
-                    
-                }
-                else {
-                    print("no json response")
-                }
+                let sum = self.quickBookDataManager.handle(response: response)
         },
             failure: { error in
                 print(error)
         })
     }
-    
     
     //MARK: HubSpotMarketing
     func doOAuthHubSpotMarketing() {
@@ -237,8 +235,7 @@ extension ExternalKPIViewController {
         },
             failure: { error in
                 print("ERROR: \(error.localizedDescription)")
-        }
-        )
+        })
     }
     
     // MARK: HubSpotCRM
@@ -269,7 +266,7 @@ extension ExternalKPIViewController {
         let oauthToken = credential.oauthToken
         let oauthRefreshToken = credential.oauthRefreshToken
         let oauthTokenExpiresAt = credential.oauthTokenExpiresAt
-        ChoseSuggestedVC.integrated = servive
+        ChoseSuggestedVC.integrated = selectedService
         settingDelegate = ChoseSuggestedVC
         settingDelegate.updateSettingsArray(array: serviceKPI)
         tokenDelegate = ChoseSuggestedVC

@@ -43,22 +43,22 @@ class SelectIntegratedServicesViewController: UIViewController {
         switch sender {
         case saleforceButton:
             destinatioVC.serviceKPI = saleForceKPIArray
-            destinatioVC.servive = .SalesForce
+            destinatioVC.selectedService = .SalesForce
         case quickbooksButton:
             destinatioVC.serviceKPI = quickBooksKPIArray
-            destinatioVC.servive = .Quickbooks
+            destinatioVC.selectedService = .Quickbooks
         case googleAnalyticsButton:
             destinatioVC.serviceKPI = googleAnalyticsKPIArray
-            destinatioVC.servive = .GoogleAnalytics
+            destinatioVC.selectedService = .GoogleAnalytics
         case hubSpotCRMButton:
             destinatioVC.serviceKPI = hubSpotCRMKPIArray
-            destinatioVC.servive = .HubSpotCRM
+            destinatioVC.selectedService = .HubSpotCRM
         case payPalButton:
             destinatioVC.serviceKPI = payPalKPIArray
-            destinatioVC.servive = .PayPal
+            destinatioVC.selectedService = .PayPal
         case hubSpotButton:
             destinatioVC.serviceKPI = hubSpotMarketingKPIArray
-            destinatioVC.servive = .HubSpotMarketing
+            destinatioVC.selectedService = .HubSpotMarketing
         default:
             break
         }
