@@ -10,7 +10,12 @@ import UIKit
 
 class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSource {
 
-    var kpi: KPI!
+    var arrayOfKPI: [KPI] = []
+    var indexOfKPI: Int!
+    
+    var kpi: KPI {
+        return arrayOfKPI[indexOfKPI]
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -339,7 +344,14 @@ extension ChartsPageViewController {
         
         request.getAnalytics(param: param, success: { report, token in
             if token != nil {
+                let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
                 external?.setValue(token, forKey: "oauthToken")
+                do {
+                    try context.save()
+                } catch {
+                    print(error)
+                    return
+                }
             }
             success(report)
         }, failure: { error in

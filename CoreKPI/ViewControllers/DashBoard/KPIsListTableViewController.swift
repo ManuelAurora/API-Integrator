@@ -171,7 +171,9 @@ class KPIsListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "PageVC") as! ChartsPageViewController
-        destinationVC.kpi = arrayOfKPI[indexPath.row]
+        destinationVC.arrayOfKPI = arrayOfKPI
+        destinationVC.indexOfKPI = indexPath.row
+        //destinationVC.kpi = arrayOfKPI[indexPath.row]
         navigationController?.pushViewController(destinationVC, animated: true)
         
     }

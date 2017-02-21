@@ -212,6 +212,12 @@ class MemberListTableViewController: UITableViewController {
                     return
             }
             model.team[tag].setValue(UIImagePNGRepresentation(image), forKey: "photo")
+            do {
+                try context.save()
+            } catch {
+                print(error)
+                return
+            }
         }
         if notification.name == modelDidChangeNotification {
             guard let userInfo = notification.userInfo,
