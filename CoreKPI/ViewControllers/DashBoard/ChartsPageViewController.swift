@@ -264,7 +264,7 @@ extension ChartsPageViewController {
     //MARK: - get analytics data
     func getGoogleAnalyticsData(success: @escaping (_ report: Report) -> ()) {
         let external = kpi.integratedKPI
-        let request = GoogleAnalytics(oauthToken: (external?.oauthToken)!, oauthRefreshToken: (external?.oauthRefreshToken)!, oauthTokenExpiresAt: (external?.oauthTokenExpiresAt)! as Date)
+        let request = GoogleAnalytics(oauthToken: (external?.googleAnalyticsKPI?.oAuthToken)!, oauthRefreshToken: (external?.googleAnalyticsKPI?.oAuthRefreshToken)!, oauthTokenExpiresAt: (external?.googleAnalyticsKPI?.oAuthTokenExpiresAt)! as Date)
         let param = ReportRequest()
         param.viewId = (external?.googleAnalyticsKPI?.viewID)!
         
@@ -278,14 +278,11 @@ extension ChartsPageViewController {
             ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
             metrics.append(ReportRequest.Metric(expression: "ga:users/ga:sessions", formattingType: .FLOAT))
         case .AudienceOverview:
-            //metrics.append(ReportRequest.Metric(expression: "ga:interestInMarketCategory", formattingType: .FLOAT))
-            //metrics.append(ReportRequest.Metric(expression: "ga:userAgeBracket", formattingType: .FLOAT))
-            //metrics.append(ReportRequest.Metric(expression: "ga:userGender", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:interestInMarketCategory"))
             dimentions.append(ReportRequest.Dimension(name: "ga:userAgeBracket"))
             dimentions.append(ReportRequest.Dimension(name: "ga:userGender"))
-            //dimentions.append(ReportRequest.Dimension(name: "ga:cohort"))
             cohorts.append(ReportRequest.Cohort(name: "chogort1", type: ReportRequest.CohortType.FIRST_VISIT_DATE, startDate: "2017-02-12", endDate: "2017-02-19")!)
+            cohorts.append(ReportRequest.Cohort(name: "chogort2", type: ReportRequest.CohortType.FIRST_VISIT_DATE, startDate: "2017-02-05", endDate: "2017-02-12")!)
             param.cohortGroup = ReportRequest.CohortGroup(cohorts: cohorts)
         case .GoalOverview:
             ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
@@ -345,7 +342,7 @@ extension ChartsPageViewController {
         request.getAnalytics(param: param, success: { report, token in
             if token != nil {
                 let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
-                external?.setValue(token, forKey: "oauthToken")
+                external?.googleAnalyticsKPI?.setValue(token, forKey: "oAuthToken")
                 do {
                     try context.save()
                 } catch {

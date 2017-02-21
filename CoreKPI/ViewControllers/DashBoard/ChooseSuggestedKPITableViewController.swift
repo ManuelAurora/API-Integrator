@@ -757,19 +757,18 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 break
             }
             
+            let googleKPI = GoogleKPI(context: context)
+            googleKPI.oAuthToken = oauthToken
+            googleKPI.oAuthRefreshToken = oauthRefreshToken
+            googleKPI.oAuthTokenExpiresAt = oauthTokenExpiresAt! as NSDate
+            googleKPI.viewID = viewID
+            
             for extKpi in arrayOfKPI {
                 if extKpi.value {
                     let externalKPI = ExternalKPI(context: context)
                     externalKPI.serviceName = integrated.rawValue
                     externalKPI.kpiName = extKpi.SettingName
-                    externalKPI.oauthToken = oauthToken
-                    externalKPI.oauthRefreshToken = oauthRefreshToken
-                    externalKPI.oauthTokenExpiresAt = oauthTokenExpiresAt! as NSDate
-                    
-                    let googleKPI = GoogleKPI(context: context)
-                    googleKPI.viewID = viewID
                     externalKPI.googleAnalyticsKPI = googleKPI
-                    //externalKPI.viewID = viewID
                     
                     do {
                         try self.context.save()
