@@ -16,6 +16,12 @@ class ExternalKPIViewController: OAuthViewController {
     
     var oauthswift: OAuthSwift?
     
+    lazy var quickBookDataManager: QuickBookDataManager = {
+        let datamanager = QuickBookDataManager()
+        
+        return datamanager
+    }()
+    
     lazy var internalWebViewController: WebViewController = {
         let controller = WebViewController()
         
@@ -24,7 +30,7 @@ class ExternalKPIViewController: OAuthViewController {
         controller.viewDidLoad()
         
         return controller
-    }()
+    }()    
     
     weak var ChoseSuggestedVC: ChooseSuggestedKPITableViewController!
     var servive: IntegratedServices!
@@ -37,6 +43,7 @@ class ExternalKPIViewController: OAuthViewController {
         super.viewDidLoad()
         navigationItem.title = servive.rawValue + " KPI"
         tableView.tableFooterView = UIView(frame: .zero)
+        quickBookDataManager = QuickBookDataManager()
     }
     
     override func didReceiveMemoryWarning() {
@@ -142,35 +149,53 @@ extension ExternalKPIViewController {
             authorizeUrl:    "https://appcenter.intuit.com/Connect/Begin",
             accessTokenUrl:  "https://oauth.intuit.com/oauth/v1/get_access_token"
         )
-        
+       
         self.oauthswift = oauthswift
         
         oauthswift.authorizeURLHandler = internalWebViewController
         
-        let _ = oauthswift.authorize(
-            withCallbackURL: URL(string: "CoreKPI.CoreKPI:/oauth-callback/intuit")!,
-            success: { credential, response, parameters in
-                let token = credential.oauthToken
-                let timeSince = Date().timeIntervalSince1970
-                                
-                var headers = HTTPHeaders()
-                
-                headers["oauth_token"] = token
-                headers["oauth_consumer_key"] = "qyprdLYMArOQwomSilhpS7v9Ge8kke"
-                headers["oauth_signature_method"] = "HMAC-SHA1"
-                headers["oauth_timestamp"] = "\(timeSince)"
-                headers["oauth_version"] = "1"
-                headers["oauth_signature"] = ""
-                
-                
-                
+        let callbackUrlString = quickBookDataManager.serviceParameters[.callbackUrl]
         
+        guard let callBackUrl = callbackUrlString else { print("DEBUG: Callback URL not found!"); return }
+        
+        let _ = oauthswift.authorize(
+            withCallbackURL: callBackUrl,
+            success: { credential, response, parameters in
+                self.fetchDataFromIntuit(oauthswift)
+                                        
+        }) { error in
+            print(error.localizedDescription)
+        }
+    }
+    
+    func fetchDataFromIntuit(_ oauthswift: OAuth1Swift) {
+        
+        let queryParameters: [QBQueryParameterKeys: String] = [
+            .dateMacro : QBPredifinedDateRange.thisMonth.rawValue
+        ]
+        
+        let method = QBBalanceSheet(with: queryParameters)        
+        let fullUrlPath = quickBookDataManager.formUrlPath(method: method)
+        
+        let _ = oauthswift.client.get(
+            fullUrlPath, headers: ["Accept":"application/json"],
+            success: { response in
+                
+                if let jsonDict = try? response.jsonObject(options: .allowFragments) , let dico = jsonDict as? [String: AnyObject] {
+                    
+                  
+                    
+                    
+                }
+                else {
+                    print("no json response")
+                }
         },
             failure: { error in
-                print(error.description)
-        })        
-        
+                print(error)
+        })
     }
+    
     
     //MARK: HubSpotMarketing
     func doOAuthHubSpotMarketing() {
