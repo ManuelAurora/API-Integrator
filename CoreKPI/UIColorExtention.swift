@@ -39,4 +39,14 @@ extension UIColor {
         }
         self.init(hex: hex)
     }
+    
+    func getHexString() -> String {
+        let components = cgColor.components
+        let red   = (components?[0])!*255
+        let green = (components?[1])!*255
+        let blue  = (components?[2])!*255
+        
+        let hexValue = String(format:"%02X", Int(red)) + String(format:"%02X", Int(green)) + String(format:"%02X", Int(blue))
+        return hexValue
+    }
 }
