@@ -12,7 +12,7 @@ class RecoveryPassword: Request {
     func recoveryPassword(email: String, success: @escaping () -> (), failure: @escaping failure ) {
         let data: [String : Any] = ["email" : email]
         
-        self.getJson(category: "/auth/recovery", data: data, //debug!
+        self.getJson(category: "/auth/resetPassword", data: data,
             success: { json in
                 if self.parsingJson(json: json) == true {
                     success()
