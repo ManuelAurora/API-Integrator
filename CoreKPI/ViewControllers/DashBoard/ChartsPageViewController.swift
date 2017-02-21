@@ -273,11 +273,15 @@ extension ChartsPageViewController {
             ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
             metrics.append(ReportRequest.Metric(expression: "ga:users/ga:sessions", formattingType: .FLOAT))
         case .AudienceOverview:
-            metrics.append(ReportRequest.Metric(expression: "ga:interestInMarketCategory", formattingType: .FLOAT))
-            metrics.append(ReportRequest.Metric(expression: "ga:userAgeBracket", formattingType: .FLOAT))
-            metrics.append(ReportRequest.Metric(expression: "ga:userGender", formattingType: .FLOAT))
-            dimentions.append(ReportRequest.Dimension(name: "ga:cohort"))
+            //metrics.append(ReportRequest.Metric(expression: "ga:interestInMarketCategory", formattingType: .FLOAT))
+            //metrics.append(ReportRequest.Metric(expression: "ga:userAgeBracket", formattingType: .FLOAT))
+            //metrics.append(ReportRequest.Metric(expression: "ga:userGender", formattingType: .FLOAT))
+            dimentions.append(ReportRequest.Dimension(name: "ga:interestInMarketCategory"))
+            dimentions.append(ReportRequest.Dimension(name: "ga:userAgeBracket"))
+            dimentions.append(ReportRequest.Dimension(name: "ga:userGender"))
+            //dimentions.append(ReportRequest.Dimension(name: "ga:cohort"))
             cohorts.append(ReportRequest.Cohort(name: "chogort1", type: ReportRequest.CohortType.FIRST_VISIT_DATE, startDate: "2017-02-12", endDate: "2017-02-19")!)
+            param.cohortGroup = ReportRequest.CohortGroup(cohorts: cohorts)
         case .GoalOverview:
             ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
             metrics.append(ReportRequest.Metric(expression: "ga:goalCompletionsAll", formattingType: .FLOAT))
@@ -302,7 +306,15 @@ extension ChartsPageViewController {
             metrics.append(ReportRequest.Metric(expression: "ga:totalValue/ga:transactions", formattingType: .FLOAT))
         case .EcommerceOverview:
             ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
-            metrics.append(ReportRequest.Metric(expression: "ga:sessionsPerUser", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:itemQuantity", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:uniquePurchases", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:localTransactionShipping", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:localRefundAmount", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:productListViews", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:productListClicks", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:productAddsToCart", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:revenuePerUser", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:transactionsPerUser", formattingType: .FLOAT))
         case .RevenueByLandingPage:
             ranges.append(ReportRequest.DateRange(startDate: "2017-02-12", endDate: "2017-02-19"))
             metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
@@ -324,13 +336,16 @@ extension ChartsPageViewController {
         param.dateRanges = ranges
         param.metrics = metrics
         param.dimensions = dimentions
-        param.cohortGroup = ReportRequest.CohortGroup(cohorts: cohorts)
         
-        request.getAnalytics(param: param, success: { report in
+        request.getAnalytics(param: param, success: { report, token in
+            if token != nil {
+                external?.setValue(token, forKey: "oauthToken")
+            }
             success(report)
         }, failure: { error in
-            if error == "401" {
-                self.refreshAccessToken()
+            if error == "403" {
+                //user has not rules for this view
+                self.autorisationAgain(external: external!)
             }
         }
         )
@@ -346,12 +361,13 @@ extension ChartsPageViewController {
             getGoogleAnalyticsData(success: { report in
                 switch (GoogleAnalyticsKPIs(rawValue: self.kpi.integratedKPI.kpiName!))! {
                 case .UsersSessions:
-                    dataForPresent.append(("users", "", "\((report.data?.totals[0].values[0])!)"))
+                    dataForPresent.append(("Users", "", "\((report.data?.totals[0].values[0])!)"))
                     success(dataForPresent)
                 case .AudienceOverview:
-                    for i in 0..<(report.data?.rowCount)! {
-                        let data = report.data?.rows[i]
-                        dataForPresent.append(("\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
+                    for item in (report.data?.totals)! {
+                        for _ in item.values {
+                            dataForPresent.append(("Audience", "", "\((report.data?.totals[0].values[0])!)"))
+                        }
                     }
                     success(dataForPresent)
                 case .GoalOverview:
@@ -389,9 +405,10 @@ extension ChartsPageViewController {
                     dataForPresent.append(("Revenue", "", "\((report.data?.totals[0].values[0])!)"))
                     success(dataForPresent)
                 case .EcommerceOverview:
-                    for i in 0..<(report.data?.rowCount)! {
-                        let data = report.data?.rows[i]
-                        dataForPresent.append(("\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
+                    for values in (report.data?.totals)! {
+                        for number in values.values {
+                            dataForPresent.append(("OverView", "", "\(number)"))
+                        }
                     }
                     success(dataForPresent)
                 case .RevenueByLandingPage:
@@ -412,21 +429,6 @@ extension ChartsPageViewController {
         default:
             break
         }
-    }
-    
-    //TODO: load data again
-    //MARK: - refresh token method
-    func refreshAccessToken() {
-        let request = ExternalRequest(oauthToken: kpi.integratedKPI.oauthToken!, oauthRefreshToken: kpi.integratedKPI.oauthRefreshToken!, oauthTokenExpiresAt: kpi.integratedKPI.oauthTokenExpiresAt as! Date)
-        request.updateAccessToken(servise: IntegratedServices(rawValue: kpi.integratedKPI.serviceName!)!, success: { accessToken in
-            print(accessToken)
-            self.kpi.integratedKPI.oauthToken = accessToken
-            //self.getGoogleAnalyticsData(index: index, success: {})
-        }, failure: { error in
-            print(error)
-            self.autorisationAgain(external: self.kpi.integratedKPI)
-        }
-        )
     }
     
     //MARK: - Autorisation again method

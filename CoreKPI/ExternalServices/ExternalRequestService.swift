@@ -14,9 +14,9 @@ class ExternalRequest {
     
     var errorMessage: String?
     
-    let oauthToken: String
+    var oauthToken: String
     let oauthRefreshToken: String
-    let oauthTokenExpiresAt: Date
+    var oauthTokenExpiresAt: Date
     
     init(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date) {
         self.oauthToken = oauthToken

@@ -45,7 +45,6 @@ class GetReports: Request {
                             
                             dictionaryOfReports[date] = value
                         } else {
-                            print("KPI reports is empty")
                             return dictionaryOfReports
                         }
                         
