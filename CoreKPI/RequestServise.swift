@@ -55,33 +55,37 @@ class Request {
         }
         
         request(http, method: .post, parameters: params, encoding: JSONEncoding.default).responseJSON { response in
-            if let data = response.data {
             
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
-                    if let jsonDictionary = json {
-                        success(jsonDictionary)
-                    } else {
-                        failure("Load failed")
-                    }
-                    
-                } catch {
-                    guard response.result.isSuccess else {
-                        let error = response.result.error
-            
-                        if let error = error {
-                            let requestError = error.localizedDescription
-                            
-                            switch (error as NSError).code {
-                            case NSURLErrorNotConnectedToInternet:
-                                failure(requestError)
-                            default:
-                                print(requestError)
-                            }
+            if let statusCode = response.response?.statusCode {
+                switch statusCode {
+                case 200..<300, 400..<500:
+                    if let data = response.data {
+                        let json = try! JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
+                        if let jsonDictionary = json {
+                            success(jsonDictionary)
+                        } else {
+                            failure("Load failed")
                         }
-                        return
+                    }
+                case 500..<600:
+                    print(response.result.error ?? "Server error")
+                default:
+                    print("Request error")
+                }
+            } else {
+                let error = response.result.error
+                
+                if let error = error {
+                    let requestError = error.localizedDescription
+                    
+                    switch (error as NSError).code {
+                    case NSURLErrorNotConnectedToInternet:
+                        failure(requestError)
+                    default:
+                        print(requestError)
                     }
                 }
+                return
             }
         }
     }
