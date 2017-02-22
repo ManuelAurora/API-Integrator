@@ -174,18 +174,44 @@ extension ExternalKPIViewController {
     
     func fetchDataFromIntuit(_ oauthswift: OAuth1Swift) {
         
-        let queryParameters: [QBQueryParameterKeys: String] = [
-            .dateMacro : QBPredifinedDateRange.thisMonth.rawValue
+        /*
+         All data provided here is only for testing
+         TODO: Refine this method
+        */
+        let balanceQueryParameters: [QBQueryParameterKeys: String] = [
+            .dateMacro: QBPredifinedDateRange.thisMonth.rawValue
         ]
         
-        let method = QBBalanceSheet(with: queryParameters)
+        let balanceSheet = QBBalanceSheet(with: balanceQueryParameters)        
+        let pathForBalance = quickBookDataManager.formUrlPath(method: balanceSheet)
         
-        quickBookDataManager.queryMethod = method
+        let profitAndLossQueryParameters: [QBQueryParameterKeys: String] = [
+            .dateMacro: QBPredifinedDateRange.thisMonth.rawValue,
+            .summarizeBy: QBPredifinedSummarizeValues.days.rawValue
+        ]
         
-        let fullUrlPath = quickBookDataManager.formUrlPath(method: method)
+        let profitAndLoss = QBProfitAndLoss(with: profitAndLossQueryParameters)
+        let pathForProfitAndLoss = quickBookDataManager.formUrlPath(method: profitAndLoss)
+        
+        let accountListParameters: [QBQueryParameterKeys: String] = [
+            .dateMacro: QBPredifinedDateRange.thisMonth.rawValue
+        ]
+        
+        let accountList = QBAccountList(with: accountListParameters)
+        let pathForAccountList = quickBookDataManager.formUrlPath(method: accountList)
+        
+        let queryParameters: [QBQueryParameterKeys: String] = [
+            .query: "SELECT * FROM Invoice"
+        ]
+        
+        let query = QBQuery(with: queryParameters)
+        
+        quickBookDataManager.queryMethod = query
+        
+        let queryPath = quickBookDataManager.formUrlPath(method: query)
         
         let _ = oauthswift.client.get(
-            fullUrlPath, headers: ["Accept":"application/json"],
+            queryPath, headers: ["Accept":"application/json"],
             success: { response in
                 
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -195,6 +221,7 @@ extension ExternalKPIViewController {
                 
                 let entityDescription = NSEntityDescription.entity(forEntityName: "ExternalKPI", in: managedContext)
                 let extKPI = ExternalKPI(entity: entityDescription!, insertInto: managedContext)
+                
                 let QBKpiEntity = NSEntityDescription.entity(forEntityName: "QuickbooksKPI", in: managedContext)
                 let qbKPI = QuickbooksKPI(entity: QBKpiEntity!, insertInto: managedContext)
                 
