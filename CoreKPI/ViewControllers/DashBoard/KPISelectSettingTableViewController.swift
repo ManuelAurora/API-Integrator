@@ -49,7 +49,9 @@ class KPISelectSettingTableViewController: UITableViewController {
         let nc = NotificationCenter.default
         nc.addObserver(forName: modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
         
-        tableView.autoresizesSubviews = true
+        tableView.estimatedRowHeight = 70
+        tableView.rowHeight = UITableViewAutomaticDimension
+        //tableView.autoresizesSubviews = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -162,14 +164,6 @@ class KPISelectSettingTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
-    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
     //MARK: - Send data to parent ViewController
     override func willMove(toParentViewController parent: UIViewController?) {
         if(!(parent?.isEqual(self.parent) ?? false)) {
@@ -213,12 +207,13 @@ class KPISelectSettingTableViewController: UITableViewController {
 //MARK: - UITextFieldDelegate method
 extension KPISelectSettingTableViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        
         if textView.text == "" {
             textFieldInputData = nil
         } else {
             textFieldInputData = textView.text
         }
+        tableView.beginUpdates()
+        tableView.endUpdates()
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
