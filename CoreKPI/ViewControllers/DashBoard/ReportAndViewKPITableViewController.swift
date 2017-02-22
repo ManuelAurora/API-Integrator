@@ -990,19 +990,54 @@ extension ReportAndViewKPITableViewController: updateSettingsDelegate {
             if KPIOneView == .Numbers && KPITwoView == .Numbers {
                 KPITwoView = .Graph
             }
+            chartDublicateDisabler(typeOfSetting: .KPIViewOne)
         case .ChartOne:
             typeOfChartOneArray = array
+            chartDublicateDisabler(typeOfSetting: .ChartOne)
         case .KPIViewTwo:
             KPITwoViewArray = array
             if KPIOneView == .Numbers && KPITwoView == .Numbers {
                 KPIOneView = .Graph
             }
+            chartDublicateDisabler(typeOfSetting: .KPIViewTwo)
         case .ChartTwo:
             typeOfChartTwoArray = array
+            chartDublicateDisabler(typeOfSetting: .ChartTwo)
         default:
             break
         }
         tableView.reloadData()
+    }
+    
+    private func chartDublicateDisabler(typeOfSetting: Setting) {
+        switch typeOfSetting {
+        case .KPIViewTwo, .ChartOne:
+            if typeOfChartOne == typeOfChartTwo {
+                for i in 0..<typeOfChartOneArray.count {
+                    if typeOfChartOneArray[i].value == true {
+                        if i != (typeOfChartOneArray.count - 1) {
+                            typeOfChartTwo = TypeOfChart(rawValue: typeOfChartOneArray[i+1].SettingName)
+                        } else {
+                            typeOfChartTwo = .PieChart
+                        }
+                    }
+                }
+            }
+        case .KPIViewOne, .ChartTwo:
+            if typeOfChartOne == typeOfChartTwo {
+                for i in 0..<typeOfChartTwoArray.count {
+                    if typeOfChartTwoArray[i].value == true {
+                        if i != (typeOfChartTwoArray.count - 1) {
+                            typeOfChartOne = TypeOfChart(rawValue: typeOfChartTwoArray[i+1].SettingName)
+                        } else {
+                            typeOfChartOne = .PieChart
+                        }
+                    }
+                }
+            }
+        default:
+            break
+        }
     }
     
     func updateDoubleValue(number: Double?) {
