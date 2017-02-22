@@ -119,10 +119,11 @@ class KPIsListTableViewController: UITableViewController {
         switch arrayOfKPI[indexPath.row].typeOfKPI {
         case .IntegratedKPI:
             cell.reportButton.isHidden = true
-            cell.KPIListNumber.isHidden = true
             cell.ManagedByStack.isHidden = true
             let integratedKPI = arrayOfKPI[indexPath.row].integratedKPI
             cell.KPIListHeaderLabel.text = integratedKPI?.kpiName
+            cell.KPIListNumber.text = integratedKPI?.quickbooksKPI?.kpiValue
+            
         case .createdKPI:
             let createdKPI = arrayOfKPI[indexPath.row].createdKPI
             cell.KPIListHeaderLabel.text = createdKPI?.KPI

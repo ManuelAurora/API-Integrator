@@ -28,11 +28,19 @@ enum AuthenticationParameterKeys: String
 {
     case callbackUrl = "callbackUrl"
     case companyId = "companyId"
+    case oauthToken = "oauthToken"
+    case oauthRefreshToken = "oauthRefreshToken"
 }
 
 enum QBMethod: String
 {
     case balanceSheet = "/reports/BalanceSheet"
+}
+
+struct ExternalKpiInfo
+{
+    var kpiName: String = ""
+    var kpiValue: String = ""
 }
 
 struct QBBalanceSheet: QuickBookMethod
@@ -54,7 +62,9 @@ struct QBBalanceSheet: QuickBookMethod
 
 class QuickBookDataManager
 {
+    typealias resultArray = [(leftValue: String, centralValue: String, rightValue: String)]
     private let urlBase = "https://sandbox-quickbooks.api.intuit.com/v3/company/"
+    private var balanceSheet: resultArray = []
     
     var queryMethod: QuickBookMethod?
         
@@ -66,6 +76,30 @@ class QuickBookDataManager
         
         return parameters
     }()
+    
+    func getInfoFor(kpi: QiuckBooksKPIs) -> resultArray {
+        
+        switch kpi
+        {
+        case .Balance:
+            return balanceSheet
+            
+        default:
+            break
+        }
+        
+       return resultArray()
+    }
+    
+    class func shared() -> QuickBookDataManager {
+        
+        struct Singelton
+        {
+            static let manager = QuickBookDataManager()
+        }
+        
+        return Singelton.manager
+    }
     
     var companyID: String {
         set {
@@ -92,9 +126,9 @@ class QuickBookDataManager
         return fullUrlPath
     }
     
-    func handle(response: OAuthSwiftResponse ) -> String {
+    func handle(response: OAuthSwiftResponse ) -> ExternalKpiInfo? {
         
-        guard let queryMethod = queryMethod else { print("DEBUG: Query method not found"); return "" }
+        guard let queryMethod = queryMethod else { print("DEBUG: Query method not found"); return nil }
         
         switch queryMethod.methodName
         {
@@ -103,23 +137,31 @@ class QuickBookDataManager
                 
                 let rows = jsonDict!["Rows"] as! [String: Any]
                 let rows2 = rows["Row"] as! [[String: Any]]
-                var rowSummary = ""
+                
+                var kpiInfo = ExternalKpiInfo()
                 
                 for row in rows2
                 {
                     let summary = row["Summary"] as! [String: Any]
                     let colDataSum = summary["ColData"] as! [[String: Any]]
-                    let value2 = colDataSum[1] as! [String: String]
-                    rowSummary = value2["value"]!
+                    let kpiSummary = colDataSum[1] as! [String: String]
+                    //let kpiTitle = colDataSum[0] as! [String: String]
+                    
+                    kpiInfo.kpiName = QiuckBooksKPIs.Balance.rawValue
+                    kpiInfo.kpiValue = kpiSummary["value"]!
                 }
                 
-                return rowSummary
+                let result = (kpiInfo.kpiName,"",kpiInfo.kpiValue)
+                
+                balanceSheet.append(result)
+                
+                return kpiInfo
             }
             else {
                 print("no json response")
             }
             
-            return ""
+            return nil
         }
     }
 }

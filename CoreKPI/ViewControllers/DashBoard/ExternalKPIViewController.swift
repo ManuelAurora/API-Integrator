@@ -9,6 +9,7 @@
 import UIKit
 import OAuthSwift
 import Alamofire
+import CoreData
 
 class ExternalKPIViewController: OAuthViewController {
     
@@ -16,11 +17,9 @@ class ExternalKPIViewController: OAuthViewController {
     
     var oauthswift: OAuthSwift?
     
-    lazy var quickBookDataManager: QuickBookDataManager = {
-        let datamanager = QuickBookDataManager()
-        
-        return datamanager
-    }()
+    var quickBookDataManager: QuickBookDataManager {
+        return QuickBookDataManager.shared()
+    }
     
     lazy var internalWebViewController: WebViewController = {
         let controller = WebViewController()
@@ -42,8 +41,7 @@ class ExternalKPIViewController: OAuthViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = selectedService.rawValue + " KPI"
-        tableView.tableFooterView = UIView(frame: .zero)
-        quickBookDataManager = QuickBookDataManager()
+        tableView.tableFooterView = UIView(frame: .zero)        
     }
     
     override func didReceiveMemoryWarning() {
@@ -165,6 +163,8 @@ extension ExternalKPIViewController {
         let _ = oauthswift.authorize(
             withCallbackURL: callBackUrl,
             success: { credential, response, parameters in
+                self.quickBookDataManager.serviceParameters[.oauthToken] = credential.oauthToken
+                self.quickBookDataManager.serviceParameters[.oauthRefreshToken] = credential.oauthRefreshToken
                 self.fetchDataFromIntuit(oauthswift)
                                         
         }) { error in
@@ -188,7 +188,29 @@ extension ExternalKPIViewController {
             fullUrlPath, headers: ["Accept":"application/json"],
             success: { response in
                 
-                let sum = self.quickBookDataManager.handle(response: response)
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let managedContext = appDelegate.persistentContainer.viewContext
+                
+                let kpiInfo = self.quickBookDataManager.handle(response: response)
+                
+                let entityDescription = NSEntityDescription.entity(forEntityName: "ExternalKPI", in: managedContext)
+                let extKPI = ExternalKPI(entity: entityDescription!, insertInto: managedContext)
+                let QBKpiEntity = NSEntityDescription.entity(forEntityName: "QuickbooksKPI", in: managedContext)
+                let qbKPI = QuickbooksKPI(entity: QBKpiEntity!, insertInto: managedContext)
+                
+                qbKPI.kpiValue = kpiInfo?.kpiValue
+                extKPI.kpiName = kpiInfo?.kpiName
+                extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+                extKPI.oauthToken = self.quickBookDataManager.serviceParameters[.oauthToken]!
+                extKPI.oauthRefreshToken = self.quickBookDataManager.serviceParameters[.oauthRefreshToken]!
+                extKPI.quickbooksKPI = qbKPI
+                
+                do {
+                    try managedContext.save()
+                }
+                catch let error {
+                    print(error.localizedDescription)
+                }
         },
             failure: { error in
                 print(error)

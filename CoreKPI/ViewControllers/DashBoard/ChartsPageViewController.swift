@@ -123,6 +123,26 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
             //<-debug
             
             switch (IntegratedServices(rawValue: kpi.integratedKPI.serviceName!))! {
+                
+            case .Quickbooks:
+                navigationItem.title = "Quickbooks"
+                
+                let kpiName = kpi.integratedKPI.kpiName!
+                
+                switch QiuckBooksKPIs(rawValue: kpiName)!
+                {
+                case .Balance:
+                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
+                    
+                    createDataFromRequest(success: { dataToPresent in
+                        tableViewChartVC.dataArray = dataToPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })                    
+                    
+                default:
+                    break
+                }
+                
             case .GoogleAnalytics:
                 navigationItem.title = "Google Analytics"
                 switch (GoogleAnalyticsKPIs(rawValue: kpi.integratedKPI.kpiName!))! {
@@ -161,6 +181,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                         tableViewChartVC.tableView.reloadData()
                     }
                     )
+                    
                 default:
                     break
                 }
@@ -269,7 +290,15 @@ extension ChartsPageViewController {
         
         var dataForPresent: [(leftValue: String, centralValue: String, rightValue: String)] = []
         
+        
+        
         switch (IntegratedServices(rawValue: kpi.integratedKPI.serviceName!))! {
+            
+        case .Quickbooks:
+            dataForPresent.append(contentsOf: QuickBookDataManager.shared().getInfoFor(kpi: .Balance))
+            
+            success(dataForPresent)
+            
         case .GoogleAnalytics:
             getGoogleAnalyticsData(success: { report in
                 switch (GoogleAnalyticsKPIs(rawValue: self.kpi.integratedKPI.kpiName!))! {
