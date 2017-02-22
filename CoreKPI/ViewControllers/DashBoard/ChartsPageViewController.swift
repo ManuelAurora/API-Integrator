@@ -127,7 +127,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 navigationItem.title = "Google Analytics"
                 switch (GoogleAnalyticsKPIs(rawValue: kpi.integratedKPI.kpiName!))! {
                 case .UsersSessions:
-                    tableViewChartVC.titleOfTable = ("Users/sessions","","Value")
+                    tableViewChartVC.titleOfTable = ("Date","","Value")
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
@@ -275,8 +275,9 @@ extension ChartsPageViewController {
         
         switch (GoogleAnalyticsKPIs(rawValue: (external?.kpiName)!))! {
         case .UsersSessions:
-            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
-            metrics.append(ReportRequest.Metric(expression: "ga:users/ga:sessions", formattingType: .FLOAT))
+            ranges.append(ReportRequest.DateRange(startDate: "2017-02-14", endDate: "2017-02-21"))
+            metrics.append(ReportRequest.Metric(expression: "ga:7dayUsers/ga:sessions", formattingType: .FLOAT))
+            dimentions.append(ReportRequest.Dimension(name: "ga:day"))
         case .AudienceOverview:
             metrics.append(ReportRequest.Metric(expression: "ga:users", formattingType: .FLOAT))
             ranges.append(ReportRequest.DateRange(startDate: mounthAgo, endDate: curentDate))
@@ -286,18 +287,18 @@ extension ChartsPageViewController {
 
         case .GoalOverview:
             ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
-            metrics.append(ReportRequest.Metric(expression: "ga:goalCompletionsAll", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:goalCompletionsAll", formattingType: .INTEGER))
         case .TopPagesByPageviews:
             ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
-            metrics.append(ReportRequest.Metric(expression: "ga:pageviews", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:pageviews", formattingType: .INTEGER))
             dimentions.append(ReportRequest.Dimension(name: "ga:pagePath"))
         case .TopSourcesBySessions:
             ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
-            metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .INTEGER))
             dimentions.append(ReportRequest.Dimension(name: "ga:source"))
         case .TopOrganicKeywordsBySession:
             ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
-            metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .INTEGER))
             dimentions.append(ReportRequest.Dimension(name: "ga:keyword"))
         case .TopChannelsBySessions:
             ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
@@ -370,7 +371,13 @@ extension ChartsPageViewController {
             getGoogleAnalyticsData(success: { report in
                 switch (GoogleAnalyticsKPIs(rawValue: self.kpi.integratedKPI.kpiName!))! {
                 case .UsersSessions:
-                    dataForPresent.append(("Users", "", "\((report.data?.totals[0].values[0])!)"))
+                    for i in 0..<(report.data?.rowCount)! {
+                        let data = report.data?.rows[i]
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "yyyy/MM/"
+                        
+                        dataForPresent.append(("\(dateFormatter.string(from: Date()))\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
+                    }
                     success(dataForPresent)
                 case .AudienceOverview:
                     for i in 0..<(report.data?.rowCount)! {

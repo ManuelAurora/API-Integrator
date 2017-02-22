@@ -23,7 +23,8 @@ class RecoveryPassword: Request {
         },
             failure: { (error) in
                 failure(error)
-        })
+        }
+        )
     }
     
     func parsingJson(json: NSDictionary) -> Bool {
