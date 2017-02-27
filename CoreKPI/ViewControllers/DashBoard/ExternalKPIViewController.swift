@@ -208,10 +208,26 @@ extension ExternalKPIViewController {
         
         let queryPath = quickBookDataManager.formUrlPath(method: queryInvoices)
         
-        quickBookDataManager.queryMethod = queryInvoices
+        let paidInvoicesParameters: [QBQueryParameterKeys: String] = [
+            .dateMacro: QBPredifinedDateRange.thisQuarter.rawValue,
+            .summarizeBy: QBPredifinedSummarizeValues.customers.rawValue
+        ]
+        
+        let paidInvoices = QBPaidInvoicesByCustomers(with: paidInvoicesParameters)
+        
+        let paidInvoicesPath = quickBookDataManager.formUrlPath(method: paidInvoices)
+        
+        let paidExpensesParameters: [QBQueryParameterKeys: String] = [
+            .dateMacro: QBPredifinedDateRange.thisQuarter.rawValue
+        ]
+        
+        let paidExpenses = QBPaidExpenses(with: paidExpensesParameters)
+        let paidExpencesPath = quickBookDataManager.formUrlPath(method: paidExpenses)
+        
+        quickBookDataManager.queryMethod = profitAndLoss
         
         let _ = oauthswift.client.get(
-            queryPath, headers: ["Accept":"application/json"],
+            pathForProfitAndLoss, headers: ["Accept":"application/json"],
             success: { response in
                 
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate

@@ -15,11 +15,13 @@ enum QBPredifinedDateRange: String
     case today = "Today"
     case yesterday = "Yesterday"
     case thisMonth = "This Month"
+    case thisQuarter = "This Fiscal Quarter"
 }
 
 enum QBPredifinedSummarizeValues: String
 {
     case days = "Days"
+    case customers = "Customers"
 }
 
 enum QBQueryParameterKeys: String
@@ -43,9 +45,10 @@ enum QBMethod: String
 {
     case balanceSheet   = "/reports/BalanceSheet"
     case profitLoss     = "/reports/ProfitAndLoss"
-    case vendorExpenses = "/reports/VendorExpenses"
+    case paidExpenses = "/reports/VendorExpenses"
     case accountList    = "/reports/AccountList"
     case query          = "/query"
+    case paidInvoicesByCustomers = "/reports/CustomerIncome"
 }
 
 struct ExternalKpiInfo
@@ -70,6 +73,22 @@ struct QBQuery: QuickBookMethod
     }
 }
 
+struct QBPaidInvoicesByCustomers: QuickBookMethod
+{
+    internal var methodName: QBMethod
+    
+    internal var queryParameters: [QBQueryParameterKeys : String]
+    
+    internal func formUrlPath(method: QuickBookMethod) -> String {
+        return queryParameters.stringFromHttpParameters()
+    }
+    
+    init(with queryParameters: [QBQueryParameterKeys: String]) {
+        self.queryParameters = queryParameters
+        self.methodName = QBMethod.paidInvoicesByCustomers
+    }
+}
+
 struct QBAccountList: QuickBookMethod
 {
     internal var methodName: QBMethod
@@ -86,7 +105,7 @@ struct QBAccountList: QuickBookMethod
     }
 }
 
-struct QBvendorExpenses: QuickBookMethod
+struct QBPaidExpenses: QuickBookMethod
 {
     internal var methodName: QBMethod
     
@@ -98,7 +117,7 @@ struct QBvendorExpenses: QuickBookMethod
     
     init(with queryParameters: [QBQueryParameterKeys: String]) {
         self.queryParameters = queryParameters
-        self.methodName = QBMethod.vendorExpenses
+        self.methodName = QBMethod.paidExpenses
     }
 }
 
@@ -145,6 +164,10 @@ class QuickBookDataManager
     private var accountList: resultArray  = []
     private var paidInvoices: resultArray = []
     private var nonPaidInvoices: resultArray = []
+    private var paidInvoicesByCustomer: resultArray = []
+    private var nonPaidInvoicesPercent: resultArray = []
+    private var paidInvoicesPercent: resultArray = []
+    private var invoices: resultArray = []
     
     var queryMethod: QuickBookMethod?
         
@@ -243,7 +266,6 @@ class QuickBookDataManager
                 //Invoices
                 let queryResult = jsonDict!["QueryResponse"] as! [String: Any]
                 let invoceList = queryResult["Invoice"] as! [[String: Any]]
-                var invoices: resultArray = [(leftValue: String, centralValue: String, rightValue: String)]()
                 
                 print(invoceList)
                 
@@ -273,6 +295,12 @@ class QuickBookDataManager
                     print(invoice["TotalAmt"] as! Float)
                 }
                 
+                let nonPaidPercent = (nonPaidInvoices.count * 100) / invoices.count
+                let paidPercent = (paidInvoices.count * 100) / invoices.count
+                
+                paidInvoicesPercent.append((leftValue: "Paid invoices percent", centralValue: "", rightValue: "\(paidPercent)%"))
+                nonPaidInvoicesPercent.append((leftValue: "Non-paid invoices percent", centralValue: "", rightValue: "\(nonPaidPercent)%"))
+                
             case .profitLoss:
                 let rows = jsonDict!["Rows"] as! [String: Any]
                 let rows2 = rows["Row"] as! [[String: Any]]
@@ -284,11 +312,11 @@ class QuickBookDataManager
                     
                     let kpiTitle = colDataSum[0] as! [String: String]
                     
-                    if kpiTitle["value"] == "Net Income"
+                    if kpiTitle["value"] == "Net Income" // GROSS PROFIT?
                     {
                         for item in colDataSum where (item["value"] as! String) != "Net Income"
                         {
-                            let result = ("Net Income", "", item["value"] as! String)
+                            let result = ("Profit", "", item["value"] as! String)
                             
                             profitAndLoss.append(result)
                             print("DEBUG: \(profitAndLoss)")
@@ -308,9 +336,27 @@ class QuickBookDataManager
                     print("DEBUG: \(result)")
                 }
                 
-            case .vendorExpenses:
+            case .paidInvoicesByCustomers:
                 let rows = jsonDict!["Rows"] as! [String: Any]
-                let rows2 = rows["Row"] as! [[String: String]]
+                let rows2 = rows["Row"] as! [[String: Any]]
+                
+                for row in rows2
+                {
+                    //let summary = row["Summary"] as! [String: Any]
+                    if let colData = row["ColData"] as? [[String: Any]] {
+                        
+                        let customer = colData[0]["value"] as! String
+                        let income = colData[3]["value"] as! String
+                        
+                        let result = (leftValue: customer, centralValue: "", rightValue: income)
+                        
+                        paidInvoicesByCustomer.append(result)
+                    }
+                }
+                
+            case .paidExpenses:
+                let rows = jsonDict!["Rows"] as! [String: Any]
+                let rows2 = rows["Row"] as! [[String: Any]]
                 
                 for row in rows2
                 {
