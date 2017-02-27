@@ -478,7 +478,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                             } else if self.mounthlyInterval != nil{
                                 text = "\(self.mounthlyInterval!)"
                             } else {
-                                text = "Add day"
+                                text = ""
                             }
                         default:
                             break
@@ -487,6 +487,19 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     case 8:
                         let dataPickerCell = tableView.dequeueReusableCell(withIdentifier: "DataPickerCell", for: indexPath)  as! DataPickerTableViewCell
                         dataPickerCell.dataPicker.reloadAllComponents()
+                        switch timeInterval {
+                        case .Daily:
+                            break
+                        case .Weekly:
+                            if weeklyInterval == .none {
+                                dataPickerCell.dataPicker.selectRow(0, inComponent: 0, animated: false)
+                            }
+                        case .Monthly:
+                            if mounthlyInterval == nil {
+                                dataPickerCell.dataPicker.selectRow(0, inComponent: 0, animated: false)
+                            }
+                        }
+                        dataPickerCell.dataPicker.selectedRow(inComponent: 0)
                         return dataPickerCell
                     case 9:
                         SuggestedCell.headerOfCell.text = "Time Zone"
@@ -625,11 +638,20 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     newIndexPath = IndexPath(item: 9, section: 0)
                 }
             default:
-                switch indexPath.row {
-                case 9,10:
-                    return indexPath
-                default:
-                    newIndexPath = IndexPath(item: 10, section: 0)
+                if dataPickerIsVisible {
+                    switch indexPath.row {
+                    case 7,8:
+                        return indexPath
+                    default:
+                        newIndexPath = IndexPath(item: 8, section: 0)
+                    }
+                } else {
+                    switch indexPath.row {
+                    case 9,10:
+                        return indexPath
+                    default:
+                        newIndexPath = IndexPath(item: 10, section: 0)
+                    }
                 }
             }
             
@@ -639,8 +661,11 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
             }
             if dataPickerIsVisible {
                 dataPickerIsVisible = false
-                tableView.reloadData()
-                //TODO: change reload to deleteRows for more user friendly animation
+                tableView.deleteRows(at: [newIndexPath], with: .top)
+                if indexPath.row > 7 {
+                    newIndexPath = IndexPath(item: indexPath.row - 1, section: 0)
+                    return newIndexPath
+                }
             }
         case .Integrated:
             break

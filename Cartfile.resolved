@@ -1,4 +1,4 @@
-github "Alamofire/Alamofire" "4.3.0"
+github "Alamofire/Alamofire" "4.4.0"
 github "OAuthSwift/OAuthSwift" "1.1.1"
-github "Hearst-DD/ObjectMapper" "2.2.2"
+github "Hearst-DD/ObjectMapper" "2.2.4"
 github "marmelroy/PhoneNumberKit" "1.2.2"
