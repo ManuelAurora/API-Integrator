@@ -36,6 +36,7 @@ class PinCodeViewController: UIViewController
     private var isAnimationCompleted = true
     
     weak var presenter: PinCodeVCPresenter?
+    var delegate: MemberInfoViewController?
     
     var dismissCompletion: (() -> Void)?
     var successCompletion: (() -> Void)?
@@ -78,6 +79,11 @@ class PinCodeViewController: UIViewController
                 }
             }
             else {
+                if let presenter = delegate {
+                    let cell = presenter.tableView.cellForRow(at: presenter.securityCellIndexPath) as! MemberInfoTableViewCell
+                    cell.securitySwitch.isOn = false
+                }
+                
                 dismiss(animated: true, completion: nil)
             }
         }

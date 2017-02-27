@@ -143,6 +143,8 @@ class QuickBookDataManager
     private var balanceSheet: resultArray = []
     private var profitAndLoss: resultArray = []
     private var accountList: resultArray  = []
+    private var paidInvoices: resultArray = []
+    private var nonPaidInvoices: resultArray = []
     
     var queryMethod: QuickBookMethod?
         
@@ -238,10 +240,38 @@ class QuickBookDataManager
                 return kpiInfo
                 
             case .query:
-                
+                //Invoices
                 let queryResult = jsonDict!["QueryResponse"] as! [String: Any]
+                let invoceList = queryResult["Invoice"] as! [[String: Any]]
+                var invoices: resultArray = [(leftValue: String, centralValue: String, rightValue: String)]()
                 
-                  print(queryResult)
+                print(invoceList)
+                
+                for invoice in invoceList
+                {
+                    print(invoice)
+                    let balance = invoice["Balance"] as! Float
+                    let totalAmt = invoice["TotalAmt"] as! Float
+                    var resultInvoice = (leftValue: "", centralValue: "", rightValue: "")
+                    
+                    invoices.append((leftValue: "Invoice", centralValue: "", rightValue: "\(totalAmt)"))
+                    
+                    if totalAmt - balance > 0
+                    {
+                        resultInvoice.leftValue = "Non-paid invoice"
+                        resultInvoice.rightValue = "\(totalAmt)"
+                        nonPaidInvoices.append(resultInvoice)
+                    }
+                    else
+                    {
+                        resultInvoice.leftValue = "Paid invoice"
+                        resultInvoice.rightValue = "\(totalAmt)"
+                        paidInvoices.append(resultInvoice)
+                    }
+                    
+                    print(invoice["Balance"] as! Float)
+                    print(invoice["TotalAmt"] as! Float)
+                }
                 
             case .profitLoss:
                 let rows = jsonDict!["Rows"] as! [String: Any]

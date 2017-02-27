@@ -204,11 +204,11 @@ extension ExternalKPIViewController {
             .query: "SELECT * FROM Invoice"
         ]
         
-        let query = QBQuery(with: queryParameters)
+        let queryInvoices = QBQuery(with: queryParameters)
         
-        quickBookDataManager.queryMethod = query
+        let queryPath = quickBookDataManager.formUrlPath(method: queryInvoices)
         
-        let queryPath = quickBookDataManager.formUrlPath(method: query)
+        quickBookDataManager.queryMethod = queryInvoices
         
         let _ = oauthswift.client.get(
             queryPath, headers: ["Accept":"application/json"],

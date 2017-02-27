@@ -23,6 +23,10 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     
     var model: ModelCoreKPI!
     var index: Int!
+    var securityCellIndexPath = IndexPath()
+    var usersPin: [String]? {
+        return UserDefaults.standard.value(forKey: "PinCode") as? [String]
+    }
     
     weak var memberListVC: MemberListTableViewController!
     
@@ -30,6 +34,13 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        //Subscribed for security switcher
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(MemberInfoViewController.changeSecuritySettings),
+                                               name:  NSNotification.Name(rawValue: NotificationNames.userTappedSecuritySwitch),
+                                               object: nil)
         
         //Check admin permission!!
         if model.profile?.typeOfAccount == TypeOfAccount.Admin {
@@ -39,7 +50,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             if Int(model.team[index].userID) == model.profile?.userId {
                 responsibleForButton.isHidden = true
                 myKPIsButton.isHidden = false
-                securityButton.isHidden = false
+                //securityButton.isHidden = false
             }
         } else {
             responsibleForButton.isHidden = true
@@ -100,9 +111,11 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if model.profile?.typeOfAccount == TypeOfAccount.Admin {
-            return 3
+            
+            return 4
         } else {
-            return 2
+            
+            return 3
         }
     }
     
@@ -114,6 +127,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             case 0:
                 cell.headerCellLabel.text = "Type of account"
                 cell.dataCellLabel.text = model.team[index].isAdmin ? "Admin" : "Manager"
+                
             case 1:
                 cell.headerCellLabel.text = "Phone"
                 if model.team[index].phoneNumber == nil {
@@ -123,9 +137,19 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                     cell.dataCellLabel.text = model.team[index].phoneNumber
                     cell.dataCellLabel.textColor = UIColor.black
                 }
+                
             case 2:
+                
                 cell.headerCellLabel.text = "E-mail"
                 cell.dataCellLabel.text = model.team[index].username!
+                
+            case 3:
+                cell.headerCellLabel.text = "Security"
+                cell.securitySwitch.isHidden = false
+                cell.dataCellLabel.text = "Pin code lock"
+                cell.securitySwitch.isOn = usersPin == nil ? false : true
+                securityCellIndexPath = indexPath
+            
             default:
                 cell.headerCellLabel.text = ""
                 cell.dataCellLabel.text = ""
@@ -145,6 +169,14 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             case 1:
                 cell.headerCellLabel.text = "E-mail"
                 cell.dataCellLabel.text = model.team[index].username!
+                
+            case 3:
+                cell.headerCellLabel.text = "Security"
+                cell.securitySwitch.isHidden = false
+                cell.securitySwitch.isOn = usersPin == nil ? false : true
+                
+                securityCellIndexPath = indexPath
+                
             default:
                 cell.headerCellLabel.text = ""
                 cell.dataCellLabel.text = ""
@@ -155,8 +187,8 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     @IBAction func securityButtonTapped(_ sender: UIButton) {
-        let pinViewController = PinCodeViewController(mode: .createNewPin)
-        present(pinViewController, animated: true, completion: nil)
+//        let pinViewController = PinCodeViewController(mode: .createNewPin)
+//        present(pinViewController, animated: true, completion: nil)
     }
     
     @IBAction func tapEditBautton(_ sender: UIBarButtonItem) {
@@ -218,6 +250,18 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
+    func changeSecuritySettings() {        
+        
+        if usersPin == nil
+        {
+            let pinViewController = PinCodeViewController(mode: .createNewPin)
+            pinViewController.delegate = self
+            present(pinViewController, animated: true, completion: nil)
+        }
+        else {            
+            UserDefaults.standard.set(nil, forKey: "PinCode")
+        }
+    }
 }
 
 //MARK: - MFMailComposeViewControllerDelegate methods
