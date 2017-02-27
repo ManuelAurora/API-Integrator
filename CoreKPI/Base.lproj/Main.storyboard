@@ -3380,6 +3380,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 <connections>
                                     <outlet property="descriptionOfCell" destination="iU3-B1-45j" id="lRx-Pk-fzu"/>
                                     <outlet property="headerOfCell" destination="Ipy-hi-qIF" id="X6M-OS-hZk"/>
+                                    <outlet property="rightConstraint" destination="oiO-MY-OGb" id="dBF-SM-5rs"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SelectColourCell" id="wJx-zf-Mhf" customClass="KPIColourTableViewCell" customModule="CoreKPI" customModuleProvider="target">
@@ -3435,7 +3436,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <outlet property="headerOfCell" destination="pxV-cj-kaU" id="olU-Cx-erZ"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DataPickerCell" rowHeight="180" id="Me7-yG-xYj" customClass="DatePickerTableViewCell" customModule="CoreKPI" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DatePickerCell" rowHeight="180" id="Me7-yG-xYj" customClass="DatePickerTableViewCell" customModule="CoreKPI" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="116" width="375" height="180"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Me7-yG-xYj" id="yGo-PY-gdc">
@@ -3461,6 +3462,32 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="datePicker" destination="S06-SJ-xJJ" id="RyQ-r8-z62"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DataPickerCell" rowHeight="180" id="Z7C-mM-7P9" customClass="DataPickerTableViewCell" customModule="CoreKPI" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="296" width="375" height="180"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Z7C-mM-7P9" id="BEt-Qj-yj8">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="180"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nUH-co-Vli">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="179"/>
+                                            <connections>
+                                                <outlet property="dataSource" destination="GNY-Xt-9vq" id="Ttu-ku-LzN"/>
+                                                <outlet property="delegate" destination="GNY-Xt-9vq" id="tjc-gf-zAB"/>
+                                            </connections>
+                                        </pickerView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="nUH-co-Vli" secondAttribute="trailing" id="DgR-4y-tYh"/>
+                                        <constraint firstItem="nUH-co-Vli" firstAttribute="top" secondItem="BEt-Qj-yj8" secondAttribute="top" id="HNE-Wk-rzG"/>
+                                        <constraint firstItem="nUH-co-Vli" firstAttribute="leading" secondItem="BEt-Qj-yj8" secondAttribute="leading" id="Le4-zm-hEk"/>
+                                        <constraint firstAttribute="bottom" secondItem="nUH-co-Vli" secondAttribute="bottom" id="tad-pP-fJv"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="dataPicker" destination="nUH-co-Vli" id="HOt-T2-zuJ"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -4047,7 +4074,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 <rect key="frame" x="0.0" y="430" width="375" height="200"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PAu-Ud-Yhj" id="iTK-nW-pOZ">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="199"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HrO-qQ-cRZ">

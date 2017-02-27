@@ -437,7 +437,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 default:
                     break
                 }
-            default:
+            case .Weekly, .Monthly:
                 
                 if dataPickerIsVisible {
                     switch indexPath.row {
@@ -637,7 +637,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 default:
                     newIndexPath = IndexPath(item: 9, section: 0)
                 }
-            default:
+            case .Weekly, .Monthly:
                 if dataPickerIsVisible {
                     switch indexPath.row {
                     case 7,8:
@@ -726,8 +726,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 default:
                     break
                 }
-            default:
-                
+            case .Weekly, .Monthly:
                 if dataPickerIsVisible {
                     switch indexPath.row {
                     case 0:
@@ -1230,7 +1229,6 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate {
                     break
                 }
             }
-            
         case .MounthlyInterval:
             self.mounthlyIntervalArray = array
         case .WeeklyInterval:
@@ -1320,7 +1318,7 @@ extension ChooseSuggestedKPITableViewController: UIPickerViewDataSource,UIPicker
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
             switch timeInterval {
             case .Daily:
-                print("")
+                break
             case .Weekly:
                weeklyInterval =  WeeklyInterval(rawValue: weeklyArray[row].SettingName)!
             case .Monthly:

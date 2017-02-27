@@ -76,7 +76,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
         Colour.Blue : UIColor(red: 227/255, green: 242/255, blue: 253/255, alpha: 1)
     ]
     //department
-    var department: Departments? {
+    var department: Departments {
         get {
             for department in departmentArray {
                 if department.value == true {
@@ -88,7 +88,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
         set {
             var newDepartmentArray: [(SettingName: String, value: Bool)] = []
             for department in departmentArray {
-                if department.SettingName == newValue?.rawValue {
+                if department.SettingName == newValue.rawValue {
                     newDepartmentArray.append((department.SettingName, true))
                 } else {
                     newDepartmentArray.append((department.SettingName, false))
@@ -101,8 +101,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
     }
     var departmentArray: [(SettingName: String, value: Bool)] = [(Departments.Sales.rawValue, false), (Departments.Procurement.rawValue, false), (Departments.Projects.rawValue, false), (Departments.FinancialManagement.rawValue, false), (Departments.Staff.rawValue, false)]
     //KPI name
-    var kpiName: String = ""
-    var kpiNameArray: [(SettingName: String, value: Bool)] = []
+    var kpiName: String?
     //KPI description
     var kpiDescription: String?
     //Executant
@@ -158,7 +157,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
     }
     var timeIntervalArray: [(SettingName: String, value: Bool)] = [(TimeInterval.Daily.rawValue, true), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, false)]
     //WeeklyInterval
-    var weeklyInterval: WeeklyInterval? {
+    var weeklyInterval: WeeklyInterval {
         get {
             for interval in weeklyArray {
                 if interval.value == true {
@@ -170,7 +169,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
         set {
             var newWeeklyIntervalArray: [(SettingName: String, value: Bool)] = []
             for timeInterval in weeklyArray {
-                if timeInterval.SettingName == newValue?.rawValue {
+                if timeInterval.SettingName == newValue.rawValue {
                     newWeeklyIntervalArray.append((timeInterval.SettingName, true))
                 } else {
                     newWeeklyIntervalArray.append((timeInterval.SettingName, false))
@@ -195,27 +194,26 @@ class ReportAndViewKPITableViewController: UITableViewController {
         set {
             var newMountlyIntervalArray: [(SettingName: String, value: Bool)] = []
             for timeInterval in mounthlyIntervalArray {
-                if timeInterval.SettingName == "\(newValue)" {
+                if timeInterval.SettingName == "\(newValue!)" {
                     newMountlyIntervalArray.append((timeInterval.SettingName, true))
                 } else {
                     newMountlyIntervalArray.append((timeInterval.SettingName, false))
                 }
             }
-            mounthlyIntervalArray.removeAll()
             mounthlyIntervalArray = newMountlyIntervalArray
         }
         
     }
     var mounthlyIntervalArray: [(SettingName: String, value: Bool)] = []
     //TimeZone
-    var timeZone: String {
+    var timeZone: String? {
         get {
             for timezone in timeZoneArray {
                 if timezone.value == true {
                     return timezone.SettingName
                 }
             }
-            return "nil"
+            return nil
         }
         set {
             var newTimeZoneArray: [(SettingName: String, value: Bool)] = []
@@ -351,13 +349,14 @@ class ReportAndViewKPITableViewController: UITableViewController {
     
     let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     var datePickerIsVisible = false
+    var dataPickerIsVisible = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
         switch buttonDidTaped {
         case .Report:
             self.navigationItem.rightBarButtonItem?.title = "Report"
-            self.navigationItem.rightBarButtonItem?.isEnabled = false
             self.navigationItem.title = "Report KPI"
         case .Edit:
             self.navigationItem.rightBarButtonItem?.title = "Save"
@@ -378,6 +377,24 @@ class ReportAndViewKPITableViewController: UITableViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    //MARK: - Check input values
+    func checkInputValues() {
+        if dataIsEntered() {
+            navigationItem.rightBarButtonItem?.isEnabled = true
+        } else {
+            navigationItem.rightBarButtonItem?.isEnabled = false
+        }
+    }
+    
+    func dataIsEntered() -> Bool {
+
+            if department == .none || kpiName == nil || executant == nil || (timeInterval == TimeInterval.Weekly && weeklyInterval == WeeklyInterval.none) || (timeInterval == TimeInterval.Monthly && mounthlyInterval == nil) || timeZone == nil || deadlineTime == nil {
+                return false
+            }
+
+        return true
     }
     
     func updateKPIInfo() {
@@ -455,362 +472,72 @@ class ReportAndViewKPITableViewController: UITableViewController {
         return cellForIndexPath(indexPath: indexPath)
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         switch buttonDidTaped {
         case .Report:
-            switch indexPath.section {
-            case 1:
-                let destinationVC = storyboard?.instantiateViewController(withIdentifier: "AddReport") as! AddReportTableViewController
-                destinationVC.report = self.report
-                destinationVC.ReportAndViewVC = self
-                navigationController?.pushViewController(destinationVC, animated: true)
-            default:
-                break
-            }
+            return indexPath
         case .Edit:
             switch model.kpis[kpiIndex].typeOfKPI {
-            case .IntegratedKPI: break
-            //Warning!
+            case .IntegratedKPI:
+                break //not editing
             case .createdKPI:
                 switch typeOfAccount {
                 case .Admin:
                     switch indexPath.section {
-                    case 0:
-                        typeOfSetting = .Colour
-                        settingArray = self.colourArray
-                        showSelectSettingVC()
-                    case 1:
-                        switch indexPath.row {
-                        case 0:
-                            typeOfSetting = .KPIname
-                            showSelectSettingVC()
-                        case 1:
-                            typeOfSetting = .KPInote
-                            showSelectSettingVC()
-                        case 2:
-                            typeOfSetting = .Department
-                            settingArray = departmentArray
-                            showSelectSettingVC()
-                        default:
-                            break
-                        }
+                    case 0,1,3:
+                        return indexPath
                     case 2:
+                        var newIndexPath = IndexPath()
                         switch timeInterval {
                         case .Daily:
-                            if KPIOneView == .Numbers && KPITwoView == .Graph {
-                                switch indexPath.row {
-                                case 0:
-                                    typeOfSetting = .Executant
-                                    settingArray = executantArray
-                                    showSelectSettingVC()
-                                case 1:
-                                    typeOfSetting = .TimeInterval
-                                    settingArray = timeIntervalArray
-                                    showSelectSettingVC()
-                                case 2:
-                                    typeOfSetting = .TimeZone
-                                    settingArray = timeZoneArray
-                                    showSelectSettingVC()
-                                case 3:
-                                    break
-                                //deadline
-                                case 4:
-                                    typeOfSetting = .KPIViewOne
-                                    settingArray = KPIOneViewArray
-                                    showSelectSettingVC()
-                                case 5:
-                                    typeOfSetting = .KPIViewTwo
-                                    settingArray = KPITwoViewArray
-                                    showSelectSettingVC()
-                                case 6:
-                                    typeOfSetting = .ChartTwo
-                                    settingArray = typeOfChartTwoArray
-                                    showSelectSettingVC()
-                                default:
-                                    break
-                                }
-                                
+                            switch indexPath.row {
+                            case 3,4:
+                                return indexPath
+                            default:
+                                newIndexPath = IndexPath(item: 4, section: 2)
                             }
-                            if KPIOneView == .Graph && KPITwoView == .Numbers {
+                        case .Weekly, .Monthly:
+                            if dataPickerIsVisible {
                                 switch indexPath.row {
-                                case 0:
-                                    typeOfSetting = .Executant
-                                    settingArray = executantArray
-                                    showSelectSettingVC()
-                                case 1:
-                                    typeOfSetting = .TimeInterval
-                                    settingArray = timeIntervalArray
-                                    showSelectSettingVC()
-                                case 2:
-                                    typeOfSetting = .TimeZone
-                                    settingArray = timeZoneArray
-                                    showSelectSettingVC()
-                                case 3:
-                                    break
-                                //deadline
-                                case 4:
-                                    typeOfSetting = .KPIViewOne
-                                    settingArray = KPIOneViewArray
-                                    showSelectSettingVC()
-                                case 5:
-                                    typeOfSetting = .ChartOne
-                                    settingArray = typeOfChartOneArray
-                                    showSelectSettingVC()
-                                case 6:
-                                    typeOfSetting = .KPIViewTwo
-                                    settingArray = KPITwoViewArray
-                                    showSelectSettingVC()
+                                case 2,3:
+                                    return indexPath
                                 default:
-                                    break
+                                    newIndexPath = IndexPath(item: 3, section: 2)
+                                }
+                            } else {
+                                switch indexPath.row {
+                                case 4,5:
+                                    return indexPath
+                                default:
+                                    newIndexPath = IndexPath(item: 5, section: 2)
                                 }
                             }
-                            if KPIOneView == .Graph && KPITwoView == .Graph {
-                                switch indexPath.row {
-                                case 0:
-                                    typeOfSetting = .Executant
-                                    settingArray = executantArray
-                                    showSelectSettingVC()
-                                case 1:
-                                    typeOfSetting = .TimeInterval
-                                    settingArray = timeIntervalArray
-                                    showSelectSettingVC()
-                                case 2:
-                                    typeOfSetting = .TimeZone
-                                    settingArray = timeZoneArray
-                                    showSelectSettingVC()
-                                case 3:
-                                    break
-                                //deadline
-                                case 4:
-                                    typeOfSetting = .KPIViewOne
-                                    settingArray = KPIOneViewArray
-                                    showSelectSettingVC()
-                                case 5:
-                                    typeOfSetting = .ChartOne
-                                    settingArray = typeOfChartOneArray
-                                    showSelectSettingVC()
-                                case 6:
-                                    typeOfSetting = .KPIViewTwo
-                                    settingArray = KPITwoViewArray
-                                    showSelectSettingVC()
-                                case 7:
-                                    typeOfSetting = .ChartTwo
-                                    settingArray = typeOfChartTwoArray
-                                    showSelectSettingVC()
-                                default:
-                                    break
-                                }
-                            }
-                        default:
-                            if KPIOneView == .Numbers && KPITwoView == .Graph {
-                                switch indexPath.row {
-                                case 0:
-                                    typeOfSetting = .Executant
-                                    settingArray = executantArray
-                                    showSelectSettingVC()
-                                case 1:
-                                    typeOfSetting = .TimeInterval
-                                    settingArray = timeIntervalArray
-                                    showSelectSettingVC()
-                                case 2:
-                                    typeOfSetting = .DeliveryDay
-                                    switch timeInterval {
-                                    case .Monthly:
-                                        settingArray = mounthlyIntervalArray
-                                    case .Weekly:
-                                        settingArray = weeklyArray
-                                    default:
-                                        break
-                                    }
-                                    showSelectSettingVC()
-                                case 3:
-                                    typeOfSetting = .TimeZone
-                                    settingArray = timeZoneArray
-                                    showSelectSettingVC()
-                                case 4:
-                                    break
-                                //deadline
-                                case 5:
-                                    typeOfSetting = .KPIViewOne
-                                    settingArray = KPIOneViewArray
-                                    showSelectSettingVC()
-                                case 6:
-                                    typeOfSetting = .KPIViewTwo
-                                    settingArray = KPITwoViewArray
-                                    showSelectSettingVC()
-                                case 7:
-                                    typeOfSetting = .ChartTwo
-                                    settingArray = typeOfChartTwoArray
-                                    showSelectSettingVC()
-                                default:
-                                    break
-                                }
-                                
-                            }
-                            if KPIOneView == .Graph && KPITwoView == .Numbers {
-                                switch indexPath.row {
-                                case 0:
-                                    typeOfSetting = .Executant
-                                    settingArray = executantArray
-                                    showSelectSettingVC()
-                                case 1:
-                                    typeOfSetting = .TimeInterval
-                                    settingArray = timeIntervalArray
-                                    showSelectSettingVC()
-                                case 2:
-                                    typeOfSetting = .DeliveryDay
-                                    switch timeInterval {
-                                    case .Monthly:
-                                        settingArray = mounthlyIntervalArray
-                                    case .Weekly:
-                                        settingArray = weeklyArray
-                                    default:
-                                        break
-                                    }
-                                    self.showSelectSettingVC()
-                                case 3:
-                                    typeOfSetting = .TimeZone
-                                    settingArray = timeZoneArray
-                                    showSelectSettingVC()
-                                case 4:
-                                    break
-                                //deadline
-                                case 5:
-                                    typeOfSetting = .KPIViewOne
-                                    settingArray = KPIOneViewArray
-                                    showSelectSettingVC()
-                                case 6:
-                                    typeOfSetting = .ChartOne
-                                    settingArray = typeOfChartOneArray
-                                    showSelectSettingVC()
-                                case 7:
-                                    typeOfSetting = .KPIViewTwo
-                                    settingArray = KPITwoViewArray
-                                    showSelectSettingVC()
-                                default:
-                                    break
-                                }
-                            }
-                            if KPIOneView == .Graph && KPITwoView == .Graph {
-                                switch indexPath.row {
-                                case 0:
-                                    typeOfSetting = .Executant
-                                    settingArray = executantArray
-                                    showSelectSettingVC()
-                                case 1:
-                                    typeOfSetting = .TimeInterval
-                                    settingArray = timeIntervalArray
-                                    showSelectSettingVC()
-                                case 2:
-                                    typeOfSetting = .DeliveryDay
-                                    switch timeInterval {
-                                    case .Monthly:
-                                        settingArray = mounthlyIntervalArray
-                                    case .Weekly:
-                                        settingArray = weeklyArray
-                                    default:
-                                        break
-                                    }
-                                    self.showSelectSettingVC()
-                                case 3:
-                                    typeOfSetting = .TimeZone
-                                    settingArray = timeZoneArray
-                                    showSelectSettingVC()
-                                case 4:
-                                    break
-                                //deadline
-                                case 5:
-                                    typeOfSetting = .KPIViewOne
-                                    settingArray = KPIOneViewArray
-                                    showSelectSettingVC()
-                                case 6:
-                                    typeOfSetting = .ChartOne
-                                    settingArray = typeOfChartOneArray
-                                    showSelectSettingVC()
-                                case 7:
-                                    typeOfSetting = .KPIViewTwo
-                                    settingArray = KPITwoViewArray
-                                    showSelectSettingVC()
-                                case 8:
-                                    typeOfSetting = .ChartTwo
-                                    settingArray = typeOfChartTwoArray
-                                    showSelectSettingVC()
-                                default:
-                                    break
-                                }
+                        }
+                        if datePickerIsVisible {
+                            datePickerIsVisible = false
+                            tableView.deleteRows(at: [newIndexPath], with: .top)
+                        }
+                        if dataPickerIsVisible {
+                            dataPickerIsVisible = false
+                            tableView.deleteRows(at: [newIndexPath], with: .top)
+                            if indexPath.row > 2 {
+                                newIndexPath = IndexPath(item: indexPath.row - 1, section: 2)
+                                return newIndexPath
                             }
                         }
                     default:
                         break
                     }
                 case .Manager:
-                    switch indexPath.section {
-                    case 1:
-                        if KPIOneView == .Numbers && KPITwoView == .Graph {
-                            switch indexPath.row {
-                            case 0:
-                                typeOfSetting = .KPIViewOne
-                                settingArray = KPIOneViewArray
-                                showSelectSettingVC()
-                            case 1:
-                                typeOfSetting = .KPIViewTwo
-                                settingArray = KPITwoViewArray
-                                showSelectSettingVC()
-                            case 2:
-                                typeOfSetting = .ChartTwo
-                                settingArray = typeOfChartTwoArray
-                                showSelectSettingVC()
-                            default:
-                                break
-                            }
-                        }
-                        if KPIOneView == .Graph && KPITwoView == .Numbers {
-                            switch indexPath.row {
-                            case 0:
-                                typeOfSetting = .KPIViewOne
-                                settingArray = KPIOneViewArray
-                                showSelectSettingVC()
-                            case 1:
-                                typeOfSetting = .ChartOne
-                                settingArray = typeOfChartOneArray
-                                showSelectSettingVC()
-                            case 2:
-                                typeOfSetting = .KPIViewTwo
-                                settingArray = KPITwoViewArray
-                                showSelectSettingVC()
-                            default:
-                                break
-                            }
-                        }
-                        if KPIOneView == .Graph && KPITwoView == .Graph {
-                            switch indexPath.row {
-                            case 0:
-                                typeOfSetting = .KPIViewOne
-                                settingArray = KPIOneViewArray
-                                showSelectSettingVC()
-                            case 1:
-                                typeOfSetting = .ChartOne
-                                settingArray = typeOfChartOneArray
-                                showSelectSettingVC()
-                            case 2:
-                                typeOfSetting = .KPIViewTwo
-                                settingArray = KPITwoViewArray
-                                showSelectSettingVC()
-                            case 3:
-                                typeOfSetting = .ChartTwo
-                                settingArray = typeOfChartTwoArray
-                                showSelectSettingVC()
-                            default:
-                                break
-                            }
-                        }
-                        
-                    default:
-                        break
-                    }
+                    return indexPath
                 }
             }
         }
+        return indexPath
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        didSelectRowAt(IndexPath: indexPath)
     }
     
     func getExecutantName(userID: Int?) -> String? {
@@ -859,8 +586,10 @@ class ReportAndViewKPITableViewController: UITableViewController {
                 return " "
             }
             
-        default:
+        case 1, 2:
             return " "
+        default:
+            return nil
         }
     }
     
@@ -901,7 +630,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
                 case .Admin:
                     let deadlineDay = 1
                     let executantProfile: Int! = executant
-                    newKpi = CreatedKPI(source: .User, department: self.department!, KPI: self.kpiName, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, deadlineDay: deadlineDay, timeZone: self.timeZone, deadlineTime: self.deadlineTime, number: (self.model.kpis[kpiIndex].createdKPI?.number)!)
+                    newKpi = CreatedKPI(source: .User, department: self.department, KPI: self.kpiName!, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, deadlineDay: deadlineDay, timeZone: self.timeZone!, deadlineTime: self.deadlineTime, number: (self.model.kpis[kpiIndex].createdKPI?.number)!)
                     self.model.kpis[kpiIndex].createdKPI = newKpi
                     self.model.kpis[kpiIndex].KPIViewOne = self.KPIOneView
                     self.model.kpis[kpiIndex].KPIChartOne = self.typeOfChartOne
@@ -974,15 +703,6 @@ extension ReportAndViewKPITableViewController: updateSettingsDelegate {
             executantArray = array
         case .TimeInterval:
             timeIntervalArray = array
-        case .DeliveryDay:
-            switch timeInterval {
-            case .Monthly:
-                mounthlyIntervalArray = array
-            case .Weekly:
-                weeklyArray = array
-            default:
-                break
-            }
         case .TimeZone:
             timeZoneArray = array
         case .KPIViewOne:
@@ -1007,6 +727,7 @@ extension ReportAndViewKPITableViewController: updateSettingsDelegate {
             break
         }
         tableView.reloadData()
+        checkInputValues()
     }
     
     private func chartDublicateDisabler(typeOfSetting: Setting) {
@@ -1050,4 +771,21 @@ extension ReportAndViewKPITableViewController: updateSettingsDelegate {
         }
     }
     
+}
+//MARK: - UpdateTimeDelegate method
+extension ReportAndViewKPITableViewController: UpdateTimeDelegate {
+    func updateTime(newTime time: Date) {
+        if datePickerIsVisible {
+            deadlineTime = time
+            var indexPath = IndexPath()
+            switch timeInterval {
+            case .Daily:
+                indexPath = IndexPath(item: 3, section: 2)
+            case .Weekly, .Monthly:
+                indexPath = IndexPath(item: 4, section: 2)
+            }
+            tableView.reloadRows(at: [indexPath], with: .none)
+        }
+        checkInputValues()
+    }
 }

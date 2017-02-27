@@ -60,7 +60,7 @@ class GetMemberList: Request {
                             profile.userID = Int64((userData["user_id"] as? Int)!)
                             
                             let phone = userData["phone"] as? String
-                            if phone == "" {
+                            if phone == nil {
                                 profile.phoneNumber = nil
                             } else {
                                 let phoneNumberKit = PhoneNumberKit()

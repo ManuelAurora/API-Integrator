@@ -27,9 +27,9 @@ class DatePickerTableViewCell: UITableViewCell {
         if addKPIVC != nil {
             delegate = addKPIVC
         }
-//        if editKPIVC != nil {
-//            delegate = editKPIVC
-//        }
+        if editKPIVC != nil {
+            delegate = editKPIVC
+        }
         if alertSettingVC != nil {
             delegate = alertSettingVC
         }
