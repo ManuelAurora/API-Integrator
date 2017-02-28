@@ -41,12 +41,13 @@ class PinCodeViewController: UIViewController
     var dismissCompletion: (() -> Void)?
     var successCompletion: (() -> Void)?
     var logOutCompletion:  (() -> Void)?
+    var cancelledFromBGCompletion: (() -> Void)?
     
     var mode: PinMode?
     var confirmed = false
     
     lazy var model: ModelCoreKPI? = {
-        if let data = UserDefaults.standard.data(forKey: "token"),
+        if let data = UserDefaults.standard.data(forKey: UserDefaultsKeys.token),
             let myTokenArray = NSKeyedUnarchiver.unarchiveObject(with: data) as? [ModelCoreKPI] {
             let model = ModelCoreKPI(model: myTokenArray[0])
             return model
@@ -72,7 +73,7 @@ class PinCodeViewController: UIViewController
             
             if let presenter = presenter {
                 if presenter.presentedFromBG {
-                    logOutCompletion!()
+                    cancelledFromBGCompletion!()
                 }
                 else {
                     dismissCompletion!()
@@ -131,7 +132,7 @@ class PinCodeViewController: UIViewController
     func createNew(pinCode: [String]) {
         
         if pinToConfirm == pinCode {
-            UserDefaults.standard.set(pinCode, forKey: "PinCode")
+            UserDefaults.standard.set(pinCode, forKey: UserDefaultsKeys.pinCode)
             
             dismiss(animated: true, completion: nil)
         }
@@ -149,7 +150,7 @@ class PinCodeViewController: UIViewController
     
     fileprivate func checkOut(pinCode: [String]) {
         
-        let usersPin = UserDefaults.standard.value(forKey: "PinCode") as? [String] ?? []
+        let usersPin = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCode) as? [String] ?? []
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         if appDelegate.pinCodeAttempts > 1 {

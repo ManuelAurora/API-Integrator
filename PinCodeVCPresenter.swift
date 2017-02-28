@@ -50,6 +50,14 @@ class PinCodeVCPresenter
             self?.launchController?.dismiss(animated: true, completion: nil)            
         }
         
+        pinCodeController.cancelledFromBGCompletion = { [weak self] in
+            self?.mainWindow?.windowLevel = 1
+            self?.mainWindow?.makeKeyAndVisible()
+            self?.animateDismissal()
+            self?.launchController?.showedAfterBGCancelling = true
+            self?.launchController?.dismiss(animated: true, completion: nil)
+        }
+        
         pinCodeController.dismissCompletion = { [weak self] in
             self?.mainWindow?.windowLevel = 1
             self?.mainWindow?.makeKeyAndVisible()            

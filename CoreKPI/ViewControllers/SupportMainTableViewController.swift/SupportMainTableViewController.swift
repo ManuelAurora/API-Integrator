@@ -57,7 +57,10 @@ class SupportMainTableViewController: UITableViewController {
         for profile in model.team {
             context.delete(profile)
         }
-        UserDefaults.standard.removeObject(forKey: "token")
+        
+        UserDefaults.standard.set(nil, forKey: UserDefaultsKeys.pinCode)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.token)
+        
         appDelegate.loggedIn = false
         
         let startVC = storyboard?.instantiateViewController(withIdentifier: "StartVC")
