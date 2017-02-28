@@ -244,8 +244,8 @@ extension ExternalKPIViewController {
                 qbKPI.kpiValue = kpiInfo?.kpiValue
                 extKPI.kpiName = kpiInfo?.kpiName
                 extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
-                extKPI.oauthToken = self.quickBookDataManager.serviceParameters[.oauthToken]!
-                extKPI.oauthRefreshToken = self.quickBookDataManager.serviceParameters[.oauthRefreshToken]!
+                qbKPI.oAuthToken = self.quickBookDataManager.serviceParameters[.oauthToken]!
+                qbKPI.oAuthRefreshToken = self.quickBookDataManager.serviceParameters[.oauthRefreshToken]!
                 extKPI.quickbooksKPI = qbKPI
                 
                 do {

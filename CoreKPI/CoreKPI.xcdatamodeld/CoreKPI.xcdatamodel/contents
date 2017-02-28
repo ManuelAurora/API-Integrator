@@ -38,11 +38,14 @@
     <entity name="PayPalKPI" representedClassName="PayPalKPI" syncable="YES" codeGenerationType="class">
         <attribute name="oAuthRefreshToken" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="oAuthToken" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="oAuthTokenExpiresAt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="oAuthTokenExpiresAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="externalKPI" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ExternalKPI" inverseName="payPalKPI" inverseEntity="ExternalKPI" syncable="YES"/>
     </entity>
     <entity name="QuickbooksKPI" representedClassName="QuickbooksKPI" syncable="YES" codeGenerationType="class">
         <attribute name="kpiValue" attributeType="String" syncable="YES"/>
+        <attribute name="oAuthRefreshToken" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="oAuthToken" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="oAuthTokenExpiresAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="externalKPI" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ExternalKPI" inverseName="quickbooksKPI" inverseEntity="ExternalKPI" syncable="YES"/>
     </entity>
     <entity name="Reminder" representedClassName="Reminder" syncable="YES" codeGenerationType="class">
@@ -75,10 +78,10 @@
         <element name="FAQ" positionX="-54" positionY="117" width="128" height="90"/>
         <element name="GoogleKPI" positionX="-54" positionY="117" width="128" height="120"/>
         <element name="OverallKPI" positionX="-27" positionY="117" width="128" height="75"/>
-        <element name="QuickbooksKPI" positionX="-45" positionY="117" width="128" height="75"/>
+        <element name="PayPalKPI" positionX="-36" positionY="126" width="128" height="105"/>
+        <element name="QuickbooksKPI" positionX="-45" positionY="117" width="128" height="120"/>
         <element name="Reminder" positionX="-45" positionY="117" width="128" height="180"/>
         <element name="Team" positionX="-63" positionY="-18" width="128" height="195"/>
         <element name="UserKPI" positionX="-36" positionY="108" width="128" height="45"/>
-        <element name="PayPalKPI" positionX="-36" positionY="126" width="128" height="105"/>
     </elements>
 </model>
