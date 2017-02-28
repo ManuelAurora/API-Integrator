@@ -889,7 +889,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
             tableView.deselectRow(at: IndexPath(item: row, section: 0), animated: true)
             if deadline == nil {
                 deadline = Date()
-                tableView.reloadRows(at: [IndexPath(item: row, section: 0)], with: .automatic)
+                tableView.reloadRows(at: [IndexPath(item: row, section: 0)], with: .none)
             }
             checkInputValues()
         }
@@ -933,6 +933,9 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         switch source {
         case .Integrated:
             var arrayOfKPI: [(SettingName: String, value: Bool)] = []
+            var googleKPI: GoogleKPI?
+            var payPalKPI: PayPalKPI?
+            
             switch integrated {
             case .SalesForce:
                 arrayOfKPI = saleForceKPIArray
@@ -940,8 +943,17 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 arrayOfKPI = quickBooksKPIArray
             case .GoogleAnalytics:
                 arrayOfKPI = googleAnalyticsKPIArray
+                googleKPI = GoogleKPI(context: context)
+                googleKPI?.oAuthToken = oauthToken
+                googleKPI?.oAuthRefreshToken = oauthRefreshToken
+                googleKPI?.oAuthTokenExpiresAt = oauthTokenExpiresAt! as NSDate
+                googleKPI?.viewID = viewID
             case .PayPal:
                 arrayOfKPI = payPalKPIArray
+                payPalKPI = PayPalKPI(context: context)
+                payPalKPI?.oAuthToken = oauthToken
+                payPalKPI?.oAuthRefreshToken = oauthRefreshToken
+                payPalKPI?.oAuthTokenExpiresAt = oauthTokenExpiresAt! as NSDate
             case .HubSpotCRM:
                 arrayOfKPI = hubSpotCRMKPIArray
             case .HubSpotMarketing:
@@ -950,18 +962,13 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 break
             }
             
-            let googleKPI = GoogleKPI(context: context)
-            googleKPI.oAuthToken = oauthToken
-            googleKPI.oAuthRefreshToken = oauthRefreshToken
-            googleKPI.oAuthTokenExpiresAt = oauthTokenExpiresAt! as NSDate
-            googleKPI.viewID = viewID
-            
             for extKpi in arrayOfKPI {
                 if extKpi.value {
                     let externalKPI = ExternalKPI(context: context)
                     externalKPI.serviceName = integrated.rawValue
                     externalKPI.kpiName = extKpi.SettingName
                     externalKPI.googleAnalyticsKPI = googleKPI
+                    externalKPI.payPalKPI = payPalKPI
                     
                     do {
                         try self.context.save()
@@ -970,7 +977,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                         return
                     }
                     
-                    kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: externalKPI, createdKPI: nil, imageBacgroundColour: UIColor(hex: "D8F7D7".hex!))
+                    kpi = KPI(kpiID: -1, typeOfKPI: .IntegratedKPI, integratedKPI: externalKPI, createdKPI: nil, imageBacgroundColour: UIColor(hex: "D8F7D7".hex!))
                     
                     self.delegate = self.KPIListVC
                     self.delegate.addNewKPI(kpi: kpi)
@@ -1276,7 +1283,7 @@ extension ChooseSuggestedKPITableViewController: UpdateTimeDelegate {
 }
 
 extension ChooseSuggestedKPITableViewController: UpdateExternalTokensDelegate {
-    func updateTokens(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date, viewID: String) {
+    func updateTokens(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date, viewID: String?) {
         self.oauthToken = oauthToken
         self.oauthRefreshToken = oauthRefreshToken
         self.oauthTokenExpiresAt = oauthTokenExpiresAt

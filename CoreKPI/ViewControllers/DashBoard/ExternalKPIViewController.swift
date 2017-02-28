@@ -144,26 +144,17 @@ extension ExternalKPIViewController {
     
     // MARK: PayPal
     func doOAuthPayPal(){
-        //payPalTest()
-        
-        let oauthswift = OAuth2Swift(
-            consumerKey: "AdA0F4asoYIoJoGK1Mat3i0apr1bdYeeRiZ6ktSgPrNmAMIQBO_TZtn_U80H7KwPdmd72CJhUTY5LYJH",
-            consumerSecret: "",
-            authorizeUrl: "https://www.sandbox.paypal.com/signin/authorize",
-            responseType: "token")
-        
-        self.oauthswift = oauthswift
-        oauthswift.allowMissingStateCheck = true
-        oauthswift.accessTokenBasicAuthentification = true
-        oauthswift.authorizeURLHandler = SafariURLHandler(viewController: self, oauthSwift: oauthswift)
-        let _ = oauthswift.authorize(
-            withCallbackURL: URL(string: "https://appauth.demo-app.io:/oauth2redirect")!, scope: "profile+email+address+phone", state: "",
-            success: { credential, response, parameters in
-                print(credential.oauthToken)
-                //self.selectViewID(credential: credential)
-        },
-            failure: { error in
-                print("ERROR: \(error.localizedDescription)")
+        let request = ExternalRequest()
+        request.oAuthAutorisation(servise: .PayPal, viewController: self, success: { credential in
+            self.ChoseSuggestedVC.integrated = self.servive
+            self.settingDelegate = self.ChoseSuggestedVC
+            self.settingDelegate.updateSettingsArray(array: self.serviceKPI)
+            self.tokenDelegate = self.ChoseSuggestedVC
+            self.tokenDelegate.updateTokens(oauthToken: credential.oauthToken, oauthRefreshToken: credential.oauthRefreshToken, oauthTokenExpiresAt: credential.oauthTokenExpiresAt!, viewID: nil)
+            let stackVC = self.navigationController?.viewControllers
+            _ = self.navigationController?.popToViewController((stackVC?[(stackVC?.count)! - 3])!, animated: true)
+        }, failure: { error in
+            self.showAlert(title: "Sorry", message: error)
         }
         )
     }
@@ -179,7 +170,7 @@ extension ExternalKPIViewController {
             let alertVC = UIAlertController(title: "Select source", message: "Please!", preferredStyle: .actionSheet)
             for viewID in viewIDArray {
                 alertVC.addAction(UIAlertAction(title: viewID.webSiteUri, style: .default, handler: { (UIAlertAction) in
-                    self.saveData(credential: credential, viewID: viewID)
+                    self.saveGoogleAnalyticsData(credential: credential, viewID: viewID)
                 }
                 ))
             }
@@ -191,7 +182,8 @@ extension ExternalKPIViewController {
         )
     }
     
-    func saveData(credential: OAuthSwiftCredential, viewID: (viewID: String, webSiteUri: String)) {
+    //MARK: save google analytics data
+    func saveGoogleAnalyticsData(credential: OAuthSwiftCredential, viewID: (viewID: String, webSiteUri: String)) {
         
         let oauthToken = credential.oauthToken
         let oauthRefreshToken = credential.oauthRefreshToken

@@ -417,6 +417,32 @@ class ReportAndViewKPITableViewController: UITableViewController {
             department = (createdKPI?.department)!
             //Time interval
             timeInterval = (createdKPI?.timeInterval)!
+            //Delivery day
+            switch timeInterval {
+            case .Daily:
+                break
+            case .Weekly:
+                switch (createdKPI?.deadlineDay)! {
+                case 1:
+                    weeklyInterval = .Monday
+                case 2:
+                    weeklyInterval = .Tuesday
+                case 3:
+                    weeklyInterval = .Wednesday
+                case 4:
+                    weeklyInterval = .Thursday
+                case 5:
+                    weeklyInterval = .Friday
+                case 6:
+                    weeklyInterval = .Saturday
+                case 7:
+                    weeklyInterval = .Sunday
+                default:
+                    break
+                }
+            case .Monthly:
+                mounthlyInterval = (createdKPI?.deadlineDay)!
+            }
             //Time Zone
             timeZone = (createdKPI?.timeZone)!
             //DeadlineTime
@@ -628,7 +654,32 @@ class ReportAndViewKPITableViewController: UITableViewController {
             case .createdKPI:
                 switch model.profile!.typeOfAccount {
                 case .Admin:
-                    let deadlineDay = 1
+                    var deadlineDay = 0
+                    switch timeInterval {
+                    case .Daily:
+                        deadlineDay = 1
+                    case .Weekly:
+                        switch weeklyInterval {
+                        case .Monday:
+                            deadlineDay = 1
+                        case .Tuesday:
+                            deadlineDay = 2
+                        case .Wednesday:
+                            deadlineDay = 3
+                        case .Thursday:
+                            deadlineDay = 4
+                        case .Friday:
+                            deadlineDay = 5
+                        case .Saturday:
+                            deadlineDay = 6
+                        case .Sunday:
+                            deadlineDay = 7
+                        default:
+                            break
+                        }
+                    case .Monthly:
+                        deadlineDay = mounthlyInterval!
+                    }
                     let executantProfile: Int! = executant
                     newKpi = CreatedKPI(source: .User, department: self.department, KPI: self.kpiName!, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, deadlineDay: deadlineDay, timeZone: self.timeZone!, deadlineTime: self.deadlineTime, number: (self.model.kpis[kpiIndex].createdKPI?.number)!)
                     self.model.kpis[kpiIndex].createdKPI = newKpi

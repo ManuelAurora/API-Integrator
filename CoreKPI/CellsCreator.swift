@@ -547,7 +547,7 @@ extension ReportAndViewKPITableViewController {
                                 showSelectSettingVC()
                             case 3:
                                 tableView.deselectRow(at: indexPath, animated: true)
-                                showDatePicker(row: indexPath.row)                                
+                                showDatePicker(row: indexPath.row)
                             default:
                                 break
                             }
@@ -599,7 +599,6 @@ extension ReportAndViewKPITableViewController {
                                     break
                                 }
                             }
-
                         }
                     case 3:
                         if KPIOneView == .Numbers && KPITwoView == .Graph {

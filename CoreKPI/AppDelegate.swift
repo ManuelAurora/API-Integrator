@@ -186,8 +186,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
 }
 
-//"corekpi.corekpi:/oauth2Callback?state=123&code=4/PqpNP8IIJCXz1yo1c09z5y4oyvRb25phrTB0QNePw5U#"
-
 // MARK: handle callback url
 extension AppDelegate {
     
