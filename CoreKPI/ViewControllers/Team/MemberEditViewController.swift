@@ -296,6 +296,8 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func updateProfile(photoLink: String?) {
         
+        let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
+        
         model.team[index].setValue(newProfile.userName, forKey: "username")
         model.team[index].setValue(newProfile.firstName, forKey: "firstName")
         model.team[index].setValue(newProfile.lastName, forKey: "lastName")
@@ -304,11 +306,18 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         model.team[index].setValue(newProfile.phone, forKey: "phoneNumber")
         model.team[index].setValue(newProfile.position, forKey: "position")
         
-        if newProfile.photo != nil {
-            model.team[index].setValue(profilePhotoData, forKey: "photo")
+        if newProfile.photo != nil && newProfile.photo != model.team[index].photoLink {
+            self.model.team[index].setValue(profilePhotoData, forKey: "photo")
+            if photoLink != nil {
+                self.model.team[index].setValue(photoLink, forKey: "photoLink")
+            }
         }
-        if photoLink != nil {
-            model.team[index].setValue(photoLink, forKey: "photoLink")
+        
+        do {
+            try context.save()
+        } catch {
+            print(error)
+            return
         }
     }
     
@@ -441,14 +450,14 @@ extension MemberEditViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField.tag == 0 {
+        if textField.tag == 2 {
             if newProfile.phone == nil {
                 textField.text = "+"
             }
         }
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField.tag == 0 {
+        if textField.tag == 2 {
             if newProfile.phone == nil {
                 textField.text = ""
             }

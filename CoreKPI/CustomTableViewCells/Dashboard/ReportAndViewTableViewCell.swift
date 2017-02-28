@@ -12,6 +12,7 @@ class ReportAndViewTableViewCell: UITableViewCell {
 
     @IBOutlet weak var headerOfCell: UILabel!
     @IBOutlet weak var descriptionOfCell: UILabel!
+    @IBOutlet weak var rightConstraint: NSLayoutConstraint!
     
     override func awakeFromNib() {
         super.awakeFromNib()

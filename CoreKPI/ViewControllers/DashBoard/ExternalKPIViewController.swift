@@ -314,7 +314,7 @@ extension ExternalKPIViewController {
             let alertVC = UIAlertController(title: "Select source", message: "Please!", preferredStyle: .actionSheet)
             for viewID in viewIDArray {
                 alertVC.addAction(UIAlertAction(title: viewID.webSiteUri, style: .default, handler: { (UIAlertAction) in
-                    self.saveData(credential: credential, viewID: viewID)
+                    self.saveGoogleAnalyticsData(credential: credential, viewID: viewID)
                 }
                 ))
             }
@@ -326,7 +326,8 @@ extension ExternalKPIViewController {
         )
     }
     
-    func saveData(credential: OAuthSwiftCredential, viewID: (viewID: String, webSiteUri: String)) {
+    //MARK: save google analytics data
+    func saveGoogleAnalyticsData(credential: OAuthSwiftCredential, viewID: (viewID: String, webSiteUri: String)) {
         
         let oauthToken = credential.oauthToken
         let oauthRefreshToken = credential.oauthRefreshToken

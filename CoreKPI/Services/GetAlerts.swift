@@ -35,8 +35,7 @@ class GetAlerts: Request {
         
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
-                if let dataKey = json["data"] as? NSDictionary {
-                    if let items = dataKey["items"] as? NSArray, items.count > 0 {
+                    if let items = json["data"] as? NSArray, items.count > 0 {
                         var alertArray: [Alert] = []
                         for i in 0..<items.count {
                             let alert = items[i] as! NSDictionary
@@ -76,9 +75,6 @@ class GetAlerts: Request {
                         print("Alert list is empty")
                         return []
                     }
-                } else {
-                    print("Json file is broken!")
-                }
             } else {
                 self.errorMessage = json["message"] as? String
             }

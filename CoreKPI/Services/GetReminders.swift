@@ -35,8 +35,8 @@ class GetReminders: Request {
         
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
-                if let dataKey = json["data"] as? NSDictionary {
-                    if let reminders = dataKey["items"] as? NSArray, reminders.count > 0 {
+                //if let dataKey = json["data"] as? NSDictionary {
+                    if let reminders = json["data"] as? NSArray, reminders.count > 0 {
                         var reminderArray: [Reminder] = []
                         for i in 0..<reminders.count {
                             if let reminder = reminders[i] as? NSDictionary {
@@ -85,9 +85,9 @@ class GetReminders: Request {
                         print("Reminder list is empty")
                         return []
                     }
-                } else {
-                    print("Json file is broken!")
-                }
+//                } else {
+//                    print("Json file is broken!")
+//                }
             } else {
                 self.errorMessage = json["message"] as? String
             }

@@ -102,22 +102,50 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     var timeIntervalArray: [(SettingName: String, value: Bool)] = [(TimeInterval.Daily.rawValue, true), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, false)]
     
     var weeklyInterval: WeeklyInterval {
-        for interval in weeklyArray {
-            if interval.value == true {
-                return WeeklyInterval(rawValue: interval.SettingName)!
+        get {
+            for interval in weeklyArray {
+                if interval.value == true {
+                    return WeeklyInterval(rawValue: interval.SettingName)!
+                }
             }
+            return WeeklyInterval.none
         }
-        return WeeklyInterval.none
+        set {
+            var newWeeklyArray: [(SettingName: String, value: Bool)] = []
+            for interval in weeklyArray {
+                if interval.SettingName == newValue.rawValue {
+                   newWeeklyArray.append((interval.SettingName, true))
+                } else {
+                    newWeeklyArray.append((interval.SettingName, false))
+                }
+            }
+            weeklyArray = newWeeklyArray
+        }
+
     }
     var weeklyArray: [(SettingName: String, value: Bool)] = [(WeeklyInterval.Monday.rawValue, false), (WeeklyInterval.Tuesday.rawValue, false), (WeeklyInterval.Wednesday.rawValue, false), (WeeklyInterval.Thursday.rawValue, false), (WeeklyInterval.Friday.rawValue, false), (WeeklyInterval.Saturday.rawValue, false), (WeeklyInterval.Sunday.rawValue, false)]
     
     var mounthlyInterval: Int? {
-        for interval in mounthlyIntervalArray {
-            if interval.value == true {
-                return Int(interval.SettingName)
+        get {
+            for interval in mounthlyIntervalArray {
+                if interval.value == true {
+                    return Int(interval.SettingName)
+                }
             }
+            return nil
         }
-        return nil
+        set {
+            var newMounthlyIntervalArray: [(SettingName: String, value: Bool)] = []
+            for interval in mounthlyIntervalArray {
+                if interval.SettingName == "\(newValue!)" {
+                    newMounthlyIntervalArray.append((interval.SettingName, true))
+                } else {
+                    newMounthlyIntervalArray.append((interval.SettingName, false))
+                }
+            }
+            mounthlyIntervalArray = newMounthlyIntervalArray
+        }
+
     }
     var mounthlyIntervalArray: [(SettingName: String, value: Bool)] = []
     
@@ -139,6 +167,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
     var datePickerIsVisible = false
+    var dataPickerIsVisible = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -238,7 +267,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                         failure: { (error) in
                             print(error)
                             self.showAlert(title: "Sorry!", message: error)
-        })
+        }
+        )
     }
     
     func parsingJson(json: NSDictionary) {
@@ -308,7 +338,11 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
             case .Daily:
                 return datePickerIsVisible == false ? 9 : 10
             default:
-                return datePickerIsVisible == false ? 10 : 11
+                if dataPickerIsVisible {
+                    return datePickerIsVisible == false ? 11 : 12
+                } else {
+                    return datePickerIsVisible == false ? 10 : 11
+                }
             }
         case .Integrated:
             var numberOfKPIs = 0
@@ -396,77 +430,163 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                         SuggestedCell.descriptionOfCell.text = dateFormatter.string(for: deadline)
                     }
                 case 9:
-                    let dataPickerCell = tableView.dequeueReusableCell(withIdentifier: "DataPickerCell", for: indexPath)  as! DatePickerTableViewCell
-                    dataPickerCell.datePicker.setDate(deadline ?? Date(), animated: true)
-                    dataPickerCell.addKPIVC = self
-                    return dataPickerCell
+                    let datePickerCell = tableView.dequeueReusableCell(withIdentifier: "DatePickerCell", for: indexPath)  as! DatePickerTableViewCell
+                    datePickerCell.datePicker.setDate(deadline ?? Date(), animated: true)
+                    datePickerCell.addKPIVC = self
+                    return datePickerCell
                 default:
                     break
                 }
-            default:
-                switch indexPath.row {
-                case 0:
-                    SuggestedCell.headerOfCell.text = "Source"
-                    SuggestedCell.descriptionOfCell.text = source.rawValue
-                case 1:
-                    SuggestedCell.headerOfCell.text = "Department"
-                    SuggestedCell.descriptionOfCell.text = department.rawValue
-                case 2:
-                    SuggestedCell.headerOfCell.text = "Suggested KPI"
-                    SuggestedCell.descriptionOfCell.text = "(Optional)"
-                case 3:
-                    SuggestedCell.headerOfCell.text = "KPI Name"
-                    SuggestedCell.descriptionOfCell.text = self.kpiName ?? ""
-                case 4:
-                    let DescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell", for: indexPath) as! KPIDescriptionTableViewCell
-                    DescriptionCell.headerOfCellLabel.text = "KPI Note"
-                    DescriptionCell.descriptionOfCellLabel.text = self.kpiDescription == nil ? "Add note (Optional)" : ""
-                    DescriptionCell.kpiInfoTextLabel.text = self.kpiDescription ?? ""
-                    DescriptionCell.prepareForReuse()
-                    return DescriptionCell
-                case 5:
-                    SuggestedCell.headerOfCell.text = "Executant"
-                    SuggestedCell.descriptionOfCell.text = self.executant ?? ""
-                case 6:
-                    SuggestedCell.headerOfCell.text = "Time Interval"
-                    SuggestedCell.descriptionOfCell.text = timeInterval.rawValue
-                case 7:
-                    SuggestedCell.headerOfCell.text = "Day"
-                    var text = ""
-                    switch timeInterval {
-                    case .Weekly:
-                        text = self.weeklyInterval.rawValue
-                    case .Monthly:
-                        if self.mounthlyInterval != nil && self.mounthlyInterval! > 28 {
-                            text = "\(self.mounthlyInterval!) or last day"
-                        } else if self.mounthlyInterval != nil{
-                            text = "\(self.mounthlyInterval!)"
-                        } else {
-                            text = "Add day"
+            case .Weekly, .Monthly:
+                
+                if dataPickerIsVisible {
+                    switch indexPath.row {
+                    case 0:
+                        SuggestedCell.headerOfCell.text = "Source"
+                        SuggestedCell.descriptionOfCell.text = source.rawValue
+                    case 1:
+                        SuggestedCell.headerOfCell.text = "Department"
+                        SuggestedCell.descriptionOfCell.text = department.rawValue
+                    case 2:
+                        SuggestedCell.headerOfCell.text = "Suggested KPI"
+                        SuggestedCell.descriptionOfCell.text = "(Optional)"
+                    case 3:
+                        SuggestedCell.headerOfCell.text = "KPI Name"
+                        SuggestedCell.descriptionOfCell.text = self.kpiName ?? ""
+                    case 4:
+                        let DescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell", for: indexPath) as! KPIDescriptionTableViewCell
+                        DescriptionCell.headerOfCellLabel.text = "KPI Note"
+                        DescriptionCell.descriptionOfCellLabel.text = self.kpiDescription == nil ? "Add note (Optional)" : ""
+                        DescriptionCell.kpiInfoTextLabel.text = self.kpiDescription ?? ""
+                        DescriptionCell.prepareForReuse()
+                        return DescriptionCell
+                    case 5:
+                        SuggestedCell.headerOfCell.text = "Executant"
+                        SuggestedCell.descriptionOfCell.text = self.executant ?? ""
+                    case 6:
+                        SuggestedCell.headerOfCell.text = "Time Interval"
+                        SuggestedCell.descriptionOfCell.text = timeInterval.rawValue
+                    case 7:
+                        SuggestedCell.headerOfCell.text = "Day"
+                        var text = ""
+                        switch timeInterval {
+                        case .Weekly:
+                            text = self.weeklyInterval.rawValue
+                        case .Monthly:
+                            if self.mounthlyInterval != nil && self.mounthlyInterval! > 28 {
+                                text = "\(self.mounthlyInterval!) or last day"
+                            } else if self.mounthlyInterval != nil{
+                                text = "\(self.mounthlyInterval!)"
+                            } else {
+                                text = ""
+                            }
+                        default:
+                            break
                         }
+                        SuggestedCell.descriptionOfCell.text = text
+                    case 8:
+                        let dataPickerCell = tableView.dequeueReusableCell(withIdentifier: "DataPickerCell", for: indexPath)  as! DataPickerTableViewCell
+                        dataPickerCell.dataPicker.reloadAllComponents()
+                        switch timeInterval {
+                        case .Daily:
+                            break
+                        case .Weekly:
+                            if weeklyInterval == .none {
+                                dataPickerCell.dataPicker.selectRow(0, inComponent: 0, animated: false)
+                            }
+                        case .Monthly:
+                            if mounthlyInterval == nil {
+                                dataPickerCell.dataPicker.selectRow(0, inComponent: 0, animated: false)
+                            }
+                        }
+                        dataPickerCell.dataPicker.selectedRow(inComponent: 0)
+                        return dataPickerCell
+                    case 9:
+                        SuggestedCell.headerOfCell.text = "Time Zone"
+                        SuggestedCell.descriptionOfCell.text = timeZone ?? ""
+                    case 10:
+                        SuggestedCell.headerOfCell.text = "Deadline"
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.timeStyle = .short
+                        if deadline == nil {
+                            SuggestedCell.descriptionOfCell.text = ""
+                        } else {
+                            SuggestedCell.descriptionOfCell.text = dateFormatter.string(for: deadline)
+                        }
+                    case 11:
+                        let datePickerCell = tableView.dequeueReusableCell(withIdentifier: "DatePickerCell", for: indexPath) as! DatePickerTableViewCell
+                        datePickerCell.addKPIVC = self
+                        return datePickerCell
                     default:
                         break
                     }
-                    SuggestedCell.descriptionOfCell.text = text
-                case 8:
-                    SuggestedCell.headerOfCell.text = "Time Zone"
-                    SuggestedCell.descriptionOfCell.text = timeZone ?? ""
-                case 9:
-                    SuggestedCell.headerOfCell.text = "Deadline"
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.timeStyle = .short
-                    if deadline == nil {
-                        SuggestedCell.descriptionOfCell.text = ""
-                    } else {
-                        SuggestedCell.descriptionOfCell.text = dateFormatter.string(for: deadline)
+                } else {
+                    switch indexPath.row {
+                    case 0:
+                        SuggestedCell.headerOfCell.text = "Source"
+                        SuggestedCell.descriptionOfCell.text = source.rawValue
+                    case 1:
+                        SuggestedCell.headerOfCell.text = "Department"
+                        SuggestedCell.descriptionOfCell.text = department.rawValue
+                    case 2:
+                        SuggestedCell.headerOfCell.text = "Suggested KPI"
+                        SuggestedCell.descriptionOfCell.text = "(Optional)"
+                    case 3:
+                        SuggestedCell.headerOfCell.text = "KPI Name"
+                        SuggestedCell.descriptionOfCell.text = self.kpiName ?? ""
+                    case 4:
+                        let DescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell", for: indexPath) as! KPIDescriptionTableViewCell
+                        DescriptionCell.headerOfCellLabel.text = "KPI Note"
+                        DescriptionCell.descriptionOfCellLabel.text = self.kpiDescription == nil ? "Add note (Optional)" : ""
+                        DescriptionCell.kpiInfoTextLabel.text = self.kpiDescription ?? ""
+                        DescriptionCell.prepareForReuse()
+                        return DescriptionCell
+                    case 5:
+                        SuggestedCell.headerOfCell.text = "Executant"
+                        SuggestedCell.descriptionOfCell.text = self.executant ?? ""
+                    case 6:
+                        SuggestedCell.headerOfCell.text = "Time Interval"
+                        SuggestedCell.descriptionOfCell.text = timeInterval.rawValue
+                    case 7:
+                        SuggestedCell.headerOfCell.text = "Day"
+                        var text = ""
+                        switch timeInterval {
+                        case .Weekly:
+                            text = self.weeklyInterval.rawValue
+                        case .Monthly:
+                            if self.mounthlyInterval != nil && self.mounthlyInterval! > 28 {
+                                text = "\(self.mounthlyInterval!) or last day"
+                            } else if self.mounthlyInterval != nil{
+                                text = "\(self.mounthlyInterval!)"
+                            } else {
+                                text = "Add day"
+                            }
+                        default:
+                            break
+                        }
+                        SuggestedCell.descriptionOfCell.text = text
+                    case 8:
+                        SuggestedCell.headerOfCell.text = "Time Zone"
+                        SuggestedCell.descriptionOfCell.text = timeZone ?? ""
+                    case 9:
+                        SuggestedCell.headerOfCell.text = "Deadline"
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.timeStyle = .short
+                        if deadline == nil {
+                            SuggestedCell.descriptionOfCell.text = ""
+                        } else {
+                            SuggestedCell.descriptionOfCell.text = dateFormatter.string(for: deadline)
+                        }
+                    case 10:
+                        let datePickerCell = tableView.dequeueReusableCell(withIdentifier: "DatePickerCell", for: indexPath) as! DatePickerTableViewCell
+                        datePickerCell.addKPIVC = self
+                        return datePickerCell
+                    default:
+                        break
                     }
-                case 10:
-                    let dataPickerCell = tableView.dequeueReusableCell(withIdentifier: "DataPickerCell", for: indexPath) as! DatePickerTableViewCell
-                    dataPickerCell.addKPIVC = self
-                    return dataPickerCell
-                default:
-                    break
                 }
+                
+
             }
         case .Integrated:
             switch indexPath.row {
@@ -517,18 +637,35 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 default:
                     newIndexPath = IndexPath(item: 9, section: 0)
                 }
-            default:
-                switch indexPath.row {
-                case 9,10:
-                    return indexPath
-                default:
-                    newIndexPath = IndexPath(item: 10, section: 0)
+            case .Weekly, .Monthly:
+                if dataPickerIsVisible {
+                    switch indexPath.row {
+                    case 7,8:
+                        return indexPath
+                    default:
+                        newIndexPath = IndexPath(item: 8, section: 0)
+                    }
+                } else {
+                    switch indexPath.row {
+                    case 9,10:
+                        return indexPath
+                    default:
+                        newIndexPath = IndexPath(item: 10, section: 0)
+                    }
                 }
             }
             
             if datePickerIsVisible {
                 datePickerIsVisible = false
                 tableView.deleteRows(at: [newIndexPath], with: .top)
+            }
+            if dataPickerIsVisible {
+                dataPickerIsVisible = false
+                tableView.deleteRows(at: [newIndexPath], with: .top)
+                if indexPath.row > 7 {
+                    newIndexPath = IndexPath(item: indexPath.row - 1, section: 0)
+                    return newIndexPath
+                }
             }
         case .Integrated:
             break
@@ -589,62 +726,119 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 default:
                     break
                 }
-            default:
-                switch indexPath.row {
-                case 0:
-                    typeOfSetting = .Source
-                    settingArray = sourceArray
-                    showSelectSettingVC()
-                case 1:
-                    typeOfSetting = .Departament
-                    settingArray = departmentArray
-                    showSelectSettingVC()
-                case 2:
-                    if department == .none {
-                        showAlert(title: "Error", message: "First select a department please")
+            case .Weekly, .Monthly:
+                if dataPickerIsVisible {
+                    switch indexPath.row {
+                    case 0:
+                        typeOfSetting = .Source
+                        settingArray = sourceArray
+                        showSelectSettingVC()
+                    case 1:
+                        typeOfSetting = .Departament
+                        settingArray = departmentArray
+                        showSelectSettingVC()
+                    case 2:
+                        if department == .none {
+                            showAlert(title: "Error", message: "First select a department please")
+                            tableView.deselectRow(at: indexPath, animated: true)
+                        } else {
+                            typeOfSetting = .SuggestedKPI
+                            settingArray = kpiArray
+                            showSelectSettingVC()
+                        }
+                    case 3:
+                        typeOfSetting = .KPIName
+                        showSelectSettingVC()
+                    case 4:
+                        typeOfSetting = .KPINote
+                        showSelectSettingVC()
+                    case 5:
+                        typeOfSetting = .Executant
+                        settingArray = executantArray
+                        showSelectSettingVC()
+                    case 6:
+                        typeOfSetting = .TimeInterval
+                        settingArray = timeIntervalArray
+                        showSelectSettingVC()
+                    case 7:
                         tableView.deselectRow(at: indexPath, animated: true)
-                    } else {
-                        typeOfSetting = .SuggestedKPI
-                        settingArray = kpiArray
+                        dataPickerIsVisible = false
+                        let index = IndexPath(item: 8, section: 0)
+                        tableView.deleteRows(at: [index], with: .fade)
+                        switch timeInterval {
+                        case .Daily:
+                            break
+                        case .Weekly:
+                            if weeklyInterval == .none {
+                                weeklyInterval = .Monday
+                            }
+                        case .Monthly:
+                            if mounthlyInterval == nil {
+                                mounthlyInterval = 1
+                            }
+                        }
+                        tableView.reloadRows(at: [indexPath], with: .automatic)
+                    case 9:
+                        typeOfSetting = .TimeZone
+                        settingArray = timeZoneArray
                         showSelectSettingVC()
-                    }
-                case 3:
-                    typeOfSetting = .KPIName
-                    showSelectSettingVC()
-                case 4:
-                    typeOfSetting = .KPINote
-                    showSelectSettingVC()
-                case 5:
-                    typeOfSetting = .Executant
-                    settingArray = executantArray
-                    showSelectSettingVC()
-                case 6:
-                    typeOfSetting = .TimeInterval
-                    settingArray = timeIntervalArray
-                    showSelectSettingVC()
-                case 7:
-                    switch timeInterval {
-                    case .Weekly:
-                        typeOfSetting = .WeeklyInterval
-                        settingArray = weeklyArray
-                        showSelectSettingVC()
-                    case .Monthly:
-                        typeOfSetting = .MounthlyInterval
-                        settingArray = mounthlyIntervalArray
-                        showSelectSettingVC()
+                    case 10:
+                        showDatePicker(row: indexPath.row)
+                        tableView.deselectRow(at: indexPath, animated: true)
+                        
                     default:
                         break
                     }
-                case 8:
-                    typeOfSetting = .TimeZone
-                    settingArray = timeZoneArray
-                    showSelectSettingVC()
-                case 9:
-                    showDatePicker(row: indexPath.row)
-                    tableView.deselectRow(at: indexPath, animated: true)
-                    
-                default:
-                    break
+                } else {
+                    switch indexPath.row {
+                    case 0:
+                        typeOfSetting = .Source
+                        settingArray = sourceArray
+                        showSelectSettingVC()
+                    case 1:
+                        typeOfSetting = .Departament
+                        settingArray = departmentArray
+                        showSelectSettingVC()
+                    case 2:
+                        if department == .none {
+                            showAlert(title: "Error", message: "First select a department please")
+                            tableView.deselectRow(at: indexPath, animated: true)
+                        } else {
+                            typeOfSetting = .SuggestedKPI
+                            settingArray = kpiArray
+                            showSelectSettingVC()
+                        }
+                    case 3:
+                        typeOfSetting = .KPIName
+                        showSelectSettingVC()
+                    case 4:
+                        typeOfSetting = .KPINote
+                        showSelectSettingVC()
+                    case 5:
+                        typeOfSetting = .Executant
+                        settingArray = executantArray
+                        showSelectSettingVC()
+                    case 6:
+                        typeOfSetting = .TimeInterval
+                        settingArray = timeIntervalArray
+                        showSelectSettingVC()
+                    case 7:
+                        tableView.deselectRow(at: indexPath, animated: true)
+                        dataPickerIsVisible = true
+                        let index = IndexPath(item: 8, section: 0)
+                        tableView.insertRows(at: [index], with: .fade)
+                        tableView.scrollToRow(at: index, at: .bottom, animated: true)
+                    case 8:
+                        typeOfSetting = .TimeZone
+                        settingArray = timeZoneArray
+                        showSelectSettingVC()
+                    case 9:
+                        showDatePicker(row: indexPath.row)
+                        tableView.deselectRow(at: indexPath, animated: true)
+                        
+                    default:
+                        break
+                    }
                 }
             }
         case .Integrated:
@@ -695,7 +889,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
             tableView.deselectRow(at: IndexPath(item: row, section: 0), animated: true)
             if deadline == nil {
                 deadline = Date()
-                tableView.reloadRows(at: [IndexPath(item: row, section: 0)], with: .automatic)
+                tableView.reloadRows(at: [IndexPath(item: row, section: 0)], with: .none)
             }
             checkInputValues()
         }
@@ -739,6 +933,9 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         switch source {
         case .Integrated:
             var arrayOfKPI: [(SettingName: String, value: Bool)] = []
+            var googleKPI: GoogleKPI?
+            var payPalKPI: PayPalKPI?
+            
             switch integrated {
             case .SalesForce:
                 arrayOfKPI = saleForceKPIArray
@@ -746,8 +943,17 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 arrayOfKPI = quickBooksKPIArray
             case .GoogleAnalytics:
                 arrayOfKPI = googleAnalyticsKPIArray
+                googleKPI = GoogleKPI(context: context)
+                googleKPI?.oAuthToken = oauthToken
+                googleKPI?.oAuthRefreshToken = oauthRefreshToken
+                googleKPI?.oAuthTokenExpiresAt = oauthTokenExpiresAt! as NSDate
+                googleKPI?.viewID = viewID
             case .PayPal:
                 arrayOfKPI = payPalKPIArray
+                payPalKPI = PayPalKPI(context: context)
+                payPalKPI?.oAuthToken = oauthToken
+                payPalKPI?.oAuthRefreshToken = oauthRefreshToken
+                payPalKPI?.oAuthTokenExpiresAt = oauthTokenExpiresAt! as NSDate
             case .HubSpotCRM:
                 arrayOfKPI = hubSpotCRMKPIArray
             case .HubSpotMarketing:
@@ -761,14 +967,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     let externalKPI = ExternalKPI(context: context)
                     externalKPI.serviceName = integrated.rawValue
                     externalKPI.kpiName = extKpi.SettingName
-                    externalKPI.oauthToken = oauthToken
-                    externalKPI.oauthRefreshToken = oauthRefreshToken
-                    externalKPI.oauthTokenExpiresAt = oauthTokenExpiresAt! as NSDate
-                    
-                    let googleKPI = GoogleKPI(context: context)
-                    googleKPI.viewID = viewID
                     externalKPI.googleAnalyticsKPI = googleKPI
-                    //externalKPI.viewID = viewID
+                    externalKPI.payPalKPI = payPalKPI
                     
                     do {
                         try self.context.save()
@@ -777,7 +977,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                         return
                     }
                     
-                    kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: externalKPI, createdKPI: nil, imageBacgroundColour: UIColor.clear)
+                    kpi = KPI(kpiID: -1, typeOfKPI: .IntegratedKPI, integratedKPI: externalKPI, createdKPI: nil, imageBacgroundColour: UIColor(hex: "D8F7D7".hex!))
                     
                     self.delegate = self.KPIListVC
                     self.delegate.addNewKPI(kpi: kpi)
@@ -795,8 +995,45 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     executantProfile = Int(profile.userID)
                 }
             }
-            let userKPI = CreatedKPI(source: .User, department: department, KPI: kpiName!, descriptionOfKPI: kpiDescription, executant: executantProfile, timeInterval: timeInterval, timeZone: timeZone!, deadline: deadline!, number: [])
-            kpi = KPI(kpiID: 0, typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: userKPI, imageBacgroundColour: UIColor.clear)
+            
+            var deadlineDay = 1
+            switch timeInterval {
+            case .Daily:
+                deadlineDay = 1
+            case .Weekly:
+                switch weeklyInterval {
+                case .Monday:
+                    deadlineDay = 1
+                case .Tuesday:
+                    deadlineDay = 2
+                case .Wednesday:
+                    deadlineDay = 3
+                case .Thursday:
+                    deadlineDay = 4
+                case .Friday:
+                    deadlineDay = 5
+                case .Saturday:
+                    deadlineDay = 6
+                case .Sunday:
+                    deadlineDay = 7
+                case .none:
+                    break
+                }
+            case .Monthly:
+                if let day = mounthlyInterval {
+                    deadlineDay = day
+                }
+            }
+            
+            let userKPI = CreatedKPI(source: .User, department: department, KPI: kpiName!, descriptionOfKPI: kpiDescription, executant: executantProfile, timeInterval: timeInterval, deadlineDay: deadlineDay, timeZone: timeZone!, deadlineTime: deadline!, number: [])
+            var imageBacgroundColour: UIColor = .clear
+            if userKPI.executant == model.profile?.userId {
+                imageBacgroundColour = UIColor(hex: "E3F2FD".hex!)
+            } else {
+                imageBacgroundColour = UIColor(hex: "FBE9E7".hex!)
+            }
+            
+            kpi = KPI(kpiID: 0, typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: userKPI, imageBacgroundColour: imageBacgroundColour)
             
             let request = AddKPI(model: model)
             request.addKPI(kpi: kpi, success: { id in
@@ -999,7 +1236,6 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate {
                     break
                 }
             }
-            
         case .MounthlyInterval:
             self.mounthlyIntervalArray = array
         case .WeeklyInterval:
@@ -1047,10 +1283,55 @@ extension ChooseSuggestedKPITableViewController: UpdateTimeDelegate {
 }
 
 extension ChooseSuggestedKPITableViewController: UpdateExternalTokensDelegate {
-    func updateTokens(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date, viewID: String) {
+    func updateTokens(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date, viewID: String?) {
         self.oauthToken = oauthToken
         self.oauthRefreshToken = oauthRefreshToken
         self.oauthTokenExpiresAt = oauthTokenExpiresAt
         self.viewID = viewID
+    }
+}
+
+//MARK: - UIPickerViewDataSource and UIPickerViewDelegate methods
+extension ChooseSuggestedKPITableViewController: UIPickerViewDataSource,UIPickerViewDelegate {
+    //MARK: - Delegates and data sources
+    //MARK: Data Sources
+    @available(iOS 2.0, *)
+    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        switch timeInterval {
+        case .Daily:
+            return 0
+        case .Weekly:
+            return weeklyArray.count
+        case .Monthly:
+            return mounthlyIntervalArray.count
+        }
+    }
+    
+    //MARK: Delegates
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        switch timeInterval {
+        case .Daily:
+            return ""
+        case .Weekly:
+            return weeklyArray[row].SettingName
+        case .Monthly:
+            return mounthlyIntervalArray[row].SettingName
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+            switch timeInterval {
+            case .Daily:
+                break
+            case .Weekly:
+               weeklyInterval =  WeeklyInterval(rawValue: weeklyArray[row].SettingName)!
+            case .Monthly:
+                mounthlyInterval =  Int(mounthlyIntervalArray[row].SettingName)
+            }
+        let indexPath = IndexPath(item: 7, section: 0)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }

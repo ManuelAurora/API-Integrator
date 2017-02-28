@@ -14,9 +14,9 @@ class ExternalRequest {
     
     var errorMessage: String?
     
-    let oauthToken: String
+    var oauthToken: String
     let oauthRefreshToken: String
-    let oauthTokenExpiresAt: Date
+    var oauthTokenExpiresAt: Date
     
     init(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date) {
         self.oauthToken = oauthToken
@@ -63,7 +63,7 @@ class ExternalRequest {
     
     func updateAccessToken(servise: IntegratedServices, success: @escaping (_ accessToken: String) -> (), failure: @escaping failure) {
         var clientID = ""
-        var clientSecret = ""
+        let clientSecret = ""
         var accessTokenURL = ""
         var grantType = ""
         var headers: [String:String] = [:]
@@ -74,6 +74,8 @@ class ExternalRequest {
             accessTokenURL = "https://www.googleapis.com/oauth2/v4/token"
             grantType = "refresh_token"
             headers = ["Content-Type" : "application/x-www-form-urlencoded"]
+        case .PayPal:
+            break
         default:
             break
         }
@@ -150,8 +152,28 @@ class ExternalRequest {
         },
             failure: { error in
                 failure("\(error.localizedDescription)")
-        }
+        })
+    }
+    
+    private func doOAuthPayPal(viewController: UIViewController, success: @escaping (_ credential: OAuthSwiftCredential) -> (), failure: @escaping failure) {
+        let oauthswift = OAuth2Swift(
+            consumerKey:    "AdA0F4asoYIoJoGK1Mat3i0apr1bdYeeRiZ6ktSgPrNmAMIQBO_TZtn_U80H7KwPdmd72CJhUTY5LYJH",
+            consumerSecret: "EBA8OIWD2WLj7Z0hytEiKl3F3PbdKGrYe-kqGOl-YY25R3M05H6RCfoPhXauYy7_nQUjsQ_Pss7LNBgI",
+            authorizeUrl:   "https://www.sandbox.paypal.com/signin/authorize",
+            accessTokenUrl: "https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice",
+            responseType:   "code"
         )
+        oauthswift.authorizeURLHandler = SafariURLHandler(viewController: viewController, oauthSwift: oauthswift)
+        let state = generateState(withLength: 20)
+        
+        let _ = oauthswift.authorize(
+            withCallbackURL: URL(string: "https://appauth.demo-app.io:/oauth2redirect")!, scope: "profile+email+address+phone", state: state,
+            success: { credential, response, parameters in
+                success(credential)
+        },
+            failure: { error in
+                failure(error.description)
+        })
     }
     
     private func doOAuthSalesforce(viewController: UIViewController, success: @escaping (_ credential: OAuthSwiftCredential) -> (), failure: @escaping failure) {
@@ -171,8 +193,7 @@ class ExternalRequest {
         },
             failure: { error in
                 failure(error.description)
-        }
-        )
+        })
     }
 
 }

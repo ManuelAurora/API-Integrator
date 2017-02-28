@@ -116,6 +116,8 @@ class KPIsListTableViewController: UITableViewController {
         
         cell.KPIListCellImageBacgroundView.backgroundColor = arrayOfKPI[indexPath.row].imageBacgroundColour
         
+        hideButtonsOnKPICard(cell: cell, kpi: arrayOfKPI[indexPath.row])
+        
         switch arrayOfKPI[indexPath.row].typeOfKPI {
         case .IntegratedKPI:
             cell.reportButton.isHidden = true
@@ -127,20 +129,6 @@ class KPIsListTableViewController: UITableViewController {
         case .createdKPI:
             let createdKPI = arrayOfKPI[indexPath.row].createdKPI
             cell.KPIListHeaderLabel.text = createdKPI?.KPI
-            if model.profile?.typeOfAccount == TypeOfAccount.Admin {
-                if model.profile?.userId == createdKPI?.executant {
-                    cell.reportButton.isHidden = false
-                    cell.editButton.isHidden = false
-                } else {
-                    cell.reportButton.isHidden = true
-                    cell.editButton.isHidden = false
-                }
-            } else {
-                cell.reportButton.isHidden = false
-                cell.editButton.isHidden = false
-            }
-            cell.KPIListNumber.isHidden = false
-            cell.ManagedByStack.isHidden = false
             
             if (createdKPI?.number.count)! > 0 {
                 if let number = createdKPI?.number[(createdKPI?.number.count)! - 1] {
@@ -214,6 +202,30 @@ class KPIsListTableViewController: UITableViewController {
         }
     }
     
+    //MARK: show/hide buttons on KPI cards
+    private func hideButtonsOnKPICard(cell: KPIListTableViewCell, kpi: KPI) {
+        
+        switch kpi.typeOfKPI {
+        case .createdKPI:
+            cell.reportButton.isHidden = false
+            cell.editButton.isHidden = false
+            
+            if model.profile?.typeOfAccount == TypeOfAccount.Admin && model.profile?.userId != kpi.createdKPI?.executant {
+                cell.reportButton.isHidden = true
+                cell.editButton.isHidden = false
+            }
+            
+            cell.KPIListNumber.isHidden = false
+            cell.ManagedByStack.isHidden = false
+        case .IntegratedKPI:
+            cell.reportButton.isHidden = true
+            cell.editButton.isHidden = true
+            cell.KPIListNumber.isHidden = true
+            cell.ManagedByStack.isHidden = true
+        }
+    }
+    
+    //MARK: - Delete KPI
     func deleteKPI(kpiID: Int) {
         let request = DeleteKPI(model: model)
         request.deleteKPI(kpiID: kpiID, success: {
@@ -257,9 +269,8 @@ class KPIsListTableViewController: UITableViewController {
         do {
             let external = try context.fetch(ExternalKPI.fetchRequest())
             for kpi in external {
-                let kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: (kpi as! ExternalKPI), createdKPI: nil, imageBacgroundColour: UIColor.clear)
+                let kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: (kpi as! ExternalKPI), createdKPI: nil, imageBacgroundColour: UIColor(hex: "D8F7D7".hex!))
                 arrayOfKPI.append(kpi)
-                //getGoogleAnalyticsData(index: arrayOfKPI.count - 1)
             }
         } catch {
             print("Fetching faild")

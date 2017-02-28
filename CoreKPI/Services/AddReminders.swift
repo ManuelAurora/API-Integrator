@@ -28,7 +28,6 @@ class AddReminder: Request {
         let deliveryTime = dateFormatter.string(from: reminder.deliveryTime as! Date)
         
         let abbreviaion = reminder.timeZone?.components(separatedBy: "(")[1].replacingOccurrences(of: ")", with: "")
-        print(abbreviaion ?? "nil")
         let timeZone = TimeZone(abbreviation: abbreviaion!)
         let timeZoneHoursFromGMT = (timeZone?.secondsFromGMT())!/3600
         

@@ -16,9 +16,19 @@ class AddKPI: Request {
         
         switch kpi.typeOfKPI {
         case .createdKPI:
-            data = ["name" : (kpi.createdKPI?.KPI)!, "description" : kpi.createdKPI?.descriptionOfKPI ?? "nil", "department" : (kpi.createdKPI?.department.rawValue)!, "responsible_id" : (kpi.createdKPI?.executant)!, "interval" : (kpi.createdKPI?.timeInterval.rawValue)!, "delivery_day" : 1] //deadline!
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "HH:mm:ss"
+            let deadlineTime = dateFormatter.string(from: (kpi.createdKPI?.deadlineTime)!)
+            
+            let abbreviaion = kpi.createdKPI?.timeZone.components(separatedBy: "(")[1].replacingOccurrences(of: ")", with: "")
+            let timeZone = TimeZone(abbreviation: abbreviaion!)
+            let timeZoneHoursFromGMT = (timeZone?.secondsFromGMT())!/3600
+            
+            data = ["name" : (kpi.createdKPI?.KPI)!, "description" : kpi.createdKPI?.descriptionOfKPI ?? "", "department" : (kpi.createdKPI?.department.rawValue)!, "responsible_id" : (kpi.createdKPI?.executant)!, "interval" : (kpi.createdKPI?.timeInterval.rawValue)!, "delivery_day" : kpi.createdKPI?.deadlineDay ?? 1, "deadline" : deadlineTime, "timezone" : timeZoneHoursFromGMT]
         case .IntegratedKPI:
-            break//data = ["name" : (kpi.integratedKPI?.serviceName)!, "description" : (kpi.integratedKPI?.service.rawValue)!, "department" : "", "responsible_id" : "", "interval" : "", "delivery_day" : ""]
+            break
+            //TODO: Add external KPI
         }
         
         self.getJson(category: "/kpi/addKPI", data: data,

@@ -24,7 +24,7 @@ extension ReportAndViewKPITableViewController {
             case .createdKPI:
                 switch typeOfAccount {
                 case .Admin:
-                    return 3
+                    return 4
                 case .Manager:
                     return 2
                 }
@@ -59,17 +59,19 @@ extension ReportAndViewKPITableViewController {
                     case 2:
                         switch self.timeInterval {
                         case .Daily:
-                            if KPIOneView == .Numbers && KPITwoView == .Graph || KPIOneView == .Graph && KPITwoView == .Numbers {
-                                return datePickerIsVisible ? 8 : 7
+                            return datePickerIsVisible ? 5 : 4
+                        case .Weekly, .Monthly:
+                            if dataPickerIsVisible {
+                                return datePickerIsVisible ? 7 : 6
                             } else {
-                                return datePickerIsVisible ? 9 : 8
+                                return datePickerIsVisible ? 6 : 5
                             }
-                        default:
-                            if KPIOneView == .Numbers && KPITwoView == .Graph || KPIOneView == .Graph && KPITwoView == .Numbers {
-                                return datePickerIsVisible ? 9 : 8
-                            } else {
-                                return datePickerIsVisible ? 10 : 9
-                            }
+                        }
+                    case 3:
+                        if KPIOneView == .Numbers && KPITwoView == .Graph || KPIOneView == .Graph && KPITwoView == .Numbers {
+                            return 3
+                        } else {
+                            return 4
                         }
                     default:
                         return 0
@@ -105,6 +107,7 @@ extension ReportAndViewKPITableViewController {
         
         let reuseIdentifier = "ReportAndViewCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ReportAndViewTableViewCell
+        cell.rightConstraint.constant = 1.0
         
         switch buttonDidTaped {
         case .Report:
@@ -126,7 +129,7 @@ extension ReportAndViewKPITableViewController {
                 case 4:
                     let dateFormatter = DateFormatter()
                     dateFormatter.timeStyle = .short
-                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadlineTime)!)
                     cell.headerOfCell.text = date
                 default:
                     break
@@ -150,8 +153,8 @@ extension ReportAndViewKPITableViewController {
         case .Edit:
             cell.accessoryType = .disclosureIndicator
             switch model.kpis[kpiIndex].typeOfKPI {
-            case .IntegratedKPI: break
-            //Add!
+            case .IntegratedKPI:
+                break //Integrated KPI not editing!
             case .createdKPI:
                 switch typeOfAccount {
                 case .Admin:
@@ -183,112 +186,118 @@ extension ReportAndViewKPITableViewController {
                                 cell.headerOfCell.textColor = UIColor.lightGray
                             }
                         case 2:
-                            cell.headerOfCell.text = (department?.rawValue)! + " Department"
+                            cell.headerOfCell.text = department.rawValue + " Department"
                         default:
                             break
                         }
                     case 2:
-                        switch self.timeInterval {
+                        switch timeInterval {
                         case .Daily:
-                            if KPIOneView == .Numbers && KPITwoView == .Graph {
-                                switch indexPath.row {
-                                case 0:
-                                    cell.headerOfCell.text = "Executant"
-                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)
-                                case 1:
-                                    cell.headerOfCell.text = "Time interval"
-                                    cell.descriptionOfCell.text = timeInterval.rawValue
-                                case 2:
-                                    cell.headerOfCell.text = "Time zone"
-                                    cell.descriptionOfCell.text = timeZone
-                                case 3:
-                                    cell.headerOfCell.text = "Deadline"
-                                    let dateFormatter = DateFormatter()
-                                    dateFormatter.timeStyle = .short
-                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
-                                    cell.descriptionOfCell.text = date
-                                    cell.accessoryType = .none
-                                case 4:
-                                    cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = KPIOneView.rawValue
-                                case 5:
-                                    cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
-                                case 6:
-                                    cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = typeOfChartTwo?.rawValue
-                                default:
-                                    break
-                                }
+                            switch indexPath.row {
+                            case 0:
+                                cell.headerOfCell.text = "Executant"
+                                cell.descriptionOfCell.text = getExecutantName(userID: executant)
+                            case 1:
+                                cell.headerOfCell.text = "Time interval"
+                                cell.descriptionOfCell.text = timeInterval.rawValue
+                            case 2:
+                                cell.headerOfCell.text = "Time zone"
+                                cell.descriptionOfCell.text = timeZone ?? " "
+                            case 3:
+                                cell.headerOfCell.text = "Deadline"
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.timeStyle = .short
+                                let date = dateFormatter.string(from: (deadlineTime))
+                                cell.descriptionOfCell.text = date
+                                cell.accessoryType = .none
+                                cell.rightConstraint.constant = 16.0
+                            case 4:
+                                let datePickerCell = tableView.dequeueReusableCell(withIdentifier: "DatePickerCell", for: indexPath) as! DatePickerTableViewCell
+                                datePickerCell.datePicker.setDate(deadlineTime, animated: false)
+                                datePickerCell.editKPIVC = self
+                                return datePickerCell
+                            default:
+                                break
                             }
-                            if KPIOneView == .Graph && KPITwoView == .Numbers {
-                                switch indexPath.row {
-                                case 0:
-                                    cell.headerOfCell.text = "Executant"
-                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)
-                                case 1:
-                                    cell.headerOfCell.text = "Time interval"
-                                    cell.descriptionOfCell.text = timeInterval.rawValue
-                                case 2:
-                                    cell.headerOfCell.text = "Time zone"
-                                    cell.descriptionOfCell.text = timeZone
-                                case 3:
-                                    cell.headerOfCell.text = "Deadline"
-                                    let dateFormatter = DateFormatter()
-                                    dateFormatter.timeStyle = .short
-                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
-                                    cell.descriptionOfCell.text = date
-                                    cell.accessoryType = .none
-                                case 4:
-                                    cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = KPIOneView.rawValue
-                                case 5:
-                                    cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = typeOfChartOne?.rawValue
-                                case 6:
-                                    cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
-                                default:
-                                    break
-                                }
-                            }
-                            if KPIOneView == .Graph && KPITwoView == .Graph {
-                                switch indexPath.row {
-                                case 0:
-                                    cell.headerOfCell.text = "Executant"
-                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)
-                                case 1:
-                                    cell.headerOfCell.text = "Time interval"
-                                    cell.descriptionOfCell.text = timeInterval.rawValue
-                                case 2:
-                                    cell.headerOfCell.text = "Time zone"
-                                    cell.descriptionOfCell.text = timeZone
-                                case 3:
-                                    cell.headerOfCell.text = "Deadline"
-                                    let dateFormatter = DateFormatter()
-                                    dateFormatter.timeStyle = .short
-                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
-                                    cell.descriptionOfCell.text = date
-                                    cell.accessoryType = .none
-                                case 4:
-                                    cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = KPIOneView.rawValue
-                                case 5:
-                                    cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = typeOfChartOne?.rawValue
-                                case 6:
-                                    cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
-                                case 7:
-                                    cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = typeOfChartTwo?.rawValue
-                                default:
-                                    break
-                                }
-                            }
+                        case .Weekly, .Monthly:
                             
-                        default:
-                            if KPIOneView == .Numbers && KPITwoView == .Graph {
+                            if dataPickerIsVisible {
+                                switch indexPath.row {
+                                case 0:
+                                    cell.headerOfCell.text = "Executant"
+                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)
+                                case 1:
+                                    cell.headerOfCell.text = "Time interval"
+                                    cell.descriptionOfCell.text = timeInterval.rawValue
+                                case 2:
+                                    cell.headerOfCell.text = "Day"
+                                    switch timeInterval {
+                                    case .Monthly:
+                                        if mounthlyInterval != nil {
+                                            if mounthlyInterval! > 28 {
+                                                cell.descriptionOfCell.text = "\(mounthlyInterval!) or last day"
+                                            } else {
+                                                cell.descriptionOfCell.text = "\(mounthlyInterval!)"
+                                            }
+                                            
+                                        } else {
+                                            cell.descriptionOfCell.text = "Add day"
+                                        }
+                                    case .Weekly:
+                                        cell.descriptionOfCell.text = weeklyInterval != .none ? weeklyInterval.rawValue : "Add day"
+                                    default:
+                                        break
+                                    }
+                                case 3:
+                                    let dataPickerCell = tableView.dequeueReusableCell(withIdentifier: "DataPickerCell", for: indexPath)  as! DataPickerTableViewCell
+                                    dataPickerCell.dataPicker.reloadAllComponents()
+                                    dataPickerCell.dataPicker.selectRow(0, inComponent: 0, animated: false)
+                                    switch timeInterval {
+                                    case .Daily:
+                                        break
+                                    case .Weekly:
+                                        if weeklyInterval == .none {
+                                            dataPickerCell.dataPicker.selectRow(0, inComponent: 0, animated: false)
+                                        } else {
+                                            for (index, day) in weeklyArray.enumerated() {
+                                                if day.SettingName == weeklyInterval.rawValue {
+                                                    dataPickerCell.dataPicker.selectRow(index, inComponent: 0, animated: false)
+                                                }
+                                            }
+                                        }
+                                    case .Monthly:
+                                        if mounthlyInterval == nil {
+                                            dataPickerCell.dataPicker.selectRow(0, inComponent: 0, animated: false)
+                                        } else {
+                                            for (index, day) in mounthlyIntervalArray.enumerated() {
+                                                if Int(day.SettingName) == mounthlyInterval {
+                                                    dataPickerCell.dataPicker.selectRow(index, inComponent: 0, animated: false)
+                                                }
+                                            }
+                                        }
+                                    }
+                                    dataPickerCell.dataPicker.selectedRow(inComponent: 0)
+                                    return dataPickerCell
+                                case 4:
+                                    cell.headerOfCell.text = "Time zone"
+                                    cell.descriptionOfCell.text = timeZone ?? " "
+                                case 5:
+                                    cell.headerOfCell.text = "Deadline"
+                                    let dateFormatter = DateFormatter()
+                                    dateFormatter.timeStyle = .short
+                                    let date = dateFormatter.string(from: (deadlineTime))
+                                    cell.descriptionOfCell.text = date
+                                    cell.accessoryType = .none
+                                    cell.rightConstraint.constant = 16.0
+                                case 6:
+                                    let datePickerCell = tableView.dequeueReusableCell(withIdentifier: "DatePickerCell", for: indexPath) as! DatePickerTableViewCell
+                                    datePickerCell.editKPIVC = self
+                                    datePickerCell.datePicker.setDate(deadlineTime, animated: false)
+                                    return datePickerCell
+                                default:
+                                    break
+                                }
+                            } else {
                                 switch indexPath.row {
                                 case 0:
                                     cell.headerOfCell.text = "Executant"
@@ -311,7 +320,7 @@ extension ReportAndViewKPITableViewController {
                                             cell.descriptionOfCell.text = "Add day"
                                         }
                                     case .Weekly:
-                                        cell.descriptionOfCell.text = weeklyInterval?.rawValue
+                                        cell.descriptionOfCell.text = weeklyInterval != .none ? weeklyInterval.rawValue : "Add day"
                                     default:
                                         break
                                     }
@@ -322,122 +331,67 @@ extension ReportAndViewKPITableViewController {
                                     cell.headerOfCell.text = "Deadline"
                                     let dateFormatter = DateFormatter()
                                     dateFormatter.timeStyle = .short
-                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                                    let date = dateFormatter.string(from: (deadlineTime))
                                     cell.descriptionOfCell.text = date
                                     cell.accessoryType = .none
+                                    cell.rightConstraint.constant = 16.0
                                 case 5:
-                                    cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = KPIOneView.rawValue
-                                case 6:
-                                    cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
-                                case 7:
-                                    cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = typeOfChartTwo?.rawValue
+                                    let datePickerCell = tableView.dequeueReusableCell(withIdentifier: "DatePickerCell", for: indexPath) as! DatePickerTableViewCell
+                                    datePickerCell.editKPIVC = self
+                                    datePickerCell.datePicker.setDate(deadlineTime, animated: false)
+                                    return datePickerCell
                                 default:
                                     break
                                 }
                             }
-                            if KPIOneView == .Graph && KPITwoView == .Numbers {
-                                switch indexPath.row {
-                                case 0:
-                                    cell.headerOfCell.text = "Executant"
-                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)
-                                case 1:
-                                    cell.headerOfCell.text = "Time interval"
-                                    cell.descriptionOfCell.text = timeInterval.rawValue
-                                case 2:
-                                    cell.headerOfCell.text = "Day"
-                                    switch timeInterval {
-                                    case .Monthly:
-                                        if self.mounthlyInterval != nil {
-                                            if self.mounthlyInterval! > 28 {
-                                                cell.descriptionOfCell.text = "\(mounthlyInterval!) or last day"
-                                            } else {
-                                                cell.descriptionOfCell.text = "\(mounthlyInterval!)"
-                                            }
-                                        } else {
-                                            cell.descriptionOfCell.text = "Add day"
-                                        }
-                                    case .Weekly:
-                                        cell.descriptionOfCell.text = weeklyInterval?.rawValue
-                                    default:
-                                        break
-                                    }
-                                case 3:
-                                    cell.headerOfCell.text = "Time zone"
-                                    cell.descriptionOfCell.text = timeZone
-                                case 4:
-                                    cell.headerOfCell.text = "Deadline"
-                                    let dateFormatter = DateFormatter()
-                                    dateFormatter.timeStyle = .short
-                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
-                                    cell.descriptionOfCell.text = date
-                                    cell.accessoryType = .none
-                                case 5:
-                                    cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = KPIOneView.rawValue
-                                case 6:
-                                    cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = typeOfChartOne?.rawValue
-                                case 7:
-                                    cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
-                                default:
-                                    break
-                                }
+                        }
+                    case 3:
+                        if KPIOneView == .Numbers && KPITwoView == .Graph {
+                            switch indexPath.row {
+                            case 0:
+                                cell.headerOfCell.text = "KPI's 1 st view"
+                                cell.descriptionOfCell.text = KPIOneView.rawValue
+                            case 1:
+                                cell.headerOfCell.text = "KPI's 2 st view"
+                                cell.descriptionOfCell.text = KPITwoView?.rawValue
+                            case 2:
+                                cell.headerOfCell.text = "Graph type"
+                                cell.descriptionOfCell.text = typeOfChartTwo?.rawValue
+                            default:
+                                break
                             }
-                            if KPIOneView == .Graph && KPITwoView == .Graph {
-                                switch indexPath.row {
-                                case 0:
-                                    cell.headerOfCell.text = "Executant"
-                                    cell.descriptionOfCell.text = getExecutantName(userID: executant)
-                                case 1:
-                                    cell.headerOfCell.text = "Time interval"
-                                    cell.descriptionOfCell.text = timeInterval.rawValue
-                                case 2:
-                                    cell.headerOfCell.text = "Day"
-                                    switch timeInterval {
-                                    case .Monthly:
-                                        if self.mounthlyInterval != nil {
-                                            if self.mounthlyInterval! > 28 {
-                                                cell.descriptionOfCell.text = "\(mounthlyInterval!) or last day"
-                                            } else {
-                                                cell.descriptionOfCell.text = "\(mounthlyInterval!)"
-                                            }
-                                        } else {
-                                            cell.descriptionOfCell.text = "Add day"
-                                        }
-                                    case .Weekly:
-                                        cell.descriptionOfCell.text = weeklyInterval?.rawValue
-                                    default:
-                                        break
-                                    }
-                                case 3:
-                                    cell.headerOfCell.text = "Time zone"
-                                    cell.descriptionOfCell.text = timeZone
-                                case 4:
-                                    cell.headerOfCell.text = "Deadline"
-                                    let dateFormatter = DateFormatter()
-                                    dateFormatter.timeStyle = .short
-                                    let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
-                                    cell.descriptionOfCell.text = date
-                                    cell.accessoryType = .none
-                                case 5:
-                                    cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = KPIOneView.rawValue
-                                case 6:
-                                    cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = typeOfChartOne?.rawValue
-                                case 7:
-                                    cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
-                                case 8:
-                                    cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = typeOfChartTwo?.rawValue
-                                default:
-                                    break
-                                }
+                        }
+                        if KPIOneView == .Graph && KPITwoView == .Numbers {
+                            switch indexPath.row {
+                            case 0:
+                                cell.headerOfCell.text = "KPI's 1 st view"
+                                cell.descriptionOfCell.text = KPIOneView.rawValue
+                            case 1:
+                                cell.headerOfCell.text = "Graph type"
+                                cell.descriptionOfCell.text = typeOfChartOne?.rawValue
+                            case 2:
+                                cell.headerOfCell.text = "KPI's 2 st view"
+                                cell.descriptionOfCell.text = KPITwoView?.rawValue
+                            default:
+                                break
+                            }
+                        }
+                        if KPIOneView == .Graph && KPITwoView == .Graph {
+                            switch indexPath.row {
+                            case 0:
+                                cell.headerOfCell.text = "KPI's 1 st view"
+                                cell.descriptionOfCell.text = KPIOneView.rawValue
+                            case 1:
+                                cell.headerOfCell.text = "Graph type"
+                                cell.descriptionOfCell.text = typeOfChartOne?.rawValue
+                            case 2:
+                                cell.headerOfCell.text = "KPI's 2 st view"
+                                cell.descriptionOfCell.text = KPITwoView?.rawValue
+                            case 3:
+                                cell.headerOfCell.text = "Graph type"
+                                cell.descriptionOfCell.text = typeOfChartTwo?.rawValue
+                            default:
+                                break
                             }
                         }
                     default:
@@ -453,15 +407,20 @@ extension ReportAndViewKPITableViewController {
                             cell.accessoryType = .none
                             switch indexPath.row {
                             case 0:
-                                cell.headerOfCell.text = (department?.rawValue)! + " Department"
+                                cell.headerOfCell.text = department.rawValue + " Department"
                             case 1:
                                 cell.headerOfCell.text = timeInterval.rawValue
                             case 2:
-                                cell.headerOfCell.text = "Time zone: " + timeZone
+                                if timeZone != nil {
+                                    cell.headerOfCell.text = "Time zone: " + timeZone!
+                                } else {
+                                    cell.headerOfCell.text = "Time zone: " + "Error timeZone"
+                                }
+                                
                             case 3:
                                 let dateFormatter = DateFormatter()
                                 dateFormatter.timeStyle = .short
-                                let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
+                                let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadlineTime)!)
                                 cell.headerOfCell.text = "Before " + date
                             default:
                                 break
@@ -522,99 +481,7 @@ extension ReportAndViewKPITableViewController {
                             break
                         }
                     default:
-                        switch indexPath.section {
-                        case 0:
-                            cell.descriptionOfCell.isHidden = true
-                            cell.selectionStyle = .none
-                            cell.accessoryType = .none
-                            switch indexPath.row {
-                            case 0:
-                                cell.headerOfCell.text = (department?.rawValue)! + " Department"
-                            case 1:
-                                cell.headerOfCell.text = timeInterval.rawValue
-                            case 2:
-                                cell.headerOfCell.text = "Day"
-                                switch timeInterval {
-                                case .Monthly:
-                                    if self.mounthlyInterval != nil {
-                                        if self.mounthlyInterval! > 28 {
-                                            cell.headerOfCell.text = "\(mounthlyInterval!) or last day"
-                                        } else {
-                                            cell.headerOfCell.text = "\(mounthlyInterval!)"
-                                        }
-                                    } else {
-                                        cell.headerOfCell.text = "Add day"
-                                    }
-                                case .Weekly:
-                                    cell.headerOfCell.text = weeklyInterval?.rawValue
-                                default:
-                                    break
-                                }
-                            case 3:
-                                cell.headerOfCell.text = "Time zone: " + timeZone
-                            case 4:
-                                let dateFormatter = DateFormatter()
-                                dateFormatter.timeStyle = .short
-                                let date = dateFormatter.string(from: (model.kpis[kpiIndex].createdKPI?.deadline)!)
-                                cell.headerOfCell.text = "Before " + date
-                            default:
-                                break
-                            }
-                        case 1:
-                            cell.descriptionOfCell.isHidden = false
-                            cell.selectionStyle = .default
-                            cell.accessoryType = .disclosureIndicator
-                            if KPIOneView == .Numbers && KPITwoView == .Graph {
-                                switch indexPath.row {
-                                case 0:
-                                    cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = KPIOneView.rawValue
-                                case 1:
-                                    cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
-                                case 2:
-                                    cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = typeOfChartTwo?.rawValue
-                                default:
-                                    break
-                                }
-                            }
-                            if KPIOneView == .Graph && KPITwoView == .Numbers {
-                                switch indexPath.row {
-                                case 0:
-                                    cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = KPIOneView.rawValue
-                                case 1:
-                                    cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = typeOfChartOne?.rawValue
-                                case 2:
-                                    cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
-                                default:
-                                    break
-                                }
-                            }
-                            if KPIOneView == .Graph && KPITwoView == .Graph {
-                                switch indexPath.row {
-                                case 0:
-                                    cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = KPIOneView.rawValue
-                                case 1:
-                                    cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = typeOfChartOne?.rawValue
-                                case 2:
-                                    cell.headerOfCell.text = "KPI's 2 st view"
-                                    cell.descriptionOfCell.text = KPITwoView?.rawValue
-                                case 3:
-                                    cell.headerOfCell.text = "Graph type"
-                                    cell.descriptionOfCell.text = typeOfChartTwo?.rawValue
-                                default:
-                                    break
-                                }
-                            }
-                        default:
-                            break
-                        }
+                        break
                     }
                 }
             }
@@ -624,7 +491,6 @@ extension ReportAndViewKPITableViewController {
     }
     
     func didSelectRowAt(IndexPath indexPath: IndexPath) {
-        
         switch buttonDidTaped {
         case .Report:
             switch indexPath.section {
@@ -666,7 +532,27 @@ extension ReportAndViewKPITableViewController {
                     case 2:
                         switch timeInterval {
                         case .Daily:
-                            if KPIOneView == .Numbers && KPITwoView == .Graph {
+                            switch indexPath.row {
+                            case 0:
+                                typeOfSetting = .Executant
+                                settingArray = executantArray
+                                showSelectSettingVC()
+                            case 1:
+                                typeOfSetting = .TimeInterval
+                                settingArray = timeIntervalArray
+                                showSelectSettingVC()
+                            case 2:
+                                typeOfSetting = .TimeZone
+                                settingArray = timeZoneArray
+                                showSelectSettingVC()
+                            case 3:
+                                tableView.deselectRow(at: indexPath, animated: true)
+                                showDatePicker(row: indexPath.row)
+                            default:
+                                break
+                            }
+                        case .Weekly, .Monthly:
+                            if dataPickerIsVisible {
                                 switch indexPath.row {
                                 case 0:
                                     typeOfSetting = .Executant
@@ -677,30 +563,19 @@ extension ReportAndViewKPITableViewController {
                                     settingArray = timeIntervalArray
                                     showSelectSettingVC()
                                 case 2:
+                                    tableView.deselectRow(at: indexPath, animated: true)
+                                    showDataPicker(row: indexPath.row)
+                                case 4:
                                     typeOfSetting = .TimeZone
                                     settingArray = timeZoneArray
                                     showSelectSettingVC()
-                                case 3:
-                                    break
-                                //deadline
-                                case 4:
-                                    typeOfSetting = .KPIViewOne
-                                    settingArray = KPIOneViewArray
-                                    showSelectSettingVC()
                                 case 5:
-                                    typeOfSetting = .KPIViewTwo
-                                    settingArray = KPITwoViewArray
-                                    showSelectSettingVC()
-                                case 6:
-                                    typeOfSetting = .ChartTwo
-                                    settingArray = typeOfChartTwoArray
-                                    showSelectSettingVC()
+                                    tableView.deselectRow(at: indexPath, animated: true)
+                                    showDatePicker(row: indexPath.row)
                                 default:
                                     break
                                 }
-                                
-                            }
-                            if KPIOneView == .Graph && KPITwoView == .Numbers {
+                            } else {
                                 switch indexPath.row {
                                 case 0:
                                     typeOfSetting = .Executant
@@ -711,202 +586,78 @@ extension ReportAndViewKPITableViewController {
                                     settingArray = timeIntervalArray
                                     showSelectSettingVC()
                                 case 2:
+                                    tableView.deselectRow(at: indexPath, animated: true)
+                                    showDataPicker(row: indexPath.row)
+                                case 3:
                                     typeOfSetting = .TimeZone
                                     settingArray = timeZoneArray
                                     showSelectSettingVC()
-                                case 3:
-                                    break
-                                //deadline
                                 case 4:
-                                    typeOfSetting = .KPIViewOne
-                                    settingArray = KPIOneViewArray
-                                    showSelectSettingVC()
-                                case 5:
-                                    typeOfSetting = .ChartOne
-                                    settingArray = typeOfChartOneArray
-                                    showSelectSettingVC()
-                                case 6:
-                                    typeOfSetting = .KPIViewTwo
-                                    settingArray = KPITwoViewArray
-                                    showSelectSettingVC()
-                                default:
-                                    break
-                                }
-                            }
-                            if KPIOneView == .Graph && KPITwoView == .Graph {
-                                switch indexPath.row {
-                                case 0:
-                                    typeOfSetting = .Executant
-                                    settingArray = executantArray
-                                    showSelectSettingVC()
-                                case 1:
-                                    typeOfSetting = .TimeInterval
-                                    settingArray = timeIntervalArray
-                                    showSelectSettingVC()
-                                case 2:
-                                    typeOfSetting = .TimeZone
-                                    settingArray = timeZoneArray
-                                    showSelectSettingVC()
-                                case 3:
-                                    break
-                                //deadline
-                                case 4:
-                                    typeOfSetting = .KPIViewOne
-                                    settingArray = KPIOneViewArray
-                                    showSelectSettingVC()
-                                case 5:
-                                    typeOfSetting = .ChartOne
-                                    settingArray = typeOfChartOneArray
-                                    showSelectSettingVC()
-                                case 6:
-                                    typeOfSetting = .KPIViewTwo
-                                    settingArray = KPITwoViewArray
-                                    showSelectSettingVC()
-                                case 7:
-                                    typeOfSetting = .ChartTwo
-                                    settingArray = typeOfChartTwoArray
-                                    showSelectSettingVC()
+                                    tableView.deselectRow(at: indexPath, animated: true)
+                                    showDatePicker(row: indexPath.row)
                                 default:
                                     break
                                 }
                             }
-                        default:
-                            if KPIOneView == .Numbers && KPITwoView == .Graph {
-                                switch indexPath.row {
-                                case 0:
-                                    typeOfSetting = .Executant
-                                    settingArray = executantArray
-                                    showSelectSettingVC()
-                                case 1:
-                                    typeOfSetting = .TimeInterval
-                                    settingArray = timeIntervalArray
-                                    showSelectSettingVC()
-                                case 2:
-                                    typeOfSetting = .DeliveryDay
-                                    switch timeInterval {
-                                    case .Monthly:
-                                        settingArray = mounthlyIntervalArray
-                                    case .Weekly:
-                                        settingArray = weeklyArray
-                                    default:
-                                        break
-                                    }
-                                    showSelectSettingVC()
-                                case 3:
-                                    typeOfSetting = .TimeZone
-                                    settingArray = timeZoneArray
-                                    showSelectSettingVC()
-                                case 4:
-                                    break
-                                //deadline
-                                case 5:
-                                    typeOfSetting = .KPIViewOne
-                                    settingArray = KPIOneViewArray
-                                    showSelectSettingVC()
-                                case 6:
-                                    typeOfSetting = .KPIViewTwo
-                                    settingArray = KPITwoViewArray
-                                    showSelectSettingVC()
-                                case 7:
-                                    typeOfSetting = .ChartTwo
-                                    settingArray = typeOfChartTwoArray
-                                    showSelectSettingVC()
-                                default:
-                                    break
-                                }
-                                
+                        }
+                    case 3:
+                        if KPIOneView == .Numbers && KPITwoView == .Graph {
+                            switch indexPath.row {
+                            case 0:
+                                typeOfSetting = .KPIViewOne
+                                settingArray = KPIOneViewArray
+                                showSelectSettingVC()
+                            case 1:
+                                typeOfSetting = .KPIViewTwo
+                                settingArray = KPITwoViewArray
+                                showSelectSettingVC()
+                            case 2:
+                                typeOfSetting = .ChartTwo
+                                settingArray = typeOfChartTwoArray
+                                showSelectSettingVC()
+                            default:
+                                break
                             }
-                            if KPIOneView == .Graph && KPITwoView == .Numbers {
-                                switch indexPath.row {
-                                case 0:
-                                    typeOfSetting = .Executant
-                                    settingArray = executantArray
-                                    showSelectSettingVC()
-                                case 1:
-                                    typeOfSetting = .TimeInterval
-                                    settingArray = timeIntervalArray
-                                    showSelectSettingVC()
-                                case 2:
-                                    typeOfSetting = .DeliveryDay
-                                    switch timeInterval {
-                                    case .Monthly:
-                                        settingArray = mounthlyIntervalArray
-                                    case .Weekly:
-                                        settingArray = weeklyArray
-                                    default:
-                                        break
-                                    }
-                                    self.showSelectSettingVC()
-                                case 3:
-                                    typeOfSetting = .TimeZone
-                                    settingArray = timeZoneArray
-                                    showSelectSettingVC()
-                                case 4:
-                                    break
-                                //deadline
-                                case 5:
-                                    typeOfSetting = .KPIViewOne
-                                    settingArray = KPIOneViewArray
-                                    showSelectSettingVC()
-                                case 6:
-                                    typeOfSetting = .ChartOne
-                                    settingArray = typeOfChartOneArray
-                                    showSelectSettingVC()
-                                case 7:
-                                    typeOfSetting = .KPIViewTwo
-                                    settingArray = KPITwoViewArray
-                                    showSelectSettingVC()
-                                default:
-                                    break
-                                }
+                        }
+                        if KPIOneView == .Graph && KPITwoView == .Numbers {
+                            switch indexPath.row {
+                            case 0:
+                                typeOfSetting = .KPIViewOne
+                                settingArray = KPIOneViewArray
+                                showSelectSettingVC()
+                            case 1:
+                                typeOfSetting = .ChartOne
+                                settingArray = typeOfChartOneArray
+                                showSelectSettingVC()
+                            case 2:
+                                typeOfSetting = .KPIViewTwo
+                                settingArray = KPITwoViewArray
+                                showSelectSettingVC()
+                            default:
+                                break
+
                             }
-                            if KPIOneView == .Graph && KPITwoView == .Graph {
-                                switch indexPath.row {
-                                case 0:
-                                    typeOfSetting = .Executant
-                                    settingArray = executantArray
-                                    showSelectSettingVC()
-                                case 1:
-                                    typeOfSetting = .TimeInterval
-                                    settingArray = timeIntervalArray
-                                    showSelectSettingVC()
-                                case 2:
-                                    typeOfSetting = .DeliveryDay
-                                    switch timeInterval {
-                                    case .Monthly:
-                                        settingArray = mounthlyIntervalArray
-                                    case .Weekly:
-                                        settingArray = weeklyArray
-                                    default:
-                                        break
-                                    }
-                                    self.showSelectSettingVC()
-                                case 3:
-                                    typeOfSetting = .TimeZone
-                                    settingArray = timeZoneArray
-                                    showSelectSettingVC()
-                                case 4:
-                                    break
-                                //deadline
-                                case 5:
-                                    typeOfSetting = .KPIViewOne
-                                    settingArray = KPIOneViewArray
-                                    showSelectSettingVC()
-                                case 6:
-                                    typeOfSetting = .ChartOne
-                                    settingArray = typeOfChartOneArray
-                                    showSelectSettingVC()
-                                case 7:
-                                    typeOfSetting = .KPIViewTwo
-                                    settingArray = KPITwoViewArray
-                                    showSelectSettingVC()
-                                case 8:
-                                    typeOfSetting = .ChartTwo
-                                    settingArray = typeOfChartTwoArray
-                                    showSelectSettingVC()
-                                default:
-                                    break
-                                }
+                        }
+                        if KPIOneView == .Graph && KPITwoView == .Graph {
+                            switch indexPath.row {
+                            case 0:
+                                typeOfSetting = .KPIViewOne
+                                settingArray = KPIOneViewArray
+                                showSelectSettingVC()
+                            case 1:
+                                typeOfSetting = .ChartOne
+                                settingArray = typeOfChartOneArray
+                                showSelectSettingVC()
+                            case 2:
+                                typeOfSetting = .KPIViewTwo
+                                settingArray = KPITwoViewArray
+                                showSelectSettingVC()
+                            case 3:
+                                typeOfSetting = .ChartTwo
+                                settingArray = typeOfChartTwoArray
+                                showSelectSettingVC()
+                            default:
+                                break
                             }
                         }
                     default:
@@ -982,4 +733,92 @@ extension ReportAndViewKPITableViewController {
         }
     }
     
+    //MARK: - Date Picker
+    func showDatePicker(row: Int) {
+        datePickerIsVisible = !datePickerIsVisible
+        
+        let indexPath = IndexPath(item: row + 1, section: 2)
+        
+        if datePickerIsVisible {
+            tableView.insertRows(at: [indexPath], with: .top)
+            tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+        } else {
+            tableView.deleteRows(at: [indexPath], with: .top)
+            if deadlineTime == nil {
+                deadlineTime = Date()
+                tableView.reloadRows(at: [IndexPath(item: row, section: 2)], with: .none)
+            }
+        }
+    }
+    
+    //MARK: - UIPickerView
+    func showDataPicker(row: Int) {
+        dataPickerIsVisible = !dataPickerIsVisible
+        let indexPath = IndexPath(item: row + 1, section: 2)
+        if dataPickerIsVisible {
+            tableView.insertRows(at: [indexPath], with: .top)
+            tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+        } else {
+            switch timeInterval {
+            case .Daily:
+                break
+            case .Weekly:
+                if weeklyInterval == WeeklyInterval.none {
+                    weeklyInterval = WeeklyInterval.Monday
+                }
+            case .Monthly:
+                if mounthlyInterval == nil {
+                    mounthlyInterval = 1
+                }
+            }
+            checkInputValues()
+            tableView.deleteRows(at: [indexPath], with: .top)
+            tableView.reloadRows(at: [IndexPath(item: row, section: 2)], with: .none)
+        }
+    }
+}
+
+//MARK: - UIPickerViewDataSource and UIPickerViewDelegate methods
+extension ReportAndViewKPITableViewController: UIPickerViewDataSource,UIPickerViewDelegate {
+    //MARK: - Delegates and data sources
+    //MARK: Data Sources
+    @available(iOS 2.0, *)
+    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        switch timeInterval {
+        case .Daily:
+            return 0
+        case .Weekly:
+            return weeklyArray.count
+        case .Monthly:
+            return mounthlyIntervalArray.count
+        }
+    }
+    
+    //MARK: Delegates
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        switch timeInterval {
+        case .Daily:
+            return ""
+        case .Weekly:
+            return weeklyArray[row].SettingName
+        case .Monthly:
+            return mounthlyIntervalArray[row].SettingName
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        switch timeInterval {
+        case .Daily:
+            break
+        case .Weekly:
+            weeklyInterval =  WeeklyInterval(rawValue: weeklyArray[row].SettingName)!
+        case .Monthly:
+            mounthlyInterval =  Int(mounthlyIntervalArray[row].SettingName)
+        }
+        let indexPath = IndexPath(item: 2, section: 2)
+        tableView.reloadRows(at: [indexPath], with: .none)
+    }
 }

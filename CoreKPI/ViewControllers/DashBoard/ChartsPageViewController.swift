@@ -9,7 +9,7 @@
 import UIKit
 
 class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSource {
-
+    
     var kpi: KPI!
     
     override func viewDidLoad() {
@@ -147,33 +147,35 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 navigationItem.title = "Google Analytics"
                 switch (GoogleAnalyticsKPIs(rawValue: kpi.integratedKPI.kpiName!))! {
                 case .UsersSessions:
-                    //tableViewChartVC.header = kpi.integratedKPI.kpiName!
-                    tableViewChartVC.titleOfTable = ("Users/sessions","","Value")
-                    //tableViewChartVC.index = 0
+                    tableViewChartVC.titleOfTable = ("Date","","Value")
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
-                    }
-                    )
-                    //return tableViewChartVC
+                    })
                 case .AudienceOverview:
-                    tableViewChartVC.titleOfTable = ("Users/sessions","","Value")
-                    showAlert(title: "Sorry", message: "Coming soon")
-                    //return tableViewChartVC
+                    tableViewChartVC.titleOfTable = ("Ages","Genders","Market category")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
                 case .GoalOverview:
                     tableViewChartVC.titleOfTable = ("Goal Overview","","Value")
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
-                    }
-                    )
+                    })
                 case .TopPagesByPageviews:
                     tableViewChartVC.titleOfTable = ("Top Pages","","Value")
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
-                    }
-                    )
+                    })
+                case .TopSourcesBySessions:
+                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
                 case .TopOrganicKeywordsBySession:
                     tableViewChartVC.titleOfTable = ("Top Keywords","","Value")
                     createDataFromRequest(success: { dataForPresent in
@@ -226,60 +228,103 @@ extension ChartsPageViewController {
     //MARK: - get analytics data
     func getGoogleAnalyticsData(success: @escaping (_ report: Report) -> ()) {
         let external = kpi.integratedKPI
-        let request = GoogleAnalytics(oauthToken: (external?.oauthToken)!, oauthRefreshToken: (external?.oauthRefreshToken)!, oauthTokenExpiresAt: (external?.oauthTokenExpiresAt)! as Date)
+        let request = GoogleAnalytics(oauthToken: (external?.googleAnalyticsKPI?.oAuthToken)!, oauthRefreshToken: (external?.googleAnalyticsKPI?.oAuthRefreshToken)!, oauthTokenExpiresAt: (external?.googleAnalyticsKPI?.oAuthTokenExpiresAt)! as Date)
         let param = ReportRequest()
         param.viewId = (external?.googleAnalyticsKPI?.viewID)!
         
-        let ranges:[ReportRequest.DateRange] = [ReportRequest.DateRange(startDate: "2017-01-01", endDate: "2017-01-31")]
+        var ranges:[ReportRequest.DateRange] = []
         var metrics: [ReportRequest.Metric] = []
         var dimentions: [ReportRequest.Dimension] = []
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let curentDate = dateFormatter.string(from: Date())
+        let sevenDaysAgo = dateFormatter.string(from: Date(timeIntervalSinceNow: -(7*24*3600)))
+        let mounthAgo = dateFormatter.string(from: Date(timeIntervalSinceNow: -(30*24*3600)))
+        
         switch (GoogleAnalyticsKPIs(rawValue: (external?.kpiName)!))! {
         case .UsersSessions:
-            metrics.append(ReportRequest.Metric(expression: "ga:users/ga:sessions", formattingType: .FLOAT))
+            ranges.append(ReportRequest.DateRange(startDate: "2017-02-14", endDate: "2017-02-21"))
+            metrics.append(ReportRequest.Metric(expression: "ga:7dayUsers/ga:sessions", formattingType: .FLOAT))
+            dimentions.append(ReportRequest.Dimension(name: "ga:day"))
         case .AudienceOverview:
-            metrics.append(ReportRequest.Metric(expression: "ga:sessionsPerUser", formattingType: .FLOAT))
-        //TODO: уточнить у заказчика
+            metrics.append(ReportRequest.Metric(expression: "ga:users", formattingType: .FLOAT))
+            ranges.append(ReportRequest.DateRange(startDate: mounthAgo, endDate: curentDate))
+            dimentions.append(ReportRequest.Dimension(name: "ga:interestInMarketCategory"))
+            dimentions.append(ReportRequest.Dimension(name: "ga:userAgeBracket"))
+            dimentions.append(ReportRequest.Dimension(name: "ga:userGender"))
+
         case .GoalOverview:
-            metrics.append(ReportRequest.Metric(expression: "ga:goalCompletionsAll", formattingType: .FLOAT))
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
+            metrics.append(ReportRequest.Metric(expression: "ga:goalCompletionsAll", formattingType: .INTEGER))
         case .TopPagesByPageviews:
-            metrics.append(ReportRequest.Metric(expression: "ga:pageviews", formattingType: .FLOAT))
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
+            metrics.append(ReportRequest.Metric(expression: "ga:pageviews", formattingType: .INTEGER))
             dimentions.append(ReportRequest.Dimension(name: "ga:pagePath"))
         case .TopSourcesBySessions:
-            metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .FLOAT))
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
+            metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .INTEGER))
             dimentions.append(ReportRequest.Dimension(name: "ga:source"))
         case .TopOrganicKeywordsBySession:
-            metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .FLOAT))
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
+            metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .INTEGER))
             dimentions.append(ReportRequest.Dimension(name: "ga:keyword"))
         case .TopChannelsBySessions:
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
             metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:channelGrouping"))
         case .RevenueTransactions:
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
             metrics.append(ReportRequest.Metric(expression: "ga:totalValue/ga:transactions", formattingType: .FLOAT))
         case .EcommerceOverview:
-            metrics.append(ReportRequest.Metric(expression: "ga:sessionsPerUser", formattingType: .FLOAT))
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
+            metrics.append(ReportRequest.Metric(expression: "ga:itemQuantity", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:uniquePurchases", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:localTransactionShipping", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:localRefundAmount", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:productListViews", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:productListClicks", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:productAddsToCart", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:revenuePerUser", formattingType: .FLOAT))
+            metrics.append(ReportRequest.Metric(expression: "ga:transactionsPerUser", formattingType: .FLOAT))
         case .RevenueByLandingPage:
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
             metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:landingPagePath"))
         case .RevenueByChannels:
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
             metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:channelGrouping"))
         case .TopKeywordsByRevenue:
+            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
             metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:keyword"))
         case .TopSourcesByRevenue:
+            ranges.append(ReportRequest.DateRange(startDate: mounthAgo, endDate: curentDate))
             metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:source"))
         }
         
         param.dateRanges = ranges
         param.metrics = metrics
+        param.dimensions = dimentions
         
-        request.getAnalytics(param: param, success: { report in
+        request.getAnalytics(param: param, success: { report, token in
+            if token != nil {
+                let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
+                external?.googleAnalyticsKPI?.setValue(token, forKey: "oAuthToken")
+                do {
+                    try context.save()
+                } catch {
+                    print(error)
+                    return
+                }
+            }
             success(report)
         }, failure: { error in
-            if error == "401" {
-                self.refreshAccessToken()
+            if error == "403" {
+                //user has not rules for this view
+                self.autorisationAgain(external: external!)
             }
         }
         )
@@ -303,14 +348,20 @@ extension ChartsPageViewController {
             getGoogleAnalyticsData(success: { report in
                 switch (GoogleAnalyticsKPIs(rawValue: self.kpi.integratedKPI.kpiName!))! {
                 case .UsersSessions:
-                    for _ in 0..<(report.data?.rowCount)! {
-                        for data in (report.data?.totals)! {
-                            dataForPresent.append(("Users", "", "\(data.values[0])"))
-                        }
+                    for i in 0..<(report.data?.rowCount)! {
+                        let data = report.data?.rows[i]
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "yyyy/MM/"
+                        
+                        dataForPresent.append(("\(dateFormatter.string(from: Date()))\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
                     }
                     success(dataForPresent)
                 case .AudienceOverview:
-                    break //TODO: AudienceOverview
+                    for i in 0..<(report.data?.rowCount)! {
+                        let data = report.data?.rows[i]
+                        dataForPresent.append(("\((data?.dimensions[1])!)", "\((data?.dimensions[2])!)", "\((data?.dimensions[0])!)"))
+                    }
+                    success(dataForPresent)
                 case .GoalOverview:
                     for _ in 0..<(report.data?.rowCount)! {
                         for data in (report.data?.totals)! {
@@ -319,36 +370,57 @@ extension ChartsPageViewController {
                     }
                     success(dataForPresent)
                 case .TopPagesByPageviews:
-                    for _ in 0..<(report.data?.rowCount)! {
-                        for data in (report.data?.totals)! {
-                            dataForPresent.append(("Goal", "", "\(data.values[0])"))
-                        }
+                    for i in 0..<(report.data?.rowCount)! {
+                        let data = report.data?.rows[i]
+                        dataForPresent.append(("\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
                     }
                     success(dataForPresent)
                 case .TopSourcesBySessions:
-                    break //TODO: доделать
-                default:
-                    break
+                    for i in 0..<(report.data?.rowCount)! {
+                        let data = report.data?.rows[i]
+                        dataForPresent.append(("\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
+                    }
+                    success(dataForPresent)
+                case .TopOrganicKeywordsBySession:
+                    for i in 0..<(report.data?.rowCount)! {
+                        let data = report.data?.rows[i]
+                        dataForPresent.append(("\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
+                    }
+                    success(dataForPresent)
+                case .TopChannelsBySessions:
+                    for i in 0..<(report.data?.rowCount)! {
+                        let data = report.data?.rows[i]
+                        dataForPresent.append(("\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
+                    }
+                    success(dataForPresent)
+                case .RevenueTransactions:
+                    dataForPresent.append(("Revenue", "", "\((report.data?.totals[0].values[0])!)"))
+                    success(dataForPresent)
+                case .EcommerceOverview:
+                    for values in (report.data?.totals)! {
+                        for number in values.values {
+                            dataForPresent.append(("OverView", "", "\(number)"))
+                        }
+                    }
+                    success(dataForPresent)
+                case .RevenueByLandingPage:
+                    dataForPresent.append(("Revenue", "", "\((report.data?.totals[0].values[0])!)"))
+                    success(dataForPresent)
+                case .RevenueByChannels:
+                    dataForPresent.append(("Revenue", "", "\((report.data?.totals[0].values[0])!)"))
+                    success(dataForPresent)
+                case .TopKeywordsByRevenue:
+                    dataForPresent.append(("Revenue", "", "\((report.data?.totals[0].values[0])!)"))
+                    success(dataForPresent)
+                case .TopSourcesByRevenue:
+                    dataForPresent.append(("Revenue", "", "\((report.data?.totals[0].values[0])!)"))
+                    success(dataForPresent)
                 }
-            })
+            }
+            )
         default:
             break
         }
-    }
-    
-    //TODO: load data again
-    //MARK: - refresh token method
-    func refreshAccessToken() {
-        let request = ExternalRequest(oauthToken: kpi.integratedKPI.oauthToken!, oauthRefreshToken: kpi.integratedKPI.oauthRefreshToken!, oauthTokenExpiresAt: kpi.integratedKPI.oauthTokenExpiresAt as! Date)
-        request.updateAccessToken(servise: IntegratedServices(rawValue: kpi.integratedKPI.serviceName!)!, success: { accessToken in
-            print(accessToken)
-            self.kpi.integratedKPI.oauthToken = accessToken
-            //self.getGoogleAnalyticsData(index: index, success: {})
-        }, failure: { error in
-            print(error)
-            self.autorisationAgain(external: self.kpi.integratedKPI)
-        }
-        )
     }
     
     //MARK: - Autorisation again method

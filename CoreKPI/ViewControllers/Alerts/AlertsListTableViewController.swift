@@ -192,13 +192,13 @@ class AlertsListTableViewController: UITableViewController {
         
         switch indexPath.section {
         case 0:
-            cell.alertNameLabel.text = model.getNameKPI(FromID: Int(model.reminders[indexPath.row].sourceID))
+            cell.alertNameLabel.text = model.getNameKPI(FromID: Int(model.reminders[indexPath.row].sourceID)) ?? "Deleted reminder's KPI"
             cell.numberOfCell = indexPath.row
             cell.alertImageView.layer.backgroundColor = model.getBackgroundColourOfKPI(FromID: model.reminders[indexPath.row].sourceID).cgColor
             cell.deleteButton.tag = indexPath.row
             
         case 1:
-            cell.alertNameLabel.text = model.getNameKPI(FromID: Int(model.alerts[indexPath.row].sourceID))
+            cell.alertNameLabel.text = model.getNameKPI(FromID: Int(model.alerts[indexPath.row].sourceID)) ?? "Deleted alert's KPI"
             cell.numberOfCell = indexPath.row + (model.reminders.count - 1)
             cell.alertImageView.layer.backgroundColor = model.getBackgroundColourOfKPI(FromID: model.alerts[indexPath.row].sourceID).cgColor
             cell.deleteButton.tag = indexPath.row + (model.reminders.count)

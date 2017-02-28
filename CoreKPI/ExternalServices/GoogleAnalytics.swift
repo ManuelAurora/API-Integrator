@@ -34,10 +34,37 @@ class GoogleAnalytics: ExternalRequest {
         )
     }
     
-    func getAnalytics(param: ReportRequest, success: @escaping (_ report: Report) -> (), failure: @escaping failure ) {
+    func getAnalytics(param: ReportRequest, success: @escaping (_ report: Report, _ newOauthToken: String?) -> (), failure: @escaping failure) {
+        analyticsRequest(param: param, success: {report in
+            success(report, nil)
+        }, failure: { error in
+            if error == "401" {
+                //update token
+                self.updateAccessToken(servise: .GoogleAnalytics, success: {token in
+                    self.oauthToken = token
+                    //get analytics with new oauth token
+                    self.analyticsRequest(param: param, success: { report in
+                        success(report, token)
+                    }, failure: {error in
+                        failure(error)
+                    }
+                    )
+                }, failure: { error in
+                    failure(error)
+                }
+                )
+            } else {
+                failure(error)
+            }
+        }
+        )
+    }
+    
+    private func analyticsRequest(param: ReportRequest, success: @escaping (_ report: Report) -> (), failure: @escaping failure) {
+        
         let url = "https://analyticsreporting.googleapis.com."
         let uri = "/v4/reports:batchGet"
-    
+        
         let jsonString = param.toJSON()
         
         let params: [String : Any] = ["reportRequests" : jsonString]
@@ -55,8 +82,9 @@ class GoogleAnalytics: ExternalRequest {
                 }
             }
         }, failure: { error in
-            failure(error)
+            print(error)
         }
         )
     }
+    
 }

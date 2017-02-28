@@ -75,6 +75,9 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
                 cell.centralLabel.text = titleOfTable.centralTitle
                 cell.rightLabel.text = titleOfTable.rightTitle
             default:
+                cell.leftLabel.textColor = UIColor.black
+                cell.centralLabel.textColor = UIColor.black
+                cell.rightLabel.textColor = UIColor.black
                 cell.leftLabel.text = dataArray[indexPath.row - 1].leftValue
                 cell.centralLabel.text = dataArray[indexPath.row - 1].centralValue
                 cell.rightLabel.text = dataArray[indexPath.row - 1].rightValue

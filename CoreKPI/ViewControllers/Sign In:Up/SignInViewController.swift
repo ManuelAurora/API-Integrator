@@ -135,6 +135,10 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         teamListController.model = ModelCoreKPI(model: model)
         teamListController.loadTeamListFromServer()
         
+        let supportNavigationViewControleler = tabBarController.viewControllers?[3] as! SupportNavigationViewController
+        let supportMainTableVC = supportNavigationViewControleler.childViewControllers[0] as! SupportMainTableViewController
+        supportMainTableVC.model = ModelCoreKPI(model: model)
+        
         present(tabBarController, animated: true, completion: nil)
     }
     
