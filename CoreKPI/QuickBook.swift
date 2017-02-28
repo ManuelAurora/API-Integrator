@@ -168,6 +168,7 @@ class QuickBookDataManager
     private var nonPaidInvoicesPercent: resultArray = []
     private var paidInvoicesPercent: resultArray = []
     private var invoices: resultArray = []
+    private var overdueCustomers: resultArray = []
     
     var queryMethod: QuickBookMethod?
         
@@ -266,6 +267,10 @@ class QuickBookDataManager
                 //Invoices
                 let queryResult = jsonDict!["QueryResponse"] as! [String: Any]
                 let invoceList = queryResult["Invoice"] as! [[String: Any]]
+                let currentDate = Date()
+                let dateFormatter = DateFormatter()
+                
+                dateFormatter.dateFormat = "yyyy-MM-dd"
                 
                 print(invoceList)
                 
@@ -282,7 +287,18 @@ class QuickBookDataManager
                     {
                         resultInvoice.leftValue = "Non-paid invoice"
                         resultInvoice.rightValue = "\(totalAmt)"
+                        
                         nonPaidInvoices.append(resultInvoice)
+                        
+                        let overdueDateString = invoice["DueDate"] as! String
+                        let overdueDate = dateFormatter.date(from: overdueDateString)! //Date in Moscow can be slightly different
+                        
+                        if currentDate > overdueDate
+                        {
+                            let overdueCustomer = (invoice["CustomerRef"] as! [String: Any])["name"] as! String
+                            resultInvoice.leftValue = "\(overdueCustomer)"
+                            overdueCustomers.append(resultInvoice)
+                        }
                     }
                     else
                     {
@@ -300,6 +316,27 @@ class QuickBookDataManager
                 
                 paidInvoicesPercent.append((leftValue: "Paid invoices percent", centralValue: "", rightValue: "\(paidPercent)%"))
                 nonPaidInvoicesPercent.append((leftValue: "Non-paid invoices percent", centralValue: "", rightValue: "\(nonPaidPercent)%"))
+                
+                var filteredOverdueArray = resultArray()
+                
+                for customer in overdueCustomers
+                {
+                    if !filteredOverdueArray.contains(where: { (value) -> Bool in
+                        return customer.leftValue == value.leftValue }) {
+                    
+                        let sum = overdueCustomers.filter {
+                            $0.leftValue == customer.leftValue
+                            } .reduce(Float(0)) { (total, value) in
+                                return total + Float(value.rightValue)!
+                        }
+                        
+                        let refactoredCustomer = (leftValue: customer.leftValue , centralValue: "", rightValue: "\(sum)")
+                        
+                        filteredOverdueArray.append(refactoredCustomer)
+                    }
+                }
+                
+                overdueCustomers = filteredOverdueArray
                 
             case .profitLoss:
                 let rows = jsonDict!["Rows"] as! [String: Any]
