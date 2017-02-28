@@ -21,6 +21,8 @@ class ExternalKPIViewController: OAuthViewController {
         return QuickBookDataManager.shared()
     }
     
+    var selectedQBKPIs = [(SettingName: String, value: Bool)]()
+    
     lazy var internalWebViewController: WebViewController = {
         let controller = WebViewController()
         
@@ -49,20 +51,16 @@ class ExternalKPIViewController: OAuthViewController {
     }
     
     @IBAction func didTapedSaveButton(_ sender: UIBarButtonItem) {
-        var kpiNotSelected = true
-        for service in serviceKPI {
-            if service.value == true {
-                
-                if service.SettingName == "Balance"
-                {
-                    kpiNotSelected = false
-                }
+        
+        if selectedService == .Quickbooks
+        {
+            selectedQBKPIs = serviceKPI.filter { $0.value == true }
+            
+            if selectedQBKPIs.count > 0 {
+                doAuthService()
+            } else {
+                showAlert(title: "Sorry!", message: "First you should select one or more KPI, or service not integrated yet")
             }
-        }
-        if !kpiNotSelected {
-            doAuthService()
-        } else {
-            showAlert(title: "Sorry!", message: "First you should select one or more KPI, or service not integrated yet")
         }
     }
     
@@ -165,99 +163,12 @@ extension ExternalKPIViewController {
             success: { credential, response, parameters in
                 self.quickBookDataManager.serviceParameters[.oauthToken] = credential.oauthToken
                 self.quickBookDataManager.serviceParameters[.oauthRefreshToken] = credential.oauthRefreshToken
-                self.fetchDataFromIntuit(oauthswift)
+                self.quickBookDataManager.formListOfRequests(from: self.selectedQBKPIs)
+                self.quickBookDataManager.fetchDataFromIntuit(oauthswift)
                                         
         }) { error in
             print(error.localizedDescription)
         }
-    }
-    
-    func fetchDataFromIntuit(_ oauthswift: OAuth1Swift) {
-        
-        /*
-         All data provided here is only for testing
-         TODO: Refine this method
-        */
-        let balanceQueryParameters: [QBQueryParameterKeys: String] = [
-            .dateMacro: QBPredifinedDateRange.thisMonth.rawValue
-        ]
-        
-        let balanceSheet = QBBalanceSheet(with: balanceQueryParameters)        
-        let pathForBalance = quickBookDataManager.formUrlPath(method: balanceSheet)
-        
-        let profitAndLossQueryParameters: [QBQueryParameterKeys: String] = [
-            .dateMacro: QBPredifinedDateRange.thisMonth.rawValue,
-            .summarizeBy: QBPredifinedSummarizeValues.days.rawValue
-        ]
-        
-        let profitAndLoss = QBProfitAndLoss(with: profitAndLossQueryParameters)
-        let pathForProfitAndLoss = quickBookDataManager.formUrlPath(method: profitAndLoss)
-        
-        let accountListParameters: [QBQueryParameterKeys: String] = [
-            .dateMacro: QBPredifinedDateRange.thisMonth.rawValue
-        ]
-        
-        let accountList = QBAccountList(with: accountListParameters)
-        let pathForAccountList = quickBookDataManager.formUrlPath(method: accountList)
-        
-        let queryParameters: [QBQueryParameterKeys: String] = [
-            .query: "SELECT * FROM Invoice"
-        ]
-        
-        let queryInvoices = QBQuery(with: queryParameters)
-        
-        let queryPath = quickBookDataManager.formUrlPath(method: queryInvoices)
-        
-        let paidInvoicesParameters: [QBQueryParameterKeys: String] = [
-            .dateMacro: QBPredifinedDateRange.thisQuarter.rawValue,
-            .summarizeBy: QBPredifinedSummarizeValues.customers.rawValue
-        ]
-        
-        let paidInvoices = QBPaidInvoicesByCustomers(with: paidInvoicesParameters)
-        
-        let paidInvoicesPath = quickBookDataManager.formUrlPath(method: paidInvoices)
-        
-        let paidExpensesParameters: [QBQueryParameterKeys: String] = [
-            .dateMacro: QBPredifinedDateRange.thisQuarter.rawValue
-        ]
-        
-        let paidExpenses = QBPaidExpenses(with: paidExpensesParameters)
-        let paidExpencesPath = quickBookDataManager.formUrlPath(method: paidExpenses)
-        
-        quickBookDataManager.queryMethod = queryInvoices
-        
-        let _ = oauthswift.client.get(
-            queryPath, headers: ["Accept":"application/json"],
-            success: { response in
-                
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let managedContext = appDelegate.persistentContainer.viewContext
-                
-                let kpiInfo = self.quickBookDataManager.handle(response: response)
-                
-                let entityDescription = NSEntityDescription.entity(forEntityName: "ExternalKPI", in: managedContext)
-                let extKPI = ExternalKPI(entity: entityDescription!, insertInto: managedContext)
-                
-                let QBKpiEntity = NSEntityDescription.entity(forEntityName: "QuickbooksKPI", in: managedContext)
-                let qbKPI = QuickbooksKPI(entity: QBKpiEntity!, insertInto: managedContext)
-                
-                qbKPI.kpiValue = kpiInfo?.kpiValue
-                extKPI.kpiName = kpiInfo?.kpiName
-                extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
-                qbKPI.oAuthToken = self.quickBookDataManager.serviceParameters[.oauthToken]!
-                qbKPI.oAuthRefreshToken = self.quickBookDataManager.serviceParameters[.oauthRefreshToken]!
-                extKPI.quickbooksKPI = qbKPI
-                
-                do {
-                    try managedContext.save()
-                }
-                catch let error {
-                    print(error.localizedDescription)
-                }
-        },
-            failure: { error in
-                print(error)
-        })
     }
     
     //MARK: HubSpotMarketing

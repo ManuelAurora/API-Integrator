@@ -10,168 +10,35 @@ import Foundation
 import OAuthSwift
 import Alamofire
 
-enum QBPredifinedDateRange: String
-{
-    case today = "Today"
-    case yesterday = "Yesterday"
-    case thisMonth = "This Month"
-    case thisQuarter = "This Fiscal Quarter"
-}
-
-enum QBPredifinedSummarizeValues: String
-{
-    case days = "Days"
-    case customers = "Customers"
-}
-
-enum QBQueryParameterKeys: String
-{
-    case dateMacro = "date_macro"
-    case startDate = "start_date" // YYYY-MM-DD
-    case endDate   = "end_date"
-    case summarizeBy = "summarize_column_by"
-    case query = "query"
-}
-
-enum AuthenticationParameterKeys: String
-{
-    case callbackUrl = "callbackUrl"
-    case companyId = "companyId"
-    case oauthToken = "oauthToken"
-    case oauthRefreshToken = "oauthRefreshToken"
-}
-
-enum QBMethod: String
-{
-    case balanceSheet   = "/reports/BalanceSheet"
-    case profitLoss     = "/reports/ProfitAndLoss"
-    case paidExpenses = "/reports/VendorExpenses"
-    case accountList    = "/reports/AccountList"
-    case query          = "/query"
-    case paidInvoicesByCustomers = "/reports/CustomerIncome"
-}
-
-struct ExternalKpiInfo
-{
-    var kpiName: String = ""
-    var kpiValue: String = ""
-}
-
-struct QBQuery: QuickBookMethod
-{
-    internal var methodName: QBMethod
-    
-    internal var queryParameters: [QBQueryParameterKeys : String]
-    
-    internal func formUrlPath(method: QuickBookMethod) -> String {
-        return queryParameters.stringFromHttpParameters()
-    }
-    
-    init(with queryParameters: [QBQueryParameterKeys: String]) {
-        self.queryParameters = queryParameters
-        self.methodName = QBMethod.query
-    }
-}
-
-struct QBPaidInvoicesByCustomers: QuickBookMethod
-{
-    internal var methodName: QBMethod
-    
-    internal var queryParameters: [QBQueryParameterKeys : String]
-    
-    internal func formUrlPath(method: QuickBookMethod) -> String {
-        return queryParameters.stringFromHttpParameters()
-    }
-    
-    init(with queryParameters: [QBQueryParameterKeys: String]) {
-        self.queryParameters = queryParameters
-        self.methodName = QBMethod.paidInvoicesByCustomers
-    }
-}
-
-struct QBAccountList: QuickBookMethod
-{
-    internal var methodName: QBMethod
-    
-    internal var queryParameters: [QBQueryParameterKeys : String]
-    
-    internal func formUrlPath(method: QuickBookMethod) -> String {
-        return queryParameters.stringFromHttpParameters()
-    }
-    
-    init(with queryParameters: [QBQueryParameterKeys: String]) {
-        self.queryParameters = queryParameters
-        self.methodName = QBMethod.accountList
-    }
-}
-
-struct QBPaidExpenses: QuickBookMethod
-{
-    internal var methodName: QBMethod
-    
-    internal var queryParameters: [QBQueryParameterKeys : String]
-    
-    internal func formUrlPath(method: QuickBookMethod) -> String {
-        return queryParameters.stringFromHttpParameters()
-    }
-    
-    init(with queryParameters: [QBQueryParameterKeys: String]) {
-        self.queryParameters = queryParameters
-        self.methodName = QBMethod.paidExpenses
-    }
-}
-
-struct QBBalanceSheet: QuickBookMethod
-{
-    internal var methodName: QBMethod
-    
-    var queryParameters = [QBQueryParameterKeys: String]()
-    
-    init(with queryParameters: [QBQueryParameterKeys: String]) {
-        self.queryParameters = queryParameters
-        self.methodName = QBMethod.balanceSheet
-    }
-    
-    func formUrlPath(method: QuickBookMethod) -> String {
-        
-        return queryParameters.stringFromHttpParameters()
-    }
-}
-
-struct QBProfitAndLoss: QuickBookMethod
-{
-    internal var methodName: QBMethod
-    
-    internal var queryParameters: [QBQueryParameterKeys : String]
-    
-    internal func formUrlPath(method: QuickBookMethod) -> String {
-        return queryParameters.stringFromHttpParameters()
-    }
-
-    init(with queryParameters: [QBQueryParameterKeys: String]) {
-        self.queryParameters = queryParameters
-        self.methodName = QBMethod.profitLoss
-    }
-}
+typealias resultArray = [(leftValue: String, centralValue: String, rightValue: String)]
+typealias urlStringWithMethod = (urlString: String, method: QuickBookMethod)
 
 class QuickBookDataManager
 {
-    typealias resultArray = [(leftValue: String, centralValue: String, rightValue: String)]
-    
     private let urlBase = "https://sandbox-quickbooks.api.intuit.com/v3/company/"
-    private var balanceSheet: resultArray = []
-    private var profitAndLoss: resultArray = []
-    private var accountList: resultArray  = []
-    private var paidInvoices: resultArray = []
-    private var nonPaidInvoices: resultArray = []
-    private var paidInvoicesByCustomer: resultArray = []
-    private var nonPaidInvoicesPercent: resultArray = []
-    private var paidInvoicesPercent: resultArray = []
-    private var invoices: resultArray = []
-    private var overdueCustomers: resultArray = []
+    var balanceSheet: resultArray = []
+    var profitAndLoss: resultArray = []
+    var accountList: resultArray  = []
+    var paidInvoices: resultArray = []
+    var nonPaidInvoices: resultArray = []
+    var paidInvoicesByCustomer: resultArray = []
+    var nonPaidInvoicesPercent: resultArray = []
+    var paidInvoicesPercent: resultArray = []
+    var invoices: resultArray = []
+    var overdueCustomers: resultArray = []
     
     var queryMethod: QuickBookMethod?
-        
+    var companyID: String {
+        set {
+            return serviceParameters[.companyId] = companyID
+        }
+        get {
+            return serviceParameters[.companyId]!
+        }
+    }
+    
+    var listOfRequests: [urlStringWithMethod] = []
+
     lazy var serviceParameters: [AuthenticationParameterKeys: String] = {
         let parameters: [AuthenticationParameterKeys: String] = [
             .companyId:   "123145773393399",
@@ -205,15 +72,6 @@ class QuickBookDataManager
         return Singelton.manager
     }
     
-    var companyID: String {
-        set {
-            return serviceParameters[.companyId] = companyID
-        }
-        get {
-            return serviceParameters[.companyId]!
-        }
-    }
-    
     convenience init(method: QuickBookMethod) {
         self.init()
         queryMethod = method
@@ -230,186 +88,101 @@ class QuickBookDataManager
         return fullUrlPath
     }
     
-    func handle(response: OAuthSwiftResponse ) -> ExternalKpiInfo? {
+    func formListOfRequests(from array: [(SettingName: String, value: Bool)]) {
         
-        //TODO:  This method NEED to be refined, due equivalent responses
-        
-        guard let queryMethod = queryMethod else { print("DEBUG: Query method not found"); return nil }
-        
-        if let jsonDict = try? response.jsonObject(options: .allowFragments) as? [String: Any] {
+        var kpiFilter =  [String: Bool]()
+                
+        for item in array
+        {
+            let kpi = QiuckBooksKPIs(rawValue: item.SettingName)!
             
-            switch queryMethod.methodName
+            guard kpiFilter[item.SettingName] == nil else { return }
+            
+            switch kpi
             {
-            case .balanceSheet:
-                let rows = jsonDict!["Rows"] as! [String: Any]
-                let rows2 = rows["Row"] as! [[String: Any]]
+            case .NetIncome, .Invoices, .NonPaidInvoices, .OpenInvoicesByCustomers, .OverdueCustomers, .PaidInvoices:
                 
-                var kpiInfo = ExternalKpiInfo()
+                let queryParameters: [QBQueryParameterKeys: String] = [
+                    .query: "SELECT * FROM Invoice"
+                ]
                 
-                for row in rows2
-                {
-                    let summary = row["Summary"] as! [String: Any]
-                    let colDataSum = summary["ColData"] as! [[String: Any]]
-                    let kpiSummary = colDataSum[1] as! [String: String]
-                    //let kpiTitle = colDataSum[0] as! [String: String]
-                    
-                    kpiInfo.kpiName = QiuckBooksKPIs.Balance.rawValue
-                    kpiInfo.kpiValue = kpiSummary["value"]!
-                }
+                let queryInvoices = QBQuery(with: queryParameters)
+                let queryPath = formUrlPath(method: queryInvoices)
                 
-                let result = (kpiInfo.kpiName,"",kpiInfo.kpiValue)
+                listOfRequests.append(urlStringWithMethod(urlString: queryPath, method: queryInvoices))
+                kpiFilter[QiuckBooksKPIs.Invoices.rawValue] = true
+                kpiFilter[QiuckBooksKPIs.NetIncome.rawValue] = true
+                kpiFilter[QiuckBooksKPIs.NonPaidInvoices.rawValue] = true
+                kpiFilter[QiuckBooksKPIs.OpenInvoicesByCustomers.rawValue] = true
+                kpiFilter[QiuckBooksKPIs.OverdueCustomers.rawValue] = true
+                kpiFilter[QiuckBooksKPIs.PaidInvoices.rawValue] = true
                 
-                balanceSheet.append(result)
+            case .Balance:
+                let balanceQueryParameters: [QBQueryParameterKeys: String] = [
+                    .dateMacro: QBPredifinedDateRange.thisMonth.rawValue
+                ]
                 
-                return kpiInfo
+                let balanceSheet = QBBalanceSheet(with: balanceQueryParameters)
+                let pathForBalance = formUrlPath(method: balanceSheet)
                 
-            case .query:
-                //Invoices
-                let queryResult = jsonDict!["QueryResponse"] as! [String: Any]
-                let invoceList = queryResult["Invoice"] as! [[String: Any]]
-                let currentDate = Date()
-                let dateFormatter = DateFormatter()
+                listOfRequests.append(urlStringWithMethod(urlString: pathForBalance, method: balanceSheet))
                 
-                dateFormatter.dateFormat = "yyyy-MM-dd"
+            case .BalanceByBankAccounts:
+                let accountListParameters: [QBQueryParameterKeys: String] = [
+                    .dateMacro: QBPredifinedDateRange.thisMonth.rawValue
+                ]
                 
-                print(invoceList)
+                let accountList = QBAccountList(with: accountListParameters)
+                let pathForAccountList = formUrlPath(method: accountList)
                 
-                for invoice in invoceList
-                {
-                    print(invoice)
-                    let balance = invoice["Balance"] as! Float
-                    let totalAmt = invoice["TotalAmt"] as! Float
-                    var resultInvoice = (leftValue: "", centralValue: "", rightValue: "")
-                    
-                    invoices.append((leftValue: "Invoice", centralValue: "", rightValue: "\(totalAmt)"))
-                    
-                    if totalAmt - balance > 0
-                    {
-                        resultInvoice.leftValue = "Non-paid invoice"
-                        resultInvoice.rightValue = "\(totalAmt)"
-                        
-                        nonPaidInvoices.append(resultInvoice)
-                        
-                        let overdueDateString = invoice["DueDate"] as! String
-                        let overdueDate = dateFormatter.date(from: overdueDateString)! //Date in Moscow can be slightly different
-                        
-                        if currentDate > overdueDate
-                        {
-                            let overdueCustomer = (invoice["CustomerRef"] as! [String: Any])["name"] as! String
-                            resultInvoice.leftValue = "\(overdueCustomer)"
-                            overdueCustomers.append(resultInvoice)
-                        }
-                    }
-                    else
-                    {
-                        resultInvoice.leftValue = "Paid invoice"
-                        resultInvoice.rightValue = "\(totalAmt)"
-                        paidInvoices.append(resultInvoice)
-                    }
-                    
-                    print(invoice["Balance"] as! Float)
-                    print(invoice["TotalAmt"] as! Float)
-                }
+                listOfRequests.append(urlStringWithMethod(urlString: pathForAccountList, method: accountList))
                 
-                let nonPaidPercent = (nonPaidInvoices.count * 100) / invoices.count
-                let paidPercent = (paidInvoices.count * 100) / invoices.count
+            case .IncomeProfitKPIs:
+                let profitAndLossQueryParameters: [QBQueryParameterKeys: String] = [
+                    .dateMacro: QBPredifinedDateRange.thisMonth.rawValue,
+                    .summarizeBy: QBPredifinedSummarizeValues.days.rawValue
+                ]
                 
-                paidInvoicesPercent.append((leftValue: "Paid invoices percent", centralValue: "", rightValue: "\(paidPercent)%"))
-                nonPaidInvoicesPercent.append((leftValue: "Non-paid invoices percent", centralValue: "", rightValue: "\(nonPaidPercent)%"))
+                let profitAndLoss = QBProfitAndLoss(with: profitAndLossQueryParameters)
+                let pathForProfitAndLoss = formUrlPath(method: profitAndLoss)
                 
-                var filteredOverdueArray = resultArray()
+                listOfRequests.append(urlStringWithMethod(urlString: pathForProfitAndLoss, method: profitAndLoss))
                 
-                for customer in overdueCustomers
-                {
-                    if !filteredOverdueArray.contains(where: { (value) -> Bool in
-                        return customer.leftValue == value.leftValue }) {
-                    
-                        let sum = overdueCustomers.filter {
-                            $0.leftValue == customer.leftValue
-                            } .reduce(Float(0)) { (total, value) in
-                                return total + Float(value.rightValue)!
-                        }
-                        
-                        let refactoredCustomer = (leftValue: customer.leftValue , centralValue: "", rightValue: "\(sum)")
-                        
-                        filteredOverdueArray.append(refactoredCustomer)
-                    }
-                }
+            case .PaidInvoicesByCustomers:
+                let paidInvoicesParameters: [QBQueryParameterKeys: String] = [
+                    .dateMacro: QBPredifinedDateRange.thisQuarter.rawValue,
+                    .summarizeBy: QBPredifinedSummarizeValues.customers.rawValue
+                ]
                 
-                overdueCustomers = filteredOverdueArray
+                let paidInvoices = QBPaidInvoicesByCustomers(with: paidInvoicesParameters)
+                let paidInvoicesPath = formUrlPath(method: paidInvoices)
                 
-            case .profitLoss:
-                let rows = jsonDict!["Rows"] as! [String: Any]
-                let rows2 = rows["Row"] as! [[String: Any]]
+                listOfRequests.append(urlStringWithMethod(urlString: paidInvoicesPath, method: paidInvoices))
                 
-                for row in rows2
-                {
-                    let summary = row["Summary"] as! [String: Any]
-                    let colDataSum = summary["ColData"] as! [[String: Any]]
-                    
-                    let kpiTitle = colDataSum[0] as! [String: String]
-                    
-                    if kpiTitle["value"] == "Net Income" // GROSS PROFIT?
-                    {
-                        for item in colDataSum where (item["value"] as! String) != "Net Income"
-                        {
-                            let result = ("Profit", "", item["value"] as! String)
-                            
-                            profitAndLoss.append(result)
-                            print("DEBUG: \(profitAndLoss)")
-                        }
-                    }
-                }
+            case .PaidExpenses:
+                let paidExpensesParameters: [QBQueryParameterKeys: String] = [
+                    .dateMacro: QBPredifinedDateRange.thisQuarter.rawValue
+                ]
                 
-            case .accountList:
-                let rows = jsonDict!["Rows"] as! [String: Any]
-                let rows2 = rows["Row"] as! [[String: Any]]
-                
-                for row in rows2
-                {
-                    let colData = row["ColData"] as! [[String: String]]
-                    let result = (colData[0]["value"], "", colData[4]["value"])
-                    
-                    print("DEBUG: \(result)")
-                }
-                
-            case .paidInvoicesByCustomers:
-                let rows = jsonDict!["Rows"] as! [String: Any]
-                let rows2 = rows["Row"] as! [[String: Any]]
-                
-                for row in rows2
-                {
-                    //let summary = row["Summary"] as! [String: Any]
-                    if let colData = row["ColData"] as? [[String: Any]] {
-                        
-                        let customer = colData[0]["value"] as! String
-                        let income = colData[3]["value"] as! String
-                        
-                        let result = (leftValue: customer, centralValue: "", rightValue: income)
-                        
-                        paidInvoicesByCustomer.append(result)
-                    }
-                }
-                
-            case .paidExpenses:
-                let rows = jsonDict!["Rows"] as! [String: Any]
-                let rows2 = rows["Row"] as! [[String: Any]]
-                
-                for row in rows2
-                {
-                    let colData = row["ColData"] as! [[String: String]]
-                    
-                    let title = colData[0]
-                    let value = colData[1] 
-                    
-                    let result = (title["value"]! , "", value["value"]!)
-                    
-                    profitAndLoss.append(result)
-                    print("DEBUG: \(profitAndLoss)")
-                }
+                let paidExpenses = QBPaidExpenses(with: paidExpensesParameters)
+                let paidExpencesPath = formUrlPath(method: paidExpenses)
+
+                listOfRequests.append(urlStringWithMethod(urlString: paidExpencesPath, method: paidExpenses))
             }
         }
-        return nil
+    }
+    
+    func fetchDataFromIntuit(_ oauthswift: OAuth1Swift) {
+        
+        for request in listOfRequests
+        {
+            let handler = QuickBookRequestHandler(oauthswift: oauthswift,
+                                                  request: request,
+                                                  manager: self)
+            handler.getData()
+        }
+        
+        listOfRequests.removeAll()
     }
 }
 
