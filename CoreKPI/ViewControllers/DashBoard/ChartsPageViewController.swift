@@ -181,11 +181,49 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
-                    }
-                    )
-                    
-                default:
-                    break
+                    })
+                case .TopChannelsBySessions:
+                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .RevenueTransactions:
+                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .EcommerceOverview:
+                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .RevenueByLandingPage:
+                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .RevenueByChannels:
+                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .TopKeywordsByRevenue:
+                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .TopSourcesByRevenue:
+                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
                 }
                 //debug->
                 return tableViewChartVC

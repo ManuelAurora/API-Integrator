@@ -128,7 +128,12 @@ class ExternalRequest {
             }, failure: {error in
                 failure(error)
             })
-            
+        case .PayPal:
+            doOAuthPayPal(viewController: viewController, success: { credential in
+                success(credential)
+            }, failure: {error in
+                failure(error)
+            })
         default:
             break
         }
