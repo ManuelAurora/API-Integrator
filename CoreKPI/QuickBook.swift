@@ -9,14 +9,52 @@
 import Foundation
 import OAuthSwift
 import Alamofire
+import CoreData
 
 typealias resultArray = [(leftValue: String, centralValue: String, rightValue: String)]
-typealias urlStringWithMethod = (urlString: String, method: QuickBookMethod)
+typealias urlStringWithMethod = (urlString: String, method: QuickBookMethod?)
 
 class QuickBookDataManager
 {
+    enum ResultArrayType {
+        case balance
+        case profitAndLoss
+        case accountList
+        case nonPaidInvoices
+        case paidInvoicesByCustomer
+        case paidInvoicesPercent
+        case overdueCustomers
+        case nonPaidInvoicesPercent
+        case invoices
+    }
+    
+    private lazy var managedContext: NSManagedObjectContext = {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        return managedContext
+    }()
+    
     private let urlBase = "https://sandbox-quickbooks.api.intuit.com/v3/company/"
-    var balanceSheet: resultArray = []
+    
+    lazy var oauthswift: OAuth1Swift = {
+        let oauthswift = OAuth1Swift(
+            consumerKey:    "qyprdLYMArOQwomSilhpS7v9Ge8kke",
+            consumerSecret: "ogPRVftZXLA1A03QyWNyJBax1qOOphuVJVP121np",
+            requestTokenUrl: "https://oauth.intuit.com/oauth/v1/get_request_token",
+            authorizeUrl:    "https://appcenter.intuit.com/Connect/Begin",
+            accessTokenUrl:  "https://oauth.intuit.com/oauth/v1/get_access_token"
+        )
+        return oauthswift
+    }()
+    
+    var balanceSheet: resultArray = [] {
+        didSet {
+            guard balanceSheet.count > 0 else { return }
+            //createNewEntityForArrayOf(type: .balance)
+        }
+    }
+    
     var profitAndLoss: resultArray = []
     var accountList: resultArray  = []
     var paidInvoices: resultArray = []
@@ -38,7 +76,7 @@ class QuickBookDataManager
     }
     
     var listOfRequests: [urlStringWithMethod] = []
-
+    
     lazy var serviceParameters: [AuthenticationParameterKeys: String] = {
         let parameters: [AuthenticationParameterKeys: String] = [
             .companyId:   "123145773393399",
@@ -172,7 +210,7 @@ class QuickBookDataManager
         }
     }
     
-    func fetchDataFromIntuit(_ oauthswift: OAuth1Swift) {
+    func updateDataFromIntuit(_ oauthswift: OAuth1Swift) {
         
         for request in listOfRequests
         {
@@ -184,11 +222,49 @@ class QuickBookDataManager
         
         listOfRequests.removeAll()
     }
+    
+    func fetchDataFromIntuit(_ oauthswift: OAuth1Swift) {
+        
+        for request in listOfRequests
+        {
+            let handler = QuickBookRequestHandler(oauthswift: oauthswift,
+                                                  request: request,
+                                                  manager: self,
+                                                  isCreation: true)
+            handler.getData()
+        }
+        
+        listOfRequests.removeAll()
+    }
+    
+    func createNewEntityForArrayOf(type: ResultArrayType, urlString: String) {
+        
+        let extKPI = ExternalKPI()
+        let qbKPI = QuickbooksKPI()
+        
+        switch type
+        {
+        case .balance:
+            qbKPI.kpiValue = balanceSheet[0].rightValue
+            qbKPI.oAuthToken = serviceParameters[.oauthToken]!
+            qbKPI.oAuthRefreshToken = serviceParameters[.oauthRefreshToken]!
+            extKPI.kpiName = QiuckBooksKPIs.Balance.rawValue
+            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+            extKPI.quickbooksKPI = qbKPI
+            extKPI.requestJsonString = urlString
+            
+        default: break
+        }
+        
+        do {
+            try managedContext.save()
+        }
+        catch let error {
+            print(error.localizedDescription)
+        }
+    }
 }
 
-protocol QuickBookMethod
-{
-    var queryParameters: [QBQueryParameterKeys: String] { get }
-    var methodName: QBMethod { get }
-    func formUrlPath(method: QuickBookMethod) -> String
-}
+
+
+

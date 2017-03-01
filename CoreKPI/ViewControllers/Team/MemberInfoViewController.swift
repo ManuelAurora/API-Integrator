@@ -39,7 +39,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         //Subscribed for security switcher
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(MemberInfoViewController.changeSecuritySettings),
-                                               name:  NSNotification.Name(rawValue: NotificationNames.userTappedSecuritySwitch),
+                                               name:  Notification.Name.userTappedSecuritySwitch,
                                                object: nil)
         
         //Check admin permission!!

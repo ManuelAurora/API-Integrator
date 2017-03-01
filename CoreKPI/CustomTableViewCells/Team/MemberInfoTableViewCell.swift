@@ -16,7 +16,7 @@ class MemberInfoTableViewCell: UITableViewCell {
     
     @IBAction func securutySwitchTapped(_ sender: UISwitch) {
         
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationNames.userTappedSecuritySwitch), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name.userTappedSecuritySwitch, object: nil)
     }
     
     override func awakeFromNib() {

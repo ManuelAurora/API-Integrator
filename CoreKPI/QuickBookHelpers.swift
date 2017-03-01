@@ -8,6 +8,13 @@
 
 import Foundation
 
+protocol QuickBookMethod
+{
+    var queryParameters: [QBQueryParameterKeys: String] { get }
+    var methodName: QBMethod { get }
+    func formUrlPath(method: QuickBookMethod) -> String
+}
+
 enum QBPredifinedDateRange: String
 {
     case today = "Today"

@@ -14,9 +14,7 @@ import CoreData
 class ExternalKPIViewController: OAuthViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    
-    var oauthswift: OAuthSwift?
-    
+           
     var quickBookDataManager: QuickBookDataManager {
         return QuickBookDataManager.shared()
     }
@@ -142,29 +140,19 @@ extension ExternalKPIViewController {
             self.addChildViewController(internalWebViewController)
         }
         
-        let oauthswift = OAuth1Swift(
-            consumerKey:    "qyprdLYMArOQwomSilhpS7v9Ge8kke",
-            consumerSecret: "ogPRVftZXLA1A03QyWNyJBax1qOOphuVJVP121np",
-            requestTokenUrl: "https://oauth.intuit.com/oauth/v1/get_request_token",
-            authorizeUrl:    "https://appcenter.intuit.com/Connect/Begin",
-            accessTokenUrl:  "https://oauth.intuit.com/oauth/v1/get_access_token"
-        )
-       
-        self.oauthswift = oauthswift
-        
-        oauthswift.authorizeURLHandler = internalWebViewController
+        quickBookDataManager.oauthswift.authorizeURLHandler = internalWebViewController
         
         let callbackUrlString = quickBookDataManager.serviceParameters[.callbackUrl]
         
         guard let callBackUrl = callbackUrlString else { print("DEBUG: Callback URL not found!"); return }
         
-        let _ = oauthswift.authorize(
+        let _ = quickBookDataManager.oauthswift.authorize(
             withCallbackURL: callBackUrl,
             success: { credential, response, parameters in
                 self.quickBookDataManager.serviceParameters[.oauthToken] = credential.oauthToken
                 self.quickBookDataManager.serviceParameters[.oauthRefreshToken] = credential.oauthRefreshToken
                 self.quickBookDataManager.formListOfRequests(from: self.selectedQBKPIs)
-                self.quickBookDataManager.fetchDataFromIntuit(oauthswift)
+                self.quickBookDataManager.fetchDataFromIntuit(self.quickBookDataManager.oauthswift)
                                         
         }) { error in
             print(error.localizedDescription)
@@ -197,9 +185,8 @@ extension ExternalKPIViewController {
             consumerKey: "AdA0F4asoYIoJoGK1Mat3i0apr1bdYeeRiZ6ktSgPrNmAMIQBO_TZtn_U80H7KwPdmd72CJhUTY5LYJH",
             consumerSecret: "",
             authorizeUrl: "https://www.sandbox.paypal.com/signin/authorize",
-            responseType: "token")
+            responseType: "token")        
         
-        self.oauthswift = oauthswift
         oauthswift.allowMissingStateCheck = true
         oauthswift.accessTokenBasicAuthentification = true
         oauthswift.authorizeURLHandler = SafariURLHandler(viewController: self, oauthSwift: oauthswift)
@@ -273,6 +260,6 @@ extension ExternalKPIViewController: OAuthWebViewControllerDelegate {
     }
     func oauthWebViewControllerDidDisappear() {
         // Ensure all listeners are removed if presented web view close
-        oauthswift?.cancel()
+        quickBookDataManager.oauthswift.cancel()
     }
 }

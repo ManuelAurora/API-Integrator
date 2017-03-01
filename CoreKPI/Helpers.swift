@@ -9,10 +9,9 @@
 import Foundation
 import UIKit
 
-//Helpers
-struct NotificationNames
+extension Notification.Name
 {
-    static let userTappedSecuritySwitch = "UserTappedSecuritySwitch"
+    static let userTappedSecuritySwitch = Notification.Name("UserTappedSecuritySwitch")
 }
 
 struct UserDefaultsKeys

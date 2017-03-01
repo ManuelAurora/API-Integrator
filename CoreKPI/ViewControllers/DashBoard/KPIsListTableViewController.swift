@@ -120,6 +120,8 @@ class KPIsListTableViewController: UITableViewController {
         
         switch arrayOfKPI[indexPath.row].typeOfKPI {
         case .IntegratedKPI:
+            
+            cell.KPIListNumber.isHidden = false
             cell.reportButton.isHidden = true
             cell.ManagedByStack.isHidden = true
             let integratedKPI = arrayOfKPI[indexPath.row].integratedKPI
@@ -160,9 +162,9 @@ class KPIsListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "PageVC") as! ChartsPageViewController
-        destinationVC.kpi = arrayOfKPI[indexPath.row]
-        navigationController?.pushViewController(destinationVC, animated: true)
         
+        destinationVC.kpi = arrayOfKPI[indexPath.row]
+        navigationController?.pushViewController(destinationVC, animated: true)        
     }
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {

@@ -14,45 +14,26 @@ class QuickBookRequestHandler
     var oauthswift: OAuth1Swift!
     var request: urlStringWithMethod!
     weak var manager: QuickBookDataManager!
+    var isCreation: Bool
     
-    init(oauthswift: OAuth1Swift, request: urlStringWithMethod, manager: QuickBookDataManager) {
+    init(oauthswift: OAuth1Swift, request: urlStringWithMethod, manager: QuickBookDataManager, isCreation: Bool = false) {
         
         self.oauthswift = oauthswift
         self.request = request
         self.manager = manager
+        self.isCreation = isCreation
     }
     
     func getData() {
         
-        oauthswift.client.get(
+        _ = oauthswift.client.get(
             
             request.urlString, headers: ["Accept":"application/json"],
             success: { response in
                 
-                //let appDelegate = UIApplication.shared.delegate as! AppDelegate
-               // let managedContext = appDelegate.persistentContainer.viewContext
-                
-                let kpiInfo = self.handle(response: response, method: self.request.method)
-                ////
-                ////                let entityDescription = NSEntityDescription.entity(forEntityName: "ExternalKPI", in: managedContext)
-                ////                let extKPI = ExternalKPI(entity: entityDescription!, insertInto: managedContext)
-                ////
-                ////                let QBKpiEntity = NSEntityDescription.entity(forEntityName: "QuickbooksKPI", in: managedContext)
-                ////                let qbKPI = QuickbooksKPI(entity: QBKpiEntity!, insertInto: managedContext)
-                //
-                //                qbKPI.kpiValue = kpiInfo?.kpiValue
-                //                extKPI.kpiName = kpiInfo?.kpiName
-                //                extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
-                //                qbKPI.oAuthToken = self.quickBookDataManager.serviceParameters[.oauthToken]!
-                //                qbKPI.oAuthRefreshToken = self.quickBookDataManager.serviceParameters[.oauthRefreshToken]!
-                //                extKPI.quickbooksKPI = qbKPI
-                //
-                //                do {
-                //                    try managedContext.save()
-                //                }
-                //                catch let error {
-                //                    print(error.localizedDescription)
-                //                }
+                if let method = self.request.method {
+                    _ = self.handle(response: response, method: method)
+                }               
         },
             failure: { error in
                 print(error)
@@ -89,6 +70,10 @@ class QuickBookRequestHandler
                 let result = (kpiInfo.kpiName,"",kpiInfo.kpiValue)
                 
                 manager.balanceSheet.append(result)
+                
+                if isCreation {
+                    manager.createNewEntityForArrayOf(type: .balance, urlString: request.urlString)
+                }
                 
                 return kpiInfo
                 

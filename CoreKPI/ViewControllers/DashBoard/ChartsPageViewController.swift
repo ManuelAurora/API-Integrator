@@ -11,6 +11,7 @@ import UIKit
 class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSource {
     
     var kpi: KPI!
+    var quickBooksDataManager = QuickBookDataManager.shared()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,10 +134,13 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 {
                 case .Balance:
                     tableViewChartVC.titleOfTable = (kpiName, "", "Value")
+                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, nil))
+                    quickBooksDataManager.oauthswift.client.credential.oauthToken = kpi.integratedKPI.quickbooksKPI!.oAuthToken!
+                    quickBooksDataManager.oauthswift.client.credential.oauthRefreshToken = kpi.integratedKPI.quickbooksKPI!.oAuthRefreshToken!
                     
                     createDataFromRequest(success: { dataToPresent in
                         tableViewChartVC.dataArray = dataToPresent
-                        tableViewChartVC.tableView.reloadData()
+                        //tableViewChartVC.tableView.reloadData()
                     })                    
                     
                 default:
@@ -373,11 +377,13 @@ extension ChartsPageViewController {
         
         var dataForPresent: [(leftValue: String, centralValue: String, rightValue: String)] = []
         
-        
-        
         switch (IntegratedServices(rawValue: kpi.integratedKPI.serviceName!))! {
             
         case .Quickbooks:
+            
+            
+            quickBooksDataManager.updateDataFromIntuit(quickBooksDataManager.oauthswift)
+            
             dataForPresent.append(contentsOf: QuickBookDataManager.shared().getInfoFor(kpi: .Balance))
             
             success(dataForPresent)
