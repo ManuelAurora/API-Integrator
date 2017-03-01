@@ -18,8 +18,16 @@ class UserViewTableViewCell: UITableViewCell
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    @IBAction func tapMailButton(_ sender: UIButton) {
         
+        delegate.tapMailButton()       
+    }
+    
+    @IBAction func tapPhoneButton(_ sender: UIButton) {
         
+        delegate.tapPhoneButton()
     }
     
     override func awakeFromNib() {

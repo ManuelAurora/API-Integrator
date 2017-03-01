@@ -84,7 +84,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         super.didReceiveMemoryWarning()
     }
     
-    @IBAction func tapPhoneButton(_ sender: UIButton) {
+    func tapPhoneButton() {
         if model.team[index].phoneNumber == nil {
             let alertController = UIAlertController(title: "Can not call!", message: "Member has not a phone number", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
@@ -107,8 +107,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                 alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 present(alertController, animated: true, completion: nil)
             }
-        }
-        
+        }        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -290,7 +289,8 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
 
 //MARK: - MFMailComposeViewControllerDelegate methods
 extension MemberInfoViewController: MFMailComposeViewControllerDelegate {
-    @IBAction func tapMailButton(_ sender: UIButton) {
+    
+    func tapMailButton() {
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self

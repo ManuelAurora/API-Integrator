@@ -72,6 +72,9 @@
                                                 <integer key="value" value="19"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="tapPhoneButton:" destination="HgB-7K-zbK" eventType="touchUpInside" id="GYq-sT-Gsd"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PJ1-vW-18W">
                                         <rect key="frame" x="74" y="0.0" width="38" height="38"/>
@@ -86,6 +89,9 @@
                                                 <integer key="value" value="19"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="tapMailButton:" destination="HgB-7K-zbK" eventType="touchUpInside" id="KFg-dv-Ivd"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
