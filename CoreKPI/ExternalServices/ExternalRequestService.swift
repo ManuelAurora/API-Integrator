@@ -171,7 +171,7 @@ class ExternalRequest {
         let state = generateState(withLength: 20)
         
         let _ = oauthswift.authorize(
-            withCallbackURL: URL(string: "https://appauth.demo-app.io:/oauth2redirect")!, scope: "profile+email+address+phone", state: state,
+            withCallbackURL: URL(string: "https://appauth.demo-app.io:/oauth2redirect")!, scope: "", state: state,
             success: { credential, response, parameters in
                 success(credential)
         },

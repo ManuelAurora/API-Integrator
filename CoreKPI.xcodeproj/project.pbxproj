@@ -159,6 +159,7 @@
 		A2FA504A1E4713230062D61E /* ExternalKPIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FA50491E4713230062D61E /* ExternalKPIViewController.swift */; };
 		A2FB1AA21E252C110045824A /* KPIDescriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FB1AA11E252C110045824A /* KPIDescriptionTableViewCell.swift */; };
 		A2FB98A41E25FE6900A856E8 /* KPISettingInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FB98A31E25FE6900A856E8 /* KPISettingInputTableViewCell.swift */; };
+		A2FF67B51E65B2E3009CB5BD /* PayPal.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FF67B41E65B2E3009CB5BD /* PayPal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -350,6 +351,7 @@
 		A2FA50491E4713230062D61E /* ExternalKPIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExternalKPIViewController.swift; path = CoreKPI/ViewControllers/DashBoard/ExternalKPIViewController.swift; sourceTree = "<group>"; };
 		A2FB1AA11E252C110045824A /* KPIDescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIDescriptionTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPIDescriptionTableViewCell.swift; sourceTree = "<group>"; };
 		A2FB98A31E25FE6900A856E8 /* KPISettingInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPISettingInputTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPISettingInputTableViewCell.swift; sourceTree = "<group>"; };
+		A2FF67B41E65B2E3009CB5BD /* PayPal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PayPal.swift; path = ExternalServices/PayPal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -446,6 +448,7 @@
 			children = (
 				A256F05F1E49B631004DAF75 /* ExternalRequestService.swift */,
 				A256F0611E49F56B004DAF75 /* GoogleAnalytics */,
+				A2FF67B41E65B2E3009CB5BD /* PayPal.swift */,
 			);
 			name = "External Services";
 			sourceTree = "<group>";
@@ -1098,6 +1101,7 @@
 				A2844B3C1E0BC842002E297A /* MemberEditTableViewCell.swift in Sources */,
 				A2A215511E124AB800EEBCA2 /* AlertSettingTableViewCell.swift in Sources */,
 				A2B7209C1E2E5FBC00471E91 /* OnboardingViewController.swift in Sources */,
+				A2FF67B51E65B2E3009CB5BD /* PayPal.swift in Sources */,
 				A21785811E5DBA5900CE19F4 /* DataPickerTableViewCell.swift in Sources */,
 				A26408F61E2271330034EEC2 /* AddReportTableViewController.swift in Sources */,
 				A261D91C1E129F1600638C56 /* DashboardSetingTableViewCell.swift in Sources */,

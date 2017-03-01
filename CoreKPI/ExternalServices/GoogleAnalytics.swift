@@ -7,8 +7,6 @@
 //
 
 import Foundation
-import Alamofire
-import OAuthSwift
 
 class GoogleAnalytics: ExternalRequest {
     

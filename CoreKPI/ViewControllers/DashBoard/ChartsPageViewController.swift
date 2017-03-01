@@ -208,6 +208,18 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 //debug->
                 return tableViewChartVC
                 //<-debug
+            case .PayPal:
+                navigationItem.title = "PayPal"
+                switch (PayPalKPIs(rawValue: kpi.integratedKPI.kpiName!))! {
+                case .Balance:
+                    tableViewChartVC.titleOfTable = ("Balance","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                default:
+                    break
+                }
             default:
                 break
             }
@@ -428,6 +440,14 @@ extension ChartsPageViewController {
                 }
             }
             )
+        case .PayPal:
+            let external = kpi.integratedKPI
+            let request = PayPal(oauthToken: (external?.payPalKPI?.oAuthToken)!, oauthRefreshToken: (external?.payPalKPI?.oAuthRefreshToken)!, oauthTokenExpiresAt: (external?.payPalKPI?.oAuthTokenExpiresAt)! as Date)
+            request.getBalance(success: {
+                print("Ok")
+            }, failure: {error in
+                print(error)
+            })
         default:
             break
         }

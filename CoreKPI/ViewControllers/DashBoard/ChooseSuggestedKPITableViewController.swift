@@ -189,7 +189,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     }
     
     //MARK: - Create arrays for external services KPI
-    func createExternalServisecArrays() {
+    func createExternalServicesArrays() {
         
         for saleforceKPI in iterateEnum(SalesForceKPIs.self) {
             saleForceKPIArray.append((saleforceKPI.rawValue, false))
@@ -1119,7 +1119,7 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate {
                 self.tableView.isScrollEnabled = true
             } else {
                 self.tableView.isScrollEnabled = false
-                createExternalServisecArrays()
+                createExternalServicesArrays()
             }
         case .Service:
             switch integrated {
