@@ -19,13 +19,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="laB-Qe-YXo">
-                        <rect key="frame" x="131.5" y="17.5" width="112" height="195.5"/>
+                        <rect key="frame" x="131.5" y="17.5" width="112" height="179"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="WMN-tg-7qO">
-                                <rect key="frame" x="0.0" y="0.0" width="112" height="138"/>
+                                <rect key="frame" x="0.0" y="0.0" width="112" height="137"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultProfile" translatesAutoresizingMaskIntoConstraints="NO" id="QMB-tl-S8i">
-                                        <rect key="frame" x="12.5" y="0.0" width="87" height="87"/>
+                                        <rect key="frame" x="12.5" y="0.0" width="87" height="86"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="87" id="77l-Rb-MiB"/>
                                             <constraint firstAttribute="width" constant="87" id="aEP-kF-Asv"/>
@@ -37,7 +37,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jim Carrey" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="DfO-KC-Kog">
-                                        <rect key="frame" x="0.0" y="88" width="112" height="34"/>
+                                        <rect key="frame" x="0.0" y="87" width="112" height="34"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="o9M-4x-7Rf"/>
                                         </constraints>
@@ -46,7 +46,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CEO" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8yC-zK-ZwZ">
-                                        <rect key="frame" x="42.5" y="123" width="27" height="15"/>
+                                        <rect key="frame" x="42.5" y="122" width="27" height="15"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="15" id="ZNf-c4-7NQ"/>
                                         </constraints>
@@ -57,67 +57,39 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="36" translatesAutoresizingMaskIntoConstraints="NO" id="gJa-ef-TTr">
-                                <rect key="frame" x="0.0" y="142" width="112" height="53.5"/>
+                                <rect key="frame" x="0.0" y="141" width="112" height="38"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="PPC-zA-Pf5">
-                                        <rect key="frame" x="0.0" y="0.0" width="38" height="53.5"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eNT-aC-Yke">
-                                                <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
-                                                <color key="backgroundColor" red="0.0" green="0.59215686270000001" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="38" id="HzV-eG-v29"/>
-                                                    <constraint firstAttribute="height" constant="38" id="jdn-Dj-Apt"/>
-                                                </constraints>
-                                                <state key="normal" image="call-icon"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                        <integer key="value" value="19"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                            </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Call" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JXP-z8-uAX">
-                                                <rect key="frame" x="0.0" y="44" width="38" height="9.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                                <color key="textColor" red="0.0" green="0.59215686270000001" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eNT-aC-Yke">
+                                        <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
+                                        <color key="backgroundColor" red="0.0" green="0.59215686270000001" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstItem="JXP-z8-uAX" firstAttribute="centerX" secondItem="PPC-zA-Pf5" secondAttribute="centerX" id="MI9-8x-WLl"/>
+                                            <constraint firstAttribute="width" constant="38" id="HzV-eG-v29"/>
+                                            <constraint firstAttribute="height" constant="38" id="jdn-Dj-Apt"/>
                                         </constraints>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="nnM-84-xUg">
-                                        <rect key="frame" x="74" y="0.0" width="38" height="53.5"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PJ1-vW-18W">
-                                                <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
-                                                <color key="backgroundColor" red="0.0" green="0.59215686270000001" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="38" id="7lj-2b-P6X"/>
-                                                    <constraint firstAttribute="height" constant="38" id="JUl-wb-XV5"/>
-                                                </constraints>
-                                                <state key="normal" image="mail-icon"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                        <integer key="value" value="19"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                            </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mail" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H5S-nU-Xpe">
-                                                <rect key="frame" x="0.0" y="44" width="38" height="9.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                                <color key="textColor" red="0.0" green="0.59215686270000001" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
+                                        <state key="normal" image="call-icon"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="19"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PJ1-vW-18W">
+                                        <rect key="frame" x="74" y="0.0" width="38" height="38"/>
+                                        <color key="backgroundColor" red="0.0" green="0.59215686270000001" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="38" id="7lj-2b-P6X"/>
+                                            <constraint firstAttribute="height" constant="38" id="JUl-wb-XV5"/>
+                                        </constraints>
+                                        <state key="normal" image="mail-icon"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="19"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="195.5" id="R8C-Nv-PMv"/>
-                        </constraints>
                     </stackView>
                 </subviews>
                 <constraints>
