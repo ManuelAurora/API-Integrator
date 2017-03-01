@@ -137,6 +137,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                     quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, nil))
                     quickBooksDataManager.oauthswift.client.credential.oauthToken = kpi.integratedKPI.quickbooksKPI!.oAuthToken!
                     quickBooksDataManager.oauthswift.client.credential.oauthRefreshToken = kpi.integratedKPI.quickbooksKPI!.oAuthRefreshToken!
+                    quickBooksDataManager.oauthswift.client.credential.oauthTokenSecret = kpi.integratedKPI.quickbooksKPI!.oAuthTokenSecret!
                     
                     createDataFromRequest(success: { dataToPresent in
                         tableViewChartVC.dataArray = dataToPresent

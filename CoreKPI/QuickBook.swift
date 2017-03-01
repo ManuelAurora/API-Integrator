@@ -80,7 +80,7 @@ class QuickBookDataManager
     lazy var serviceParameters: [AuthenticationParameterKeys: String] = {
         let parameters: [AuthenticationParameterKeys: String] = [
             .companyId:   "123145773393399",
-            .callbackUrl: "CoreKPI.CoreKPI:/oauth-callback/intuit"
+            .callbackUrl: "CoreKPI.CoreKPI:/oauth-callback/intuit"            
         ]
         
         return parameters
@@ -248,6 +248,7 @@ class QuickBookDataManager
             qbKPI.kpiValue = balanceSheet[0].rightValue
             qbKPI.oAuthToken = serviceParameters[.oauthToken]!
             qbKPI.oAuthRefreshToken = serviceParameters[.oauthRefreshToken]!
+            qbKPI.oAuthTokenSecret = serviceParameters[.oauthTokenSecret]!
             extKPI.kpiName = QiuckBooksKPIs.Balance.rawValue
             extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             extKPI.quickbooksKPI = qbKPI

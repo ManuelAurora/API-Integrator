@@ -18,6 +18,7 @@ struct UserDefaultsKeys
 {
     static let pinCode = "PinCode"
     static let token = "token"
+    static let pinCodeAttempts = "PinCodeAttempts"
 }
 
 struct OurColors

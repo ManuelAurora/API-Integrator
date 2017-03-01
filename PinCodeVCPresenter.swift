@@ -40,7 +40,7 @@ class PinCodeVCPresenter
         secondaryWindow.makeKeyAndVisible()
         secondaryWindow.rootViewController = pinCodeController
         mainWindow?.windowLevel = 1
-        mainWindow?.endEditing(true)
+        mainWindow?.endEditing(true)        
         
         pinCodeController.logOutCompletion = { [weak self] in
             self?.mainWindow?.windowLevel = 1

@@ -46,7 +46,6 @@ class LaunchViewController: UIViewController {
     func tryLoginByPinCode() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
-        appDelegate.pinCodeAttempts = PinLockConfiguration.attempts
         appDelegate.pinCodeVCPresenter.launchController = self
         appDelegate.pinCodeVCPresenter.presentedFromBG = false
         appDelegate.pinCodeVCPresenter.presentPinCodeVC()

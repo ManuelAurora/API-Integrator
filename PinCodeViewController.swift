@@ -144,6 +144,12 @@ class PinCodeViewController: UIViewController
             animateFailedLoginAttempt()
         }
         else {
+            
+            if let presenter = delegate {
+                let cell = presenter.tableView.cellForRow(at: presenter.securityCellIndexPath) as! MemberInfoTableViewCell
+                cell.securitySwitch.isOn = false
+            }
+            
             dismiss(animated: true, completion: nil)
         }
     }
@@ -153,10 +159,11 @@ class PinCodeViewController: UIViewController
         let usersPin = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCode) as? [String] ?? []
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
-        if appDelegate.pinCodeAttempts > 1 {
+        appDelegate.pinCodeAttempts -= 1
+        
+        if appDelegate.pinCodeAttempts > 0 {
             
-            isAnimationCompleted  = false
-            appDelegate.pinCodeAttempts -= 1
+            isAnimationCompleted  = false            
             
             if pinCode == usersPin {
                 
@@ -191,13 +198,18 @@ class PinCodeViewController: UIViewController
             if let navController = presentingViewController as? UINavigationController,
                 let presenter = navController.topViewController as? SignInViewController {
                 
+                UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.token)
+                UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.pinCode)
+                
+                presenter.toggleEnterByKeyButton(isEnabled: false)
+                
                 dismiss(animated: true, completion: nil)
             }
             else {
                 if presenter!.presentedFromBG {
                     logOutCompletion!()
                 }
-                else if appDelegate.pinCodeAttempts == 1 {
+                else if appDelegate.pinCodeAttempts <= 0 {
                     logOutCompletion!()
                 }
                 else {
