@@ -684,117 +684,15 @@ The main advantage of a computer audio player is that you can play your audio CD
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="DT9-5C-7lW">
-                                <rect key="frame" x="121" y="56" width="133" height="138"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultProfile" translatesAutoresizingMaskIntoConstraints="NO" id="gqj-vX-1Lg">
-                                        <rect key="frame" x="23" y="0.0" width="87" height="87"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="87" id="EUN-pH-eZP"/>
-                                            <constraint firstAttribute="height" constant="87" id="gYG-xL-QHY"/>
-                                        </constraints>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="43.5"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jim Carrey" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vJk-Og-YtM">
-                                        <rect key="frame" x="0.0" y="88" width="133" height="34"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="34" id="aF3-Qy-TbZ"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="28"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CEO" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Oj-4J-XlI">
-                                        <rect key="frame" x="53" y="123" width="27" height="15"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="15" id="Qqx-HA-MeI"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="36" translatesAutoresizingMaskIntoConstraints="NO" id="d8T-GV-d3c">
-                                <rect key="frame" x="132" y="209" width="112" height="57.5"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="vEY-Wv-LPL">
-                                        <rect key="frame" x="0.0" y="0.0" width="38" height="57.5"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VOi-na-jln">
-                                                <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
-                                                <color key="backgroundColor" red="0.0" green="0.59215686274509804" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="38" id="2H1-nf-Vha"/>
-                                                    <constraint firstAttribute="height" constant="38" id="HYs-CM-tmi"/>
-                                                </constraints>
-                                                <state key="normal" image="call-icon"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                        <integer key="value" value="19"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="tapPhoneButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="cP0-yo-mEk"/>
-                                                </connections>
-                                            </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Call" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PKo-5r-anS">
-                                                <rect key="frame" x="0.0" y="44" width="38" height="13.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                                <color key="textColor" red="0.0" green="0.59215686274509804" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstItem="PKo-5r-anS" firstAttribute="centerX" secondItem="vEY-Wv-LPL" secondAttribute="centerX" id="7R1-TU-5R6"/>
-                                        </constraints>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="M4Z-Gp-jEV">
-                                        <rect key="frame" x="74" y="0.0" width="38" height="57.5"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LjC-Ly-WrX">
-                                                <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
-                                                <color key="backgroundColor" red="0.0" green="0.59215686270000001" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="38" id="4Ah-Xb-UnT"/>
-                                                    <constraint firstAttribute="height" constant="38" id="aId-Mu-4J1"/>
-                                                </constraints>
-                                                <state key="normal" image="mail-icon"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                        <integer key="value" value="19"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="tapMailButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="aRq-8q-AyO"/>
-                                                </connections>
-                                            </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mail" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L8n-lY-zG2">
-                                                <rect key="frame" x="0.0" y="44" width="38" height="13.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                                <color key="textColor" red="0.0" green="0.59215686274509804" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                            </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="62" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="i15-st-LzW">
-                                <rect key="frame" x="0.0" y="283" width="375" height="219"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="566"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="219" id="mpV-et-YvT"/>
-                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MemberInfoCell" id="uB3-It-dWB" customClass="MemberInfoTableViewCell" customModule="CoreKPI" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="62"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uB3-It-dWB" id="i8p-m5-Sir">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="62"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="GeA-Ou-AXI">
@@ -841,30 +739,11 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <outlet property="delegate" destination="iHP-49-jTh" id="DJc-Iy-C1Z"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PCg-CY-yE3">
-                                <rect key="frame" x="32" y="556.5" width="311" height="36"/>
-                                <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="36" id="27Z-Lg-dfm"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <state key="normal" title="Responsible for">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="8"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="tapResponsibleForButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="QvD-ts-llu"/>
-                                </connections>
-                            </button>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="i7a-fV-Yzm">
-                                <rect key="frame" x="16" y="556.5" width="343" height="36"/>
+                                <rect key="frame" x="16" y="574" width="343" height="36"/>
                                 <subviews>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-cu-qgk">
-                                        <rect key="frame" x="0.0" y="0.0" width="161" height="36"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-cu-qgk">
+                                        <rect key="frame" x="0.0" y="0.0" width="106.5" height="36"/>
                                         <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="wRD-v3-f5V"/>
@@ -883,8 +762,27 @@ The main advantage of a computer audio player is that you can play your audio CD
                                             <action selector="tapSecurityButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="kzs-n0-Rej"/>
                                         </connections>
                                     </button>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsv-ER-n9H">
-                                        <rect key="frame" x="182" y="0.0" width="161" height="36"/>
+                                    <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PCg-CY-yE3">
+                                        <rect key="frame" x="127.5" y="0.0" width="88" height="36"/>
+                                        <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="36" id="27Z-Lg-dfm"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Responsible for">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="8"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="tapResponsibleForButton:" destination="iHP-49-jTh" eventType="touchUpInside" id="QvD-ts-llu"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsv-ER-n9H">
+                                        <rect key="frame" x="236.5" y="0.0" width="106.5" height="36"/>
                                         <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="8jn-o6-fkr"/>
@@ -910,24 +808,15 @@ The main advantage of a computer audio player is that you can play your audio CD
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="PCg-CY-yE3" firstAttribute="centerX" secondItem="Zbb-DA-UH4" secondAttribute="centerX" id="1Je-Yv-UqY"/>
                             <constraint firstItem="i7a-fV-Yzm" firstAttribute="leading" secondItem="Zbb-DA-UH4" secondAttribute="leading" constant="16" id="4xs-f6-AHo"/>
-                            <constraint firstItem="bbz-6Y-2Vq" firstAttribute="top" relation="greaterThanOrEqual" secondItem="PCg-CY-yE3" secondAttribute="bottom" constant="18" id="9eS-mC-Cc3"/>
                             <constraint firstAttribute="trailing" secondItem="i7a-fV-Yzm" secondAttribute="trailing" constant="16" id="Ggc-qZ-f6j"/>
-                            <constraint firstItem="d8T-GV-d3c" firstAttribute="top" relation="greaterThanOrEqual" secondItem="DT9-5C-7lW" secondAttribute="bottom" constant="7" id="J4a-cf-eGc"/>
-                            <constraint firstItem="PCg-CY-yE3" firstAttribute="top" secondItem="i15-st-LzW" secondAttribute="bottom" priority="750" constant="54.5" id="Koe-K0-9Zj"/>
-                            <constraint firstItem="d8T-GV-d3c" firstAttribute="top" secondItem="DT9-5C-7lW" secondAttribute="bottom" priority="250" constant="15" id="MRH-Yv-cQ7"/>
-                            <constraint firstItem="i15-st-LzW" firstAttribute="top" secondItem="d8T-GV-d3c" secondAttribute="bottom" priority="250" constant="16.5" id="Tit-Yi-oqe"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="PCg-CY-yE3" secondAttribute="trailing" constant="16" id="Wgs-Y8-kZS"/>
-                            <constraint firstItem="DT9-5C-7lW" firstAttribute="centerX" secondItem="Zbb-DA-UH4" secondAttribute="centerX" id="XSp-gN-NXl"/>
+                            <constraint firstItem="i15-st-LzW" firstAttribute="top" secondItem="6gf-RP-0a0" secondAttribute="bottom" constant="-64" id="Lwn-df-3Sc"/>
                             <constraint firstAttribute="trailing" secondItem="i15-st-LzW" secondAttribute="trailing" id="fQy-Bm-1AJ"/>
-                            <constraint firstItem="i15-st-LzW" firstAttribute="top" relation="greaterThanOrEqual" secondItem="d8T-GV-d3c" secondAttribute="bottom" constant="7" id="gQo-cq-Brn"/>
-                            <constraint firstItem="PCg-CY-yE3" firstAttribute="leading" secondItem="Zbb-DA-UH4" secondAttribute="leadingMargin" constant="16" id="gcn-JV-iag"/>
-                            <constraint firstItem="DT9-5C-7lW" firstAttribute="top" secondItem="Zbb-DA-UH4" secondAttribute="topMargin" constant="56" id="o0f-xL-oEF"/>
+                            <constraint firstAttribute="trailing" secondItem="i15-st-LzW" secondAttribute="trailing" id="kjz-Op-ndm"/>
                             <constraint firstItem="i15-st-LzW" firstAttribute="leading" secondItem="Zbb-DA-UH4" secondAttribute="leading" id="r2E-9T-Bnu"/>
-                            <constraint firstItem="bbz-6Y-2Vq" firstAttribute="top" relation="greaterThanOrEqual" secondItem="i7a-fV-Yzm" secondAttribute="bottom" constant="18" id="sVC-2P-GHK"/>
-                            <constraint firstItem="i7a-fV-Yzm" firstAttribute="top" secondItem="i15-st-LzW" secondAttribute="bottom" priority="750" constant="54.5" id="vmt-qn-hZG"/>
-                            <constraint firstItem="d8T-GV-d3c" firstAttribute="centerX" secondItem="Zbb-DA-UH4" secondAttribute="centerX" id="wC0-dZ-tVf"/>
+                            <constraint firstItem="bbz-6Y-2Vq" firstAttribute="top" secondItem="i7a-fV-Yzm" secondAttribute="bottom" constant="8" id="sVC-2P-GHK"/>
+                            <constraint firstItem="i7a-fV-Yzm" firstAttribute="top" secondItem="i15-st-LzW" secondAttribute="bottom" constant="8" id="tio-03-xdm"/>
+                            <constraint firstItem="i15-st-LzW" firstAttribute="leading" secondItem="Zbb-DA-UH4" secondAttribute="leading" id="yzm-wE-K3C"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="He3-RP-ewl">
@@ -940,9 +829,6 @@ The main advantage of a computer audio player is that you can play your audio CD
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="memberProfileNameLabel" destination="vJk-Og-YtM" id="tA6-Bi-Eg1"/>
-                        <outlet property="memberProfilePhotoImage" destination="gqj-vX-1Lg" id="mwM-g2-lOa"/>
-                        <outlet property="memberProfilePositionLabel" destination="9Oj-4J-XlI" id="GNc-PG-rOh"/>
                         <outlet property="myKPIsButton" destination="fsv-ER-n9H" id="HWo-1n-mA8"/>
                         <outlet property="responsibleForButton" destination="PCg-CY-yE3" id="HK9-Eh-TCh"/>
                         <outlet property="securityButton" destination="Ubr-cu-qgk" id="dJg-W1-QMm"/>
@@ -4589,7 +4475,6 @@ Deliveries</string>
         <image name="SaleForce" width="116" height="82"/>
         <image name="TalkToUS" width="60" height="61"/>
         <image name="alertsIcosn1" width="27" height="27"/>
-        <image name="call-icon" width="16" height="16"/>
         <image name="coming-soon-stamp" width="552" height="199"/>
         <image name="dashboardsIcons1" width="25" height="25"/>
         <image name="defaultProfile" width="86" height="86"/>
@@ -4597,7 +4482,6 @@ Deliveries</string>
         <image name="group-20" width="43" height="46"/>
         <image name="logo-c" width="73" height="55"/>
         <image name="logo-c-copy" width="200" height="200"/>
-        <image name="mail-icon" width="16" height="11"/>
         <image name="onboarding1" width="205" height="200"/>
         <image name="supportIcons1" width="25" height="26"/>
         <image name="teamsIcons1" width="25" height="26"/>

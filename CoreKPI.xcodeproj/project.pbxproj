@@ -10,6 +10,8 @@
 		641F74641E5AE27B00672534 /* QuickBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F74631E5AE27B00672534 /* QuickBook.swift */; };
 		641F74661E5B0F4200672534 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F74651E5B0F4200672534 /* WebViewController.swift */; };
 		644691CF1E55870900D964D5 /* PinCodeLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644691CE1E55870900D964D5 /* PinCodeLock.swift */; };
+		645616461E67029B00643340 /* UserInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 645616451E67029B00643340 /* UserInfoTableViewCell.xib */; };
+		645616481E67039800643340 /* UserViewCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645616471E67039800643340 /* UserViewCellTableViewCell.swift */; };
 		645D1C541E6444CE004574C8 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D1C531E6444CE004574C8 /* Helpers.swift */; };
 		647B588F1E65AA2F001C968B /* QuickBookHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B588E1E65AA2F001C968B /* QuickBookHelpers.swift */; };
 		647B58911E65BA89001C968B /* QuickBookRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B58901E65BA89001C968B /* QuickBookRequestHandler.swift */; };
@@ -206,6 +208,8 @@
 		641F74631E5AE27B00672534 /* QuickBook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBook.swift; sourceTree = "<group>"; };
 		641F74651E5B0F4200672534 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		644691CE1E55870900D964D5 /* PinCodeLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeLock.swift; sourceTree = "<group>"; };
+		645616451E67029B00643340 /* UserInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserInfoTableViewCell.xib; sourceTree = "<group>"; };
+		645616471E67039800643340 /* UserViewCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewCellTableViewCell.swift; sourceTree = "<group>"; };
 		645D1C531E6444CE004574C8 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		647B588E1E65AA2F001C968B /* QuickBookHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBookHelpers.swift; sourceTree = "<group>"; };
 		647B58901E65BA89001C968B /* QuickBookRequestHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBookRequestHandler.swift; sourceTree = "<group>"; };
@@ -592,6 +596,8 @@
 				64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */,
 				A278209C1E0015BA009F83DB /* StoryBoards */,
 				64EE4DF91E55B6DC0007926F /* PinCodeView.xib */,
+				645616451E67029B00643340 /* UserInfoTableViewCell.xib */,
+				645616471E67039800643340 /* UserViewCellTableViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -982,6 +988,7 @@
 				A2EFE2D21E2E3FAA00BA2956 /* bar.html in Resources */,
 				A27820731E001503009F83DB /* LaunchScreen.storyboard in Resources */,
 				A26BEEAF1E3F886500C2D2AC /* stackArea.css in Resources */,
+				645616461E67029B00643340 /* UserInfoTableViewCell.xib in Resources */,
 				A2C9FD291E13E1D400433D43 /* Rd3.v3.min.js in Resources */,
 				A2C9FD261E13E1CD00433D43 /* style.css in Resources */,
 				A2C9ABDE1E2F5C4100623659 /* positiveBar.js in Resources */,
@@ -1061,6 +1068,7 @@
 				A297F5DF1E08248000F85963 /* NewProfileTableViewCell.swift in Sources */,
 				A297F5B01E08233100F85963 /* MainTabBarViewController.swift in Sources */,
 				A2E8F9FB1E3B1AB800046870 /* LaunchViewController.swift in Sources */,
+				645616481E67039800643340 /* UserViewCellTableViewCell.swift in Sources */,
 				A22EF0661E0901A20004DDB7 /* ModelCoreKPI.swift in Sources */,
 				A2F77E091E3B199400BB8318 /* DeleteUser.swift in Sources */,
 				A297F5B41E08233A00F85963 /* MemberInfoViewController.swift in Sources */,

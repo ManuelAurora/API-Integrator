@@ -12,13 +12,13 @@ import PhoneNumberKit
 
 class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    @IBOutlet weak var memberProfilePhotoImage: UIImageView!
-    @IBOutlet weak var memberProfileNameLabel: UILabel!
-    @IBOutlet weak var memberProfilePositionLabel: UILabel!
+    var memberProfilePhotoImage = UIImageView()
+    var memberProfileNameLabel = UILabel()
+    var memberProfilePositionLabel = UILabel()
+    
     @IBOutlet weak var responsibleForButton: UIButton!
     @IBOutlet weak var myKPIsButton: UIButton!
     @IBOutlet weak var securityButton: UIButton!
-    
     @IBOutlet weak var tableView: UITableView!
     
     var model: ModelCoreKPI!
@@ -35,6 +35,8 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let nib = UINib(nibName: "UserInfoTableViewCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: "UserInfoCell")
         
         //Subscribed for security switcher
         NotificationCenter.default.addObserver(self,
@@ -112,23 +114,45 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if model.profile?.typeOfAccount == TypeOfAccount.Admin {
             
-            return 4
+            return 5
         } else {
             
             return 3
         }
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 0
+        {
+            return 250
+        }
+        else { return 62 }
+    }    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if indexPath.row == 0
+        {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "UserInfoCell") as! UserViewTableViewCell
+            
+            cell.memberProfileNameLabel.text = memberProfileNameLabel.text
+            cell.memberProfilePhotoImage.image = memberProfilePhotoImage.image
+            cell.memberProfilePositionLabel.text = memberProfileNameLabel.text
+            
+            return cell
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "MemberInfoCell", for: indexPath) as! MemberInfoTableViewCell
         
-        if model.profile?.typeOfAccount == TypeOfAccount.Admin {
-            switch indexPath.row {
-            case 0:
+        if model.profile?.typeOfAccount == TypeOfAccount.Admin
+        {
+            switch indexPath.row
+            {
+            case 1:
                 cell.headerCellLabel.text = "Type of account"
                 cell.dataCellLabel.text = model.team[index].isAdmin ? "Admin" : "Manager"
                 
-            case 1:
+            case 2:
                 cell.headerCellLabel.text = "Phone"
                 if model.team[index].phoneNumber == nil {
                     cell.dataCellLabel.text = "No Phone Number"
@@ -138,18 +162,18 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                     cell.dataCellLabel.textColor = UIColor.black
                 }
                 
-            case 2:
+            case 3:
                 
                 cell.headerCellLabel.text = "E-mail"
                 cell.dataCellLabel.text = model.team[index].username!
                 
-            case 3:
+            case 4:
                 cell.headerCellLabel.text = "Security"
                 cell.securitySwitch.isHidden = false
                 cell.dataCellLabel.text = "Pin code lock"
                 cell.securitySwitch.isOn = usersPin == nil ? false : true
                 securityCellIndexPath = indexPath
-            
+                
             default:
                 cell.headerCellLabel.text = ""
                 cell.dataCellLabel.text = ""
