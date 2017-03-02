@@ -469,13 +469,9 @@
 			children = (
 				A256F05F1E49B631004DAF75 /* ExternalRequestService.swift */,
 				A256F0611E49F56B004DAF75 /* GoogleAnalytics */,
-<<<<<<< HEAD
-				A2FF67B41E65B2E3009CB5BD /* PayPal.swift */,
-=======
 				641F74631E5AE27B00672534 /* QuickBook.swift */,
 				647B588E1E65AA2F001C968B /* QuickBookHelpers.swift */,
 				647B58901E65BA89001C968B /* QuickBookRequestHandler.swift */,
->>>>>>> origin/subdev
 			);
 			name = "External Services";
 			sourceTree = "<group>";
