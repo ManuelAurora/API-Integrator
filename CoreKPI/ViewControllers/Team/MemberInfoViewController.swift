@@ -35,6 +35,8 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.allowsSelection = false
+        
         let nib = UINib(nibName: "UserInfoTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "UserInfoCell")
         
@@ -134,6 +136,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         {
             let cell = tableView.dequeueReusableCell(withIdentifier: "UserInfoCell") as! UserViewTableViewCell
             
+            cell.delegate = self
             cell.memberProfileNameLabel.text = memberProfileNameLabel.text
             cell.memberProfilePhotoImage.image = memberProfilePhotoImage.image
             cell.memberProfilePositionLabel.text = memberProfileNameLabel.text
