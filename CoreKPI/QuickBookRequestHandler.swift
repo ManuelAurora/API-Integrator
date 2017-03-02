@@ -15,6 +15,7 @@ class QuickBookRequestHandler
     var request: urlStringWithMethod!
     weak var manager: QuickBookDataManager!
     var isCreation: Bool
+    let notificationCenter = NotificationCenter.default
     
     init(oauthswift: OAuth1Swift, request: urlStringWithMethod, manager: QuickBookDataManager, isCreation: Bool = false) {
         
@@ -24,7 +25,7 @@ class QuickBookRequestHandler
         self.isCreation = isCreation
     }
     
-    func getData() {             
+    func getData() {       
         
         _ = oauthswift.client.get(
             
@@ -51,6 +52,7 @@ class QuickBookRequestHandler
             switch method.methodName
             {
             case .balanceSheet:
+                
                 let rows = jsonDict!["Rows"] as! [String: Any]
                 let rows2 = rows["Row"] as! [[String: Any]]
                 
@@ -68,12 +70,14 @@ class QuickBookRequestHandler
                 }
                 
                 let result = (kpiInfo.kpiName,"",kpiInfo.kpiValue)
-                
+                                
                 manager.balanceSheet.append(result)
                 
                 if isCreation {
                     manager.createNewEntityForArrayOf(type: .balance, urlString: request.urlString)
                 }
+                
+                notificationCenter.post(name: .qBBalanceSheetRefreshed, object: nil)
                 
                 return kpiInfo
                 
@@ -151,6 +155,12 @@ class QuickBookRequestHandler
                 }
                 
                 manager.overdueCustomers = filteredOverdueArray
+                
+                if isCreation {
+                    manager.createNewEntityForArrayOf(type: .invoices, urlString: request.urlString)
+                }
+                
+                notificationCenter.post(name: .qBInvoicesRefreshed, object: nil)
                 
             case .profitLoss:
                 let rows = jsonDict!["Rows"] as! [String: Any]

@@ -12,9 +12,15 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
 
     @IBOutlet weak var tableView: UITableView!
     
+    var qBMethod: QBMethod!
+    lazy var qbDataManager: QuickBookDataManager = {
+        let qbdm = QuickBookDataManager.shared()
+        return qbdm
+    }()
+    
     var index = 0
     var header: String = " "
-    
+    let notificationCenter = NotificationCenter.default
     var reportArray: [(Date, Double)] = []
     
     var dataArray: [(leftValue: String, centralValue: String, rightValue: String)] = []
@@ -24,16 +30,58 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        switch qBMethod!
+        {
+        case .query:
+            notificationCenter.addObserver(self, selector: #selector(TableViewChartController.reloadTableView), name: .qBInvoicesRefreshed, object: nil)
+            
+        case .balanceSheet:
+         notificationCenter.addObserver(self, selector: #selector(TableViewChartController.reloadTableView), name: .qBBalanceSheetRefreshed, object: nil)
+            
+        default:
+            break
+        }
+        
         tableView.tableFooterView = UIView(frame: .zero)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        notificationCenter.removeObserver(self)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    func reloadTableView() {
+        
+        switch qBMethod!
+        {
+        case .query:
+            dataArray = qbDataManager.invoices
+            
+        case .balanceSheet:
+            dataArray = qbDataManager.balanceSheet
+            
+        default:
+            break
+        }
+        
+        tableView.reloadData()
+    }
 
     // MARK: - Table view data source
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -12,6 +12,8 @@ import UIKit
 extension Notification.Name
 {
     static let userTappedSecuritySwitch = Notification.Name("UserTappedSecuritySwitch")
+    static let qBBalanceSheetRefreshed = Notification.Name("QuickbooksBalanceSheetRefreshed")
+    static let qBInvoicesRefreshed = Notification.Name("QuickbooksInvoicesRefreshed")
 }
 
 struct UserDefaultsKeys

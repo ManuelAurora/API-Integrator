@@ -93,6 +93,9 @@ class QuickBookDataManager
         case .Balance:
             return balanceSheet
             
+        case .Invoices:
+            return invoices
+            
         default:
             break
         }
@@ -148,12 +151,14 @@ class QuickBookDataManager
                 let queryPath = formUrlPath(method: queryInvoices)
                 
                 listOfRequests.append(urlStringWithMethod(urlString: queryPath, method: queryInvoices))
+                
                 kpiFilter[QiuckBooksKPIs.Invoices.rawValue] = true
                 kpiFilter[QiuckBooksKPIs.NetIncome.rawValue] = true
                 kpiFilter[QiuckBooksKPIs.NonPaidInvoices.rawValue] = true
                 kpiFilter[QiuckBooksKPIs.OpenInvoicesByCustomers.rawValue] = true
                 kpiFilter[QiuckBooksKPIs.OverdueCustomers.rawValue] = true
                 kpiFilter[QiuckBooksKPIs.PaidInvoices.rawValue] = true
+                
                 
             case .Balance:
                 let balanceQueryParameters: [QBQueryParameterKeys: String] = [
@@ -210,13 +215,30 @@ class QuickBookDataManager
         }
     }
     
+    func clearAllData() {
+        
+        balanceSheet.removeAll()
+        profitAndLoss.removeAll()
+        accountList.removeAll()
+        paidInvoices.removeAll()
+        nonPaidInvoices.removeAll()
+        paidInvoicesByCustomer.removeAll()
+        nonPaidInvoicesPercent.removeAll()
+        paidInvoicesPercent.removeAll()
+        invoices.removeAll()
+        overdueCustomers.removeAll()
+    }
+    
     func updateDataFromIntuit(_ oauthswift: OAuth1Swift) {
+        
+        clearAllData()
         
         for request in listOfRequests
         {
             let handler = QuickBookRequestHandler(oauthswift: oauthswift,
                                                   request: request,
                                                   manager: self)
+            
             handler.getData()
         }
         
@@ -240,16 +262,33 @@ class QuickBookDataManager
     func createNewEntityForArrayOf(type: ResultArrayType, urlString: String) {
         
         let extKPI = ExternalKPI()
-        let qbKPI = QuickbooksKPI()
+        var qbKPI: QuickbooksKPI!
+        
+        let fetchQuickbookKPI = NSFetchRequest<QuickbooksKPI>(entityName: "QuickbooksKPI")
+        if let quickbooksKPI = try? managedContext.fetch(fetchQuickbookKPI), quickbooksKPI.count > 0
+        {
+            qbKPI = quickbooksKPI[0]
+        }
+        else
+        {
+            qbKPI = QuickbooksKPI()
+            qbKPI.oAuthToken = serviceParameters[.oauthToken] ?? nil
+            qbKPI.oAuthRefreshToken = serviceParameters[.oauthRefreshToken] ?? nil
+            qbKPI.oAuthTokenSecret = serviceParameters[.oauthTokenSecret] ?? nil
+        }
         
         switch type
         {
         case .balance:
-            qbKPI.kpiValue = balanceSheet[0].rightValue
-            qbKPI.oAuthToken = serviceParameters[.oauthToken] ?? nil
-            qbKPI.oAuthRefreshToken = serviceParameters[.oauthRefreshToken] ?? nil
-            qbKPI.oAuthTokenSecret = serviceParameters[.oauthTokenSecret] ?? nil
+            
             extKPI.kpiName = QiuckBooksKPIs.Balance.rawValue
+            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+            extKPI.quickbooksKPI = qbKPI
+            extKPI.requestJsonString = urlString
+            
+        case .invoices:            
+            
+            extKPI.kpiName = QiuckBooksKPIs.Invoices.rawValue
             extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             extKPI.quickbooksKPI = qbKPI
             extKPI.requestJsonString = urlString

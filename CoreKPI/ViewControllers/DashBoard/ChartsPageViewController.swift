@@ -32,6 +32,12 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         super.didReceiveMemoryWarning()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+      //TODO: quickBooksDataManager.balanceSheet.removeAll()
+    }
+    
     // MARK:- UIPageViewControllerDataSource Methods
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController?
     {
@@ -136,6 +142,22 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 
                 switch QiuckBooksKPIs(rawValue: kpiName)!
                 {
+                    
+                case .Invoices:
+                    let method = QBQuery(with: [:])
+                    
+                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
+                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method))
+                    quickBooksDataManager.oauthswift.client.credential.oauthToken = kpi.integratedKPI.quickbooksKPI!.oAuthToken!
+                    quickBooksDataManager.oauthswift.client.credential.oauthRefreshToken = kpi.integratedKPI.quickbooksKPI!.oAuthRefreshToken!
+                    quickBooksDataManager.oauthswift.client.credential.oauthTokenSecret = kpi.integratedKPI.quickbooksKPI!.oAuthTokenSecret!
+                    
+                    createDataFromRequestWith(qBMethod: method, success: { dataToPresent in                        
+                        tableViewChartVC.qBMethod = .query
+                    })
+                    
+                    return tableViewChartVC
+                    
                 case .Balance:
                     let method = QBBalanceSheet(with: [:])
                     
@@ -145,11 +167,11 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                     quickBooksDataManager.oauthswift.client.credential.oauthRefreshToken = kpi.integratedKPI.quickbooksKPI!.oAuthRefreshToken!
                     quickBooksDataManager.oauthswift.client.credential.oauthTokenSecret = kpi.integratedKPI.quickbooksKPI!.oAuthTokenSecret!
                     
-                    createDataFromRequest(success: { dataToPresent in
-                        tableViewChartVC.dataArray = dataToPresent
-                        tableViewChartVC.dataArray = self.quickBooksDataManager.balanceSheet
-                        //tableViewChartVC.tableView.reloadData()
+                    createDataFromRequestWith(qBMethod: method, success: { dataToPresent in
+                        tableViewChartVC.qBMethod = .balanceSheet
                     })                    
+                    
+                    return tableViewChartVC
                     
                 default:
                     break
@@ -380,18 +402,35 @@ extension ChartsPageViewController {
     }
     
     //MARK: - crate data from request
+    func createDataFromRequestWith(qBMethod: QuickBookMethod?, success: @escaping ([(leftValue: String, centralValue: String, rightValue: String)])->()) {
+        
+        var dataForPresent: [(leftValue: String, centralValue: String, rightValue: String)] = []
+        
+         quickBooksDataManager.updateDataFromIntuit(quickBooksDataManager.oauthswift)
+            
+            if let method = qBMethod
+            {
+                switch method.methodName
+                {
+                case .balanceSheet:
+                    dataForPresent.append(contentsOf: QuickBookDataManager.shared().getInfoFor(kpi: .Balance))
+                    
+                case .query:
+                    dataForPresent.append(contentsOf: QuickBookDataManager.shared().getInfoFor(kpi: .Invoices))
+                    
+                default:
+                    break
+                }                
+            }
+            
+            success(dataForPresent)
+    }
+    
     func createDataFromRequest(success: @escaping ([(leftValue: String, centralValue: String, rightValue: String)])->()) {
         
         var dataForPresent: [(leftValue: String, centralValue: String, rightValue: String)] = []
         
         switch (IntegratedServices(rawValue: kpi.integratedKPI.serviceName!))! {
-            
-        case .Quickbooks:
-            
-            quickBooksDataManager.updateDataFromIntuit(quickBooksDataManager.oauthswift)
-            dataForPresent.append(contentsOf: QuickBookDataManager.shared().getInfoFor(kpi: .Balance))
-            
-            success(dataForPresent)
             
         case .GoogleAnalytics:
             getGoogleAnalyticsData(success: { report in

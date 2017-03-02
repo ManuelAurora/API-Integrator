@@ -20,6 +20,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "QuickBookRequestHandler.(getData() -&gt; ()).(closure #2):QuickBookRequestHandler.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "oauthswift.client.credential">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "QuickBookRequestHandler.getData() -&gt; ():QuickBookRequestHandler.swift">
          <PersistentStrings>
             <PersistentString
@@ -101,13 +109,24 @@
          contextName = "QuickBookRequestHandler.handle(response : OAuthSwiftResponse, method : QuickBookMethod) -&gt; ExternalKpiInfo?:QuickBookRequestHandler.swift">
          <PersistentStrings>
             <PersistentString
+               value = "manager.balanceSheet">
+            </PersistentString>
+            <PersistentString
                value = "manager.balanceSheet.append(result)">
+            </PersistentString>
+            <PersistentString
+               value = "isCreation">
             </PersistentString>
             <PersistentString
                value = "request.urlString">
             </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TableViewChartController.reloadTableView() -&gt; ():TableViewChartController.swift">
+         <PersistentStrings>
             <PersistentString
-               value = "manager.balanceSheet">
+               value = "dataArray">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -124,6 +143,9 @@
          <PersistentStrings>
             <PersistentString
                value = "balanceSheet">
+            </PersistentString>
+            <PersistentString
+               value = "invoices">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -239,6 +261,9 @@
          <PersistentStrings>
             <PersistentString
                value = "self.quickBooksDataManager.balanceSheet">
+            </PersistentString>
+            <PersistentString
+               value = "tableViewChartVC.dataArray">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
