@@ -14,14 +14,22 @@ import OAuthSwift
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    var window: UIWindow?    
+    var window: UIWindow?
+    
     var loggedIn = false {
         didSet {
             pinCodeAttempts = loggedIn ? PinLockConfiguration.attempts : 0
         }
-    }
+    }    
     
-    var pinCodeAttempts = 0
+    var pinCodeAttempts: Int {
+        get {
+            return UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCodeAttempts) as? Int ?? 0
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.pinCodeAttempts)
+        }
+    }
     
     lazy var pinCodeVCPresenter: PinCodeVCPresenter = {
         
@@ -31,6 +39,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        pinCodeAttempts = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCodeAttempts) as! Int? ?? 0
+        
         // Override point for customization after application launch.
         
         //NavigationBar style
@@ -102,7 +113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.        
-        let usersPin = UserDefaults.standard.value(forKey: "PinCode") as? [String]
+        let usersPin = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCode) as? [String]
         
         if loggedIn && usersPin != nil {
             pinCodeVCPresenter.presentPinCodeVC()
@@ -121,7 +132,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        // Saves changes in the application's managed object context before the application terminates.
+        // Saves changes in the application's managed object context before the application terminates.      
+        
         self.saveContext()
     }
     

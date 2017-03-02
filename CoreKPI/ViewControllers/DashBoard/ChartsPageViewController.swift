@@ -11,6 +11,13 @@ import UIKit
 class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSource {
     
     var kpi: KPI!
+    var quickBooksDataManager = QuickBookDataManager.shared()
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        print("DEBUG: Did Appear")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,9 +25,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         
         self.setViewControllers([getViewController(AtIndex: 0)] as [UIViewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
         self.view.backgroundColor = UIColor.white
-        
-        self.navigationController?.navigationBar.backgroundColor = UIColor.white
-    
+        self.navigationController?.navigationBar.backgroundColor = UIColor.white    
     }
 
     override func didReceiveMemoryWarning() {
@@ -123,6 +128,33 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
             //<-debug
             
             switch (IntegratedServices(rawValue: kpi.integratedKPI.serviceName!))! {
+                
+            case .Quickbooks:
+                navigationItem.title = "Quickbooks"
+                
+                let kpiName = kpi.integratedKPI.kpiName!
+                
+                switch QiuckBooksKPIs(rawValue: kpiName)!
+                {
+                case .Balance:
+                    let method = QBBalanceSheet(with: [:])
+                    
+                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
+                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method))
+                    quickBooksDataManager.oauthswift.client.credential.oauthToken = kpi.integratedKPI.quickbooksKPI!.oAuthToken!
+                    quickBooksDataManager.oauthswift.client.credential.oauthRefreshToken = kpi.integratedKPI.quickbooksKPI!.oAuthRefreshToken!
+                    quickBooksDataManager.oauthswift.client.credential.oauthTokenSecret = kpi.integratedKPI.quickbooksKPI!.oAuthTokenSecret!
+                    
+                    createDataFromRequest(success: { dataToPresent in
+                        tableViewChartVC.dataArray = dataToPresent
+                        tableViewChartVC.dataArray = self.quickBooksDataManager.balanceSheet
+                        //tableViewChartVC.tableView.reloadData()
+                    })                    
+                    
+                default:
+                    break
+                }
+                
             case .GoogleAnalytics:
                 navigationItem.title = "Google Analytics"
                 switch (GoogleAnalyticsKPIs(rawValue: kpi.integratedKPI.kpiName!))! {
@@ -356,8 +388,7 @@ extension ChartsPageViewController {
                 //user has not rules for this view
                 self.autorisationAgain(external: external!)
             }
-        }
-        )
+        })
     }
     
     //MARK: - crate data from request
@@ -366,6 +397,14 @@ extension ChartsPageViewController {
         var dataForPresent: [(leftValue: String, centralValue: String, rightValue: String)] = []
         
         switch (IntegratedServices(rawValue: kpi.integratedKPI.serviceName!))! {
+            
+        case .Quickbooks:
+            
+            quickBooksDataManager.updateDataFromIntuit(quickBooksDataManager.oauthswift)
+            dataForPresent.append(contentsOf: QuickBookDataManager.shared().getInfoFor(kpi: .Balance))
+            
+            success(dataForPresent)
+            
         case .GoogleAnalytics:
             getGoogleAnalyticsData(success: { report in
                 switch (GoogleAnalyticsKPIs(rawValue: self.kpi.integratedKPI.kpiName!))! {
@@ -378,11 +417,13 @@ extension ChartsPageViewController {
                         dataForPresent.append(("\(dateFormatter.string(from: Date()))\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
                     }
                     success(dataForPresent)
+                    
                 case .AudienceOverview:
                     for i in 0..<(report.data?.rowCount)! {
                         let data = report.data?.rows[i]
                         dataForPresent.append(("\((data?.dimensions[1])!)", "\((data?.dimensions[2])!)", "\((data?.dimensions[0])!)"))
                     }
+                    
                     success(dataForPresent)
                 case .GoalOverview:
                     for _ in 0..<(report.data?.rowCount)! {

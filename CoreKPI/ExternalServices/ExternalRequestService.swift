@@ -121,6 +121,7 @@ class ExternalRequest {
             }, failure: { error in
                 failure(error)
             })
+                  
         case .SalesForce:
             doOAuthSalesforce(viewController: viewController, success: { credential in
                 success(credential)

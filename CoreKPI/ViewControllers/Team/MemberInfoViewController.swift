@@ -12,17 +12,21 @@ import PhoneNumberKit
 
 class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    @IBOutlet weak var memberProfilePhotoImage: UIImageView!
-    @IBOutlet weak var memberProfileNameLabel: UILabel!
-    @IBOutlet weak var memberProfilePositionLabel: UILabel!
+    var memberProfilePhotoImage = UIImageView()
+    var memberProfileNameLabel = UILabel()
+    var memberProfilePositionLabel = UILabel()
+    
     @IBOutlet weak var responsibleForButton: UIButton!
     @IBOutlet weak var myKPIsButton: UIButton!
     @IBOutlet weak var securityButton: UIButton!
-    
     @IBOutlet weak var tableView: UITableView!
     
     var model: ModelCoreKPI!
     var index: Int!
+    var securityCellIndexPath = IndexPath()
+    var usersPin: [String]? {
+        return UserDefaults.standard.value(forKey: "PinCode") as? [String]
+    }
     
     weak var memberListVC: MemberListTableViewController!
     
@@ -30,6 +34,17 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.allowsSelection = false
+        
+        let nib = UINib(nibName: "UserInfoTableViewCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: "UserInfoCell")
+        
+        //Subscribed for security switcher
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(MemberInfoViewController.changeSecuritySettings),
+                                               name:  Notification.Name.userTappedSecuritySwitch,
+                                               object: nil)
         
         //Check admin permission!!
         if model.profile?.typeOfAccount == TypeOfAccount.Admin {
@@ -39,7 +54,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             if Int(model.team[index].userID) == model.profile?.userId {
                 responsibleForButton.isHidden = true
                 myKPIsButton.isHidden = false
-                securityButton.isHidden = false
+                //securityButton.isHidden = false
             }
         } else {
             responsibleForButton.isHidden = true
@@ -71,7 +86,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         super.didReceiveMemoryWarning()
     }
     
-    @IBAction func tapPhoneButton(_ sender: UIButton) {
+    func tapPhoneButton() {
         if model.team[index].phoneNumber == nil {
             let alertController = UIAlertController(title: "Can not call!", message: "Member has not a phone number", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
@@ -94,27 +109,52 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                 alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 present(alertController, animated: true, completion: nil)
             }
-        }
-        
+        }        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if model.profile?.typeOfAccount == TypeOfAccount.Admin {
-            return 3
+            
+            return 5
         } else {
-            return 2
+            
+            return 3
         }
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 0
+        {
+            return 250
+        }
+        else { return 62 }
+    }    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if indexPath.row == 0
+        {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "UserInfoCell") as! UserViewTableViewCell
+            
+            cell.delegate = self
+            cell.memberProfileNameLabel.text = memberProfileNameLabel.text
+            cell.memberProfilePhotoImage.image = memberProfilePhotoImage.image
+            cell.memberProfilePositionLabel.text = memberProfileNameLabel.text
+            
+            return cell
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "MemberInfoCell", for: indexPath) as! MemberInfoTableViewCell
         
-        if model.profile?.typeOfAccount == TypeOfAccount.Admin {
-            switch indexPath.row {
-            case 0:
+        if model.profile?.typeOfAccount == TypeOfAccount.Admin
+        {
+            switch indexPath.row
+            {
+            case 1:
                 cell.headerCellLabel.text = "Type of account"
                 cell.dataCellLabel.text = model.team[index].isAdmin ? "Admin" : "Manager"
-            case 1:
+                
+            case 2:
                 cell.headerCellLabel.text = "Phone"
                 if model.team[index].phoneNumber == nil {
                     cell.dataCellLabel.text = "No Phone Number"
@@ -123,9 +163,19 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                     cell.dataCellLabel.text = model.team[index].phoneNumber
                     cell.dataCellLabel.textColor = UIColor.black
                 }
-            case 2:
+                
+            case 3:
+                
                 cell.headerCellLabel.text = "E-mail"
                 cell.dataCellLabel.text = model.team[index].username!
+                
+            case 4:
+                cell.headerCellLabel.text = "Security"
+                cell.securitySwitch.isHidden = false
+                cell.dataCellLabel.text = "Pin code lock"
+                cell.securitySwitch.isOn = usersPin == nil ? false : true
+                securityCellIndexPath = indexPath
+                
             default:
                 cell.headerCellLabel.text = ""
                 cell.dataCellLabel.text = ""
@@ -145,6 +195,14 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             case 1:
                 cell.headerCellLabel.text = "E-mail"
                 cell.dataCellLabel.text = model.team[index].username!
+                
+            case 3:
+                cell.headerCellLabel.text = "Security"
+                cell.securitySwitch.isHidden = false
+                cell.securitySwitch.isOn = usersPin == nil ? false : true
+                
+                securityCellIndexPath = indexPath
+                
             default:
                 cell.headerCellLabel.text = ""
                 cell.dataCellLabel.text = ""
@@ -155,8 +213,8 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     @IBAction func securityButtonTapped(_ sender: UIButton) {
-        let pinViewController = PinCodeViewController(mode: .createNewPin)
-        present(pinViewController, animated: true, completion: nil)
+//        let pinViewController = PinCodeViewController(mode: .createNewPin)
+//        present(pinViewController, animated: true, completion: nil)
     }
     
     @IBAction func tapEditBautton(_ sender: UIBarButtonItem) {
@@ -218,11 +276,24 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
+    func changeSecuritySettings() {        
+        
+        if usersPin == nil
+        {
+            let pinViewController = PinCodeViewController(mode: .createNewPin)
+            pinViewController.delegate = self
+            present(pinViewController, animated: true, completion: nil)
+        }
+        else {            
+            UserDefaults.standard.set(nil, forKey: "PinCode")
+        }
+    }
 }
 
 //MARK: - MFMailComposeViewControllerDelegate methods
 extension MemberInfoViewController: MFMailComposeViewControllerDelegate {
-    @IBAction func tapMailButton(_ sender: UIButton) {
+    
+    func tapMailButton() {
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self

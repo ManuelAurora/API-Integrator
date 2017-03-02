@@ -31,7 +31,7 @@ enum SalesForceKPIs: String {
 
 enum QiuckBooksKPIs: String {
     case NetIncome = "Net Income"
-    case Balance
+    case Balance = "Balance"
     case BalanceByBankAccounts = "Balance by Bank Accounts"
     case IncomeProfitKPIs = "Income/Profit KPIS"
     case Invoices

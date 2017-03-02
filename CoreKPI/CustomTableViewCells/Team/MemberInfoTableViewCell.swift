@@ -11,8 +11,13 @@ import UIKit
 class MemberInfoTableViewCell: UITableViewCell {
 
     @IBOutlet weak var headerCellLabel: UILabel!
-    
+    @IBOutlet weak var securitySwitch: UISwitch!
     @IBOutlet weak var dataCellLabel: UILabel!
+    
+    @IBAction func securutySwitchTapped(_ sender: UISwitch) {
+        
+        NotificationCenter.default.post(name: NSNotification.Name.userTappedSecuritySwitch, object: nil)
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

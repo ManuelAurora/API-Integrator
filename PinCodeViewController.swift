@@ -28,7 +28,7 @@ class PinCodeViewController: UIViewController
     
     var pinToConfirm = [String]() {
         didSet {
-            if pinToConfirm.count > 0 {infoLabel.text = TextForLabels.confirm}
+            if pinToConfirm.count > 0 { infoLabel.text = TextForLabels.confirm }
         }
     }
     
@@ -36,16 +36,18 @@ class PinCodeViewController: UIViewController
     private var isAnimationCompleted = true
     
     weak var presenter: PinCodeVCPresenter?
+    var delegate: MemberInfoViewController?
     
     var dismissCompletion: (() -> Void)?
     var successCompletion: (() -> Void)?
     var logOutCompletion:  (() -> Void)?
+    var cancelledFromBGCompletion: (() -> Void)?
     
     var mode: PinMode?
     var confirmed = false
     
     lazy var model: ModelCoreKPI? = {
-        if let data = UserDefaults.standard.data(forKey: "token"),
+        if let data = UserDefaults.standard.data(forKey: UserDefaultsKeys.token),
             let myTokenArray = NSKeyedUnarchiver.unarchiveObject(with: data) as? [ModelCoreKPI] {
             let model = ModelCoreKPI(model: myTokenArray[0])
             return model
@@ -71,13 +73,18 @@ class PinCodeViewController: UIViewController
             
             if let presenter = presenter {
                 if presenter.presentedFromBG {
-                    logOutCompletion!()
+                    cancelledFromBGCompletion!()
                 }
                 else {
                     dismissCompletion!()
                 }
             }
             else {
+                if let presenter = delegate {
+                    let cell = presenter.tableView.cellForRow(at: presenter.securityCellIndexPath) as! MemberInfoTableViewCell
+                    cell.securitySwitch.isOn = false
+                }
+                
                 dismiss(animated: true, completion: nil)
             }
         }
@@ -125,7 +132,7 @@ class PinCodeViewController: UIViewController
     func createNew(pinCode: [String]) {
         
         if pinToConfirm == pinCode {
-            UserDefaults.standard.set(pinCode, forKey: "PinCode")
+            UserDefaults.standard.set(pinCode, forKey: UserDefaultsKeys.pinCode)
             
             dismiss(animated: true, completion: nil)
         }
@@ -137,19 +144,26 @@ class PinCodeViewController: UIViewController
             animateFailedLoginAttempt()
         }
         else {
+            
+            if let presenter = delegate {
+                let cell = presenter.tableView.cellForRow(at: presenter.securityCellIndexPath) as! MemberInfoTableViewCell
+                cell.securitySwitch.isOn = false
+            }
+            
             dismiss(animated: true, completion: nil)
         }
     }
     
     fileprivate func checkOut(pinCode: [String]) {
         
-        let usersPin = UserDefaults.standard.value(forKey: "PinCode") as? [String] ?? []
+        let usersPin = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCode) as? [String] ?? []
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
-        if appDelegate.pinCodeAttempts > 1 {
+        appDelegate.pinCodeAttempts -= 1
+        
+        if appDelegate.pinCodeAttempts > 0 {
             
-            isAnimationCompleted  = false
-            appDelegate.pinCodeAttempts -= 1
+            isAnimationCompleted  = false            
             
             if pinCode == usersPin {
                 
@@ -184,10 +198,18 @@ class PinCodeViewController: UIViewController
             if let navController = presentingViewController as? UINavigationController,
                 let presenter = navController.topViewController as? SignInViewController {
                 
+                UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.token)
+                UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.pinCode)
+                
+                presenter.toggleEnterByKeyButton(isEnabled: false)
+                
                 dismiss(animated: true, completion: nil)
             }
             else {
                 if presenter!.presentedFromBG {
+                    logOutCompletion!()
+                }
+                else if appDelegate.pinCodeAttempts <= 0 {
                     logOutCompletion!()
                 }
                 else {

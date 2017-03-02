@@ -40,7 +40,7 @@ class PinCodeVCPresenter
         secondaryWindow.makeKeyAndVisible()
         secondaryWindow.rootViewController = pinCodeController
         mainWindow?.windowLevel = 1
-        mainWindow?.endEditing(true)
+        mainWindow?.endEditing(true)        
         
         pinCodeController.logOutCompletion = { [weak self] in
             self?.mainWindow?.windowLevel = 1
@@ -48,6 +48,14 @@ class PinCodeVCPresenter
             self?.animateDismissal()
             self?.launchController?.LogOut()
             self?.launchController?.dismiss(animated: true, completion: nil)            
+        }
+        
+        pinCodeController.cancelledFromBGCompletion = { [weak self] in
+            self?.mainWindow?.windowLevel = 1
+            self?.mainWindow?.makeKeyAndVisible()
+            self?.animateDismissal()
+            self?.launchController?.showedAfterBGCancelling = true
+            self?.launchController?.dismiss(animated: true, completion: nil)
         }
         
         pinCodeController.dismissCompletion = { [weak self] in

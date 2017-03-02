@@ -9,15 +9,30 @@
 import UIKit
 import OAuthSwift
 import Alamofire
+import CoreData
 
 class ExternalKPIViewController: OAuthViewController {
     
     @IBOutlet weak var tableView: UITableView!
+           
+    var quickBookDataManager: QuickBookDataManager {
+        return QuickBookDataManager.shared()
+    }
     
-    var oauthswift: OAuthSwift?
+    var selectedQBKPIs = [(SettingName: String, value: Bool)]()
+    
+    lazy var internalWebViewController: WebViewController = {
+        let controller = WebViewController()
+        
+        controller.delegate = self
+        controller.view = UIView(frame: UIScreen.main.bounds)       
+        controller.viewDidLoad()
+        
+        return controller
+    }()    
     
     weak var ChoseSuggestedVC: ChooseSuggestedKPITableViewController!
-    var servive: IntegratedServices!
+    var selectedService: IntegratedServices!
     var serviceKPI: [(SettingName: String, value: Bool)]!
     var tokenDelegate: UpdateExternalTokensDelegate!
     var settingDelegate: updateSettingsDelegate!
@@ -25,8 +40,8 @@ class ExternalKPIViewController: OAuthViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = servive.rawValue + " KPI"
-        tableView.tableFooterView = UIView(frame: .zero)
+        navigationItem.title = selectedService.rawValue + " KPI"
+        tableView.tableFooterView = UIView(frame: .zero)        
     }
     
     override func didReceiveMemoryWarning() {
@@ -34,18 +49,17 @@ class ExternalKPIViewController: OAuthViewController {
     }
     
     @IBAction func didTapedSaveButton(_ sender: UIBarButtonItem) {
-        var kpiNotSelected = true
-        for service in serviceKPI {
-            if service.value == true {
-                kpiNotSelected = false
+        
+        if selectedService == .Quickbooks
+        {
+            selectedQBKPIs = serviceKPI.filter { $0.value == true }
+            
+            if selectedQBKPIs.count > 0 {
+                doAuthService()
+            } else {
+                showAlert(title: "Sorry!", message: "First you should select one or more KPI, or service not integrated yet")
             }
         }
-        if !kpiNotSelected {
-            doAuthService()
-        } else {
-            showAlert(title: "Sorry!", message: "First you should select one or more KPI")
-        }
-        
     }
     
     func showAlert(title: String, message: String) {
@@ -89,7 +103,7 @@ extension ExternalKPIViewController {
     // MARK: - do authentification
     func doAuthService() {
         
-        switch servive! {
+        switch selectedService! {
         case .SalesForce:
             doOAuthSalesforce()
         case .Quickbooks:
@@ -122,6 +136,28 @@ extension ExternalKPIViewController {
     //MARK: QuickBooks
     func doOAuthQuickbooks() {
         
+        if internalWebViewController.parent == nil {
+            self.addChildViewController(internalWebViewController)
+        }
+        
+        quickBookDataManager.oauthswift.authorizeURLHandler = internalWebViewController
+        
+        let callbackUrlString = quickBookDataManager.serviceParameters[.callbackUrl]
+        
+        guard let callBackUrl = callbackUrlString else { print("DEBUG: Callback URL not found!"); return }
+        
+        let _ = quickBookDataManager.oauthswift.authorize(
+            withCallbackURL: callBackUrl,
+            success: { credential, response, parameters in
+                self.quickBookDataManager.serviceParameters[.oauthToken] = credential.oauthToken
+                self.quickBookDataManager.serviceParameters[.oauthRefreshToken] = credential.oauthRefreshToken
+                self.quickBookDataManager.serviceParameters[.oauthTokenSecret] = credential.oauthTokenSecret
+                self.quickBookDataManager.formListOfRequests(from: self.selectedQBKPIs)
+                self.quickBookDataManager.fetchDataFromIntuit(self.quickBookDataManager.oauthswift)
+           
+        }) { error in
+            print(error.localizedDescription)
+        }
     }
     
     //MARK: HubSpotMarketing
@@ -144,19 +180,26 @@ extension ExternalKPIViewController {
     
     // MARK: PayPal
     func doOAuthPayPal(){
-        let request = ExternalRequest()
-        request.oAuthAutorisation(servise: .PayPal, viewController: self, success: { credential in
-            self.ChoseSuggestedVC.integrated = self.servive
-            self.settingDelegate = self.ChoseSuggestedVC
-            self.settingDelegate.updateSettingsArray(array: self.serviceKPI)
-            self.tokenDelegate = self.ChoseSuggestedVC
-            self.tokenDelegate.updateTokens(oauthToken: credential.oauthToken, oauthRefreshToken: credential.oauthRefreshToken, oauthTokenExpiresAt: credential.oauthTokenExpiresAt!, viewID: nil)
-            let stackVC = self.navigationController?.viewControllers
-            _ = self.navigationController?.popToViewController((stackVC?[(stackVC?.count)! - 3])!, animated: true)
-        }, failure: { error in
-            self.showAlert(title: "Sorry", message: error)
-        }
-        )
+        //payPalTest()
+        
+        let oauthswift = OAuth2Swift(
+            consumerKey: "AdA0F4asoYIoJoGK1Mat3i0apr1bdYeeRiZ6ktSgPrNmAMIQBO_TZtn_U80H7KwPdmd72CJhUTY5LYJH",
+            consumerSecret: "",
+            authorizeUrl: "https://www.sandbox.paypal.com/signin/authorize",
+            responseType: "token")        
+        
+        oauthswift.allowMissingStateCheck = true
+        oauthswift.accessTokenBasicAuthentification = true
+        oauthswift.authorizeURLHandler = SafariURLHandler(viewController: self, oauthSwift: oauthswift)
+        let _ = oauthswift.authorize(
+            withCallbackURL: URL(string: "https://appauth.demo-app.io:/oauth2redirect")!, scope: "profile+email+address+phone", state: "",
+            success: { credential, response, parameters in
+                print(credential.oauthToken)
+                //self.selectViewID(credential: credential)
+        },
+            failure: { error in
+                print("ERROR: \(error.localizedDescription)")
+        })
     }
     
     // MARK: HubSpotCRM
@@ -188,7 +231,7 @@ extension ExternalKPIViewController {
         let oauthToken = credential.oauthToken
         let oauthRefreshToken = credential.oauthRefreshToken
         let oauthTokenExpiresAt = credential.oauthTokenExpiresAt
-        ChoseSuggestedVC.integrated = servive
+        ChoseSuggestedVC.integrated = selectedService
         settingDelegate = ChoseSuggestedVC
         settingDelegate.updateSettingsArray(array: serviceKPI)
         tokenDelegate = ChoseSuggestedVC
@@ -196,5 +239,28 @@ extension ExternalKPIViewController {
         let stackVC = navigationController?.viewControllers
         _ = navigationController?.popToViewController((stackVC?[(stackVC?.count)! - 3])!, animated: true)
     }
+}
+
+extension ExternalKPIViewController: OAuthWebViewControllerDelegate {
     
+    func oauthWebViewControllerDidPresent() {
+        
+    }
+    func oauthWebViewControllerDidDismiss() {
+        
+    }
+    
+    func oauthWebViewControllerWillAppear() {
+        
+    }
+    func oauthWebViewControllerDidAppear() {
+        
+    }
+    func oauthWebViewControllerWillDisappear() {
+        
+    }
+    func oauthWebViewControllerDidDisappear() {
+        // Ensure all listeners are removed if presented web view close
+        quickBookDataManager.oauthswift.cancel()
+    }
 }
