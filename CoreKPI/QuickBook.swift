@@ -13,6 +13,7 @@ import CoreData
 
 typealias resultArray = [(leftValue: String, centralValue: String, rightValue: String)]
 typealias urlStringWithMethod = (urlString: String, method: QuickBookMethod?)
+typealias success = () -> ()
 
 class QuickBookDataManager
 {
@@ -229,30 +230,14 @@ class QuickBookDataManager
         overdueCustomers.removeAll()
     }
     
-    func updateDataFromIntuit(_ oauthswift: OAuth1Swift) {
-        
-        clearAllData()
-        
-        for request in listOfRequests
-        {
-            let handler = QuickBookRequestHandler(oauthswift: oauthswift,
-                                                  request: request,
-                                                  manager: self)
-            
-            handler.getData()
-        }
-        
-        listOfRequests.removeAll()
-    }
-    
-    func fetchDataFromIntuit(_ oauthswift: OAuth1Swift) {
+    func fetchDataFromIntuit(isCreation: Bool) {
         
         for request in listOfRequests
         {
             let handler = QuickBookRequestHandler(oauthswift: oauthswift,
                                                   request: request,
                                                   manager: self,
-                                                  isCreation: true)
+                                                  isCreation: isCreation)
             handler.getData()
         }
         
@@ -301,6 +286,42 @@ class QuickBookDataManager
         }
         catch let error {
             print(error.localizedDescription)
+        }
+    }
+    
+    func doOAuthQuickbooks(_ success: @escaping success) {
+    
+        let infoFetch = NSFetchRequest<QuickbooksKPI>(entityName: "QuickbooksKPI")
+        do {
+            let quickbooksKPIInfo = try managedContext.fetch(infoFetch)
+            
+            if quickbooksKPIInfo.count > 0, let token = quickbooksKPIInfo[0].oAuthToken,
+                let tokenSecret = quickbooksKPIInfo[0].oAuthTokenSecret
+            {
+                serviceParameters[.oauthToken] = token
+                serviceParameters[.oauthTokenSecret] = tokenSecret
+                success()
+            }
+            else
+            {                
+                let callbackUrlString = serviceParameters[.callbackUrl]
+                
+                guard let callBackUrl = callbackUrlString else { print("DEBUG: Callback URL not found!"); return }
+                
+                let _ = oauthswift.authorize(
+                    withCallbackURL: callBackUrl,
+                    success: { credential, response, parameters in
+                        self.serviceParameters[.oauthToken] = credential.oauthToken
+                        self.serviceParameters[.oauthRefreshToken] = credential.oauthRefreshToken
+                        self.serviceParameters[.oauthTokenSecret] = credential.oauthTokenSecret
+                        success()
+                }) { error in
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        catch {
+            print("DEBUG: CoreData error")
         }
     }
 }

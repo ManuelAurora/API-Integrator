@@ -400,7 +400,9 @@ extension ChartsPageViewController {
         
         var dataForPresent: [(leftValue: String, centralValue: String, rightValue: String)] = []
         
-         quickBooksDataManager.updateDataFromIntuit(quickBooksDataManager.oauthswift)
+         quickBooksDataManager.doOAuthQuickbooks {            
+            
+            self.quickBooksDataManager.fetchDataFromIntuit(isCreation: false)
             
             if let method = qBMethod
             {
@@ -414,10 +416,11 @@ extension ChartsPageViewController {
                     
                 default:
                     break
-                }                
+                }
             }
             
             success(dataForPresent)
+        }
     }
     
     func createDataFromRequest(success: @escaping ([(leftValue: String, centralValue: String, rightValue: String)])->()) {

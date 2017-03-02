@@ -141,49 +141,16 @@ extension ExternalKPIViewController {
     
     //MARK: QuickBooks
     func doOAuthQuickbooks() {
+        quickBookDataManager.doOAuthQuickbooks { 
+            self.quickBookDataManager.formListOfRequests(from: self.selectedQBKPIs)
+            self.quickBookDataManager.fetchDataFromIntuit(isCreation: true)
+        }
         
         if internalWebViewController.parent == nil {
             self.addChildViewController(internalWebViewController)
         }
         
         quickBookDataManager.oauthswift.authorizeURLHandler = internalWebViewController
-        
-        let callbackUrlString = quickBookDataManager.serviceParameters[.callbackUrl]
-        
-        guard let callBackUrl = callbackUrlString else { print("DEBUG: Callback URL not found!"); return }
-        
-        let infoFetch = NSFetchRequest<QuickbooksKPI>(entityName: "QuickbooksKPI")
-        do {
-            let quickbooksKPIInfo = try managedContext.fetch(infoFetch)
-            
-            if quickbooksKPIInfo.count > 0, let token = quickbooksKPIInfo[0].oAuthToken,
-            let tokenSecret = quickbooksKPIInfo[0].oAuthTokenSecret
-            {
-                quickBookDataManager.serviceParameters[.oauthToken] = token
-                quickBookDataManager.serviceParameters[.oauthTokenSecret] = tokenSecret
-                quickBookDataManager.formListOfRequests(from: selectedQBKPIs)
-                quickBookDataManager.fetchDataFromIntuit(quickBookDataManager.oauthswift)
-            }
-            else
-            {
-                let _ = quickBookDataManager.oauthswift.authorize(
-                    withCallbackURL: callBackUrl,
-                    success: { credential, response, parameters in
-                        self.quickBookDataManager.serviceParameters[.oauthToken] = credential.oauthToken
-                        self.quickBookDataManager.serviceParameters[.oauthRefreshToken] = credential.oauthRefreshToken
-                        self.quickBookDataManager.serviceParameters[.oauthTokenSecret] = credential.oauthTokenSecret
-                        self.quickBookDataManager.formListOfRequests(from: self.selectedQBKPIs)
-                        self.quickBookDataManager.fetchDataFromIntuit(self.quickBookDataManager.oauthswift)
-                        
-                }) { error in
-                    print(error.localizedDescription)
-                }
-            }
-        }
-        catch {
-            print("DEBUG: CoreData error")
-        }
-        
     }
     
     //MARK: HubSpotMarketing

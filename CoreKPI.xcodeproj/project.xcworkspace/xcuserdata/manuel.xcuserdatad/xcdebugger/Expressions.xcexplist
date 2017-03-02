@@ -87,6 +87,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "QuickBookDataManager.fetchDataFromIntuit() -&gt; ():QuickBook.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "listOfRequests">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "QuickBookDataManager.(fetchDataFromIntuit(OAuth1Swift) -&gt; ()).(closure #1):QuickBook.swift">
          <PersistentStrings>
             <PersistentString
@@ -179,6 +187,9 @@
             </PersistentString>
             <PersistentString
                value = "quickBooksDataManager.oauthswift.client.credential">
+            </PersistentString>
+            <PersistentString
+               value = "tableViewChartVC.dataArray">
             </PersistentString>
             <PersistentString
                value = "kpi.integratedKPI.requestJsonString!">
