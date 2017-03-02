@@ -151,9 +151,10 @@ extension ExternalKPIViewController {
             success: { credential, response, parameters in
                 self.quickBookDataManager.serviceParameters[.oauthToken] = credential.oauthToken
                 self.quickBookDataManager.serviceParameters[.oauthRefreshToken] = credential.oauthRefreshToken
+                self.quickBookDataManager.serviceParameters[.oauthTokenSecret] = credential.oauthTokenSecret
                 self.quickBookDataManager.formListOfRequests(from: self.selectedQBKPIs)
                 self.quickBookDataManager.fetchDataFromIntuit(self.quickBookDataManager.oauthswift)
-                                        
+           
         }) { error in
             print(error.localizedDescription)
         }

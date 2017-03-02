@@ -24,7 +24,7 @@ class QuickBookRequestHandler
         self.isCreation = isCreation
     }
     
-    func getData() {
+    func getData() {             
         
         _ = oauthswift.client.get(
             

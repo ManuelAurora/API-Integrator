@@ -12,6 +12,8 @@
 		644691CF1E55870900D964D5 /* PinCodeLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644691CE1E55870900D964D5 /* PinCodeLock.swift */; };
 		645616461E67029B00643340 /* UserInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 645616451E67029B00643340 /* UserInfoTableViewCell.xib */; };
 		645616481E67039800643340 /* UserViewCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645616471E67039800643340 /* UserViewCellTableViewCell.swift */; };
+		645759241E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645759231E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift */; };
+		645759261E67FB7D006FB5F9 /* ExternaKPI + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645759251E67FB7D006FB5F9 /* ExternaKPI + Extension.swift */; };
 		645D1C541E6444CE004574C8 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D1C531E6444CE004574C8 /* Helpers.swift */; };
 		647B588F1E65AA2F001C968B /* QuickBookHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B588E1E65AA2F001C968B /* QuickBookHelpers.swift */; };
 		647B58911E65BA89001C968B /* QuickBookRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B58901E65BA89001C968B /* QuickBookRequestHandler.swift */; };
@@ -210,6 +212,8 @@
 		644691CE1E55870900D964D5 /* PinCodeLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeLock.swift; sourceTree = "<group>"; };
 		645616451E67029B00643340 /* UserInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserInfoTableViewCell.xib; sourceTree = "<group>"; };
 		645616471E67039800643340 /* UserViewCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewCellTableViewCell.swift; sourceTree = "<group>"; };
+		645759231E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "QuickBooksKPI + Extension.swift"; sourceTree = "<group>"; };
+		645759251E67FB7D006FB5F9 /* ExternaKPI + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExternaKPI + Extension.swift"; sourceTree = "<group>"; };
 		645D1C531E6444CE004574C8 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		647B588E1E65AA2F001C968B /* QuickBookHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBookHelpers.swift; sourceTree = "<group>"; };
 		647B58901E65BA89001C968B /* QuickBookRequestHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBookRequestHandler.swift; sourceTree = "<group>"; };
@@ -559,6 +563,8 @@
 			isa = PBXGroup;
 			children = (
 				A278206C1E001503009F83DB /* CoreKPI.xcdatamodeld */,
+				645759231E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift */,
+				645759251E67FB7D006FB5F9 /* ExternaKPI + Extension.swift */,
 			);
 			name = CoreData;
 			sourceTree = "<group>";
@@ -1117,6 +1123,8 @@
 				A297F5E01E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift in Sources */,
 				A261D9181E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift in Sources */,
 				64936AF21E543DC00059D80A /* PinCodeButton.swift in Sources */,
+				645759261E67FB7D006FB5F9 /* ExternaKPI + Extension.swift in Sources */,
+				645759241E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift in Sources */,
 				A2F77E081E3B199400BB8318 /* ChangeUserRights.swift in Sources */,
 				A297F5E11E08248000F85963 /* TypeAccountTableViewCell.swift in Sources */,
 				A2B7209A1E2E5F9900471E91 /* OnboardingPageViewController.swift in Sources */,

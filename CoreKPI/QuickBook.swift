@@ -246,9 +246,9 @@ class QuickBookDataManager
         {
         case .balance:
             qbKPI.kpiValue = balanceSheet[0].rightValue
-            qbKPI.oAuthToken = serviceParameters[.oauthToken]!
-            qbKPI.oAuthRefreshToken = serviceParameters[.oauthRefreshToken]!
-            qbKPI.oAuthTokenSecret = serviceParameters[.oauthTokenSecret]!
+            qbKPI.oAuthToken = serviceParameters[.oauthToken] ?? nil
+            qbKPI.oAuthRefreshToken = serviceParameters[.oauthRefreshToken] ?? nil
+            qbKPI.oAuthTokenSecret = serviceParameters[.oauthTokenSecret] ?? nil
             extKPI.kpiName = QiuckBooksKPIs.Balance.rawValue
             extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             extKPI.quickbooksKPI = qbKPI
