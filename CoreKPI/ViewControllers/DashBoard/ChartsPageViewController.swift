@@ -148,9 +148,6 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                     
                     tableViewChartVC.titleOfTable = (kpiName, "", "Value")
                     quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method))
-                    quickBooksDataManager.oauthswift.client.credential.oauthToken = kpi.integratedKPI.quickbooksKPI!.oAuthToken!
-                    quickBooksDataManager.oauthswift.client.credential.oauthRefreshToken = kpi.integratedKPI.quickbooksKPI!.oAuthRefreshToken!
-                    quickBooksDataManager.oauthswift.client.credential.oauthTokenSecret = kpi.integratedKPI.quickbooksKPI!.oAuthTokenSecret!
                     
                     createDataFromRequestWith(qBMethod: method, success: { dataToPresent in                        
                         tableViewChartVC.qBMethod = .query
@@ -163,9 +160,6 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                     
                     tableViewChartVC.titleOfTable = (kpiName, "", "Value")
                     quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method))
-                    quickBooksDataManager.oauthswift.client.credential.oauthToken = kpi.integratedKPI.quickbooksKPI!.oAuthToken!
-                    quickBooksDataManager.oauthswift.client.credential.oauthRefreshToken = kpi.integratedKPI.quickbooksKPI!.oAuthRefreshToken!
-                    quickBooksDataManager.oauthswift.client.credential.oauthTokenSecret = kpi.integratedKPI.quickbooksKPI!.oAuthTokenSecret!
                     
                     createDataFromRequestWith(qBMethod: method, success: { dataToPresent in
                         tableViewChartVC.qBMethod = .balanceSheet
