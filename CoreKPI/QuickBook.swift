@@ -253,6 +253,7 @@ class QuickBookDataManager
     
     func clearAllData() {
         
+        netIncome.removeAll()
         kpiFilter.removeAll()
         balanceSheet.removeAll()
         profitAndLoss.removeAll()
@@ -303,6 +304,13 @@ class QuickBookDataManager
         
         switch type
         {
+            
+        case .nonPaidInvoicesPercent:
+            extKPI.kpiName = QiuckBooksKPIs.NonPaidInvoices.rawValue
+            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+            extKPI.quickbooksKPI = qbKPI
+            extKPI.requestJsonString = urlString
+            
         case .balance:
             extKPI.kpiName = QiuckBooksKPIs.Balance.rawValue
             extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
@@ -358,7 +366,7 @@ class QuickBookDataManager
             extKPI.requestJsonString = urlString
             
         case .nonPaidInvoices:
-             extKPI.kpiName = QiuckBooksKPIs.NonPaidInvoices.rawValue
+            extKPI.kpiName = QiuckBooksKPIs.NonPaidInvoices.rawValue
             extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             extKPI.quickbooksKPI = qbKPI
             extKPI.requestJsonString = urlString
@@ -375,8 +383,11 @@ class QuickBookDataManager
             extKPI.quickbooksKPI = qbKPI
             extKPI.requestJsonString = urlString            
             
-        default: break
-        }
+        case .openInvoicesByCustomers:
+            extKPI.kpiName = QiuckBooksKPIs.OpenInvoicesByCustomers.rawValue
+            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+            extKPI.quickbooksKPI = qbKPI
+            extKPI.requestJsonString = urlString         
         
         do {
             try managedContext.save()

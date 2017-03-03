@@ -180,8 +180,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
-    }
-    
+    }    
 }
 
 // MARK: - Remind me later button did taped

@@ -35,7 +35,7 @@ enum QiuckBooksKPIs: String {
     case BalanceByBankAccounts = "Balance by Bank Accounts"
     case IncomeProfitKPIs = "Income/Profit KPIS"
     case Invoices
-    case NonPaidInvoices = "Non-Paid Invoices"
+    case NonPaidInvoices = "Non-Paid Invoices"    
     case PaidInvoices = "Paid invoices"
     case PaidInvoicesByCustomers = "Paid invoices by Customers"
     case OpenInvoicesByCustomers = "Open invoices by Customers"

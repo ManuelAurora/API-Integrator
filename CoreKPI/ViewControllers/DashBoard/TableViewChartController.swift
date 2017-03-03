@@ -35,6 +35,7 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
         
         switch qBMethod!
         {
+        
         case .query:
             subscribeToNotification(named: .qBInvoicesRefreshed)
             
@@ -53,7 +54,7 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
         case .paidExpenses:
             subscribeToNotification(named: .qBExpencesByVendorSummaryRefreshed)        
         }
-        
+                
         tableView.tableFooterView = UIView(frame: .zero)
     }
     
@@ -82,10 +83,10 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
                 dataArray = qbDataManager.invoices
                 
             case .NonPaidInvoices:
-                dataArray = qbDataManager.nonPaidInvoices
+                dataArray = qbDataManager.nonPaidInvoicesPercent
                 
             case .PaidInvoices:
-                dataArray = qbDataManager.paidInvoices
+                dataArray = qbDataManager.paidInvoicesPercent
                 
             case .NetIncome:
                 dataArray = qbDataManager.netIncome

@@ -45,6 +45,9 @@
             <PersistentString
                value = "qbKPI.oAuthTokenSecret">
             </PersistentString>
+            <PersistentString
+               value = "extKPI">
+            </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
@@ -131,19 +134,22 @@
             <PersistentString
                value = "dataArray">
             </PersistentString>
+            <PersistentString
+               value = "kpiName!">
+            </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "QuickBookRequestHandler.handle(response : OAuthSwiftResponse, method : QuickBookMethod) -&gt; ExternalKpiInfo?:QuickBookRequestHandler.swift">
          <PersistentStrings>
             <PersistentString
-               value = "manager.balanceSheet">
-            </PersistentString>
-            <PersistentString
-               value = "isCreation">
-            </PersistentString>
-            <PersistentString
                value = "manager.balanceSheet.append(result)">
+            </PersistentString>
+            <PersistentString
+               value = "invoice[&quot;MetaData&quot;] as! [String: String]">
+            </PersistentString>
+            <PersistentString
+               value = "manager.balanceSheet">
             </PersistentString>
             <PersistentString
                value = "manager.accountList">
@@ -153,6 +159,12 @@
             </PersistentString>
             <PersistentString
                value = "request!.kpiName!">
+            </PersistentString>
+            <PersistentString
+               value = "(invoice[&quot;CustomerRef&quot;] as! [String: Any])[&quot;name&quot;] as! String">
+            </PersistentString>
+            <PersistentString
+               value = "isCreation">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -201,7 +213,7 @@
                value = "quickBooksDataManager.oauthswift.client.credential">
             </PersistentString>
             <PersistentString
-               value = "tableViewChartVC.tableView">
+               value = "kpiValue">
             </PersistentString>
             <PersistentString
                value = "kpi.integratedKPI.quickbooksKPI">
@@ -210,7 +222,13 @@
                value = "tableViewChartVC.dataArray">
             </PersistentString>
             <PersistentString
+               value = "tableViewChartVC.tableView">
+            </PersistentString>
+            <PersistentString
                value = "kpi.integratedKPI.requestJsonString!">
+            </PersistentString>
+            <PersistentString
+               value = "kpiValue!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

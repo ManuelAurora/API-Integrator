@@ -97,9 +97,16 @@ class QuickBookRequestHandler
                     print(invoice)
                     let balance = invoice["Balance"] as! Float
                     let totalAmt = invoice["TotalAmt"] as! Float
+                    let docNumber = invoice["DocNumber"] as! String
+                    let customerName = (invoice["CustomerRef"] as! [String: Any])["name"] as! String
+                    let metaData = invoice["MetaData"] as! [String: String]
+                    let date = metaData["CreateTime"]!
+                    
+                    dateFormatter.date(from: date)
+                    
                     var resultInvoice = (leftValue: "", centralValue: "", rightValue: "")
                     
-                    manager.invoices.append((leftValue: "Invoice", centralValue: "", rightValue: "\(totalAmt)"))
+                    manager.invoices.append((leftValue: "\(date) \(docNumber)", centralValue: "\(customerName)", rightValue: "\(totalAmt)"))
                     
                     if totalAmt - balance > 0
                     {
@@ -177,7 +184,10 @@ class QuickBookRequestHandler
                         manager.createNewEntityForArrayOf(type: .paidInvoicesPercent, urlString: request.urlString)
                         
                     case .NonPaidInvoices:
-                        manager.createNewEntityForArrayOf(type: .nonPaidInvoices, urlString: request.urlString)
+                        manager.createNewEntityForArrayOf(type: .nonPaidInvoicesPercent, urlString: request.urlString)
+                        
+                    case .OpenInvoicesByCustomers:
+                        manager.createNewEntityForArrayOf(type: .openInvoicesByCustomers, urlString: request.urlString)
                         
                     default:
                         break

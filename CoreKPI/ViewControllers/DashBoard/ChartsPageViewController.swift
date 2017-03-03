@@ -141,6 +141,8 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 let kpiName = kpi.integratedKPI.kpiName!
                 let kpiValue = QiuckBooksKPIs(rawValue: kpiName)!
                 
+                //TODO: Refine, too much repeated code!
+                
                 switch kpiValue
                 {
                 case .Invoices:
@@ -230,6 +232,33 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                     return tableViewChartVC
                     
                 case .OverdueCustomers:
+                    let method = QBQuery(with: [:])
+                    
+                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
+                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method, kpiName: kpiValue))
+                    
+                    createDataFromRequestWith(qBMethod: method, success: { _ in
+                        tableViewChartVC.kpiName = kpiValue
+                        tableViewChartVC.qBMethod = .query
+                    })
+                    
+                    return tableViewChartVC
+                    
+                case .PaidInvoices:
+                    let method = QBQuery(with: [:])
+                    
+                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
+                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method, kpiName: kpiValue))
+                    
+                    createDataFromRequestWith(qBMethod: method, success: { _ in
+                        tableViewChartVC.kpiName = kpiValue
+                        tableViewChartVC.qBMethod = .query
+                    })
+                    
+                    return tableViewChartVC
+                    
+                    
+                case .NonPaidInvoices:
                     let method = QBQuery(with: [:])
                     
                     tableViewChartVC.titleOfTable = (kpiName, "", "Value")
