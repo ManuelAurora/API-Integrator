@@ -34,16 +34,23 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
         switch qBMethod!
         {
         case .query:
-            notificationCenter.addObserver(self, selector: #selector(TableViewChartController.reloadTableView), name: .qBInvoicesRefreshed, object: nil)
+           subscribeToNotification(named: .qBInvoicesRefreshed)
             
         case .balanceSheet:
-         notificationCenter.addObserver(self, selector: #selector(TableViewChartController.reloadTableView), name: .qBBalanceSheetRefreshed, object: nil)
+         subscribeToNotification(named: .qBBalanceSheetRefreshed)
+            
+        case .accountList:
+            subscribeToNotification(named: .qBAccountListRefreshed)
             
         default:
             break
         }
         
         tableView.tableFooterView = UIView(frame: .zero)
+    }
+    
+    private func subscribeToNotification(named: Notification.Name) {
+        notificationCenter.addObserver(self, selector: #selector(TableViewChartController.reloadTableView), name: named, object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -65,6 +72,9 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
             
         case .balanceSheet:
             dataArray = qbDataManager.balanceSheet
+            
+        case .accountList:
+            dataArray = qbDataManager.accountList
             
         default:
             break

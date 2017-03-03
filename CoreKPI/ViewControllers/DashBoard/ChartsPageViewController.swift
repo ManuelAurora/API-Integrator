@@ -166,6 +166,18 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                     
                     return tableViewChartVC
                     
+                case .BalanceByBankAccounts:
+                    let method = QBAccountList(with: [:])
+                    
+                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
+                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method))
+                    
+                    createDataFromRequestWith(qBMethod: method, success: { dataToPresent in
+                        tableViewChartVC.qBMethod = .accountList
+                    })
+                    
+                    return tableViewChartVC
+                    
                 default:
                     break
                 }

@@ -192,10 +192,13 @@ class QuickBookRequestHandler
                 for row in rows2
                 {
                     let colData = row["ColData"] as! [[String: String]]
-                    let result = (colData[0]["value"], "", colData[4]["value"])
+                    let result = (colData[0]["value"]!, "", colData[4]["value"]!)
                     
+                    manager.accountList.append(result)
                     print("DEBUG: \(result)")
                 }
+                
+                notificationCenter.post(name: .qBAccountListRefreshed, object: nil)
                 
             case .paidInvoicesByCustomers:
                 let rows = jsonDict!["Rows"] as! [String: Any]
