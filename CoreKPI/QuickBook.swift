@@ -387,7 +387,9 @@ class QuickBookDataManager
             extKPI.kpiName = QiuckBooksKPIs.OpenInvoicesByCustomers.rawValue
             extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             extKPI.quickbooksKPI = qbKPI
-            extKPI.requestJsonString = urlString         
+            extKPI.requestJsonString = urlString
+            
+        }
         
         do {
             try managedContext.save()
