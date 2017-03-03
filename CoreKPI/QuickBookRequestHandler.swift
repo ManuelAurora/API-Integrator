@@ -163,8 +163,25 @@ class QuickBookRequestHandler
                 manager.overdueCustomers = filteredOverdueArray
                 
                 //TODO: Refactor for making different entity for every KPI
-                if isCreation {
-                    manager.createNewEntityForArrayOf(type: .invoices, urlString: request.urlString)
+                if isCreation
+                {
+                    switch request!.kpiName!
+                    {
+                    case .Invoices:
+                        manager.createNewEntityForArrayOf(type: .invoices, urlString: request.urlString)
+                        
+                    case .NetIncome:
+                        manager.createNewEntityForArrayOf(type: .netIncome, urlString: request.urlString)
+                        
+                    case .PaidInvoices:
+                        manager.createNewEntityForArrayOf(type: .paidInvoicesPercent, urlString: request.urlString)
+                        
+                    case .NonPaidInvoices:
+                        manager.createNewEntityForArrayOf(type: .nonPaidInvoices, urlString: request.urlString)
+                        
+                    default:
+                        break
+                    }
                 }
                 
                 notificationCenter.post(name: .qBInvoicesRefreshed, object: nil)

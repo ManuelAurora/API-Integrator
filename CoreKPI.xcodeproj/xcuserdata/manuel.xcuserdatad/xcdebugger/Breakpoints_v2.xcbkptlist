@@ -233,54 +233,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CoreKPI/QuickBook.swift"
-            timestampString = "510224761.132462"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "177"
-            endingLineNumber = "177"
-            landmarkName = "formListOfRequests(from:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CoreKPI.QuickBookDataManager.formListOfRequests (from : Swift.Array&lt;(SettingName : Swift.String, value : Swift.Bool)&gt;) -&gt; ()"
-                  moduleName = "CoreKPI"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/manuel/Documents/CoreKPI/CoreKPI/QuickBook.swift"
-                  timestampString = "510155425.445535"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "171"
-                  endingLineNumber = "171"
-                  offsetFromSymbolStart = "3193">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CoreKPI.QuickBookDataManager.formListOfRequests (from : Swift.Array&lt;(SettingName : Swift.String, value : Swift.Bool)&gt;) -&gt; ()"
-                  moduleName = "CoreKPI"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/manuel/Documents/CoreKPI/CoreKPI/QuickBook.swift"
-                  timestampString = "510155425.446947"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "171"
-                  endingLineNumber = "171"
-                  offsetFromSymbolStart = "3891">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift"
             timestampString = "510132891.37884"
             startingColumnNumber = "9223372036854775807"
@@ -346,27 +298,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/QuickBook.swift"
-            timestampString = "510224761.132462"
+            timestampString = "510236492.901175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
-            landmarkName = "formListOfRequests(from:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CoreKPI/QuickBook.swift"
-            timestampString = "510224761.132462"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
             landmarkName = "QuickBookDataManager"
             landmarkType = "3">
             <Locations>
@@ -421,15 +357,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/ViewControllers/DashBoard/KPIsListTableViewController.swift"
-            timestampString = "510156164.504578"
+            timestampString = "510232334.561163"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
             landmarkName = "tableView(_:didSelectRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -457,7 +393,7 @@
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/manuel/Documents/CoreKPI/CoreKPI/QuickBookRequestHandler.swift"
-                  timestampString = "510226272.36575"
+                  timestampString = "510236494.116061"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "41"
@@ -472,7 +408,7 @@
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/manuel/Documents/CoreKPI/CoreKPI/QuickBookRequestHandler.swift"
-                  timestampString = "510226272.367211"
+                  timestampString = "510236494.117214"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "41"
@@ -501,7 +437,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift"
@@ -569,11 +505,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift"
-            timestampString = "510225580.027842"
+            timestampString = "510236492.901175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "321"
-            endingLineNumber = "321"
+            startingLineNumber = "346"
+            endingLineNumber = "346"
             landmarkName = "returnIndexForVC(vc:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -585,11 +521,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift"
-            timestampString = "510225580.027842"
+            timestampString = "510236492.901175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "327"
-            endingLineNumber = "327"
+            startingLineNumber = "352"
+            endingLineNumber = "352"
             landmarkName = "setIndexForVC(vc:index:)"
             landmarkType = "7">
             <Locations>
@@ -601,11 +537,11 @@
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/manuel/Documents/CoreKPI/CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift"
-                  timestampString = "510226272.373336"
+                  timestampString = "510236494.125248"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "327"
-                  endingLineNumber = "327"
+                  startingLineNumber = "352"
+                  endingLineNumber = "352"
                   offsetFromSymbolStart = "23">
                </Location>
                <Location
@@ -616,11 +552,11 @@
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/manuel/Documents/CoreKPI/CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift"
-                  timestampString = "510226272.374814"
+                  timestampString = "510236494.126826"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "327"
-                  endingLineNumber = "327"
+                  startingLineNumber = "352"
+                  endingLineNumber = "352"
                   offsetFromSymbolStart = "126">
                </Location>
             </Locations>
@@ -697,11 +633,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/QuickBook.swift"
-            timestampString = "510224761.132462"
+            timestampString = "510236492.901175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
             landmarkName = "getInfoFor(kpi:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -729,11 +665,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/QuickBook.swift"
-            timestampString = "510224761.132462"
+            timestampString = "510236492.901175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
             landmarkName = "getInfoFor(kpi:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -761,11 +697,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/QuickBook.swift"
-            timestampString = "510224761.132462"
+            timestampString = "510236492.901175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "343"
-            endingLineNumber = "343"
+            startingLineNumber = "407"
+            endingLineNumber = "407"
             landmarkName = "doOAuthQuickbooks(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -777,11 +713,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/QuickBook.swift"
-            timestampString = "510224761.132462"
+            timestampString = "510236492.901175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "370"
-            endingLineNumber = "370">
+            startingLineNumber = "435"
+            endingLineNumber = "435">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -791,27 +727,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/QuickBook.swift"
-            timestampString = "510224761.132462"
+            timestampString = "510236492.901175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "368"
-            endingLineNumber = "368">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CoreKPI/ViewControllers/DashBoard/ExternalKPIViewController.swift"
-            timestampString = "510219565.202733"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
-            landmarkName = "doOAuthQuickbooks()"
-            landmarkType = "7">
+            startingLineNumber = "433"
+            endingLineNumber = "433">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -821,11 +741,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/QuickBook.swift"
-            timestampString = "510224761.132462"
+            timestampString = "510236492.901175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "242"
-            endingLineNumber = "242"
+            startingLineNumber = "275"
+            endingLineNumber = "275"
             landmarkName = "fetchDataFromIntuit(isCreation:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -836,28 +756,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CoreKPI/QuickBook.swift"
-            timestampString = "510224761.132462"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "337"
-            endingLineNumber = "337"
-            landmarkName = "doOAuthQuickbooks(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift"
-            timestampString = "510225580.027842"
+            timestampString = "510227215.372821"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
             landmarkName = "getViewController(AtIndex:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -865,15 +769,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/QuickBook.swift"
-            timestampString = "510224761.132462"
+            timestampString = "510236492.901175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
             landmarkName = "clearAllData()"
             landmarkType = "7">
          </BreakpointContent>
@@ -885,11 +789,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/QuickBook.swift"
-            timestampString = "510224761.132462"
+            timestampString = "510236492.901175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "375"
-            endingLineNumber = "375">
+            startingLineNumber = "440"
+            endingLineNumber = "440">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -915,7 +819,7 @@
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/manuel/Documents/CoreKPI/CoreKPI/QuickBookRequestHandler.swift"
-                  timestampString = "510226272.39547"
+                  timestampString = "510236494.139799"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "50"
@@ -930,7 +834,7 @@
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/manuel/Documents/CoreKPI/CoreKPI/QuickBookRequestHandler.swift"
-                  timestampString = "510226272.396574"
+                  timestampString = "510236494.140926"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "50"
@@ -947,11 +851,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/QuickBook.swift"
-            timestampString = "510224761.132462"
+            timestampString = "510236492.901175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
+            startingLineNumber = "304"
+            endingLineNumber = "304"
             landmarkName = "createNewEntityForArrayOf(type:urlString:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -979,11 +883,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/QuickBookRequestHandler.swift"
-            timestampString = "510224761.132462"
+            timestampString = "510235819.527452"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
+            startingLineNumber = "251"
+            endingLineNumber = "251"
             landmarkName = "handle(response:method:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -995,43 +899,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/QuickBook.swift"
-            timestampString = "510224761.132462"
+            timestampString = "510236492.901175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "formListOfRequests(from:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CoreKPI/QuickBookRequestHandler.swift"
-            timestampString = "510224761.132462"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "167"
-            endingLineNumber = "167"
-            landmarkName = "handle(response:method:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CoreKPI/QuickBook.swift"
-            timestampString = "510224761.132462"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
             landmarkName = "getInfoFor(kpi:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1039,31 +911,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CoreKPI/ViewControllers/DashBoard/ExternalKPIViewController.swift"
-            timestampString = "510220154.950835"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
-            landmarkName = "doOAuthQuickbooks()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/QuickBookRequestHandler.swift"
-            timestampString = "510224761.132462"
+            timestampString = "510235819.527452"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
+            startingLineNumber = "227"
+            endingLineNumber = "227"
             landmarkName = "handle(response:method:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1091,11 +947,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/QuickBookRequestHandler.swift"
-            timestampString = "510224761.132462"
+            timestampString = "510235819.527452"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "189"
-            endingLineNumber = "189"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
             landmarkName = "handle(response:method:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1119,7 +975,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/QuickBookRequestHandler.swift"
@@ -1135,47 +991,171 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/QuickBookRequestHandler.swift"
-            timestampString = "510224533.754669"
+            timestampString = "510235819.527452"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
             landmarkName = "handle(response:method:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift"
+            timestampString = "510228408.449276"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "13"
+            endingLineNumber = "13"
+            landmarkName = "ChartsPageViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CoreKPI.ChartsPageViewController.kpi.getter : Swift.ImplicitlyUnwrappedOptional&lt;CoreKPI.KPI&gt;"
+                  moduleName = "CoreKPI"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/manuel/Documents/CoreKPI/CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift"
+                  timestampString = "510228408.859438"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "35">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CoreKPI.ChartsPageViewController.kpi.setter : Swift.ImplicitlyUnwrappedOptional&lt;CoreKPI.KPI&gt;"
+                  moduleName = "CoreKPI"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/manuel/Documents/CoreKPI/CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift"
+                  timestampString = "510228408.860695"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "61">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CoreKPI.ChartsPageViewController.init (transitionStyle : __C.UIPageViewControllerTransitionStyle, navigationOrientation : __C.UIPageViewControllerNavigationOrientation, options : Swift.Optional&lt;Swift.Dictionary&lt;Swift.String, Any&gt;&gt;) -&gt; CoreKPI.ChartsPageViewController"
+                  moduleName = "CoreKPI"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/manuel/Documents/CoreKPI/CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift"
+                  timestampString = "510228408.862606"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "52">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CoreKPI.ChartsPageViewController.init (coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;CoreKPI.ChartsPageViewController&gt;"
+                  moduleName = "CoreKPI"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/manuel/Documents/CoreKPI/CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift"
+                  timestampString = "510228408.863885"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/ViewControllers/DashBoard/TableViewChartController.swift"
+            timestampString = "510228429.538512"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "TableViewChartController"
+            landmarkType = "3">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "CoreKPI.QuickBookRequestHandler.handle (response : OAuthSwift.OAuthSwiftResponse, method : CoreKPI.QuickBookMethod) -&gt; Swift.Optional&lt;CoreKPI.ExternalKpiInfo&gt;"
+                  symbolName = "CoreKPI.TableViewChartController.kpiName.getter : Swift.ImplicitlyUnwrappedOptional&lt;CoreKPI.QiuckBooksKPIs&gt;"
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/manuel/Documents/CoreKPI/CoreKPI/QuickBookRequestHandler.swift"
-                  timestampString = "510226272.421346"
+                  urlString = "file:///Users/manuel/Documents/CoreKPI/CoreKPI/ViewControllers/DashBoard/TableViewChartController.swift"
+                  timestampString = "510236494.15395"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "138"
-                  endingLineNumber = "138"
-                  offsetFromSymbolStart = "24679">
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "18">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "CoreKPI.QuickBookRequestHandler.(handle (response : OAuthSwift.OAuthSwiftResponse, method : CoreKPI.QuickBookMethod) -&gt; Swift.Optional&lt;CoreKPI.ExternalKpiInfo&gt;).(closure #1)"
+                  symbolName = "CoreKPI.TableViewChartController.kpiName.setter : Swift.ImplicitlyUnwrappedOptional&lt;CoreKPI.QiuckBooksKPIs&gt;"
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/manuel/Documents/CoreKPI/CoreKPI/QuickBookRequestHandler.swift"
-                  timestampString = "510226272.422463"
+                  urlString = "file:///Users/manuel/Documents/CoreKPI/CoreKPI/ViewControllers/DashBoard/TableViewChartController.swift"
+                  timestampString = "510236494.155092"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "139"
-                  endingLineNumber = "139"
-                  offsetFromSymbolStart = "64">
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CoreKPI.TableViewChartController.init (nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; CoreKPI.TableViewChartController"
+                  moduleName = "CoreKPI"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/manuel/Documents/CoreKPI/CoreKPI/ViewControllers/DashBoard/TableViewChartController.swift"
+                  timestampString = "510236494.1562"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "207">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CoreKPI.TableViewChartController.init (coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;CoreKPI.TableViewChartController&gt;"
+                  moduleName = "CoreKPI"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/manuel/Documents/CoreKPI/CoreKPI/ViewControllers/DashBoard/TableViewChartController.swift"
+                  timestampString = "510236494.157326"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "128">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1187,12 +1167,124 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/QuickBookRequestHandler.swift"
-            timestampString = "510224846.829724"
+            timestampString = "510232684.108849"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "handle(response:method:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/QuickBook.swift"
+            timestampString = "510236492.901175"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "402"
+            endingLineNumber = "402"
+            landmarkName = "doOAuthQuickbooks(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/ViewControllers/DashBoard/ExternalKPIViewController.swift"
+            timestampString = "510232845.867609"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
+            landmarkName = "doOAuthQuickbooks()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/QuickBookRequestHandler.swift"
+            timestampString = "510233527.022653"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
+            landmarkName = "handle(response:method:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/QuickBook.swift"
+            timestampString = "510236492.901175"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "271"
+            endingLineNumber = "271"
+            landmarkName = "fetchDataFromIntuit(isCreation:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/QuickBook.swift"
+            timestampString = "510236492.901175"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
+            landmarkName = "formListOfRequests(from:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift"
+            timestampString = "510235352.24912"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "219"
+            endingLineNumber = "219"
+            landmarkName = "getViewController(AtIndex:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift"
+            timestampString = "510235535.476469"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
+            landmarkName = "getViewController(AtIndex:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -12,12 +12,13 @@ import Alamofire
 import CoreData
 
 typealias resultArray = [(leftValue: String, centralValue: String, rightValue: String)]
-typealias urlStringWithMethod = (urlString: String, method: QuickBookMethod?)
+typealias urlStringWithMethod = (urlString: String, method: QuickBookMethod?, kpiName: QiuckBooksKPIs?)
 typealias success = () -> ()
 
 class QuickBookDataManager
 {
     enum ResultArrayType {
+        case netIncome
         case balance
         case profitAndLoss
         case accountList
@@ -28,6 +29,7 @@ class QuickBookDataManager
         case nonPaidInvoicesPercent
         case invoices
         case expencesByVendorSummary
+        case openInvoicesByCustomers
     }
     
     private lazy var managedContext: NSManagedObjectContext = {
@@ -81,6 +83,8 @@ class QuickBookDataManager
     
     var listOfRequests: [urlStringWithMethod] = []
     
+    var kpiFilter =  [String: Bool]()
+    
     lazy var serviceParameters: [AuthenticationParameterKeys: String] = {
         let parameters: [AuthenticationParameterKeys: String] = [
             .companyId:   "123145773393399",
@@ -132,11 +136,34 @@ class QuickBookDataManager
 
         return fullUrlPath
     }
+    private var queryParameters: [QBQueryParameterKeys: String] {
+        let queryParameters: [QBQueryParameterKeys: String] = [
+            .query: "SELECT * FROM Invoice"
+        ]
+        
+        return queryParameters
+    }
+    
+    private var queryInvoices: QuickBookMethod {
+        return QBQuery(with: queryParameters)
+    }
+    
+    private var queryPath: String {
+        return formUrlPath(method: queryInvoices)
+    }
+    
+    private func appendQueryRequest() {
+        
+        kpiFilter[QiuckBooksKPIs.Invoices.rawValue] = true
+        kpiFilter[QiuckBooksKPIs.NetIncome.rawValue] = true
+        kpiFilter[QiuckBooksKPIs.NonPaidInvoices.rawValue] = true
+        kpiFilter[QiuckBooksKPIs.OpenInvoicesByCustomers.rawValue] = true
+        kpiFilter[QiuckBooksKPIs.OverdueCustomers.rawValue] = true
+        kpiFilter[QiuckBooksKPIs.PaidInvoices.rawValue] = true
+    }
     
     func formListOfRequests(from array: [(SettingName: String, value: Bool)]) {
         
-        var kpiFilter =  [String: Bool]()
-                
         for item in array
         {
             let kpi = QiuckBooksKPIs(rawValue: item.SettingName)!
@@ -145,24 +172,29 @@ class QuickBookDataManager
             
             switch kpi
             {
-            case .NetIncome, .Invoices, .NonPaidInvoices, .OpenInvoicesByCustomers, .OverdueCustomers, .PaidInvoices:
+            case .NetIncome:
+               listOfRequests.append(urlStringWithMethod(urlString: queryPath, method: queryInvoices, kpiName: kpi))
+               appendQueryRequest()
                 
-                let queryParameters: [QBQueryParameterKeys: String] = [
-                    .query: "SELECT * FROM Invoice"
-                ]
-                
-                let queryInvoices = QBQuery(with: queryParameters)
-                let queryPath = formUrlPath(method: queryInvoices)
-                
-                listOfRequests.append(urlStringWithMethod(urlString: queryPath, method: queryInvoices))
-                
-                kpiFilter[QiuckBooksKPIs.Invoices.rawValue] = true
-                kpiFilter[QiuckBooksKPIs.NetIncome.rawValue] = true
-                kpiFilter[QiuckBooksKPIs.NonPaidInvoices.rawValue] = true
-                kpiFilter[QiuckBooksKPIs.OpenInvoicesByCustomers.rawValue] = true
-                kpiFilter[QiuckBooksKPIs.OverdueCustomers.rawValue] = true
-                kpiFilter[QiuckBooksKPIs.PaidInvoices.rawValue] = true
-                
+            case .Invoices:
+                listOfRequests.append(urlStringWithMethod(urlString: queryPath, method: queryInvoices, kpiName: kpi))
+                appendQueryRequest()
+
+            case .NonPaidInvoices:
+                listOfRequests.append(urlStringWithMethod(urlString: queryPath, method: queryInvoices, kpiName: kpi))
+                appendQueryRequest()
+
+            case .OpenInvoicesByCustomers:
+                listOfRequests.append(urlStringWithMethod(urlString: queryPath, method: queryInvoices, kpiName: kpi))
+                appendQueryRequest()
+
+            case .OverdueCustomers:
+                listOfRequests.append(urlStringWithMethod(urlString: queryPath, method: queryInvoices, kpiName: kpi))
+                appendQueryRequest()
+
+            case .PaidInvoices:
+                listOfRequests.append(urlStringWithMethod(urlString: queryPath, method: queryInvoices, kpiName: kpi))
+                appendQueryRequest()
                 
             case .Balance:
                 let balanceQueryParameters: [QBQueryParameterKeys: String] = [
@@ -172,7 +204,7 @@ class QuickBookDataManager
                 let balanceSheet = QBBalanceSheet(with: balanceQueryParameters)
                 let pathForBalance = formUrlPath(method: balanceSheet)
                 
-                listOfRequests.append(urlStringWithMethod(urlString: pathForBalance, method: balanceSheet))
+                listOfRequests.append(urlStringWithMethod(urlString: pathForBalance, method: balanceSheet, kpiName: kpi))
                 
             case .BalanceByBankAccounts:
                 let accountListParameters: [QBQueryParameterKeys: String] = [
@@ -182,7 +214,7 @@ class QuickBookDataManager
                 let accountList = QBAccountList(with: accountListParameters)
                 let pathForAccountList = formUrlPath(method: accountList)
                 
-                listOfRequests.append(urlStringWithMethod(urlString: pathForAccountList, method: accountList))
+                listOfRequests.append(urlStringWithMethod(urlString: pathForAccountList, method: accountList, kpiName: kpi))
                 
             case .IncomeProfitKPIs:
                 let profitAndLossQueryParameters: [QBQueryParameterKeys: String] = [
@@ -193,7 +225,7 @@ class QuickBookDataManager
                 let profitAndLoss = QBProfitAndLoss(with: profitAndLossQueryParameters)
                 let pathForProfitAndLoss = formUrlPath(method: profitAndLoss)
                 
-                listOfRequests.append(urlStringWithMethod(urlString: pathForProfitAndLoss, method: profitAndLoss))
+                listOfRequests.append(urlStringWithMethod(urlString: pathForProfitAndLoss, method: profitAndLoss, kpiName: kpi))
                 
             case .PaidInvoicesByCustomers:
                 let paidInvoicesParameters: [QBQueryParameterKeys: String] = [
@@ -204,7 +236,7 @@ class QuickBookDataManager
                 let paidInvoices = QBPaidInvoicesByCustomers(with: paidInvoicesParameters)
                 let paidInvoicesPath = formUrlPath(method: paidInvoices)
                 
-                listOfRequests.append(urlStringWithMethod(urlString: paidInvoicesPath, method: paidInvoices))
+                listOfRequests.append(urlStringWithMethod(urlString: paidInvoicesPath, method: paidInvoices, kpiName: kpi))
                 
             case .PaidExpenses:
                 let paidExpensesParameters: [QBQueryParameterKeys: String] = [
@@ -214,13 +246,14 @@ class QuickBookDataManager
                 let paidExpenses = QBPaidExpenses(with: paidExpensesParameters)
                 let paidExpencesPath = formUrlPath(method: paidExpenses)
 
-                listOfRequests.append(urlStringWithMethod(urlString: paidExpencesPath, method: paidExpenses))
+                listOfRequests.append(urlStringWithMethod(urlString: paidExpencesPath, method: paidExpenses, kpiName: kpi))
             }
         }
     }
     
     func clearAllData() {
         
+        kpiFilter.removeAll()
         balanceSheet.removeAll()
         profitAndLoss.removeAll()
         accountList.removeAll()
@@ -242,7 +275,8 @@ class QuickBookDataManager
             let handler = QuickBookRequestHandler(oauthswift: oauthswift,
                                                   request: request,
                                                   manager: self,
-                                                  isCreation: isCreation)
+                                                  isCreation: isCreation)            
+            
             handler.getData()
         }
         
@@ -310,6 +344,36 @@ class QuickBookDataManager
             extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             extKPI.quickbooksKPI = qbKPI
             extKPI.requestJsonString = urlString
+            
+        case .netIncome:
+            extKPI.kpiName = QiuckBooksKPIs.NetIncome.rawValue
+            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+            extKPI.quickbooksKPI = qbKPI
+            extKPI.requestJsonString = urlString
+            
+        case .paidInvoicesPercent:
+            extKPI.kpiName = QiuckBooksKPIs.PaidInvoices.rawValue
+            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+            extKPI.quickbooksKPI = qbKPI
+            extKPI.requestJsonString = urlString
+            
+        case .nonPaidInvoices:
+             extKPI.kpiName = QiuckBooksKPIs.NonPaidInvoices.rawValue
+            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+            extKPI.quickbooksKPI = qbKPI
+            extKPI.requestJsonString = urlString
+            
+        case .overdueCustomers:
+            extKPI.kpiName = QiuckBooksKPIs.OverdueCustomers.rawValue
+            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+            extKPI.quickbooksKPI = qbKPI
+            extKPI.requestJsonString = urlString
+            
+        case .expencesByVendorSummary:
+            extKPI.kpiName = QiuckBooksKPIs.PaidExpenses.rawValue
+            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+            extKPI.quickbooksKPI = qbKPI
+            extKPI.requestJsonString = urlString            
             
         default: break
         }
