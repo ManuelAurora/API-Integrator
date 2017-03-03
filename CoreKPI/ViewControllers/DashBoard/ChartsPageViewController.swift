@@ -249,9 +249,18 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
                     })
+                case .NetSalesTotalSales:
+                    tableViewChartVC.titleOfTable = ("Sales","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
                 default:
                     break
                 }
+                //debug->
+                return tableViewChartVC
+            //<-debug
             default:
                 break
             }
@@ -484,11 +493,33 @@ extension ChartsPageViewController {
         case .PayPal:
             let external = kpi.integratedKPI
             let request = PayPal(oauthToken: (external?.payPalKPI?.oAuthToken)!, oauthRefreshToken: (external?.payPalKPI?.oAuthRefreshToken)!, oauthTokenExpiresAt: (external?.payPalKPI?.oAuthTokenExpiresAt)! as Date)
-            request.getBalance(success: {
-                print("Ok")
-            }, failure: {error in
-                print(error)
-            })
+            switch (PayPalKPIs(rawValue: (external?.kpiName)!))! {
+            case .Balance:
+                request.getBalance(success: {
+                    print("Ok")
+                }, failure: {error in
+                    print(error)
+                })
+            case .NetSalesTotalSales:
+                request.getInvoices(success: {json in
+                    if let invoices = json["invoices"] as? NSArray {
+                        for i in 0..<invoices.count {
+                            let invoice = invoices[i] as! NSDictionary
+                            let totalAmount = invoice["total_amount"] as! NSDictionary
+                            let value = (totalAmount["value"] as! String) + " " + (totalAmount["currency"] as! String)
+                            let billingInfo = invoice["billing_info"] as! NSArray
+                            let emailData = billingInfo[0] as! NSDictionary
+                            let email = emailData["email"] as! String
+                            dataForPresent.append((email, "", value))
+                            success(dataForPresent)
+                        }
+                    }
+                }, failure: {error in
+                    print(error)
+                })
+            default:
+                break
+            }
         default:
             break
         }

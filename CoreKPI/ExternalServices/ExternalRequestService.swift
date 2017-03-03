@@ -38,7 +38,6 @@ class ExternalRequest {
         
         request(url, method: method, parameters: params, encoding: JSONEncoding.default, headers: header).responseJSON { response in
             if let data = response.data {
-                
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
                     if let jsonDictionary = json {
