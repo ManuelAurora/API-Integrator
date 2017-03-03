@@ -178,6 +178,42 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                     
                     return tableViewChartVC
                     
+                case .IncomeProfitKPIs:
+                    let method = QBProfitAndLoss(with: [:])
+                    
+                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
+                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method))
+                    
+                    createDataFromRequestWith(qBMethod: method, success: { dataToPresent in
+                        tableViewChartVC.qBMethod = .profitLoss
+                    })
+                    
+                    return tableViewChartVC
+                    
+                case .PaidExpenses:
+                    let method = QBPaidExpenses(with: [:])
+                    
+                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
+                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method))
+                    
+                    createDataFromRequestWith(qBMethod: method, success: { dataToPresent in
+                        tableViewChartVC.qBMethod = .paidExpenses
+                    })
+                    
+                    return tableViewChartVC
+                    
+                case .PaidInvoicesByCustomers:
+                    let method = QBPaidInvoicesByCustomers(with: [:])
+                    
+                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
+                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method))
+                    
+                    createDataFromRequestWith(qBMethod: method, success: { dataToPresent in
+                        tableViewChartVC.qBMethod = .paidInvoicesByCustomers
+                    })
+                    
+                    return tableViewChartVC
+                    
                 default:
                     break
                 }
@@ -407,30 +443,30 @@ extension ChartsPageViewController {
     }
     
     //MARK: - crate data from request
-    func createDataFromRequestWith(qBMethod: QuickBookMethod?, success: @escaping ([(leftValue: String, centralValue: String, rightValue: String)])->()) {
+    func createDataFromRequestWith(qBMethod: QuickBookMethod?, success: @escaping () -> ()) {
         
-        var dataForPresent: [(leftValue: String, centralValue: String, rightValue: String)] = []
+        //var dataForPresent: [(leftValue: String, centralValue: String, rightValue: String)] = []
         
          quickBooksDataManager.doOAuthQuickbooks {            
             
             self.quickBooksDataManager.fetchDataFromIntuit(isCreation: false)
             
-            if let method = qBMethod
-            {
-                switch method.methodName
-                {
-                case .balanceSheet:
-                    dataForPresent.append(contentsOf: QuickBookDataManager.shared().getInfoFor(kpi: .Balance))
-                    
-                case .query:
-                    dataForPresent.append(contentsOf: QuickBookDataManager.shared().getInfoFor(kpi: .Invoices))
-                    
-                default:
-                    break
-                }
-            }
+//            if let method = qBMethod
+//            {
+//                switch method.methodName
+//                {
+//                case .balanceSheet:
+//                    dataForPresent.append(contentsOf: QuickBookDataManager.shared().getInfoFor(kpi: .Balance))
+//                    
+//                case .query:
+//                    dataForPresent.append(contentsOf: QuickBookDataManager.shared().getInfoFor(kpi: .Invoices))
+//                    
+//                default:
+//                    break
+//                }
+//            }
             
-            success(dataForPresent)
+            success()
         }
     }
     

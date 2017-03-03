@@ -27,6 +27,7 @@ class QuickBookDataManager
         case overdueCustomers
         case nonPaidInvoicesPercent
         case invoices
+        case expencesByVendorSummary
     }
     
     private lazy var managedContext: NSManagedObjectContext = {
@@ -59,12 +60,14 @@ class QuickBookDataManager
     var profitAndLoss: resultArray = []
     var accountList: resultArray  = []
     var paidInvoices: resultArray = []
+    var netIncome: resultArray = []
     var nonPaidInvoices: resultArray = []
     var paidInvoicesByCustomer: resultArray = []
     var nonPaidInvoicesPercent: resultArray = []
     var paidInvoicesPercent: resultArray = []
     var invoices: resultArray = []
     var overdueCustomers: resultArray = []
+    var expencesByVendorSummary: resultArray = []
     
     var queryMethod: QuickBookMethod?
     var companyID: String {
@@ -267,15 +270,43 @@ class QuickBookDataManager
         switch type
         {
         case .balance:
-            
             extKPI.kpiName = QiuckBooksKPIs.Balance.rawValue
             extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             extKPI.quickbooksKPI = qbKPI
             extKPI.requestJsonString = urlString
             
-        case .invoices:            
-            
+        case .invoices:
             extKPI.kpiName = QiuckBooksKPIs.Invoices.rawValue
+            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+            extKPI.quickbooksKPI = qbKPI
+            extKPI.requestJsonString = urlString
+            
+        case .accountList:
+            extKPI.kpiName = QiuckBooksKPIs.BalanceByBankAccounts.rawValue
+            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+            extKPI.quickbooksKPI = qbKPI
+            extKPI.requestJsonString = urlString
+            
+        case .profitAndLoss:
+            extKPI.kpiName = QiuckBooksKPIs.IncomeProfitKPIs.rawValue
+            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+            extKPI.quickbooksKPI = qbKPI
+            extKPI.requestJsonString = urlString
+            
+        case .overdueCustomers:
+            extKPI.kpiName = QiuckBooksKPIs.OverdueCustomers.rawValue
+            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+            extKPI.quickbooksKPI = qbKPI
+            extKPI.requestJsonString = urlString
+            
+        case .expencesByVendorSummary:
+            extKPI.kpiName = QiuckBooksKPIs.PaidExpenses.rawValue
+            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+            extKPI.quickbooksKPI = qbKPI
+            extKPI.requestJsonString = urlString
+            
+        case .paidInvoicesByCustomer:
+            extKPI.kpiName = QiuckBooksKPIs.PaidInvoicesByCustomers.rawValue
             extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             extKPI.quickbooksKPI = qbKPI
             extKPI.requestJsonString = urlString

@@ -13,6 +13,8 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var tableView: UITableView!
     
     var qBMethod: QBMethod!
+    var kpiName: QiuckBooksKPIs!
+    
     lazy var qbDataManager: QuickBookDataManager = {
         let qbdm = QuickBookDataManager.shared()
         return qbdm
@@ -34,16 +36,22 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
         switch qBMethod!
         {
         case .query:
-           subscribeToNotification(named: .qBInvoicesRefreshed)
+            subscribeToNotification(named: .qBInvoicesRefreshed)
             
         case .balanceSheet:
-         subscribeToNotification(named: .qBBalanceSheetRefreshed)
+            subscribeToNotification(named: .qBBalanceSheetRefreshed)
             
         case .accountList:
             subscribeToNotification(named: .qBAccountListRefreshed)
             
-        default:
-            break
+        case .profitLoss:
+            subscribeToNotification(named: .qBProfitAndLossRefreshed)
+            
+        case .paidInvoicesByCustomers:
+            subscribeToNotification(named: .qBPaidInvoicesByCustomersRefreshed)
+            
+        case .paidExpenses:
+            subscribeToNotification(named: .qBExpencesByVendorSummaryRefreshed)        
         }
         
         tableView.tableFooterView = UIView(frame: .zero)
@@ -68,7 +76,26 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
         switch qBMethod!
         {
         case .query:
-            dataArray = qbDataManager.invoices
+            switch kpiName!
+            {
+            case .Invoices:
+                dataArray = qbDataManager.invoices
+                
+            case .NonPaidInvoices:
+                dataArray = qbDataManager.nonPaidInvoices
+                
+            case .PaidInvoices:
+                dataArray = qbDataManager.paidInvoices
+                
+            case .NetIncome:
+                dataArray = qbDataManager.netIncome
+                
+            case .OverdueCustomers:
+                dataArray = qbDataManager.overdueCustomers            
+            
+            default:
+                break
+            }
             
         case .balanceSheet:
             dataArray = qbDataManager.balanceSheet
@@ -76,8 +103,14 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
         case .accountList:
             dataArray = qbDataManager.accountList
             
-        default:
-            break
+        case .profitLoss:
+            dataArray = qbDataManager.profitAndLoss
+            
+        case .paidInvoicesByCustomers:
+            dataArray = qbDataManager.paidInvoicesByCustomer
+            
+        case .paidExpenses:
+            dataArray = qbDataManager.expencesByVendorSummary
         }
         
         tableView.reloadData()

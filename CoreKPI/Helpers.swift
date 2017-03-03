@@ -15,6 +15,10 @@ extension Notification.Name
     static let qBBalanceSheetRefreshed = Notification.Name("QuickbooksBalanceSheetRefreshed")
     static let qBInvoicesRefreshed = Notification.Name("QuickbooksInvoicesRefreshed")
     static let qBAccountListRefreshed = Notification.Name("QuickbooksAccountListRefreshed")
+    static let qBProfitAndLossRefreshed = Notification.Name("ProfitAndLossRefreshed")
+    static let qBOverdueCustomersRefreshed = Notification.Name("OverdueCustomersRefreshed")
+    static let qBPaidInvoicesByCustomersRefreshed = Notification.Name("PaidInvoicesByCustomersRefreshed")
+    static let qBExpencesByVendorSummaryRefreshed = Notification.Name("ExpencesByVendorSummaryRefreshed")
 }
 
 struct UserDefaultsKeys
