@@ -302,6 +302,8 @@ class QuickBookDataManager
             {
                 serviceParameters[.oauthToken] = token
                 serviceParameters[.oauthTokenSecret] = tokenSecret
+                oauthswift.client.credential.oauthToken = token
+                oauthswift.client.credential.oauthTokenSecret = tokenSecret
                 success()
             }
             else
