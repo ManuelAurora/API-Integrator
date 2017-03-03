@@ -232,6 +232,8 @@ class QuickBookDataManager
     
     func fetchDataFromIntuit(isCreation: Bool) {
         
+        clearAllData()
+        
         for request in listOfRequests
         {
             let handler = QuickBookRequestHandler(oauthswift: oauthswift,

@@ -142,7 +142,6 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 
                 switch QiuckBooksKPIs(rawValue: kpiName)!
                 {
-                    
                 case .Invoices:
                     let method = QBQuery(with: [:])
                     
