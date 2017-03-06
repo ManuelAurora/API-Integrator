@@ -85,6 +85,14 @@
       </ContextState>
       <ContextState
          contextName = "QuickBookDataManager.formListOfRequests(from : [(SettingName : String, value : Bool)]) -&gt; ():QuickBook.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "kpi">
+            </PersistentString>
+            <PersistentString
+               value = "kpiRequestsToSave">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "LaunchViewController.viewDidAppear(Bool) -&gt; ():LaunchViewController.swift">
@@ -176,6 +184,17 @@
             </PersistentString>
             <PersistentString
                value = "isCreation">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "QuickBookDataManager.saveNewEntities() -&gt; ():QuickBook.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "listOfRequests">
+            </PersistentString>
+            <PersistentString
+               value = "kpiRequestsToSave">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

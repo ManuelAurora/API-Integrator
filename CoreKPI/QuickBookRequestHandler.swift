@@ -72,11 +72,6 @@ class QuickBookRequestHandler
                 let result = (kpiInfo.kpiName,"",kpiInfo.kpiValue)
                                 
                 manager.balanceSheet.append(result)
-                
-                if isCreation {
-                    manager.createNewEntityForArrayOf(type: .balance, urlString: request.urlString)
-                }
-                
                 notificationCenter.post(name: .qBBalanceSheetRefreshed, object: nil)
                 
                 return kpiInfo
@@ -101,16 +96,12 @@ class QuickBookRequestHandler
                     let metaData = invoice["MetaData"] as! [String: String]
                     let date = metaData["CreateTime"]!
                     
-                    let prettyDate = dateFormatter.date(from: date)
-                   
-                    print(prettyDate)
-                    
                     let overdueDateString = invoice["DueDate"] as! String
                     let overdueDate = dateFormatter.date(from: overdueDateString)! //Date in Moscow can be slightly different
                     let customer = (invoice["CustomerRef"] as! [String: Any])["name"] as! String
                     var resultInvoice = (leftValue: "", centralValue: "", rightValue: "")
                     
-                    manager.invoices.append((leftValue: "\(prettyDate) \(docNumber)", centralValue: "\(customerName)", rightValue: "\(totalAmt)"))
+                    manager.invoices.append((leftValue: "\(date) \(docNumber)", centralValue: "\(customerName)", rightValue: "\(totalAmt)"))
                     
                     if balance > 0
                     {
@@ -167,38 +158,6 @@ class QuickBookRequestHandler
                 }
                 
                 manager.overdueCustomers = filteredOverdueArray
-                
-                //TODO: Refactor for making different entity for every KPI
-                if isCreation
-                {
-                    switch request!.kpiName!
-                    {
-                    case .Invoices:
-                        manager.createNewEntityForArrayOf(type: .invoices, urlString: request.urlString)
-                        
-                    case .NetIncome:
-                        manager.createNewEntityForArrayOf(type: .netIncome, urlString: request.urlString)
-                        
-                    case .PaidInvoices:
-                        manager.createNewEntityForArrayOf(type: .paidInvoicesPercent, urlString: request.urlString)
-                        
-                    case .NonPaidInvoices:
-                        manager.createNewEntityForArrayOf(type: .nonPaidInvoicesPercent, urlString: request.urlString)
-                        
-                    case .OpenInvoicesByCustomers:
-                        manager.createNewEntityForArrayOf(type: .openInvoicesByCustomers, urlString: request.urlString)
-                        
-                    case .OverdueCustomers:
-                        manager.createNewEntityForArrayOf(type: .overdueCustomers, urlString: request.urlString)
-                        
-                    case .PaidExpenses:
-                        manager.createNewEntityForArrayOf(type: .expencesByVendorSummary, urlString: request.urlString)
-                        
-                    default:
-                        break
-                    }
-                }
-                
                 notificationCenter.post(name: .qBInvoicesRefreshed, object: nil)
                 
             case .profitLoss:
@@ -224,10 +183,6 @@ class QuickBookRequestHandler
                     }
                 }
                 
-                if isCreation {
-                    manager.createNewEntityForArrayOf(type: .profitAndLoss, urlString: request.urlString)
-                }
-                
                 notificationCenter.post(name: .qBProfitAndLossRefreshed, object: nil)
                 
             case .accountList:
@@ -241,10 +196,6 @@ class QuickBookRequestHandler
                     
                     manager.accountList.append(result)
                     print("DEBUG: \(result)")
-                }
-                
-                if isCreation {
-                    manager.createNewEntityForArrayOf(type: .accountList, urlString: request.urlString)
                 }
                 
                 notificationCenter.post(name: .qBAccountListRefreshed, object: nil)
@@ -267,10 +218,6 @@ class QuickBookRequestHandler
                     }
                 }
                 
-                if isCreation {
-                    manager.createNewEntityForArrayOf(type: .paidInvoicesByCustomer, urlString: request.urlString)
-                }
-                
                 notificationCenter.post(name: .qBPaidInvoicesByCustomersRefreshed, object: nil)
                 
             case .paidExpenses:
@@ -290,10 +237,6 @@ class QuickBookRequestHandler
                         manager.profitAndLoss.append(result)
                         print("DEBUG: \(manager.profitAndLoss)")
                     }
-                }
-                
-                if isCreation {
-                    manager.createNewEntityForArrayOf(type: .expencesByVendorSummary, urlString: request.urlString)
                 }
                 
                 notificationCenter.post(name: .qBPaidInvoicesByCustomersRefreshed, object: nil)

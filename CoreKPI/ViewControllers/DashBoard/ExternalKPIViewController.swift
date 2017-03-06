@@ -149,7 +149,7 @@ extension ExternalKPIViewController {
             }
             //self.ChoseSuggestedVC.dismiss(animated: true, completion: nil)
             self.quickBookDataManager.formListOfRequests(from: self.selectedQBKPIs)
-            self.quickBookDataManager.fetchDataFromIntuit(isCreation: true)
+            self.quickBookDataManager.fetchDataFromIntuit(isCreation: true)           
         }
         
         if internalWebViewController.parent == nil {

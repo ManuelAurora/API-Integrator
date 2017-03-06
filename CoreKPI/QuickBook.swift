@@ -59,6 +59,8 @@ class QuickBookDataManager
         }
     }
     
+    var kpiRequestsToSave: [urlStringWithMethod] = [] //This Array stores values for saving new kpi's into CoreData
+    
     var profitAndLoss: resultArray = []
     var accountList: resultArray  = []
     var paidInvoices: resultArray = []
@@ -163,91 +165,133 @@ class QuickBookDataManager
         kpiFilter[QiuckBooksKPIs.PaidInvoices.rawValue] = true
     }
     
+    func saveNewEntities() {
+        
+        for request in kpiRequestsToSave
+        {
+            switch request.kpiName!
+            {
+            case .Invoices:
+                createNewEntityForArrayOf(type: .invoices, urlString: request.urlString)
+                
+            case .NetIncome:
+                createNewEntityForArrayOf(type: .netIncome, urlString: request.urlString)
+                
+            case .PaidInvoices:
+                createNewEntityForArrayOf(type: .paidInvoicesPercent, urlString: request.urlString)
+                
+            case .NonPaidInvoices:
+                createNewEntityForArrayOf(type: .nonPaidInvoicesPercent, urlString: request.urlString)
+                
+            case .OpenInvoicesByCustomers:
+                createNewEntityForArrayOf(type: .openInvoicesByCustomers, urlString: request.urlString)
+                
+            case .OverdueCustomers:
+                createNewEntityForArrayOf(type: .overdueCustomers, urlString: request.urlString)
+                
+            case .PaidExpenses:
+                createNewEntityForArrayOf(type: .expencesByVendorSummary, urlString: request.urlString)
+                
+            case .Balance:
+                createNewEntityForArrayOf(type: .balance, urlString: request.urlString)
+              
+            case .BalanceByBankAccounts:
+                createNewEntityForArrayOf(type: .accountList, urlString: request.urlString)
+                
+            case .PaidInvoicesByCustomers:
+                createNewEntityForArrayOf(type: .paidInvoicesByCustomer, urlString: request.urlString)
+                
+            default:
+                break
+            }
+        }
+        
+        kpiRequestsToSave.removeAll()
+    }
+    
     func formListOfRequests(from array: [(SettingName: String, value: Bool)]) {
         
         for item in array
         {
             let kpi = QiuckBooksKPIs(rawValue: item.SettingName)!
             
-            guard kpiFilter[item.SettingName] == nil else { return }
-            
-            switch kpi
+            if kpiFilter[item.SettingName] == nil
             {
-            case .NetIncome:
-               listOfRequests.append(urlStringWithMethod(urlString: queryPath, method: queryInvoices, kpiName: kpi))
-               appendQueryRequest()
-                
-            case .Invoices:
-                listOfRequests.append(urlStringWithMethod(urlString: queryPath, method: queryInvoices, kpiName: kpi))
-                appendQueryRequest()
-
-            case .NonPaidInvoices:
-                listOfRequests.append(urlStringWithMethod(urlString: queryPath, method: queryInvoices, kpiName: kpi))
-                appendQueryRequest()
-
-            case .OpenInvoicesByCustomers:
-                listOfRequests.append(urlStringWithMethod(urlString: queryPath, method: queryInvoices, kpiName: kpi))
-                appendQueryRequest()
-
-            case .OverdueCustomers:
-                listOfRequests.append(urlStringWithMethod(urlString: queryPath, method: queryInvoices, kpiName: kpi))
-                appendQueryRequest()
-
-            case .PaidInvoices:
-                listOfRequests.append(urlStringWithMethod(urlString: queryPath, method: queryInvoices, kpiName: kpi))
-                appendQueryRequest()
-                
-            case .Balance:
-                let balanceQueryParameters: [QBQueryParameterKeys: String] = [
-                    .dateMacro: QBPredifinedDateRange.thisMonth.rawValue
-                ]
-                
-                let balanceSheet = QBBalanceSheet(with: balanceQueryParameters)
-                let pathForBalance = formUrlPath(method: balanceSheet)
-                
-                listOfRequests.append(urlStringWithMethod(urlString: pathForBalance, method: balanceSheet, kpiName: kpi))
-                
-            case .BalanceByBankAccounts:
-                let accountListParameters: [QBQueryParameterKeys: String] = [
-                    .dateMacro: QBPredifinedDateRange.thisMonth.rawValue
-                ]
-                
-                let accountList = QBAccountList(with: accountListParameters)
-                let pathForAccountList = formUrlPath(method: accountList)
-                
-                listOfRequests.append(urlStringWithMethod(urlString: pathForAccountList, method: accountList, kpiName: kpi))
-                
-            case .IncomeProfitKPIs:
-                let profitAndLossQueryParameters: [QBQueryParameterKeys: String] = [
-                    .dateMacro: QBPredifinedDateRange.thisMonth.rawValue,
-                    .summarizeBy: QBPredifinedSummarizeValues.days.rawValue
-                ]
-                
-                let profitAndLoss = QBProfitAndLoss(with: profitAndLossQueryParameters)
-                let pathForProfitAndLoss = formUrlPath(method: profitAndLoss)
-                
-                listOfRequests.append(urlStringWithMethod(urlString: pathForProfitAndLoss, method: profitAndLoss, kpiName: kpi))
-                
-            case .PaidInvoicesByCustomers:
-                let paidInvoicesParameters: [QBQueryParameterKeys: String] = [
-                    .dateMacro: QBPredifinedDateRange.thisQuarter.rawValue,
-                    .summarizeBy: QBPredifinedSummarizeValues.customers.rawValue
-                ]
-                
-                let paidInvoices = QBPaidInvoicesByCustomers(with: paidInvoicesParameters)
-                let paidInvoicesPath = formUrlPath(method: paidInvoices)
-                
-                listOfRequests.append(urlStringWithMethod(urlString: paidInvoicesPath, method: paidInvoices, kpiName: kpi))
-                
-            case .PaidExpenses:
-                let paidExpensesParameters: [QBQueryParameterKeys: String] = [
-                    .dateMacro: QBPredifinedDateRange.thisQuarter.rawValue
-                ]
-                
-                let paidExpenses = QBPaidExpenses(with: paidExpensesParameters)
-                let paidExpencesPath = formUrlPath(method: paidExpenses)
-
-                listOfRequests.append(urlStringWithMethod(urlString: paidExpencesPath, method: paidExpenses, kpiName: kpi))
+                switch kpi
+                {
+                case .NetIncome, .Invoices, .NonPaidInvoices, .OpenInvoicesByCustomers, .OverdueCustomers, .PaidInvoices:
+                    let req = urlStringWithMethod(urlString: queryPath, method: queryInvoices, kpiName: kpi)
+                    
+                    kpiRequestsToSave.append(req)
+                    listOfRequests.append(req)
+                    appendQueryRequest()
+                    
+                case .Balance:
+                    let balanceQueryParameters: [QBQueryParameterKeys: String] = [
+                        .dateMacro: QBPredifinedDateRange.thisMonth.rawValue
+                    ]
+                    
+                    let balanceSheet = QBBalanceSheet(with: balanceQueryParameters)
+                    let pathForBalance = formUrlPath(method: balanceSheet)
+                    let req = urlStringWithMethod(urlString: pathForBalance, method: balanceSheet, kpiName: kpi)
+                    
+                    listOfRequests.append(req)
+                    kpiRequestsToSave.append(req)
+                    
+                case .BalanceByBankAccounts:
+                    let accountListParameters: [QBQueryParameterKeys: String] = [
+                        .dateMacro: QBPredifinedDateRange.thisMonth.rawValue
+                    ]
+                    
+                    let accountList = QBAccountList(with: accountListParameters)
+                    let pathForAccountList = formUrlPath(method: accountList)
+                    let req = urlStringWithMethod(urlString: pathForAccountList, method: accountList, kpiName: kpi)
+                    
+                    listOfRequests.append(req)
+                    kpiRequestsToSave.append(req)
+                    
+                case .IncomeProfitKPIs:
+                    let profitAndLossQueryParameters: [QBQueryParameterKeys: String] = [
+                        .dateMacro: QBPredifinedDateRange.thisMonth.rawValue,
+                        .summarizeBy: QBPredifinedSummarizeValues.days.rawValue
+                    ]
+                    
+                    let profitAndLoss = QBProfitAndLoss(with: profitAndLossQueryParameters)
+                    let pathForProfitAndLoss = formUrlPath(method: profitAndLoss)
+                    let req = urlStringWithMethod(urlString: pathForProfitAndLoss, method: profitAndLoss, kpiName: kpi)
+                    
+                    listOfRequests.append(req)
+                    kpiRequestsToSave.append(req)
+                    
+                case .PaidInvoicesByCustomers:
+                    let paidInvoicesParameters: [QBQueryParameterKeys: String] = [
+                        .dateMacro: QBPredifinedDateRange.thisQuarter.rawValue,
+                        .summarizeBy: QBPredifinedSummarizeValues.customers.rawValue
+                    ]
+                    
+                    let paidInvoices = QBPaidInvoicesByCustomers(with: paidInvoicesParameters)
+                    let paidInvoicesPath = formUrlPath(method: paidInvoices)
+                    let req = urlStringWithMethod(urlString: paidInvoicesPath, method: paidInvoices, kpiName: kpi)
+                    
+                    kpiRequestsToSave.append(req)
+                    listOfRequests.append(req)
+                    
+                case .PaidExpenses:
+                    let paidExpensesParameters: [QBQueryParameterKeys: String] = [
+                        .dateMacro: QBPredifinedDateRange.thisQuarter.rawValue
+                    ]
+                    
+                    let paidExpenses = QBPaidExpenses(with: paidExpensesParameters)
+                    let paidExpencesPath = formUrlPath(method: paidExpenses)
+                    let req = urlStringWithMethod(urlString: paidExpencesPath, method: paidExpenses, kpiName: kpi)
+                    
+                    listOfRequests.append(req)
+                    kpiRequestsToSave.append(req)
+                }
+            }
+            else
+            {
+                kpiRequestsToSave.append(urlStringWithMethod(urlString: queryPath, method: queryInvoices, kpiName: kpi))
             }
         }
     }
@@ -282,6 +326,7 @@ class QuickBookDataManager
             handler.getData()
         }
         
+        if isCreation { saveNewEntities() }
         listOfRequests.removeAll()
     }
     
@@ -305,7 +350,6 @@ class QuickBookDataManager
         
         switch type
         {
-            
         case .nonPaidInvoicesPercent:
             extKPI.kpiName = QiuckBooksKPIs.NonPaidInvoices.rawValue
             extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
