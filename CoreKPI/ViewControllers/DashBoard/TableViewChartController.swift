@@ -92,8 +92,11 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
                 dataArray = qbDataManager.netIncome
                 
             case .OverdueCustomers:
-                dataArray = qbDataManager.overdueCustomers            
-            
+                dataArray = qbDataManager.overdueCustomers
+                
+            case .OpenInvoicesByCustomers:
+                dataArray = qbDataManager.nonPaidInvoices
+                
             default:
                 break
             }
@@ -111,7 +114,7 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
             dataArray = qbDataManager.paidInvoicesByCustomer
             
         case .paidExpenses:
-            dataArray = qbDataManager.expencesByVendorSummary
+            dataArray = qbDataManager.expencesByVendorSummary            
         }
         
         tableView.reloadData()

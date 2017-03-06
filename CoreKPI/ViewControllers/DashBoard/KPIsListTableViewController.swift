@@ -32,6 +32,7 @@ class KPIsListTableViewController: UITableViewController {
 
         let nc = NotificationCenter.default
         nc.addObserver(forName:modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
+        nc.addObserver(forName: .newExternalKPIadded, object: nil, queue: nil, using: catchNotification)
         
         //
         let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.longPress(_:)))
@@ -347,6 +348,11 @@ class KPIsListTableViewController: UITableViewController {
                     return
             }
             self.model.team = model.team
+            tableView.reloadData()
+        }
+        else if notification.name == .newExternalKPIadded
+        {
+            refresh(sender: self)
             tableView.reloadData()
         }
     }

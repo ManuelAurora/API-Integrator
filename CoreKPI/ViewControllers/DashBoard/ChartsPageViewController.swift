@@ -270,9 +270,20 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                     })
                     
                     return tableViewChartVC
+                 
+                case .OpenInvoicesByCustomers:
+                    let method = QBQuery(with: [:])
                     
-                default:
-                    break
+                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
+                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method, kpiName: kpiValue))
+                    
+                    createDataFromRequestWith(qBMethod: method, success: { _ in
+                        tableViewChartVC.kpiName = kpiValue
+                        tableViewChartVC.qBMethod = .query
+                    })
+                    
+                     return tableViewChartVC
+               
                 }
                 
             case .GoogleAnalytics:
@@ -550,6 +561,7 @@ extension ChartsPageViewController {
                         dataForPresent.append(("\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
                     }
                     success(dataForPresent)
+                    
                 case .TopSourcesBySessions:
                     for i in 0..<(report.data?.rowCount)! {
                         let data = report.data?.rows[i]

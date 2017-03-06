@@ -93,8 +93,7 @@ class QuickBookRequestHandler
                 print(invoceList)
                 
                 for invoice in invoceList
-                {
-                    print(invoice)
+                {                    
                     let balance = invoice["Balance"] as! Float
                     let totalAmt = invoice["TotalAmt"] as! Float
                     let docNumber = invoice["DocNumber"] as! String
@@ -102,26 +101,26 @@ class QuickBookRequestHandler
                     let metaData = invoice["MetaData"] as! [String: String]
                     let date = metaData["CreateTime"]!
                     
-                    dateFormatter.date(from: date)
+                    let prettyDate = dateFormatter.date(from: date)
+                   
+                    print(prettyDate)
                     
+                    let overdueDateString = invoice["DueDate"] as! String
+                    let overdueDate = dateFormatter.date(from: overdueDateString)! //Date in Moscow can be slightly different
+                    let customer = (invoice["CustomerRef"] as! [String: Any])["name"] as! String
                     var resultInvoice = (leftValue: "", centralValue: "", rightValue: "")
                     
-                    manager.invoices.append((leftValue: "\(date) \(docNumber)", centralValue: "\(customerName)", rightValue: "\(totalAmt)"))
+                    manager.invoices.append((leftValue: "\(prettyDate) \(docNumber)", centralValue: "\(customerName)", rightValue: "\(totalAmt)"))
                     
-                    if totalAmt - balance > 0
+                    if balance > 0
                     {
-                        resultInvoice.leftValue = "Non-paid invoice"
-                        resultInvoice.rightValue = "\(totalAmt)"
-                        
+                        resultInvoice.leftValue = "\(customer)"
+                        resultInvoice.rightValue = "\(balance)"
                         manager.nonPaidInvoices.append(resultInvoice)
-                        
-                        let overdueDateString = invoice["DueDate"] as! String
-                        let overdueDate = dateFormatter.date(from: overdueDateString)! //Date in Moscow can be slightly different
                         
                         if currentDate > overdueDate
                         {
-                            let overdueCustomer = (invoice["CustomerRef"] as! [String: Any])["name"] as! String
-                            resultInvoice.leftValue = "\(overdueCustomer)"
+                            resultInvoice.leftValue = "\(customer)"
                             manager.overdueCustomers.append(resultInvoice)
                         }
                     }
@@ -188,6 +187,12 @@ class QuickBookRequestHandler
                         
                     case .OpenInvoicesByCustomers:
                         manager.createNewEntityForArrayOf(type: .openInvoicesByCustomers, urlString: request.urlString)
+                        
+                    case .OverdueCustomers:
+                        manager.createNewEntityForArrayOf(type: .overdueCustomers, urlString: request.urlString)
+                        
+                    case .PaidExpenses:
+                        manager.createNewEntityForArrayOf(type: .expencesByVendorSummary, urlString: request.urlString)
                         
                     default:
                         break

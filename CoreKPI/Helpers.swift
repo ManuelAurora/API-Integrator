@@ -19,6 +19,7 @@ extension Notification.Name
     static let qBOverdueCustomersRefreshed = Notification.Name("OverdueCustomersRefreshed")
     static let qBPaidInvoicesByCustomersRefreshed = Notification.Name("PaidInvoicesByCustomersRefreshed")
     static let qBExpencesByVendorSummaryRefreshed = Notification.Name("ExpencesByVendorSummaryRefreshed")
+    static let newExternalKPIadded = Notification.Name("NewExternalKPIAdded")
 }
 
 struct UserDefaultsKeys

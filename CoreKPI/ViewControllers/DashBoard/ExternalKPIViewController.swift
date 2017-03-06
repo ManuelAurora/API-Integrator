@@ -66,7 +66,7 @@ class ExternalKPIViewController: OAuthViewController {
                 showAlert(title: "Sorry!", message: "First you should select one or more KPI, or service not integrated yet")
             }
         }
-    }
+    }    
     
     func showAlert(title: String, message: String) {
         let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -141,7 +141,13 @@ extension ExternalKPIViewController {
     
     //MARK: QuickBooks
     func doOAuthQuickbooks() {
-        quickBookDataManager.doOAuthQuickbooks { 
+        quickBookDataManager.doOAuthQuickbooks {
+            
+            if let navigationController = self.navigationController
+            {                
+                navigationController.popToRootViewController(animated: true)
+            }
+            //self.ChoseSuggestedVC.dismiss(animated: true, completion: nil)
             self.quickBookDataManager.formListOfRequests(from: self.selectedQBKPIs)
             self.quickBookDataManager.fetchDataFromIntuit(isCreation: true)
         }

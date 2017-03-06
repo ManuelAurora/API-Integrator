@@ -70,6 +70,7 @@ class QuickBookDataManager
     var invoices: resultArray = []
     var overdueCustomers: resultArray = []
     var expencesByVendorSummary: resultArray = []
+    var openInvoicesByCustomers: resultArray = []
     
     var queryMethod: QuickBookMethod?
     var companyID: String {
@@ -370,29 +371,18 @@ class QuickBookDataManager
             extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             extKPI.quickbooksKPI = qbKPI
             extKPI.requestJsonString = urlString
-            
-        case .overdueCustomers:
-            extKPI.kpiName = QiuckBooksKPIs.OverdueCustomers.rawValue
-            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
-            extKPI.quickbooksKPI = qbKPI
-            extKPI.requestJsonString = urlString
-            
-        case .expencesByVendorSummary:
-            extKPI.kpiName = QiuckBooksKPIs.PaidExpenses.rawValue
-            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
-            extKPI.quickbooksKPI = qbKPI
-            extKPI.requestJsonString = urlString            
-            
+        
         case .openInvoicesByCustomers:
             extKPI.kpiName = QiuckBooksKPIs.OpenInvoicesByCustomers.rawValue
             extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             extKPI.quickbooksKPI = qbKPI
-            extKPI.requestJsonString = urlString
-            
+            extKPI.requestJsonString = urlString            
         }
         
         do {
             try managedContext.save()
+           
+            NotificationCenter.default.post(Notification(name: .newExternalKPIadded))
         }
         catch let error {
             print(error.localizedDescription)
@@ -402,6 +392,7 @@ class QuickBookDataManager
     func doOAuthQuickbooks(_ success: @escaping success) {
     
         let infoFetch = NSFetchRequest<QuickbooksKPI>(entityName: "QuickbooksKPI")
+        
         do {
             let quickbooksKPIInfo = try managedContext.fetch(infoFetch)
             
