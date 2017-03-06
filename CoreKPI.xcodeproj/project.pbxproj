@@ -124,6 +124,8 @@
 		A2B7209A1E2E5F9900471E91 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B720991E2E5F9900471E91 /* OnboardingPageViewController.swift */; };
 		A2B7209C1E2E5FBC00471E91 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B7209B1E2E5FBC00471E91 /* OnboardingViewController.swift */; };
 		A2C431771E558EA500AA2B7C /* DeleteAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C431761E558EA500AA2B7C /* DeleteAlert.swift */; };
+		A2C6A5F41E6D7CBF005475B6 /* AEXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2C6A5F31E6D7CBF005475B6 /* AEXML.framework */; };
+		A2C6A5F51E6D7CBF005475B6 /* AEXML.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A2C6A5F31E6D7CBF005475B6 /* AEXML.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A2C9ABD71E2F455D00623659 /* ChartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C9ABD61E2F455D00623659 /* ChartTableViewCell.swift */; };
 		A2C9ABDA1E2F5BD600623659 /* positiveBar.html in Resources */ = {isa = PBXBuildFile; fileRef = A2C9ABD91E2F5BD600623659 /* positiveBar.html */; };
 		A2C9ABDC1E2F5BFE00623659 /* positiveBar.css in Resources */ = {isa = PBXBuildFile; fileRef = A2C9ABDB1E2F5BFE00623659 /* positiveBar.css */; };
@@ -195,6 +197,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				A25CA8541E4B21D8008B6331 /* ObjectMapper.framework in Embed Frameworks */,
+				A2C6A5F51E6D7CBF005475B6 /* AEXML.framework in Embed Frameworks */,
 				A24A84041E486DD400440151 /* OAuthSwift.framework in Embed Frameworks */,
 				A2066D441E4DE25A00DCBA84 /* PhoneNumberKit.framework in Embed Frameworks */,
 				A24A84081E486DF500440151 /* Alamofire.framework in Embed Frameworks */,
@@ -250,7 +253,6 @@
 		A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		A24A84021E486DD400440151 /* OAuthSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthSwift.framework; path = Carthage/Build/iOS/OAuthSwift.framework; sourceTree = "<group>"; };
 		A24A84061E486DF500440151 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
-		A24A84091E486EFE00440151 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = Carthage/Build/iOS/Charts.framework; sourceTree = "<group>"; };
 		A24A840D1E4898EF00440151 /* GoogleAnalyticsRequestDataCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GoogleAnalyticsRequestDataCreator.swift; path = ExternalServices/GoogleAnalyticsRequestDataCreator.swift; sourceTree = "<group>"; };
 		A24A84101E48992100440151 /* GoogleAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GoogleAnalytics.swift; path = ExternalServices/GoogleAnalytics.swift; sourceTree = "<group>"; };
 		A256F05F1E49B631004DAF75 /* ExternalRequestService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExternalRequestService.swift; path = ExternalServices/ExternalRequestService.swift; sourceTree = "<group>"; };
@@ -326,7 +328,7 @@
 		A2B720991E2E5F9900471E91 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnboardingPageViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/OnboardingPageViewController.swift"; sourceTree = "<group>"; };
 		A2B7209B1E2E5FBC00471E91 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnboardingViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/OnboardingViewController.swift"; sourceTree = "<group>"; };
 		A2C431761E558EA500AA2B7C /* DeleteAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteAlert.swift; path = Services/DeleteAlert.swift; sourceTree = "<group>"; };
-		A2C6A5F11E6D58C6005475B6 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		A2C6A5F31E6D7CBF005475B6 /* AEXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AEXML.framework; path = Carthage/Build/iOS/AEXML.framework; sourceTree = "<group>"; };
 		A2C9ABD61E2F455D00623659 /* ChartTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChartTableViewCell.swift; path = CustomTableViewCells/ChartTableViewCell.swift; sourceTree = "<group>"; };
 		A2C9ABD91E2F5BD600623659 /* positiveBar.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = positiveBar.html; path = Graphics/PositiveBar/positiveBar.html; sourceTree = "<group>"; };
 		A2C9ABDB1E2F5BFE00623659 /* positiveBar.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = positiveBar.css; path = Graphics/PositiveBar/positiveBar.css; sourceTree = "<group>"; };
@@ -338,14 +340,6 @@
 		A2C9FD281E13E1D400433D43 /* round.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = round.js; path = "Graphics/Круговой/js/round.js"; sourceTree = "<group>"; };
 		A2DA8E621E56D6AE00D302C7 /* EditAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditAlert.swift; path = Services/EditAlert.swift; sourceTree = "<group>"; };
 		A2DA8E641E56D6C100D302C7 /* EditReminder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditReminder.swift; path = Services/EditReminder.swift; sourceTree = "<group>"; };
-		A2E69D9D1E69775300A461DA /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		A2E69D9F1E69776200A461DA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		A2E69DA11E69776B00A461DA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		A2E69DA31E69777500A461DA /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		A2E69DA51E69777F00A461DA /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		A2E69DA71E69778800A461DA /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		A2E69DA91E69779000A461DA /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		A2E69DAB1E69779B00A461DA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		A2E8F9FA1E3B1AB800046870 /* LaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LaunchViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/LaunchViewController.swift"; sourceTree = "<group>"; };
 		A2E8F9FC1E3B223500046870 /* EditKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditKPI.swift; path = Services/EditKPI.swift; sourceTree = "<group>"; };
 		A2E8F9FE1E3B32D700046870 /* DeleteKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteKPI.swift; path = Services/DeleteKPI.swift; sourceTree = "<group>"; };
@@ -387,6 +381,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A25CA8531E4B21D8008B6331 /* ObjectMapper.framework in Frameworks */,
+				A2C6A5F41E6D7CBF005475B6 /* AEXML.framework in Frameworks */,
 				A24A84031E486DD400440151 /* OAuthSwift.framework in Frameworks */,
 				A2066D431E4DE25A00DCBA84 /* PhoneNumberKit.framework in Frameworks */,
 				A24A84071E486DF500440151 /* Alamofire.framework in Frameworks */,
@@ -627,18 +622,9 @@
 		A278209E1E001A0B009F83DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A2C6A5F11E6D58C6005475B6 /* SafariServices.framework */,
-				A2E69DAB1E69779B00A461DA /* SystemConfiguration.framework */,
-				A2E69DA91E69779000A461DA /* MobileCoreServices.framework */,
-				A2E69DA71E69778800A461DA /* MessageUI.framework */,
-				A2E69DA51E69777F00A461DA /* CoreMedia.framework */,
-				A2E69DA31E69777500A461DA /* CoreLocation.framework */,
-				A2E69DA11E69776B00A461DA /* AVFoundation.framework */,
-				A2E69D9F1E69776200A461DA /* AudioToolbox.framework */,
-				A2E69D9D1E69775300A461DA /* Accelerate.framework */,
+				A2C6A5F31E6D7CBF005475B6 /* AEXML.framework */,
 				A2066D421E4DE25A00DCBA84 /* PhoneNumberKit.framework */,
 				A25CA8521E4B21D8008B6331 /* ObjectMapper.framework */,
-				A24A84091E486EFE00440151 /* Charts.framework */,
 				A24A84061E486DF500440151 /* Alamofire.framework */,
 				A24A84021E486DD400440151 /* OAuthSwift.framework */,
 			);
@@ -1348,7 +1334,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/CoreKPI",
-					"$(PROJECT_DIR)/CoreKPI/PayPal\\ SDK",
 				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = CoreKPI.CoreKPI;
@@ -1375,7 +1360,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/CoreKPI",
-					"$(PROJECT_DIR)/CoreKPI/PayPal\\ SDK",
 				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = CoreKPI.CoreKPI;

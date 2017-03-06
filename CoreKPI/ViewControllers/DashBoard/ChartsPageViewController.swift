@@ -492,31 +492,16 @@ extension ChartsPageViewController {
             )
         case .PayPal:
             let external = kpi.integratedKPI
-            let request = PayPal(oauthToken: (external?.payPalKPI?.oAuthToken)!, oauthRefreshToken: (external?.payPalKPI?.oAuthRefreshToken)!, oauthTokenExpiresAt: (external?.payPalKPI?.oAuthTokenExpiresAt)! as Date)
+            let request = PayPal(apiUsername: "test_api1.sem.ru", apiPassword: "8GJG2CHSNZ2F2W5Y", apiSignature: "An5ns1Kso7MWUdW4ErQKJJJ4qi4-A3u4r.0LMFDTXAA-lnElRcGeoYx7")
             switch (PayPalKPIs(rawValue: (external?.kpiName)!))! {
             case .Balance:
-                request.getBalance(success: {
-                    print("Ok")
+                request.getBalance(success: { balance in
+                    dataForPresent.append(("Balance", "", balance))
+                    success(dataForPresent)
                 }, failure: {error in
                     print(error)
                 })
-            case .NetSalesTotalSales:
-                request.getInvoices(success: {json in
-                    if let invoices = json["invoices"] as? NSArray {
-                        for i in 0..<invoices.count {
-                            let invoice = invoices[i] as! NSDictionary
-                            let totalAmount = invoice["total_amount"] as! NSDictionary
-                            let value = (totalAmount["value"] as! String) + " " + (totalAmount["currency"] as! String)
-                            let billingInfo = invoice["billing_info"] as! NSArray
-                            let emailData = billingInfo[0] as! NSDictionary
-                            let email = emailData["email"] as! String
-                            dataForPresent.append((email, "", value))
-                            success(dataForPresent)
-                        }
-                    }
-                }, failure: {error in
-                    print(error)
-                })
+            case .NetSalesTotalSales: break
             default:
                 break
             }

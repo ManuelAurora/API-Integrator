@@ -8,66 +8,79 @@
 
 import Foundation
 import Alamofire
+import AEXML
 
 class PayPal: ExternalRequest {
     
-    let payPalUri = "https://api.sandbox.paypal.com/"
+    var apiUsername = ""
+    var apiPassword = ""
+    var apiSignature = ""
     
-    func getBalance(success: @escaping () -> (), failure: @escaping failure)  {
+    init(apiUsername: String, apiPassword: String, apiSignature: String) {
+        self.apiUsername = apiUsername
+        self.apiPassword = apiPassword
+        self.apiSignature = apiSignature
+        super.init()
+    }
+    
+    let payPalUri = "https://api-3t.sandbox.paypal.com/2.0/"
+    
+    func getBalance(success: @escaping (_ balance: String) -> (), failure: @escaping failure)  {
         
-        let url = "https://api-3t.sandbox.paypal.com/nvp"
-        
-        let apiUsername = "test_api1.sem.ru"
-        let apiPassword = "8GJG2CHSNZ2F2W5Y"
-        let apiSignature = "An5ns1Kso7MWUdW4ErQKJJJ4qi4-A3u4r.0LMFDTXAA-lnElRcGeoYx7"
-        
-        let params: [String : Any] = ["METHOD" : "GetBalance", "VERSION" : "204.0", "USER" : apiUsername, "PWD" : apiPassword, "SIGNATURE" : apiSignature]
-        
-        request(url, method: .post , parameters: params, encoding: URLEncoding.default).responseString { response in
-            if let data = response.data {
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
-                    if let jsonDictionary = json {
-                        //success(jsonDictionary)
-                    } else {
-                        failure("Load failed")
-                    }
-                    
-                } catch {
-                    print("Vse ochen ploho")
-//                    guard response.request.isSuccess else {
-//                        let error = response.request.error
-//                        if let error = error, (error as NSError).code != NSURLErrorCancelled {
-//                            let requestError = error.localizedDescription
-//                            failure(requestError)
-//                        }
-//                        return
-//                    }
-                }
-            }
-        }
+        let soapRequest = createXMLRequest(method: "GetBalance", subject: (nil, [:]), requestParams: [])
 
         
-//        let payUrl = payPalUri + "v1/payments/payment"
-//        let headers = ["Authorization" : "Bearer \(oauthToken)", "Content-Type" : "application/json"]
-//        let params: [String : Any] = ["intent" : "sale", "payer":["payment_method":"paypal"],"redirect_urls":["return_url":"http://corekpi.com", "cancel_url" : "http://example.com/your_cancel_url.html"], "transactions" : [["amount":["total":"7.47", "currency" : "USD"]]]]
-//        
-//        self.getJson(url: payUrl, header: headers, params: params, method: .post, success: { json in
-//            success()
-//        }, failure: {error in
-//            failure(error)
-//        })
+        let soapLenth = String(soapRequest.xml.characters.count)
+        let theURL = URL(string: payPalUri)
+        
+        var mutableR = URLRequest(url: theURL!)
+        mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
+        mutableR.httpMethod = "POST"
+        mutableR.httpBody = soapRequest.xml.data(using: String.Encoding.utf8)
+        
+        request(mutableR)
+            .responseString { response in
+            if let xmlString = response.result.value {
+                do {
+                    let xmlDoc = try AEXMLDocument(xml: xmlString)
+                    if let balance = xmlDoc.root["SOAP-ENV:Body"]["GetBalanceResponse"]["Balance"].value {
+                        success(balance)
+                    } else {
+                        failure("Parsing balance error")
+                    }
+                } catch {
+                    print("\(error)")
+                }
+            } else {
+                print("error fetching XML")
+            }
+        }
     }
     
-    func getInvoices(success: @escaping (_ json: NSDictionary) -> (), failure: @escaping failure)  {
+    private func createXMLRequest(method: String, subject: (subValue: String?, subAttributes: [String : String]), requestParams: [(field: String, description: [String:String], value: String)]) -> AEXMLDocument {
         
-        let invoiceListUrl = payPalUri + "v1/invoicing/invoices/"
-        let headers = ["Authorization" : "Bearer \(oauthToken)", "Content-Type" : "application/json"]
+        let xml = AEXMLDocument()
+        let attributes = ["xmlns:xsi" : "http://www.w3.org/2001/XMLSchema-instance", "xmlns:SOAP-ENC" : "http://schemas.xmlsoap.org/soap/encoding/", "xmlns:SOAP-ENV" : "http://schemas.xmlsoap.org/soap/envelope/", "xmlns:xsd" : "http://www.w3.org/2001/XMLSchema", "SOAP-ENV:encodingStyle" : "http://schemas.xmlsoap.org/soap/encoding/"]
+        let envelope = xml.addChild(name: "SOAP-ENV:Envelope", attributes: attributes)
+        let header = envelope.addChild(name: "SOAP-ENV:Header")
+        let requesterCredentials = header.addChild(name: "RequesterCredentials", attributes: ["xmlns" : "urn:ebay:api:PayPalAPI"])
+        let credentials = requesterCredentials.addChild(name: "Credentials", attributes: ["xmlns" : "urn:ebay:apis:eBLBaseComponents"])
+        _ = credentials.addChild(name: "Username", value: apiUsername, attributes: [:])
+        _ = credentials.addChild(name: "Password", value: apiPassword, attributes: [:])
+        _ = credentials.addChild(name: "Signature", value: apiSignature, attributes: [:])
+        _ = credentials.addChild(name: "Subject", value: subject.subValue, attributes: subject.subAttributes)
         
-        self.getJson(url: invoiceListUrl, header: headers, params: nil, method: .get, success: { json in
-            success(json)
-        }, failure: {error in
-            failure(error)
-        })
+        let body = envelope.addChild(name: "SOAP-ENV:Body")
+        let Req = body.addChild(name: method + "Req", attributes: ["xmlns":"urn:ebay:api:PayPalAPI"])
+        let Request = Req.addChild(name: method + "Request")
+        _ = Request.addChild(name: "Version", value: "204.0", attributes: ["xmlns" : "urn:ebay:apis:eBLBaseComponents"])
+        for param in requestParams {
+            let descr = param.description.first
+            _ = Request.addChild(name: param.field, value: param.value, attributes: [(descr?.key)! : (descr?.value)!])
+        }
+        return xml
     }
+    
 }
