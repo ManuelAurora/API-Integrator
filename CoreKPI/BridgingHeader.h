@@ -10,6 +10,5 @@
 #define BridgingHeader_h
 
 #import <CommonCrypto/CommonHMAC.h>
-#import "PayPalMobile.h"
 
 #endif /* BridgingHeader_h */

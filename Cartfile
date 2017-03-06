@@ -2,3 +2,4 @@ github "Alamofire/Alamofire"
 github "OAuthSwift/OAuthSwift" ~> 1.1.0
 github "Hearst-DD/ObjectMapper"
 github "marmelroy/PhoneNumberKit"
+github "drmohundro/SWXMLHash" ~> 3.0

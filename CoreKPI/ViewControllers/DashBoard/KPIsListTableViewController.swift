@@ -33,11 +33,11 @@ class KPIsListTableViewController: UITableViewController {
         let nc = NotificationCenter.default
         nc.addObserver(forName:modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
         
-        //
+        //test ->
         let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.longPress(_:)))
         longPressGesture.minimumPressDuration = 1 // 1 second press
         self.tableView.addGestureRecognizer(longPressGesture)
-        //
+        //<- test
         
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
