@@ -23,31 +23,6 @@ class PayPal: ExternalRequest {
         super.init()
     }
     
-    let payPalUri = "https://api-3t.sandbox.paypal.com/2.0/"
-    
-    func getBalance(success: @escaping (_ balance: String) -> (), failure: @escaping failure)  {
-        
-        let soapRequest = createXMLRequest(method: "GetBalance", subject: (nil, [:]), requestParams: [])
-        
-        request(getMutableRequest(soapRequest))
-            .responseString { response in
-            if let xmlString = response.result.value {
-                do {
-                    let xmlDoc = try AEXMLDocument(xml: xmlString)
-                    if let balance = xmlDoc.root["SOAP-ENV:Body"]["GetBalanceResponse"]["Balance"].value {
-                        success(balance)
-                    } else {
-                        failure("Parsing balance error")
-                    }
-                } catch {
-                    print("\(error)")
-                }
-            } else {
-                print("error fetching XML")
-            }
-        }
-    }
-    
     func getAccountInfo(success: @escaping () -> (), failure: @escaping failure) {
         let soapRequest = createXMLRequest(method: "GetPalDetails", subject: (nil, [:]), requestParams: [])
         
@@ -61,6 +36,59 @@ class PayPal: ExternalRequest {
                         } else {
                             failure("Authorisation error")
                         }
+                    } catch {
+                        print("\(error)")
+                    }
+                } else {
+                    print("error fetching XML")
+                }
+        }
+    }
+    
+    let payPalUri = "https://api-3t.sandbox.paypal.com/2.0/"
+    
+    func getBalance(success: @escaping (_ balance: String) -> (), failure: @escaping failure)  {
+        
+        let soapRequest = createXMLRequest(method: "GetBalance", subject: (nil, [:]), requestParams: [])
+        
+        request(getMutableRequest(soapRequest))
+            .responseString { response in
+                if let xmlString = response.result.value {
+                    do {
+                        let xmlDoc = try AEXMLDocument(xml: xmlString)
+                        if let balance = xmlDoc.root["SOAP-ENV:Body"]["GetBalanceResponse"]["Balance"].value {
+                            success(balance)
+                        } else {
+                            failure("Parsing balance error")
+                        }
+                    } catch {
+                        print("\(error)")
+                    }
+                } else {
+                    print("error fetching XML")
+                }
+        }
+    }
+    
+    func getSales(success: @escaping (_ sales: [(payer: String, netAmount: String)]) -> (), failure: @escaping failure) {
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], "2017-02-20T00:00:00Z")]
+        let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
+        request(getMutableRequest(soapRequest))
+            .responseString { response in
+                
+                var dataArray: [(payer: String, netAmount: String)] = []
+                
+                if let xmlString = response.result.value {
+                    do {
+                        let xmlDoc = try AEXMLDocument(xml: xmlString)
+                        let transactions = xmlDoc.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
+                        for transaction in transactions {
+                            if transaction.name == "PaymentTransactions" {
+                                print(transaction.xml)
+                                dataArray.append((transaction["PayerDisplayName"].value!, transaction["NetAmount"].value!))
+                            }
+                        }
+                        success(dataArray)
                     } catch {
                         print("\(error)")
                     }

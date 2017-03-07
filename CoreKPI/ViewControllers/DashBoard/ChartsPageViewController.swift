@@ -501,7 +501,15 @@ extension ChartsPageViewController {
                 }, failure: {error in
                     print(error)
                 })
-            case .NetSalesTotalSales: break
+            case .NetSalesTotalSales:
+                request.getSales(success: {sales in
+                    for sale in sales {
+                        dataForPresent.append((sale.payer , "", sale.netAmount))
+                    }
+                    success(dataForPresent)
+                }, failure: {error in
+                    print(error)
+                })
             default:
                 break
             }
