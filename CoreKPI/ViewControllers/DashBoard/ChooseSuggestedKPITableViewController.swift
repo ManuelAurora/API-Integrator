@@ -66,6 +66,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     var oauthTokenExpiresAt: Date?
     var viewID: String?
     
+    var payPalKPI: PayPalKPI?
+    
     //MARK: User's KPI
     var department: Departments {
         for department in departmentArray {
@@ -934,7 +936,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         case .Integrated:
             var arrayOfKPI: [(SettingName: String, value: Bool)] = []
             var googleKPI: GoogleKPI?
-            var payPalKPI: PayPalKPI?
             
             switch integrated {
             case .SalesForce:
@@ -950,10 +951,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 googleKPI?.viewID = viewID
             case .PayPal:
                 arrayOfKPI = payPalKPIArray
-                payPalKPI = PayPalKPI(context: context)
-                payPalKPI?.oAuthToken = oauthToken
-                payPalKPI?.oAuthRefreshToken = oauthRefreshToken
-                payPalKPI?.oAuthTokenExpiresAt = oauthTokenExpiresAt! as NSDate
             case .HubSpotCRM:
                 arrayOfKPI = hubSpotCRMKPIArray
             case .HubSpotMarketing:
@@ -1333,5 +1330,11 @@ extension ChooseSuggestedKPITableViewController: UIPickerViewDataSource,UIPicker
             }
         let indexPath = IndexPath(item: 7, section: 0)
         tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+}
+
+extension ChooseSuggestedKPITableViewController: UpdatePayPalAPICredentialsDelegate {
+    func updatePayPalCredentials(payPalObject: PayPalKPI) {
+        payPalKPI = payPalObject
     }
 }

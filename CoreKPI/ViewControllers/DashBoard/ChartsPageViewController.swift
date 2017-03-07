@@ -492,7 +492,7 @@ extension ChartsPageViewController {
             )
         case .PayPal:
             let external = kpi.integratedKPI
-            let request = PayPal(apiUsername: "test_api1.sem.ru", apiPassword: "8GJG2CHSNZ2F2W5Y", apiSignature: "An5ns1Kso7MWUdW4ErQKJJJ4qi4-A3u4r.0LMFDTXAA-lnElRcGeoYx7")
+            let request = PayPal(apiUsername: (external?.payPalKPI?.apiUsername)!, apiPassword: (external?.payPalKPI?.apiPassword)!, apiSignature: (external?.payPalKPI?.apiSignature)!)
             switch (PayPalKPIs(rawValue: (external?.kpiName)!))! {
             case .Balance:
                 request.getBalance(success: { balance in

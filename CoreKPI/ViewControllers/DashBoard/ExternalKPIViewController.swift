@@ -187,19 +187,11 @@ extension ExternalKPIViewController {
     
     // MARK: PayPal
     func doOAuthPayPal(){
-        let request = ExternalRequest()
-        request.oAuthAutorisation(servise: .PayPal, viewController: self, success: { credential in
-            self.ChoseSuggestedVC.integrated = self.selectedService
-            self.settingDelegate = self.ChoseSuggestedVC
-            self.settingDelegate.updateSettingsArray(array: self.serviceKPI)
-            self.tokenDelegate = self.ChoseSuggestedVC
-            self.tokenDelegate.updateTokens(oauthToken: credential.oauthToken, oauthRefreshToken: credential.oauthRefreshToken, oauthTokenExpiresAt: credential.oauthTokenExpiresAt!, viewID: nil)
-            let stackVC = self.navigationController?.viewControllers
-            _ = self.navigationController?.popToViewController((stackVC?[(stackVC?.count)! - 3])!, animated: true)
-        }, failure: { error in
-            self.showAlert(title: "Sorry", message: error)
-        }
-        )
+        let payPalAuthVC = storyboard?.instantiateViewController(withIdentifier: "PayPalAuth") as! PayPalAuthViewController
+        payPalAuthVC.ChooseSuggestedKPIVC = ChoseSuggestedVC
+        payPalAuthVC.serviceKPI = serviceKPI
+        payPalAuthVC.selectedService = selectedService
+        show(payPalAuthVC, sender: nil)
     }
     
     // MARK: HubSpotCRM
