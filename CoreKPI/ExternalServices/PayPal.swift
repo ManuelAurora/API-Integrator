@@ -28,19 +28,8 @@ class PayPal: ExternalRequest {
     func getBalance(success: @escaping (_ balance: String) -> (), failure: @escaping failure)  {
         
         let soapRequest = createXMLRequest(method: "GetBalance", subject: (nil, [:]), requestParams: [])
-
         
-        let soapLenth = String(soapRequest.xml.characters.count)
-        let theURL = URL(string: payPalUri)
-        
-        var mutableR = URLRequest(url: theURL!)
-        mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
-        mutableR.httpMethod = "POST"
-        mutableR.httpBody = soapRequest.xml.data(using: String.Encoding.utf8)
-        
-        request(mutableR)
+        request(getMutableRequest(soapRequest))
             .responseString { response in
             if let xmlString = response.result.value {
                 do {
@@ -57,6 +46,41 @@ class PayPal: ExternalRequest {
                 print("error fetching XML")
             }
         }
+    }
+    
+    func getAccountInfo(success: @escaping () -> (), failure: @escaping failure) {
+        let soapRequest = createXMLRequest(method: "GetPalDetails", subject: (nil, [:]), requestParams: [])
+        
+        request(getMutableRequest(soapRequest))
+            .responseString { response in
+                if let xmlString = response.result.value {
+                    do {
+                        let xmlDoc = try AEXMLDocument(xml: xmlString)
+                        if xmlDoc.root["SOAP-ENV:Body"]["GetPalDetailsResponse"]["Ack"].value == "Success" {
+                            success()
+                        } else {
+                            failure("Authorisation error")
+                        }
+                    } catch {
+                        print("\(error)")
+                    }
+                } else {
+                    print("error fetching XML")
+                }
+        }
+    }
+    
+    private func getMutableRequest(_ soapRequest: AEXMLDocument) -> URLRequest {
+        let soapLenth = String(soapRequest.xml.characters.count)
+        let theURL = URL(string: payPalUri)
+        
+        var mutableR = URLRequest(url: theURL!)
+        mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
+        mutableR.httpMethod = "POST"
+        mutableR.httpBody = soapRequest.xml.data(using: String.Encoding.utf8)
+        return mutableR
     }
     
     private func createXMLRequest(method: String, subject: (subValue: String?, subAttributes: [String : String]), requestParams: [(field: String, description: [String:String], value: String)]) -> AEXMLDocument {

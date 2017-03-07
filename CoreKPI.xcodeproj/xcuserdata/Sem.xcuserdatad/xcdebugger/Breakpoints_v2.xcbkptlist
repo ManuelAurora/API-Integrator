@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/ExternalServices/PayPal.swift"
-            timestampString = "510499414.547545"
+            timestampString = "510569574.269657"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
             landmarkName = "getBalance(success:failure:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -57,13 +57,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CoreKPI/ExternalServices/PayPal.swift"
-            timestampString = "510567469.359054"
+            filePath = "CoreKPI/ViewControllers/DashBoard/PayPalAuthViewController.swift"
+            timestampString = "510574348.02627"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "getBalance(success:failure:)"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "activateButtonDidTaped(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

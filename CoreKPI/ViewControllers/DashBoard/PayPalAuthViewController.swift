@@ -11,7 +11,7 @@ import UIKit
 class PayPalAuthViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var activateButton: UIBarButtonItem!
+    var activateButton: UIBarButtonItem!
     
     var ChooseSuggestedKPIVC: ChooseSuggestedKPITableViewController!
     var selectedService: IntegratedServices!
@@ -24,6 +24,7 @@ class PayPalAuthViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        activateButton = self.navigationItem.rightBarButtonItem
         self.hideKeyboardWhenTappedAround()
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.isScrollEnabled = false
@@ -35,6 +36,31 @@ class PayPalAuthViewController: UIViewController {
     }
     
     @IBAction func activateButtonDidTaped(_ sender: UIBarButtonItem) {
+        checkAPICredentials()
+    }
+    
+    func checkAPICredentials() {
+        let activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+        activityIndicator.activityIndicatorViewStyle = .gray
+        let barButton = UIBarButtonItem(customView: activityIndicator)
+        self.navigationItem.setRightBarButton(barButton, animated: true)
+        activityIndicator.startAnimating()
+        
+        let request = PayPal(apiUsername: apiUsername!, apiPassword: apiPassword!, apiSignature: apiSignature!)
+        request.getAccountInfo(success: {
+            self.prepareForUnwind()
+            activityIndicator.stopAnimating()
+        }, failure: {error in
+            activityIndicator.stopAnimating()
+            self.navigationItem.setRightBarButton(self.activateButton, animated: true)
+            print(error)
+            let alertController = UIAlertController(title: "Authorisation error", message: "Please check input values", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+        })
+    }
+    
+    func prepareForUnwind() {
         let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
         let payPalKPI = PayPalKPI(context: context)
         
