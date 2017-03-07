@@ -97,7 +97,7 @@ class QuickBookDataManager
         return parameters
     }()
     
-    func getInfoFor(kpi: QiuckBooksKPIs) -> resultArray {
+    private func getInfoFor(kpi: QiuckBooksKPIs) -> resultArray {
         
         switch kpi
         {
@@ -129,7 +129,17 @@ class QuickBookDataManager
         queryMethod = method
     }
     
-    func formUrlPath(method: QuickBookMethod) -> String {
+    private func makeDate() {
+        
+        let startOfQuarter: Date
+        let date = Date()
+        let calendar = Calendar.current
+        
+        calendar.dateInterval(of: .quarter, start: &startOfQuarter, interval: &0, for: date)
+        
+    }
+    
+    private func formUrlPath(method: QuickBookMethod) -> String {
         
         let companyId = serviceParameters[AuthenticationParameterKeys.companyId]!
         let fullUrlPath = self.urlBase +
@@ -139,6 +149,7 @@ class QuickBookDataManager
 
         return fullUrlPath
     }
+    
     private var queryParameters: [QBQueryParameterKeys: String] {
         let queryParameters: [QBQueryParameterKeys: String] = [
             .query: "SELECT * FROM Invoice"
@@ -165,7 +176,7 @@ class QuickBookDataManager
         kpiFilter[QiuckBooksKPIs.PaidInvoices.rawValue] = true
     }
     
-    func saveNewEntities() {
+    private func saveNewEntities() {
         
         for request in kpiRequestsToSave
         {
@@ -296,7 +307,7 @@ class QuickBookDataManager
         }
     }
     
-    func clearAllData() {
+    private func clearAllData() {
         
         netIncome.removeAll()
         kpiFilter.removeAll()
@@ -330,7 +341,7 @@ class QuickBookDataManager
         listOfRequests.removeAll()
     }
     
-    func createNewEntityForArrayOf(type: ResultArrayType, urlString: String) {
+    private func createNewEntityForArrayOf(type: ResultArrayType, urlString: String) {
         
         let extKPI = ExternalKPI()
         var qbKPI: QuickbooksKPI!
