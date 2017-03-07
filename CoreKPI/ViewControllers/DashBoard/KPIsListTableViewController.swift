@@ -72,7 +72,7 @@ class KPIsListTableViewController: UITableViewController {
             present(onboardingVC, animated: true, completion: nil)
             print("First load!")
             saveData()
-        }
+        }        
     }
     
     override func viewWillAppear(_ animated: Bool) {

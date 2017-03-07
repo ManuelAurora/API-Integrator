@@ -134,9 +134,6 @@ class QuickBookDataManager
         let startOfQuarter: Date
         let date = Date()
         let calendar = Calendar.current
-        
-        calendar.dateInterval(of: .quarter, start: &startOfQuarter, interval: &0, for: date)
-        
     }
     
     private func formUrlPath(method: QuickBookMethod) -> String {

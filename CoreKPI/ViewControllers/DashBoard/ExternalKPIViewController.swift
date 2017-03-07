@@ -19,6 +19,10 @@ class ExternalKPIViewController: OAuthViewController {
         return QuickBookDataManager.shared()
     }
     
+    var hubSpotManager: HubSpotManager {
+        return HubSpotManager.sharedInstance
+    }
+    
     lazy var managedContext: NSManagedObjectContext = {
        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -66,6 +70,17 @@ class ExternalKPIViewController: OAuthViewController {
                 showAlert(title: "Sorry!", message: "First you should select one or more KPI, or service not integrated yet")
             }
         }
+        
+        if selectedService == .HubSpotCRM
+        {
+            
+            if internalWebViewController.parent == nil {
+                self.addChildViewController(internalWebViewController)
+            }
+            
+            hubSpotManager.webView = internalWebViewController
+            hubSpotManager.connect()
+        }        
     }    
     
     func showAlert(title: String, message: String) {

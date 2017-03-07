@@ -3,47 +3,82 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "ChartsPageViewController.createDataFromRequest(success : ([(leftValue : String, centralValue : String, rightValue : String)]) -&gt; ()) -&gt; ():ChartsPageViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "UserViewTableViewCell.init(coder : NSCoder) -&gt; UserViewTableViewCell?:UserViewCellTableViewCell.swift">
+         contextName = "QuickBookRequestHandler.(getData() -&gt; ()).(closure #1):QuickBookRequestHandler.swift">
          <PersistentStrings>
             <PersistentString
-               value = "memberProfilePhotoImage">
-            </PersistentString>
-            <PersistentString
-               value = "memberProfileNameLabel">
-            </PersistentString>
-            <PersistentString
-               value = "memberProfilePositionLabel">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ExternalKPIViewController.(doOAuthQuickbooks() -&gt; ()).(closure #2):ExternalKPIViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "quickBookDataManager.oauthswift.client.credential">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "QuickBookRequestHandler.getData() -&gt; ():QuickBookRequestHandler.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "oauthswift.parameters">
-            </PersistentString>
-            <PersistentString
-               value = "oauthswift">
-            </PersistentString>
-            <PersistentString
-               value = "oauthswift.client">
+               value = "self.request.method">
             </PersistentString>
             <PersistentString
                value = "oauthswift.client.credential">
             </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HSDeal.init(json : [String : Any]) -&gt; HSDeal:HubspotRequestedObjects.swift">
+         <PersistentStrings>
             <PersistentString
-               value = "request.urlString">
+               value = "properties[&quot;closedate&quot;] as! [String: Any]">
+            </PersistentString>
+            <PersistentString
+               value = "properties[&quot;amount&quot;] as? [String: Any]">
+            </PersistentString>
+            <PersistentString
+               value = "dealId">
+            </PersistentString>
+            <PersistentString
+               value = "self.closeDate">
+            </PersistentString>
+            <PersistentString
+               value = "properties[&quot;closedate&quot;] as! Int">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "QuickBookDataManager.getInfoFor(kpi : QiuckBooksKPIs) -&gt; [(leftValue : String, centralValue : String, rightValue : String)]:QuickBook.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "balanceSheet">
+            </PersistentString>
+            <PersistentString
+               value = "invoices">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MemberInfoViewController.viewDidLoad() -&gt; ():MemberInfoViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "memberProfileNameLabel">
+            </PersistentString>
+            <PersistentString
+               value = "model.team[index].firstName!">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HubSpotManager.(handle(request : HSAPIMethods) -&gt; ()).(closure #1):HubspotManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "data[&quot;deals&quot;] as! [String: Any]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "QuickBookDataManager.updateDataFromIntuit(OAuth1Swift) -&gt; ():QuickBook.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "listOfRequests">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "QuickBookDataManager.createNewEntityForArrayOf(type : QuickBookDataManager.ResultArrayType) -&gt; ():QuickBook.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "extKPI.kpiName">
+            </PersistentString>
+            <PersistentString
+               value = "qbKPI.kpiValue">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -68,87 +103,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ExternalKPIViewController.(doOAuthQuickbooks() -&gt; ()).(closure #1):ExternalKPIViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.selectedQBKPIs">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ChartsPageViewController.viewDidAppear(Bool) -&gt; ():ChartsPageViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "quickBooksDataManager.balanceSheet">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "QuickBookDataManager.formListOfRequests(from : [(SettingName : String, value : Bool)]) -&gt; ():QuickBook.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "kpi">
-            </PersistentString>
-            <PersistentString
-               value = "kpiRequestsToSave">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "LaunchViewController.viewDidAppear(Bool) -&gt; ():LaunchViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "QuickBookRequestHandler.(getData() -&gt; ()).(closure #1):QuickBookRequestHandler.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.request.method">
-            </PersistentString>
-            <PersistentString
-               value = "oauthswift.client.credential">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "QuickBookDataManager.fetchDataFromIntuit() -&gt; ():QuickBook.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "listOfRequests">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "QuickBookDataManager.doOAuthQuickbooks(() -&gt; ()) -&gt; ():QuickBook.swift">
-      </ContextState>
-      <ContextState
          contextName = "QuickBookDataManager.(fetchDataFromIntuit(OAuth1Swift) -&gt; ()).(closure #1):QuickBook.swift">
          <PersistentStrings>
             <PersistentString
                value = "listOfRequests">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "QuickBookDataManager.balanceSheet.didset:QuickBook.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "balanceSheet.count">
-            </PersistentString>
-            <PersistentString
-               value = "qbKPI.kpiValue">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "TableViewChartController.reloadTableView() -&gt; ():TableViewChartController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "qBMethod">
-            </PersistentString>
-            <PersistentString
-               value = "dataArray">
-            </PersistentString>
-            <PersistentString
-               value = "kpiName!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -188,13 +146,49 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "QuickBookDataManager.saveNewEntities() -&gt; ():QuickBook.swift">
+         contextName = "ExternalKPIViewController.(doOAuthQuickbooks() -&gt; ()).(closure #2):ExternalKPIViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "listOfRequests">
+               value = "quickBookDataManager.oauthswift.client.credential">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ChartsPageViewController.(getViewController(AtIndex : Int) -&gt; UIViewController).(closure #1):ChartsPageViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.quickBooksDataManager.balanceSheet">
             </PersistentString>
             <PersistentString
-               value = "kpiRequestsToSave">
+               value = "tableViewChartVC.dataArray">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "UserViewTableViewCell.init(coder : NSCoder) -&gt; UserViewTableViewCell?:UserViewCellTableViewCell.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "memberProfilePhotoImage">
+            </PersistentString>
+            <PersistentString
+               value = "memberProfilePositionLabel">
+            </PersistentString>
+            <PersistentString
+               value = "memberProfileNameLabel">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HubSpotManager.getDealsFrom(json : [String : Any]) -&gt; ():HubspotManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "QuickBookDataManager.balanceSheet.didset:QuickBook.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "balanceSheet.count">
+            </PersistentString>
+            <PersistentString
+               value = "qbKPI.kpiValue">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -207,34 +201,32 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "QuickBookDataManager.getInfoFor(kpi : QiuckBooksKPIs) -&gt; [(leftValue : String, centralValue : String, rightValue : String)]:QuickBook.swift">
+         contextName = "QuickBookDataManager.formListOfRequests(from : [(SettingName : String, value : Bool)]) -&gt; ():QuickBook.swift">
          <PersistentStrings>
             <PersistentString
-               value = "balanceSheet">
+               value = "kpi">
             </PersistentString>
             <PersistentString
-               value = "invoices">
+               value = "kpiRequestsToSave">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "MemberInfoViewController.viewDidLoad() -&gt; ():MemberInfoViewController.swift">
+         contextName = "TableViewChartController.reloadTableView() -&gt; ():TableViewChartController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "model.team[index].firstName!">
+               value = "qBMethod">
             </PersistentString>
             <PersistentString
-               value = "memberProfileNameLabel">
+               value = "dataArray">
+            </PersistentString>
+            <PersistentString
+               value = "kpiName!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "PinCodeViewController.checkOut(pinCode : [String]) -&gt; ():PinCodeViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "appDelegate.pinCodeAttempts">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "ChartsPageViewController.createDataFromRequest(success : ([(leftValue : String, centralValue : String, rightValue : String)]) -&gt; ()) -&gt; ():ChartsPageViewController.swift">
       </ContextState>
       <ContextState
          contextName = "ChartsPageViewController.getViewController(AtIndex : Int) -&gt; UIViewController:ChartsPageViewController.swift">
@@ -255,15 +247,15 @@
                value = "tableViewChartVC.tableView">
             </PersistentString>
             <PersistentString
-               value = "tableViewChartVC.dataArray">
+               value = "kpi.integratedKPI.requestJsonString!">
             </PersistentString>
             <PersistentString
-               value = "kpi.integratedKPI.requestJsonString!">
+               value = "tableViewChartVC.dataArray">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "QuickBookDataManager.updateDataFromIntuit(OAuth1Swift) -&gt; ():QuickBook.swift">
+         contextName = "QuickBookDataManager.fetchDataFromIntuit() -&gt; ():QuickBook.swift">
          <PersistentStrings>
             <PersistentString
                value = "listOfRequests">
@@ -271,32 +263,35 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ChartsPageViewController.viewDidAppear(Bool) -&gt; ():ChartsPageViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "quickBooksDataManager.balanceSheet">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "QuickBookDataManager.doOAuthQuickbooks(() -&gt; ()) -&gt; ():QuickBook.swift">
+      </ContextState>
+      <ContextState
+         contextName = "QuickBookDataManager.saveNewEntities() -&gt; ():QuickBook.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "kpiRequestsToSave">
+            </PersistentString>
+            <PersistentString
+               value = "listOfRequests">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "LaunchViewController.viewDidAppear(Bool) -&gt; ():LaunchViewController.swift">
+      </ContextState>
+      <ContextState
          contextName = "AppDelegate.application(UIApplication, didFinishLaunchingWithOptions : [UIApplicationLaunchOptionsKey : Any]?) -&gt; Bool:AppDelegate.swift">
          <PersistentStrings>
             <PersistentString
                value = "pinCodeAttempts">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "KPIsListTableViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:KPIsListTableViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "integratedKPI?.quickbooksKPI?.kpiValue">
-            </PersistentString>
-            <PersistentString
-               value = "cell.KPIListNumber.isHidden">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ChartsPageViewController.(getViewController(AtIndex : Int) -&gt; UIViewController).(closure #1):ChartsPageViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.quickBooksDataManager.balanceSheet">
-            </PersistentString>
-            <PersistentString
-               value = "tableViewChartVC.dataArray">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -323,13 +318,13 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "QuickBookDataManager.createNewEntityForArrayOf(type : QuickBookDataManager.ResultArrayType) -&gt; ():QuickBook.swift">
+         contextName = "KPIsListTableViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:KPIsListTableViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "extKPI.kpiName">
+               value = "integratedKPI?.quickbooksKPI?.kpiValue">
             </PersistentString>
             <PersistentString
-               value = "qbKPI.kpiValue">
+               value = "cell.KPIListNumber.isHidden">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -346,6 +341,42 @@
          <PersistentStrings>
             <PersistentString
                value = "quickBookDataManager.oauthswift.client.credential">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PinCodeViewController.checkOut(pinCode : [String]) -&gt; ():PinCodeViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate.pinCodeAttempts">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "QuickBookRequestHandler.getData() -&gt; ():QuickBookRequestHandler.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "oauthswift.parameters">
+            </PersistentString>
+            <PersistentString
+               value = "oauthswift">
+            </PersistentString>
+            <PersistentString
+               value = "oauthswift.client">
+            </PersistentString>
+            <PersistentString
+               value = "oauthswift.client.credential">
+            </PersistentString>
+            <PersistentString
+               value = "request.urlString">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ExternalKPIViewController.(doOAuthQuickbooks() -&gt; ()).(closure #1):ExternalKPIViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.selectedQBKPIs">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

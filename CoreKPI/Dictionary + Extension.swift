@@ -20,7 +20,10 @@ extension Dictionary
             }
             else if let key = key as? QBQueryParameterKeys {
                 percentEscapedKey = key.rawValue
-            }            
+            }
+            else if let key = key as? HSRequestParameterKeys {
+                percentEscapedKey = key.rawValue
+            }
             
             let percentEscapedValue = (value as! String).addingPercentEncodingForURLQueryValue()!
             return "\(percentEscapedKey)=\(percentEscapedValue)"
