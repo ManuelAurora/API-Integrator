@@ -27,14 +27,18 @@ enum HSRequestParameterKeys: String
 
 enum HSAPIMethods: String
 {
-    case deals = "/deals/v1/deal/paged?"
-    case oauth = "/oauth/authorize?"
+    case deals    = "/deals/v1/deal/paged?"
+    case contacts = "/contacts/v1/lists/all/contacts/all?"
+    case oauth    = "/oauth/authorize?"
     case getToken = "/oauth/v1/token?"
 }
 
 class HubSpotManager
 {
     static let sharedInstance = HubSpotManager()
+    
+    var dealsArray: [HSDeal] = []
+    var contactsArray: [HSContact] = []
     
     var delegate: ExternalKPIViewController?
     var webView: WebViewController!
@@ -55,7 +59,11 @@ class HubSpotManager
     ]
     
     lazy var getDealsParameters: [HSRequestParameterKeys: String] = [
-        .properties: "properties=amount&properties=closedate"
+        .properties: "properties=amount&properties=closedate&properties=createdate"
+    ]
+    
+    lazy var getContactsParameters: [HSRequestParameterKeys: String] = [
+        .properties: "property=createdate&property=notes_last_contacted&property=hubspot_owner_assigneddate&property=hubspot_owner_id"
     ]
     
     private func makeUrlPathForAuthentication() -> String {
@@ -75,6 +83,7 @@ class HubSpotManager
         webView.handle(url!)
         
         handle(request: .deals)
+        handle(request: .contacts)
     }
     
     func getDataFromHubSpot(_ array: [HSAPIMethods]) {
@@ -92,38 +101,65 @@ class HubSpotManager
     
     private func handle(request: HSAPIMethods) {
         
+        var requestURL: URL?
+        
         switch request
         {
         case .deals:
             let urlPath = makeUrlPathFor(request: request, parameters: [:]) + getDealsParameters[.properties]!
-            let requestURL = URL(string: urlPath)!
+            requestURL = URL(string: urlPath)!
             
-            Alamofire.request(requestURL,
-                              headers: ["Authorization": "Bearer COLchc-qKxICAQEYs-gDILqTDSjOvwIyGQBC-5ITwrO2apqTyuubrltlmhunH1PoHwE"]).responseJSON(completionHandler: { response in
-                                
-                                if let JSON = response.result.value as? [String: Any]
-                                {
-                                    print("JSON: \(JSON)")
-                                    self.getDealsFrom(json: JSON)
-                                }
-                              })
+        case .contacts:
+            let urlPath = makeUrlPathFor(request: .contacts, parameters: [:]) + getContactsParameters[.properties]!
+            requestURL = URL(string: urlPath)!
             
         default: break
         }
+        
+        guard requestURL != nil else { return }
+        
+        Alamofire.request(requestURL!, headers: ["Authorization": "Bearer CLvwkJqrKxICAQEYs-gDILqTDSjOvwIyGQBC-5ITmNa_bD7ISMgaMiGr-MOyY-XWXEI"])
+            .responseJSON(completionHandler:
+                { response in
+                    if let JSON = response.result.value as? [String: Any]
+                    {
+                        switch request
+                        {
+                        case .deals: self.dealsArray = self.getDealsFrom(json: JSON)
+                        case .contacts: self.contactsArray = self.getContactsFrom(json: JSON)
+                        default: break
+                        }
+                    }
+            })
     }
     
-    func getDealsFrom(json file: [String: Any]) {
+    private func getContactsFrom(json file: [String: Any]) -> [HSContact] {
         
-        var resultArray: [HSDeal] = []
-        let allDeals = file["deals"] as! [[String: Any]]
+        let allContacts = file["contacts"] as! [[String: Any]]
         
-        for deal in allDeals
-        {
-            let deal = HSDeal(json: deal)
-            resultArray.append(deal)
+        let resultArray: [HSContact] = allContacts.map { contactJson in
+            HSContact(json: contactJson)
         }
         
-        let a = 2
+        return resultArray
     }
+    
+    private func getDealsFrom(json file: [String: Any]) -> [HSDeal] {
+        
+        let allDeals = file["deals"] as! [[String: Any]]
+        
+        let resultArray: [HSDeal] = allDeals.map { dealJson in
+            HSDeal(json: dealJson)
+        }
+        
+        return resultArray
+    }
+    
+    //Array in wich deals are closed and have Amount value
+    func showDealsRevenueArray() -> [HSDeal]{
+        
+        return dealsArray.filter { $0.amount != nil }
+    }
+    
     
 }
