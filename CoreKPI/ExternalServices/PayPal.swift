@@ -71,7 +71,8 @@ class PayPal: ExternalRequest {
     }
     
     func getSales(success: @escaping (_ sales: [(payer: String, netAmount: String)]) -> (), failure: @escaping failure) {
-        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], "2017-02-20T00:00:00Z")]
+        
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate())]
         let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
         request(getMutableRequest(soapRequest))
             .responseString { response in
@@ -84,7 +85,6 @@ class PayPal: ExternalRequest {
                         let transactions = xmlDoc.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
                         for transaction in transactions {
                             if transaction.name == "PaymentTransactions" {
-                                print(transaction.xml)
                                 dataArray.append((transaction["PayerDisplayName"].value!, transaction["NetAmount"].value!))
                             }
                         }
@@ -96,6 +96,51 @@ class PayPal: ExternalRequest {
                     print("error fetching XML")
                 }
         }
+    }
+    
+    func getAverageRevenue(success: @escaping (_ revenue: String) -> (), failure: @escaping failure) {
+        
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate()), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Received")]
+        let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
+        request(getMutableRequest(soapRequest))
+            .responseString { response in
+                
+                var revenue = 0.0
+                var paymentsCount = 0.0
+                
+                if let xmlString = response.result.value {
+                    do {
+                        let xmlDoc = try AEXMLDocument(xml: xmlString)
+                        let transactions = xmlDoc.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
+                        for transaction in transactions {
+                            if transaction.name == "PaymentTransactions" {
+                                paymentsCount += 1
+                                revenue += Double(transaction["NetAmount"].value!)!
+                            }
+                        }
+                        let averageRevenue = revenue/paymentsCount
+                        let numberFormatter = NumberFormatter()
+                        numberFormatter.numberStyle = .decimal
+                        numberFormatter.maximumFractionDigits = 3
+                        let numberString = numberFormatter.string(for: averageRevenue)
+                        success("$" + numberString!)
+                    } catch {
+                        print("\(error)")
+                    }
+                } else {
+                    print("error fetching XML")
+                }
+        }
+    }
+    
+    private func getStartDate() -> String {
+        let dayInSecond = 60 * 60 * 24
+        let mountAgo = Date(timeIntervalSinceNow: -(Double(dayInSecond * 30)))
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dateString = dateFormatter.string(from: mountAgo) + "T00:00:00Z"
+        return dateString
     }
     
     private func getMutableRequest(_ soapRequest: AEXMLDocument) -> URLRequest {

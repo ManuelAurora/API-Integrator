@@ -255,8 +255,54 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
                     })
-                default:
-                    break
+                case .KPIS:
+                    tableViewChartVC.titleOfTable = ("KPIs","Last 30 days","%")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .AverageRevenueSale:
+                    tableViewChartVC.titleOfTable = ("Sale","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .AverageRevenueSaleByPeriod:
+                    tableViewChartVC.titleOfTable = ("Period","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .TopCountriesBySales:
+                    tableViewChartVC.titleOfTable = ("Name","Sales","Total")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .TopProducts:
+                    tableViewChartVC.titleOfTable = ("Name","Sales","Total")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .TransactionsByStatus:
+                    tableViewChartVC.titleOfTable = ("Status","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .PendingByType:
+                    tableViewChartVC.titleOfTable = ("Type","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .RecentExpenses:
+                    tableViewChartVC.titleOfTable = ("Transaction","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
                 }
                 //debug->
                 return tableViewChartVC
@@ -510,8 +556,20 @@ extension ChartsPageViewController {
                 }, failure: {error in
                     print(error)
                 })
-            default:
-                break
+            case .KPIS: break
+            case .AverageRevenueSale:
+                request.getAverageRevenue(success: { revenue in
+                    dataForPresent.append(("Average", "", revenue))
+                    success(dataForPresent)
+                }, failure: {error in
+                    print(error)
+                })
+            case .AverageRevenueSaleByPeriod: break
+            case .TopCountriesBySales: break
+            case .TopProducts: break
+            case .TransactionsByStatus: break
+            case .PendingByType: break
+            case .RecentExpenses: break
             }
         default:
             break

@@ -90,7 +90,7 @@ enum PayPalKPIs: String {
     case NetSalesTotalSales = "Net Sales/Total Sales"
     case KPIS
     case AverageRevenueSale = "Average Revenue sale"
-    case AverageRevenueSaleBy = "Average Revenue sale by…"
+    case AverageRevenueSaleByPeriod = "Average Revenue sale by period"
     case TopCountriesBySales = "Top countries by Sales"
     case TopProducts = "Top products"
     case TransactionsByStatus = "Transactions by Status"

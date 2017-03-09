@@ -40,7 +40,7 @@
         <attribute name="apiSignature" attributeType="String" syncable="YES"/>
         <attribute name="apiUsername" attributeType="String" syncable="YES"/>
         <attribute name="profileName" attributeType="String" syncable="YES"/>
-        <relationship name="externalKPI" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ExternalKPI" inverseName="payPalKPI" inverseEntity="ExternalKPI" syncable="YES"/>
+        <relationship name="externalKPI" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExternalKPI" inverseName="payPalKPI" inverseEntity="ExternalKPI" syncable="YES"/>
     </entity>
     <entity name="QuickbooksKPI" representedClassName="QuickbooksKPI" syncable="YES" codeGenerationType="class">
         <attribute name="kpiValue" attributeType="String" syncable="YES"/>

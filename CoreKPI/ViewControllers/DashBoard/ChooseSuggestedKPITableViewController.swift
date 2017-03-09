@@ -1171,6 +1171,7 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate {
             default:
                 break
             }
+            self.tableView.isScrollEnabled = true
         case .Departament:
             let oldDepartmentValue = self.department
             self.departmentArray = array
