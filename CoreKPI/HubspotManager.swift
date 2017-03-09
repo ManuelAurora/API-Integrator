@@ -31,6 +31,7 @@ enum HSAPIMethods: String
     case contacts = "/contacts/v1/lists/all/contacts/all?"
     case oauth    = "/oauth/authorize?"
     case getToken = "/oauth/v1/token?"
+    case dealPipelines = "/deals/v1/pipelines?"
 }
 
 class HubSpotManager
@@ -39,6 +40,7 @@ class HubSpotManager
     
     var dealsArray: [HSDeal] = []
     var contactsArray: [HSContact] = []
+    var pipelinesArray: [HSPipeline] = []
     
     var delegate: ExternalKPIViewController?
     var webView: WebViewController!
@@ -63,11 +65,11 @@ class HubSpotManager
     ]
     
     lazy var getDealsParameters: [HSRequestParameterKeys: String] = [
-        .properties: "properties=amount&properties=closedate&properties=createdate"
+        .properties: "&properties=amount&properties=closedate&properties=createdate&properties=dealstage"
     ]
     
     lazy var getContactsParameters: [HSRequestParameterKeys: String] = [
-        .properties: "property=createdate&property=notes_last_contacted&property=hubspot_owner_assigneddate&property=hubspot_owner_id"
+        .properties: "&property=createdate&property=notes_last_contacted&property=hubspot_owner_assigneddate&property=hubspot_owner_id"
     ]
     
     private func makeUrlPathForAuthentication() -> String {
@@ -88,7 +90,7 @@ class HubSpotManager
         
         handle(request: .deals)
         handle(request: .contacts)
-       
+        handle(request: .dealPipelines)
     }
     
     func getDataFromHubSpot(_ array: [HSAPIMethods]) {
@@ -111,36 +113,57 @@ class HubSpotManager
         switch request
         {
         case .deals:
-            let urlPath = makeUrlPathFor(request: request, parameters: [:]) + getDealsParameters[.properties]!
-            requestURL = URL(string: urlPath)!
+            let urlPath = makeUrlPathFor(request: request, parameters: [.hapiKey: "demo"]) + getDealsParameters[.properties]!
+            requestURL = URL(string: urlPath)
             
         case .contacts:
-            let urlPath = makeUrlPathFor(request: .contacts, parameters: [:]) + getContactsParameters[.properties]!
-            requestURL = URL(string: urlPath)!
+            let urlPath = makeUrlPathFor(request: .contacts, parameters: [.hapiKey: "demo"]) + getContactsParameters[.properties]!
+            requestURL = URL(string: urlPath)
+            
+        case .dealPipelines:
+            let urlPath = makeUrlPathFor(request: .dealPipelines, parameters: [.hapiKey: "demo"])
+            requestURL = URL(string: urlPath)
             
         default: break
         }
         
         guard requestURL != nil else { return }
         
-        Alamofire.request(requestURL!, headers: ["Authorization": "Bearer CLvwkJqrKxICAQEYs-gDILqTDSjOvwIyGQBC-5ITmNa_bD7ISMgaMiGr-MOyY-XWXEI"])
+        Alamofire.request(requestURL!, headers: [:])
             .responseJSON(completionHandler:
                 { response in
-                    if let JSON = response.result.value as? [String: Any]
+                    
+                    var error = false
+                    
+                    if let responseValue = response.result.value as? [String: String],
+                        let status = responseValue["status"],
+                        status != "error"  { error = true; print("DEBUG: Error response from HubSpot")
+                    }
+                    
+                    guard error == false else { return }
+                    
+                    if let json = response.result.value as? [String: Any]
                     {
                         switch request
                         {
-                        case .deals: self.dealsArray = self.getDealsFrom(json: JSON)
-                        case .contacts: self.contactsArray = self.getContactsFrom(json: JSON)
+                        case .deals: self.dealsArray = self.getDealsFrom(json: json)
+                        case .contacts: self.contactsArray = self.getContactsFrom(json: json)
                         default: break
                         }
                     }
-                    
-                    self.showClosedDeals()
-                    self.showContactsWorked()
+                    else if let json = response.result.value as? [[String: Any]]
+                    {
+                        self.pipelinesArray = self.getPipelinesFrom(json: json)
+                    }
+                    self.appendDealsToPipelineStages() //DEBUG: Only
             })
     }
     
+    /*
+    //////////////////////////////////////////////
+      MARK: Get items from HubSpot callback json
+    //////////////////////////////////////////////
+    */
     private func getContactsFrom(json file: [String: Any]) -> [HSContact] {
         
         let allContacts = file["contacts"] as! [[String: Any]]
@@ -154,7 +177,7 @@ class HubSpotManager
     
     private func getDealsFrom(json file: [String: Any]) -> [HSDeal] {
         
-        let allDeals = file["deals"] as! [[String: Any]]
+        guard let allDeals = file["deals"] as? [[String: Any]] else { return [HSDeal]() }
         
         let resultArray: [HSDeal] = allDeals.map { dealJson in
             HSDeal(json: dealJson)
@@ -163,11 +186,51 @@ class HubSpotManager
         return resultArray
     }
     
+    private func getPipelinesFrom(json file: [[String: Any]]) -> [HSPipeline] {
+        
+        return file.map { pipelineJson -> HSPipeline in
+            
+            var pipeline = HSPipeline(json: pipelineJson)
+            
+            if let stages = pipelineJson["stages"] as? [[String: Any]]
+            {
+                pipeline.stages = stages.map { HSStage(json: $0) }
+            }
+            
+            return pipeline
+        }
+    }
+    
     private func dateIsInCurrentPeriod(_ date: Date) -> Bool {
         
         let comparisonResult = Calendar.current.compare(currentDate, to: date, toGranularity: .month)
         
         return comparisonResult == .orderedSame ? true : false
+    }
+    
+    private func appendDealsToPipelineStages() {
+        
+        pipelinesArray = pipelinesArray.map { pipeline  -> HSPipeline in
+            
+            var pipelineModified = pipeline
+            
+            pipelineModified.stages = pipeline.stages.map { stage -> HSStage in
+                
+                var modifiedStage = stage
+                
+                for deal in dealsArray
+                {
+                    if let dealStage = deal.dealStage, let stageId = stage.stageId
+                    {
+                        if dealStage == stageId {
+                            modifiedStage.deals.append(deal)
+                        }
+                    }
+                }
+                return modifiedStage
+            }
+            return pipelineModified
+        }
     }
     
     //Array in wich deals are closed and have Amount value
@@ -199,5 +262,7 @@ class HubSpotManager
         
         return contactsArray.filter { dateIsInCurrentPeriod($0.lastContactDate) }
     }
+    
+ 
     
 }

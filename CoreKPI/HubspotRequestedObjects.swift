@@ -57,6 +57,44 @@ struct HSContact
     
 }
 
+struct HSPipeline
+{
+    var pipelineId: String! //The internal ID of the pipeline
+    var label: String!      //The human-readable label for the pipeline.
+    var active: Bool!       //true for any pipeline currently in use.
+    var displayOrder: Int!  //Used to determine the order in which the pipelines appear when viewed in HubSpot.
+    
+    var stages = [HSStage]()
+    
+    init(json: [String: Any]) {
+        pipelineId = json["pipelineId"] as? String
+        label = json["label"] as? String
+        active = json["active"] as? Bool
+        displayOrder = json["displayOrder"] as? Int
+    }
+}
+
+struct HSStage
+{
+    var stageId: String!    //The stageId should be used when setting the dealstage property of a deal record.
+    var label: String!      //The human-readable label for the stage. The label is used when showing the stage in HubSpot.
+    var probability: Float! //The probability that the deal will close. Used for the deal forecast.
+    var active: Bool!       //True for any stage that's currently in use.
+    var displayOrder: Int!  //Used to determine the order in which the stages appear when viewed in HubSpot.
+    var closedWon: Bool!    //True if this stage marks a deal as closed won.
+    
+    var deals = [HSDeal]()
+    
+    init(json: [String: Any]) {
+        stageId = json["stageId"] as? String
+        label = json["label"] as? String
+        probability = json["probability"] as? Float
+        active = json["active"] as? Bool
+        displayOrder = json["displayOrder"] as? Int
+        closedWon = json["closedWon"] as? Bool
+    }
+}
+
 struct HSDeal
 {
     var portalId: Int!
@@ -67,6 +105,7 @@ struct HSDeal
     var sourceID: String!
     var amount: Int!
     var createDate: Date!
+    var dealStage: String!
     
     init(json: [String: Any]) {
         
@@ -82,6 +121,11 @@ struct HSDeal
             self.closeDate = Date(timeIntervalSince1970: closeDate / 1000)
             source = closeDateValue["source"] as? String
             sourceID = closeDateValue["sourceId"] as? String
+        }
+        
+        if let dealStage = properties["dealstage"] as? [String: Any], let value = dealStage["value"] as? String
+        {
+            self.dealStage = value
         }
         
         portalId = json["portalId"] as? Int

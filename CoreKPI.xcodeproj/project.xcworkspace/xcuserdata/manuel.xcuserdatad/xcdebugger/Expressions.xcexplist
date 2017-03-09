@@ -3,6 +3,14 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "HSPipeline.init(json : [String : Any]) -&gt; HSPipeline:HubspotRequestedObjects.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "json[&quot;pipelineId&quot;] as? String">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "QuickBookRequestHandler.(getData() -&gt; ()).(closure #1):QuickBookRequestHandler.swift">
          <PersistentStrings>
             <PersistentString
@@ -54,6 +62,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "HubSpotManager.appendDealsToPipelineStages() -&gt; ():HubspotManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "pipelinesArray">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "MemberInfoViewController.viewDidLoad() -&gt; ():MemberInfoViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -68,7 +84,22 @@
          contextName = "HubSpotManager.(handle(request : HSAPIMethods) -&gt; ()).(closure #1):HubspotManager.swift">
          <PersistentStrings>
             <PersistentString
+               value = "response.result.value as! [String: String]">
+            </PersistentString>
+            <PersistentString
                value = "data[&quot;deals&quot;] as! [String: Any]">
+            </PersistentString>
+            <PersistentString
+               value = "self.dealsArray">
+            </PersistentString>
+            <PersistentString
+               value = "self.pipelinesArray">
+            </PersistentString>
+            <PersistentString
+               value = " self.pipelinesArray">
+            </PersistentString>
+            <PersistentString
+               value = "self.contactsArray">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -303,6 +334,23 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "HubSpotManager.(appendDealsToPipelineStages() -&gt; ()).(closure #1).(closure #1):HubspotManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "dealsArray">
+            </PersistentString>
+            <PersistentString
+               value = "deal.dealStage">
+            </PersistentString>
+            <PersistentString
+               value = "stage.stageId">
+            </PersistentString>
+            <PersistentString
+               value = "modifiedStage">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ChartsPageViewController.viewDidAppear(Bool) -&gt; ():ChartsPageViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -372,6 +420,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "HSStage.init(json : [String : Any]) -&gt; HSStage:HubspotRequestedObjects.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "json[&quot;stageId&quot;] as? String">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "QuickBookDataManager.fetchDataFromIntuit(isCreation : Bool) -&gt; ():QuickBook.swift">
          <PersistentStrings>
             <PersistentString
@@ -394,6 +450,9 @@
                value = "appDelegate.pinCodeAttempts">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HubSpotManager.(appendDealsToPipelineStages() -&gt; ()).(closure #1):HubspotManager.swift">
       </ContextState>
       <ContextState
          contextName = "QuickBookRequestHandler.getData() -&gt; ():QuickBookRequestHandler.swift">
