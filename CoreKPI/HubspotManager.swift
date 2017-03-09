@@ -46,6 +46,10 @@ class HubSpotManager
     private let apiURL = "https://api.hubapi.com"
     private let authorizeURL = "https://app.hubspot.com"
     
+    var currentDate: Date {
+        return Date()
+    }
+    
     lazy var oauthParameters: [HSRequestParameterKeys: String] = [
         .clientID: "93a8ccfd-db25-40b2-b793-969f5b4d3b21",
         .redirectURI: "CoreKPI://callback" ,
@@ -84,6 +88,7 @@ class HubSpotManager
         
         handle(request: .deals)
         handle(request: .contacts)
+       
     }
     
     func getDataFromHubSpot(_ array: [HSAPIMethods]) {
@@ -130,6 +135,9 @@ class HubSpotManager
                         default: break
                         }
                     }
+                    
+                    self.showClosedDeals()
+                    self.showContactsWorked()
             })
     }
     
@@ -155,11 +163,41 @@ class HubSpotManager
         return resultArray
     }
     
-    //Array in wich deals are closed and have Amount value
-    func showDealsRevenueArray() -> [HSDeal]{
+    private func dateIsInCurrentPeriod(_ date: Date) -> Bool {
         
-        return dealsArray.filter { $0.amount != nil }
+        let comparisonResult = Calendar.current.compare(currentDate, to: date, toGranularity: .month)
+        
+        return comparisonResult == .orderedSame ? true : false
     }
     
+    //Array in wich deals are closed and have Amount value
+    func showClosedDeals() -> [HSDeal] {
+        
+        return dealsArray.filter { $0.amount != nil && dateIsInCurrentPeriod($0.closeDate) }
+    }
+    
+    //Array of deals that was created in given period
+    func showNewDealsCreated() -> [HSDeal] {
+        
+        return dealsArray.filter { dateIsInCurrentPeriod($0.createDate) }
+    }
+    
+    //Array filled with all contacts, created for period
+    func showContactsCreated() -> [HSContact] {
+        
+        return contactsArray.filter { dateIsInCurrentPeriod($0.createDate) }
+    }
+    
+    //Array filled with assign property filled in given period
+    func showContactsAssigned() -> [HSContact] {
+        
+        return contactsArray.filter { dateIsInCurrentPeriod($0.assignDate) }
+    }
+    
+    //Array filled with contacts wich was contacted in given period
+    func showContactsWorked() -> [HSContact] {
+        
+        return contactsArray.filter { dateIsInCurrentPeriod($0.lastContactDate) }
+    }
     
 }

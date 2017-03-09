@@ -287,6 +287,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "HubSpotManager.(showClosedDeals() -&gt; [HSDeal]).(closure #1):HubspotManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "$0.amount">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "QuickBookDataManager.fetchDataFromIntuit() -&gt; ():QuickBook.swift">
          <PersistentStrings>
             <PersistentString
