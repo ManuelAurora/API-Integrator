@@ -98,6 +98,49 @@ class PayPal: ExternalRequest {
         }
     }
     
+    func getKPIS(success: @escaping (_ kpis: [(kpiName: String, value: String)]) -> (), failure: @escaping failure) {
+        
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate())]
+        let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
+        request(getMutableRequest(soapRequest))
+            .responseString { response in
+                
+                var dataArray: [(kpiName: String, value: String)] = []
+                
+                var netSales = 0
+                var fees = 0
+                var shippingCosts = 0
+                var refunds = 0
+                var incomingRefunds = 0
+                var pending = 0
+                var expenses = 0
+                
+                if let xmlString = response.result.value {
+                    do {
+                        let xmlDoc = try AEXMLDocument(xml: xmlString)
+                        let transactions = xmlDoc.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
+                        for transaction in transactions {
+                            if transaction.name == "PaymentTransactions" {
+                                let status = transaction["Status"].value!
+                                switch status {
+                                case "Success":
+                                    let netSale = 0
+                                default:
+                                    break
+                                    
+                                }
+                            }
+                        }
+                        success(dataArray)
+                    } catch {
+                        print("\(error)")
+                    }
+                } else {
+                    print("error fetching XML")
+                }
+        }
+    }
+    
     func getAverageRevenue(success: @escaping (_ revenue: String) -> (), failure: @escaping failure) {
         
         let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate()), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Received")]
@@ -124,6 +167,79 @@ class PayPal: ExternalRequest {
                         numberFormatter.maximumFractionDigits = 3
                         let numberString = numberFormatter.string(for: averageRevenue)
                         success("$" + numberString!)
+                    } catch {
+                        print("\(error)")
+                    }
+                } else {
+                    print("error fetching XML")
+                }
+        }
+    }
+    
+    func getTransactionsByStatus(success: @escaping (_ expenses: [(status: String, size: Int)]) -> (), failure: @escaping failure) {
+        
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate()), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "All")]
+        let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
+        request(getMutableRequest(soapRequest))
+            .responseString { response in
+
+                var transactionsSize: [(status: String, size: Int)] = []
+                
+                if let xmlString = response.result.value {
+                    do {
+                        let xmlDoc = try AEXMLDocument(xml: xmlString)
+                        let transactions = xmlDoc.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
+                        for transaction in transactions {
+                            if transaction.name == "PaymentTransactions" {
+                                if let status = transaction["Status"].value {
+                                    if transactionsSize.count == 0 {
+                                        transactionsSize.append((status, 1))
+                                    } else {
+                                        var isNewStatus = true
+                                        for i in 0..<transactionsSize.count {
+                                            if transactionsSize[i].status == status {
+                                                let size = transactionsSize[i].size
+                                                transactionsSize[i] = (status, size + 1)
+                                                isNewStatus = false
+                                            }
+                                        }
+                                        if isNewStatus {
+                                            transactionsSize.append((status, 1))
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        success(transactionsSize)
+                    } catch {
+                        print("\(error)")
+                    }
+                } else {
+                    print("error fetching XML")
+                }
+        }
+        
+    }
+    
+    func getRecentExpenses(success: @escaping (_ expenses: [(payer: String, netAmount: String)]) -> (), failure: @escaping failure) {
+        
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate()), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Sent")]
+        let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
+        request(getMutableRequest(soapRequest))
+            .responseString { response in
+                
+                var dataArray: [(payer: String, netAmount: String)] = []
+                
+                if let xmlString = response.result.value {
+                    do {
+                        let xmlDoc = try AEXMLDocument(xml: xmlString)
+                        let transactions = xmlDoc.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
+                        for transaction in transactions {
+                            if transaction.name == "PaymentTransactions" {
+                                dataArray.append((transaction["PayerDisplayName"].value!, transaction["NetAmount"].value!))
+                            }
+                        }
+                        success(dataArray)
                     } catch {
                         print("\(error)")
                     }

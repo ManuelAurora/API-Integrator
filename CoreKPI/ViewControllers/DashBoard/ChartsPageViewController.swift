@@ -567,9 +567,25 @@ extension ChartsPageViewController {
             case .AverageRevenueSaleByPeriod: break
             case .TopCountriesBySales: break
             case .TopProducts: break
-            case .TransactionsByStatus: break
+            case .TransactionsByStatus:
+                request.getTransactionsByStatus(success: {transactionsSize in
+                    for status in transactionsSize {
+                        dataForPresent.append((status.status , "", "\(status.size)"))
+                    }
+                    success(dataForPresent)
+                }, failure: {error in
+                    print(error)
+                })
             case .PendingByType: break
-            case .RecentExpenses: break
+            case .RecentExpenses:
+                request.getRecentExpenses(success: {expenses in
+                    for expense in expenses {
+                        dataForPresent.append((expense.payer , "", expense.netAmount))
+                    }
+                    success(dataForPresent)
+                }, failure: {error in
+                    print(error)
+                })
             }
         default:
             break
