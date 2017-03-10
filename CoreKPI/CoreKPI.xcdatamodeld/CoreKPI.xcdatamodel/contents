@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="15G1212" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Alert" representedClassName="Alert" syncable="YES" codeGenerationType="class">
         <attribute name="alertID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="backgroundColor" optional="YES" attributeType="String" syncable="YES"/>
@@ -36,10 +36,11 @@
         <attribute name="id" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="PayPalKPI" representedClassName="PayPalKPI" syncable="YES" codeGenerationType="class">
-        <attribute name="oAuthRefreshToken" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="oAuthToken" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="oAuthTokenExpiresAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="externalKPI" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ExternalKPI" inverseName="payPalKPI" inverseEntity="ExternalKPI" syncable="YES"/>
+        <attribute name="apiPassword" attributeType="String" syncable="YES"/>
+        <attribute name="apiSignature" attributeType="String" syncable="YES"/>
+        <attribute name="apiUsername" attributeType="String" syncable="YES"/>
+        <attribute name="profileName" attributeType="String" syncable="YES"/>
+        <relationship name="externalKPI" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExternalKPI" inverseName="payPalKPI" inverseEntity="ExternalKPI" syncable="YES"/>
     </entity>
     <entity name="QuickbooksKPI" representedClassName="QuickbooksKPI" syncable="YES" codeGenerationType="class">
         <attribute name="oAuthRefreshToken" optional="YES" attributeType="String" syncable="YES"/>

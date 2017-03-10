@@ -56,8 +56,6 @@
 		A24A84041E486DD400440151 /* OAuthSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84021E486DD400440151 /* OAuthSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A24A84071E486DF500440151 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84061E486DF500440151 /* Alamofire.framework */; };
 		A24A84081E486DF500440151 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84061E486DF500440151 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		A24A840A1E486EFE00440151 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84091E486EFE00440151 /* Charts.framework */; };
-		A24A840B1E486EFE00440151 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84091E486EFE00440151 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A24A840E1E4898EF00440151 /* GoogleAnalyticsRequestDataCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24A840D1E4898EF00440151 /* GoogleAnalyticsRequestDataCreator.swift */; };
 		A24A84111E48992100440151 /* GoogleAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24A84101E48992100440151 /* GoogleAnalytics.swift */; };
 		A256F0601E49B631004DAF75 /* ExternalRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A256F05F1E49B631004DAF75 /* ExternalRequestService.swift */; };
@@ -128,6 +126,10 @@
 		A2B7209A1E2E5F9900471E91 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B720991E2E5F9900471E91 /* OnboardingPageViewController.swift */; };
 		A2B7209C1E2E5FBC00471E91 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B7209B1E2E5FBC00471E91 /* OnboardingViewController.swift */; };
 		A2C431771E558EA500AA2B7C /* DeleteAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C431761E558EA500AA2B7C /* DeleteAlert.swift */; };
+		A2C6A5F41E6D7CBF005475B6 /* AEXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2C6A5F31E6D7CBF005475B6 /* AEXML.framework */; };
+		A2C6A5F51E6D7CBF005475B6 /* AEXML.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A2C6A5F31E6D7CBF005475B6 /* AEXML.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A2C6A5F71E6D9C33005475B6 /* PayPalAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C6A5F61E6D9C33005475B6 /* PayPalAuthViewController.swift */; };
+		A2C6A5F91E6DA89B005475B6 /* PayPalAuthTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C6A5F81E6DA89B005475B6 /* PayPalAuthTableViewCell.swift */; };
 		A2C9ABD71E2F455D00623659 /* ChartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C9ABD61E2F455D00623659 /* ChartTableViewCell.swift */; };
 		A2C9ABDA1E2F5BD600623659 /* positiveBar.html in Resources */ = {isa = PBXBuildFile; fileRef = A2C9ABD91E2F5BD600623659 /* positiveBar.html */; };
 		A2C9ABDC1E2F5BFE00623659 /* positiveBar.css in Resources */ = {isa = PBXBuildFile; fileRef = A2C9ABDB1E2F5BFE00623659 /* positiveBar.css */; };
@@ -171,6 +173,7 @@
 		A2FA504A1E4713230062D61E /* ExternalKPIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FA50491E4713230062D61E /* ExternalKPIViewController.swift */; };
 		A2FB1AA21E252C110045824A /* KPIDescriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FB1AA11E252C110045824A /* KPIDescriptionTableViewCell.swift */; };
 		A2FB98A41E25FE6900A856E8 /* KPISettingInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FB98A31E25FE6900A856E8 /* KPISettingInputTableViewCell.swift */; };
+		A2FF67B51E65B2E3009CB5BD /* PayPal.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FF67B41E65B2E3009CB5BD /* PayPal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -197,8 +200,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				A24A840B1E486EFE00440151 /* Charts.framework in Embed Frameworks */,
 				A25CA8541E4B21D8008B6331 /* ObjectMapper.framework in Embed Frameworks */,
+				A2C6A5F51E6D7CBF005475B6 /* AEXML.framework in Embed Frameworks */,
 				A24A84041E486DD400440151 /* OAuthSwift.framework in Embed Frameworks */,
 				A2066D441E4DE25A00DCBA84 /* PhoneNumberKit.framework in Embed Frameworks */,
 				A24A84081E486DF500440151 /* Alamofire.framework in Embed Frameworks */,
@@ -257,7 +260,6 @@
 		A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		A24A84021E486DD400440151 /* OAuthSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthSwift.framework; path = Carthage/Build/iOS/OAuthSwift.framework; sourceTree = "<group>"; };
 		A24A84061E486DF500440151 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
-		A24A84091E486EFE00440151 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = Carthage/Build/iOS/Charts.framework; sourceTree = "<group>"; };
 		A24A840D1E4898EF00440151 /* GoogleAnalyticsRequestDataCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GoogleAnalyticsRequestDataCreator.swift; path = ExternalServices/GoogleAnalyticsRequestDataCreator.swift; sourceTree = "<group>"; };
 		A24A84101E48992100440151 /* GoogleAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GoogleAnalytics.swift; path = ExternalServices/GoogleAnalytics.swift; sourceTree = "<group>"; };
 		A256F05F1E49B631004DAF75 /* ExternalRequestService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExternalRequestService.swift; path = ExternalServices/ExternalRequestService.swift; sourceTree = "<group>"; };
@@ -333,6 +335,9 @@
 		A2B720991E2E5F9900471E91 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnboardingPageViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/OnboardingPageViewController.swift"; sourceTree = "<group>"; };
 		A2B7209B1E2E5FBC00471E91 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnboardingViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/OnboardingViewController.swift"; sourceTree = "<group>"; };
 		A2C431761E558EA500AA2B7C /* DeleteAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteAlert.swift; path = Services/DeleteAlert.swift; sourceTree = "<group>"; };
+		A2C6A5F31E6D7CBF005475B6 /* AEXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AEXML.framework; path = Carthage/Build/iOS/AEXML.framework; sourceTree = "<group>"; };
+		A2C6A5F61E6D9C33005475B6 /* PayPalAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PayPalAuthViewController.swift; path = CoreKPI/ViewControllers/DashBoard/PayPalAuthViewController.swift; sourceTree = "<group>"; };
+		A2C6A5F81E6DA89B005475B6 /* PayPalAuthTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PayPalAuthTableViewCell.swift; path = CustomTableViewCells/Dashboard/PayPalAuthTableViewCell.swift; sourceTree = "<group>"; };
 		A2C9ABD61E2F455D00623659 /* ChartTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChartTableViewCell.swift; path = CustomTableViewCells/ChartTableViewCell.swift; sourceTree = "<group>"; };
 		A2C9ABD91E2F5BD600623659 /* positiveBar.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = positiveBar.html; path = Graphics/PositiveBar/positiveBar.html; sourceTree = "<group>"; };
 		A2C9ABDB1E2F5BFE00623659 /* positiveBar.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = positiveBar.css; path = Graphics/PositiveBar/positiveBar.css; sourceTree = "<group>"; };
@@ -376,6 +381,7 @@
 		A2FA50491E4713230062D61E /* ExternalKPIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExternalKPIViewController.swift; path = CoreKPI/ViewControllers/DashBoard/ExternalKPIViewController.swift; sourceTree = "<group>"; };
 		A2FB1AA11E252C110045824A /* KPIDescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIDescriptionTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPIDescriptionTableViewCell.swift; sourceTree = "<group>"; };
 		A2FB98A31E25FE6900A856E8 /* KPISettingInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPISettingInputTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPISettingInputTableViewCell.swift; sourceTree = "<group>"; };
+		A2FF67B41E65B2E3009CB5BD /* PayPal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PayPal.swift; path = ExternalServices/PayPal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -383,8 +389,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A24A840A1E486EFE00440151 /* Charts.framework in Frameworks */,
 				A25CA8531E4B21D8008B6331 /* ObjectMapper.framework in Frameworks */,
+				A2C6A5F41E6D7CBF005475B6 /* AEXML.framework in Frameworks */,
 				A24A84031E486DD400440151 /* OAuthSwift.framework in Frameworks */,
 				A2066D431E4DE25A00DCBA84 /* PhoneNumberKit.framework in Frameworks */,
 				A24A84071E486DF500440151 /* Alamofire.framework in Frameworks */,
@@ -481,12 +487,13 @@
 			isa = PBXGroup;
 			children = (
 				A256F05F1E49B631004DAF75 /* ExternalRequestService.swift */,
+				A252CD8F1E683DF70077BC8B /* QuickBooks */,
 				A256F0611E49F56B004DAF75 /* GoogleAnalytics */,
 				646BF08C1E6E8B1C00621FE2 /* Quickbooks */,
 				646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */,
 				646BF0901E6EE64800621FE2 /* HubspotRequestedObjects.swift */,
 			);
-			name = "External Services";
+			name = QuickBooks;
 			sourceTree = "<group>";
 		};
 		A256F0611E49F56B004DAF75 /* GoogleAnalytics */ = {
@@ -627,9 +634,9 @@
 		A278209E1E001A0B009F83DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A2C6A5F31E6D7CBF005475B6 /* AEXML.framework */,
 				A2066D421E4DE25A00DCBA84 /* PhoneNumberKit.framework */,
 				A25CA8521E4B21D8008B6331 /* ObjectMapper.framework */,
-				A24A84091E486EFE00440151 /* Charts.framework */,
 				A24A84061E486DF500440151 /* Alamofire.framework */,
 				A24A84021E486DD400440151 /* OAuthSwift.framework */,
 			);
@@ -726,6 +733,7 @@
 				A258A70A1E20D47700FBFBDF /* KPISelectSettingTableViewController.swift */,
 				A258A70C1E21177000FBFBDF /* SelectIntegratedServicesViewController.swift */,
 				A2FA50491E4713230062D61E /* ExternalKPIViewController.swift */,
+				A2C6A5F61E6D9C33005475B6 /* PayPalAuthViewController.swift */,
 				A261D91F1E12A81000638C56 /* SuggestedKPIDescriptionTableViewController.swift */,
 				A26408F11E22394F0034EEC2 /* ReportAndViewKPITableViewController.swift */,
 				A2A7D5101E41B0E5008779A0 /* CellsCreator.swift */,
@@ -800,6 +808,7 @@
 				A2C9ABD61E2F455D00623659 /* ChartTableViewCell.swift */,
 				A2A7D5121E41B13B008779A0 /* DatePickerTableViewCell.swift */,
 				A21785801E5DBA5900CE19F4 /* DataPickerTableViewCell.swift */,
+				A2C6A5F81E6DA89B005475B6 /* PayPalAuthTableViewCell.swift */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -963,7 +972,7 @@
 				TargetAttributes = {
 					A27820611E001503009F83DB = {
 						CreatedOnToolsVersion = 8.2;
-						DevelopmentTeam = 2FNB386G38;
+						DevelopmentTeam = YQ8GHY7F3C;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.SafariKeychain = {
@@ -1073,6 +1082,7 @@
 				641F74641E5AE27B00672534 /* QuickBook.swift in Sources */,
 				A2279D821E14E86400669EB0 /* TeamListNavigationViewController.swift in Sources */,
 				A274DC111E082617008CBF36 /* MemberListTableViewController.swift in Sources */,
+				A2C6A5F71E6D9C33005475B6 /* PayPalAuthViewController.swift in Sources */,
 				A2263B0E1E3B7685005C812D /* SupportNavigationViewController.swift in Sources */,
 				A26D282A1E0D551D005342BA /* KPIListTableViewCell.swift in Sources */,
 				647B58911E65BA89001C968B /* QuickBookRequestHandler.swift in Sources */,
@@ -1142,6 +1152,7 @@
 				A21AEEF21E28AFF200577F4B /* KPIColourTableViewCell.swift in Sources */,
 				A2C9ABD71E2F455D00623659 /* ChartTableViewCell.swift in Sources */,
 				644691CF1E55870900D964D5 /* PinCodeLock.swift in Sources */,
+				A2C6A5F91E6DA89B005475B6 /* PayPalAuthTableViewCell.swift in Sources */,
 				A2F77E051E3B199400BB8318 /* AddKPI.swift in Sources */,
 				A297F5E01E08248000F85963 /* NewProfileTypeAccountTableViewCell.swift in Sources */,
 				A261D9181E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift in Sources */,
@@ -1163,6 +1174,7 @@
 				A2844B3C1E0BC842002E297A /* MemberEditTableViewCell.swift in Sources */,
 				A2A215511E124AB800EEBCA2 /* AlertSettingTableViewCell.swift in Sources */,
 				A2B7209C1E2E5FBC00471E91 /* OnboardingViewController.swift in Sources */,
+				A2FF67B51E65B2E3009CB5BD /* PayPal.swift in Sources */,
 				A21785811E5DBA5900CE19F4 /* DataPickerTableViewCell.swift in Sources */,
 				A26408F61E2271330034EEC2 /* AddReportTableViewController.swift in Sources */,
 				A261D91C1E129F1600638C56 /* DashboardSetingTableViewCell.swift in Sources */,
@@ -1335,7 +1347,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CoreKPI/CoreKPI.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2FNB386G38;
+				DEVELOPMENT_TEAM = YQ8GHY7F3C;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1357,7 +1369,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CoreKPI/CoreKPI.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2FNB386G38;
+				DEVELOPMENT_TEAM = YQ8GHY7F3C;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",

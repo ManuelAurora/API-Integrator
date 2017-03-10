@@ -38,7 +38,6 @@ class ExternalRequest {
         
         request(url, method: method, parameters: params, encoding: JSONEncoding.default, headers: header).responseJSON { response in
             if let data = response.data {
-                
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
                     if let jsonDictionary = json {
@@ -172,7 +171,7 @@ class ExternalRequest {
         let state = generateState(withLength: 20)
         
         let _ = oauthswift.authorize(
-            withCallbackURL: URL(string: "https://appauth.demo-app.io:/oauth2redirect")!, scope: "profile+email+address+phone", state: state,
+            withCallbackURL: URL(string: "https://appauth.demo-app.io:/oauth2redirect")!, scope: "", state: state,
             success: { credential, response, parameters in
                 success(credential)
         },

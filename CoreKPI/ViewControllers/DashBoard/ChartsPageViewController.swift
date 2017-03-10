@@ -371,6 +371,73 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 //debug->
                 return tableViewChartVC
                 //<-debug
+            case .PayPal:
+                navigationItem.title = "PayPal"
+                switch (PayPalKPIs(rawValue: kpi.integratedKPI.kpiName!))! {
+                case .Balance:
+                    tableViewChartVC.titleOfTable = ("Balance","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .NetSalesTotalSales:
+                    tableViewChartVC.titleOfTable = ("Sales","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .KPIS:
+                    tableViewChartVC.titleOfTable = ("KPIs","Last 30 days","%")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .AverageRevenueSale:
+                    tableViewChartVC.titleOfTable = ("Sale","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .AverageRevenueSaleByPeriod:
+                    tableViewChartVC.titleOfTable = ("Period","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .TopCountriesBySales:
+                    tableViewChartVC.titleOfTable = ("Name","Sales","Total")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .TopProducts:
+                    tableViewChartVC.titleOfTable = ("Name","Sales","Total")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .TransactionsByStatus:
+                    tableViewChartVC.titleOfTable = ("Status","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .PendingByType:
+                    tableViewChartVC.titleOfTable = ("Type","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .RecentExpenses:
+                    tableViewChartVC.titleOfTable = ("Transaction","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                }
+                //debug->
+                return tableViewChartVC
+            //<-debug
             default:
                 break
             }
@@ -605,6 +672,57 @@ extension ChartsPageViewController {
                 }
             }
             )
+        case .PayPal:
+            let external = kpi.integratedKPI
+            let request = PayPal(apiUsername: (external?.payPalKPI?.apiUsername)!, apiPassword: (external?.payPalKPI?.apiPassword)!, apiSignature: (external?.payPalKPI?.apiSignature)!)
+            switch (PayPalKPIs(rawValue: (external?.kpiName)!))! {
+            case .Balance:
+                request.getBalance(success: { balance in
+                    dataForPresent.append(("Balance", "", balance))
+                    success(dataForPresent)
+                }, failure: {error in
+                    print(error)
+                })
+            case .NetSalesTotalSales:
+                request.getSales(success: {sales in
+                    for sale in sales {
+                        dataForPresent.append((sale.payer , "", sale.netAmount))
+                    }
+                    success(dataForPresent)
+                }, failure: {error in
+                    print(error)
+                })
+            case .KPIS: break
+            case .AverageRevenueSale:
+                request.getAverageRevenue(success: { revenue in
+                    dataForPresent.append(("Average", "", revenue))
+                    success(dataForPresent)
+                }, failure: {error in
+                    print(error)
+                })
+            case .AverageRevenueSaleByPeriod: break
+            case .TopCountriesBySales: break
+            case .TopProducts: break
+            case .TransactionsByStatus:
+                request.getTransactionsByStatus(success: {transactionsSize in
+                    for status in transactionsSize {
+                        dataForPresent.append((status.status , "", "\(status.size)"))
+                    }
+                    success(dataForPresent)
+                }, failure: {error in
+                    print(error)
+                })
+            case .PendingByType: break
+            case .RecentExpenses:
+                request.getRecentExpenses(success: {expenses in
+                    for expense in expenses {
+                        dataForPresent.append((expense.payer , "", expense.netAmount))
+                    }
+                    success(dataForPresent)
+                }, failure: {error in
+                    print(error)
+                })
+            }
         default:
             break
         }

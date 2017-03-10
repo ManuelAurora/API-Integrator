@@ -60,14 +60,10 @@ class ExternalKPIViewController: OAuthViewController {
     
     @IBAction func didTapedSaveButton(_ sender: UIBarButtonItem) {
         
-        if selectedService == .Quickbooks
-        {
-            selectedQBKPIs = serviceKPI.filter { $0.value == true }
-            
-            if selectedQBKPIs.count > 0 {
-                doAuthService()
-            } else {
-                showAlert(title: "Sorry!", message: "First you should select one or more KPI, or service not integrated yet")
+        var kpiNotSelected = true
+        for service in serviceKPI {
+            if service.value == true {
+                kpiNotSelected = false
             }
         }
         
@@ -194,26 +190,11 @@ extension ExternalKPIViewController {
     
     // MARK: PayPal
     func doOAuthPayPal(){
-        //payPalTest()
-        
-        let oauthswift = OAuth2Swift(
-            consumerKey: "AdA0F4asoYIoJoGK1Mat3i0apr1bdYeeRiZ6ktSgPrNmAMIQBO_TZtn_U80H7KwPdmd72CJhUTY5LYJH",
-            consumerSecret: "",
-            authorizeUrl: "https://www.sandbox.paypal.com/signin/authorize",
-            responseType: "token")        
-        
-        oauthswift.allowMissingStateCheck = true
-        oauthswift.accessTokenBasicAuthentification = true
-        oauthswift.authorizeURLHandler = SafariURLHandler(viewController: self, oauthSwift: oauthswift)
-        let _ = oauthswift.authorize(
-            withCallbackURL: URL(string: "https://appauth.demo-app.io:/oauth2redirect")!, scope: "profile+email+address+phone", state: "",
-            success: { credential, response, parameters in
-                print(credential.oauthToken)
-                //self.selectViewID(credential: credential)
-        },
-            failure: { error in
-                print("ERROR: \(error.localizedDescription)")
-        })
+        let payPalAuthVC = storyboard?.instantiateViewController(withIdentifier: "PayPalAuth") as! PayPalAuthViewController
+        payPalAuthVC.ChooseSuggestedKPIVC = ChoseSuggestedVC
+        payPalAuthVC.serviceKPI = serviceKPI
+        payPalAuthVC.selectedService = selectedService
+        show(payPalAuthVC, sender: nil)
     }
     
     // MARK: HubSpotCRM
