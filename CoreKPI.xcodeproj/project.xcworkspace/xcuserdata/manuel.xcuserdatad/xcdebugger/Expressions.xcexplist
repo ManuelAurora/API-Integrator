@@ -3,10 +3,10 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "HSPipeline.init(json : [String : Any]) -&gt; HSPipeline:HubspotRequestedObjects.swift">
+         contextName = "ExternalKPIViewController.(doOAuthQuickbooks() -&gt; ()).(closure #1):ExternalKPIViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "json[&quot;pipelineId&quot;] as? String">
+               value = "self.selectedQBKPIs">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -22,10 +22,24 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "HubSpotManager.getDealsFrom(json : [String : Any]) -&gt; [HSDeal]:HubspotManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HubSpotManager.appendDealsToPipelineStages() -&gt; ():HubspotManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "pipelinesArray">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "HSDeal.init(json : [String : Any]) -&gt; HSDeal:HubspotRequestedObjects.swift">
          <PersistentStrings>
             <PersistentString
                value = "dealId">
+            </PersistentString>
+            <PersistentString
+               value = "properties[&quot;hubspot_owner_id&quot;] as? [String: Any]">
             </PersistentString>
             <PersistentString
                value = "self.sourseID">
@@ -62,21 +76,13 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "HubSpotManager.appendDealsToPipelineStages() -&gt; ():HubspotManager.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "pipelinesArray">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "MemberInfoViewController.viewDidLoad() -&gt; ():MemberInfoViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "model.team[index].firstName!">
+               value = "memberProfileNameLabel">
             </PersistentString>
             <PersistentString
-               value = "memberProfileNameLabel">
+               value = "model.team[index].firstName!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -84,22 +90,22 @@
          contextName = "HubSpotManager.(handle(request : HSAPIMethods) -&gt; ()).(closure #1):HubspotManager.swift">
          <PersistentStrings>
             <PersistentString
+               value = " self.pipelinesArray">
+            </PersistentString>
+            <PersistentString
+               value = "self.contactsArray">
+            </PersistentString>
+            <PersistentString
+               value = "self.dealsArray">
+            </PersistentString>
+            <PersistentString
                value = "response.result.value as! [String: String]">
             </PersistentString>
             <PersistentString
                value = "data[&quot;deals&quot;] as! [String: Any]">
             </PersistentString>
             <PersistentString
-               value = "self.dealsArray">
-            </PersistentString>
-            <PersistentString
                value = "self.pipelinesArray">
-            </PersistentString>
-            <PersistentString
-               value = " self.pipelinesArray">
-            </PersistentString>
-            <PersistentString
-               value = "self.contactsArray">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -126,10 +132,10 @@
          contextName = "HSContact.init(json : [String : Any]) -&gt; HSContact:HubspotRequestedObjects.swift">
          <PersistentStrings>
             <PersistentString
-               value = "self.createDate">
+               value = "lastContactDate">
             </PersistentString>
             <PersistentString
-               value = "lastContactDate">
+               value = "properties[&quot;createdate&quot;] ">
             </PersistentString>
             <PersistentString
                value = "assignDate">
@@ -141,7 +147,7 @@
                value = "(properties[&quot;hubspot_owner_id&quot;] as! [String: Any]) [&quot;value&quot;] as? String">
             </PersistentString>
             <PersistentString
-               value = "properties[&quot;createdate&quot;] ">
+               value = "self.createDate">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -228,16 +234,24 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "HubSpotManager.(showSalesLeaderboard() -&gt; [HSOwner]).(closure #1):HubspotManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "ownersArray">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "UserViewTableViewCell.init(coder : NSCoder) -&gt; UserViewTableViewCell?:UserViewCellTableViewCell.swift">
          <PersistentStrings>
             <PersistentString
                value = "memberProfilePhotoImage">
             </PersistentString>
             <PersistentString
-               value = "memberProfileNameLabel">
+               value = "memberProfilePositionLabel">
             </PersistentString>
             <PersistentString
-               value = "memberProfilePositionLabel">
+               value = "memberProfileNameLabel">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -292,6 +306,14 @@
          contextName = "ChartsPageViewController.createDataFromRequest(success : ([(leftValue : String, centralValue : String, rightValue : String)]) -&gt; ()) -&gt; ():ChartsPageViewController.swift">
       </ContextState>
       <ContextState
+         contextName = "HubSpotManager.(showClosedDeals() -&gt; [HSDeal]).(closure #1):HubspotManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "$0.amount">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ChartsPageViewController.getViewController(AtIndex : Int) -&gt; UIViewController:ChartsPageViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -310,18 +332,10 @@
                value = "tableViewChartVC.tableView">
             </PersistentString>
             <PersistentString
-               value = "kpiValue!">
-            </PersistentString>
-            <PersistentString
                value = "kpi.integratedKPI.requestJsonString!">
             </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "HubSpotManager.(showClosedDeals() -&gt; [HSDeal]).(closure #1):HubspotManager.swift">
-         <PersistentStrings>
             <PersistentString
-               value = "$0.amount">
+               value = "kpiValue!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -365,10 +379,10 @@
          contextName = "QuickBookDataManager.saveNewEntities() -&gt; ():QuickBook.swift">
          <PersistentStrings>
             <PersistentString
-               value = "listOfRequests">
+               value = "kpiRequestsToSave">
             </PersistentString>
             <PersistentString
-               value = "kpiRequestsToSave">
+               value = "listOfRequests">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -402,6 +416,14 @@
             </PersistentString>
             <PersistentString
                value = "arrayOfKPI[indexPath.row]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HubSpotManager.showSalesLeaderboard() -&gt; [HSOwner]:HubspotManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "ownersArray">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -455,6 +477,28 @@
          contextName = "HubSpotManager.(appendDealsToPipelineStages() -&gt; ()).(closure #1):HubspotManager.swift">
       </ContextState>
       <ContextState
+         contextName = "HSPipeline.init(json : [String : Any]) -&gt; HSPipeline:HubspotRequestedObjects.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "json[&quot;pipelineId&quot;] as? String">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HubSpotManager.updatePipelinesAndDeals() -&gt; ():HubspotManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "pipelinesArray.count">
+            </PersistentString>
+            <PersistentString
+               value = "pipelinesArray">
+            </PersistentString>
+            <PersistentString
+               value = "dealsArray.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "QuickBookRequestHandler.getData() -&gt; ():QuickBookRequestHandler.swift">
          <PersistentStrings>
             <PersistentString
@@ -473,17 +517,6 @@
                value = "request.urlString">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ExternalKPIViewController.(doOAuthQuickbooks() -&gt; ()).(closure #1):ExternalKPIViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.selectedQBKPIs">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "HubSpotManager.getDealsFrom(json : [String : Any]) -&gt; [HSDeal]:HubspotManager.swift">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

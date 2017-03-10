@@ -95,6 +95,57 @@ struct HSStage
     }
 }
 
+enum OwnerType: String
+{
+    case person = "PERSON"
+    case queue = "QUEUE"
+}
+
+struct HSOwner
+{
+    var portalId: Int!
+    var ownerId: Int!
+    var type: OwnerType!
+    var firstName: String!
+    var lastName: String!
+    var email: String!
+    var createdAt: Date!
+    var updatedAt: Date!
+    
+    var deals = [HSDeal]()
+    
+    func sum() -> Int {
+        
+        return deals.reduce(0, { sum, deal -> Int in
+            sum + deal.amount
+        })
+    }
+    
+    init(json: [String: Any]) {
+        
+        if let typeString = json["type"] as? String
+        {
+            type = OwnerType(rawValue: typeString)
+        }
+        
+        if let dateInt = json["createdAt"] as? Int
+        {
+            createdAt = Date(timeIntervalSince1970: Double(dateInt) / 1000)
+        }
+        
+        if let dateInt = json["updatedAt"] as? Int
+        {
+            updatedAt = Date(timeIntervalSince1970: Double(dateInt) / 1000)
+        }
+        
+        portalId = json["portalId"] as? Int
+        ownerId = json["ownerId"] as? Int
+        firstName = json["firstName"] as? String
+        lastName = json["lastName"] as? String
+        email = json["email"] as? String        
+    }
+}
+
 struct HSDeal
 {
     var portalId: Int!
@@ -106,11 +157,19 @@ struct HSDeal
     var amount: Int!
     var createDate: Date!
     var dealStage: String!
+    var ownerId: Int!
     
     init(json: [String: Any]) {
         
         let properties = json["properties"] as! [String: Any]
-                
+        
+        if let owner = properties["hubspot_owner_id"] as? [String: Any],
+            let ownerIdValueString = owner["value"] as? String,
+            let ownerIdIntValue = Int(ownerIdValueString)
+        {
+            ownerId = ownerIdIntValue
+        }
+        
         if let createDate = properties["createdate"] as? [String: Any], let createDateTimestamp = createDate["timestamp"] as? Double
         {
             self.createDate = Date(timeIntervalSince1970: createDateTimestamp / 1000)

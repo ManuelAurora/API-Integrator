@@ -31,19 +31,32 @@ enum HSAPIMethods: String
     case contacts = "/contacts/v1/lists/all/contacts/all?"
     case oauth    = "/oauth/authorize?"
     case getToken = "/oauth/v1/token?"
+    case owners   = "/owners/v2/owners?"
     case dealPipelines = "/deals/v1/pipelines?"
+    
 }
 
 class HubSpotManager
 {
     static let sharedInstance = HubSpotManager()
     
-    var dealsArray: [HSDeal] = []
+    var dealsArray: [HSDeal] = [] {
+        didSet {
+            updatePipelinesAndDeals()
+        }
+    }
+    
     var contactsArray: [HSContact] = []
-    var pipelinesArray: [HSPipeline] = []
+    var ownersArray: [HSOwner] = []
+    var pipelinesArray: [HSPipeline] = [] {
+        didSet {
+            updatePipelinesAndDeals()
+        }
+    }
     
     var delegate: ExternalKPIViewController?
     var webView: WebViewController!
+    var merged: Bool = false
     
     private let apiURL = "https://api.hubapi.com"
     private let authorizeURL = "https://app.hubspot.com"
@@ -65,7 +78,7 @@ class HubSpotManager
     ]
     
     lazy var getDealsParameters: [HSRequestParameterKeys: String] = [
-        .properties: "&properties=amount&properties=closedate&properties=createdate&properties=dealstage"
+        .properties: "&properties=amount&properties=closedate&properties=createdate&properties=dealstage&properties=hubspot_owner_id"
     ]
     
     lazy var getContactsParameters: [HSRequestParameterKeys: String] = [
@@ -82,12 +95,22 @@ class HubSpotManager
         return ""
     }
     
+    //This function filles deals array in Pipeline.stage.deals
+    private func updatePipelinesAndDeals() {
+        
+        if pipelinesArray.count > 0 && dealsArray.count > 0 && merged == false {
+            appendDealsToPipelineStages()
+            print("DEBUG: Merged")           
+        }
+    }
+    
     func connect() {
         
         let url = URL(string: makeUrlPathForAuthentication())
         
         webView.handle(url!)
         
+        handle(request: .owners)
         handle(request: .deals)
         handle(request: .contacts)
         handle(request: .dealPipelines)
@@ -124,6 +147,10 @@ class HubSpotManager
             let urlPath = makeUrlPathFor(request: .dealPipelines, parameters: [.hapiKey: "demo"])
             requestURL = URL(string: urlPath)
             
+        case .owners:
+            let urlPath = makeUrlPathFor(request: .owners, parameters: [.hapiKey: "demo"])
+            requestURL = URL(string: urlPath)
+            
         default: break
         }
         
@@ -146,16 +173,20 @@ class HubSpotManager
                     {
                         switch request
                         {
-                        case .deals: self.dealsArray = self.getDealsFrom(json: json)
+                        case .deals:    self.dealsArray = self.getDealsFrom(json: json)
                         case .contacts: self.contactsArray = self.getContactsFrom(json: json)
                         default: break
                         }
                     }
                     else if let json = response.result.value as? [[String: Any]]
                     {
-                        self.pipelinesArray = self.getPipelinesFrom(json: json)
+                        switch request
+                        {
+                        case .owners:        self.ownersArray = self.getOwnersFrom(json: json)
+                        case .dealPipelines: self.pipelinesArray = self.getPipelinesFrom(json: json)
+                        default: break
+                        }
                     }
-                    self.appendDealsToPipelineStages() //DEBUG: Only
             })
     }
     
@@ -201,6 +232,11 @@ class HubSpotManager
         }
     }
     
+    private func getOwnersFrom(json file: [[String: Any]]) -> [HSOwner] {
+        
+        return file.map { HSOwner(json: $0) }
+    }
+    
     private func dateIsInCurrentPeriod(_ date: Date) -> Bool {
         
         let comparisonResult = Calendar.current.compare(currentDate, to: date, toGranularity: .month)
@@ -209,6 +245,8 @@ class HubSpotManager
     }
     
     private func appendDealsToPipelineStages() {
+        
+        merged = true
         
         pipelinesArray = pipelinesArray.map { pipeline  -> HSPipeline in
             
@@ -233,8 +271,16 @@ class HubSpotManager
         }
     }
     
-    //Array in wich deals are closed and have Amount value
+    //MARK: Functions for getting key parameters
+    
+    //Array in wich deals are closed
     func showClosedDeals() -> [HSDeal] {
+        
+        return dealsArray.filter { dateIsInCurrentPeriod($0.closeDate) }
+    }
+    
+    //Array in wich deals are closed and have Amount value
+    func showClosedAndWonDeals() -> [HSDeal] {
         
         return dealsArray.filter { $0.amount != nil && dateIsInCurrentPeriod($0.closeDate) }
     }
@@ -263,6 +309,29 @@ class HubSpotManager
         return contactsArray.filter { dateIsInCurrentPeriod($0.lastContactDate) }
     }
     
- 
-    
+    //Array filled with sales leaders
+    func showSalesLeaderboard() -> [HSOwner]  {
+        
+        let tempArray = ownersArray.map { owner -> HSOwner in
+            
+            var ownerTemp = owner
+            
+            for deal in dealsArray
+            {
+                if let dealsOwnerId = deal.ownerId, let ownerId = owner.ownerId
+                {
+                    if dealsOwnerId == ownerId
+                    {
+                        ownerTemp.deals.append(deal)
+                    }
+                }
+            }
+            return ownerTemp
+        }
+        
+        let salesLeaderboard = tempArray.filter { $0.sum() > 0 }
+        
+        return salesLeaderboard.sorted { $0.sum() > $1.sum() }
+    }
 }
+
