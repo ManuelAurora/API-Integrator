@@ -27,13 +27,13 @@ enum HSRequestParameterKeys: String
 
 enum HSAPIMethods: String
 {
-    case deals    = "/deals/v1/deal/paged?"
+    case deals    = "/deals/v1/deal/recent/modified?"
     case contacts = "/contacts/v1/lists/all/contacts/all?"
     case oauth    = "/oauth/authorize?"
     case getToken = "/oauth/v1/token?"
     case owners   = "/owners/v2/owners?"
     case dealPipelines = "/deals/v1/pipelines?"
-    
+    case companies  = "/companies/v2/companies/paged?"
 }
 
 class HubSpotManager
@@ -48,6 +48,7 @@ class HubSpotManager
     
     var contactsArray: [HSContact] = []
     var ownersArray: [HSOwner] = []
+    var companiesArray: [HSCompany] = []
     var pipelinesArray: [HSPipeline] = [] {
         didSet {
             updatePipelinesAndDeals()
@@ -78,7 +79,7 @@ class HubSpotManager
     ]
     
     lazy var getDealsParameters: [HSRequestParameterKeys: String] = [
-        .properties: "&properties=amount&properties=closedate&properties=createdate&properties=dealstage&properties=hubspot_owner_id"
+        .properties: "&properties=amount&properties=closedate&properties=createdate&properties=dealstage&properties=hubspot_owner_id&count=100"
     ]
     
     lazy var getContactsParameters: [HSRequestParameterKeys: String] = [
@@ -100,7 +101,8 @@ class HubSpotManager
         
         if pipelinesArray.count > 0 && dealsArray.count > 0 && merged == false {
             appendDealsToPipelineStages()
-            print("DEBUG: Merged")           
+            appendDealsToCompanies()
+            print("DEBUG: Merged")
         }
     }
     
@@ -110,6 +112,7 @@ class HubSpotManager
         
         webView.handle(url!)
         
+        handle(request: .companies)
         handle(request: .owners)
         handle(request: .deals)
         handle(request: .contacts)
@@ -132,27 +135,29 @@ class HubSpotManager
     private func handle(request: HSAPIMethods) {
         
         var requestURL: URL?
+        var urlPath: String!
         
         switch request
         {
         case .deals:
-            let urlPath = makeUrlPathFor(request: request, parameters: [.hapiKey: "demo"]) + getDealsParameters[.properties]!
-            requestURL = URL(string: urlPath)
+            urlPath = makeUrlPathFor(request: request, parameters: [.hapiKey: "demo"]) + getDealsParameters[.properties]!
             
         case .contacts:
-            let urlPath = makeUrlPathFor(request: .contacts, parameters: [.hapiKey: "demo"]) + getContactsParameters[.properties]!
-            requestURL = URL(string: urlPath)
+            urlPath = makeUrlPathFor(request: .contacts, parameters: [.hapiKey: "demo"]) + getContactsParameters[.properties]!
             
         case .dealPipelines:
-            let urlPath = makeUrlPathFor(request: .dealPipelines, parameters: [.hapiKey: "demo"])
-            requestURL = URL(string: urlPath)
+            urlPath = makeUrlPathFor(request: .dealPipelines, parameters: [.hapiKey: "demo"])
             
         case .owners:
-            let urlPath = makeUrlPathFor(request: .owners, parameters: [.hapiKey: "demo"])
-            requestURL = URL(string: urlPath)
+            urlPath = makeUrlPathFor(request: .owners, parameters: [.hapiKey: "demo"])
+          
+        case .companies:
+           urlPath = makeUrlPathFor(request: .companies, parameters: [.hapiKey: "demo"])
             
         default: break
         }
+        
+        requestURL = URL(string: urlPath)
         
         guard requestURL != nil else { return }
         
@@ -175,6 +180,7 @@ class HubSpotManager
                         {
                         case .deals:    self.dealsArray = self.getDealsFrom(json: json)
                         case .contacts: self.contactsArray = self.getContactsFrom(json: json)
+                        case .companies: self.companiesArray = self.getCompaniesFrom(json: json)
                         default: break
                         }
                     }
@@ -195,6 +201,18 @@ class HubSpotManager
       MARK: Get items from HubSpot callback json
     //////////////////////////////////////////////
     */
+    
+    private func getCompaniesFrom(json file: [String: Any]) -> [HSCompany] {
+        
+        let companies = file["companies"] as! [[String: Any]]
+        
+        let resultArray: [HSCompany] = companies.map { companyJson in
+            HSCompany(json: companyJson)
+        }
+        
+        return resultArray
+    }
+    
     private func getContactsFrom(json file: [String: Any]) -> [HSContact] {
         
         let allContacts = file["contacts"] as! [[String: Any]]
@@ -208,7 +226,7 @@ class HubSpotManager
     
     private func getDealsFrom(json file: [String: Any]) -> [HSDeal] {
         
-        guard let allDeals = file["deals"] as? [[String: Any]] else { return [HSDeal]() }
+        guard let allDeals = file["results"] as? [[String: Any]] else { return [HSDeal]() }
         
         let resultArray: [HSDeal] = allDeals.map { dealJson in
             HSDeal(json: dealJson)
@@ -268,6 +286,24 @@ class HubSpotManager
                 return modifiedStage
             }
             return pipelineModified
+        }
+    }
+    
+    func appendDealsToCompanies() {
+        
+        companiesArray = companiesArray.map { company -> HSCompany in
+        
+            var tempCompany = company
+            
+            for deal in dealsArray
+            {
+                if let dealsCompanyIds = deal.companyIds, let companyId = company.companyId
+                {
+                   
+                    if dealsCompanyIds.count > 0 && dealsCompanyIds[0] == companyId { tempCompany.deals.append(deal) }
+                }
+            }
+            return tempCompany
         }
     }
     
@@ -333,5 +369,29 @@ class HubSpotManager
         
         return salesLeaderboard.sorted { $0.sum() > $1.sum() }
     }
+    
+    //Array of deals, sorted by amount value
+    func showDealRevenueLeaderboard() -> [HSDeal] {
+        
+        let deals = dealsArray.filter { $0.amount != nil && $0.amount > 0 }
+    
+        return deals.sorted { $0.amount > $1.amount }
+    }
+
+    //Array of closed deals, sorted by amount value
+    func showClosedDealsLeaderboard() -> [HSDeal] {
+        
+        let deals = showClosedDeals()
+        
+        return deals.sorted { $0.amount > $1.amount }
+    }
+    
+    //Array of closed and won deals, sorted by amount value
+    func showTopWonDeals() -> [HSDeal] {
+        
+        let deals = showClosedAndWonDeals()
+        
+        return deals.sorted { $0.amount > $1.amount}
+    }    
 }
 

@@ -146,6 +146,21 @@ struct HSOwner
     }
 }
 
+struct HSCompany
+{
+    var portalId: Int!
+    var companyId: Int!
+    var isDeleted: Bool!
+    var deals = [HSDeal]()
+    
+    init(json: [String: Any]) {
+        
+        portalId = json["portalId"] as? Int
+        companyId = json["companyId"] as? Int
+        isDeleted = json["isDeleted"] as? Bool
+    }
+}
+
 struct HSDeal
 {
     var portalId: Int!
@@ -158,10 +173,17 @@ struct HSDeal
     var createDate: Date!
     var dealStage: String!
     var ownerId: Int!
+    var companyIds: [Int]!
     
     init(json: [String: Any]) {
         
         let properties = json["properties"] as! [String: Any]
+        
+        if let associationsDict = json["associations"] as? [String: Any],
+            let companyIds = associationsDict["associatedCompanyIds"] as? [Int]
+        {
+            self.companyIds = companyIds
+        }
         
         if let owner = properties["hubspot_owner_id"] as? [String: Any],
             let ownerIdValueString = owner["value"] as? String,
