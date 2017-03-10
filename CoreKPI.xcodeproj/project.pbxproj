@@ -23,6 +23,7 @@
 		64936AF21E543DC00059D80A /* PinCodeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AF01E543DC00059D80A /* PinCodeButton.swift */; };
 		64936AF31E543DC00059D80A /* PinCodePlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */; };
 		64A32B921E5B394B008438DA /* String + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A32B911E5B394B008438DA /* String + Extension.swift */; };
+		64CB22A51E72E9EB00CBD6A3 /* PayPal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CB22A41E72E9EB00CBD6A3 /* PayPal.swift */; };
 		64E08EBF1E5C3D4B00FE1F8E /* Dictionary + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E08EBE1E5C3D4B00FE1F8E /* Dictionary + Extension.swift */; };
 		64EE4DF81E55ADD80007926F /* PinCodeVCPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EE4DF71E55ADD80007926F /* PinCodeVCPresenter.swift */; };
 		64EE4DFA1E55B6DC0007926F /* PinCodeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 64EE4DF91E55B6DC0007926F /* PinCodeView.xib */; };
@@ -173,7 +174,6 @@
 		A2FA504A1E4713230062D61E /* ExternalKPIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FA50491E4713230062D61E /* ExternalKPIViewController.swift */; };
 		A2FB1AA21E252C110045824A /* KPIDescriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FB1AA11E252C110045824A /* KPIDescriptionTableViewCell.swift */; };
 		A2FB98A41E25FE6900A856E8 /* KPISettingInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FB98A31E25FE6900A856E8 /* KPISettingInputTableViewCell.swift */; };
-		A2FF67B51E65B2E3009CB5BD /* PayPal.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FF67B41E65B2E3009CB5BD /* PayPal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -230,6 +230,7 @@
 		64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodePlaceholderView.swift; sourceTree = "<group>"; };
 		64A32B911E5B394B008438DA /* String + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String + Extension.swift"; sourceTree = "<group>"; };
 		64A32B941E5B3B85008438DA /* BridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
+		64CB22A41E72E9EB00CBD6A3 /* PayPal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PayPal.swift; path = ExternalServices/PayPal.swift; sourceTree = "<group>"; };
 		64E08EBE1E5C3D4B00FE1F8E /* Dictionary + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary + Extension.swift"; sourceTree = "<group>"; };
 		64EE4DF71E55ADD80007926F /* PinCodeVCPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeVCPresenter.swift; sourceTree = "<group>"; };
 		64EE4DF91E55B6DC0007926F /* PinCodeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PinCodeView.xib; sourceTree = "<group>"; };
@@ -381,7 +382,6 @@
 		A2FA50491E4713230062D61E /* ExternalKPIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExternalKPIViewController.swift; path = CoreKPI/ViewControllers/DashBoard/ExternalKPIViewController.swift; sourceTree = "<group>"; };
 		A2FB1AA11E252C110045824A /* KPIDescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPIDescriptionTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPIDescriptionTableViewCell.swift; sourceTree = "<group>"; };
 		A2FB98A31E25FE6900A856E8 /* KPISettingInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KPISettingInputTableViewCell.swift; path = CustomTableViewCells/Dashboard/KPISettingInputTableViewCell.swift; sourceTree = "<group>"; };
-		A2FF67B41E65B2E3009CB5BD /* PayPal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PayPal.swift; path = ExternalServices/PayPal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -422,6 +422,15 @@
 				647B58901E65BA89001C968B /* QuickBookRequestHandler.swift */,
 			);
 			name = Quickbooks;
+			sourceTree = "<group>";
+		};
+		64CB22A61E72EA0300CBD6A3 /* HubSpot */ = {
+			isa = PBXGroup;
+			children = (
+				646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */,
+				646BF0901E6EE64800621FE2 /* HubspotRequestedObjects.swift */,
+			);
+			name = HubSpot;
 			sourceTree = "<group>";
 		};
 		A2028E711E12B74D00F1EED6 /* Graphics */ = {
@@ -481,19 +490,6 @@
 				A2A0DDFF1E55F78D00D37B8B /* DeleteReminder.swift */,
 			);
 			name = "CoreKPI API";
-			sourceTree = "<group>";
-		};
-		A24A840F1E4898FE00440151 /* External Services */ = {
-			isa = PBXGroup;
-			children = (
-				A256F05F1E49B631004DAF75 /* ExternalRequestService.swift */,
-				A252CD8F1E683DF70077BC8B /* QuickBooks */,
-				A256F0611E49F56B004DAF75 /* GoogleAnalytics */,
-				646BF08C1E6E8B1C00621FE2 /* Quickbooks */,
-				646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */,
-				646BF0901E6EE64800621FE2 /* HubspotRequestedObjects.swift */,
-			);
-			name = QuickBooks;
 			sourceTree = "<group>";
 		};
 		A256F0611E49F56B004DAF75 /* GoogleAnalytics */ = {
@@ -576,7 +572,11 @@
 		A27820981E001539009F83DB /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				A24A840F1E4898FE00440151 /* External Services */,
+				A256F05F1E49B631004DAF75 /* ExternalRequestService.swift */,
+				64CB22A41E72E9EB00CBD6A3 /* PayPal.swift */,
+				A256F0611E49F56B004DAF75 /* GoogleAnalytics */,
+				646BF08C1E6E8B1C00621FE2 /* Quickbooks */,
+				64CB22A61E72EA0300CBD6A3 /* HubSpot */,
 				A24A840C1E48941C00440151 /* CoreKPI API */,
 			);
 			name = Services;
@@ -972,7 +972,7 @@
 				TargetAttributes = {
 					A27820611E001503009F83DB = {
 						CreatedOnToolsVersion = 8.2;
-						DevelopmentTeam = YQ8GHY7F3C;
+						DevelopmentTeam = 2FNB386G38;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.SafariKeychain = {
@@ -982,11 +982,13 @@
 					};
 					A27820781E001503009F83DB = {
 						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = 2FNB386G38;
 						ProvisioningStyle = Automatic;
 						TestTargetID = A27820611E001503009F83DB;
 					};
 					A27820831E001503009F83DB = {
 						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = 2FNB386G38;
 						ProvisioningStyle = Automatic;
 						TestTargetID = A27820611E001503009F83DB;
 					};
@@ -1148,6 +1150,7 @@
 				A26408F21E22394F0034EEC2 /* ReportAndViewKPITableViewController.swift in Sources */,
 				A297F5CC1E0823D400F85963 /* SignInViewController.swift in Sources */,
 				A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */,
+				64CB22A51E72E9EB00CBD6A3 /* PayPal.swift in Sources */,
 				A297F5CB1E0823D400F85963 /* SignInUpViewController.swift in Sources */,
 				A21AEEF21E28AFF200577F4B /* KPIColourTableViewCell.swift in Sources */,
 				A2C9ABD71E2F455D00623659 /* ChartTableViewCell.swift in Sources */,
@@ -1174,7 +1177,6 @@
 				A2844B3C1E0BC842002E297A /* MemberEditTableViewCell.swift in Sources */,
 				A2A215511E124AB800EEBCA2 /* AlertSettingTableViewCell.swift in Sources */,
 				A2B7209C1E2E5FBC00471E91 /* OnboardingViewController.swift in Sources */,
-				A2FF67B51E65B2E3009CB5BD /* PayPal.swift in Sources */,
 				A21785811E5DBA5900CE19F4 /* DataPickerTableViewCell.swift in Sources */,
 				A26408F61E2271330034EEC2 /* AddReportTableViewController.swift in Sources */,
 				A261D91C1E129F1600638C56 /* DashboardSetingTableViewCell.swift in Sources */,
@@ -1347,7 +1349,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CoreKPI/CoreKPI.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = YQ8GHY7F3C;
+				DEVELOPMENT_TEAM = 2FNB386G38;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1369,7 +1371,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CoreKPI/CoreKPI.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = YQ8GHY7F3C;
+				DEVELOPMENT_TEAM = 2FNB386G38;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1390,6 +1392,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 2FNB386G38;
 				INFOPLIST_FILE = CoreKPITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = CoreKPI.CoreKPITests;
@@ -1404,6 +1407,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 2FNB386G38;
 				INFOPLIST_FILE = CoreKPITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = CoreKPI.CoreKPITests;
@@ -1417,6 +1421,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = 2FNB386G38;
 				INFOPLIST_FILE = CoreKPIUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = CoreKPI.CoreKPIUITests;
@@ -1430,6 +1435,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = 2FNB386G38;
 				INFOPLIST_FILE = CoreKPIUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = CoreKPI.CoreKPIUITests;
