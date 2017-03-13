@@ -221,6 +221,79 @@ class PayPal: ExternalRequest {
         
     }
     
+    func pendingByType(success: @escaping (_ pending: [(status: String, count: Int)]) -> (), failure: @escaping failure) {
+        
+        let headers: [String : String] = [
+            "X-PAYPAL-SECURITY-USERID" : apiUsername,
+            "X-PAYPAL-SECURITY-PASSWORD" : apiPassword,
+            "X-PAYPAL-SECURITY-SIGNATURE" : apiSignature,
+            "X-PAYPAL-REQUEST-DATA-FORMAT" : "NV",
+            "X-PAYPAL-RESPONSE-DATA-FORMAT" : "JSON",
+            "X-PAYPAL-APPLICATION-ID" : "APP-80W284485P519543T"
+            ]
+        
+        let params: [String : Any] = [
+            "requestEnvelope.errorLanguage" : "en_US",
+            "merchantEmail" : "sem@corekpi.com",
+            "parameters.origin" : "",
+            "page" : 1,
+            "pageSize" : 10
+        ]
+        
+        request("https://svcs.sandbox.paypal.com/Invoice/SearchInvoices", method: .post, parameters: params, encoding: URLEncoding.default, headers: headers).responseJSON { response in
+            
+            if let data = response.data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
+                    if let jsonDictionary = json {
+                        if let size = jsonDictionary["count"] as? String, Int(size)! > 0 {
+                            if let invoiceList = jsonDictionary["invoiceList"] as? NSDictionary {
+                                if let invoiceArray = invoiceList["invoice"] as? NSArray {
+                                    
+                                    var statusArray: [(status: String, count: Int)] = []
+                                    
+                                    for i in 0..<invoiceArray.count {
+                                        let invoice = invoiceArray[i] as! NSDictionary
+                                        let status = invoice["status"] as! String
+                                        
+                                        if statusArray.count == 0 {
+                                            statusArray.append((status, 1))
+                                        } else {
+                                            var isNewStatus = true
+                                            for i in 0..<statusArray.count {
+                                                if statusArray[i].status == status {
+                                                    let size = statusArray[i].count
+                                                    statusArray[i] = (status, size + 1)
+                                                    isNewStatus = false
+                                                }
+                                            }
+                                            if isNewStatus {
+                                                statusArray.append((status, 1))
+                                            }
+                                        }
+                                    }
+                                    success(statusArray)
+                                }
+                            }
+                        }
+                    } else {
+                        failure("Load failed")
+                    }
+                } catch {
+                    guard response.result.isSuccess else {
+                        let error = response.result.error
+                        if let error = error, (error as NSError).code != NSURLErrorCancelled {
+                            let requestError = error.localizedDescription
+                            failure(requestError)
+                        }
+                        return
+                    }
+                }
+            }
+        }
+        
+    }
+    
     func getRecentExpenses(success: @escaping (_ expenses: [(payer: String, netAmount: String)]) -> (), failure: @escaping failure) {
         
         let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate()), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Sent")]

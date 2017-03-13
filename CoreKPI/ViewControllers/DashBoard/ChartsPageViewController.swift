@@ -423,7 +423,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                         tableViewChartVC.tableView.reloadData()
                     })
                 case .PendingByType:
-                    tableViewChartVC.titleOfTable = ("Type","","$")
+                    tableViewChartVC.titleOfTable = ("Type","","Count")
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
@@ -712,7 +712,15 @@ extension ChartsPageViewController {
                 }, failure: {error in
                     print(error)
                 })
-            case .PendingByType: break
+            case .PendingByType:
+                request.pendingByType(success: { pending in
+                    for value in pending {
+                        dataForPresent.append((value.status , "", "\(value.count)"))
+                    }
+                    success(dataForPresent)
+                }, failure: {error in
+                    print(error)
+                })
             case .RecentExpenses:
                 request.getRecentExpenses(success: {expenses in
                     for expense in expenses {

@@ -66,18 +66,24 @@ class ExternalKPIViewController: OAuthViewController {
                 kpiNotSelected = false
             }
         }
-        
-        if selectedService == .HubSpotCRM
-        {
-            
-            if internalWebViewController.parent == nil {
-                self.addChildViewController(internalWebViewController)
+        if !kpiNotSelected {
+            switch (selectedService)! {
+            case .Quickbooks:
+                selectedQBKPIs = serviceKPI.filter { $0.value == true }
+            case .HubSpotCRM:
+                if internalWebViewController.parent == nil {
+                    self.addChildViewController(internalWebViewController)
+                }
+                hubSpotManager.webView = internalWebViewController
+                hubSpotManager.connect()
+            default:
+                break
             }
-            
-            hubSpotManager.webView = internalWebViewController
-            hubSpotManager.connect()
-        }        
-    }    
+            doAuthService()
+        } else {
+            showAlert(title: "Sorry!", message: "First you should select one or more KPI")
+        }
+    }
     
     func showAlert(title: String, message: String) {
         let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
