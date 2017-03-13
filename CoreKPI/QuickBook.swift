@@ -91,7 +91,7 @@ class QuickBookDataManager
     lazy var serviceParameters: [AuthenticationParameterKeys: String] = {
         let parameters: [AuthenticationParameterKeys: String] = [
             .companyId:   "123145773393399",
-            .callbackUrl: "CoreKPI.CoreKPI:/oauth-callback/intuit"            
+            .callbackUrl: "CoreKPI:/oauth-callback/intuit"            
         ]
         
         return parameters

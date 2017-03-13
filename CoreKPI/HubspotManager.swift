@@ -27,8 +27,9 @@ enum HSRequestParameterKeys: String
 
 enum HSAPIMethods: String
 {
+    case pages    = "/content/api/v2/pages?"
     case deals    = "/deals/v1/deal/recent/modified?"
-    case contacts = "/contacts/v1/lists/all/contacts/all?"
+    case contacts = "/contacts/v1/lists/recently_updated/contacts/recent?"
     case oauth    = "/oauth/authorize?"
     case getToken = "/oauth/v1/token?"
     case owners   = "/owners/v2/owners?"
@@ -46,7 +47,12 @@ class HubSpotManager
         }
     }
     
-    var contactsArray: [HSContact] = []
+    var pagesArray: [HSPage] = []
+    var contactsArray: [HSContact] = [] {
+        didSet {
+            if contactsArray != nil && contactsArray.count > 0 { showContactsFromVisits() }
+        }
+    }
     var ownersArray: [HSOwner] = []
     var companiesArray: [HSCompany] = []
     var pipelinesArray: [HSPipeline] = [] {
@@ -83,7 +89,7 @@ class HubSpotManager
     ]
     
     lazy var getContactsParameters: [HSRequestParameterKeys: String] = [
-        .properties: "&property=createdate&property=notes_last_contacted&property=hubspot_owner_assigneddate&property=hubspot_owner_id"
+        .properties: "&count=250&property=createdate&property=notes_last_contacted&property=hubspot_owner_assigneddate&property=hubspot_owner_id&property=hs_analytics_source"
     ]
     
     private func makeUrlPathForAuthentication() -> String {
@@ -112,6 +118,7 @@ class HubSpotManager
         
         webView.handle(url!)
         
+        handle(request: .pages)
         handle(request: .companies)
         handle(request: .owners)
         handle(request: .deals)
@@ -154,6 +161,9 @@ class HubSpotManager
         case .companies:
            urlPath = makeUrlPathFor(request: .companies, parameters: [.hapiKey: "demo"])
             
+        case .pages:
+            urlPath = makeUrlPathFor(request: .pages, parameters: [.hapiKey: "demo"])
+            
         default: break
         }
         
@@ -178,9 +188,11 @@ class HubSpotManager
                     {
                         switch request
                         {
-                        case .deals:    self.dealsArray = self.getDealsFrom(json: json)
-                        case .contacts: self.contactsArray = self.getContactsFrom(json: json)
+                        case .deals:     self.dealsArray = self.getDealsFrom(json: json)
+                        case .contacts:  self.contactsArray = self.getContactsFrom(json: json)
                         case .companies: self.companiesArray = self.getCompaniesFrom(json: json)
+                        case .pages:     self.pagesArray = self.getPagesFrom(json: json)
+                            
                         default: break
                         }
                     }
@@ -253,6 +265,15 @@ class HubSpotManager
     private func getOwnersFrom(json file: [[String: Any]]) -> [HSOwner] {
         
         return file.map { HSOwner(json: $0) }
+    }
+    
+    private func getPagesFrom(json file: [String: Any]) -> [HSPage] {
+        
+        let pages = file["objects"] as! [[String: Any]]
+        
+        let resultArray = pages.map { HSPage(json: $0) }
+        
+        return resultArray
     }
     
     private func dateIsInCurrentPeriod(_ date: Date) -> Bool {
@@ -392,6 +413,26 @@ class HubSpotManager
         let deals = showClosedAndWonDeals()
         
         return deals.sorted { $0.amount > $1.amount}
-    }    
+    }
+    
+    //Marketing
+    //Array of contacts for Visit\Contacts KPI
+    func showContactsFromVisits() -> [HSContact] {
+        
+        let referrals = contactsArray.filter { $0.sourceType != nil && $0.sourceType == .referrals }
+        let direct = contactsArray.filter { $0.sourceType != nil && $0.sourceType == .directTraffic }
+        
+        let resultArray = referrals + direct
+        
+        return resultArray
+    }
+    
+    //Array of customers, that come frome contacts
+    func showCustomersFromContacts() -> [HSContact] {
+        
+        let customers = showContactsFromVisits().filter { $0.becomeCustomerDate != nil }
+        
+        return customers
+    }
 }
 
