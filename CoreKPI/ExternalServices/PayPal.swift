@@ -15,6 +15,7 @@ class PayPal: ExternalRequest {
     var apiUsername = ""
     var apiPassword = ""
     var apiSignature = ""
+    let appID = "APP-80W284485P519543T"
     
     init(apiUsername: String, apiPassword: String, apiSignature: String) {
         self.apiUsername = apiUsername
@@ -223,18 +224,34 @@ class PayPal: ExternalRequest {
     
     func pendingByType(success: @escaping (_ pending: [(status: String, count: Int)]) -> (), failure: @escaping failure) {
         
+        let separatedBypointEmail = apiUsername.components(separatedBy: ".")
+        let separatedByUnderLineName = separatedBypointEmail[0].components(separatedBy: "_")
+        
+        var domain = ""
+        for (index, component) in separatedBypointEmail.enumerated() {
+            if index > 0 {
+                if index != separatedBypointEmail.count - 1 {
+                    domain += component + "."
+                } else {
+                    domain += component
+                }
+            }
+        }
+        
+        let merchantEmail = separatedByUnderLineName[0] + "@" + domain
+        
         let headers: [String : String] = [
             "X-PAYPAL-SECURITY-USERID" : apiUsername,
             "X-PAYPAL-SECURITY-PASSWORD" : apiPassword,
             "X-PAYPAL-SECURITY-SIGNATURE" : apiSignature,
             "X-PAYPAL-REQUEST-DATA-FORMAT" : "NV",
             "X-PAYPAL-RESPONSE-DATA-FORMAT" : "JSON",
-            "X-PAYPAL-APPLICATION-ID" : "APP-80W284485P519543T"
+            "X-PAYPAL-APPLICATION-ID" : appID
             ]
         
         let params: [String : Any] = [
             "requestEnvelope.errorLanguage" : "en_US",
-            "merchantEmail" : "sem@corekpi.com",
+            "merchantEmail" : merchantEmail,
             "parameters.origin" : "",
             "page" : 1,
             "pageSize" : 10

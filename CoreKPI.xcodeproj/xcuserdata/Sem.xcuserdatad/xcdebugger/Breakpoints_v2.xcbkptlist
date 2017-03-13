@@ -42,12 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/ExternalServices/PayPal.swift"
-            timestampString = "511089875.74033"
+            timestampString = "511090432.822598"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
-            landmarkName = "getAccountInfo(success:failure:)"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "getBalance(success:failure:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
