@@ -161,26 +161,20 @@ class QuickBookRequestHandler
                 notificationCenter.post(name: .qBInvoicesRefreshed, object: nil)
                 
             case .profitLoss:
-                let rows = jsonDict!["Rows"] as! [String: Any]
-                let rows2 = rows["Row"] as! [[String: Any]]
+                let rowsDict = jsonDict!["Rows"] as! [String: Any]
+                let rows = rowsDict["Row"] as! [[String: Any]]
                 
-                for row in rows2
+                for row in rows
                 {
+                    guard let groupString = row["group"] as? String, groupString == "GrossProfit" else { continue }
+                    
                     let summary = row["Summary"] as! [String: Any]
-                    let colDataSum = summary["ColData"] as! [[String: Any]]
+                    let colDataSum = summary["ColData"] as! [[String: String]]
                     
-                    let kpiTitle = colDataSum[0] as! [String: String]
+                    let kpiTitle = colDataSum[0]["value"]
+                    let profit = colDataSum[1]["value"]
                     
-                    if kpiTitle["value"] == "Net Income" // GROSS PROFIT?
-                    {
-                        for item in colDataSum where (item["value"] as! String) != "Net Income"
-                        {
-                            let result = ("Profit", "", item["value"] as! String)
-                            
-                            manager.profitAndLoss.append(result)
-                            print("DEBUG: \(manager.profitAndLoss)")
-                        }
-                    }
+                    break
                 }
                 
                 notificationCenter.post(name: .qBProfitAndLossRefreshed, object: nil)

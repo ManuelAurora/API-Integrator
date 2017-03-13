@@ -434,5 +434,13 @@ class HubSpotManager
         
         return customers
     }
+    
+    //Array of referals
+    func showContactsByReferals() -> [HSContact] {
+        
+        let resultArray = contactsArray.filter { $0.sourceType != nil && $0.sourceType == .referrals }
+        
+        return resultArray
+    }
 }
 

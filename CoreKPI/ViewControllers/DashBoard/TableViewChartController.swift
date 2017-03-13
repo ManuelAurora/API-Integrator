@@ -33,6 +33,8 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.tableFooterView = UIView(frame: .zero)
+        
         guard let qBMethod = qBMethod else { return }
         switch qBMethod
         {
@@ -55,8 +57,6 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
         case .paidExpenses:
             subscribeToNotification(named: .qBExpencesByVendorSummaryRefreshed)        
         }
-                
-        tableView.tableFooterView = UIView(frame: .zero)
     }
     
     private func subscribeToNotification(named: Notification.Name) {

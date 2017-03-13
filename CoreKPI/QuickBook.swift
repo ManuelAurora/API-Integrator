@@ -20,9 +20,7 @@ class QuickBookDataManager
     enum ResultArrayType {
         case netIncome
         case balance
-        case profitAndLoss
         case accountList
-        case nonPaidInvoices
         case paidInvoicesByCustomer
         case paidInvoicesPercent
         case overdueCustomers
@@ -30,6 +28,7 @@ class QuickBookDataManager
         case invoices
         case expencesByVendorSummary
         case openInvoicesByCustomers
+        case incomeProfitKPIs
     }
     
     private lazy var managedContext: NSManagedObjectContext = {
@@ -209,8 +208,8 @@ class QuickBookDataManager
             case .PaidInvoicesByCustomers:
                 createNewEntityForArrayOf(type: .paidInvoicesByCustomer, urlString: request.urlString)
                 
-            default:
-                break
+            case .IncomeProfitKPIs:
+                createNewEntityForArrayOf(type: .incomeProfitKPIs, urlString: request.urlString)
             }
         }
         
@@ -382,12 +381,6 @@ class QuickBookDataManager
             extKPI.quickbooksKPI = qbKPI
             extKPI.requestJsonString = urlString
             
-        case .profitAndLoss:
-            extKPI.kpiName = QiuckBooksKPIs.IncomeProfitKPIs.rawValue
-            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
-            extKPI.quickbooksKPI = qbKPI
-            extKPI.requestJsonString = urlString
-            
         case .overdueCustomers:
             extKPI.kpiName = QiuckBooksKPIs.OverdueCustomers.rawValue
             extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
@@ -416,19 +409,19 @@ class QuickBookDataManager
             extKPI.kpiName = QiuckBooksKPIs.PaidInvoices.rawValue
             extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             extKPI.quickbooksKPI = qbKPI
-            extKPI.requestJsonString = urlString
-            
-        case .nonPaidInvoices:
-            extKPI.kpiName = QiuckBooksKPIs.NonPaidInvoices.rawValue
-            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
-            extKPI.quickbooksKPI = qbKPI
-            extKPI.requestJsonString = urlString
+            extKPI.requestJsonString = urlString            
         
         case .openInvoicesByCustomers:
             extKPI.kpiName = QiuckBooksKPIs.OpenInvoicesByCustomers.rawValue
             extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             extKPI.quickbooksKPI = qbKPI
-            extKPI.requestJsonString = urlString            
+            extKPI.requestJsonString = urlString
+            
+        case .incomeProfitKPIs:
+            extKPI.kpiName = QiuckBooksKPIs.IncomeProfitKPIs.rawValue
+            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+            extKPI.quickbooksKPI = qbKPI
+            extKPI.requestJsonString = urlString
         }
         
         do {
@@ -441,6 +434,7 @@ class QuickBookDataManager
         }
     }
     
+    //MARK: Authentication
     func doOAuthQuickbooks(_ success: @escaping success) {
     
         let infoFetch = NSFetchRequest<QuickbooksKPI>(entityName: "QuickbooksKPI")

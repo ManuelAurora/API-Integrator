@@ -226,31 +226,40 @@
                value = "manager.balanceSheet.append(result)">
             </PersistentString>
             <PersistentString
-               value = "invoice[&quot;MetaData&quot;] as! [String: String]">
-            </PersistentString>
-            <PersistentString
-               value = "dateFormatter.dateFormat">
-            </PersistentString>
-            <PersistentString
-               value = "manager.balanceSheet">
+               value = "manager.profitAndLoss">
             </PersistentString>
             <PersistentString
                value = "manager.accountList">
             </PersistentString>
             <PersistentString
+               value = "(invoice[&quot;CustomerRef&quot;] as! [String: Any])[&quot;name&quot;] as! String">
+            </PersistentString>
+            <PersistentString
+               value = "dateFormatter.dateFormat">
+            </PersistentString>
+            <PersistentString
                value = "request!.kpiName!">
             </PersistentString>
             <PersistentString
-               value = "request.urlString">
+               value = "isCreation">
             </PersistentString>
             <PersistentString
-               value = "(invoice[&quot;CustomerRef&quot;] as! [String: Any])[&quot;name&quot;] as! String">
+               value = "profit">
+            </PersistentString>
+            <PersistentString
+               value = "colDataSum[0][&quot;value&quot;] as! String">
             </PersistentString>
             <PersistentString
                value = "invoice">
             </PersistentString>
             <PersistentString
-               value = "isCreation">
+               value = "invoice[&quot;MetaData&quot;] as! [String: String]">
+            </PersistentString>
+            <PersistentString
+               value = "manager.balanceSheet">
+            </PersistentString>
+            <PersistentString
+               value = "request.urlString">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
