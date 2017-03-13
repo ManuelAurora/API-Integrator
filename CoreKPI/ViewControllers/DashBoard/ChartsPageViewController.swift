@@ -702,7 +702,15 @@ extension ChartsPageViewController {
                 })
             case .AverageRevenueSaleByPeriod: break
             case .TopCountriesBySales: break
-            case .TopProducts: break
+            case .TopProducts:
+                request.getTopProduct(success: {products in
+                    for product in products {
+                        dataForPresent.append((product.product , "\(product.size)", "\(product.total)"))
+                    }
+                    success(dataForPresent)
+                }, failure: {error in
+                    print(error)
+                })
             case .TransactionsByStatus:
                 request.getTransactionsByStatus(success: {transactionsSize in
                     for status in transactionsSize {
@@ -713,7 +721,7 @@ extension ChartsPageViewController {
                     print(error)
                 })
             case .PendingByType:
-                request.pendingByType(success: { pending in
+                request.getPendingByType(success: { pending in
                     for value in pending {
                         dataForPresent.append((value.status , "", "\(value.count)"))
                     }

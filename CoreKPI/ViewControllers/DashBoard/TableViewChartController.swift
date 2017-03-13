@@ -68,7 +68,9 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
     
     func reloadTableView() {
         
-        switch qBMethod!
+        guard let qBMethod = qBMethod else { return }
+        
+        switch qBMethod
         {
         case .query:
             switch kpiName!
