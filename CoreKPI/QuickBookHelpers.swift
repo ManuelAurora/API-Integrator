@@ -21,11 +21,13 @@ enum QBPredifinedDateRange: String
     case yesterday = "Yesterday"
     case thisMonth = "This Month"
     case thisQuarter = "This Fiscal Quarter"
+    case thisYear = "This Fiscal Year"
 }
 
 enum QBPredifinedSummarizeValues: String
 {
     case days = "Days"
+    case month = "Month"
     case customers = "Customers"
 }
 
@@ -72,7 +74,7 @@ struct QBQuery: QuickBookMethod
     internal func formUrlPath(method: QuickBookMethod) -> String {
         return queryParameters.stringFromHttpParameters()
     }
-    
+        
     init(with queryParameters: [QBQueryParameterKeys: String]) {
         self.queryParameters = queryParameters
         self.methodName = QBMethod.query
@@ -144,6 +146,30 @@ struct QBBalanceSheet: QuickBookMethod
     }
 }
 
+struct QBIncomeProfitKPI
+{
+    var profitMonth: String!   { didSet { if profitMonth   != nil { checkValuesAreFilled() }}}
+    var profitQuartal: String! { didSet { if profitQuartal != nil { checkValuesAreFilled() }}}
+    var profitYear: String!    { didSet { if profitYear    != nil { checkValuesAreFilled() }}}
+    var incomeMonth: String!   { didSet { if incomeMonth   != nil { checkValuesAreFilled() }}}
+    var incomeQuartal: String! { didSet { if incomeQuartal != nil { checkValuesAreFilled() }}}
+    var incomeYear: String!    { didSet { if incomeYear    != nil { checkValuesAreFilled() }}}
+    
+    //If values are filled - KPI ready for use
+    func checkValuesAreFilled() {
+        
+        if  profitMonth   != nil &&
+            profitQuartal != nil &&
+            profitYear    != nil &&
+            incomeMonth   != nil &&
+            incomeQuartal != nil &&
+            incomeYear    != nil {
+            let notificationCenter = NotificationCenter.default
+            notificationCenter.post(name: .qBProfitAndLossRefreshed, object: nil)
+        }        
+    }
+}
+
 struct QBProfitAndLoss: QuickBookMethod
 {
     internal var methodName: QBMethod
@@ -154,8 +180,19 @@ struct QBProfitAndLoss: QuickBookMethod
         return queryParameters.stringFromHttpParameters()
     }
     
+    init(in period: QBPredifinedDateRange) {
+        
+        let queryParameters: [QBQueryParameterKeys: String] = [
+            .dateMacro: period.rawValue,
+            .summarizeBy: QBPredifinedSummarizeValues.month.rawValue
+        ]
+        
+        self.methodName = .profitLoss
+        self.queryParameters = queryParameters
+    }
+    
     init(with queryParameters: [QBQueryParameterKeys: String]) {
         self.queryParameters = queryParameters
-        self.methodName = QBMethod.profitLoss
+        self.methodName = .profitLoss
     }
 }

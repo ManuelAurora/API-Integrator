@@ -73,6 +73,11 @@ class QuickBookDataManager
     var expencesByVendorSummary: resultArray = []
     var openInvoicesByCustomers: resultArray = []
     
+    lazy var incomeProfitKPI: QBIncomeProfitKPI = {
+        let kpi = QBIncomeProfitKPI()
+        return kpi
+    }()
+    
     var queryMethod: QuickBookMethod?
     var companyID: String {
         set {
@@ -258,17 +263,25 @@ class QuickBookDataManager
                     kpiRequestsToSave.append(req)
                     
                 case .IncomeProfitKPIs:
-                    let profitAndLossQueryParameters: [QBQueryParameterKeys: String] = [
-                        .dateMacro: QBPredifinedDateRange.thisMonth.rawValue,
-                        .summarizeBy: QBPredifinedSummarizeValues.days.rawValue
-                    ]
                     
-                    let profitAndLoss = QBProfitAndLoss(with: profitAndLossQueryParameters)
-                    let pathForProfitAndLoss = formUrlPath(method: profitAndLoss)
-                    let req = urlStringWithMethod(urlString: pathForProfitAndLoss, method: profitAndLoss, kpiName: kpi)
+                    let profitAndLossMonth = QBProfitAndLoss(in: .thisMonth)
+                    let profitAndLossQuartal = QBProfitAndLoss(in: .thisQuarter)
+                    let profitAndLossYear = QBProfitAndLoss(in: .thisYear)
+                                        
+                    let reqMonth = urlStringWithMethod(urlString: formUrlPath(method: profitAndLossMonth),
+                                                  method: profitAndLossMonth,
+                                                  kpiName: kpi)
                     
-                    listOfRequests.append(req)
-                    kpiRequestsToSave.append(req)
+                    let reqQuartal = urlStringWithMethod(urlString: formUrlPath(method: profitAndLossQuartal),
+                                                         method: profitAndLossQuartal,
+                                                         kpiName: kpi)
+                    
+                    let reqYear = urlStringWithMethod(urlString: formUrlPath(method: profitAndLossYear),
+                                                      method: profitAndLossYear,
+                                                      kpiName: kpi)
+                    
+                    listOfRequests.append(contentsOf: [reqMonth, reqQuartal, reqYear])
+                    kpiRequestsToSave.append(reqMonth)
                     
                 case .PaidInvoicesByCustomers:
                     let paidInvoicesParameters: [QBQueryParameterKeys: String] = [

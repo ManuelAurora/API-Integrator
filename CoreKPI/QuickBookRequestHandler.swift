@@ -161,23 +161,45 @@ class QuickBookRequestHandler
                 notificationCenter.post(name: .qBInvoicesRefreshed, object: nil)
                 
             case .profitLoss:
-                let rowsDict = jsonDict!["Rows"] as! [String: Any]
-                let rows = rowsDict["Row"] as! [[String: Any]]
+                
+                let rowsDict   = jsonDict!["Rows"]   as! [String: Any]
+                let rows       = rowsDict["Row"]     as! [[String: Any]]
+                let header     = jsonDict!["Header"] as! [String: Any]
+                let dateMacro  = header["DateMacro"] as! String
                 
                 for row in rows
                 {
-                    guard let groupString = row["group"] as? String, groupString == "GrossProfit" else { continue }
-                    
-                    let summary = row["Summary"] as! [String: Any]
-                    let colDataSum = summary["ColData"] as! [[String: String]]
-                    
-                    let kpiTitle = colDataSum[0]["value"]
-                    let profit = colDataSum[1]["value"]
-                    
-                    break
-                }
-                
-                notificationCenter.post(name: .qBProfitAndLossRefreshed, object: nil)
+                    if let groupString = row["group"] as? String, groupString == "GrossProfit" || groupString == "Income"
+                    {
+                        let summary    = row["Summary"] as! [String: Any]
+                        let colDataSum = summary["ColData"]  as! [[String: String]]
+                        let kpiTitle   = colDataSum[0]["value"]
+                        let value      = colDataSum[1]["value"]
+                        
+                        switch groupString
+                        {
+                        case "GrossProfit":
+                            switch dateMacro
+                            {
+                            case "this calendar year":    manager.incomeProfitKPI.profitYear    = value
+                            case "this calendar quarter": manager.incomeProfitKPI.profitQuartal = value
+                            case "this month":            manager.incomeProfitKPI.profitMonth   = value
+                            default: break
+                            }
+                            
+                        case "Income":
+                            switch dateMacro
+                            {
+                            case "this calendar year":    manager.incomeProfitKPI.incomeYear    = value
+                            case "this calendar quarter": manager.incomeProfitKPI.incomeQuartal = value
+                            case "this month":            manager.incomeProfitKPI.incomeMonth   = value
+                            default: break
+                            }
+                            
+                        default: break
+                        }
+                    }                    
+                }                
                 
             case .accountList:
                 let rows = jsonDict!["Rows"] as! [String: Any]

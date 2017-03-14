@@ -3,16 +3,10 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "HubSpotManager.updatePipelinesAndDeals() -&gt; ():HubspotManager.swift">
+         contextName = "ExternalKPIViewController.(doOAuthQuickbooks() -&gt; ()).(closure #1):ExternalKPIViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "pipelinesArray.count">
-            </PersistentString>
-            <PersistentString
-               value = "pipelinesArray">
-            </PersistentString>
-            <PersistentString
-               value = "dealsArray.count">
+               value = "self.selectedQBKPIs">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -28,22 +22,13 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "QuickBookRequestHandler.getData() -&gt; ():QuickBookRequestHandler.swift">
+         contextName = "HubSpotManager.getDealsFrom(json : [String : Any]) -&gt; [HSDeal]:HubspotManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "QBIncomeProfitKPI.profitMonth.didset:QuickBookHelpers.swift">
          <PersistentStrings>
             <PersistentString
-               value = "oauthswift.parameters">
-            </PersistentString>
-            <PersistentString
-               value = "oauthswift">
-            </PersistentString>
-            <PersistentString
-               value = "oauthswift.client">
-            </PersistentString>
-            <PersistentString
-               value = "oauthswift.client.credential">
-            </PersistentString>
-            <PersistentString
-               value = "request.urlString">
+               value = "self">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -56,13 +41,21 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "HubSpotManager.showContactsFromVisits() -&gt; [HSContact]:HubspotManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "contactsArray.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "HSDeal.init(json : [String : Any]) -&gt; HSDeal:HubspotRequestedObjects.swift">
          <PersistentStrings>
             <PersistentString
                value = "dealId">
             </PersistentString>
             <PersistentString
-               value = "properties[&quot;createdate&quot;] as? [String: Any]">
+               value = "self.closeDate">
             </PersistentString>
             <PersistentString
                value = "self.sourseID">
@@ -80,10 +73,10 @@
                value = "properties[&quot;closedate&quot;] as! Int">
             </PersistentString>
             <PersistentString
-               value = "properties[&quot;hubspot_owner_id&quot;] as? [String: Any]">
+               value = "properties[&quot;createdate&quot;] as? [String: Any]">
             </PersistentString>
             <PersistentString
-               value = "self.closeDate">
+               value = "properties[&quot;hubspot_owner_id&quot;] as? [String: Any]">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -99,21 +92,13 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "HubSpotManager.showContactsFromVisits() -&gt; [HSContact]:HubspotManager.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "contactsArray.count">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "MemberInfoViewController.viewDidLoad() -&gt; ():MemberInfoViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "model.team[index].firstName!">
+               value = "memberProfileNameLabel">
             </PersistentString>
             <PersistentString
-               value = "memberProfileNameLabel">
+               value = "model.team[index].firstName!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -169,19 +154,19 @@
                value = "self.createDate">
             </PersistentString>
             <PersistentString
-               value = "sourceTypeString">
+               value = "properties[&quot;hs_analytics_source&quot;] as! String">
             </PersistentString>
             <PersistentString
                value = "self.ownerId">
             </PersistentString>
             <PersistentString
-               value = "(properties[&quot;hubspot_owner_id&quot;] as! [String: Any]) [&quot;value&quot;] as? String">
+               value = "sourceTypeString">
             </PersistentString>
             <PersistentString
                value = "assignDate">
             </PersistentString>
             <PersistentString
-               value = "properties[&quot;hs_analytics_source&quot;] as! String">
+               value = "(properties[&quot;hubspot_owner_id&quot;] as! [String: Any]) [&quot;value&quot;] as? String">
             </PersistentString>
             <PersistentString
                value = "lastContactDate">
@@ -223,43 +208,10 @@
          contextName = "QuickBookRequestHandler.handle(response : OAuthSwiftResponse, method : QuickBookMethod) -&gt; ExternalKpiInfo?:QuickBookRequestHandler.swift">
          <PersistentStrings>
             <PersistentString
-               value = "manager.balanceSheet.append(result)">
+               value = "groupString">
             </PersistentString>
             <PersistentString
-               value = "manager.profitAndLoss">
-            </PersistentString>
-            <PersistentString
-               value = "manager.accountList">
-            </PersistentString>
-            <PersistentString
-               value = "(invoice[&quot;CustomerRef&quot;] as! [String: Any])[&quot;name&quot;] as! String">
-            </PersistentString>
-            <PersistentString
-               value = "dateFormatter.dateFormat">
-            </PersistentString>
-            <PersistentString
-               value = "request!.kpiName!">
-            </PersistentString>
-            <PersistentString
-               value = "isCreation">
-            </PersistentString>
-            <PersistentString
-               value = "profit">
-            </PersistentString>
-            <PersistentString
-               value = "colDataSum[0][&quot;value&quot;] as! String">
-            </PersistentString>
-            <PersistentString
-               value = "invoice">
-            </PersistentString>
-            <PersistentString
-               value = "invoice[&quot;MetaData&quot;] as! [String: String]">
-            </PersistentString>
-            <PersistentString
-               value = "manager.balanceSheet">
-            </PersistentString>
-            <PersistentString
-               value = "request.urlString">
+               value = "groupString = row[&quot;group&quot;] as! String">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -297,10 +249,27 @@
                value = "memberProfilePhotoImage">
             </PersistentString>
             <PersistentString
-               value = "memberProfileNameLabel">
+               value = "memberProfilePositionLabel">
             </PersistentString>
             <PersistentString
-               value = "memberProfilePositionLabel">
+               value = "memberProfileNameLabel">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "QBIncomeProfitKPI.checkValuesAreFilled() -&gt; ():QuickBookHelpers.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "incomeMonth">
+            </PersistentString>
+            <PersistentString
+               value = "incomeQuartal">
+            </PersistentString>
+            <PersistentString
+               value = "incomeYear">
+            </PersistentString>
+            <PersistentString
+               value = "profitMonth">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -338,6 +307,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "HubSpotManager.(showContactsFromVisits() -&gt; [HSContact]).(closure #1):HubspotManager.swift">
+      </ContextState>
+      <ContextState
          contextName = "TableViewChartController.reloadTableView() -&gt; ():TableViewChartController.swift">
          <PersistentStrings>
             <PersistentString
@@ -350,9 +322,6 @@
                value = "kpiName!">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "HubSpotManager.(showContactsFromVisits() -&gt; [HSContact]).(closure #1):HubspotManager.swift">
       </ContextState>
       <ContextState
          contextName = "HubSpotManager.getPagesFrom(json : [String : Any]) -&gt; [HSPage]:HubspotManager.swift">
@@ -387,10 +356,10 @@
                value = "tableViewChartVC.tableView">
             </PersistentString>
             <PersistentString
-               value = "tableViewChartVC.dataArray">
+               value = "kpi.integratedKPI.requestJsonString!">
             </PersistentString>
             <PersistentString
-               value = "kpi.integratedKPI.requestJsonString!">
+               value = "tableViewChartVC.dataArray">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -429,15 +398,23 @@
       </ContextState>
       <ContextState
          contextName = "QuickBookDataManager.doOAuthQuickbooks(() -&gt; ()) -&gt; ():QuickBook.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "quickbooksKPIInfo[0]">
+            </PersistentString>
+            <PersistentString
+               value = "oauthswift.client.credential">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "QuickBookDataManager.saveNewEntities() -&gt; ():QuickBook.swift">
          <PersistentStrings>
             <PersistentString
-               value = "listOfRequests">
+               value = "kpiRequestsToSave">
             </PersistentString>
             <PersistentString
-               value = "kpiRequestsToSave">
+               value = "listOfRequests">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -540,23 +517,46 @@
          contextName = "HubSpotManager.(appendDealsToPipelineStages() -&gt; ()).(closure #1):HubspotManager.swift">
       </ContextState>
       <ContextState
+         contextName = "QuickBookRequestHandler.getData() -&gt; ():QuickBookRequestHandler.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "oauthswift.parameters">
+            </PersistentString>
+            <PersistentString
+               value = "oauthswift">
+            </PersistentString>
+            <PersistentString
+               value = "oauthswift.client">
+            </PersistentString>
+            <PersistentString
+               value = "oauthswift.client.credential">
+            </PersistentString>
+            <PersistentString
+               value = "request.urlString">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HubSpotManager.updatePipelinesAndDeals() -&gt; ():HubspotManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "pipelinesArray.count">
+            </PersistentString>
+            <PersistentString
+               value = "pipelinesArray">
+            </PersistentString>
+            <PersistentString
+               value = "dealsArray.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "HSPipeline.init(json : [String : Any]) -&gt; HSPipeline:HubspotRequestedObjects.swift">
          <PersistentStrings>
             <PersistentString
                value = "json[&quot;pipelineId&quot;] as? String">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ExternalKPIViewController.(doOAuthQuickbooks() -&gt; ()).(closure #1):ExternalKPIViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.selectedQBKPIs">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "HubSpotManager.getDealsFrom(json : [String : Any]) -&gt; [HSDeal]:HubspotManager.swift">
       </ContextState>
    </ContextStates>
 </VariablesViewState>
