@@ -399,7 +399,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                         tableViewChartVC.tableView.reloadData()
                     })
                 case .AverageRevenueSaleByPeriod:
-                    tableViewChartVC.titleOfTable = ("Period","","$")
+                    tableViewChartVC.titleOfTable = ("Period","$","Total")
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
@@ -417,7 +417,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                         tableViewChartVC.tableView.reloadData()
                     })
                 case .TransactionsByStatus:
-                    tableViewChartVC.titleOfTable = ("Status","","$")
+                    tableViewChartVC.titleOfTable = ("Status","","Count")
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
@@ -700,7 +700,15 @@ extension ChartsPageViewController {
                 }, failure: {error in
                     print(error)
                 })
-            case .AverageRevenueSaleByPeriod: break
+            case .AverageRevenueSaleByPeriod:
+                request.getAverageRevenueSaleByPeriod(success: {revenues in
+                    for revenue in revenues {
+                        dataForPresent.append((revenue.period , revenue.revenue, "\(revenue.total)"))
+                    }
+                    success(dataForPresent)
+                }, failure: {error in
+                    print(error)
+                })
             case .TopCountriesBySales:
                 request.getTopCountriesBySales(success: {countries in
                     for country in countries {
