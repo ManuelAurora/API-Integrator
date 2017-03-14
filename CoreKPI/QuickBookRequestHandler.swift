@@ -171,10 +171,10 @@ class QuickBookRequestHandler
                 {
                     if let groupString = row["group"] as? String, groupString == "GrossProfit" || groupString == "Income"
                     {
-                        let summary    = row["Summary"] as! [String: Any]
-                        let colDataSum = summary["ColData"]  as! [[String: String]]
-                        let kpiTitle   = colDataSum[0]["value"]
-                        let value      = colDataSum[1]["value"]
+                        let summary    = row["Summary"] as? [String: Any]
+                        let colDataSum = summary?["ColData"]  as? [[String: String]]
+                        let kpiTitle   = colDataSum?[0]["value"]
+                        let value      = colDataSum?[1]["value"]
                         
                         switch groupString
                         {

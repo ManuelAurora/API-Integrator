@@ -366,6 +366,7 @@ class QuickBookDataManager
             qbKPI.oAuthToken = serviceParameters[.oauthToken] ?? nil
             qbKPI.oAuthRefreshToken = serviceParameters[.oauthRefreshToken] ?? nil
             qbKPI.oAuthTokenSecret = serviceParameters[.oauthTokenSecret] ?? nil
+            qbKPI.companyId = serviceParameters[.companyId] ?? nil
         }
         
         switch type
@@ -462,10 +463,11 @@ class QuickBookDataManager
                 serviceParameters[.oauthTokenSecret] = tokenSecret
                 oauthswift.client.credential.oauthToken = token
                 oauthswift.client.credential.oauthTokenSecret = tokenSecret
+                serviceParameters[.companyId] = quickbooksKPIInfo[0].companyId
                 success()
             }
             else
-            {                
+            {
                 let callbackUrlString = serviceParameters[.callbackUrl]
                 
                 guard let callBackUrl = callbackUrlString else { print("DEBUG: Callback URL not found!"); return }
@@ -476,6 +478,7 @@ class QuickBookDataManager
                         self.serviceParameters[.oauthToken] = credential.oauthToken
                         self.serviceParameters[.oauthRefreshToken] = credential.oauthRefreshToken
                         self.serviceParameters[.oauthTokenSecret] = credential.oauthTokenSecret
+                        self.serviceParameters[.companyId] = parameters["realmId"] as? String ?? "193514517032864"
                         success()
                 }) { error in
                     print(error.localizedDescription)
