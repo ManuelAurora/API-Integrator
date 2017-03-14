@@ -381,7 +381,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                         tableViewChartVC.tableView.reloadData()
                     })
                 case .NetSalesTotalSales:
-                    tableViewChartVC.titleOfTable = ("Sales","","$")
+                    tableViewChartVC.titleOfTable = ("Sales","Net amount","Gross amount")
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
@@ -686,7 +686,7 @@ extension ChartsPageViewController {
             case .NetSalesTotalSales:
                 request.getSales(success: {sales in
                     for sale in sales {
-                        dataForPresent.append((sale.payer , "", sale.netAmount))
+                        dataForPresent.append((sale.payer , sale.netAmount, sale.amount))
                     }
                     success(dataForPresent)
                 }, failure: {error in

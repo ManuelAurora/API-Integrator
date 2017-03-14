@@ -73,14 +73,14 @@ class PayPal: ExternalRequest {
     }
     
     //MARK:- Get net sales/total sales
-    func getSales(success: @escaping (_ sales: [(payer: String, netAmount: String)]) -> (), failure: @escaping failure) {
+    func getSales(success: @escaping (_ sales: [(payer: String, netAmount: String, amount: String)]) -> (), failure: @escaping failure) {
         
-        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate(mounthsAgo: 1))]
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Received")]
         let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
         request(getMutableRequest(soapRequest))
             .responseString { response in
                 
-                var dataArray: [(payer: String, netAmount: String)] = []
+                var dataArray: [(payer: String, netAmount: String, amount: String)] = []
                 
                 if let xmlString = response.result.value {
                     do {
@@ -88,7 +88,7 @@ class PayPal: ExternalRequest {
                         let transactions = xmlDoc.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
                         for transaction in transactions {
                             if transaction.name == "PaymentTransactions" {
-                                dataArray.append((transaction["PayerDisplayName"].value!, transaction["NetAmount"].value!))
+                                dataArray.append((transaction["PayerDisplayName"].value!, transaction["NetAmount"].value!, transaction["GrossAmount"].value!))
                             }
                         }
                         success(dataArray)
@@ -200,12 +200,16 @@ class PayPal: ExternalRequest {
                             if transaction.name == "PaymentTransactions" {
                                 let netAmount = Double(transaction["NetAmount"].value!)!
                                 let dateString = transaction["Timestamp"].value!
+                                //let timeZone = transaction["Timezone"].value!
                                 let dateFormatter = DateFormatter()
                                 dateFormatter.dateFormat = "yyyy-MM-dd'T'hh:mm:ss'Z'"
                                 let date = dateFormatter.date(from: dateString)
                                 
                                 let calendar = Calendar.current
-                                let components = calendar.dateComponents([.month, .year, .day], from: date!)
+                                var components = calendar.dateComponents([.month, .year, .day], from: date!)
+                                //components.timeZone = TimeZone(abbreviation: timeZone)
+                                components.hour = 0
+                                components.minute = 0
                                 let newDate = calendar.date(from: components)
                                 
                                 transactionsArray.append((netAmount,newDate!))
