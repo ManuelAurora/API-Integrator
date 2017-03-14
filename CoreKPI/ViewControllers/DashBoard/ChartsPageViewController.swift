@@ -701,7 +701,15 @@ extension ChartsPageViewController {
                     print(error)
                 })
             case .AverageRevenueSaleByPeriod: break
-            case .TopCountriesBySales: break
+            case .TopCountriesBySales:
+                request.getTopCountriesBySales(success: {countries in
+                    for country in countries {
+                        dataForPresent.append((country.country , "\(country.sale)", "\(country.total)"))
+                    }
+                    success(dataForPresent)
+                }, failure: {error in
+                    print(error)
+                })
             case .TopProducts:
                 request.getTopProduct(success: {products in
                     for product in products {

@@ -177,6 +177,50 @@ class PayPal: ExternalRequest {
         }
     }
     
+    func getTopCountriesBySales(success: @escaping (_ topCountries: [(country: String, sale: Int, total: Int)]) -> (), failure: @escaping failure) {
+        getTransactionIDs(success: {transactionsIDs in
+            
+            var countries: [String] = []
+            var topCountries: [(country: String, sale: Int, total: Int)] = []
+            
+            for id in transactionsIDs {
+                self.getTransactionCountry(transactionsID: id, success: { country in
+                    countries.append(country)
+                    if countries.count == transactionsIDs.count {
+                        for country in countries {
+                            let total = countries.count
+                            
+                            if topCountries.count == 0 {
+                                topCountries.append((country, 1, total))
+                            } else {
+                                var isNewProduct = true
+                                for i in 0..<topCountries.count {
+                                    if topCountries[i].country == country {
+                                        let size = topCountries[i].sale
+                                        topCountries[i] = (country, size + 1, total)
+                                        isNewProduct = false
+                                    }
+                                }
+                                if isNewProduct {
+                                    topCountries.append((country, 1, total))
+                                }
+                            }
+                        }
+                        topCountries.sort(by: { (firstCountry, secondCountry) -> Bool in
+                            return firstCountry.sale > secondCountry.sale
+                        })
+                        success(topCountries)
+                    }
+                }, failure: {error in
+                    print(error)
+                })
+            }
+        }, failure: {error in
+            print(error)
+        })
+
+    }
+    
     func getTopProduct(success: @escaping (_ topProducts: [(product: String, size: Int, total: Int)]) -> (), failure: @escaping failure) {
         getTransactionIDs(success: {transactionsIDs in
             
@@ -184,7 +228,7 @@ class PayPal: ExternalRequest {
             var topProducts: [(product: String, size: Int, total: Int)] = []
             
             for id in transactionsIDs {
-                self.getTransactionDetails(transactionsID: id, success: { product in
+                self.getTransactionProduct(transactionsID: id, success: { product in
                     products.append(product)
                     if products.count == transactionsIDs.count {
                         for product in products {
@@ -206,6 +250,9 @@ class PayPal: ExternalRequest {
                                 }
                             }
                         }
+                        topProducts.sort(by: { (first, second) -> Bool in
+                            return first.size > second.size
+                        })
                         success(topProducts)
                     }
                 }, failure: {error in
@@ -247,7 +294,36 @@ class PayPal: ExternalRequest {
         }
     }
     
-    private func getTransactionDetails(transactionsID: String, success: @escaping (_ product: String) -> (), failure: @escaping failure) {
+    private func getTransactionCountry(transactionsID: String, success: @escaping (_ country: String) -> (), failure: @escaping failure) {
+        
+        let params: [(field: String, description: [String:String], value: String)] = [("TransactionID", ["xs:type":"xs:string"], transactionsID)]
+        let soapRequest = createXMLRequest(method: "GetTransactionDetails", subject: (nil, [:]), requestParams: params)
+        request(getMutableRequest(soapRequest))
+            .responseString { response in
+                
+                if let xmlString = response.result.value {
+                    do {
+                        let xmlDoc = try AEXMLDocument(xml: xmlString)
+                        let payerInfo = xmlDoc.root["SOAP-ENV:Body"]["GetTransactionDetailsResponse"]["PaymentTransactionDetails"]["PayerInfo"].children
+                        for item in payerInfo {
+                            if item.name == "PayerCountry" {
+                                if let country = item.value {
+                                    success(country)
+                                    return
+                                }
+                            }
+                        }
+                        success("Other")
+                    } catch {
+                        print("\(error)")
+                    }
+                } else {
+                    print("error fetching XML")
+                }
+        }
+    }
+    
+    private func getTransactionProduct(transactionsID: String, success: @escaping (_ product: String) -> (), failure: @escaping failure) {
         
         let params: [(field: String, description: [String:String], value: String)] = [("TransactionID", ["xs:type":"xs:string"], transactionsID)]
         let soapRequest = createXMLRequest(method: "GetTransactionDetails", subject: (nil, [:]), requestParams: params)
@@ -262,6 +338,7 @@ class PayPal: ExternalRequest {
                             if item.name == "Name" {
                                 if let product = item.value {
                                     success(product)
+                                    return
                                 }
                             }
                         }
