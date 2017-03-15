@@ -11,7 +11,8 @@ import OAuthSwift
 
 class QuickBookRequestHandler
 {
-    var oauthswift: OAuth1Swift!
+    private var oauthswift: OAuth1Swift!
+    var credential: OAuthSwiftCredential!
     var request: urlStringWithMethod!
     weak var manager: QuickBookDataManager!
     var isCreation: Bool
@@ -26,6 +27,11 @@ class QuickBookRequestHandler
     }
     
     func getData() {       
+       //TODO: Remove credential parameter, and create dict which will contain companyId ["id": OauthCredential].
+        //must fill this dict from CoreData entities.
+        oauthswift.client.credential.oauthToken = credential.oauthToken
+        oauthswift.client.credential.oauthTokenSecret = credential.oauthTokenSecret
+        oauthswift.client.credential.oauthRefreshToken = credential.oauthRefreshToken
         
         _ = oauthswift.client.get(
             
@@ -78,59 +84,57 @@ class QuickBookRequestHandler
                 
             case .query:
                 //Invoices
-                let queryResult = jsonDict!["QueryResponse"] as! [String: Any]
-                let invoceList = queryResult["Invoice"] as! [[String: Any]]
                 let currentDate = Date()
                 let dateFormatter = DateFormatter()
                 
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 
-                print(invoceList)
-                
-                for invoice in invoceList
-                {                    
-                    let balance = invoice["Balance"] as! Float
-                    let totalAmt = invoice["TotalAmt"] as! Float
-                    let docNumber = invoice["DocNumber"] as! String
-                    let customerName = (invoice["CustomerRef"] as! [String: Any])["name"] as! String
-                    let metaData = invoice["MetaData"] as! [String: String]
-                    let date = metaData["CreateTime"]!
-                    
-                    let overdueDateString = invoice["DueDate"] as! String
-                    let overdueDate = dateFormatter.date(from: overdueDateString)! //Date in Moscow can be slightly different
-                    let customer = (invoice["CustomerRef"] as! [String: Any])["name"] as! String
-                    var resultInvoice = (leftValue: "", centralValue: "", rightValue: "")
-                    
-                    manager.invoices.append((leftValue: "\(date) \(docNumber)", centralValue: "\(customerName)", rightValue: "\(totalAmt)"))
-                    
-                    if balance > 0
+                if let queryResult = jsonDict?["QueryResponse"] as? [String: Any],
+                    let invoiceList = queryResult["Invoice"] as? [[String: Any]]
+                {
+                    for invoice in invoiceList
                     {
-                        resultInvoice.leftValue = "\(customer)"
-                        resultInvoice.rightValue = "\(balance)"
-                        manager.nonPaidInvoices.append(resultInvoice)
+                        let balance = invoice["Balance"] as! Float
+                        let totalAmt = invoice["TotalAmt"] as! Float
+                        let docNumber = invoice["DocNumber"] as! String
+                        let customerName = (invoice["CustomerRef"] as! [String: Any])["name"] as! String
+                        let metaData = invoice["MetaData"] as! [String: String]
+                        let date = metaData["CreateTime"]!
                         
-                        if currentDate > overdueDate
+                        let overdueDateString = invoice["DueDate"] as! String
+                        let overdueDate = dateFormatter.date(from: overdueDateString)! //Date in Moscow can be slightly different
+                        let customer = (invoice["CustomerRef"] as! [String: Any])["name"] as! String
+                        var resultInvoice = (leftValue: "", centralValue: "", rightValue: "")
+                        
+                        manager.invoices.append((leftValue: "\(date) \(docNumber)", centralValue: "\(customerName)", rightValue: "\(totalAmt)"))
+                        
+                        if balance > 0
                         {
                             resultInvoice.leftValue = "\(customer)"
-                            manager.overdueCustomers.append(resultInvoice)
+                            resultInvoice.rightValue = "\(balance)"
+                            manager.nonPaidInvoices.append(resultInvoice)
+                            
+                            if currentDate > overdueDate
+                            {
+                                resultInvoice.leftValue = "\(customer)"
+                                manager.overdueCustomers.append(resultInvoice)
+                            }
+                        }
+                        else
+                        {
+                            resultInvoice.leftValue = "Paid invoice"
+                            resultInvoice.rightValue = "\(totalAmt)"
+                            manager.paidInvoices.append(resultInvoice)
                         }
                     }
-                    else
-                    {
-                        resultInvoice.leftValue = "Paid invoice"
-                        resultInvoice.rightValue = "\(totalAmt)"
-                        manager.paidInvoices.append(resultInvoice)
-                    }
-                    
-                    print(invoice["Balance"] as! Float)
-                    print(invoice["TotalAmt"] as! Float)
                 }
-                
-                let nonPaidPercent = (manager.nonPaidInvoices.count * 100) / manager.invoices.count
-                let paidPercent = (manager.paidInvoices.count * 100) / manager.invoices.count
-                
-                manager.paidInvoicesPercent.append((leftValue: "Paid invoices percent", centralValue: "", rightValue: "\(paidPercent)%"))
-                manager.nonPaidInvoicesPercent.append((leftValue: "Non-paid invoices percent", centralValue: "", rightValue: "\(nonPaidPercent)%"))
+                if manager.nonPaidInvoices.count > 0 && manager.nonPaidInvoices.count > 0
+                {
+                    let nonPaidPercent = (manager.nonPaidInvoices.count * 100) / manager.invoices.count
+                    let paidPercent = (manager.paidInvoices.count * 100) / manager.invoices.count
+                    manager.paidInvoicesPercent.append((leftValue: "Paid invoices percent", centralValue: "", rightValue: "\(paidPercent)%"))
+                    manager.nonPaidInvoicesPercent.append((leftValue: "Non-paid invoices percent", centralValue: "", rightValue: "\(nonPaidPercent)%"))
+                }
                 
                 let netIncome = manager.paidInvoices.reduce(Float(0), { (sum, item) in
                     sum + Float(item.rightValue)!

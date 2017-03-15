@@ -46,7 +46,9 @@ enum AuthenticationParameterKeys: String
     case companyId = "companyId"
     case oauthToken = "oauthToken"
     case oauthRefreshToken = "oauthRefreshToken"
-    case oauthTokenSecret = "oauthTokenSecret" 
+    case oauthTokenSecret = "oauthTokenSecret"
+    case consumerKey = "consumerKey"
+    case consumerSecret = "consumerSecret"
 }
 
 enum QBMethod: String

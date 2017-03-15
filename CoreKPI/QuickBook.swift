@@ -12,7 +12,11 @@ import Alamofire
 import CoreData
 
 typealias resultArray = [(leftValue: String, centralValue: String, rightValue: String)]
-typealias urlStringWithMethod = (urlString: String, method: QuickBookMethod?, kpiName: QiuckBooksKPIs?)
+typealias urlStringWithMethod = (
+    urlString: String,
+    method: QuickBookMethod?, kpiName: QiuckBooksKPIs?
+)
+
 typealias success = () -> ()
 
 class QuickBookDataManager
@@ -89,13 +93,16 @@ class QuickBookDataManager
     }
     
     var listOfRequests: [urlStringWithMethod] = []
+    var credentialTempList: [OAuthSwiftCredential] = []
     
     var kpiFilter =  [String: Bool]()
     
     lazy var serviceParameters: [AuthenticationParameterKeys: String] = {
         let parameters: [AuthenticationParameterKeys: String] = [
             .companyId:   "123145773393399",
-            .callbackUrl: "CoreKPI:/oauth-callback/intuit"            
+            .callbackUrl: "CoreKPI:/oauth-callback/intuit",
+            .consumerKey:    "qyprdLYMArOQwomSilhpS7v9Ge8kke",
+            .consumerSecret: "ogPRVftZXLA1A03QyWNyJBax1qOOphuVJVP121np"
         ]
         
         return parameters
@@ -337,14 +344,17 @@ class QuickBookDataManager
         
         clearAllData()
         
+        var index = 0
         for request in listOfRequests
-        {
+        {            
             let handler = QuickBookRequestHandler(oauthswift: oauthswift,
                                                   request: request,
                                                   manager: self,
                                                   isCreation: isCreation)            
             
+            handler.credential = credentialTempList[index]
             handler.getData()
+            index += 1
         }
         
         if isCreation { saveNewEntities() }
@@ -357,16 +367,13 @@ class QuickBookDataManager
         var qbKPI: QuickbooksKPI!
         
         let fetchQuickbookKPI = NSFetchRequest<QuickbooksKPI>(entityName: "QuickbooksKPI")
-        if let quickbooksKPI = try? managedContext.fetch(fetchQuickbookKPI), quickbooksKPI.count > 0
+        
+        if let quickbooksKPI = try? managedContext.fetch(fetchQuickbookKPI), quickbooksKPI.count > 0,
+            let companyId = serviceParameters[.companyId]
         {
-            qbKPI = quickbooksKPI[0]
-        }
-        else
-        {
-            qbKPI = QuickbooksKPI()
-            qbKPI.oAuthToken = serviceParameters[.oauthToken] ?? nil
-            qbKPI.oAuthRefreshToken = serviceParameters[.oauthRefreshToken] ?? nil
-            qbKPI.oAuthTokenSecret = serviceParameters[.oauthTokenSecret] ?? nil            
+            let filteredArray = quickbooksKPI.filter { $0.realmId == companyId }
+            
+            qbKPI = filteredArray[0]
         }
         
         switch type
@@ -450,42 +457,56 @@ class QuickBookDataManager
     
     //MARK: Authentication
     func doOAuthQuickbooks(_ success: @escaping success) {
-    
-        let infoFetch = NSFetchRequest<QuickbooksKPI>(entityName: "QuickbooksKPI")
         
-        do {
-            let quickbooksKPIInfo = try managedContext.fetch(infoFetch)
-            
-            if quickbooksKPIInfo.count > 0, let token = quickbooksKPIInfo[0].oAuthToken,
-                let tokenSecret = quickbooksKPIInfo[0].oAuthTokenSecret
-            {
-                serviceParameters[.oauthToken] = token
-                serviceParameters[.oauthTokenSecret] = tokenSecret
-                oauthswift.client.credential.oauthToken = token
-                oauthswift.client.credential.oauthTokenSecret = tokenSecret
-                success()
-            }
-            else
-            {
-                let callbackUrlString = serviceParameters[.callbackUrl]
-                
-                guard let callBackUrl = callbackUrlString else { print("DEBUG: Callback URL not found!"); return }
-                
-                let _ = oauthswift.authorize(
-                    withCallbackURL: callBackUrl,
-                    success: { credential, response, parameters in
-                        self.serviceParameters[.oauthToken] = credential.oauthToken
-                        self.serviceParameters[.oauthRefreshToken] = credential.oauthRefreshToken
-                        self.serviceParameters[.oauthTokenSecret] = credential.oauthTokenSecret
-                        self.serviceParameters[.companyId] = parameters["realmId"] as? String ?? "193514517032864"
-                        success()
-                }) { error in
-                    print(error.localizedDescription)
+        let callbackUrlString = serviceParameters[.callbackUrl]
+        let infoFetch = NSFetchRequest<QuickbooksKPI>(entityName: "QuickbooksKPI")
+
+        guard let callBackUrl = callbackUrlString else { print("DEBUG: Callback URL not found!"); return }
+        
+        oauthswift.client.credential.oauthToken = ""
+        oauthswift.client.credential.oauthTokenSecret = ""
+        oauthswift.client.credential.oauthRefreshToken = ""
+               
+        let _ = oauthswift.authorize(
+            withCallbackURL: callBackUrl,
+            success: { credential, response, parameters in
+                do {
+                    let quickbooksKPIInfo = try self.managedContext.fetch(infoFetch)
+                    
+                    if let currentCompanyId = self.serviceParameters[.companyId]
+                    {
+                        let filteredArray = quickbooksKPIInfo.filter { $0.realmId == currentCompanyId }
+                        
+                        if filteredArray.count > 0
+                        {
+                            let kpi = filteredArray[0]
+                            kpi.oAuthToken = credential.oauthToken
+                            kpi.oAuthTokenSecret = credential.oauthTokenSecret
+                            kpi.oAuthRefreshToken = credential.oauthRefreshToken
+                        }
+                        else
+                        {
+                            let newQbKPI = QuickbooksKPI()
+                            newQbKPI.oAuthToken = credential.oauthToken
+                            newQbKPI.oAuthRefreshToken = credential.oauthTokenSecret
+                            newQbKPI.oAuthTokenSecret = credential.oauthRefreshToken
+                            newQbKPI.realmId = currentCompanyId
+                        }
+                    }
+                    
+                    try self.managedContext.save()
                 }
-            }
-        }
-        catch {
-            print("DEBUG: CoreData error")
+                catch {
+                    print("DEBUG: CoreData error")
+                }
+                
+                self.serviceParameters[.oauthToken] = credential.oauthToken
+                self.serviceParameters[.oauthRefreshToken] = credential.oauthRefreshToken
+                self.serviceParameters[.oauthTokenSecret] = credential.oauthTokenSecret
+                
+                success()
+        }) { error in
+            print(error.localizedDescription)
         }
     }
 }
