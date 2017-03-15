@@ -692,7 +692,13 @@ extension ChartsPageViewController {
                 }, failure: {error in
                     print(error)
                 })
-            case .KPIS: break
+            case .KPIS:
+                request.getKPIS(success: { kpis in
+                    for kpi in kpis {
+                        dataForPresent.append((kpi.kpiName , kpi.value, "\(kpi.percent)"))
+                    }
+                    success(dataForPresent)
+                })
             case .AverageRevenueSale:
                 request.getAverageRevenue(success: { revenue in
                     dataForPresent.append(("Average", "", revenue))
