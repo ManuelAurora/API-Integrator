@@ -143,6 +143,7 @@ class QuickBookDataManager
     private func formUrlPath(method: QuickBookMethod) -> String {
         
         let companyId = serviceParameters[AuthenticationParameterKeys.companyId]!
+        
         let fullUrlPath = self.urlBase +
             companyId +
             method.methodName.rawValue + "?" +
@@ -365,8 +366,7 @@ class QuickBookDataManager
             qbKPI = QuickbooksKPI()
             qbKPI.oAuthToken = serviceParameters[.oauthToken] ?? nil
             qbKPI.oAuthRefreshToken = serviceParameters[.oauthRefreshToken] ?? nil
-            qbKPI.oAuthTokenSecret = serviceParameters[.oauthTokenSecret] ?? nil
-            qbKPI.companyId = serviceParameters[.companyId] ?? nil
+            qbKPI.oAuthTokenSecret = serviceParameters[.oauthTokenSecret] ?? nil            
         }
         
         switch type
@@ -463,7 +463,6 @@ class QuickBookDataManager
                 serviceParameters[.oauthTokenSecret] = tokenSecret
                 oauthswift.client.credential.oauthToken = token
                 oauthswift.client.credential.oauthTokenSecret = tokenSecret
-                serviceParameters[.companyId] = quickbooksKPIInfo[0].companyId
                 success()
             }
             else
