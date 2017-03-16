@@ -32,6 +32,7 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.tableFooterView = UIView(frame: .zero)
         
         tableView.tableFooterView = UIView(frame: .zero)
         
@@ -39,21 +40,17 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
         switch qBMethod
         {
         
+        switch qBMethod {
         case .query:
             subscribeToNotification(named: .qBInvoicesRefreshed)
-            
         case .balanceSheet:
             subscribeToNotification(named: .qBBalanceSheetRefreshed)
-            
         case .accountList:
             subscribeToNotification(named: .qBAccountListRefreshed)
-            
         case .profitLoss:
             subscribeToNotification(named: .qBProfitAndLossRefreshed)
-            
         case .paidInvoicesByCustomers:
             subscribeToNotification(named: .qBPaidInvoicesByCustomersRefreshed)
-            
         case .paidExpenses:
             subscribeToNotification(named: .qBExpencesByVendorSummaryRefreshed)        
         }
@@ -181,8 +178,6 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
                 cell.rightLabel.text = dataArray[indexPath.row - 1].rightValue
             }
         }
-        
-
         return cell
     }
     

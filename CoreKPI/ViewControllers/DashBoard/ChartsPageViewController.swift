@@ -392,7 +392,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                         tableViewChartVC.tableView.reloadData()
                     })
                 case .NetSalesTotalSales:
-                    tableViewChartVC.titleOfTable = ("Sales","","$")
+                    tableViewChartVC.titleOfTable = ("Sales","Net amount","Gross amount")
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
@@ -410,7 +410,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                         tableViewChartVC.tableView.reloadData()
                     })
                 case .AverageRevenueSaleByPeriod:
-                    tableViewChartVC.titleOfTable = ("Period","","$")
+                    tableViewChartVC.titleOfTable = ("Period","$","Total")
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
@@ -428,13 +428,13 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                         tableViewChartVC.tableView.reloadData()
                     })
                 case .TransactionsByStatus:
-                    tableViewChartVC.titleOfTable = ("Status","","$")
+                    tableViewChartVC.titleOfTable = ("Status","","Count")
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
                     })
                 case .PendingByType:
-                    tableViewChartVC.titleOfTable = ("Type","","$")
+                    tableViewChartVC.titleOfTable = ("Type","","Count")
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
@@ -693,7 +693,7 @@ extension ChartsPageViewController {
             case .NetSalesTotalSales:
                 request.getSales(success: {sales in
                     for sale in sales {
-                        dataForPresent.append((sale.payer , "", sale.netAmount))
+                        dataForPresent.append((sale.payer , sale.netAmount, sale.amount))
                     }
                     success(dataForPresent)
                 }, failure: {error in
@@ -707,9 +707,33 @@ extension ChartsPageViewController {
                 }, failure: {error in
                     print(error)
                 })
-            case .AverageRevenueSaleByPeriod: break
-            case .TopCountriesBySales: break
-            case .TopProducts: break
+            case .AverageRevenueSaleByPeriod:
+                request.getAverageRevenueSaleByPeriod(success: {revenues in
+                    for revenue in revenues {
+                        dataForPresent.append((revenue.period , revenue.revenue, "\(revenue.total)"))
+                    }
+                    success(dataForPresent)
+                }, failure: {error in
+                    print(error)
+                })
+            case .TopCountriesBySales:
+                request.getTopCountriesBySales(success: {countries in
+                    for country in countries {
+                        dataForPresent.append((country.country , "\(country.sale)", "\(country.total)"))
+                    }
+                    success(dataForPresent)
+                }, failure: {error in
+                    print(error)
+                })
+            case .TopProducts:
+                request.getTopProduct(success: {products in
+                    for product in products {
+                        dataForPresent.append((product.product , "\(product.size)", "\(product.total)"))
+                    }
+                    success(dataForPresent)
+                }, failure: {error in
+                    print(error)
+                })
             case .TransactionsByStatus:
                 request.getTransactionsByStatus(success: {transactionsSize in
                     for status in transactionsSize {
@@ -719,7 +743,15 @@ extension ChartsPageViewController {
                 }, failure: {error in
                     print(error)
                 })
-            case .PendingByType: break
+            case .PendingByType:
+                request.getPendingByType(success: { pending in
+                    for value in pending {
+                        dataForPresent.append((value.status , "", "\(value.count)"))
+                    }
+                    success(dataForPresent)
+                }, failure: {error in
+                    print(error)
+                })
             case .RecentExpenses:
                 request.getRecentExpenses(success: {expenses in
                     for expense in expenses {

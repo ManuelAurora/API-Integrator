@@ -142,9 +142,10 @@ class QuickBookDataManager
     
     private func makeDate() {
         
-        let startOfQuarter: Date
-        let date = Date()
-        let calendar = Calendar.current
+        //TODO: Add date generating
+        //let startOfQuarter: Date
+        //let date = Date()
+        //let calendar = Calendar.current
     }
     
     private func formUrlPath(method: QuickBookMethod) -> String {

@@ -15,6 +15,8 @@ class PayPal: ExternalRequest {
     var apiUsername = ""
     var apiPassword = ""
     var apiSignature = ""
+    let appID = "APP-80W284485P519543T"
+    let payPalUri = "https://api-3t.sandbox.paypal.com/2.0/"
     
     init(apiUsername: String, apiPassword: String, apiSignature: String) {
         self.apiUsername = apiUsername
@@ -23,6 +25,7 @@ class PayPal: ExternalRequest {
         super.init()
     }
     
+    //MARK: - GetAccountInfo for checkig input API credentials
     func getAccountInfo(success: @escaping () -> (), failure: @escaping failure) {
         let soapRequest = createXMLRequest(method: "GetPalDetails", subject: (nil, [:]), requestParams: [])
         
@@ -45,8 +48,7 @@ class PayPal: ExternalRequest {
         }
     }
     
-    let payPalUri = "https://api-3t.sandbox.paypal.com/2.0/"
-    
+    //MARK: - GetBalance
     func getBalance(success: @escaping (_ balance: String) -> (), failure: @escaping failure)  {
         
         let soapRequest = createXMLRequest(method: "GetBalance", subject: (nil, [:]), requestParams: [])
@@ -70,14 +72,15 @@ class PayPal: ExternalRequest {
         }
     }
     
-    func getSales(success: @escaping (_ sales: [(payer: String, netAmount: String)]) -> (), failure: @escaping failure) {
+    //MARK:- Get net sales/total sales
+    func getSales(success: @escaping (_ sales: [(payer: String, netAmount: String, amount: String)]) -> (), failure: @escaping failure) {
         
-        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate())]
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Received")]
         let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
         request(getMutableRequest(soapRequest))
             .responseString { response in
                 
-                var dataArray: [(payer: String, netAmount: String)] = []
+                var dataArray: [(payer: String, netAmount: String, amount: String)] = []
                 
                 if let xmlString = response.result.value {
                     do {
@@ -85,7 +88,7 @@ class PayPal: ExternalRequest {
                         let transactions = xmlDoc.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
                         for transaction in transactions {
                             if transaction.name == "PaymentTransactions" {
-                                dataArray.append((transaction["PayerDisplayName"].value!, transaction["NetAmount"].value!))
+                                dataArray.append((transaction["PayerDisplayName"].value!, transaction["NetAmount"].value!, transaction["GrossAmount"].value!))
                             }
                         }
                         success(dataArray)
@@ -98,52 +101,54 @@ class PayPal: ExternalRequest {
         }
     }
     
-    func getKPIS(success: @escaping (_ kpis: [(kpiName: String, value: String)]) -> (), failure: @escaping failure) {
-        
-        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate())]
-        let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
-        request(getMutableRequest(soapRequest))
-            .responseString { response in
-                
-                var dataArray: [(kpiName: String, value: String)] = []
-                
-                var netSales = 0
-                var fees = 0
-                var shippingCosts = 0
-                var refunds = 0
-                var incomingRefunds = 0
-                var pending = 0
-                var expenses = 0
-                
-                if let xmlString = response.result.value {
-                    do {
-                        let xmlDoc = try AEXMLDocument(xml: xmlString)
-                        let transactions = xmlDoc.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
-                        for transaction in transactions {
-                            if transaction.name == "PaymentTransactions" {
-                                let status = transaction["Status"].value!
-                                switch status {
-                                case "Success":
-                                    let netSale = 0
-                                default:
-                                    break
-                                    
-                                }
-                            }
-                        }
-                        success(dataArray)
-                    } catch {
-                        print("\(error)")
-                    }
-                } else {
-                    print("error fetching XML")
-                }
-        }
-    }
+    //MARK: - Get KPIs
+//    func getKPIS(success: @escaping (_ kpis: [(kpiName: String, value: String)]) -> (), failure: @escaping failure) {
+//        
+//        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate(mounthsAgo: 1))]
+//        let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
+//        request(getMutableRequest(soapRequest))
+//            .responseString { response in
+//                
+//                var dataArray: [(kpiName: String, value: String)] = []
+//                
+//                var netSales = 0
+//                var fees = 0
+//                var shippingCosts = 0
+//                var refunds = 0
+//                var incomingRefunds = 0
+//                var pending = 0
+//                var expenses = 0
+//                
+//                if let xmlString = response.result.value {
+//                    do {
+//                        let xmlDoc = try AEXMLDocument(xml: xmlString)
+//                        let transactions = xmlDoc.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
+//                        for transaction in transactions {
+//                            if transaction.name == "PaymentTransactions" {
+//                                let status = transaction["Status"].value!
+//                                switch status {
+//                                case "Success":
+//                                    let netSale = 0
+//                                default:
+//                                    break
+//                                    
+//                                }
+//                            }
+//                        }
+//                        success(dataArray)
+//                    } catch {
+//                        print("\(error)")
+//                    }
+//                } else {
+//                    print("error fetching XML")
+//                }
+//        }
+//    }
     
+    //MARK: - Get Average revenue sale
     func getAverageRevenue(success: @escaping (_ revenue: String) -> (), failure: @escaping failure) {
         
-        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate()), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Received")]
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Received")]
         let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
         request(getMutableRequest(soapRequest))
             .responseString { response in
@@ -176,9 +181,274 @@ class PayPal: ExternalRequest {
         }
     }
     
+    //MARK: - Get Average revenue sale by period
+    func getAverageRevenueSaleByPeriod(success: @escaping ([(revenue: String, period: String, total: Int)]) -> (), failure: @escaping failure) {
+        
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Received")]
+        let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
+        request(getMutableRequest(soapRequest))
+            .responseString { response in
+                
+                var transactionsArray: [(amount: Double, date: Date)] = []
+                var revenuesArray: [(revenue: String, period: String, total: Int)] = []
+                
+                if let xmlString = response.result.value {
+                    do {
+                        let xmlDoc = try AEXMLDocument(xml: xmlString)
+                        let transactions = xmlDoc.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
+                        for transaction in transactions {
+                            if transaction.name == "PaymentTransactions" {
+                                let netAmount = Double(transaction["NetAmount"].value!)!
+                                let dateString = transaction["Timestamp"].value!
+                                //let timeZone = transaction["Timezone"].value!
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "yyyy-MM-dd'T'hh:mm:ss'Z'"
+                                let date = dateFormatter.date(from: dateString)
+                                
+                                let calendar = Calendar.current
+                                var components = calendar.dateComponents([.month, .year, .day], from: date!)
+                                //components.timeZone = TimeZone(abbreviation: timeZone)
+                                components.hour = 0
+                                components.minute = 0
+                                let newDate = calendar.date(from: components)
+                                
+                                transactionsArray.append((netAmount,newDate!))
+                            }
+                        }
+                        
+                        var dateArray: [Date] = []
+                        
+                        for transaction in transactionsArray {
+                            
+                            if dateArray.count == 0 {
+                                dateArray.append(transaction.date)
+                            } else {
+                                var isNewDate = true
+                                for i in 0..<dateArray.count {
+                                    if dateArray[i] == transaction.date {
+                                        isNewDate = false
+                                    }
+                                }
+                                if isNewDate {
+                                    dateArray.append(transaction.date)
+                                }
+                            }
+                        }
+                        
+                        for date in dateArray {
+                            let transactionsGroup = transactionsArray.filter{$0.date == date}
+                            
+                            var amountSum = 0.0
+                            let total = transactionsGroup.count
+                            
+                            for transaction in transactionsGroup {
+                                amountSum += transaction.amount
+                            }
+                            
+                            let revenue = amountSum/Double(total)
+                            
+                            let numberFormatter = NumberFormatter()
+                            numberFormatter.numberStyle = .decimal
+                            numberFormatter.maximumFractionDigits = 3
+                            let numberString = numberFormatter.string(for: revenue)
+                            
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.dateFormat = "yyyy-MM-dd"
+                            
+                            let dateString = dateFormatter.string(from: date) == dateFormatter.string(from: Date()) ? "Today" : dateFormatter.string(from: date)
+                            
+                            revenuesArray.append((numberString!, dateString, total))
+                        }
+                        success(revenuesArray)
+                    } catch {
+                        print("\(error)")
+                    }
+                } else {
+                    print("error fetching XML")
+                }
+        }
+    }
+    
+    //MARK: - Get top countries by sales
+    func getTopCountriesBySales(success: @escaping (_ topCountries: [(country: String, sale: Int, total: Int)]) -> (), failure: @escaping failure) {
+        getTransactionIDs(success: {transactionsIDs in
+            
+            var countries: [String] = []
+            var topCountries: [(country: String, sale: Int, total: Int)] = []
+            
+            for id in transactionsIDs {
+                self.getTransactionCountry(transactionsID: id, success: { country in
+                    countries.append(country)
+                    if countries.count == transactionsIDs.count {
+                        for country in countries {
+                            let total = countries.count
+                            
+                            if topCountries.count == 0 {
+                                topCountries.append((country, 1, total))
+                            } else {
+                                var isNewProduct = true
+                                for i in 0..<topCountries.count {
+                                    if topCountries[i].country == country {
+                                        let size = topCountries[i].sale
+                                        topCountries[i] = (country, size + 1, total)
+                                        isNewProduct = false
+                                    }
+                                }
+                                if isNewProduct {
+                                    topCountries.append((country, 1, total))
+                                }
+                            }
+                        }
+                        topCountries.sort{$0.sale>$1.sale}
+                        success(topCountries)
+                    }
+                }, failure: {error in
+                    print(error)
+                })
+            }
+        }, failure: {error in
+            print(error)
+        })
+
+    }
+    
+    //MARK: - Get top product
+    func getTopProduct(success: @escaping (_ topProducts: [(product: String, size: Int, total: Int)]) -> (), failure: @escaping failure) {
+        getTransactionIDs(success: {transactionsIDs in
+            
+            var products: [String] = []
+            var topProducts: [(product: String, size: Int, total: Int)] = []
+            
+            for id in transactionsIDs {
+                self.getTransactionProduct(transactionsID: id, success: { product in
+                    products.append(product)
+                    if products.count == transactionsIDs.count {
+                        for product in products {
+                            let total = products.count
+                            
+                            if topProducts.count == 0 {
+                                topProducts.append((product, 1, total))
+                            } else {
+                                var isNewProduct = true
+                                for i in 0..<topProducts.count {
+                                    if topProducts[i].product == product {
+                                        let size = topProducts[i].size
+                                        topProducts[i] = (product, size + 1, total)
+                                        isNewProduct = false
+                                    }
+                                }
+                                if isNewProduct {
+                                    topProducts.append((product, 1, total))
+                                }
+                            }
+                        }
+                        topProducts.sort(by: { (first, second) -> Bool in
+                            return first.size > second.size
+                        })
+                        success(topProducts)
+                    }
+                }, failure: {error in
+                    print(error)
+                })
+            }
+        }, failure: {error in
+            print(error)
+        })
+    }
+    
+    //MARK: private helper methods
+    private func getTransactionIDs(success: @escaping (_ transactionsID: [String]) -> (), failure: @escaping failure) {
+        
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Received")]
+        let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
+        request(getMutableRequest(soapRequest))
+            .responseString { response in
+                
+                var transactionsID: [String] = []
+                
+                if let xmlString = response.result.value {
+                    do {
+                        let xmlDoc = try AEXMLDocument(xml: xmlString)
+                        let transactions = xmlDoc.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
+                        for transaction in transactions {
+                            if transaction.name == "PaymentTransactions" {
+                                if let transactionID = transaction["TransactionID"].value {
+                                    transactionsID.append(transactionID)
+                                }
+                            }
+                        }
+                        success(transactionsID)
+                    } catch {
+                        print("\(error)")
+                    }
+                } else {
+                    print("error fetching XML")
+                }
+        }
+    }
+    
+    private func getTransactionCountry(transactionsID: String, success: @escaping (_ country: String) -> (), failure: @escaping failure) {
+        
+        let params: [(field: String, description: [String:String], value: String)] = [("TransactionID", ["xs:type":"xs:string"], transactionsID)]
+        let soapRequest = createXMLRequest(method: "GetTransactionDetails", subject: (nil, [:]), requestParams: params)
+        request(getMutableRequest(soapRequest))
+            .responseString { response in
+                
+                if let xmlString = response.result.value {
+                    do {
+                        let xmlDoc = try AEXMLDocument(xml: xmlString)
+                        let payerInfo = xmlDoc.root["SOAP-ENV:Body"]["GetTransactionDetailsResponse"]["PaymentTransactionDetails"]["PayerInfo"].children
+                        for item in payerInfo {
+                            if item.name == "PayerCountry" {
+                                if let country = item.value {
+                                    success(country)
+                                    return
+                                }
+                            }
+                        }
+                        success("Other")
+                    } catch {
+                        print("\(error)")
+                    }
+                } else {
+                    print("error fetching XML")
+                }
+        }
+    }
+    
+    private func getTransactionProduct(transactionsID: String, success: @escaping (_ product: String) -> (), failure: @escaping failure) {
+        
+        let params: [(field: String, description: [String:String], value: String)] = [("TransactionID", ["xs:type":"xs:string"], transactionsID)]
+        let soapRequest = createXMLRequest(method: "GetTransactionDetails", subject: (nil, [:]), requestParams: params)
+        request(getMutableRequest(soapRequest))
+            .responseString { response in
+                
+                if let xmlString = response.result.value {
+                    do {
+                        let xmlDoc = try AEXMLDocument(xml: xmlString)
+                        let paymentItem = xmlDoc.root["SOAP-ENV:Body"]["GetTransactionDetailsResponse"]["PaymentTransactionDetails"]["PaymentItemInfo"]["PaymentItem"].children
+                        for item in paymentItem {
+                            if item.name == "Name" {
+                                if let product = item.value {
+                                    success(product)
+                                    return
+                                }
+                            }
+                        }
+                        success("Other")
+                    } catch {
+                        print("\(error)")
+                    }
+                } else {
+                    print("error fetching XML")
+                }
+        }
+    }
+    
+    //MARK: - Get transactions by status
     func getTransactionsByStatus(success: @escaping (_ expenses: [(status: String, size: Int)]) -> (), failure: @escaping failure) {
         
-        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate()), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "All")]
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "All")]
         let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
         request(getMutableRequest(soapRequest))
             .responseString { response in
@@ -221,9 +491,86 @@ class PayPal: ExternalRequest {
         
     }
     
+    //MARK: - Get pending by type
+    func getPendingByType(success: @escaping (_ pending: [(status: String, count: Int)]) -> (), failure: @escaping failure) {
+        
+        let merchantEmail = generateEmailFromApiUsername()
+        
+        let headers: [String : String] = [
+            "X-PAYPAL-SECURITY-USERID" : apiUsername,
+            "X-PAYPAL-SECURITY-PASSWORD" : apiPassword,
+            "X-PAYPAL-SECURITY-SIGNATURE" : apiSignature,
+            "X-PAYPAL-REQUEST-DATA-FORMAT" : "NV",
+            "X-PAYPAL-RESPONSE-DATA-FORMAT" : "JSON",
+            "X-PAYPAL-APPLICATION-ID" : appID
+            ]
+        
+        let params: [String : Any] = [
+            "requestEnvelope.errorLanguage" : "en_US",
+            "merchantEmail" : merchantEmail,
+            "parameters.origin" : "",
+            "page" : 1,
+            "pageSize" : 10
+        ]
+        
+        request("https://svcs.sandbox.paypal.com/Invoice/SearchInvoices", method: .post, parameters: params, encoding: URLEncoding.default, headers: headers).responseJSON { response in
+            
+            if let data = response.data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
+                    if let jsonDictionary = json {
+                        if let size = jsonDictionary["count"] as? String, Int(size)! > 0 {
+                            if let invoiceList = jsonDictionary["invoiceList"] as? NSDictionary {
+                                if let invoiceArray = invoiceList["invoice"] as? NSArray {
+                                    
+                                    var statusArray: [(status: String, count: Int)] = []
+                                    
+                                    for i in 0..<invoiceArray.count {
+                                        let invoice = invoiceArray[i] as! NSDictionary
+                                        let status = invoice["status"] as! String
+                                        
+                                        if statusArray.count == 0 {
+                                            statusArray.append((status, 1))
+                                        } else {
+                                            var isNewStatus = true
+                                            for i in 0..<statusArray.count {
+                                                if statusArray[i].status == status {
+                                                    let size = statusArray[i].count
+                                                    statusArray[i] = (status, size + 1)
+                                                    isNewStatus = false
+                                                }
+                                            }
+                                            if isNewStatus {
+                                                statusArray.append((status, 1))
+                                            }
+                                        }
+                                    }
+                                    success(statusArray)
+                                }
+                            }
+                        }
+                    } else {
+                        failure("Load failed")
+                    }
+                } catch {
+                    guard response.result.isSuccess else {
+                        let error = response.result.error
+                        if let error = error, (error as NSError).code != NSURLErrorCancelled {
+                            let requestError = error.localizedDescription
+                            failure(requestError)
+                        }
+                        return
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    //MARK: - Get recent expenses
     func getRecentExpenses(success: @escaping (_ expenses: [(payer: String, netAmount: String)]) -> (), failure: @escaping failure) {
         
-        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate()), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Sent")]
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Sent")]
         let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
         request(getMutableRequest(soapRequest))
             .responseString { response in
@@ -249,9 +596,11 @@ class PayPal: ExternalRequest {
         }
     }
     
-    private func getStartDate() -> String {
+    
+    //MARK: - Helpers methods
+    private func getStartDate(mounthsAgo: Int) -> String {
         let dayInSecond = 60 * 60 * 24
-        let mountAgo = Date(timeIntervalSinceNow: -(Double(dayInSecond * 30)))
+        let mountAgo = Date(timeIntervalSinceNow: -(Double(dayInSecond * 30 * mounthsAgo)))
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -294,6 +643,24 @@ class PayPal: ExternalRequest {
             _ = Request.addChild(name: param.field, value: param.value, attributes: [(descr?.key)! : (descr?.value)!])
         }
         return xml
+    }
+    
+    private func generateEmailFromApiUsername() -> String {
+        let separatedBypointEmail = apiUsername.components(separatedBy: ".")
+        let separatedByUnderLineName = separatedBypointEmail[0].components(separatedBy: "_")
+        
+        var domain = ""
+        for (index, component) in separatedBypointEmail.enumerated() {
+            if index > 0 {
+                if index != separatedBypointEmail.count - 1 {
+                    domain += component + "."
+                } else {
+                    domain += component
+                }
+            }
+        }
+        let email = separatedByUnderLineName[0] + "@" + domain
+        return email
     }
     
 }
