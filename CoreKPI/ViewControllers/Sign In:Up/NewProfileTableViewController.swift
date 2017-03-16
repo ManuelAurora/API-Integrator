@@ -13,7 +13,7 @@ class NewProfileTableViewController: UITableViewController {
     var delegate: updateModelDelegate!
     
     var typeOfAccount: TypeOfAccount!
-    var model: ModelCoreKPI!
+    var model = ModelCoreKPI.modelShared
     
     var email: String!
     var password: String!
@@ -80,8 +80,7 @@ class NewProfileTableViewController: UITableViewController {
         
         let registrationRequest = RegistrationRequest()
         registrationRequest.registrationRequest(email: email, password: password, firstname: firstName, lastname: lastName, position: position, photo: profileImageBase64String,
-                                                success: { model in
-                                                    self.model = ModelCoreKPI(model: model)
+                                                success: { _ in
                                                     self.segueToVC()
         }, failure: { error in
             self.showAlert(title: "Registration error", errorMessage: error)
@@ -90,26 +89,25 @@ class NewProfileTableViewController: UITableViewController {
     }
     
     func segueToVC() {
+        
         if model.profile?.typeOfAccount == TypeOfAccount.Admin {
             let vc = storyboard?.instantiateViewController(withIdentifier: "InviteVC") as! InviteTableViewController
-            self.delegate = vc
-            delegate.updateModel(model: model)
             navigationController?.pushViewController(vc, animated: true)
         } else {
             let tabBarController = storyboard?.instantiateViewController(withIdentifier: "TabBarVC") as! MainTabBarViewController
             
             let dashboardNavigationViewController = tabBarController.viewControllers?[0] as! DashboardsNavigationViewController
             let dashboardViewController = dashboardNavigationViewController.childViewControllers[0] as! KPIsListTableViewController
-            dashboardViewController.model = ModelCoreKPI(model: model)
+            dashboardViewController.model = model
             dashboardViewController.loadKPIsFromServer()
             
             let alertsNavigationViewController = tabBarController.viewControllers?[1] as! AlertsNavigationViewController
             let alertsViewController = alertsNavigationViewController.childViewControllers[0] as! AlertsListTableViewController
-            alertsViewController.model = ModelCoreKPI(model: model)
+            alertsViewController.model = model
             
             let teamListNavigationViewController = tabBarController.viewControllers?[2] as! TeamListViewController
             let teamListController = teamListNavigationViewController.childViewControllers[0] as! MemberListTableViewController
-            teamListController.model = ModelCoreKPI(model: model)
+            teamListController.model = model
             
             present(tabBarController, animated: true, completion: nil)
         }
@@ -124,7 +122,7 @@ class NewProfileTableViewController: UITableViewController {
 
 //MARK: UIImagePickerControllerDelegate methods
 extension NewProfileTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-        func imagePickerFromPhotoLibrary() {
+    func imagePickerFromPhotoLibrary() {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self

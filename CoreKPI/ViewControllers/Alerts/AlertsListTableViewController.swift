@@ -212,7 +212,7 @@ class AlertsListTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AddAlert" {
             let destinationVC = segue.destination as! AlertSettingsTableViewController
-            destinationVC.model = ModelCoreKPI(model: self.model)
+            destinationVC.model = model
             destinationVC.AlertListVC = self
         }
         if segue.identifier == "ReminderView" {
@@ -220,7 +220,7 @@ class AlertsListTableViewController: UITableViewController {
                 let destinationController = segue.destination as! ReminderViewTableViewController
                 destinationController.typeOfDigit = indexPath.section == 0 ? .Reminder : .Alert
                 destinationController.index = indexPath.row
-                destinationController.model = ModelCoreKPI(model: model)
+                destinationController.model = model
                 destinationController.AlertListVC = self
             }
         }

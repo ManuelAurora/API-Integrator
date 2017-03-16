@@ -214,8 +214,7 @@ extension AppDelegate {
         let parameters = url.absoluteString.removingPercentEncoding?.components(separatedBy: "&")
         
         let realmId = parameters?.filter({ $0.contains("realmId")})
-        
-        
+                
         applicationHandle(url: url)
         return true
     }

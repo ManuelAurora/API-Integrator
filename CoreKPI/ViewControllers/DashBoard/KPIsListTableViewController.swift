@@ -361,7 +361,7 @@ class KPIsListTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AddKPI" {
             let destinationVC = segue.destination as! ChooseSuggestedKPITableViewController
-            destinationVC.model = ModelCoreKPI(model: model)
+            destinationVC.model = model
             destinationVC.KPIListVC = self
         }
     }
@@ -394,7 +394,7 @@ extension KPIsListTableViewController: updateKPIListDelegate {
 extension KPIsListTableViewController: KPIListButtonCellDelegate {
     func editButtonDidTaped(sender: UIButton) {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ReportAndViewKPI") as! ReportAndViewKPITableViewController
-        destinatioVC.model = ModelCoreKPI(model: model)
+        destinatioVC.model = model
         destinatioVC.kpiIndex = sender.tag
         destinatioVC.buttonDidTaped = ButtonDidTaped.Edit
         

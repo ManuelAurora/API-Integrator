@@ -13,8 +13,8 @@ protocol RequestDelegate {
     func showAlertWithError(title: String, message: String)
 }
 
-class Request {
-    
+class Request
+{
     var errorMessage: String?
     
     let serverIp = "http://dashmob.smichrissoft.com:8888"
@@ -46,12 +46,11 @@ class Request {
         
         let tokenLocal = token ?? ""
         var params: [String : Any]!
-        
+               
         if userID == nil {
             params = ["user_id" : "", "token" : tokenLocal, "data" : data]
         } else {
-            params = ["user_id" : userID, "token" : tokenLocal, "data" : data]
-            
+            params = ["user_id" : userID, "token" : tokenLocal, "data" : data]            
         }
         
         request(http, method: .post, parameters: params, encoding: JSONEncoding.default).responseJSON { response in

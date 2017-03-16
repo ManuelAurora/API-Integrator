@@ -10,22 +10,18 @@ import Foundation
 
 class GetModelFromServer: Request {
     
-    func getModelFromServer(success: @escaping (_ model: ModelCoreKPI) -> (), failure: @escaping failure) {
+    func getModelFromServer(success: @escaping () -> (), failure: @escaping failure) {
         getJson(category: "/account/contactData", data: [:],
-                        success: { json in
-                            let model = self.createModel(json: json)
-                            if model != nil {
-                                success(model!)
-                            } else {
-                                failure(self.errorMessage ?? "Wrong data from server")
-                            }
+                success: { json in
+                    self.createModel(json: json)
+                    success()
         },
-                        failure: { (error) in
-                            failure(error)
+                failure: { (error) in
+                    failure(error)
         })
     }
     
-    func createModel(json: NSDictionary) -> ModelCoreKPI? {
+    func createModel(json: NSDictionary) {
         
         var profile: Profile!
         var userName: String!
@@ -47,7 +43,7 @@ class GetModelFromServer: Request {
                     typeOfAccount = (mode == 0) ? .Manager : .Admin
                     profile = Profile(userId: self.userID, userName: userName, firstName: firstName, lastName: lastName, position: position, photo: photo, phone: nil, nickname: nil, typeOfAccount: typeOfAccount)
                     
-                   return ModelCoreKPI(token: self.token, profile: profile)
+                   ModelCoreKPI.modelShared.register(profile: profile, token: token)
 
                 } else {
                     print("Json data is broken")
@@ -59,6 +55,5 @@ class GetModelFromServer: Request {
         } else {
             print("Json file is broken!")
         }
-        return nil
     }
 }

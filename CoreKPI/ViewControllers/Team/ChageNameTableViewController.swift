@@ -11,7 +11,6 @@ import UIKit
 class ChageNameTableViewController: UITableViewController {
     
     var model: ModelCoreKPI!
-    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     var index: Int!
     weak var memberInfoVC: MemberInfoViewController!
     var delegate: updateModelDelegate!
@@ -82,9 +81,9 @@ class ChageNameTableViewController: UITableViewController {
     
     func dismissVC() {
         let nc = NotificationCenter.default
-        nc.post(name: modelDidChangeNotification,
+        nc.post(name: .modelDidChanged,
                 object: nil,
-                userInfo:["model": self.model])
+                userInfo:nil)
         self.navigationController!.popViewController(animated: true)
     }
     
@@ -94,22 +93,15 @@ class ChageNameTableViewController: UITableViewController {
             destinationVC.personName = self.NameLabel.text
             destinationVC.changeNameVC = self
         }
-    }
-    
-    override func willMove(toParentViewController parent: UIViewController?) {
-        if(!(parent?.isEqual(self.parent) ?? false)) {
-            delegate = memberInfoVC
-            delegate.updateModel(model: model)
-        }
-    }
+    }    
 }
 
 //MARK: - updateModelDelegate method
-extension ChageNameTableViewController: updateModelDelegate {
-    func updateModel(model: ModelCoreKPI) {
-        self.model = ModelCoreKPI(model: model)
-    }
-}
+//extension ChageNameTableViewController: updateModelDelegate {
+//    func updateModel(model: ModelCoreKPI) {
+//        self.model = ModelCoreKPI(model: model)
+//    }
+//}
 
 //MARK: - updateNickNameDelegate method
 extension ChageNameTableViewController: updateNicknameDelegate {

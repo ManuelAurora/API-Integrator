@@ -345,7 +345,6 @@ class QuickBookDataManager
         
         clearAllData()
         
-        var index = 0
         for request in listOfRequests
         {            
             let handler = QuickBookRequestHandler(oauthswift: oauthswift,
@@ -353,9 +352,7 @@ class QuickBookDataManager
                                                   manager: self,
                                                   isCreation: isCreation)            
             
-            handler.credential = credentialTempList[index]
-            handler.getData()
-            index += 1
+            handler.getData()            
         }
         
         if isCreation { saveNewEntities() }

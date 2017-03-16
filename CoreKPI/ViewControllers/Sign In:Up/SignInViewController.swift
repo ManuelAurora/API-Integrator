@@ -10,12 +10,11 @@ import UIKit
 
 class SignInViewController: UIViewController, UITextFieldDelegate {
     
-    var model: ModelCoreKPI!
+    var model = ModelCoreKPI.modelShared
     var delegate: updateModelDelegate!
-        
+    
     @IBOutlet weak var passwordTextField: BottomBorderTextField!
     @IBOutlet weak var emailTextField: BottomBorderTextField!
-    
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var enterByKeyButton: UIButton!
     
@@ -27,7 +26,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         configure(buttons: [signInButton, enterByKeyButton])
         toggleEnterByKeyButton(isEnabled: appDelegate.pinCodeAttempts > 1)
         
-        self.hideKeyboardWhenTappedAround()        
+        self.hideKeyboardWhenTappedAround()
     }
     
     override func didReceiveMemoryWarning() {
@@ -86,7 +85,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         guard let pinCodeViewController = storyboard?.instantiateViewController(withIdentifier: "PinCodeViewController") as? PinCodeViewController else { print("DEBUG: An error occured while trying instantiate pin code VC"); return }
         
         pinCodeViewController.mode = .logIn
-        present(pinCodeViewController, animated: true, completion: nil)        
+        present(pinCodeViewController, animated: true, completion: nil)
     }
     
     func toggleEnterByKeyButton(isEnabled: Bool) {
@@ -94,7 +93,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         enterByKeyButton.layer.borderColor = isEnabled ? OurColors.violet.cgColor : UIColor.lightGray.cgColor
         enterByKeyButton.isEnabled = isEnabled
     }
-        
+    
     func loginRequest() {
         
         if let username = self.emailTextField.text?.lowercased() {
@@ -103,8 +102,9 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                 let loginRequest = LoginRequest()
                 loginRequest.loginRequest(username: username, password: password,
                                           success: {(userID, token, typeOfAccount) in
-                                            self.model = ModelCoreKPI(token: token, userID: userID)
-                                            self.model.profile?.typeOfAccount = typeOfAccount
+                                            let profile = Profile(userID: userID)
+                                            profile.typeOfAccount = typeOfAccount                                            
+                                            self.model.signedInWith(token: token, profile: profile)
                                             self.saveData()
                                             self.showTabBarVC()
                 },
@@ -123,21 +123,21 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         
         let dashboardNavigationViewController = tabBarController.viewControllers?[0] as! DashboardsNavigationViewController
         let dashboardViewController = dashboardNavigationViewController.childViewControllers[0] as! KPIsListTableViewController
-        dashboardViewController.model = ModelCoreKPI(model: model)
+        dashboardViewController.model = model
         dashboardViewController.loadKPIsFromServer()
         
         let alertsNavigationViewController = tabBarController.viewControllers?[1] as! AlertsNavigationViewController
         let alertsViewController = alertsNavigationViewController.childViewControllers[0] as! AlertsListTableViewController
-        alertsViewController.model = ModelCoreKPI(model: model)
+        alertsViewController.model = model
         
         let teamListNavigationViewController = tabBarController.viewControllers?[2] as! TeamListViewController
         let teamListController = teamListNavigationViewController.childViewControllers[0] as! MemberListTableViewController
-        teamListController.model = ModelCoreKPI(model: model)
+        teamListController.model = model
         teamListController.loadTeamListFromServer()
         
         let supportNavigationViewControleler = tabBarController.viewControllers?[3] as! SupportNavigationViewController
         let supportMainTableVC = supportNavigationViewControleler.childViewControllers[0] as! SupportMainTableViewController
-        supportMainTableVC.model = ModelCoreKPI(model: model)
+        supportMainTableVC.model = model
         
         present(tabBarController, animated: true, completion: nil)
     }
@@ -151,10 +151,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: - Save data
     func saveData() {
-        let data: [ModelCoreKPI] = [self.model]
-        let encodedData = NSKeyedArchiver.archivedData(withRootObject: data)
-        UserDefaults.standard.set(encodedData, forKey: "token")
-        print("Token saved in NSKeyedArchive")
+        UserDefaults.standard.set(model.profile.userId, forKey: UserDefaultsKeys.userId)
+        UserDefaults.standard.set(model.token, forKey: UserDefaultsKeys.token)
     }
     
 }

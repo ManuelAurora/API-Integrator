@@ -35,16 +35,21 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.allowsSelection = false
-        
-        let nib = UINib(nibName: "UserInfoTableViewCell", bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: "UserInfoCell")
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(MemberInfoViewController.reloadTableView),
+                                               name: .modelDidChanged,
+                                               object: nil)
         
         //Subscribed for security switcher
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(MemberInfoViewController.changeSecuritySettings),
-                                               name:  Notification.Name.userTappedSecuritySwitch,
+                                               name:  .userTappedSecuritySwitch,
                                                object: nil)
+        
+        let nib = UINib(nibName: "UserInfoTableViewCell", bundle: nil)
+        
+        tableView.register(nib, forCellReuseIdentifier: "UserInfoCell")
+        tableView.allowsSelection = false
         
         //Check admin permission!!
         if model.profile?.typeOfAccount == TypeOfAccount.Admin {
@@ -62,19 +67,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             //securityButton.isHidden = true
         }
         
-        if let memberNickname = model.team[index].nickname {
-            memberProfileNameLabel.text = memberNickname
-        } else {
-            memberProfileNameLabel.text = "\(model.team[index].firstName!) \(model.team[index].lastName!)"
-        }
-        
-        memberProfilePositionLabel.text = model.team[index].position
-        
-        if model.team[index].photo != nil {
-            memberProfilePhotoImage.image = UIImage(data: model.team[index].photo as! Data)
-        } else {
-            updateProfilePhoto()
-        }
+        updateMemberInfo()
         
         self.tableView.tableFooterView = UIView(frame: .zero)
         //Set Navigation Bar transparent
@@ -221,8 +214,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         if model.profile?.typeOfAccount != TypeOfAccount.Admin {
             if model.profile?.userId != Int(model.team[index].userID) {
                 let vc = storyboard?.instantiateViewController(withIdentifier: "ChangeName") as! ChageNameTableViewController
-                updateModelDelegate = vc
-                updateModelDelegate.updateModel(model: model)
+                
                 vc.index = index
                 vc.memberInfoVC = self
                 self.navigationController?.show(vc, sender: nil)
@@ -235,11 +227,12 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func updateEditMemberVC() {
+        
         let vc = storyboard?.instantiateViewController(withIdentifier: "EditMember") as! MemberEditViewController
-        updateModelDelegate = vc
-        updateModelDelegate.updateModel(model: model)
+        
         vc.index = index
         vc.memberInfoVC = self
+        
         self.navigationController?.show(vc, sender: nil)
     }
     
@@ -258,13 +251,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
 
     //MARK: - navigation
     override func willMove(toParentViewController parent: UIViewController?) {
-        if(!(parent?.isEqual(self.parent) ?? false)) {
-            if memberListVC != nil {
-                //debug
-                updateModelDelegate = memberListVC
-                updateModelDelegate.updateModel(model: model)
-            }
-        }
+       
         self.navigationController?.hideTransparentNavigationBar()
     }
     
@@ -286,6 +273,29 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         else {            
             UserDefaults.standard.set(nil, forKey: "PinCode")
+        }
+    }
+    
+    @objc private func reloadTableView() {
+        
+        tableView?.reloadData()
+        updateMemberInfo()
+    }
+    
+    private func updateMemberInfo() {
+        
+        if let memberNickname = model.team[index].nickname {
+            memberProfileNameLabel.text = memberNickname
+        } else {
+            memberProfileNameLabel.text = "\(model.team[index].firstName!) \(model.team[index].lastName!)"
+        }
+        
+        memberProfilePositionLabel.text = model.team[index].position
+        
+        if model.team[index].photo != nil {
+            memberProfilePhotoImage.image = UIImage(data: model.team[index].photo as! Data)
+        } else {
+            updateProfilePhoto()
         }
     }
 }
@@ -310,21 +320,21 @@ extension MemberInfoViewController: MFMailComposeViewControllerDelegate {
     }
 }
 
-//MARK: - updateModelDelegate method
-extension MemberInfoViewController: updateModelDelegate {
-    func updateModel(model: ModelCoreKPI) {
-        self.model = ModelCoreKPI(model: model)
-        if let nickname = model.team[index].nickname {
-            memberProfileNameLabel.text = nickname
-        } else {
-            memberProfileNameLabel.text = model.team[index].firstName! + " " + model.team[index].lastName!
-        }
-        memberProfilePositionLabel.text = model.team[index].position
-        if model.team[index].photo != nil {
-            memberProfilePhotoImage.image = UIImage(data: model.team[index].photo as! Data)
-        }
-        tableView.reloadData()
-        self.navigationController?.presentTransparentNavigationBar()
-    }
-}
+////MARK: - updateModelDelegate method
+//extension MemberInfoViewController: updateModelDelegate {
+//    func updateModel(model: ModelCoreKPI) {
+//        self.model = ModelCoreKPI(model: model)
+//        if let nickname = model.team[index].nickname {
+//            memberProfileNameLabel.text = nickname
+//        } else {
+//            memberProfileNameLabel.text = model.team[index].firstName! + " " + model.team[index].lastName!
+//        }
+//        memberProfilePositionLabel.text = model.team[index].position
+//        if model.team[index].photo != nil {
+//            memberProfilePhotoImage.image = UIImage(data: model.team[index].photo as! Data)
+//        }
+//        tableView.reloadData()
+//        self.navigationController?.presentTransparentNavigationBar()
+//    }
+//}
 

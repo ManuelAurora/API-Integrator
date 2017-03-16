@@ -231,7 +231,7 @@ class ReminderViewTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "EditReminder" {
             let destinationVC = segue.destination as! AlertSettingsTableViewController
-            destinationVC.model = ModelCoreKPI(model: model)
+            destinationVC.model = model
             destinationVC.ReminderViewVC = self
             destinationVC.typeOfDigit = typeOfDigit
             destinationVC.updateParameters(index: index)

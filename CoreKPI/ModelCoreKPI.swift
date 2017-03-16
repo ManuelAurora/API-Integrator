@@ -15,44 +15,39 @@ enum TypeOfAccount: String {
     case Manager
 }
 
-class ModelCoreKPI: NSObject, NSCoding {
-    
-    var token: String
-    var profile: Profile?
+class ModelCoreKPI
+{
+    static var modelShared = ModelCoreKPI()
+    var token: String!
+    var profile: Profile!
     
     var alerts: [Alert] = []
     var reminders: [Reminder] = []
     var kpis: [KPI] = []
     var team: [Team] = []
     
-    required init(token: String, userID: Int) {
-        self.token = token
-        self.profile = Profile(userID: userID)
-    }
-    
-    required init(coder decoder: NSCoder) {
-        self.token = decoder.decodeObject(forKey: "token") as? String ?? ""
-        let id = decoder.decodeObject(forKey: "userID") as? Int ?? 0
-        self.profile = Profile(userID: id)
-    }
-    
-    func encode(with coder: NSCoder) {
-        coder.encode(token, forKey: "token")
-        coder.encode(self.profile?.userId, forKey: "userID")
-    }
-    
-    init(token: String, profile: Profile?) {
+    func register(profile: Profile, token: String) {
+        
         self.token = token
         self.profile = profile
     }
-    init(model: ModelCoreKPI) {
-        self.token = model.token
-        self.profile = model.profile
-        self.alerts = model.alerts
-        self.reminders = model.reminders
-        self.kpis = model.kpis
-        self.team = model.team
+    
+    func signedInWith(token: String, profile: Profile) {
+        
+        self.token = token
+        self.profile = profile        
     }
+    
+    //    required init(coder decoder: NSCoder) {
+    //        self.token = decoder.decodeObject(forKey: "token") as? String ?? ""
+    //        let id = decoder.decodeObject(forKey: "userID") as? Int ?? 0
+    //        self.profile = Profile(userID: id)
+    //    }
+    //
+    //    func encode(with coder: NSCoder) {
+    //        coder.encode(token, forKey: "token")
+    //        coder.encode(self.profile?.userId, forKey: "userID")
+    //    }
     
     func getNameKPI(FromID id: Int) -> String? {
         for kpi in kpis {
@@ -71,7 +66,6 @@ class ModelCoreKPI: NSObject, NSCoding {
         }
         return UIColor.clear
     }
-    
 }
 
 //Profile
@@ -83,7 +77,7 @@ class Profile {
     var position: String?
     var photo: String?
     var phone: String?
-    var nickname: String?    
+    var nickname: String?
     var typeOfAccount: TypeOfAccount
     
     init(userId: Int, userName: String, firstName: String, lastName: String, position: String?, photo: String?, phone: String?, nickname: String?, typeOfAccount: TypeOfAccount) {
@@ -97,7 +91,7 @@ class Profile {
         self.nickname = nickname
         self.typeOfAccount = typeOfAccount
     }
-
+    
     init(userID: Int) {
         self.userId = userID
         self.userName = ""

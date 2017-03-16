@@ -35,6 +35,12 @@ class UserViewTableViewCell: UITableViewCell
         // Initialization code
     }
 
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        
+        //memberProfilePhotoImage.layer.cornerRadius = memberProfilePhotoImage.frame.height / 2
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
