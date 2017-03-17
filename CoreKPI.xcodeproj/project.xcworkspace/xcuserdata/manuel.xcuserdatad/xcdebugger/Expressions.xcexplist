@@ -39,10 +39,10 @@
          contextName = "MemberListTableViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:MemberListTableViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "model.team[indexPath.row].photoLink">
+               value = "model.team[2].photo">
             </PersistentString>
             <PersistentString
-               value = "model.team[2].photo">
+               value = "model.team[indexPath.row].photoLink">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -101,10 +101,10 @@
                value = "memberProfilePhotoImage">
             </PersistentString>
             <PersistentString
-               value = "memberProfileNameLabel">
+               value = "memberProfilePositionLabel">
             </PersistentString>
             <PersistentString
-               value = "memberProfilePositionLabel">
+               value = "memberProfileNameLabel">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -157,10 +157,10 @@
                value = "kpi.integratedKPI.quickbooksKPI">
             </PersistentString>
             <PersistentString
-               value = "tableViewChartVC.dataArray">
+               value = "kpiValue!">
             </PersistentString>
             <PersistentString
-               value = "kpiValue!">
+               value = "tableViewChartVC.dataArray">
             </PersistentString>
             <PersistentString
                value = "kpi.integratedKPI.requestJsonString!">
@@ -178,6 +178,20 @@
             </PersistentString>
             <PersistentString
                value = "memberProfilePhotoImage.layer.cornerRadius">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "QuickBookDataManager.updateOauthCredentialsFor(request : (urlString : String, method : QuickBookMethod?, kpiName : QiuckBooksKPIs?)) -&gt; ():QuickBook.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "kpi.oAuthTokenSecret!">
+            </PersistentString>
+            <PersistentString
+               value = "kpi.oAuthToken!">
+            </PersistentString>
+            <PersistentString
+               value = "kpi.oAuthRefreshToken!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -238,10 +252,10 @@
                value = "model.team[index].photo">
             </PersistentString>
             <PersistentString
-               value = "memberProfileNameLabel.text">
+               value = "memberProfilePositionLabel.text">
             </PersistentString>
             <PersistentString
-               value = "memberProfilePositionLabel.text">
+               value = "memberProfileNameLabel.text">
             </PersistentString>
             <PersistentString
                value = "model.team[index]">
@@ -294,7 +308,7 @@
                value = "realmId[0].index(realmId[0].startIndex, offsetBy: 8)">
             </PersistentString>
             <PersistentString
-               value = "url.absoluteString.removingPercentEncoding?.components(separatedBy: &quot;&amp;&quot;)">
+               value = "indexToEscape">
             </PersistentString>
             <PersistentString
                value = "parameters?.filter({ $0.contains(&quot;realmId&quot;) })">
@@ -303,10 +317,10 @@
                value = "realmId[0].rangeOfComposedCharacterSequences(for: 8...15)">
             </PersistentString>
             <PersistentString
-               value = "realmId[0].substring(from: index)">
+               value = "url.absoluteString.removingPercentEncoding?.components(separatedBy: &quot;&amp;&quot;)">
             </PersistentString>
             <PersistentString
-               value = "indexToEscape">
+               value = "realmId[0].substring(from: index)">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -356,7 +370,7 @@
          contextName = "QuickBookDataManager.formListOfRequests(from : [(SettingName : String, value : Bool)]) -&gt; ():QuickBook.swift">
          <PersistentStrings>
             <PersistentString
-               value = "kpiRequestsToSave">
+               value = "urlString">
             </PersistentString>
             <PersistentString
                value = "oauthswift.client.credential">
@@ -365,7 +379,7 @@
                value = "kpi">
             </PersistentString>
             <PersistentString
-               value = "urlString">
+               value = "kpiRequestsToSave">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -419,7 +433,7 @@
                value = "dealId">
             </PersistentString>
             <PersistentString
-               value = "self.closeDate">
+               value = "properties[&quot;hubspot_owner_id&quot;] as? [String: Any]">
             </PersistentString>
             <PersistentString
                value = "self.sourseID">
@@ -437,10 +451,10 @@
                value = "properties[&quot;closedate&quot;] as! Int">
             </PersistentString>
             <PersistentString
-               value = "properties[&quot;createdate&quot;] as? [String: Any]">
+               value = "self.closeDate">
             </PersistentString>
             <PersistentString
-               value = "properties[&quot;hubspot_owner_id&quot;] as? [String: Any]">
+               value = "properties[&quot;createdate&quot;] as? [String: Any]">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -481,10 +495,10 @@
          contextName = "QuickBookDataManager.saveNewEntities() -&gt; ():QuickBook.swift">
          <PersistentStrings>
             <PersistentString
-               value = "listOfRequests">
+               value = "kpiRequestsToSave">
             </PersistentString>
             <PersistentString
-               value = "kpiRequestsToSave">
+               value = "listOfRequests">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -506,16 +520,28 @@
                value = "oauthswift.client.credential">
             </PersistentString>
             <PersistentString
-               value = "$0.realmId">
+               value = "credential">
             </PersistentString>
             <PersistentString
-               value = "kpi.oAuthToken">
+               value = "newQbKPI.realmId">
+            </PersistentString>
+            <PersistentString
+               value = "$0.realmId">
             </PersistentString>
             <PersistentString
                value = "kpi.oAuthTokenSecret">
             </PersistentString>
             <PersistentString
-               value = "credential">
+               value = "newQbKPI.oAuthTokenSecret">
+            </PersistentString>
+            <PersistentString
+               value = "newQbKPI.oAuthToken">
+            </PersistentString>
+            <PersistentString
+               value = "kpi.oAuthToken">
+            </PersistentString>
+            <PersistentString
+               value = "newQbKPI.oAuthRefreshToken">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -670,10 +696,13 @@
          contextName = "QuickBookDataManager.doOAuthQuickbooks(() -&gt; ()) -&gt; ():QuickBook.swift">
          <PersistentStrings>
             <PersistentString
-               value = "quickbooksKPIInfo[0]">
+               value = "oauthswift.client.credential.oauthToken">
             </PersistentString>
             <PersistentString
-               value = "oauthswift.client.credential">
+               value = "oauthswift.client.credential.oauthTokenSecret">
+            </PersistentString>
+            <PersistentString
+               value = "oauthswift.client.credential.oauthRefreshToken">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -743,10 +772,10 @@
          contextName = "MemberInfoViewController.viewDidLoad() -&gt; ():MemberInfoViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "model.team[index].firstName!">
+               value = "memberProfileNameLabel">
             </PersistentString>
             <PersistentString
-               value = "memberProfileNameLabel">
+               value = "model.team[index].firstName!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
