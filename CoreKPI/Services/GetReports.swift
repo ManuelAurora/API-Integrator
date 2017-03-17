@@ -121,15 +121,58 @@ class GetReports: Request {
                 deadlineDate = calendar.date(byAdding: .day, value: 1, to: deadlineDate!)!
             }
         case .Weekly:
-            deadlineDate = calendar.date(bySetting: .weekday, value: deadlineDay!, of: deadlineDate!)!
-            if report.date > deadlineDate! {
+            
+            guard var dayOfWeek = deadlineDay else {print("Error day of week");break}
+            
+            switch dayOfWeek {
+            case 7:
+                dayOfWeek = 1
+            default:
+                dayOfWeek += 1
+            }
+            
+            var deadlineDateComponents = calendar.dateComponents([.weekday, .year, .month, .day, .hour, .minute, .second], from: deadlineDate!)
+    
+            while deadlineDateComponents.weekday != dayOfWeek {
+                deadlineDate = calendar.date(byAdding: .weekday, value: 1, to: deadlineDate!)
+                deadlineDateComponents = calendar.dateComponents([.weekday, .year, .month, .day, .hour, .minute, .second], from: deadlineDate!)
+            }
+            
+            if report.date > deadlineDate! && calendar.isDate(report.date, inSameDayAs: deadlineDate!) {
                 deadlineDate = calendar.date(byAdding: .weekOfYear, value: 1, to: deadlineDate!)!
             }
+            
         case .Monthly:
-            deadlineDate = calendar.date(bySetting: .day, value: deadlineDay!, of: deadlineDate!)!
-            if report.date > deadlineDate! {
-                deadlineDate = calendar.date(byAdding: .month, value: 1, to: deadlineDate!)!
+            
+            let lastDay = deadlineDate?.endOfMonth()
+            let lastDayComponent = calendar.dateComponents([.day], from: lastDay!)
+            
+            var deadlineDayForCurrentMounth = 0
+            
+            if lastDayComponent.day! < deadlineDay! {
+                deadlineDayForCurrentMounth = lastDayComponent.day!
+            } else {
+                deadlineDayForCurrentMounth = deadlineDay!
             }
+            
+            var deadlineDateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: deadlineDate!)
+            
+            while deadlineDateComponents.day != deadlineDayForCurrentMounth {
+                
+                
+                deadlineDate = calendar.date(byAdding: .day, value: 1, to: deadlineDate!)
+                deadlineDateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: deadlineDate!)
+            }
+            
+            if report.date > deadlineDate! && calendar.isDate(report.date, inSameDayAs: deadlineDate!) {
+                deadlineDate = calendar.date(byAdding: .month, value: 1, to: deadlineDate!)!
+                var newDeadlineDateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: deadlineDate!)
+                if newDeadlineDateComponents.day! < deadlineDay! {
+                    newDeadlineDateComponents.day = deadlineDay
+                    deadlineDate = calendar.date(from: newDeadlineDateComponents)
+                }
+            }
+            
         }
         
         return deadlineDate!

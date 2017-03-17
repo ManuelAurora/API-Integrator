@@ -52,6 +52,7 @@
 		A22EF0661E0901A20004DDB7 /* ModelCoreKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */; };
 		A235CB321E0ACD5200636888 /* AlertSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A235CB311E0ACD5100636888 /* AlertSettingsTableViewController.swift */; };
 		A23E79471E5AE83900EEBABE /* UIColorExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23E79461E5AE83900EEBABE /* UIColorExtention.swift */; };
+		A2400F4B1E7BDB1A0077656F /* DateExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2400F4A1E7BDB1A0077656F /* DateExtention.swift */; };
 		A2425CB41E1CE8EE00DFDF91 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */; };
 		A24A84031E486DD400440151 /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84021E486DD400440151 /* OAuthSwift.framework */; };
 		A24A84041E486DD400440151 /* OAuthSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84021E486DD400440151 /* OAuthSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -257,6 +258,7 @@
 		A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelCoreKPI.swift; sourceTree = "<group>"; };
 		A235CB311E0ACD5100636888 /* AlertSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertSettingsTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AlertSettingsTableViewController.swift; sourceTree = "<group>"; };
 		A23E79461E5AE83900EEBABE /* UIColorExtention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtention.swift; sourceTree = "<group>"; };
+		A2400F4A1E7BDB1A0077656F /* DateExtention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtention.swift; sourceTree = "<group>"; };
 		A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		A24A84021E486DD400440151 /* OAuthSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthSwift.framework; path = Carthage/Build/iOS/OAuthSwift.framework; sourceTree = "<group>"; };
 		A24A84061E486DF500440151 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
@@ -452,6 +454,7 @@
 				A23E79461E5AE83900EEBABE /* UIColorExtention.swift */,
 				A2A940CA1E1E70740088C7F1 /* UINavigationBurExtension.swift */,
 				A25F658E1E530CEA00AD30F5 /* UIViewControllerExtension.swift */,
+				A2400F4A1E7BDB1A0077656F /* DateExtention.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -1074,6 +1077,7 @@
 			files = (
 				A21EDDF71E23A709001DE74C /* KPIList.swift in Sources */,
 				A2C431771E558EA500AA2B7C /* DeleteAlert.swift in Sources */,
+				A2400F4B1E7BDB1A0077656F /* DateExtention.swift in Sources */,
 				A28889911E4206DC00113220 /* AddAlert.swift in Sources */,
 				A297F5C81E0823D400F85963 /* NewProfileTableViewController.swift in Sources */,
 				A2EFE2C81E2DF0E300BA2956 /* TableViewChartController.swift in Sources */,
