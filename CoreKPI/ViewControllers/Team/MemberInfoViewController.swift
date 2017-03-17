@@ -75,8 +75,13 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let cell = tableView.visibleCells[0] as! UserViewTableViewCell
+        let cornerRadius = cell.memberProfilePhotoImage.frame.height / 2
+        
+        cell.memberProfilePhotoImage.layer.cornerRadius = cornerRadius       
     }
     
     func tapPhoneButton() {

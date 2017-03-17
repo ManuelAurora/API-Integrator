@@ -13,15 +13,7 @@ class UserViewTableViewCell: UITableViewCell
     weak var delegate: MemberInfoViewController!
     
     @IBOutlet weak var memberProfilePositionLabel: UILabel!
-    @IBOutlet weak var memberProfilePhotoImage: UIImageView! {
-        didSet {
-            if memberProfilePhotoImage != nil
-            {                
-                memberProfilePhotoImage.layer.cornerRadius = min(memberProfilePhotoImage.frame.height,
-                                                                 memberProfilePhotoImage.frame.width)/2.0
-            }
-        }
-    }
+    @IBOutlet weak var memberProfilePhotoImage: UIImageView!
     @IBOutlet weak var memberProfileNameLabel: UILabel!
     
     required init?(coder aDecoder: NSCoder) {
