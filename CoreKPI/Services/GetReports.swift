@@ -104,7 +104,7 @@ class GetReports: Request {
         let deadlineTime = kpi.createdKPI?.deadlineTime
         
         var calendar = Calendar.current
-        calendar.timeZone = TimeZone(secondsFromGMT: 0)!
+        //calendar.timeZone = TimeZone(secondsFromGMT: 3600*3)!
         var deadlineTimeComponent = calendar.dateComponents([.hour, .minute, .second], from: deadlineTime!)
         let reportDayComponent = calendar.dateComponents([.year, .month, .day], from: report.date)
         
@@ -158,8 +158,6 @@ class GetReports: Request {
             var deadlineDateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: deadlineDate!)
             
             while deadlineDateComponents.day != deadlineDayForCurrentMounth {
-                
-                
                 deadlineDate = calendar.date(byAdding: .day, value: 1, to: deadlineDate!)
                 deadlineDateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: deadlineDate!)
             }
@@ -167,7 +165,11 @@ class GetReports: Request {
             if report.date > deadlineDate! && calendar.isDate(report.date, inSameDayAs: deadlineDate!) {
                 deadlineDate = calendar.date(byAdding: .month, value: 1, to: deadlineDate!)!
                 var newDeadlineDateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: deadlineDate!)
-                if newDeadlineDateComponents.day! < deadlineDay! {
+                
+                let lastDayOfNewMounth = deadlineDate?.endOfMonth()
+                let newLastDayOfMount = calendar.dateComponents([.day], from: lastDayOfNewMounth!)
+                
+                if newDeadlineDateComponents.day! < deadlineDay! && newLastDayOfMount.day! >= deadlineDay! {
                     newDeadlineDateComponents.day = deadlineDay
                     deadlineDate = calendar.date(from: newDeadlineDateComponents)
                 }

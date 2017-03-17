@@ -10,7 +10,6 @@ import UIKit
 
 class LaunchViewController: UIViewController {
     
-    var request: GetModelFromServer!
     var model = ModelCoreKPI.modelShared
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var showedAfterBGCancelling = false
