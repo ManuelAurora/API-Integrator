@@ -439,7 +439,7 @@ extension MemberEditViewController: UITextFieldDelegate {
             memberPositionTextField.becomeFirstResponder()
         }
         if textField == memberPositionTextField {
-            let indexPath = IndexPath(item: 0, section: 1)
+            let indexPath = IndexPath(item: 0, section: tableView.numberOfSections - 1)
             let cell = tableView.cellForRow(at: indexPath) as! MemberEditTableViewCell
             cell.textFieldOfCell.becomeFirstResponder()
         }

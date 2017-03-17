@@ -111,8 +111,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                                           failure: { error in
                                             print(error)
                                             self.showAlert(title: "Authorization error", errorMessage: error)
-                }
-                )
+                })
             }
         }
     }

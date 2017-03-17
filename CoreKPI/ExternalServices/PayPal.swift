@@ -141,6 +141,9 @@ class PayPal: ExternalRequest {
             kpis.append(("Refunds", numberFormatter.string(for: curentData?.refunds)!, Int((lastPeriodData?.refunds)!/((curentData?.refunds)!/100))))
             kpis.append(("Incoming refunds", numberFormatter.string(for: curentData?.incomingRefunds)!, Int((lastPeriodData?.incomingRefunds)!/((curentData?.incomingRefunds)!/100))))
             
+            
+            kpis.append(("Expenses", numberFormatter.string(for: curentData?.expenses)!, Int((lastPeriodData?.expenses)!/((curentData?.expenses)!/100))))
+            
             return kpis
         } else {
             return nil
@@ -192,6 +195,8 @@ class PayPal: ExternalRequest {
                         refunds = self.parseRefunds(xml: xmlDoc)
                         incomingRefunds = self.parseIncomingRefunds(xml: xmlDoc)
                         
+                        
+                        expenses = self.parseExpenses(xml: xmlDoc)
                         
                         success((netSales, fees, shippingCost, refunds, incomingRefunds, pending, expenses))
                     } catch {
@@ -257,6 +262,20 @@ class PayPal: ExternalRequest {
             }
         }
         return refunds
+    }
+
+    private func parseExpenses(xml: AEXMLDocument) -> Double {
+        let transactions = xml.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
+        var expenses = 0.0
+        for transaction in transactions {
+            if transaction.name == "PaymentTransactions" {
+                if transaction["Type"].value! == "Payment" {
+                    let expense = Double(transaction["NetAmount"].value!)!
+                    expenses += expense < 0 ? expense : 0
+                }
+            }
+        }
+        return -expenses
     }
 
     

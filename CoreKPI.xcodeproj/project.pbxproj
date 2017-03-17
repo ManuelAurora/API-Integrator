@@ -165,7 +165,6 @@
 		A2F77E091E3B199400BB8318 /* DeleteUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77DFA1E3B199400BB8318 /* DeleteUser.swift */; };
 		A2F77E0A1E3B199400BB8318 /* GetKPIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77DFB1E3B199400BB8318 /* GetKPIs.swift */; };
 		A2F77E0B1E3B199400BB8318 /* GetMemberList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77DFC1E3B199400BB8318 /* GetMemberList.swift */; };
-		A2F77E0C1E3B199400BB8318 /* GetModelFromServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77DFD1E3B199400BB8318 /* GetModelFromServer.swift */; };
 		A2F77E0D1E3B199400BB8318 /* GetNumberOfInvations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77DFE1E3B199400BB8318 /* GetNumberOfInvations.swift */; };
 		A2F77E0F1E3B199400BB8318 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77E001E3B199400BB8318 /* LoginRequest.swift */; };
 		A2F77E101E3B199400BB8318 /* RecoveryPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77E011E3B199400BB8318 /* RecoveryPassword.swift */; };
@@ -373,7 +372,6 @@
 		A2F77DFA1E3B199400BB8318 /* DeleteUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteUser.swift; path = Services/DeleteUser.swift; sourceTree = "<group>"; };
 		A2F77DFB1E3B199400BB8318 /* GetKPIs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetKPIs.swift; path = Services/GetKPIs.swift; sourceTree = "<group>"; };
 		A2F77DFC1E3B199400BB8318 /* GetMemberList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetMemberList.swift; path = Services/GetMemberList.swift; sourceTree = "<group>"; };
-		A2F77DFD1E3B199400BB8318 /* GetModelFromServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetModelFromServer.swift; path = Services/GetModelFromServer.swift; sourceTree = "<group>"; };
 		A2F77DFE1E3B199400BB8318 /* GetNumberOfInvations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetNumberOfInvations.swift; path = Services/GetNumberOfInvations.swift; sourceTree = "<group>"; };
 		A2F77E001E3B199400BB8318 /* LoginRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginRequest.swift; path = Services/LoginRequest.swift; sourceTree = "<group>"; };
 		A2F77E011E3B199400BB8318 /* RecoveryPassword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecoveryPassword.swift; path = Services/RecoveryPassword.swift; sourceTree = "<group>"; };
@@ -467,7 +465,6 @@
 				A2F77E021E3B199400BB8318 /* RegistrationRequest.swift */,
 				A2F77DFE1E3B199400BB8318 /* GetNumberOfInvations.swift */,
 				A2F77E031E3B199400BB8318 /* SendInvation.swift */,
-				A2F77DFD1E3B199400BB8318 /* GetModelFromServer.swift */,
 				A2F77DFC1E3B199400BB8318 /* GetMemberList.swift */,
 				A2F77DF81E3B199400BB8318 /* ChangeProfile.swift */,
 				A2F77DF71E3B199400BB8318 /* ChangeNickname.swift */,
@@ -1100,7 +1097,6 @@
 				A20B6BD01E31F5EC00FAF86A /* IntegratedKPI.swift in Sources */,
 				641F74661E5B0F4200672534 /* WebViewController.swift in Sources */,
 				A25F658D1E52F5D500AD30F5 /* NumberChartViewController.swift in Sources */,
-				A2F77E0C1E3B199400BB8318 /* GetModelFromServer.swift in Sources */,
 				A2ACBD3B1E0D11AA0079EF3D /* AlertsListTableViewController.swift in Sources */,
 				A20440BB1E5483E300D540F8 /* GetReminders.swift in Sources */,
 				A297F5D11E08241900F85963 /* MemberInfoTableViewCell.swift in Sources */,

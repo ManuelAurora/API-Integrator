@@ -705,8 +705,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
             }, failure: { error in
                 print(error)
                 self.showAlert(title: "Sorry",errorMessage: error)
-            }
-            )
+            })
         }
         
         
