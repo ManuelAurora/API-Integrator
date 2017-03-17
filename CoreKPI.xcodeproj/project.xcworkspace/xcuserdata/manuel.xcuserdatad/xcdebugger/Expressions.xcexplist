@@ -631,6 +631,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "QuickBookDataManager.queryParameters.getter:QuickBook.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "&quot;SELECT * FROM Invoice WHERE MetaData.CreateTime &gt;= \(beginDate) AND MetaData.CreateTime &lt;= \(endDate)&quot;">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "SignInViewController.(loginRequest() -&gt; ()).(closure #1):SignInViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -696,6 +704,14 @@
             </PersistentString>
             <PersistentString
                value = "qbKPI.kpiValue">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "QuickBookDataManager.queryInvoices.getter:QuickBook.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "queryParameters">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

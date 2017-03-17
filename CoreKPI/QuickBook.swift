@@ -160,7 +160,11 @@ class QuickBookDataManager
     }
     
     private var queryParameters: [QBQueryParameterKeys: String] {        
+        //let beginDate = Date().beginningOfMonth
+        //let endDate = Date().endOfMonth
         
+        //"SELECT * FROM Invoice WHERE MetaData.CreateTime >= \(beginDate) AND MetaData.CreateTime <= \(endDate)"
+                        
         let queryParameters: [QBQueryParameterKeys: String] = [
             .query: "SELECT * FROM Invoice"
         ]
