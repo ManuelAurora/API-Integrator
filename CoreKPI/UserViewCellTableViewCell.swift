@@ -14,7 +14,8 @@ class UserViewTableViewCell: UITableViewCell
     
     @IBOutlet weak var memberProfilePositionLabel: UILabel!
     @IBOutlet weak var memberProfilePhotoImage: UIImageView!
-    @IBOutlet weak var memberProfileNameLabel: UILabel!
+    @IBOutlet weak var memberProfileNameLabel: UILabel!    
+    @IBOutlet var buttons: [UIButton]!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -29,16 +30,4 @@ class UserViewTableViewCell: UITableViewCell
         
         delegate.tapPhoneButton()
     }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }

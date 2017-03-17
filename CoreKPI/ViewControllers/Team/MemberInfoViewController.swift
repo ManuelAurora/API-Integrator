@@ -79,9 +79,16 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         super.viewDidLayoutSubviews()
         
         let cell = tableView.visibleCells[0] as! UserViewTableViewCell
-        let cornerRadius = cell.memberProfilePhotoImage.frame.height / 2
+                
+        makeRoundCorners(for: cell.memberProfilePhotoImage)
+        _ = cell.buttons.map { makeRoundCorners(for: $0) }
+    }
+    
+    private func makeRoundCorners(for view: UIView) {
         
-        cell.memberProfilePhotoImage.layer.cornerRadius = cornerRadius       
+        let cornerRadius = view.frame.height / 2
+        
+        view.layer.cornerRadius = cornerRadius
     }
     
     func tapPhoneButton() {
@@ -137,7 +144,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             cell.delegate = self
             cell.memberProfileNameLabel.text = memberProfileNameLabel.text
             cell.memberProfilePhotoImage.image = memberProfilePhotoImage.image
-            cell.memberProfilePositionLabel.text = memberProfileNameLabel.text
+            cell.memberProfilePositionLabel.text = memberProfilePositionLabel.text
                         
             return cell
         }

@@ -235,10 +235,16 @@
          contextName = "MemberInfoViewController.updateMemberInfo() -&gt; ():MemberInfoViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "">
+               value = "model.team[index].photo">
             </PersistentString>
             <PersistentString
-               value = "model.team[index].photo">
+               value = "memberProfileNameLabel.text">
+            </PersistentString>
+            <PersistentString
+               value = "memberProfilePositionLabel.text">
+            </PersistentString>
+            <PersistentString
+               value = "model.team[index]">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -451,6 +457,9 @@
          <PersistentStrings>
             <PersistentString
                value = "memberProfilePhotoImage.image">
+            </PersistentString>
+            <PersistentString
+               value = "">
             </PersistentString>
             <PersistentString
                value = "cell.memberProfilePhotoImage.contentMode">

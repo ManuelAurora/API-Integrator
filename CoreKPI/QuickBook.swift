@@ -99,7 +99,6 @@ class QuickBookDataManager
     
     lazy var serviceParameters: [AuthenticationParameterKeys: String] = {
         let parameters: [AuthenticationParameterKeys: String] = [
-            .companyId:   "123145773393399",
             .callbackUrl: "CoreKPI:/oauth-callback/intuit",
             .consumerKey:    "qyprdLYMArOQwomSilhpS7v9Ge8kke",
             .consumerSecret: "ogPRVftZXLA1A03QyWNyJBax1qOOphuVJVP121np"
@@ -160,7 +159,8 @@ class QuickBookDataManager
         return fullUrlPath
     }
     
-    private var queryParameters: [QBQueryParameterKeys: String] {
+    private var queryParameters: [QBQueryParameterKeys: String] {        
+        
         let queryParameters: [QBQueryParameterKeys: String] = [
             .query: "SELECT * FROM Invoice"
         ]
