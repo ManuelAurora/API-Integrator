@@ -521,9 +521,10 @@ class QuickBookDataManager
                         else
                         {
                             let newQbKPI = QuickbooksKPI()
+                            
                             newQbKPI.oAuthToken = credential.oauthToken
-                            newQbKPI.oAuthRefreshToken = credential.oauthTokenSecret
-                            newQbKPI.oAuthTokenSecret = credential.oauthRefreshToken
+                            newQbKPI.oAuthRefreshToken = credential.oauthRefreshToken
+                            newQbKPI.oAuthTokenSecret = credential.oauthTokenSecret
                             newQbKPI.realmId = currentCompanyId
                         }
                     }

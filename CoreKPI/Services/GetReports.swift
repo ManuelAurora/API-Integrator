@@ -144,7 +144,7 @@ class GetReports: Request {
             
         case .Monthly:
             
-            let lastDay = deadlineDate?.endOfMonth()
+            let lastDay = deadlineDate?.endOfMonth
             let lastDayComponent = calendar.dateComponents([.day], from: lastDay!)
             
             var deadlineDayForCurrentMounth = 0
@@ -166,7 +166,7 @@ class GetReports: Request {
                 deadlineDate = calendar.date(byAdding: .month, value: 1, to: deadlineDate!)!
                 var newDeadlineDateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: deadlineDate!)
                 
-                let lastDayOfNewMounth = deadlineDate?.endOfMonth()
+                let lastDayOfNewMounth = deadlineDate?.endOfMonth
                 let newLastDayOfMount = calendar.dateComponents([.day], from: lastDayOfNewMounth!)
                 
                 if newDeadlineDateComponents.day! < deadlineDay! && newLastDayOfMount.day! >= deadlineDay! {
