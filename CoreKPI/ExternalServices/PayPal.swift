@@ -75,7 +75,7 @@ class PayPal: ExternalRequest {
     //MARK:- Get net sales/total sales
     func getSales(success: @escaping (_ sales: [(payer: String, netAmount: String, amount: String)]) -> (), failure: @escaping failure) {
         
-        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Received")]
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Received")]
         let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
         request(getMutableRequest(soapRequest))
             .responseString { response in
@@ -102,53 +102,187 @@ class PayPal: ExternalRequest {
     }
     
     //MARK: - Get KPIs
-//    func getKPIS(success: @escaping (_ kpis: [(kpiName: String, value: String)]) -> (), failure: @escaping failure) {
-//        
-//        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate(mounthsAgo: 1))]
-//        let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
-//        request(getMutableRequest(soapRequest))
-//            .responseString { response in
-//                
-//                var dataArray: [(kpiName: String, value: String)] = []
-//                
-//                var netSales = 0
-//                var fees = 0
-//                var shippingCosts = 0
-//                var refunds = 0
-//                var incomingRefunds = 0
-//                var pending = 0
-//                var expenses = 0
-//                
-//                if let xmlString = response.result.value {
-//                    do {
-//                        let xmlDoc = try AEXMLDocument(xml: xmlString)
-//                        let transactions = xmlDoc.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
-//                        for transaction in transactions {
-//                            if transaction.name == "PaymentTransactions" {
-//                                let status = transaction["Status"].value!
-//                                switch status {
-//                                case "Success":
-//                                    let netSale = 0
-//                                default:
-//                                    break
-//                                    
-//                                }
-//                            }
-//                        }
-//                        success(dataArray)
-//                    } catch {
-//                        print("\(error)")
-//                    }
-//                } else {
-//                    print("error fetching XML")
-//                }
-//        }
-//    }
+    func getKPIS(success: @escaping (_ kpis: [(kpiName: String, value: String, percent: Int)]) -> ()) {
+        
+        var curentData: (netSales: Double, fees: Double, shippingCost: Double, refunds: Double, incomingRefunds: Double, pending: Double, expenses: Double)!
+        var lastPeriodData: (netSales: Double, fees: Double, shippingCost: Double, refunds: Double, incomingRefunds: Double, pending: Double, expenses: Double)!
+        
+        getCurentKPIs(success: {kpiData in
+            curentData = kpiData
+            if let kpiData = self.createDataForResponse(curentData: curentData, lastPeriodData: lastPeriodData) {
+                success(kpiData)
+            }
+        })
+        
+        getLastPeriodKPIs(success: {kpiData in
+            lastPeriodData = kpiData
+            if let kpiData = self.createDataForResponse(curentData: curentData, lastPeriodData: lastPeriodData) {
+                success(kpiData)
+            }
+        })
+        
+        
+
+    }
+    
+    private func createDataForResponse(curentData: (netSales: Double, fees: Double, shippingCost: Double, refunds: Double, incomingRefunds: Double, pending: Double, expenses: Double)?, lastPeriodData: (netSales: Double, fees: Double, shippingCost: Double, refunds: Double, incomingRefunds: Double, pending: Double, expenses: Double)?) -> [(kpiName: String, value: String, percent: Int)]? {
+        
+        var kpis: [(kpiName: String, value: String, percent: Int)] = []
+        
+        if curentData != nil && lastPeriodData != nil {
+            
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = .decimal
+            numberFormatter.maximumFractionDigits = 3
+            
+            kpis.append(("Net sales", numberFormatter.string(for: curentData?.netSales)!, Int((lastPeriodData?.netSales)!/((curentData?.netSales)!/100))))
+            kpis.append(("Fees", numberFormatter.string(for: curentData?.fees)!, Int((lastPeriodData?.fees)!/((curentData?.fees)!/100))))
+            
+            kpis.append(("Refunds", numberFormatter.string(for: curentData?.refunds)!, Int((lastPeriodData?.refunds)!/((curentData?.refunds)!/100))))
+            kpis.append(("Incoming refunds", numberFormatter.string(for: curentData?.incomingRefunds)!, Int((lastPeriodData?.incomingRefunds)!/((curentData?.incomingRefunds)!/100))))
+            
+            
+            kpis.append(("Expenses", numberFormatter.string(for: curentData?.expenses)!, Int((lastPeriodData?.expenses)!/((curentData?.expenses)!/100))))
+            
+            return kpis
+        } else {
+            return nil
+        }
+    }
+    
+    private func getCurentKPIs(success: @escaping (_ kpisData: (netSales: Double, fees: Double, shippingCost: Double, refunds: Double, incomingRefunds: Double, pending: Double, expenses: Double)) -> ()) {
+        
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getDate(mounthsAgo: 1))]
+        
+        getTransactionsXML(params: params, success: {kpisData in
+            success(kpisData)
+        })
+        
+    }
+    
+    private func getLastPeriodKPIs(success: @escaping (_ kpisData: (netSales: Double, fees: Double, shippingCost: Double, refunds: Double, incomingRefunds: Double, pending: Double, expenses: Double)) -> ()) {
+        
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getDate(mounthsAgo: 2)), ("EndDate", ["xs:type":"dateTime"], getDate(mounthsAgo: 1))]
+        
+        getTransactionsXML(params: params, success: {kpisData in
+            success(kpisData)
+        })
+        
+    }
+    
+    private func getTransactionsXML(params: [(field: String, description: [String:String], value: String)], success: @escaping (_ kpisData: (netSales: Double, fees: Double, shippingCost: Double, refunds: Double, incomingRefunds: Double, pending: Double, expenses: Double)) -> ()) {
+        
+        let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
+        request(getMutableRequest(soapRequest))
+            .responseString { response in
+                
+                var netSales = 0.0
+                var fees = 0.0
+                var shippingCost = 0.0
+                var refunds = 0.0
+                var incomingRefunds = 0.0
+                var pending = 0.0
+                var expenses = 0.0
+                
+                
+                if let xmlString = response.result.value {
+                    do {
+                        let xmlDoc = try AEXMLDocument(xml: xmlString)
+                        
+                        netSales = self.parseNetSales(xml: xmlDoc)
+                        fees = self.parseFees(xml: xmlDoc)
+                        
+                        refunds = self.parseRefunds(xml: xmlDoc)
+                        incomingRefunds = self.parseIncomingRefunds(xml: xmlDoc)
+                        
+                        
+                        expenses = self.parseExpenses(xml: xmlDoc)
+                        
+                        success((netSales, fees, shippingCost, refunds, incomingRefunds, pending, expenses))
+                    } catch {
+                        print("\(error)")
+                    }
+                } else {
+                    print("error fetching XML")
+                }
+        }
+    }
+    
+    private func parseNetSales(xml: AEXMLDocument) -> Double {
+        let transactions = xml.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
+        var netSales = 0.0
+        for transaction in transactions {
+            if transaction.name == "PaymentTransactions" {
+                if transaction["Type"].value! == "Payment" {
+                    let sale = Double(transaction["NetAmount"].value!)!
+                    netSales += sale > 0 ? sale : 0
+                }
+            }
+        }
+        return netSales
+    }
+    
+    private func parseFees(xml: AEXMLDocument) -> Double {
+        let transactions = xml.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
+        var fees = 0.0
+        for transaction in transactions {
+            if transaction.name == "PaymentTransactions" {
+                if transaction["Type"].value! == "Payment" {
+                    print(transaction["FeeAmount"].value!)
+                    fees += Double(transaction["FeeAmount"].value!)!
+                }
+            }
+        }
+        return -fees
+    }
+    
+    private func parseRefunds(xml: AEXMLDocument) -> Double {
+        let transactions = xml.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
+        var refunds = 0.0
+        for transaction in transactions {
+            if transaction.name == "PaymentTransactions" {
+                if transaction["Type"].value! == "Refund" {
+                    let refund = Double(transaction["GrossAmount"].value!)!
+                    refunds += refund < 0 ? refund : 0
+                }
+            }
+        }
+        return -refunds
+    }
+    
+    private func parseIncomingRefunds(xml: AEXMLDocument) -> Double {
+        let transactions = xml.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
+        var refunds = 0.0
+        for transaction in transactions {
+            if transaction.name == "PaymentTransactions" {
+                if transaction["Type"].value! == "Refund" {
+                    let refund = Double(transaction["GrossAmount"].value!)!
+                    refunds += refund > 0 ? refund : 0
+                }
+            }
+        }
+        return refunds
+    }
+
+    private func parseExpenses(xml: AEXMLDocument) -> Double {
+        let transactions = xml.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
+        var expenses = 0.0
+        for transaction in transactions {
+            if transaction.name == "PaymentTransactions" {
+                if transaction["Type"].value! == "Payment" {
+                    let expense = Double(transaction["NetAmount"].value!)!
+                    expenses += expense < 0 ? expense : 0
+                }
+            }
+        }
+        return -expenses
+    }
+
     
     //MARK: - Get Average revenue sale
     func getAverageRevenue(success: @escaping (_ revenue: String) -> (), failure: @escaping failure) {
         
-        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Received")]
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Received")]
         let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
         request(getMutableRequest(soapRequest))
             .responseString { response in
@@ -184,7 +318,7 @@ class PayPal: ExternalRequest {
     //MARK: - Get Average revenue sale by period
     func getAverageRevenueSaleByPeriod(success: @escaping ([(revenue: String, period: String, total: Int)]) -> (), failure: @escaping failure) {
         
-        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Received")]
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Received")]
         let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
         request(getMutableRequest(soapRequest))
             .responseString { response in
@@ -359,7 +493,7 @@ class PayPal: ExternalRequest {
     //MARK: private helper methods
     private func getTransactionIDs(success: @escaping (_ transactionsID: [String]) -> (), failure: @escaping failure) {
         
-        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Received")]
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Received")]
         let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
         request(getMutableRequest(soapRequest))
             .responseString { response in
@@ -448,7 +582,7 @@ class PayPal: ExternalRequest {
     //MARK: - Get transactions by status
     func getTransactionsByStatus(success: @escaping (_ expenses: [(status: String, size: Int)]) -> (), failure: @escaping failure) {
         
-        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "All")]
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "All")]
         let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
         request(getMutableRequest(soapRequest))
             .responseString { response in
@@ -570,7 +704,7 @@ class PayPal: ExternalRequest {
     //MARK: - Get recent expenses
     func getRecentExpenses(success: @escaping (_ expenses: [(payer: String, netAmount: String)]) -> (), failure: @escaping failure) {
         
-        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getStartDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Sent")]
+        let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Sent")]
         let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
         request(getMutableRequest(soapRequest))
             .responseString { response in
@@ -598,7 +732,7 @@ class PayPal: ExternalRequest {
     
     
     //MARK: - Helpers methods
-    private func getStartDate(mounthsAgo: Int) -> String {
+    private func getDate(mounthsAgo: Int) -> String {
         let dayInSecond = 60 * 60 * 24
         let mountAgo = Date(timeIntervalSinceNow: -(Double(dayInSecond * 30 * mounthsAgo)))
         

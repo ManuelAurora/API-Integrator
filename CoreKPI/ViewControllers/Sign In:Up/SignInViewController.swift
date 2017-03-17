@@ -11,7 +11,7 @@ import UIKit
 class SignInViewController: UIViewController, UITextFieldDelegate {
     
     var model = ModelCoreKPI.modelShared
-    var delegate: updateModelDelegate!
+    //var delegate: updateModelDelegate!
     
     @IBOutlet weak var passwordTextField: BottomBorderTextField!
     @IBOutlet weak var emailTextField: BottomBorderTextField!
@@ -55,17 +55,12 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         let password = passwordTextField.text
         
         if email == "" || password == "" {
-            
-            let alertController = UIAlertController(title: "Oops", message: "Email/Password field is empty!", preferredStyle: UIAlertControllerStyle.alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alertController, animated: true, completion: nil)
+            showAlert(title: "Oops", errorMessage: "Email/Password field is empty!")
             return
         }
         
         if email?.range(of: "@") == nil || (email?.components(separatedBy: "@")[0].isEmpty)! ||  (email?.components(separatedBy: "@")[1].isEmpty)!{
-            let alertController = UIAlertController(title: "Oops", message: "Invalid E-mail adress", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            self.present(alertController, animated: true, completion: nil)
+            showAlert(title: "Oops", errorMessage: "Invalid E-mail adress")
             return
         }
         
@@ -111,8 +106,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                                           failure: { error in
                                             print(error)
                                             self.showAlert(title: "Authorization error", errorMessage: error)
-                }
-                )
+                })
             }
         }
     }

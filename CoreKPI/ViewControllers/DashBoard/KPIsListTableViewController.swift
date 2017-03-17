@@ -284,20 +284,21 @@ class KPIsListTableViewController: UITableViewController {
     func loadReports() {
         let getReportRequest = GetReports(model: model)
         for kpi in arrayOfKPI {
-            getReportRequest.getReportForKPI(withID: kpi.id, success: {report in
-                kpi.createdKPI?.number.removeAll()
-                var newNumbers: [(date: Date, number: Double)] = []
-                var dict = report
-                for _ in 0..<dict.count {
-                    let report = dict.popFirst()
-                    let dateDtring = report?.key
-                    let value = report?.value
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                    let date = dateFormatter.date(from: dateDtring!)
-                    newNumbers.append((date!, value!)) //debug!
-                }
-                kpi.createdKPI?.number = newNumbers.sorted(by: { $0.0 < $1.0 })
+            getReportRequest.getReportForKPI(withID: kpi.id, success: {reports in
+                //kpi.createdKPI?.number.removeAll()
+//                var newNumbers: [(date: Date, number: Double)] = []
+//                var dict = report
+//                for _ in 0..<dict.count {
+//                    let report = dict.popFirst()
+//                    let dateDtring = report?.key
+//                    let value = report?.value
+//                    let dateFormatter = DateFormatter()
+//                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//                    let date = dateFormatter.date(from: dateDtring!)
+//                    newNumbers.append((date!, value!)) //debug!
+//                }
+//                let reports = getReportRequest.filterReports(kpi: kpi, reports: newNumbers)
+                kpi.createdKPI?.number = getReportRequest.filterReports(kpi: kpi, reports: reports)
                 self.tableView.reloadData()
                 let nc = NotificationCenter.default
                 nc.post(name: self.modelDidChangeNotification,
@@ -306,8 +307,7 @@ class KPIsListTableViewController: UITableViewController {
             },
                                              failure: { error in
                                                 print(error)
-            }
-            )
+            })
         }
     }
     
@@ -327,8 +327,7 @@ class KPIsListTableViewController: UITableViewController {
             self.refreshControl?.endRefreshing()
             self.showAlert(title: "Sorry!", message: error)
             self.tableView.reloadData()
-        }
-        )
+        })
     }
     
     //MARK: - Show alert method

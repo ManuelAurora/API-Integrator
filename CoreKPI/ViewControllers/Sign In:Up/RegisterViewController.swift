@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegisterViewController: UIViewController, UITextFieldDelegate {
+class RegisterViewController: UIViewController {
     
     @IBOutlet weak var passwordTextField: BottomBorderTextField!
     @IBOutlet weak var emailTextField: BottomBorderTextField!
@@ -33,23 +33,17 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         let repeatPassword = repeatPasswordTextField.text
         
         if email == "" || password == "" || repeatPassword == "" {
-            let alertController = UIAlertController(title: "Oops", message: "All fields must be filled!", preferredStyle: UIAlertControllerStyle.alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(alertController, animated: true, completion: nil)
+            showAlert(title: "Oops", errorMessage: "All fields must be filled!")
             return
         }
         
         if email?.range(of: "@") == nil || (email?.components(separatedBy: "@")[0].isEmpty)! ||  (email?.components(separatedBy: "@")[1].isEmpty)!{
-            let alertController = UIAlertController(title: "Oops", message: "Invalid E-mail adress", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            present(alertController, animated: true, completion: nil)
+            showAlert(title: "Oops", errorMessage: "Invalid E-mail adress")
             return
         }
         
         if password != repeatPassword {
-            let alertController = UIAlertController(title: "Oops", message: "Entered passwords are different!", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            present(alertController, animated: true, completion: nil)
+            showAlert(title: "Oops", errorMessage: "Entered passwords are different!")
         }
         
         let vc = storyboard?.instantiateViewController(withIdentifier: "RegistrationCreateProfileVC") as! NewProfileTableViewController
@@ -57,6 +51,17 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         delegate.updateLoginAndPassword(email: email, password: password)
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    //MARK: - show alert function
+    func showAlert(title: String, errorMessage: String) {
+        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+}
+
+extension RegisterViewController: UITextFieldDelegate {
     
     //MARK: - UITextFieldDelegate method
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -74,5 +79,4 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         }
         return true
     }
-    
 }

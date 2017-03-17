@@ -54,6 +54,7 @@
 		A22EF0661E0901A20004DDB7 /* ModelCoreKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */; };
 		A235CB321E0ACD5200636888 /* AlertSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A235CB311E0ACD5100636888 /* AlertSettingsTableViewController.swift */; };
 		A23E79471E5AE83900EEBABE /* UIColorExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23E79461E5AE83900EEBABE /* UIColorExtention.swift */; };
+		A2400F4B1E7BDB1A0077656F /* DateExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2400F4A1E7BDB1A0077656F /* DateExtention.swift */; };
 		A2425CB41E1CE8EE00DFDF91 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */; };
 		A24A84031E486DD400440151 /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84021E486DD400440151 /* OAuthSwift.framework */; };
 		A24A84041E486DD400440151 /* OAuthSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A24A84021E486DD400440151 /* OAuthSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -167,7 +168,6 @@
 		A2F77E091E3B199400BB8318 /* DeleteUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77DFA1E3B199400BB8318 /* DeleteUser.swift */; };
 		A2F77E0A1E3B199400BB8318 /* GetKPIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77DFB1E3B199400BB8318 /* GetKPIs.swift */; };
 		A2F77E0B1E3B199400BB8318 /* GetMemberList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77DFC1E3B199400BB8318 /* GetMemberList.swift */; };
-		A2F77E0C1E3B199400BB8318 /* GetModelFromServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77DFD1E3B199400BB8318 /* GetModelFromServer.swift */; };
 		A2F77E0D1E3B199400BB8318 /* GetNumberOfInvations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77DFE1E3B199400BB8318 /* GetNumberOfInvations.swift */; };
 		A2F77E0F1E3B199400BB8318 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77E001E3B199400BB8318 /* LoginRequest.swift */; };
 		A2F77E101E3B199400BB8318 /* RecoveryPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F77E011E3B199400BB8318 /* RecoveryPassword.swift */; };
@@ -262,6 +262,7 @@
 		A22EF0651E0901A20004DDB7 /* ModelCoreKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelCoreKPI.swift; sourceTree = "<group>"; };
 		A235CB311E0ACD5100636888 /* AlertSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertSettingsTableViewController.swift; path = CoreKPI/ViewControllers/Alerts/AlertSettingsTableViewController.swift; sourceTree = "<group>"; };
 		A23E79461E5AE83900EEBABE /* UIColorExtention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtention.swift; sourceTree = "<group>"; };
+		A2400F4A1E7BDB1A0077656F /* DateExtention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtention.swift; sourceTree = "<group>"; };
 		A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		A24A84021E486DD400440151 /* OAuthSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthSwift.framework; path = Carthage/Build/iOS/OAuthSwift.framework; sourceTree = "<group>"; };
 		A24A84061E486DF500440151 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
@@ -377,7 +378,6 @@
 		A2F77DFA1E3B199400BB8318 /* DeleteUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteUser.swift; path = Services/DeleteUser.swift; sourceTree = "<group>"; };
 		A2F77DFB1E3B199400BB8318 /* GetKPIs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetKPIs.swift; path = Services/GetKPIs.swift; sourceTree = "<group>"; };
 		A2F77DFC1E3B199400BB8318 /* GetMemberList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetMemberList.swift; path = Services/GetMemberList.swift; sourceTree = "<group>"; };
-		A2F77DFD1E3B199400BB8318 /* GetModelFromServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetModelFromServer.swift; path = Services/GetModelFromServer.swift; sourceTree = "<group>"; };
 		A2F77DFE1E3B199400BB8318 /* GetNumberOfInvations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetNumberOfInvations.swift; path = Services/GetNumberOfInvations.swift; sourceTree = "<group>"; };
 		A2F77E001E3B199400BB8318 /* LoginRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginRequest.swift; path = Services/LoginRequest.swift; sourceTree = "<group>"; };
 		A2F77E011E3B199400BB8318 /* RecoveryPassword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecoveryPassword.swift; path = Services/RecoveryPassword.swift; sourceTree = "<group>"; };
@@ -459,6 +459,7 @@
 				A23E79461E5AE83900EEBABE /* UIColorExtention.swift */,
 				A2A940CA1E1E70740088C7F1 /* UINavigationBurExtension.swift */,
 				A25F658E1E530CEA00AD30F5 /* UIViewControllerExtension.swift */,
+				A2400F4A1E7BDB1A0077656F /* DateExtention.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -472,7 +473,6 @@
 				A2F77E021E3B199400BB8318 /* RegistrationRequest.swift */,
 				A2F77DFE1E3B199400BB8318 /* GetNumberOfInvations.swift */,
 				A2F77E031E3B199400BB8318 /* SendInvation.swift */,
-				A2F77DFD1E3B199400BB8318 /* GetModelFromServer.swift */,
 				A2F77DFC1E3B199400BB8318 /* GetMemberList.swift */,
 				A2F77DF81E3B199400BB8318 /* ChangeProfile.swift */,
 				A2F77DF71E3B199400BB8318 /* ChangeNickname.swift */,
@@ -1083,6 +1083,7 @@
 			files = (
 				A21EDDF71E23A709001DE74C /* KPIList.swift in Sources */,
 				A2C431771E558EA500AA2B7C /* DeleteAlert.swift in Sources */,
+				A2400F4B1E7BDB1A0077656F /* DateExtention.swift in Sources */,
 				A28889911E4206DC00113220 /* AddAlert.swift in Sources */,
 				A297F5C81E0823D400F85963 /* NewProfileTableViewController.swift in Sources */,
 				A2EFE2C81E2DF0E300BA2956 /* TableViewChartController.swift in Sources */,
@@ -1107,7 +1108,6 @@
 				A20B6BD01E31F5EC00FAF86A /* IntegratedKPI.swift in Sources */,
 				641F74661E5B0F4200672534 /* WebViewController.swift in Sources */,
 				A25F658D1E52F5D500AD30F5 /* NumberChartViewController.swift in Sources */,
-				A2F77E0C1E3B199400BB8318 /* GetModelFromServer.swift in Sources */,
 				A2ACBD3B1E0D11AA0079EF3D /* AlertsListTableViewController.swift in Sources */,
 				A20440BB1E5483E300D540F8 /* GetReminders.swift in Sources */,
 				A297F5D11E08241900F85963 /* MemberInfoTableViewCell.swift in Sources */,
