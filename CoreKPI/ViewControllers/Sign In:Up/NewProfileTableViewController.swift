@@ -30,7 +30,6 @@ class NewProfileTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         tableView.tableFooterView = UIView(frame: .zero)
     }
     
@@ -84,8 +83,7 @@ class NewProfileTableViewController: UITableViewController {
                                                     self.segueToVC()
         }, failure: { error in
             self.showAlert(title: "Registration error", errorMessage: error)
-        }
-        )
+        })
     }
     
     func segueToVC() {

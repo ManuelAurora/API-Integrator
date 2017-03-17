@@ -41,7 +41,6 @@ class InviteTableViewController: UITableViewController {
     }
     
     // MARK: - Table view data source
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -91,8 +90,10 @@ class InviteTableViewController: UITableViewController {
     @IBAction func addInvites(_ sender: UIButton) {
         
         let alertController = UIAlertController(title: "Need more invitations?", message: "You more invitations left. Would you like to buy more?", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Buy", style: .default, handler: nil))
-        //Add buying!
+        alertController.addAction(UIAlertAction(title: "Buy", style: .default, handler: {
+            (action: UIAlertAction!) -> Void in
+            self.getNewSubscribe()
+        }))
         alertController.addAction(UIAlertAction(title: "No thanks", style: .cancel, handler: nil))
         present(alertController, animated: true, completion: nil)
         
@@ -114,8 +115,7 @@ class InviteTableViewController: UITableViewController {
             self.tableView.reloadData()
         }, failure: { error in
         self.showAlert(title: "Send invation error", message: error)
-        }
-        )
+        })
     }
     
     //MARK: - show alert function
@@ -153,7 +153,7 @@ class InviteTableViewController: UITableViewController {
     }
     
     //MARK: - get number of invations from server
-    func getNumberOfInvations() {
+    private func getNumberOfInvations() {
         
         let request = GetNumberOfInvations(model: model)
         request.getNumberOfInvations(success: { number in
@@ -161,18 +161,16 @@ class InviteTableViewController: UITableViewController {
             self.numberOfInvationsLAbel.text = "\(self.numberOfInvations) invitations left"
         }, failure: { error in
             self.showAlert(title: "Sorry!", message: error)
-        }
-        )
+        })
+    }
+    
+    //MARK: - buying subscribe
+    private func getNewSubscribe() {
+        print("Add buying in ")
+        //TODO: add byuing InviteTableViewController
     }
     
 }
-
-////MARK: - updateModelDelegate methods
-//extension InviteTableViewController: updateModelDelegate {
-//    func updateModel(model: ModelCoreKPI) {
-//        self.model = ModelCoreKPI(model: model)
-//    }
-//}
 
 //MARK: - updateTypeOfAccountDelegate method
 extension InviteTableViewController: updateTypeOfAccountDelegate {

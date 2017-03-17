@@ -31,7 +31,6 @@ class OnboardingPageViewController: UIPageViewController, UIPageViewControllerDa
     }
 
     // MARK:- UIPageViewControllerDataSource Methods
-    
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController?
     {
         let pageContent: OnboardingViewController = viewController as! OnboardingViewController
@@ -71,7 +70,6 @@ class OnboardingPageViewController: UIPageViewController, UIPageViewControllerDa
     {
         // Create a new view controller and pass suitable data.
         let onboardingViewController = self.storyboard?.instantiateViewController(withIdentifier: "OnboardingView") as! OnboardingViewController
-        
         onboardingViewController.onboardingTextString = self.onboardingText[index]
         onboardingViewController.onboardingImage = self.onboardingLodo[index]
         onboardingViewController.pageIndex = index

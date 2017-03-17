@@ -29,9 +29,7 @@ class RecoveryPasswordViewController: UIViewController {
         let email = emailTextField.text?.lowercased()
         
         if email == "" || email?.range(of: "@") == nil || (email?.components(separatedBy: "@")[0].isEmpty)! ||  (email?.components(separatedBy: "@")[1].isEmpty)!{
-            let alertController = UIAlertController(title: "Oops", message: "Invalid E-mail adress", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            self.present(alertController, animated: true, completion: nil)
+            showAlert(title: "Oops", errorMessage: "Invalid E-mail adress")
             return
         } else {
             recoveryPassword(email: email!)
@@ -46,12 +44,15 @@ class RecoveryPasswordViewController: UIViewController {
             self.dismiss(animated: true, completion: nil)
         },
                                          failure: { error in
-                                            print(error)
-                                            let alertController = UIAlertController(title: "Sorry!", message: error, preferredStyle: .alert)
-                                            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                                            self.present(alertController, animated: true, completion: nil)
-        }
-        )
+                                            self.showAlert(title: "Sorry!", errorMessage: error)
+        })
+    }
+    
+    //MARK: - show alert function
+    func showAlert(title: String, errorMessage: String) {
+        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -64,7 +65,6 @@ class RecoveryPasswordViewController: UIViewController {
                 self.tapSendButton(sendButton)
             }
             return true
-            
     }
 }
 
