@@ -45,16 +45,8 @@ class PinCodeViewController: UIViewController
     
     var mode: PinMode?
     var confirmed = false
+    var model = ModelCoreKPI.modelShared
     
-    lazy var model: ModelCoreKPI? = {
-        if let data = UserDefaults.standard.data(forKey: UserDefaultsKeys.token),
-            let myTokenArray = NSKeyedUnarchiver.unarchiveObject(with: data) as? [ModelCoreKPI] {
-            let model = ModelCoreKPI(model: myTokenArray[0])
-            return model
-        }
-        
-        return nil
-    }()
     
     @IBOutlet weak private var infoLabel: UILabel!
     @IBOutlet weak fileprivate var deleteButton: UIButton!

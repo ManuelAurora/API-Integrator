@@ -10,7 +10,7 @@ import Foundation
 
 class RegistrationRequest: Request {
     
-    func registrationRequest(email: String, password: String, firstname: String, lastname: String, position: String, photo: String?, success: @escaping (_ model: ModelCoreKPI) -> (), failure: @escaping failure) {
+    func registrationRequest(email: String, password: String, firstname: String, lastname: String, position: String, photo: String?, success: @escaping () -> (), failure: @escaping failure) {
         
         var data: [String : Any]!
         
@@ -21,20 +21,15 @@ class RegistrationRequest: Request {
         }
         
         self.getJson(category: "/auth/createAccount", data: data,
-                        success: { json in
-                            if let model = self.parsingJson(username: email, firstname: firstname, lastname: lastname, position: position, photo: photo, json: json)  {
-                                success(model)
-                            } else {
-                                failure(self.errorMessage ?? "Wrong data from server")
-                            }
+                     success: { json in
+                        self.parsingJson(username: email, firstname: firstname, lastname: lastname, position: position, photo: photo, json: json)
         },
-                        failure: { (error) in
-                            failure(error)
-        }
-        )
+                     failure: { (error) in
+                        failure(error)
+        })
     }
     
-    func parsingJson(username: String, firstname: String, lastname: String, position: String, photo: String?, json: NSDictionary) -> ModelCoreKPI? {
+    func parsingJson(username: String, firstname: String, lastname: String, position: String, photo: String?, json: NSDictionary) {
         
         var userId: Int
         var token: String
@@ -48,8 +43,8 @@ class RegistrationRequest: Request {
                     let mode = dataKey["mode"] as! Int
                     typeOfAccount = (mode == 0) ? .Manager : .Admin
                     let profile = Profile(userId: userId, userName: username, firstName: firstname, lastName: lastname, position: position, photo: photo, phone: nil, nickname: nil, typeOfAccount: typeOfAccount)
-                    let model = ModelCoreKPI(token: token, profile: profile)
-                    return model
+                    
+                    ModelCoreKPI.modelShared.register(profile: profile, token: token)
                     
                 } else {
                     print("Json data is broken")
@@ -60,7 +55,5 @@ class RegistrationRequest: Request {
         } else {
             print("Json file is broken!")
         }
-        return nil
     }
-    
 }

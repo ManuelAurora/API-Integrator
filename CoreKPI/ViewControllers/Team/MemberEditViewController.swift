@@ -11,14 +11,12 @@ import PhoneNumberKit
 
 class MemberEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var model: ModelCoreKPI!
+    var model = ModelCoreKPI.modelShared
     var index: Int!
     var newProfile: Profile!
     var profilePhotoData: Data!
     
     weak var memberInfoVC: MemberInfoViewController!
-    
-    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var memberProfilePhotoImage: UIImageView!
@@ -248,11 +246,10 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         } else if newParams.count < 1 && typeOfAccountWasChanged == true {
             self.updateProfile(photoLink: nil)
             let nc = NotificationCenter.default
-            nc.post(name:self.modelDidChangeNotification,
+            nc.post(name: .modelDidChanged,
                     object: nil,
-                    userInfo:["model": self.model])
-            let delegate: updateModelDelegate = self.memberInfoVC
-            delegate.updateModel(model: self.model)
+                    userInfo: nil)
+            
             self.navigationController!.popViewController(animated: true)
         } else {
             showAlert(title: "Warning", message: "Profile not changed")
@@ -267,12 +264,10 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         request.changeProfile(userID: Int(model.team[index].userID) , params: params, success: { link in
             self.updateProfile(photoLink: link)
             let nc = NotificationCenter.default
-            nc.post(name:self.modelDidChangeNotification,
+            nc.post(name: .modelDidChanged,
                     object: nil,
-                    userInfo:["model": self.model])
-            let delegate: updateModelDelegate = self.memberInfoVC
-            delegate.updateModel(model: self.model)
-            self.navigationController!.popViewController(animated: true)
+                    userInfo:nil)
+            _ = self.navigationController?.popViewController(animated: true)
         }, failure: { error in
             self.showAlert(title: "Error", message: error)
         }
@@ -307,9 +302,11 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         model.team[index].setValue(newProfile.position, forKey: "position")
         
         if newProfile.photo != nil && newProfile.photo != model.team[index].photoLink {
-            self.model.team[index].setValue(profilePhotoData, forKey: "photo")
+            //self.model.team[index].setValue(profilePhotoData, forKey: "photo")
+            self.model.team[index].photo = profilePhotoData as NSData!
             if photoLink != nil {
-                self.model.team[index].setValue(photoLink, forKey: "photoLink")
+                //self.model.team[index].setValue(photoLink, forKey: "photoLink")
+                self.model.team[index].photoLink = photoLink!
             }
         }
         
@@ -370,24 +367,28 @@ extension MemberEditViewController: UIImagePickerControllerDelegate, UINavigatio
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let newPhoto = info[UIImagePickerControllerOriginalImage] as! UIImage?
-        memberProfilePhotoImage.image = newPhoto
-        memberProfilePhotoImage.contentMode = UIViewContentMode.scaleAspectFill
-        memberProfilePhotoImage.clipsToBounds = true
-        newProfile.photo = "New photo link"
-        
-        saveButton.isEnabled = checkInputValue() ? true : false
-        
+        if let newPhoto = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            
+            memberProfilePhotoImage.image = newPhoto
+            memberProfilePhotoImage.contentMode = UIViewContentMode.scaleAspectFill
+            memberProfilePhotoImage.clipsToBounds = true
+            newProfile.photo = "New photo link"
+            
+            saveButton.isEnabled = checkInputValue() ? true : false
+        } else{
+            print("Something went wrong")
+        }
+                
         dismiss(animated: true, completion: nil)
     }
 }
 
 //MARK: - updateModelDelegate method
-extension MemberEditViewController: updateModelDelegate {
-    func updateModel(model: ModelCoreKPI) {
-        self.model = ModelCoreKPI(model: model)
-    }
-}
+//extension MemberEditViewController: updateModelDelegate {
+//    func updateModel(model: ModelCoreKPI) {
+//        self.model = ModelCoreKPI(model: model)
+//    }
+//}
 
 //MARK: - updateTypeOfAccountDelegate method
 extension MemberEditViewController: updateTypeOfAccountDelegate {

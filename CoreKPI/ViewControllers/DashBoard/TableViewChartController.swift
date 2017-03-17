@@ -9,7 +9,7 @@
 import UIKit
 
 class TableViewChartController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
     @IBOutlet weak var tableView: UITableView!
     
     var qBMethod: QBMethod!
@@ -32,23 +32,30 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.tableFooterView = UIView(frame: .zero)
         
         guard let qBMethod = qBMethod else { return }
-        
-        switch qBMethod {
+        switch qBMethod
+        {
+            
         case .query:
             subscribeToNotification(named: .qBInvoicesRefreshed)
+            
         case .balanceSheet:
             subscribeToNotification(named: .qBBalanceSheetRefreshed)
+            
         case .accountList:
             subscribeToNotification(named: .qBAccountListRefreshed)
+            
         case .profitLoss:
             subscribeToNotification(named: .qBProfitAndLossRefreshed)
+            
         case .paidInvoicesByCustomers:
             subscribeToNotification(named: .qBPaidInvoicesByCustomersRefreshed)
+            
         case .paidExpenses:
-            subscribeToNotification(named: .qBExpencesByVendorSummaryRefreshed)        
+            subscribeToNotification(named: .qBExpencesByVendorSummaryRefreshed)
         }
     }
     
@@ -61,7 +68,7 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
         
         notificationCenter.removeObserver(self)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -110,12 +117,12 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
             dataArray = qbDataManager.paidInvoicesByCustomer
             
         case .paidExpenses:
-            dataArray = qbDataManager.expencesByVendorSummary            
+            dataArray = qbDataManager.expencesByVendorSummary
         }
         
         tableView.reloadData()
     }
-
+    
     // MARK: - Table view data source
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -136,7 +143,7 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
             return dataArray.count + 1
         }
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DataCell", for: indexPath) as! ChartTableViewCell
         
@@ -174,6 +181,8 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
                 cell.rightLabel.text = dataArray[indexPath.row - 1].rightValue
             }
         }
+        
+        
         return cell
     }
     

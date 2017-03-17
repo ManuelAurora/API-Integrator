@@ -10,8 +10,8 @@ import UIKit
 
 class LaunchViewController: UIViewController {
     
-    //var request: GetModelFromServer!
-    var model: ModelCoreKPI!
+    var request: GetModelFromServer!
+    var model = ModelCoreKPI.modelShared
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var showedAfterBGCancelling = false
     
@@ -20,7 +20,7 @@ class LaunchViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-
+        
         let usersPin = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCode) as? [String]
         
         if checkLocalToken()
@@ -44,6 +44,7 @@ class LaunchViewController: UIViewController {
     }
     
     func tryLoginByPinCode() {
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         appDelegate.pinCodeVCPresenter.launchController = self
@@ -53,9 +54,17 @@ class LaunchViewController: UIViewController {
     
     func checkLocalToken() -> Bool {
         
-        if let data = UserDefaults.standard.data(forKey: UserDefaultsKeys.token),
-            let myTokenArray = NSKeyedUnarchiver.unarchiveObject(with: data) as? [ModelCoreKPI] {
-            model = ModelCoreKPI(model: myTokenArray[0])
+        if let token = UserDefaults.standard.object(forKey: UserDefaultsKeys.token)
+        {
+            let userID = UserDefaults.standard.integer(forKey: UserDefaultsKeys.userId)
+            
+            guard userID != 0 else { print("DEBUG: User ID equals 0"); return false }
+            
+            let profile = Profile(userID: userID)
+            
+            model.profile = profile
+            model.token = token as! String
+            
             return true
         } else {
             print("No local token in app storage")
@@ -98,22 +107,22 @@ class LaunchViewController: UIViewController {
         
         let dashboardNavigationViewController = tabBarController.viewControllers?[0] as! DashboardsNavigationViewController
         let dashboardViewController = dashboardNavigationViewController.childViewControllers[0] as! KPIsListTableViewController
-        dashboardViewController.model = ModelCoreKPI(model: model)
+        dashboardViewController.model = model
         dashboardViewController.loadKPIsFromServer()
         
         let alertsNavigationViewController = tabBarController.viewControllers?[1] as! AlertsNavigationViewController
         let alertsViewController = alertsNavigationViewController.childViewControllers[0] as! AlertsListTableViewController
-        alertsViewController.model = ModelCoreKPI(model: model)
+        alertsViewController.model = model
         alertsViewController.loadAlerts()
         
         let teamListNavigationViewController = tabBarController.viewControllers?[2] as! TeamListViewController
         let teamListController = teamListNavigationViewController.childViewControllers[0] as! MemberListTableViewController
-        teamListController.model = ModelCoreKPI(model: model)
+        teamListController.model = model
         teamListController.loadTeamListFromServer()
         
         let supportNavigationViewControleler = tabBarController.viewControllers?[3] as! SupportNavigationViewController
         let supportMainTableVC = supportNavigationViewControleler.childViewControllers[0] as! SupportMainTableViewController
-        supportMainTableVC.model = ModelCoreKPI(model: model)
+        supportMainTableVC.model = model
         
         present(tabBarController, animated: true, completion: nil)
     }
@@ -133,14 +142,7 @@ class LaunchViewController: UIViewController {
     func LogOut() {
         let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
         
-        if model != nil {
-            for profile in model.team {
-                context.delete(profile)
-            }
-        }
-        else {
-            print("DEBUG: Model is nil")
-        }
+        _ = model.team.map { context.delete($0) }
         
         appDelegate.loggedIn = false
         
@@ -148,7 +150,7 @@ class LaunchViewController: UIViewController {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.pinCode)
         
         presentStartVC()
-    }    
+    }
     
     func presentStartVC() {
         let startVC = storyboard?.instantiateViewController(withIdentifier: "StartVC")

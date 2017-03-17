@@ -149,14 +149,14 @@ class MemberListTableViewController: UITableViewController {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let destinationController = segue.destination as! MemberInfoViewController
                 destinationController.index = indexPath.row
-                destinationController.model = ModelCoreKPI(model: model)
+                destinationController.model = model
                 destinationController.memberListVC = self
             }
         }
         if segue.identifier == "MemberListInvite" {
             let destinationViewController = segue.destination as! InviteTableViewController
             destinationViewController.navigationItem.rightBarButtonItem = nil
-            destinationViewController.model = ModelCoreKPI(model: model)
+            destinationViewController.model = model
         }
     }
     
@@ -178,7 +178,7 @@ class MemberListTableViewController: UITableViewController {
             let nc = NotificationCenter.default
             nc.post(name: self.modelDidChangeNotification,
                     object: nil,
-                    userInfo:["model": self.model])
+                    userInfo: nil)
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
             
@@ -220,19 +220,7 @@ class MemberListTableViewController: UITableViewController {
             }
         }
         if notification.name == modelDidChangeNotification {
-            guard let userInfo = notification.userInfo,
-                let model = userInfo["model"] as? ModelCoreKPI else {
-                    print("No userInfo found in notification")
-                    return
-            }
-            self.model.kpis = model.kpis
+            tableView?.reloadData()
         }
-    }
-}
-
-extension MemberListTableViewController: updateModelDelegate {
-    func updateModel(model: ModelCoreKPI) {
-        self.model = ModelCoreKPI(model: model)
-        tableView.reloadData()
     }
 }

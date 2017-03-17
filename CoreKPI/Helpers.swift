@@ -20,10 +20,12 @@ extension Notification.Name
     static let qBPaidInvoicesByCustomersRefreshed = Notification.Name("PaidInvoicesByCustomersRefreshed")
     static let qBExpencesByVendorSummaryRefreshed = Notification.Name("ExpencesByVendorSummaryRefreshed")
     static let newExternalKPIadded = Notification.Name("NewExternalKPIAdded")
+    static let modelDidChanged = Notification.Name("modelDidChange")
 }
 
 struct UserDefaultsKeys
 {
+    static let userId = "userId"
     static let pinCode = "PinCode"
     static let token = "token"
     static let pinCodeAttempts = "PinCodeAttempts"

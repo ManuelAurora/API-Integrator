@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import OAuthSwift
 
 class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSource {
     
@@ -223,6 +224,16 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                     
                     tableViewChartVC.titleOfTable = (kpiName, "", "Value")
                     quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method, kpiName: kpiValue))
+                    
+                    
+                    let credential = OAuthSwiftCredential(consumerKey: quickBooksDataManager.serviceParameters[.consumerKey]!,
+                                                          consumerSecret: quickBooksDataManager.serviceParameters[.consumerSecret]!)
+                    
+                    credential.oauthToken = kpi.integratedKPI.quickbooksKPI!.oAuthToken!
+                    credential.oauthTokenSecret = kpi.integratedKPI.quickbooksKPI!.oAuthTokenSecret!
+                    credential.oauthRefreshToken = kpi.integratedKPI.quickbooksKPI!.oAuthRefreshToken!
+                    
+                    quickBooksDataManager.credentialTempList.append(credential)
                     
                     createDataFromRequestWith(qBMethod: method, success: { _ in
                         tableViewChartVC.kpiName = kpiValue
@@ -580,13 +591,9 @@ extension ChartsPageViewController {
     //MARK: - crate data from request
     func createDataFromRequestWith(qBMethod: QuickBookMethod?, success: @escaping () -> ()) {
         
-        //var dataForPresent: [(leftValue: String, centralValue: String, rightValue: String)] = []
+        self.quickBooksDataManager.fetchDataFromIntuit(isCreation: false)
         
-         quickBooksDataManager.doOAuthQuickbooks {
-            self.quickBooksDataManager.fetchDataFromIntuit(isCreation: false)
-            
-            success()
-        }
+        success()        
     }
     
     func createDataFromRequest(success: @escaping ([(leftValue: String, centralValue: String, rightValue: String)])->()) {

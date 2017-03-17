@@ -210,13 +210,30 @@ extension AppDelegate {
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        
+        let parameters = url.absoluteString.removingPercentEncoding?.components(separatedBy: "&")
+        
+        let realmId = parameters?.filter({ $0.contains("realmId")})
+                
         applicationHandle(url: url)
         return true
     }
     
     @available(iOS 9.0, *)
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        //OAuth2Swift.handle(url: url)
+        
+        let parameters = url.absoluteString.removingPercentEncoding?.components(separatedBy: "&")
+        
+        if let resultArray = parameters?.filter({ $0.contains("realmId")})
+        {
+            if resultArray.count > 0
+            {
+                let realmIdString = resultArray[0]
+                let index = realmIdString.index(realmIdString.startIndex, offsetBy: 8)
+                let realmId = realmIdString.substring(from: index)
+                QuickBookDataManager.shared().serviceParameters[.companyId] = realmId
+            }
+        }
         applicationHandle(url: url)
         return true
     }

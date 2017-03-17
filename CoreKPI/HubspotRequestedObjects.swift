@@ -8,6 +8,45 @@
 
 import Foundation
 
+struct HSPage
+{
+    var analyticsPageId: Int!
+    var archived: Bool!
+    var authorUserId: Int!
+    var campaign: String! //The guid of the marketing campaign this page is associated with
+    var campaignName: String! //The name of the marketing campaign this page is associated with
+    var created: Date!
+    var currentLiveDomain: String!
+    var freezeDate: Date!
+    var id: Int!
+    var name: String!
+    var portalId: Int!
+    var url: String!
+    
+    init(json:[String: Any]) {
+        
+        analyticsPageId = json["analytics_page_id"] as? Int
+        archived = json["archived"] as? Bool
+        authorUserId = json["author_user_id"] as? Int
+        campaign = json["campaign"] as? String
+        campaignName = json["campaign_name"] as? String
+        currentLiveDomain = json["current_live_domain"] as? String
+        id = json["id"] as? Int
+        name = json["name"] as? String
+        portalId = json["portal_id"] as? Int
+        url = json["url"] as? String
+        
+        if let freezeDateTimeStamp = json["freeze_date"] as? Int
+        {
+            freezeDate = Date(timeIntervalSince1970: Double(freezeDateTimeStamp)/1000)
+        }
+        
+        if let createdTimeStamp = json["created"] as? Int
+        {
+            created = Date(timeIntervalSince1970: Double(createdTimeStamp)/1000)
+        }
+    }    
+}
 
 struct HSContact
 {
@@ -22,6 +61,9 @@ struct HSContact
     var ownerId: Int! //Contact owner
     var assignDate: Date! //Date in wich owner was assigned
     var lastContactDate: Date! //Last contact date
+    var sourceType: SourceType!
+    var becomeCustomerDate: Date! //The date when a contact's lifecycle stage changed to Customer. This is automatically set by
+                                  //HubSpot for each contact.
     
     init(json:[String: Any]) {
         
@@ -30,6 +72,12 @@ struct HSContact
         if let createDate = properties["createdate"] as? [String: Any], let timestampString = createDate["value"] as? String
         {
             if let timestamp = Double(timestampString) { self.createDate = Date(timeIntervalSince1970: timestamp / 1000) }
+        }
+        
+        if let customerDateDict = properties["hs_lifecyclestage_customer_date"] as? [String: Any],
+            let dateStampString = customerDateDict["value"] as? String, let dateStamp = Double(dateStampString) {
+            
+            becomeCustomerDate = Date(timeIntervalSince1970: dateStamp / 1000)
         }
         
         if let ownerAssignedDate = properties["hubspot_owner_assigneddate"] as? [String: Any], let timestampString = ownerAssignedDate["value"] as? String
@@ -45,6 +93,13 @@ struct HSContact
         if let ownerId = properties["hubspot_owner_id"] as? [String: Any], let valueString = ownerId["value"] as? String
         {
             if let value = Int(valueString) { self.ownerId = value }
+        }
+        
+        if let sourceTypeArray = properties["hs_analytics_source"] as? [String: String],
+            let sourceTypeString = sourceTypeArray["value"],
+            let type = SourceType(rawValue: sourceTypeString) {
+        
+            sourceType = type
         }
         
         contactId = json["canonical-vid"] as? Int
@@ -93,12 +148,6 @@ struct HSStage
         displayOrder = json["displayOrder"] as? Int
         closedWon = json["closedWon"] as? Bool
     }
-}
-
-enum OwnerType: String
-{
-    case person = "PERSON"
-    case queue = "QUEUE"
 }
 
 struct HSOwner

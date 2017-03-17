@@ -12,7 +12,11 @@ import Alamofire
 import CoreData
 
 typealias resultArray = [(leftValue: String, centralValue: String, rightValue: String)]
-typealias urlStringWithMethod = (urlString: String, method: QuickBookMethod?, kpiName: QiuckBooksKPIs?)
+typealias urlStringWithMethod = (
+    urlString: String,
+    method: QuickBookMethod?, kpiName: QiuckBooksKPIs?
+)
+
 typealias success = () -> ()
 
 class QuickBookDataManager
@@ -20,9 +24,7 @@ class QuickBookDataManager
     enum ResultArrayType {
         case netIncome
         case balance
-        case profitAndLoss
         case accountList
-        case nonPaidInvoices
         case paidInvoicesByCustomer
         case paidInvoicesPercent
         case overdueCustomers
@@ -30,6 +32,7 @@ class QuickBookDataManager
         case invoices
         case expencesByVendorSummary
         case openInvoicesByCustomers
+        case incomeProfitKPIs
     }
     
     private lazy var managedContext: NSManagedObjectContext = {
@@ -74,6 +77,11 @@ class QuickBookDataManager
     var expencesByVendorSummary: resultArray = []
     var openInvoicesByCustomers: resultArray = []
     
+    lazy var incomeProfitKPI: QBIncomeProfitKPI = {
+        let kpi = QBIncomeProfitKPI()
+        return kpi
+    }()
+    
     var queryMethod: QuickBookMethod?
     var companyID: String {
         set {
@@ -85,13 +93,16 @@ class QuickBookDataManager
     }
     
     var listOfRequests: [urlStringWithMethod] = []
+    var credentialTempList: [OAuthSwiftCredential] = []
     
     var kpiFilter =  [String: Bool]()
     
     lazy var serviceParameters: [AuthenticationParameterKeys: String] = {
         let parameters: [AuthenticationParameterKeys: String] = [
             .companyId:   "123145773393399",
-            .callbackUrl: "CoreKPI.CoreKPI:/oauth-callback/intuit"            
+            .callbackUrl: "CoreKPI:/oauth-callback/intuit",
+            .consumerKey:    "qyprdLYMArOQwomSilhpS7v9Ge8kke",
+            .consumerSecret: "ogPRVftZXLA1A03QyWNyJBax1qOOphuVJVP121np"
         ]
         
         return parameters
@@ -140,6 +151,7 @@ class QuickBookDataManager
     private func formUrlPath(method: QuickBookMethod) -> String {
         
         let companyId = serviceParameters[AuthenticationParameterKeys.companyId]!
+        
         let fullUrlPath = self.urlBase +
             companyId +
             method.methodName.rawValue + "?" +
@@ -210,8 +222,8 @@ class QuickBookDataManager
             case .PaidInvoicesByCustomers:
                 createNewEntityForArrayOf(type: .paidInvoicesByCustomer, urlString: request.urlString)
                 
-            default:
-                break
+            case .IncomeProfitKPIs:
+                createNewEntityForArrayOf(type: .incomeProfitKPIs, urlString: request.urlString)
             }
         }
         
@@ -260,17 +272,25 @@ class QuickBookDataManager
                     kpiRequestsToSave.append(req)
                     
                 case .IncomeProfitKPIs:
-                    let profitAndLossQueryParameters: [QBQueryParameterKeys: String] = [
-                        .dateMacro: QBPredifinedDateRange.thisMonth.rawValue,
-                        .summarizeBy: QBPredifinedSummarizeValues.days.rawValue
-                    ]
                     
-                    let profitAndLoss = QBProfitAndLoss(with: profitAndLossQueryParameters)
-                    let pathForProfitAndLoss = formUrlPath(method: profitAndLoss)
-                    let req = urlStringWithMethod(urlString: pathForProfitAndLoss, method: profitAndLoss, kpiName: kpi)
+                    let profitAndLossMonth = QBProfitAndLoss(in: .thisMonth)
+                    let profitAndLossQuartal = QBProfitAndLoss(in: .thisQuarter)
+                    let profitAndLossYear = QBProfitAndLoss(in: .thisYear)
+                                        
+                    let reqMonth = urlStringWithMethod(urlString: formUrlPath(method: profitAndLossMonth),
+                                                  method: profitAndLossMonth,
+                                                  kpiName: kpi)
                     
-                    listOfRequests.append(req)
-                    kpiRequestsToSave.append(req)
+                    let reqQuartal = urlStringWithMethod(urlString: formUrlPath(method: profitAndLossQuartal),
+                                                         method: profitAndLossQuartal,
+                                                         kpiName: kpi)
+                    
+                    let reqYear = urlStringWithMethod(urlString: formUrlPath(method: profitAndLossYear),
+                                                      method: profitAndLossYear,
+                                                      kpiName: kpi)
+                    
+                    listOfRequests.append(contentsOf: [reqMonth, reqQuartal, reqYear])
+                    kpiRequestsToSave.append(reqMonth)
                     
                 case .PaidInvoicesByCustomers:
                     let paidInvoicesParameters: [QBQueryParameterKeys: String] = [
@@ -321,16 +341,48 @@ class QuickBookDataManager
         overdueCustomers.removeAll()
     }
     
+    private func updateOauthCredentialsFor(request: urlStringWithMethod) {
+        
+        let numbersInUrlString = request.urlString.components(separatedBy: CharacterSet.decimalDigits.inverted)
+        
+        let idArray = numbersInUrlString.filter {
+            
+            if $0.characters.count >= QuickbooksConstants.lenghtOfRealmId { return true }
+            else { return false }
+        }
+        
+        guard idArray.count > 0 else { return }
+        
+        let realmId = idArray[0]
+        
+        let fetchQuickbookKPI = NSFetchRequest<QuickbooksKPI>(entityName: "QuickbooksKPI")
+        
+        if let quickbooksKPI = try? managedContext.fetch(fetchQuickbookKPI), quickbooksKPI.count > 0
+        {
+            let filteredArray = quickbooksKPI.filter { $0.realmId == realmId }
+            
+            guard filteredArray.count > 0 else { return }
+            
+            let kpi = filteredArray[0]
+            
+            oauthswift.client.credential.oauthToken = kpi.oAuthToken!
+            oauthswift.client.credential.oauthTokenSecret = kpi.oAuthTokenSecret!
+            oauthswift.client.credential.oauthRefreshToken = kpi.oAuthRefreshToken!
+        }
+    }
+    
     func fetchDataFromIntuit(isCreation: Bool) {
         
         clearAllData()
         
         for request in listOfRequests
         {
+            updateOauthCredentialsFor(request: request)
+            
             let handler = QuickBookRequestHandler(oauthswift: oauthswift,
                                                   request: request,
                                                   manager: self,
-                                                  isCreation: isCreation)            
+                                                  isCreation: isCreation)
             
             handler.getData()
         }
@@ -345,16 +397,13 @@ class QuickBookDataManager
         var qbKPI: QuickbooksKPI!
         
         let fetchQuickbookKPI = NSFetchRequest<QuickbooksKPI>(entityName: "QuickbooksKPI")
-        if let quickbooksKPI = try? managedContext.fetch(fetchQuickbookKPI), quickbooksKPI.count > 0
+        
+        if let quickbooksKPI = try? managedContext.fetch(fetchQuickbookKPI), quickbooksKPI.count > 0,
+            let companyId = serviceParameters[.companyId]
         {
-            qbKPI = quickbooksKPI[0]
-        }
-        else
-        {
-            qbKPI = QuickbooksKPI()
-            qbKPI.oAuthToken = serviceParameters[.oauthToken] ?? nil
-            qbKPI.oAuthRefreshToken = serviceParameters[.oauthRefreshToken] ?? nil
-            qbKPI.oAuthTokenSecret = serviceParameters[.oauthTokenSecret] ?? nil
+            let filteredArray = quickbooksKPI.filter { $0.realmId == companyId }
+            
+            qbKPI = filteredArray[0]
         }
         
         switch type
@@ -379,12 +428,6 @@ class QuickBookDataManager
             
         case .accountList:
             extKPI.kpiName = QiuckBooksKPIs.BalanceByBankAccounts.rawValue
-            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
-            extKPI.quickbooksKPI = qbKPI
-            extKPI.requestJsonString = urlString
-            
-        case .profitAndLoss:
-            extKPI.kpiName = QiuckBooksKPIs.IncomeProfitKPIs.rawValue
             extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             extKPI.quickbooksKPI = qbKPI
             extKPI.requestJsonString = urlString
@@ -417,19 +460,19 @@ class QuickBookDataManager
             extKPI.kpiName = QiuckBooksKPIs.PaidInvoices.rawValue
             extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             extKPI.quickbooksKPI = qbKPI
-            extKPI.requestJsonString = urlString
-            
-        case .nonPaidInvoices:
-            extKPI.kpiName = QiuckBooksKPIs.NonPaidInvoices.rawValue
-            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
-            extKPI.quickbooksKPI = qbKPI
-            extKPI.requestJsonString = urlString
+            extKPI.requestJsonString = urlString            
         
         case .openInvoicesByCustomers:
             extKPI.kpiName = QiuckBooksKPIs.OpenInvoicesByCustomers.rawValue
             extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             extKPI.quickbooksKPI = qbKPI
-            extKPI.requestJsonString = urlString            
+            extKPI.requestJsonString = urlString
+            
+        case .incomeProfitKPIs:
+            extKPI.kpiName = QiuckBooksKPIs.IncomeProfitKPIs.rawValue
+            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+            extKPI.quickbooksKPI = qbKPI
+            extKPI.requestJsonString = urlString
         }
         
         do {
@@ -442,42 +485,58 @@ class QuickBookDataManager
         }
     }
     
+    //MARK: Authentication
     func doOAuthQuickbooks(_ success: @escaping success) {
-    
-        let infoFetch = NSFetchRequest<QuickbooksKPI>(entityName: "QuickbooksKPI")
         
-        do {
-            let quickbooksKPIInfo = try managedContext.fetch(infoFetch)
-            
-            if quickbooksKPIInfo.count > 0, let token = quickbooksKPIInfo[0].oAuthToken,
-                let tokenSecret = quickbooksKPIInfo[0].oAuthTokenSecret
-            {
-                serviceParameters[.oauthToken] = token
-                serviceParameters[.oauthTokenSecret] = tokenSecret
-                oauthswift.client.credential.oauthToken = token
-                oauthswift.client.credential.oauthTokenSecret = tokenSecret
-                success()
-            }
-            else
-            {                
-                let callbackUrlString = serviceParameters[.callbackUrl]
-                
-                guard let callBackUrl = callbackUrlString else { print("DEBUG: Callback URL not found!"); return }
-                
-                let _ = oauthswift.authorize(
-                    withCallbackURL: callBackUrl,
-                    success: { credential, response, parameters in
-                        self.serviceParameters[.oauthToken] = credential.oauthToken
-                        self.serviceParameters[.oauthRefreshToken] = credential.oauthRefreshToken
-                        self.serviceParameters[.oauthTokenSecret] = credential.oauthTokenSecret
-                        success()
-                }) { error in
-                    print(error.localizedDescription)
+        let callbackUrlString = serviceParameters[.callbackUrl]
+        let infoFetch = NSFetchRequest<QuickbooksKPI>(entityName: "QuickbooksKPI")
+
+        guard let callBackUrl = callbackUrlString else { print("DEBUG: Callback URL not found!"); return }
+        
+        oauthswift.client.credential.oauthToken = ""
+        oauthswift.client.credential.oauthTokenSecret = ""
+        oauthswift.client.credential.oauthRefreshToken = ""
+               
+        let _ = oauthswift.authorize(
+            withCallbackURL: callBackUrl,
+            success: { credential, response, parameters in
+                do {
+                    let quickbooksKPIInfo = try self.managedContext.fetch(infoFetch)
+                    
+                    if let currentCompanyId = self.serviceParameters[.companyId]
+                    {
+                        let filteredArray = quickbooksKPIInfo.filter { $0.realmId == currentCompanyId }
+                        
+                        if filteredArray.count > 0
+                        {
+                            let kpi = filteredArray[0]
+                            kpi.oAuthToken = credential.oauthToken
+                            kpi.oAuthTokenSecret = credential.oauthTokenSecret
+                            kpi.oAuthRefreshToken = credential.oauthRefreshToken
+                        }
+                        else
+                        {
+                            let newQbKPI = QuickbooksKPI()
+                            newQbKPI.oAuthToken = credential.oauthToken
+                            newQbKPI.oAuthRefreshToken = credential.oauthTokenSecret
+                            newQbKPI.oAuthTokenSecret = credential.oauthRefreshToken
+                            newQbKPI.realmId = currentCompanyId
+                        }
+                    }
+                    
+                    try self.managedContext.save()
                 }
-            }
-        }
-        catch {
-            print("DEBUG: CoreData error")
+                catch {
+                    print("DEBUG: CoreData error")
+                }
+                
+                self.serviceParameters[.oauthToken] = credential.oauthToken
+                self.serviceParameters[.oauthRefreshToken] = credential.oauthRefreshToken
+                self.serviceParameters[.oauthTokenSecret] = credential.oauthTokenSecret
+                
+                success()
+        }) { error in
+            print(error.localizedDescription)
         }
     }
 }

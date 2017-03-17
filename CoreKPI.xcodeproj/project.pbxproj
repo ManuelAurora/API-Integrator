@@ -15,6 +15,7 @@
 		645759241E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645759231E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift */; };
 		645759261E67FB7D006FB5F9 /* ExternaKPI + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645759251E67FB7D006FB5F9 /* ExternaKPI + Extension.swift */; };
 		645D1C541E6444CE004574C8 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D1C531E6444CE004574C8 /* Helpers.swift */; };
+		645DB20D1E76A405000BEFD4 /* HubspotHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645DB20C1E76A405000BEFD4 /* HubspotHelpers.swift */; };
 		646BF08E1E6E8B4200621FE2 /* HubspotManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */; };
 		646BF0911E6EE64800621FE2 /* HubspotRequestedObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BF0901E6EE64800621FE2 /* HubspotRequestedObjects.swift */; };
 		647B588F1E65AA2F001C968B /* QuickBookHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B588E1E65AA2F001C968B /* QuickBookHelpers.swift */; };
@@ -220,6 +221,7 @@
 		645759231E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "QuickBooksKPI + Extension.swift"; sourceTree = "<group>"; };
 		645759251E67FB7D006FB5F9 /* ExternaKPI + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExternaKPI + Extension.swift"; sourceTree = "<group>"; };
 		645D1C531E6444CE004574C8 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		645DB20C1E76A405000BEFD4 /* HubspotHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotHelpers.swift; sourceTree = "<group>"; };
 		646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotManager.swift; sourceTree = "<group>"; };
 		646BF08F1E6ECD9500621FE2 /* CoreKPI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CoreKPI.entitlements; sourceTree = "<group>"; };
 		646BF0901E6EE64800621FE2 /* HubspotRequestedObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotRequestedObjects.swift; sourceTree = "<group>"; };
@@ -429,6 +431,7 @@
 			children = (
 				646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */,
 				646BF0901E6EE64800621FE2 /* HubspotRequestedObjects.swift */,
+				645DB20C1E76A405000BEFD4 /* HubspotHelpers.swift */,
 			);
 			name = HubSpot;
 			sourceTree = "<group>";
@@ -1134,6 +1137,7 @@
 				A2F77E101E3B199400BB8318 /* RecoveryPassword.swift in Sources */,
 				A297F5C91E0823D400F85963 /* RecoveryPasswordViewController.swift in Sources */,
 				646BF08E1E6E8B4200621FE2 /* HubspotManager.swift in Sources */,
+				645DB20D1E76A405000BEFD4 /* HubspotHelpers.swift in Sources */,
 				A26408F81E2280160034EEC2 /* WebViewChartViewController.swift in Sources */,
 				A20440BD1E5483FD00D540F8 /* AddReminders.swift in Sources */,
 				A2F77E0B1E3B199400BB8318 /* GetMemberList.swift in Sources */,

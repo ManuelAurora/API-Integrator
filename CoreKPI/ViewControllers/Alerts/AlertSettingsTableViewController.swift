@@ -636,7 +636,7 @@ class AlertSettingsTableViewController: UITableViewController {
                     let nc = NotificationCenter.default
                     nc.post(name: self.modelDidChangeNotification,
                             object: nil,
-                            userInfo:["model": self.model])
+                            userInfo:nil)
                     self.navigationController!.popViewController(animated: true)
                 }, failure: {error in
                     self.showAlert(title: "Sorry", message: error)

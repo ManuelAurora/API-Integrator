@@ -70,10 +70,12 @@ class ExternalKPIViewController: OAuthViewController {
             switch (selectedService)! {
             case .Quickbooks:
                 selectedQBKPIs = serviceKPI.filter { $0.value == true }
+                
             case .HubSpotCRM:
                 if internalWebViewController.parent == nil {
                     self.addChildViewController(internalWebViewController)
                 }
+                
                 hubSpotManager.webView = internalWebViewController
                 hubSpotManager.connect()
             default:
