@@ -341,18 +341,50 @@ class QuickBookDataManager
         overdueCustomers.removeAll()
     }
     
+    private func updateOauthCredentialsFor(request: urlStringWithMethod) {
+        
+        let numbersInUrlString = request.urlString.components(separatedBy: CharacterSet.decimalDigits.inverted)
+        
+        let idArray = numbersInUrlString.filter {
+            
+            if $0.characters.count >= QuickbooksConstants.lenghtOfRealmId { return true }
+            else { return false }
+        }
+        
+        guard idArray.count > 0 else { return }
+        
+        let realmId = idArray[0]
+        
+        let fetchQuickbookKPI = NSFetchRequest<QuickbooksKPI>(entityName: "QuickbooksKPI")
+        
+        if let quickbooksKPI = try? managedContext.fetch(fetchQuickbookKPI), quickbooksKPI.count > 0
+        {
+            let filteredArray = quickbooksKPI.filter { $0.realmId == realmId }
+            
+            guard filteredArray.count > 0 else { return }
+            
+            let kpi = filteredArray[0]
+            
+            oauthswift.client.credential.oauthToken = kpi.oAuthToken!
+            oauthswift.client.credential.oauthTokenSecret = kpi.oAuthTokenSecret!
+            oauthswift.client.credential.oauthRefreshToken = kpi.oAuthRefreshToken!
+        }
+    }
+    
     func fetchDataFromIntuit(isCreation: Bool) {
         
         clearAllData()
         
         for request in listOfRequests
-        {            
+        {
+            updateOauthCredentialsFor(request: request)
+            
             let handler = QuickBookRequestHandler(oauthswift: oauthswift,
                                                   request: request,
                                                   manager: self,
-                                                  isCreation: isCreation)            
+                                                  isCreation: isCreation)
             
-            handler.getData()            
+            handler.getData()
         }
         
         if isCreation { saveNewEntities() }

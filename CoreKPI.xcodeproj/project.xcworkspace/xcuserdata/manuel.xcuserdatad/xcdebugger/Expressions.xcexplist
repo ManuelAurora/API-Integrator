@@ -39,16 +39,19 @@
          contextName = "MemberListTableViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:MemberListTableViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "model.team[2].photo">
+               value = "model.team[indexPath.row].photoLink">
             </PersistentString>
             <PersistentString
-               value = "model.team[indexPath.row].photoLink">
+               value = "model.team[2].photo">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "UserViewTableViewCell.didMoveToSuperview() -&gt; ():UserViewCellTableViewCell.swift">
          <PersistentStrings>
+            <PersistentString
+               value = "memberProfilePhotoImage.frame">
+            </PersistentString>
             <PersistentString
                value = "memberProfilePhotoImage.frame.height">
             </PersistentString>
@@ -98,18 +101,10 @@
                value = "memberProfilePhotoImage">
             </PersistentString>
             <PersistentString
-               value = "memberProfilePositionLabel">
-            </PersistentString>
-            <PersistentString
                value = "memberProfileNameLabel">
             </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "HSStage.init(json : [String : Any]) -&gt; HSStage:HubspotRequestedObjects.swift">
-         <PersistentStrings>
             <PersistentString
-               value = "json[&quot;stageId&quot;] as? String">
+               value = "memberProfilePositionLabel">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -121,6 +116,14 @@
             </PersistentString>
             <PersistentString
                value = "ModelCoreKPI.modelShared">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HSStage.init(json : [String : Any]) -&gt; HSStage:HubspotRequestedObjects.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "json[&quot;stageId&quot;] as? String">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -154,10 +157,10 @@
                value = "kpi.integratedKPI.quickbooksKPI">
             </PersistentString>
             <PersistentString
-               value = "kpiValue!">
+               value = "tableViewChartVC.dataArray">
             </PersistentString>
             <PersistentString
-               value = "tableViewChartVC.dataArray">
+               value = "kpiValue!">
             </PersistentString>
             <PersistentString
                value = "kpi.integratedKPI.requestJsonString!">
@@ -196,23 +199,6 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "HubSpotManager.(appendDealsToPipelineStages() -&gt; ()).(closure #1).(closure #1):HubspotManager.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "dealsArray">
-            </PersistentString>
-            <PersistentString
-               value = "deal.dealStage">
-            </PersistentString>
-            <PersistentString
-               value = "stage.stageId">
-            </PersistentString>
-            <PersistentString
-               value = "modifiedStage">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "Request.(getJson(category : String, data : [String : Any], success : (NSDictionary) -&gt; (), failure : (String) -&gt; ()) -&gt; ()).(closure #1):RequestServise.swift">
          <PersistentStrings>
             <PersistentString
@@ -220,28 +206,6 @@
             </PersistentString>
             <PersistentString
                value = "tokenLocal">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "HubSpotManager.(showContactsFromVisits() -&gt; [HSContact]).(closure #1):HubspotManager.swift">
-      </ContextState>
-      <ContextState
-         contextName = "ExternalKPIViewController.doOAuthQuickbooks() -&gt; ():ExternalKPIViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "quickBookDataManager.oauthswift.client.credential">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "Request.getJson(category : String, data : [String : Any], success : (NSDictionary) -&gt; (), failure : (String) -&gt; ()) -&gt; ():RequestServise.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "userID">
-            </PersistentString>
-            <PersistentString
-               value = "ModelCoreKPI.modelShared.token">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -265,13 +229,52 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "HubSpotManager.(showContactsFromVisits() -&gt; [HSContact]).(closure #1):HubspotManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "Request.getJson(category : String, data : [String : Any], success : (NSDictionary) -&gt; (), failure : (String) -&gt; ()) -&gt; ():RequestServise.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "userID">
+            </PersistentString>
+            <PersistentString
+               value = "ModelCoreKPI.modelShared.token">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HubSpotManager.(appendDealsToPipelineStages() -&gt; ()).(closure #1).(closure #1):HubspotManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "dealsArray">
+            </PersistentString>
+            <PersistentString
+               value = "deal.dealStage">
+            </PersistentString>
+            <PersistentString
+               value = "stage.stageId">
+            </PersistentString>
+            <PersistentString
+               value = "modifiedStage">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ExternalKPIViewController.doOAuthQuickbooks() -&gt; ():ExternalKPIViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "quickBookDataManager.oauthswift.client.credential">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "AppDelegate.application(UIApplication, open : URL, options : [UIApplicationOpenURLOptionsKey : Any]) -&gt; Bool:AppDelegate.swift">
          <PersistentStrings>
             <PersistentString
                value = "realmId[0].index(realmId[0].startIndex, offsetBy: 8)">
             </PersistentString>
             <PersistentString
-               value = "indexToEscape">
+               value = "url.absoluteString.removingPercentEncoding?.components(separatedBy: &quot;&amp;&quot;)">
             </PersistentString>
             <PersistentString
                value = "parameters?.filter({ $0.contains(&quot;realmId&quot;) })">
@@ -283,7 +286,7 @@
                value = "realmId[0].substring(from: index)">
             </PersistentString>
             <PersistentString
-               value = "url.absoluteString.removingPercentEncoding?.components(separatedBy: &quot;&amp;&quot;)">
+               value = "indexToEscape">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -333,7 +336,7 @@
          contextName = "QuickBookDataManager.formListOfRequests(from : [(SettingName : String, value : Bool)]) -&gt; ():QuickBook.swift">
          <PersistentStrings>
             <PersistentString
-               value = "urlString">
+               value = "kpiRequestsToSave">
             </PersistentString>
             <PersistentString
                value = "oauthswift.client.credential">
@@ -342,7 +345,7 @@
                value = "kpi">
             </PersistentString>
             <PersistentString
-               value = "kpiRequestsToSave">
+               value = "urlString">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -351,6 +354,14 @@
          <PersistentStrings>
             <PersistentString
                value = "pinCodeAttempts">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "LaunchViewController.checkTokenOnServer() -&gt; ():LaunchViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "model">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -367,14 +378,6 @@
          <PersistentStrings>
             <PersistentString
                value = "json[&quot;pipelineId&quot;] as? String">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "LaunchViewController.checkTokenOnServer() -&gt; ():LaunchViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "model">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -396,7 +399,7 @@
                value = "dealId">
             </PersistentString>
             <PersistentString
-               value = "properties[&quot;createdate&quot;] as? [String: Any]">
+               value = "self.closeDate">
             </PersistentString>
             <PersistentString
                value = "self.sourseID">
@@ -414,10 +417,10 @@
                value = "properties[&quot;closedate&quot;] as! Int">
             </PersistentString>
             <PersistentString
-               value = "properties[&quot;hubspot_owner_id&quot;] as? [String: Any]">
+               value = "properties[&quot;createdate&quot;] as? [String: Any]">
             </PersistentString>
             <PersistentString
-               value = "self.closeDate">
+               value = "properties[&quot;hubspot_owner_id&quot;] as? [String: Any]">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -441,10 +444,10 @@
          contextName = "QuickBookDataManager.saveNewEntities() -&gt; ():QuickBook.swift">
          <PersistentStrings>
             <PersistentString
-               value = "kpiRequestsToSave">
+               value = "listOfRequests">
             </PersistentString>
             <PersistentString
-               value = "listOfRequests">
+               value = "kpiRequestsToSave">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -465,6 +468,18 @@
             <PersistentString
                value = "oauthswift.client.credential">
             </PersistentString>
+            <PersistentString
+               value = "$0.realmId">
+            </PersistentString>
+            <PersistentString
+               value = "kpi.oAuthToken">
+            </PersistentString>
+            <PersistentString
+               value = "kpi.oAuthTokenSecret">
+            </PersistentString>
+            <PersistentString
+               value = "credential">
+            </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
@@ -474,7 +489,22 @@
                value = "listOfRequests">
             </PersistentString>
             <PersistentString
+               value = "oauthswift.client.credential">
+            </PersistentString>
+            <PersistentString
                value = "credentialTempList[index]">
+            </PersistentString>
+            <PersistentString
+               value = "kpi.oAuthToken!">
+            </PersistentString>
+            <PersistentString
+               value = "kpi.oAuthTokenSecret!">
+            </PersistentString>
+            <PersistentString
+               value = "request.urlString.components(separatedBy: CharacterSet.decimalDigits.inverted)">
+            </PersistentString>
+            <PersistentString
+               value = "kpi">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -485,18 +515,18 @@
          contextName = "QuickBookDataManager.(doOAuthQuickbooks(() -&gt; ()) -&gt; ()).(closure #3):QuickBook.swift">
       </ContextState>
       <ContextState
-         contextName = "PinCodeViewController.checkOut(pinCode : [String]) -&gt; ():PinCodeViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "appDelegate.pinCodeAttempts">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "ExternalKPIViewController.(doOAuthQuickbooks() -&gt; ()).(closure #1):ExternalKPIViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = "self.selectedQBKPIs">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PinCodeViewController.checkOut(pinCode : [String]) -&gt; ():PinCodeViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate.pinCodeAttempts">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -526,6 +556,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "MemberListTableViewController.prepare(for : UIStoryboardSegue, sender : Any?) -&gt; ():MemberListTableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "model.profile">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ModelCoreKPI.signedInWith(token : String, profile : Profile) -&gt; ():ModelCoreKPI.swift">
          <PersistentStrings>
             <PersistentString
@@ -541,14 +579,6 @@
          <PersistentStrings>
             <PersistentString
                value = "listOfRequests">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "MemberListTableViewController.prepare(for : UIStoryboardSegue, sender : Any?) -&gt; ():MemberListTableViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "model.profile">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -649,10 +679,10 @@
          contextName = "MemberInfoViewController.viewDidLoad() -&gt; ():MemberInfoViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "memberProfileNameLabel">
+               value = "model.team[index].firstName!">
             </PersistentString>
             <PersistentString
-               value = "model.team[index].firstName!">
+               value = "memberProfileNameLabel">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

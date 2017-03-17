@@ -198,3 +198,9 @@ struct QBProfitAndLoss: QuickBookMethod
         self.methodName = .profitLoss
     }
 }
+
+struct QuickbooksConstants
+{
+    static let lenghtOfRealmId = 15
+}
+

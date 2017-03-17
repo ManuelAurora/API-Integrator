@@ -11,8 +11,7 @@ import OAuthSwift
 
 class QuickBookRequestHandler
 {
-    private var oauthswift: OAuth1Swift!
-    var credential: OAuthSwiftCredential!
+    private var oauthswift: OAuth1Swift!    
     var request: urlStringWithMethod!
     weak var manager: QuickBookDataManager!
     var isCreation: Bool
@@ -27,12 +26,7 @@ class QuickBookRequestHandler
     }
     
     func getData() {       
-       //TODO: Remove credential parameter, and create dict which will contain companyId ["id": OauthCredential].
-        //must fill this dict from CoreData entities.
-        oauthswift.client.credential.oauthToken = credential.oauthToken
-        oauthswift.client.credential.oauthTokenSecret = credential.oauthTokenSecret
-        oauthswift.client.credential.oauthRefreshToken = credential.oauthRefreshToken
-        
+               
         _ = oauthswift.client.get(
             
             request.urlString, headers: ["Accept":"application/json"],

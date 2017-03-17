@@ -133,7 +133,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             cell.memberProfileNameLabel.text = memberProfileNameLabel.text
             cell.memberProfilePhotoImage.image = memberProfilePhotoImage.image
             cell.memberProfilePositionLabel.text = memberProfileNameLabel.text
-            
+                        
             return cell
         }
         

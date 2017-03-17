@@ -54,7 +54,6 @@ class AlertsListTableViewController: UITableViewController {
     
     var model: ModelCoreKPI!
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
-    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +61,11 @@ class AlertsListTableViewController: UITableViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
         
         let nc = NotificationCenter.default
-        nc.addObserver(forName:modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
+        
+        nc.addObserver(self,
+                       selector: #selector(AlertsListTableViewController.catchNotification(notification:)),
+                       name: .modelDidChanged,
+                       object: nil)
         
         refreshControl = UIRefreshControl()
         refreshControl?.backgroundColor = UIColor.clear
@@ -85,14 +88,8 @@ class AlertsListTableViewController: UITableViewController {
     //MARK: - CatchNotification
     func catchNotification(notification:Notification) -> Void {
         
-        if notification.name == modelDidChangeNotification {
-            guard let userInfo = notification.userInfo,
-                let model = userInfo["model"] as? ModelCoreKPI else {
-                    print("No userInfo found in notification")
-                    return
-            }
-            self.model.alerts = model.alerts
-            self.model.kpis = model.kpis
+        if notification.name == .modelDidChanged {
+            
             tableView.reloadData()
         }
     }

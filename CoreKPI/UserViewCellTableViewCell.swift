@@ -13,7 +13,15 @@ class UserViewTableViewCell: UITableViewCell
     weak var delegate: MemberInfoViewController!
     
     @IBOutlet weak var memberProfilePositionLabel: UILabel!
-    @IBOutlet weak var memberProfilePhotoImage: UIImageView!
+    @IBOutlet weak var memberProfilePhotoImage: UIImageView! {
+        didSet {
+            if memberProfilePhotoImage != nil
+            {                
+                memberProfilePhotoImage.layer.cornerRadius = min(memberProfilePhotoImage.frame.height,
+                                                                 memberProfilePhotoImage.frame.width)/2.0
+            }
+        }
+    }
     @IBOutlet weak var memberProfileNameLabel: UILabel!
     
     required init?(coder aDecoder: NSCoder) {
@@ -35,12 +43,6 @@ class UserViewTableViewCell: UITableViewCell
         // Initialization code
     }
 
-    override func didMoveToSuperview() {
-        super.didMoveToSuperview()
-        
-        //memberProfilePhotoImage.layer.cornerRadius = memberProfilePhotoImage.frame.height / 2
-    }
-    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

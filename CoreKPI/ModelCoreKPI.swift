@@ -102,9 +102,7 @@ class Profile {
         self.phone = nil
         self.nickname = nil
         self.typeOfAccount = .Manager
-        
-    }
-    
+    }    
 }
 
 //KPI

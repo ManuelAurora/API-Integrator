@@ -378,8 +378,7 @@ extension MemberEditViewController: UIImagePickerControllerDelegate, UINavigatio
         } else{
             print("Something went wrong")
         }
-        
-        
+                
         dismiss(animated: true, completion: nil)
     }
 }

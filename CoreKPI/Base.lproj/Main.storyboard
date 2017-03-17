@@ -1470,7 +1470,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                         <sections>
                             <tableViewSection id="jJn-6c-xV1">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="182" id="BDC-8t-ytp">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="182" id="BDC-8t-ytp" customClass="UserViewTableViewCell" customModule="CoreKPI" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="182"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BDC-8t-ytp" id="VNV-Z9-vTA">
