@@ -10,8 +10,14 @@ import Foundation
 
 extension Date
 {
+    var calendar: Calendar { return Calendar.current }
+    var dateFormatter: DateFormatter {
+        let f = DateFormatter()        
+        f.dateFormat = "yyyy-MM-dd'T'hh:mm:ssZZZZZ"
+        return f
+    }
+    
     var beginningOfMonth: Date? {
-        let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: self)
         let components = calendar.dateComponents([.year, .month], from: startOfDay)
         let startOfMonth = calendar.date(from: components)
@@ -20,7 +26,6 @@ extension Date
     }
     
     var endOfMonth: Date? {
-        let calendar = Calendar.current
         
         if let date = beginningOfMonth, let range = calendar.range(of: .day, in: .month, for: date)
         {
@@ -29,12 +34,9 @@ extension Date
         else { return nil }
     }
     
-    func stringForQuickbooksQueryFrom(date: Date) -> String {
+    func stringForQuickbooksQuery() -> String {
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "''yyyy-MM-dd'T'hh:mm:ssZZZZZ''"
-        
-        let formattedString = dateFormatter.string(from: date)
+        let formattedString = dateFormatter.string(from: self)
         
         return formattedString
     }

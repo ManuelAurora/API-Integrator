@@ -159,15 +159,15 @@ class QuickBookDataManager
         return fullUrlPath
     }
     
-    private var queryParameters: [QBQueryParameterKeys: String] {        
-        //let beginDate = Date().beginningOfMonth
-        //let endDate = Date().endOfMonth
+    private var queryParameters: [QBQueryParameterKeys: String] {
+        let beginDate = Date().beginningOfMonth?.stringForQuickbooksQuery()
+        let endDate = Date().endOfMonth?.stringForQuickbooksQuery()
+        var queryParameters = [QBQueryParameterKeys: String]()
         
-        //"SELECT * FROM Invoice WHERE MetaData.CreateTime >= \(beginDate) AND MetaData.CreateTime <= \(endDate)"
-                        
-        let queryParameters: [QBQueryParameterKeys: String] = [
-            .query: "SELECT * FROM Invoice"
-        ]
+        if let begin = beginDate, let end = endDate
+        {
+            queryParameters[.query] = "SELECT * FROM Invoice WHERE MetaData.CreateTime >= '\(begin)' AND MetaData.CreateTime <= '\(end)'"
+        }
         
         return queryParameters
     }
