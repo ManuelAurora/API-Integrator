@@ -453,13 +453,13 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 navigationItem.title = "SalesForce"
                 switch (SalesForceKPIs(rawValue: kpi.integratedKPI.kpiName!))! {
                 case .RevenueNewLeads:
-                    tableViewChartVC.titleOfTable = ("Balance","","$")
+                    tableViewChartVC.titleOfTable = ("Revenue","New leads","Date")
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
                     })
                 case .KeyMetrics:
-                    tableViewChartVC.titleOfTable = ("Balance","","$")
+                    tableViewChartVC.titleOfTable = ("Metrics","","Month to date")
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
@@ -471,25 +471,25 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                         tableViewChartVC.tableView.reloadData()
                     })
                 case .OpenOpportunitiesByStage:
-                    tableViewChartVC.titleOfTable = ("Balance","","$")
+                    tableViewChartVC.titleOfTable = ("Name","","Stage")
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
                     })
                 case .TopSalesRep:
-                    tableViewChartVC.titleOfTable = ("Balance","","$")
+                    tableViewChartVC.titleOfTable = ("Name","Won","Revenue")
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
                     })
                 case .NewLeadsByIndustry:
-                    tableViewChartVC.titleOfTable = ("Balance","","$")
+                    tableViewChartVC.titleOfTable = ("Industry","","Month to date")
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
                     })
                 case .CampaignROI:
-                    tableViewChartVC.titleOfTable = ("Balance","","$")
+                    tableViewChartVC.titleOfTable = ("Metrics","","All time")
                     createDataFromRequest(success: { dataForPresent in
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
@@ -814,6 +814,9 @@ extension ChartsPageViewController {
                     print(error)
                 })
             }
+        case .SalesForce:
+            break
+            //TODO: Add request
         default:
             break
         }
@@ -824,10 +827,15 @@ extension ChartsPageViewController {
         let alertVC = UIAlertController(title: "Sorry", message: "You should autorisation again", preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: { (UIAlertAction) in
             let request = ExternalRequest()
-            request.oAuthAutorisation(servise: IntegratedServices(rawValue: external.serviceName!)!, viewController: self, success: { credential in
-                external.setValue(credential.oauthToken, forKey: "oauthToken")
-                external.setValue(credential.oauthRefreshToken, forKey: "oauthRefreshToken")
-                external.setValue(credential.oauthTokenExpiresAt, forKey: "oauthTokenExpiresAt")
+            request.oAuthAutorisation(servise: IntegratedServices(rawValue: external.serviceName!)!, viewController: self, success: { objects in
+                switch IntegratedServices(rawValue: external.serviceName!)! {
+                case .GoogleAnalytics:
+                    external.googleAnalyticsKPI = objects.googleAnalyticsObject
+                case .SalesForce:
+                    external.saleForceKPI = objects.salesForceObject
+                default:
+                    break
+                }
             }, failure: { error in
                 self.showAlert(title: "Sorry", message: error)
             }

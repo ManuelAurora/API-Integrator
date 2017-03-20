@@ -51,10 +51,14 @@ protocol UpdateTimeDelegate {
     func updateTime(newTime time: Date)
 }
 
-protocol UpdateExternalTokensDelegate {
-    func updateTokens(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date?, viewID: String?)
-}
+//protocol UpdateExternalTokensDelegate {
+//    func updateTokens(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date?, viewID: String?)
+//}
+//
+//protocol UpdatePayPalAPICredentialsDelegate {
+//    func updatePayPalCredentials(payPalObject: PayPalKPI)
+//}
 
-protocol UpdatePayPalAPICredentialsDelegate {
-    func updatePayPalCredentials(payPalObject: PayPalKPI)
+protocol UpdateExternalKPICredentialsDelegate {
+    func updateCredentials(googleAnalyticsObject: GoogleKPI?, payPalObject: PayPalKPI?, salesForceObject: SalesForceKPI?)
 }
