@@ -150,7 +150,7 @@ class ExternalRequest {
         oauthswift.allowMissingStateCheck = true
         oauthswift.authorizeURLHandler = SafariURLHandler(viewController: viewController, oauthSwift: oauthswift)
         let _ = oauthswift.authorize(
-            withCallbackURL: URL(string: "CoreKPI.CoreKPI:/oauth2Callback")!, scope: "https://www.googleapis.com/auth/analytics.readonly", state: "",
+            withCallbackURL: URL(string: "smichrissoft.CoreKPI:/oauth2callback")!, scope: "https://www.googleapis.com/auth/analytics.readonly", state: "",
             success: { credential, response, parameters in
                 success(credential)
         },
@@ -191,7 +191,7 @@ class ExternalRequest {
         oauthswift.authorizeURLHandler = SafariURLHandler(viewController: viewController, oauthSwift: oauthswift)
         let state = generateState(withLength: 20)
         let _ = oauthswift.authorize(
-            withCallbackURL: URL(string: "https://appauth.demo-app.io:/oauth2redirect")!, scope: "full", state: state,
+            withCallbackURL: URL(string: "CoreKPI.CoreKPI:/oauth2Callback")!, scope: "", state: state,
             success: { credential, response, parameters in
                 success(credential)
         },

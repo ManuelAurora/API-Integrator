@@ -448,7 +448,53 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 }
                 //debug->
                 return tableViewChartVC
-            //<-debug
+                //<-debug
+            case .SalesForce:
+                navigationItem.title = "SalesForce"
+                switch (SalesForceKPIs(rawValue: kpi.integratedKPI.kpiName!))! {
+                case .RevenueNewLeads:
+                    tableViewChartVC.titleOfTable = ("Balance","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .KeyMetrics:
+                    tableViewChartVC.titleOfTable = ("Balance","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .ConvertedLeads:
+                    tableViewChartVC.titleOfTable = ("Balance","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .OpenOpportunitiesByStage:
+                    tableViewChartVC.titleOfTable = ("Balance","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .TopSalesRep:
+                    tableViewChartVC.titleOfTable = ("Balance","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .NewLeadsByIndustry:
+                    tableViewChartVC.titleOfTable = ("Balance","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                case .CampaignROI:
+                    tableViewChartVC.titleOfTable = ("Balance","","$")
+                    createDataFromRequest(success: { dataForPresent in
+                        tableViewChartVC.dataArray = dataForPresent
+                        tableViewChartVC.tableView.reloadData()
+                    })
+                }
             default:
                 break
             }

@@ -18,6 +18,7 @@
         <relationship name="googleAnalyticsKPI" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GoogleKPI" inverseName="externalKPI" inverseEntity="GoogleKPI" syncable="YES"/>
         <relationship name="payPalKPI" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PayPalKPI" inverseName="externalKPI" inverseEntity="PayPalKPI" syncable="YES"/>
         <relationship name="quickbooksKPI" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuickbooksKPI" inverseName="externalKPI" inverseEntity="QuickbooksKPI" syncable="YES"/>
+        <relationship name="saleForceKPI" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SaleForceKPI" inverseName="externalKPI" inverseEntity="SaleForceKPI" syncable="YES"/>
     </entity>
     <entity name="FAQ" representedClassName="FAQ" syncable="YES" codeGenerationType="class">
         <attribute name="answer" attributeType="String" syncable="YES"/>
@@ -61,6 +62,12 @@
         <attribute name="timeInterval" attributeType="String" syncable="YES"/>
         <attribute name="timeZone" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="SaleForceKPI" representedClassName="SaleForceKPI" syncable="YES" codeGenerationType="class">
+        <attribute name="oAuthRefreshToken" attributeType="String" syncable="YES"/>
+        <attribute name="oAuthToken" attributeType="String" syncable="YES"/>
+        <attribute name="oAuthTokenExpiresAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="externalKPI" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExternalKPI" inverseName="saleForceKPI" inverseEntity="ExternalKPI" syncable="YES"/>
+    </entity>
     <entity name="Team" representedClassName="Team" syncable="YES" codeGenerationType="class">
         <attribute name="firstName" attributeType="String" syncable="YES"/>
         <attribute name="isAdmin" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
@@ -76,7 +83,7 @@
     <entity name="UserKPI" representedClassName="UserKPI" syncable="YES" codeGenerationType="class"/>
     <elements>
         <element name="Alert" positionX="-54" positionY="63" width="128" height="180"/>
-        <element name="ExternalKPI" positionX="-54" positionY="117" width="128" height="135"/>
+        <element name="ExternalKPI" positionX="-54" positionY="117" width="128" height="150"/>
         <element name="FAQ" positionX="-54" positionY="117" width="128" height="90"/>
         <element name="GoogleKPI" positionX="-54" positionY="117" width="128" height="120"/>
         <element name="OverallKPI" positionX="-27" positionY="117" width="128" height="75"/>
@@ -85,5 +92,6 @@
         <element name="Reminder" positionX="-45" positionY="117" width="128" height="180"/>
         <element name="Team" positionX="-63" positionY="-18" width="128" height="195"/>
         <element name="UserKPI" positionX="-36" positionY="108" width="128" height="45"/>
+        <element name="SaleForceKPI" positionX="-45" positionY="117" width="128" height="105"/>
     </elements>
 </model>

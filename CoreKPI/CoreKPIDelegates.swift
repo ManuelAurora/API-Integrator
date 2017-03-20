@@ -52,7 +52,7 @@ protocol UpdateTimeDelegate {
 }
 
 protocol UpdateExternalTokensDelegate {
-    func updateTokens(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date, viewID: String?)
+    func updateTokens(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date?, viewID: String?)
 }
 
 protocol UpdatePayPalAPICredentialsDelegate {

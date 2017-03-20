@@ -150,8 +150,7 @@ extension ExternalKPIViewController {
     func doOAuthSalesforce() {
         let request = ExternalRequest()
         request.oAuthAutorisation(servise: .SalesForce, viewController: self, success: { crededential in
-            //TODO:
-            print(crededential.oauthToken)
+            self.saveOauth2Data(credential: crededential, viewID: nil)
         }, failure: { error in
             self.showAlert(title: "Sorry!", message: error)
         }
@@ -216,7 +215,7 @@ extension ExternalKPIViewController {
             let alertVC = UIAlertController(title: "Select source", message: "Please!", preferredStyle: .actionSheet)
             for viewID in viewIDArray {
                 alertVC.addAction(UIAlertAction(title: viewID.webSiteUri, style: .default, handler: { (UIAlertAction) in
-                    self.saveGoogleAnalyticsData(credential: credential, viewID: viewID)
+                    self.saveOauth2Data(credential: credential, viewID: viewID)
                 }
                 ))
             }
@@ -228,8 +227,8 @@ extension ExternalKPIViewController {
         )
     }
     
-    //MARK: save google analytics data
-    func saveGoogleAnalyticsData(credential: OAuthSwiftCredential, viewID: (viewID: String, webSiteUri: String)) {
+    //MARK: save Oauth2.0 credentials data
+    func saveOauth2Data(credential: OAuthSwiftCredential, viewID: (viewID: String, webSiteUri: String)?) {
         
         let oauthToken = credential.oauthToken
         let oauthRefreshToken = credential.oauthRefreshToken
@@ -238,7 +237,7 @@ extension ExternalKPIViewController {
         settingDelegate = ChoseSuggestedVC
         settingDelegate.updateSettingsArray(array: serviceKPI)
         tokenDelegate = ChoseSuggestedVC
-        tokenDelegate.updateTokens(oauthToken: oauthToken, oauthRefreshToken: oauthRefreshToken, oauthTokenExpiresAt: oauthTokenExpiresAt!, viewID: viewID.viewID)
+        tokenDelegate.updateTokens(oauthToken: oauthToken, oauthRefreshToken: oauthRefreshToken, oauthTokenExpiresAt: oauthTokenExpiresAt, viewID: viewID?.viewID)
         let stackVC = navigationController?.viewControllers
         _ = navigationController?.popToViewController((stackVC?[(stackVC?.count)! - 3])!, animated: true)
     }

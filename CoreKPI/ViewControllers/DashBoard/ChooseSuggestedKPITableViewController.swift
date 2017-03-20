@@ -923,7 +923,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
         
         if !dataIsEntered() {
-            //showAlert(title: "Error", message: "One ore more parameters are not selected")
             return
         }
         
@@ -933,10 +932,14 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         case .Integrated:
             var arrayOfKPI: [(SettingName: String, value: Bool)] = []
             var googleKPI: GoogleKPI?
+            var saleForceKPI: SaleForceKPI?
             
             switch integrated {
             case .SalesForce:
                 arrayOfKPI = saleForceKPIArray
+                saleForceKPI = SaleForceKPI(context: context)
+                saleForceKPI?.oAuthToken = oauthToken
+                saleForceKPI?.oAuthRefreshToken = oauthRefreshToken
             case .Quickbooks:
                 arrayOfKPI = quickBooksKPIArray
             case .GoogleAnalytics:
@@ -963,6 +966,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     externalKPI.kpiName = extKpi.SettingName
                     externalKPI.googleAnalyticsKPI = googleKPI
                     externalKPI.payPalKPI = payPalKPI
+                    externalKPI.saleForceKPI = saleForceKPI
                     
                     do {
                         try self.context.save()
@@ -1278,7 +1282,7 @@ extension ChooseSuggestedKPITableViewController: UpdateTimeDelegate {
 }
 
 extension ChooseSuggestedKPITableViewController: UpdateExternalTokensDelegate {
-    func updateTokens(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date, viewID: String?) {
+    func updateTokens(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date?, viewID: String?) {
         self.oauthToken = oauthToken
         self.oauthRefreshToken = oauthRefreshToken
         self.oauthTokenExpiresAt = oauthTokenExpiresAt
