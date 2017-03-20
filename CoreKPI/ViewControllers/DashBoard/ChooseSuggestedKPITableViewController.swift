@@ -307,11 +307,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     func catchNotification(notification:Notification) -> Void {
         
         if notification.name == self.modelDidChangeNotification {
-            guard let userInfo = notification.userInfo,
-                let model = userInfo["model"] as? ModelCoreKPI else {
-                    print("No userInfo found in notification")
-                    return
-            }
             self.model.team = model.team
             executantArray.removeAll()
             createExecutantArray()

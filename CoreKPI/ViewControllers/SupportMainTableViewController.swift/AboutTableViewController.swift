@@ -44,7 +44,7 @@ class AboutTableViewController: UITableViewController   {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
             case 2:
-                if let url = URL(string: "http://twitter.com") {
+                if let url = URL(string: "http://twitter.com/SmiChrisSoft") {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
             default:

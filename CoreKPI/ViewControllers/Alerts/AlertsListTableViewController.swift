@@ -89,7 +89,6 @@ class AlertsListTableViewController: UITableViewController {
     func catchNotification(notification:Notification) -> Void {
         
         if notification.name == .modelDidChanged {
-            
             tableView.reloadData()
         }
     }

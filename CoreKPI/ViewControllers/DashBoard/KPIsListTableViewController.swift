@@ -285,19 +285,6 @@ class KPIsListTableViewController: UITableViewController {
         let getReportRequest = GetReports(model: model)
         for kpi in arrayOfKPI {
             getReportRequest.getReportForKPI(withID: kpi.id, success: {reports in
-                //kpi.createdKPI?.number.removeAll()
-//                var newNumbers: [(date: Date, number: Double)] = []
-//                var dict = report
-//                for _ in 0..<dict.count {
-//                    let report = dict.popFirst()
-//                    let dateDtring = report?.key
-//                    let value = report?.value
-//                    let dateFormatter = DateFormatter()
-//                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-//                    let date = dateFormatter.date(from: dateDtring!)
-//                    newNumbers.append((date!, value!)) //debug!
-//                }
-//                let reports = getReportRequest.filterReports(kpi: kpi, reports: newNumbers)
                 kpi.createdKPI?.number = getReportRequest.filterReports(kpi: kpi, reports: reports)
                 self.tableView.reloadData()
                 let nc = NotificationCenter.default
@@ -341,11 +328,6 @@ class KPIsListTableViewController: UITableViewController {
     func catchNotification(notification:Notification) -> Void {
         
         if notification.name == modelDidChangeNotification {
-            guard let userInfo = notification.userInfo,
-                let model = userInfo["model"] as? ModelCoreKPI else {
-                    print("No userInfo found in notification")
-                    return
-            }
             self.model.team = model.team
             tableView.reloadData()
         }
