@@ -178,10 +178,10 @@ class PayPal: ExternalRequest {
                 
                 var netSales = 0.0
                 var fees = 0.0
-                var shippingCost = 0.0
+                //var shippingCost = 0.0
                 var refunds = 0.0
                 var incomingRefunds = 0.0
-                var pending = 0.0
+                //var pending = 0.0
                 var expenses = 0.0
                 
                 
@@ -198,7 +198,7 @@ class PayPal: ExternalRequest {
                         
                         expenses = self.parseExpenses(xml: xmlDoc)
                         
-                        success((netSales, fees, shippingCost, refunds, incomingRefunds, pending, expenses))
+                        success((netSales, fees, /*shippingCost*/0.0, refunds, incomingRefunds, /*pending*/0.0, expenses))
                     } catch {
                         print("\(error)")
                     }
