@@ -847,6 +847,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
             case 1:
                 typeOfSetting = .Service
                 showIntegratedServicesVC()
+                tableView.deselectRow(at: indexPath, animated: true)
+                
             default:
                 break
             }

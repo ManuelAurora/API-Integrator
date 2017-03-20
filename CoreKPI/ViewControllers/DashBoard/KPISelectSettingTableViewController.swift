@@ -192,11 +192,14 @@ class KPISelectSettingTableViewController: UITableViewController {
     //MARK: - catchNotification
     func catchNotification(notification:Notification) -> Void {
         
+<<<<<<< HEAD
         if notification.name == modelDidChangeNotification {
             _ = navigationController?.popViewController(animated: true)
         }
+=======
+        _ = navigationController?.popViewController(animated: true)
+>>>>>>> origin/subdev
     }
-    
 }
 
 //MARK: - UITextFieldDelegate method

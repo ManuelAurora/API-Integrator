@@ -59,15 +59,10 @@
                                         <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
                                         <color key="backgroundColor" red="0.0" green="0.59215686270000001" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="38" id="HzV-eG-v29"/>
-                                            <constraint firstAttribute="height" constant="38" id="jdn-Dj-Apt"/>
+                                            <constraint firstAttribute="height" constant="38" id="2BS-Yy-HVI"/>
+                                            <constraint firstAttribute="width" secondItem="eNT-aC-Yke" secondAttribute="height" multiplier="1:1" id="a5E-1R-CD4"/>
                                         </constraints>
                                         <state key="normal" image="call-icon"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="19"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="tapPhoneButton:" destination="HgB-7K-zbK" eventType="touchUpInside" id="GYq-sT-Gsd"/>
                                         </connections>
@@ -76,8 +71,8 @@
                                         <rect key="frame" x="74" y="0.0" width="38" height="38"/>
                                         <color key="backgroundColor" red="0.0" green="0.59215686270000001" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="38" id="7lj-2b-P6X"/>
-                                            <constraint firstAttribute="height" constant="38" id="JUl-wb-XV5"/>
+                                            <constraint firstAttribute="height" constant="38" id="IXe-b4-4Vo"/>
+                                            <constraint firstAttribute="width" secondItem="PJ1-vW-18W" secondAttribute="height" multiplier="1:1" id="Q3F-Kq-p0P"/>
                                         </constraints>
                                         <state key="normal" image="mail-icon"/>
                                         <userDefinedRuntimeAttributes>
@@ -104,8 +99,10 @@
                 <outlet property="memberProfileNameLabel" destination="DfO-KC-Kog" id="jzD-dX-4Qr"/>
                 <outlet property="memberProfilePhotoImage" destination="QMB-tl-S8i" id="fqy-G5-UBY"/>
                 <outlet property="memberProfilePositionLabel" destination="8yC-zK-ZwZ" id="Fa8-58-eVe"/>
+                <outletCollection property="buttons" destination="PJ1-vW-18W" collectionClass="NSMutableArray" id="noi-l6-COI"/>
+                <outletCollection property="buttons" destination="eNT-aC-Yke" collectionClass="NSMutableArray" id="8va-pX-SZi"/>
             </connections>
-            <point key="canvasLocation" x="-338.5" y="-201"/>
+            <point key="canvasLocation" x="-401" y="-189"/>
         </tableViewCell>
     </objects>
     <resources>

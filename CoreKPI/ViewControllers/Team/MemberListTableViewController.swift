@@ -43,12 +43,7 @@ class MemberListTableViewController: UITableViewController {
         tableView.tableFooterView = UIView(frame: .zero)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    // MARK: - Table view data source
-    
+    // MARK: - Table view data source    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
