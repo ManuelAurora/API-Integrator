@@ -168,8 +168,7 @@ class PinCodeViewController: UIViewController
                     
                     dismiss(animated: true, completion: { [weak self] _ in
                         self?.isAnimationCompleted = true
-                        presentingVC.saveData()
-                        presentingVC.showTabBarVC()
+                        presentingVC.saveData()                        
                     })
                 } else if navigationController != nil {
                     

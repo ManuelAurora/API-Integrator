@@ -44,7 +44,7 @@ class RegistrationRequest: Request {
                     typeOfAccount = (mode == 0) ? .Manager : .Admin
                     let profile = Profile(userId: userId, userName: username, firstName: firstname, lastName: lastname, position: position, photo: photo, phone: nil, nickname: nil, typeOfAccount: typeOfAccount)
                     
-                    ModelCoreKPI.modelShared.register(profile: profile, token: token)
+                    ModelCoreKPI.modelShared.signedInUpWith(token: token, profile: profile)
                     
                 } else {
                     print("Json data is broken")

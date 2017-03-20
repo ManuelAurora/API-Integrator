@@ -92,7 +92,7 @@ class NewProfileTableViewController: UITableViewController {
             let vc = storyboard?.instantiateViewController(withIdentifier: "InviteVC") as! InviteTableViewController
             navigationController?.pushViewController(vc, animated: true)
         } else {
-            let tabBarController = storyboard?.instantiateViewController(withIdentifier: "TabBarVC") as! MainTabBarViewController
+            let tabBarController = storyboard?.instantiateViewController(withIdentifier: .mainTabBarController) as! MainTabBarViewController
             
             let dashboardNavigationViewController = tabBarController.viewControllers?[0] as! DashboardsNavigationViewController
             let dashboardViewController = dashboardNavigationViewController.childViewControllers[0] as! KPIsListTableViewController

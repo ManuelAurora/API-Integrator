@@ -10,9 +10,9 @@ import UIKit
 
 class SignInViewController: UIViewController, UITextFieldDelegate {
     
-    var model = ModelCoreKPI.modelShared
-    //var delegate: updateModelDelegate!
-    
+    var model: ModelCoreKPI!   
+    weak var launchController: LaunchViewController!
+
     @IBOutlet weak var passwordTextField: BottomBorderTextField!
     @IBOutlet weak var emailTextField: BottomBorderTextField!
     @IBOutlet weak var signInButton: UIButton!
@@ -20,17 +20,16 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.hideKeyboardWhenTappedAround()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         configure(buttons: [signInButton, enterByKeyButton])
         toggleEnterByKeyButton(isEnabled: appDelegate.pinCodeAttempts > 1)
-        
-        self.hideKeyboardWhenTappedAround()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+
     }
     
     //MARK: - UITextFieldDelegate method
@@ -64,6 +63,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
+        passwordTextField.resignFirstResponder()
+        emailTextField.resignFirstResponder()
         loginRequest()
     }
     
@@ -99,9 +100,10 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                                           success: {(userID, token, typeOfAccount) in
                                             let profile = Profile(userID: userID)
                                             profile.typeOfAccount = typeOfAccount                                            
-                                            self.model.signedInWith(token: token, profile: profile)
+                                            self.model.signedInUpWith(token: token, profile: profile)
                                             self.saveData()
                                             self.showTabBarVC()
+                                            
                 },
                                           failure: { error in
                                             print(error)
@@ -111,29 +113,9 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    //MARK: - segue to TabBar
-    func showTabBarVC() {
-        let tabBarController = storyboard?.instantiateViewController(withIdentifier: "TabBarVC") as! MainTabBarViewController
-        
-        let dashboardNavigationViewController = tabBarController.viewControllers?[0] as! DashboardsNavigationViewController
-        let dashboardViewController = dashboardNavigationViewController.childViewControllers[0] as! KPIsListTableViewController
-        dashboardViewController.model = model
-        dashboardViewController.loadKPIsFromServer()
-        
-        let alertsNavigationViewController = tabBarController.viewControllers?[1] as! AlertsNavigationViewController
-        let alertsViewController = alertsNavigationViewController.childViewControllers[0] as! AlertsListTableViewController
-        alertsViewController.model = model
-        
-        let teamListNavigationViewController = tabBarController.viewControllers?[2] as! TeamListViewController
-        let teamListController = teamListNavigationViewController.childViewControllers[0] as! MemberListTableViewController
-        teamListController.model = model
-        teamListController.loadTeamListFromServer()
-        
-        let supportNavigationViewControleler = tabBarController.viewControllers?[3] as! SupportNavigationViewController
-        let supportMainTableVC = supportNavigationViewControleler.childViewControllers[0] as! SupportMainTableViewController
-        supportMainTableVC.model = model
-        
-        present(tabBarController, animated: true, completion: nil)
+    private func showTabBarVC() {
+                
+        launchController.appDelegate.window?.rootViewController = launchController.mainTabBar
     }
     
     //MARK: - show alert function
@@ -148,5 +130,4 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         UserDefaults.standard.set(model.profile.userId, forKey: UserDefaultsKeys.userId)
         UserDefaults.standard.set(model.token, forKey: UserDefaultsKeys.token)
     }
-    
 }

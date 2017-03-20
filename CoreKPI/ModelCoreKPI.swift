@@ -26,28 +26,11 @@ class ModelCoreKPI
     var kpis: [KPI] = []
     var team: [Team] = []
     
-    func register(profile: Profile, token: String) {
-        
-        self.token = token
-        self.profile = profile
-    }
-    
-    func signedInWith(token: String, profile: Profile) {
+    func signedInUpWith(token: String, profile: Profile) {
         
         self.token = token
         self.profile = profile        
     }
-    
-    //    required init(coder decoder: NSCoder) {
-    //        self.token = decoder.decodeObject(forKey: "token") as? String ?? ""
-    //        let id = decoder.decodeObject(forKey: "userID") as? Int ?? 0
-    //        self.profile = Profile(userID: id)
-    //    }
-    //
-    //    func encode(with coder: NSCoder) {
-    //        coder.encode(token, forKey: "token")
-    //        coder.encode(self.profile?.userId, forKey: "userID")
-    //    }
     
     func getNameKPI(FromID id: Int) -> String? {
         for kpi in kpis {

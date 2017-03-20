@@ -10,13 +10,27 @@ import UIKit
 
 class LaunchViewController: UIViewController {
     
-    var model = ModelCoreKPI.modelShared
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var showedAfterBGCancelling = false
+    var model = ModelCoreKPI.modelShared
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
+    lazy var appDelegate: AppDelegate = {
+        return UIApplication.shared.delegate as! AppDelegate
+    }()
+    
+    lazy var mainTabBar: MainTabBarViewController = {
+        let mtbvc = self.storyboard?.instantiateViewController(withIdentifier: .mainTabBarController) as! MainTabBarViewController
+        mtbvc.appDelegate = self.appDelegate
+        mtbvc.model = self.model
+        
+        return mtbvc
+    }()
+    
+    lazy var signInUpViewController: SignInUpViewController = {
+        let sivc = self.storyboard?.instantiateViewController(withIdentifier: .signInViewController) as! SignInUpViewController
+        sivc.launchController = self
+        sivc.model = self.model
+        return sivc
+    }()
     
     override func viewDidAppear(_ animated: Bool) {
         
@@ -32,19 +46,12 @@ class LaunchViewController: UIViewController {
             {
                 checkTokenOnServer()
             }
-            else
-            {
-                presentStartVC()
-            }
+            else { presentStartVC() }
         }
-        else {
-            presentStartVC()
-        }
+        else { presentStartVC() }
     }
     
     func tryLoginByPinCode() {
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         appDelegate.pinCodeVCPresenter.launchController = self
         appDelegate.pinCodeVCPresenter.presentedFromBG = false
@@ -89,8 +96,7 @@ class LaunchViewController: UIViewController {
                 self.showTabBarVC()
             }
             print(error)
-        }
-        )
+        })
     }
     
     //MARK: - show alert function
@@ -98,32 +104,6 @@ class LaunchViewController: UIViewController {
         let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         present(alertController, animated: true, completion: nil)
-    }
-    
-    func showTabBarVC() {
-        
-        let tabBarController = storyboard?.instantiateViewController(withIdentifier: "TabBarVC") as! MainTabBarViewController
-        
-        let dashboardNavigationViewController = tabBarController.viewControllers?[0] as! DashboardsNavigationViewController
-        let dashboardViewController = dashboardNavigationViewController.childViewControllers[0] as! KPIsListTableViewController
-        dashboardViewController.model = model
-        dashboardViewController.loadKPIsFromServer()
-        
-        let alertsNavigationViewController = tabBarController.viewControllers?[1] as! AlertsNavigationViewController
-        let alertsViewController = alertsNavigationViewController.childViewControllers[0] as! AlertsListTableViewController
-        alertsViewController.model = model
-        alertsViewController.loadAlerts()
-        
-        let teamListNavigationViewController = tabBarController.viewControllers?[2] as! TeamListViewController
-        let teamListController = teamListNavigationViewController.childViewControllers[0] as! MemberListTableViewController
-        teamListController.model = model
-        teamListController.loadTeamListFromServer()
-        
-        let supportNavigationViewControleler = tabBarController.viewControllers?[3] as! SupportNavigationViewController
-        let supportMainTableVC = supportNavigationViewControleler.childViewControllers[0] as! SupportMainTableViewController
-        supportMainTableVC.model = model
-        
-        present(tabBarController, animated: true, completion: nil)
     }
     
     //MARK: - Get Data from CoreData
@@ -151,9 +131,13 @@ class LaunchViewController: UIViewController {
         presentStartVC()
     }
     
-    func presentStartVC() {
-        let startVC = storyboard?.instantiateViewController(withIdentifier: "StartVC")
-        present(startVC!, animated: true, completion: nil)
+    func showTabBarVC() {
+        
+        appDelegate.window?.rootViewController = mainTabBar
     }
     
+    func presentStartVC() {
+       
+        appDelegate.window?.rootViewController = signInUpViewController
+    }
 }

@@ -23,6 +23,10 @@ class KPIsListTableViewController: UITableViewController {
     let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     
+    deinit {
+        print("DEBUG: DEINITIALIZED KPIList")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

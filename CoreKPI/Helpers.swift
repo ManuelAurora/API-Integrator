@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension Notification.Name
-{
+{    
     static let userTappedSecuritySwitch = Notification.Name("UserTappedSecuritySwitch")
     static let qBBalanceSheetRefreshed = Notification.Name("QuickbooksBalanceSheetRefreshed")
     static let qBInvoicesRefreshed = Notification.Name("QuickbooksInvoicesRefreshed")
@@ -21,6 +21,20 @@ extension Notification.Name
     static let qBExpencesByVendorSummaryRefreshed = Notification.Name("ExpencesByVendorSummaryRefreshed")
     static let newExternalKPIadded = Notification.Name("NewExternalKPIAdded")
     static let modelDidChanged = Notification.Name("modelDidChange")
+}
+
+extension UIStoryboard
+{
+    enum StoryboardIDs: String
+    {
+        case mainTabBarController = "TabBarVC"
+        case inviteViewController = "InviteVC"
+        case signInViewController = "StartVC"
+    }
+    
+    func instantiateViewController(withIdentifier: StoryboardIDs) -> UIViewController {
+        return instantiateViewController(withIdentifier: withIdentifier.rawValue)
+    }
 }
 
 struct UserDefaultsKeys

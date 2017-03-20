@@ -10,7 +10,7 @@ import UIKit
 
 class SupportMainTableViewController: UITableViewController {
 
-    var model: ModelCoreKPI!
+    var model: ModelCoreKPI!    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,8 +42,8 @@ class SupportMainTableViewController: UITableViewController {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.token)
         
         appDelegate.loggedIn = false
+        let signInVC = storyboard!.instantiateViewController(withIdentifier: .signInViewController)
         
-        let startVC = storyboard?.instantiateViewController(withIdentifier: "StartVC")
-        present(startVC!, animated: true, completion: nil)
+        present(signInVC, animated: true, completion: nil)
     }    
 }
