@@ -192,16 +192,8 @@ class KPISelectSettingTableViewController: UITableViewController {
     //MARK: - catchNotification
     func catchNotification(notification:Notification) -> Void {
         
-        if notification.name == modelDidChangeNotification {
-            guard let userInfo = notification.userInfo,
-                let _ = userInfo["model"] as? ModelCoreKPI else {
-                    print("No userInfo found in notification")
-                    return
-            }
-            _ = navigationController?.popViewController(animated: true)
-        }
+        _ = navigationController?.popViewController(animated: true)
     }
-    
 }
 
 //MARK: - UITextFieldDelegate method
