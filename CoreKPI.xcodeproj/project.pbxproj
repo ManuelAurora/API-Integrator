@@ -14,6 +14,7 @@
 		645616481E67039800643340 /* UserViewCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645616471E67039800643340 /* UserViewCellTableViewCell.swift */; };
 		645759241E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645759231E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift */; };
 		645759261E67FB7D006FB5F9 /* ExternaKPI + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645759251E67FB7D006FB5F9 /* ExternaKPI + Extension.swift */; };
+		6458649D1E80FCC50077399B /* UserStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6458649C1E80FCC50077399B /* UserStateMachine.swift */; };
 		645D1C541E6444CE004574C8 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D1C531E6444CE004574C8 /* Helpers.swift */; };
 		645DB20D1E76A405000BEFD4 /* HubspotHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645DB20C1E76A405000BEFD4 /* HubspotHelpers.swift */; };
 		646BF08E1E6E8B4200621FE2 /* HubspotManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */; };
@@ -220,6 +221,7 @@
 		645616471E67039800643340 /* UserViewCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewCellTableViewCell.swift; sourceTree = "<group>"; };
 		645759231E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "QuickBooksKPI + Extension.swift"; sourceTree = "<group>"; };
 		645759251E67FB7D006FB5F9 /* ExternaKPI + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExternaKPI + Extension.swift"; sourceTree = "<group>"; };
+		6458649C1E80FCC50077399B /* UserStateMachine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserStateMachine.swift; sourceTree = "<group>"; };
 		645D1C531E6444CE004574C8 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		645DB20C1E76A405000BEFD4 /* HubspotHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotHelpers.swift; sourceTree = "<group>"; };
 		646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotManager.swift; sourceTree = "<group>"; };
@@ -685,6 +687,7 @@
 				A297F5AF1E08233100F85963 /* MainTabBarViewController.swift */,
 				644691CE1E55870900D964D5 /* PinCodeLock.swift */,
 				64EE4DF71E55ADD80007926F /* PinCodeVCPresenter.swift */,
+				6458649C1E80FCC50077399B /* UserStateMachine.swift */,
 			);
 			name = ViewControllers;
 			path = ..;
@@ -1091,6 +1094,7 @@
 				A2263B0E1E3B7685005C812D /* SupportNavigationViewController.swift in Sources */,
 				A26D282A1E0D551D005342BA /* KPIListTableViewCell.swift in Sources */,
 				647B58911E65BA89001C968B /* QuickBookRequestHandler.swift in Sources */,
+				6458649D1E80FCC50077399B /* UserStateMachine.swift in Sources */,
 				A2ACBD3F1E0D12280079EF3D /* AlertsListTableViewCell.swift in Sources */,
 				A20B6BD21E31F62800FAF86A /* User's KPI.swift in Sources */,
 				A297F5BB1E08234500F85963 /* faqTableViewController.swift in Sources */,

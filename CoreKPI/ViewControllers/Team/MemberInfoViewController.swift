@@ -285,6 +285,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         else {            
             UserDefaults.standard.set(nil, forKey: "PinCode")
+            NotificationCenter.default.post(name: .userRemovedPincode, object: nil)
         }
     }
     

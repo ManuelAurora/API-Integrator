@@ -13,8 +13,12 @@ class PinCodeVCPresenter
 {
     var pinCodeController: PinCodeViewController!
     var presentedFromBG = false
+    let stateMachine = UserStateMachine.shared
     
-    weak var launchController: LaunchViewController?
+    var launchController: LaunchViewController {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return appDelegate.launchViewController
+    }
     
     var accessGranted = false
     let mainWindow: UIWindow?
@@ -46,30 +50,34 @@ class PinCodeVCPresenter
             self?.mainWindow?.windowLevel = 1
             self?.mainWindow?.makeKeyAndVisible()
             self?.animateDismissal()
-            self?.launchController?.LogOut()
-            self?.launchController?.dismiss(animated: true, completion: nil)            
+            self?.stateMachine.logOut()
+            self?.launchController.dismiss(animated: true, completion: nil)            
         }
         
         pinCodeController.cancelledFromBGCompletion = { [weak self] in
             self?.mainWindow?.windowLevel = 1
             self?.mainWindow?.makeKeyAndVisible()
             self?.animateDismissal()
-            self?.launchController?.showedAfterBGCancelling = true
-            self?.launchController?.dismiss(animated: true, completion: nil)
+            self?.launchController.presentStartVC()
         }
         
         pinCodeController.dismissCompletion = { [weak self] in
             self?.mainWindow?.windowLevel = 1
             self?.mainWindow?.makeKeyAndVisible()            
             self?.animateDismissal()
-            self?.launchController?.presentStartVC()
+            self?.launchController.presentStartVC()
         }
         
-        _ = pinCodeController.successCompletion = { [weak self] in
+        pinCodeController.successCompletion = { [weak self] in
             self?.mainWindow?.windowLevel = 1
             self?.mainWindow?.makeKeyAndVisible()
             self?.animateDismissal()
-            self?.launchController?.checkTokenOnServer()
+            
+            if self!.stateMachine.userStateInfo.didEnterBG
+            {
+                NotificationCenter.default.post(name: .userLoggedIn, object: nil)
+            }
+            else { self?.stateMachine.checkTokenOnServer() }
         }
     }
     

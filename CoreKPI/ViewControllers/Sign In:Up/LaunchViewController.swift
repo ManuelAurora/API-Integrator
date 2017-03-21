@@ -10,8 +10,7 @@ import UIKit
 
 class LaunchViewController: UIViewController {
     
-    var showedAfterBGCancelling = false
-    var model = ModelCoreKPI.modelShared
+    let userStateMachine = UserStateMachine.shared
     
     lazy var appDelegate: AppDelegate = {
         return UIApplication.shared.delegate as! AppDelegate
@@ -20,124 +19,89 @@ class LaunchViewController: UIViewController {
     lazy var mainTabBar: MainTabBarViewController = {
         let mtbvc = self.storyboard?.instantiateViewController(withIdentifier: .mainTabBarController) as! MainTabBarViewController
         mtbvc.appDelegate = self.appDelegate
-        mtbvc.model = self.model
+        mtbvc.model = self.userStateMachine.model
         
         return mtbvc
     }()
     
     lazy var signInUpViewController: SignInUpViewController = {
-        let sivc = self.storyboard?.instantiateViewController(withIdentifier: .signInViewController) as! SignInUpViewController
-        sivc.launchController = self
-        sivc.model = self.model
+        
+        let siuvc = self.storyboard?.instantiateViewController(withIdentifier: .signInUpViewController) as! SignInUpViewController
+        siuvc.launchController = self
+        siuvc.model = self.userStateMachine.model
+        return siuvc
+    }()
+    
+    lazy var signInViewController: SignInViewController = {
+        let sivc = self.storyboard?.instantiateViewController(withIdentifier: .signInViewController) as! SignInViewController
+        
         return sivc
     }()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        appDelegate.launchViewController = self
+        
+        if UserDefaults.standard.object(forKey: UserDefaultsKeys.pinCode) != nil {
+            userStateMachine.userStateInfo.usesPinCode = true
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         
-        let usersPin = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCode) as? [String]
+        subscribeToNotifications()
+        userStateMachine.prepareToLogin()
         
-        if checkLocalToken()
+        if userStateMachine.userStateInfo.haveLocalToken
         {
-            if usersPin != nil && showedAfterBGCancelling == false
+            if userStateMachine.userStateInfo.usesPinCode && !userStateMachine.userStateInfo.didEnterBG
             {
                 tryLoginByPinCode()
             }
-            else if usersPin == nil
+            else if !userStateMachine.userStateInfo.usesPinCode
             {
-                checkTokenOnServer()
+                userStateMachine.checkTokenOnServer()
             }
             else { presentStartVC() }
         }
         else { presentStartVC() }
     }
     
-    func tryLoginByPinCode() {
+    private func subscribeToNotifications() {
         
-        appDelegate.pinCodeVCPresenter.launchController = self
+        let nc = NotificationCenter.default
+        
+        nc.addObserver(self, selector: #selector(LaunchViewController.showTabBarVC), name: .userLoggedIn, object: nil)
+        nc.addObserver(self,
+                       selector: #selector(LaunchViewController.presentStartVC),
+                       name: .userLoggedOut,
+                       object: nil)
+    }
+    
+    func tryLoginByPinCode() {
+                
         appDelegate.pinCodeVCPresenter.presentedFromBG = false
         appDelegate.pinCodeVCPresenter.presentPinCodeVC()
-    }
-    
-    func checkLocalToken() -> Bool {
-        
-        if let token = UserDefaults.standard.object(forKey: UserDefaultsKeys.token)
-        {
-            let userID = UserDefaults.standard.integer(forKey: UserDefaultsKeys.userId)
-            
-            guard userID != 0 else { print("DEBUG: User ID equals 0"); return false }
-            
-            let profile = Profile(userID: userID)
-            
-            model.profile = profile
-            model.token = token as! String
-            
-            return true
-        } else {
-            print("No local token in app storage")
-            return false
-        }
-    }
-    
-    func checkTokenOnServer() {
-        
-        let req = LoginRequest(model: model)
-        req.checkToken(success: { data in
-            self.model.token = data.token
-            self.model.profile?.userId = data.userID
-            self.model.profile?.typeOfAccount = data.typeOfAccount
-            self.getDataFromCoreData()
-            self.showTabBarVC()
-        }, failure: { error in
-            if error == "" { //TODO: Токен невалидный
-                self.getDataFromCoreData()
-                self.LogOut()
-            } else {
-                self.getDataFromCoreData()
-                self.showTabBarVC()
-            }
-            print(error)
-        })
-    }
+    }   
     
     //MARK: - show alert function
     func showAlert(title: String, errorMessage: String) {
         let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         present(alertController, animated: true, completion: nil)
-    }
-    
-    //MARK: - Get Data from CoreData
-    func getDataFromCoreData() {
-        let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
-        do {
-            //model.alerts = try context.fetch(Alert.fetchRequest())
-            model.team = try context.fetch(Team.fetchRequest())
-        } catch {
-            print("Fetching faild")
-        }
-    }
-    
-    //MARK: - Token incorect
-    func LogOut() {
-        let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
-        
-        _ = model.team.map { context.delete($0) }
-        
-        appDelegate.loggedIn = false
-        
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.token)
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.pinCode)
-        
-        presentStartVC()
-    }
+    }    
     
     func showTabBarVC() {
         
+        appDelegate.loggedIn = true
+        mainTabBar.selectedIndex = 0
         appDelegate.window?.rootViewController = mainTabBar
     }
     
     func presentStartVC() {
-       
+                
         appDelegate.window?.rootViewController = signInUpViewController
+        signInUpViewController.signInViewController?.clearTextFields()
     }
 }

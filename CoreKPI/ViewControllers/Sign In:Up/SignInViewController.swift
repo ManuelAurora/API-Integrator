@@ -11,8 +11,8 @@ import UIKit
 class SignInViewController: UIViewController, UITextFieldDelegate {
     
     var model: ModelCoreKPI!   
-    weak var launchController: LaunchViewController!
-
+    let stateMachine = UserStateMachine.shared
+        
     @IBOutlet weak var passwordTextField: BottomBorderTextField!
     @IBOutlet weak var emailTextField: BottomBorderTextField!
     @IBOutlet weak var signInButton: UIButton!
@@ -21,16 +21,19 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
+        
+        subscribeNotifications()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         configure(buttons: [signInButton, enterByKeyButton])
-        toggleEnterByKeyButton(isEnabled: appDelegate.pinCodeAttempts > 1)
-
-    }
+        toggleEnterByKeyButton(isEnabled: appDelegate.pinCodeAttempts > 0)
+    }    
     
     //MARK: - UITextFieldDelegate method
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -78,7 +81,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     private func showPinCodeViewController() {
         
-        guard let pinCodeViewController = storyboard?.instantiateViewController(withIdentifier: "PinCodeViewController") as? PinCodeViewController else { print("DEBUG: An error occured while trying instantiate pin code VC"); return }
+        guard let pinCodeViewController = storyboard?.instantiateViewController(withIdentifier: "PinCodeViewController") as? PinCodeViewController else { print("DEBUG: An error occured while trying instantiate pincode VC"); return }
         
         pinCodeViewController.mode = .logIn
         present(pinCodeViewController, animated: true, completion: nil)
@@ -90,44 +93,43 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         enterByKeyButton.isEnabled = isEnabled
     }
     
-    func loginRequest() {
+    func clearTextFields() {
+        
+        passwordTextField.text = ""
+        emailTextField.text = ""
+        emailTextField.becomeFirstResponder()
+    }
+    
+    private func loginRequest() {
         
         if let username = self.emailTextField.text?.lowercased() {
             if let password = self.passwordTextField.text {
-                
-                let loginRequest = LoginRequest()
-                loginRequest.loginRequest(username: username, password: password,
-                                          success: {(userID, token, typeOfAccount) in
-                                            let profile = Profile(userID: userID)
-                                            profile.typeOfAccount = typeOfAccount                                            
-                                            self.model.signedInUpWith(token: token, profile: profile)
-                                            self.saveData()
-                                            self.showTabBarVC()
-                                            
-                },
-                                          failure: { error in
-                                            print(error)
-                                            self.showAlert(title: "Authorization error", errorMessage: error)
-                })
+                stateMachine.logInWith(email: username, password: password)
             }
         }
     }
     
-    private func showTabBarVC() {
-                
-        launchController.appDelegate.window?.rootViewController = launchController.mainTabBar
+    @objc private func userFailedToLogin(_ notification: Notification) {
+        
+        if let error = notification.userInfo?["error"] as? String
+        {
+            showAlert(title: "Authorization failed", errorMessage: error)
+        }
+    }
+    
+    private func subscribeNotifications() {
+        
+        let nc = NotificationCenter.default
+        nc.addObserver(self,
+                       selector: #selector(SignInViewController.userFailedToLogin),
+                       name: .userFailedToLogin,
+                       object: nil)
     }
     
     //MARK: - show alert function
-    func showAlert(title: String, errorMessage: String) {
+    private func showAlert(title: String, errorMessage: String) {
         let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alertController, animated: true, completion: nil)
-    }
-    
-    //MARK: - Save data
-    func saveData() {
-        UserDefaults.standard.set(model.profile.userId, forKey: UserDefaultsKeys.userId)
-        UserDefaults.standard.set(model.token, forKey: UserDefaultsKeys.token)
-    }
+    }    
 }

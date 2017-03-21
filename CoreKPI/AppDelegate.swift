@@ -15,6 +15,7 @@ import OAuthSwift
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
+    var launchViewController: LaunchViewController!
     
     var loggedIn = false {
         didSet {
@@ -38,8 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return presenter
     }()
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-               
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {        
+        
         pinCodeAttempts = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCodeAttempts) as! Int? ?? 0
         
         // Override point for customization after application launch.
@@ -112,13 +113,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.        
+        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.   
+        
+        NotificationCenter.default.post(name: .appDidEnteredBackground, object: nil)
         let usersPin = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCode) as? [String]
         
         if loggedIn && usersPin != nil {
             pinCodeVCPresenter.presentPinCodeVC()
-            pinCodeVCPresenter.presentedFromBG = true
-            pinCodeVCPresenter.launchController = window?.rootViewController as? LaunchViewController
+            pinCodeVCPresenter.presentedFromBG = true           
         }
     }
     

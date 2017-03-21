@@ -125,7 +125,7 @@ class PinCodeViewController: UIViewController
         
         if pinToConfirm == pinCode {
             UserDefaults.standard.set(pinCode, forKey: UserDefaultsKeys.pinCode)
-            
+            NotificationCenter.default.post(name: .userAddedPincode, object: nil)
             dismiss(animated: true, completion: nil)
         }
         else if pincodeLock.attempts > 1 {
@@ -146,18 +146,24 @@ class PinCodeViewController: UIViewController
         }
     }
     
-    fileprivate func checkOut(pinCode: [String]) {
+    private func check(_ pinCode: [String]) -> Bool {
         
         let usersPin = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCode) as? [String] ?? []
+        
+        return pinCode == usersPin
+    }
+    
+    fileprivate func checkOut(pinCode: [String]) {
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
-        appDelegate.pinCodeAttempts -= 1
+        if !check(pinCode) { appDelegate.pinCodeAttempts -= 1 }
         
         if appDelegate.pinCodeAttempts > 0 {
             
             isAnimationCompleted  = false            
             
-            if pinCode == usersPin {
+            if check(pinCode) {
                 
                 if presentingViewController?.presentedViewController == self {
                     
@@ -168,7 +174,7 @@ class PinCodeViewController: UIViewController
                     
                     dismiss(animated: true, completion: { [weak self] _ in
                         self?.isAnimationCompleted = true
-                        presentingVC.saveData()                        
+                        UserStateMachine.shared.checkTokenOnServer()
                     })
                 } else if navigationController != nil {
                     
@@ -178,7 +184,6 @@ class PinCodeViewController: UIViewController
                 successCompletion?()
             }
             else {
-                
                 animateFailedLoginAttempt()
             }
             

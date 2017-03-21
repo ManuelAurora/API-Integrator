@@ -70,8 +70,7 @@ class MainTabBarViewController: UITabBarController {
         
     //MARK: *Private functions
     private func applyInitialSettings() {
-        
-        appDelegate.loggedIn          = true
+              
         dashboardViewController.model = model
         alertsViewController.model    = model
         teamListController.model      = model

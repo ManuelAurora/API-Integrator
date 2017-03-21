@@ -21,6 +21,12 @@ extension Notification.Name
     static let qBExpencesByVendorSummaryRefreshed = Notification.Name("ExpencesByVendorSummaryRefreshed")
     static let newExternalKPIadded = Notification.Name("NewExternalKPIAdded")
     static let modelDidChanged = Notification.Name("modelDidChange")
+    static let userLoggedIn = Notification.Name("UserLoggedIn")
+    static let userLoggedOut = Notification.Name("UserLoggedOut")
+    static let userAddedPincode = Notification.Name("UserAddedPincode")
+    static let userRemovedPincode = Notification.Name("UserRemovedPincode")
+    static let userFailedToLogin = Notification.Name("LoginAttemptFailed")
+    static let appDidEnteredBackground = Notification.Name("AppDidEnteredBackground")
 }
 
 extension UIStoryboard
@@ -29,7 +35,8 @@ extension UIStoryboard
     {
         case mainTabBarController = "TabBarVC"
         case inviteViewController = "InviteVC"
-        case signInViewController = "StartVC"
+        case signInUpViewController = "StartVC"
+        case signInViewController = "SignInVC"
     }
     
     func instantiateViewController(withIdentifier: StoryboardIDs) -> UIViewController {

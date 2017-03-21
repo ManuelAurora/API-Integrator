@@ -11,6 +11,7 @@ import UIKit
 class SignInUpViewController: UIViewController {
     
     var launchController: LaunchViewController!
+    var signInViewController: SignInViewController!
     var model: ModelCoreKPI!
     
     @IBOutlet weak var signInButton: UIButton!
@@ -29,8 +30,7 @@ class SignInUpViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let navController = segue.destination as! UINavigationController
         let vc = navController.viewControllers[0] as! SignInViewController
-        vc.launchController = launchController
-        vc.model = model
-        
+        signInViewController = vc
+        vc.model = model        
     }
 }

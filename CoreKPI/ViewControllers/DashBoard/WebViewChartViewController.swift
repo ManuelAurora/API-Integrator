@@ -58,6 +58,7 @@ class WebViewChartViewController: UIViewController {
             let topOfJS2 = self.getRandomValues()
             
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + acc! + "</script><script>" + js1! + "</script><script>" + topOfJS2 + js2! + endOfJS + "</script>", baseURL: nil)
+            
         case .PointChart:
             let htmlFile = Bundle.main.path(forResource:"points", ofType: "html")
             let cssFile = Bundle.main.path(forResource:"points", ofType: "css")
