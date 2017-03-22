@@ -58,7 +58,7 @@ class MemberListTableViewController: UITableViewController {
         if let memberNickname = model.team[indexPath.row].nickname {
             cell.userNameLabel.text = memberNickname
         } else {
-            cell.userNameLabel.text = "\(model.team[indexPath.row].firstName!) \(model.team[indexPath.row].lastName!)"
+            cell.userNameLabel.text = "\(model.team[indexPath.row].firstName ?? "") \(model.team[indexPath.row].lastName ?? "")"
         }
         
         cell.userPosition.text = model.team[indexPath.row].position

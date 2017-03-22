@@ -86,10 +86,11 @@ class LaunchViewController: UIViewController {
     }
     
     func showTabBarVC() {
-        
+       
+        show(mainTabBar)
         appDelegate.loggedIn = true
         mainTabBar.selectedIndex = 0
-        appDelegate.window?.rootViewController = mainTabBar
+        userStateMachine.makeLoaded()
         
         if mainTabBar.teamListNavController.viewControllers.count >= 2,
             let memberInfoVC = mainTabBar.teamListNavController.viewControllers[1] as? MemberInfoViewController
@@ -99,10 +100,30 @@ class LaunchViewController: UIViewController {
     }
     
     func presentStartVC() {
-                
-        appDelegate.window?.rootViewController = signInUpViewController
+        
+        show(signInUpViewController)
+        
         guard let signInViewController = signInUpViewController.signInViewController else { return }
+        
         signInViewController.clearTextFields()
         signInViewController.toggleEnterByKeyButton(isEnabled: appDelegate.pinCodeAttempts > 0)
+    }
+    
+    private func show(_ viewController: UIViewController) {
+        
+        let animated = userStateMachine.userStateInfo.wasLoaded
+        
+        if animated
+        {
+            UIView.transition(with: appDelegate.window!, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                self.setRoot(viewController)
+            }, completion: nil)
+        }
+        else { setRoot(viewController) }
+    }
+    
+    private func setRoot(_ viewController: UIViewController) {
+        
+        self.appDelegate.window?.rootViewController = viewController
     }
 }

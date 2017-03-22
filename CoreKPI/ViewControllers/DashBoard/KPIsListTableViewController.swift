@@ -67,7 +67,7 @@ class KPIsListTableViewController: UITableViewController {
         if let firstLoad = UserDefaults.standard.data(forKey: "firstLoad"),
             let _ = NSKeyedUnarchiver.unarchiveObject(with: firstLoad) as? Bool {
         } else {
-            let onboardingVC = storyboard?.instantiateViewController(withIdentifier: .onboardViewController) as! OnboardingPageViewController
+            let onboardingVC = storyboard?.instantiateViewController(withIdentifier: .onboardPageVC) as! OnboardingPageViewController
             present(onboardingVC, animated: true, completion: nil)
             saveData()
         }

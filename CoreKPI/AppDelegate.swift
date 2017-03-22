@@ -16,10 +16,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     var launchViewController: LaunchViewController!
+    var usersPin: [String]? {
+        let pin = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCode) as? [String]
+        return pin
+    }
     
     var loggedIn = false {
         didSet {
-            pinCodeAttempts = loggedIn ? PinLockConfiguration.attempts : 0
+            pinCodeAttempts = (loggedIn && usersPin != nil) ? PinLockConfiguration.attempts : 0
         }
     }    
     
@@ -46,12 +50,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         //NavigationBar style
-        UITabBar.appearance().tintColor = UIColor(red: 124.0/255.0, green: 77.0/255.0, blue: 255.0/255.0, alpha: 1.0)
-        UITabBar.appearance().unselectedItemTintColor = UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)
+        UITabBar.appearance().tintColor = OurColors.violet
+        UITabBar.appearance().unselectedItemTintColor = OurColors.cyan
         
         let navigationBarAppearace = UINavigationBar.appearance()
-        navigationBarAppearace.tintColor = UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)
-        navigationBarAppearace.backItem?.backBarButtonItem?.tintColor = UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)
+        navigationBarAppearace.tintColor = OurColors.cyan
+        navigationBarAppearace.backItem?.backBarButtonItem?.tintColor = OurColors.cyan
         
         //Local push notification
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) {(accepted, error) in
@@ -85,17 +89,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         content.sound = UNNotificationSound.default()
         content.categoryIdentifier = "myCategory"
         
-//        if let path = Bundle.main.path(forResource: "aladin", ofType: "jpg") {
-//            let url = URL(fileURLWithPath: path)
-//            
-//            do {
-//                let attachment = try UNNotificationAttachment(identifier: "logo", url: url, options: nil)
-//                content.attachments = [attachment]
-//            } catch {
-//                print("The attachment was not loaded.")
-//            }
-//        }
-        
         let request = UNNotificationRequest(identifier: "textNotification", content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
@@ -116,7 +109,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.   
         
         NotificationCenter.default.post(name: .appDidEnteredBackground, object: nil)
-        let usersPin = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCode) as? [String]
         
         if loggedIn && usersPin != nil {
             pinCodeVCPresenter.presentPinCodeVC()
@@ -211,18 +203,7 @@ extension AppDelegate {
         }
     }
     
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        
-        let parameters = url.absoluteString.removingPercentEncoding?.components(separatedBy: "&")
-        
-        let realmId = parameters?.filter({ $0.contains("realmId")})
-                
-        applicationHandle(url: url)
-        return true
-    }
-    
-    @available(iOS 9.0, *)
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    private func findRealmId(in url: URL) -> String {
         
         let parameters = url.absoluteString.removingPercentEncoding?.components(separatedBy: "&")
         
@@ -233,10 +214,26 @@ extension AppDelegate {
                 let realmIdString = resultArray[0]
                 let index = realmIdString.index(realmIdString.startIndex, offsetBy: 8)
                 let realmId = realmIdString.substring(from: index)
-                QuickBookDataManager.shared().serviceParameters[.companyId] = realmId
+                return realmId
             }
         }
+        return ""
+    }
+    
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        
+        QuickBookDataManager.shared().serviceParameters[.companyId] = findRealmId(in: url)
         applicationHandle(url: url)
+        
+        return true
+    }
+    
+    @available(iOS 9.0, *)
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        
+        QuickBookDataManager.shared().serviceParameters[.companyId] = findRealmId(in: url)
+        applicationHandle(url: url)
+        
         return true
     }
 }

@@ -14,6 +14,7 @@ struct UserStateInfo {
     var didEnterBG     = false
     var usesPinCode    = false
     var haveLocalToken = false
+    var wasLoaded      = false
 }
 
 class UserStateMachine
@@ -69,10 +70,11 @@ class UserStateMachine
         })
     }
     
-    func logOut() {
-        
-        userLoggedOut()
-    }
+    func logOut() { userLoggedOut() }
+    
+    //This value informes us about app was loaded once. 
+    //Needs for escaping bug when switching roots.
+    func makeLoaded() { userStateInfo.wasLoaded = true }
     
     func logInWith(email: String, password: String) {
         
@@ -100,6 +102,7 @@ class UserStateMachine
         do {
             //model.alerts = try context.fetch(Alert.fetchRequest())
             model.team = try context.fetch(Team.fetchRequest())
+            notificationCenter.post(name: .modelDidChanged, object: nil)
         } catch {
             print("Fetching faild")
         }
@@ -128,7 +131,7 @@ class UserStateMachine
     private func userLoggedIn() {
         
         appDelegate.loggedIn   = true
-        userStateInfo.loggedIn = true
+        userStateInfo.loggedIn = true       
         userStateInfo.haveLocalToken = true
         notificationCenter.post(name: .userLoggedIn, object: nil)
     }
@@ -181,7 +184,7 @@ class UserStateMachine
     }
     
     //Notifications handlers
-    @objc private func userSetPin() { userStateInfo.usesPinCode = true }
+    @objc private func userSetPin() { userStateInfo.usesPinCode = true; appDelegate.loggedIn = true }
     
     @objc private func userRemovedPin() { userStateInfo.usesPinCode = false }
     

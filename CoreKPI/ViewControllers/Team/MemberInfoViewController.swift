@@ -176,7 +176,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             case 3:
                 
                 cell.headerCellLabel.text = "E-mail"
-                cell.dataCellLabel.text = model.team[index].username!
+                cell.dataCellLabel.text = model.team[index].username ?? ""
                 
             case 4:
                 cell.headerCellLabel.text = "Security"
@@ -300,10 +300,16 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     
     private func updateMemberInfo() {
         
-        if let memberNickname = model.team[index].nickname {
+        if let memberNickname = model.team[index].nickname
+        {
             memberProfileNameLabel.text = memberNickname
-        } else {
-            memberProfileNameLabel.text = "\(model.team[index].firstName!) \(model.team[index].lastName!)"
+        }
+        else
+        {
+            if let name = model.team[index].firstName, let lastName = model.team[index].lastName
+            {
+                memberProfileNameLabel.text = "\(name) \(lastName)"
+            }
         }
         
         memberProfilePositionLabel.text = model.team[index].position

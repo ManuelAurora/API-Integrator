@@ -216,6 +216,9 @@
             <PersistentString
                value = "model.team[indexPath.row].photoLink">
             </PersistentString>
+            <PersistentString
+               value = "model.team[indexPath.row]">
+            </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
@@ -230,10 +233,16 @@
          contextName = "LaunchViewController.showTabBarVC() -&gt; ():LaunchViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "mainTabBar.teamListNavController.viewControllers[1] as? MemberInfoViewController">
+               value = "mainTabBar.teamListNavController.viewControllers.count">
             </PersistentString>
             <PersistentString
-               value = "mainTabBar.teamListNavController.viewControllers.count">
+               value = "mainTabBar">
+            </PersistentString>
+            <PersistentString
+               value = "signInUpViewController.signInViewController">
+            </PersistentString>
+            <PersistentString
+               value = "appDelegate.window?.rootViewController">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

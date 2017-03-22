@@ -40,6 +40,7 @@ extension UIStoryboard
         case pincodeViewController  = "PinCodeViewController"
         case registerViewController = "RegistrationCreateProfileVC"
         case onboardViewController  = "OnboardingView"
+        case onboardPageVC          = "OnboardingVC"
         case reportViewController   = "ReportAndViewKPI"
         case chartsViewController   = "PageVC"
         case memberViewController   = "MemberInfo"

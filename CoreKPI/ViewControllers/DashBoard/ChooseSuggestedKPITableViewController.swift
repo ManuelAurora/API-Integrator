@@ -293,8 +293,10 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     func createExecutantArray() {
         
         for profile in model.team {
-            let executantName = profile.firstName! + " " + profile.lastName!
-            self.executantArray.append((executantName, false))
+            if let executantName = profile.firstName, let executantLastName = profile.lastName
+            {
+                self.executantArray.append(("\(executantName) \(executantLastName)", false))
+            }
         }
     }
     
