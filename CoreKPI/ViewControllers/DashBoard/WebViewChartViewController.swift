@@ -24,6 +24,11 @@ class WebViewChartViewController: UIViewController {
 
     var typeOfChart = TypeOfChart.PieChart
     var index = 0
+    var header: String = " "
+    
+    //data for charts
+    var pointData:[(country: String, life: Double, population: Int, gdp: Int, color: String, kids: Double, median_age: Double)]!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +60,7 @@ class WebViewChartViewController: UIViewController {
             let acc = try? String(contentsOfFile: accountingFile!, encoding: String.Encoding.utf8)
             
             let endOfJS = "pie((\(width)), \(height), data_pie);"
-            let topOfJS2 = self.getRandomValues()
+            let topOfJS2 = generateDataForJS()
             
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + acc! + "</script><script>" + js1! + "</script><script>" + topOfJS2 + js2! + endOfJS + "</script>", baseURL: nil)
         case .PointChart:
@@ -69,7 +74,7 @@ class WebViewChartViewController: UIViewController {
             let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
             
-            let topOfJS = "var margin = {top: 50, right: 30, bottom: 30, left: 30}; var width = \(width) - margin.left - margin.right; var height = \(height) - margin.top - margin.bottom;"
+            let topOfJS = "var margin = {top: 50, right: 30, bottom: 30, left: 30}; var width = \(width) - margin.left - margin.right; var height = \(height) - margin.top - margin.bottom;" + generateDataForJS()
         
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + topOfJS + js2! + "</script>", baseURL: nil)
         case .LineChart:
@@ -95,9 +100,11 @@ class WebViewChartViewController: UIViewController {
             let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
             
-            let topOfJsFile = "var margin  = {top: 50, right: 30, bottom: 30, left: 30}; var width   = \(width) - (margin.left + margin.right); var height  = \(height) - (margin.top + margin.bottom);"
+            let topOfJsFile = "var margin  = {top: 50, right: 30, bottom: 30, left: 30}; var width   = \(width) - (margin.left + margin.right); var height  = \(height) - (margin.top + margin.bottom);"  + generateDataForJS()
             
-            webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + topOfJsFile + js2! + "</script>", baseURL: nil)
+            let htmlstring = html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + topOfJsFile + js2! + "</script>"
+            
+            webView.loadHTMLString(htmlstring, baseURL: nil)
         case .Funnel:
             let htmlFile = Bundle.main.path(forResource:"funnel", ofType: "html")
             let cssFile = Bundle.main.path(forResource:"funnel", ofType: "css")
@@ -145,19 +152,64 @@ class WebViewChartViewController: UIViewController {
         }
     }
 
-    func getRandomValues() -> String {
-        let numOne = 200
-        let numTwo = 150
-        let numThree = 200
-        let numFour = 300
-        let numFive = 200
-        
-        var array = [numOne, numTwo, numThree, numFour, numFive]
-        
-        let random = Int(arc4random_uniform(4))
-        array[random] = Int(arc4random_uniform(500))
-        
-        return "var numOne = \(array[0]); var numTwo = \(array[1]); var numThree = \(array[2]); var numFour = \(array[3]); var numFive = \(array[4]);"
+//    private func getRandomValues() -> String {
+//        let numOne = 200
+//        let numTwo = 150
+//        let numThree = 200
+//        let numFour = 300
+//        let numFive = 200
+//        
+//        var array = [numOne, numTwo, numThree, numFour, numFive]
+//        
+//        let random = Int(arc4random_uniform(4))
+//        array[random] = Int(arc4random_uniform(500))
+//        
+//        return "var numOne = \(array[0]); var numTwo = \(array[1]); var numThree = \(array[2]); var numFour = \(array[3]); var numFive = \(array[4]);"
+//    }
+    
+    private func generateDataForJS() -> String {
+        switch typeOfChart {
+        case .PieChart:
+            return "var data_pie = [{number: 'Week 1', rate: 200},{number: 'Week 2', rate: 150},{number: 'Week 3', rate: 200},{number: 'Week 4', rate: 300},{number: 'Week 5', rate: 200}];"
+        case .PointChart:
+            //TODO: Remove test data
+            //->Debug
+            pointData = [
+                ("Algeria",70.6,35468208,6300,"blue",2.12,26.247),
+                ("Belgium",80,10754056,32832,"green", 1.76,41.301),
+                ("France",81.3,63125894,29691,"green",1.92,40.112),
+                ("Honduras",72.9,7754687,3516,"firebrick",2.94,20.945),
+                ("Iran",73.1,74798599,12483,"coral",1.57,26.799),
+                ("Morocco",70.2,32272974,4263,"blue",2.12,26.215),
+                ("Russia",67.6,142835555,14207,"green",1.35,38.054),
+                ("Spain",81.6,46454895,26779,"green",1.42,40.174),
+                ("USA",78.5,313085380,41230,"firebrick",2,36.59),
+                ("Australia",82.1,22268384,34885,"violet",1.9,37.776)
+            ]
+            header = "This is PointChart"
+            //<-Debug
+            var dataForJS = "var label = '\(header)'; var pointJson = ["
+            
+            for (index,item) in pointData.enumerated() {
+                if index > 0 {
+                    dataForJS += ","
+                }
+                let pointData = "{'country':'\(item.country)','life':\(item.life),'population':\(item.population),'gdp':\(item.gdp),'color':'\(item.color)','kids': \(item.kids),'median_age': \(item.median_age)}"
+                dataForJS += pointData
+            }
+            dataForJS += "]"
+            return dataForJS
+        case .LineChart:
+            return ""
+        case .BarChart:
+            return "var data =  [{'name':'AA','value':-250,'val':-230},{'name':'AB','value':-300,'val':-230},{'name':'AC','value':-220,'val':-200},{'name':'AD','value':-180,'val':-160},{'name':'AE','value':200,'val':180},{'name':'AF','value':-60,'val':-40},{'name':'AG','value':-260,'val':-200},{'name':'AH','value':180,'val':100},{'name':'BA','value':-150,'val':-100},{'name':'BB','value':300,'val':150},{'name':'BC','value':-220,'val':-190},{'name':'BD','value':-180,'val':-90},{'name':'BE','value':120,'val':100},{'name':'BF','value':60,'val':20},{'name':'BG','value':260,'val':50},{'name':'BH','value':180,'val':150},{'name':null}]"
+        case .Funnel:
+            return ""
+        case .PositiveBar:
+            return ""
+        case .AreaChart:
+            return ""
+        }
     }
     
     override func didReceiveMemoryWarning() {

@@ -21,98 +21,100 @@ var svg = d3.select("#chart")
 .attr("class", "chart__cnt")
 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var pointJson = [
-                 {
-                 "country": "Algeria",
-                 "life": 70.6,
-                 "population": 35468208,
-                 "gdp": 6300,
-                 "color": "blue",
-                 "kids": 2.12,
-                 "median_age": 26.247
-                 },
-                 {
-                 "country": "Belgium",
-                 "life": 80,
-                 "population": 10754056,
-                 "gdp": 32832,
-                 "color": "green",
-                 "kids": 1.76,
-                 "median_age": 41.301
-                 },
-                 {
-                 "country": "France",
-                 "life": 81.3,
-                 "population": 63125894,
-                 "gdp": 29691,
-                 "color": "green",
-                 "kids": 1.92,
-                 "median_age": 40.112
-                 },
-                 {
-                 "country": "Honduras",
-                 "life": 72.9,
-                 "population": 7754687,
-                 "gdp": 3516,
-                 "color": "firebrick",
-                 "kids": 2.94,
-                 "median_age": 20.945
-                 },
-                 {
-                 "country": "Iran",
-                 "life": 73.1,
-                 "population": 74798599,
-                 "gdp": 12483,
-                 "color": "coral",
-                 "kids": 1.57,
-                 "median_age": 26.799
-                 },
-                 {
-                 "country": "Morocco",
-                 "life": 70.2,
-                 "population": 32272974,
-                 "gdp": 4263,
-                 "color": "blue",
-                 "kids": 2.12,
-                 "median_age": 26.215
-                 },
-                 {
-                 "country": "Russia",
-                 "life": 67.6,
-                 "population": 142835555,
-                 "gdp": 14207,
-                 "color": "green",
-                 "kids": 1.35,
-                 "median_age": 38.054
-                 },
-                 {
-                 "country": "Spain",
-                 "life": 81.6,
-                 "population": 46454895,
-                 "gdp": 26779,
-                 "color": "green",
-                 "kids": 1.42,
-                 "median_age": 40.174
-                 },
-                 {
-                 "country": "USA",
-                 "life": 78.5,
-                 "population": 313085380,
-                 "gdp": 41230,
-                 "color": "firebrick",
-                 "kids": 2,
-                 "median_age": 36.59
-                 },
-                 {
-                 "country": "Australia",
-                 "life": 82.1,
-                 "population": 22268384,
-                 "gdp": 34885,
-                 "color": "violet",
-                 "kids": 1.9,
-                 "median_age": 37.776
-                 }
-                 ]
+//var label = 'Ohh lol';
+//
+//var pointJson = [
+//                 {
+//                 'country': 'Algeria',
+//                 "life": 70.6,
+//                 "population": 35468208,
+//                 "gdp": 6300,
+//                 "color": "blue",
+//                 "kids": 2.12,
+//                 "median_age": 26.247
+//                 },
+//                 {
+//                 "country": "Belgium",
+//                 "life": 80,
+//                 "population": 10754056,
+//                 "gdp": 32832,
+//                 "color": "green",
+//                 "kids": 1.76,
+//                 "median_age": 41.301
+//                 },
+//                 {
+//                 "country": "France",
+//                 "life": 81.3,
+//                 "population": 63125894,
+//                 "gdp": 29691,
+//                 "color": "green",
+//                 "kids": 1.92,
+//                 "median_age": 40.112
+//                 },
+//                 {
+//                 "country": "Honduras",
+//                 "life": 72.9,
+//                 "population": 7754687,
+//                 "gdp": 3516,
+//                 "color": "firebrick",
+//                 "kids": 2.94,
+//                 "median_age": 20.945
+//                 },
+//                 {
+//                 "country": "Iran",
+//                 "life": 73.1,
+//                 "population": 74798599,
+//                 "gdp": 12483,
+//                 "color": "coral",
+//                 "kids": 1.57,
+//                 "median_age": 26.799
+//                 },
+//                 {
+//                 "country": "Morocco",
+//                 "life": 70.2,
+//                 "population": 32272974,
+//                 "gdp": 4263,
+//                 "color": "blue",
+//                 "kids": 2.12,
+//                 "median_age": 26.215
+//                 },
+//                 {
+//                 "country": "Russia",
+//                 "life": 67.6,
+//                 "population": 142835555,
+//                 "gdp": 14207,
+//                 "color": "green",
+//                 "kids": 1.35,
+//                 "median_age": 38.054
+//                 },
+//                 {
+//                 "country": "Spain",
+//                 "life": 81.6,
+//                 "population": 46454895,
+//                 "gdp": 26779,
+//                 "color": "green",
+//                 "kids": 1.42,
+//                 "median_age": 40.174
+//                 },
+//                 {
+//                 "country": "USA",
+//                 "life": 78.5,
+//                 "population": 313085380,
+//                 "gdp": 41230,
+//                 "color": "firebrick",
+//                 "kids": 2,
+//                 "median_age": 36.59
+//                 },
+//                 {
+//                 "country": "Australia",
+//                 "life": 82.1,
+//                 "population": 22268384,
+//                 "gdp": 34885,
+//                 "color": "violet",
+//                 "kids": 1.9,
+//                 "median_age": 37.776
+//                 }
+//                 ]
 
 console.log(pointJson)
 
@@ -143,7 +145,7 @@ svg.append("text")
 .attr("fill", "#ffffff")
 .style("font-size", "22px")
 .style("font-family", "Arial")
-.text("График значений");
+.text(label);
 
 var svg_tooltip = d3.select(".tooltip")
 .style("position", "absolute");

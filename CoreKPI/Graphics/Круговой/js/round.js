@@ -1,10 +1,10 @@
-var data_pie = [
-                {number: "Week 1", rate: numOne},
-                {number: "Week 2", rate: numTwo},
-                {number: "Week 3", rate: numThree},
-                {number: "Week 4", rate: numFour},
-                {number: "Week 5", rate: numFive}
-                ];
+//var data_pie = [
+//                {number: "Week 1", rate: numOne},
+//                {number: "Week 2", rate: numTwo},
+//                {number: "Week 3", rate: numThree},
+//                {number: "Week 4", rate: numFour},
+//                {number: "Week 5", rate: numFive}
+//                ];
 
 function pie(w, h, data) {
     var margin = 10;
