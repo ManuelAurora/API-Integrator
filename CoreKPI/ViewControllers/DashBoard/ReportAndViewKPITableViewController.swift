@@ -706,9 +706,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
                 print(error)
                 self.showAlert(title: "Sorry",errorMessage: error)
             })
-        }
-        
-        
+        }        
     }
     
     func prepareToMove() {
@@ -716,14 +714,6 @@ class ReportAndViewKPITableViewController: UITableViewController {
         delegate.updateKPIList(kpiArray: self.model.kpis)
         _ = navigationController?.popViewController(animated: true)
     }
-    
-    //MARK: - show alert function
-    func showAlert(title: String, errorMessage: String) {
-        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        present(alertController, animated: true, completion: nil)
-    }
-    
 }
 
 //MARK: - updateSettingsArrayDelegate methods

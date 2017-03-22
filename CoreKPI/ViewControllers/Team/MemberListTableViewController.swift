@@ -183,14 +183,7 @@ class MemberListTableViewController: UITableViewController {
             self.tableView.reloadData()
         }
         )
-    }
-    
-    //MARK: - show alert function
-    func showAlert(title: String, errorMessage: String) {
-        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        present(alertController, animated: true, completion: nil)
-    }
+    }    
     
     func updateProfilePhoto() {
     }

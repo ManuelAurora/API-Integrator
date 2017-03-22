@@ -50,21 +50,20 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         
         tableView.register(nib, forCellReuseIdentifier: "UserInfoCell")
         tableView.allowsSelection = false
+        securityButton.isHidden = true
+        myKPIsButton.isHidden = true
+        responsibleForButton.isHidden = true
         
         //Check admin permission!!
-        if model.profile?.typeOfAccount == TypeOfAccount.Admin {
+        if model.profile?.typeOfAccount == TypeOfAccount.Admin && !thisIsMyAccount()
+        {
             responsibleForButton.isHidden = false
-            
-            //Check is it my account
-            if Int(model.team[index].userID) == model.profile?.userId {
-                responsibleForButton.isHidden = true
-                myKPIsButton.isHidden = false
-                //securityButton.isHidden = false
-            }
-        } else {
-            responsibleForButton.isHidden = true
-            myKPIsButton.isHidden = true
-            //securityButton.isHidden = true
+        }
+        
+        //Check is it my account
+        if thisIsMyAccount()
+        {
+            myKPIsButton.isHidden = false
         }
         
         updateMemberInfo()
@@ -73,6 +72,11 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         //Set Navigation Bar transparent
         self.navigationController?.presentTransparentNavigationBar()
         
+    }
+    
+    private func thisIsMyAccount() -> Bool {
+        
+        return Int(model.team[index].userID) == model.profile?.userId
     }
     
     override func viewDidLayoutSubviews() {
@@ -118,13 +122,13 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if model.profile?.typeOfAccount == TypeOfAccount.Admin {
-            
+        
+        if model.profile?.typeOfAccount == TypeOfAccount.Admin && thisIsMyAccount()
+        {
             return 5
-        } else {
             
-            return 3
         }
+        else { return 4 }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -151,7 +155,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "MemberInfoCell", for: indexPath) as! MemberInfoTableViewCell
         
-        if model.profile?.typeOfAccount == TypeOfAccount.Admin
+        if model.profile?.typeOfAccount == .Admin
         {
             switch indexPath.row
             {
@@ -205,7 +209,6 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                 cell.headerCellLabel.text = "Security"
                 cell.securitySwitch.isHidden = false
                 cell.securitySwitch.isOn = usersPin == nil ? false : true
-                
                 securityCellIndexPath = indexPath
                 
             default:

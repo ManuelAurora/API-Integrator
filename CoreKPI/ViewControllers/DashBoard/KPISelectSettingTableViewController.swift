@@ -15,7 +15,6 @@ class KPISelectSettingTableViewController: UITableViewController {
     var selectSetting: [(SettingName: String, value: Bool)]!
     var textFieldInputData: String?
     var delegate: updateSettingsDelegate!
-    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
     var integratedService = IntegratedServices.none
     var headerForTableView: String!
@@ -42,52 +41,41 @@ class KPISelectSettingTableViewController: UITableViewController {
             let alertVC = UIAlertController(title: "Sorry!", message: "No Data for select", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) -> Void in
                 _ = self.navigationController?.popViewController(animated: true)
-            }
-            ))
+            }))
         }
         
         let nc = NotificationCenter.default
-        nc.addObserver(forName: modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
+        nc.addObserver(forName: .modelDidChanged, object:nil, queue:nil, using:catchNotification)
         
         tableView.estimatedRowHeight = 70
         tableView.rowHeight = UITableViewAutomaticDimension
-        //tableView.autoresizesSubviews = true
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if inputSettingCells == true {
-            return 1
-        } else {
-            return self.selectSetting.count
-        }
         
+        if inputSettingCells == true { return 1 }
+        else { return self.selectSetting.count }
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if inputSettingCells == true {
-            return headerForTableView
-        } else {
-            return " "
-        }
+        
+        if inputSettingCells == true { return headerForTableView }
+        else { return " " }
     }
     
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.font = UIFont(name: "Helvetica Neue", size: 13)
         header.textLabel?.textColor = UIColor.lightGray
     }
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ListOfSuggestedKPI") as! SuggestedKPIDescriptionTableViewController
+        
+        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: .listOfSuggestedKPIVC) as! SuggestedKPIDescriptionTableViewController
         destinatioVC.numberOfKPI = indexPath.row
         destinatioVC.ChoseSuggestedVC = ChoseSuggestedVC
         destinatioVC.department = department

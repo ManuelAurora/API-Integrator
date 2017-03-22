@@ -12,7 +12,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     var model: ModelCoreKPI!   
     let stateMachine = UserStateMachine.shared
-        
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     @IBOutlet weak var passwordTextField: BottomBorderTextField!
     @IBOutlet weak var emailTextField: BottomBorderTextField!
     @IBOutlet weak var signInButton: UIButton!
@@ -20,16 +21,13 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.hideKeyboardWhenTappedAround()
         
+        hideKeyboardWhenTappedAround()
         subscribeNotifications()
     }
      
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         configure(buttons: [signInButton, enterByKeyButton])
         toggleEnterByKeyButton(isEnabled: appDelegate.pinCodeAttempts > 0)
@@ -37,9 +35,10 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: - UITextFieldDelegate method
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == emailTextField {
-            passwordTextField.becomeFirstResponder()
-        } else {
+        
+        if textField == emailTextField { passwordTextField.becomeFirstResponder() }
+        else
+        {
             emailTextField.resignFirstResponder()
             tapSignInButton(signInButton)
         }
@@ -56,32 +55,26 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         let email = emailTextField.text?.lowercased()
         let password = passwordTextField.text
         
-        if email == "" || password == "" {
-            showAlert(title: "Oops", errorMessage: "Email/Password field is empty!")
-            return
+        if validate(email: email, password: password)
+        {
+            passwordTextField.resignFirstResponder()
+            emailTextField.resignFirstResponder()
+            loginRequest()
         }
-        
-        if email?.range(of: "@") == nil || (email?.components(separatedBy: "@")[0].isEmpty)! ||  (email?.components(separatedBy: "@")[1].isEmpty)!{
-            showAlert(title: "Oops", errorMessage: "Invalid E-mail adress")
-            return
-        }
-        
-        passwordTextField.resignFirstResponder()
-        emailTextField.resignFirstResponder()
-        loginRequest()
+        else { showAlert(title: "Error occured", errorMessage: "Incorrect email and/or password") }
     }
     
     private func configure(buttons: [UIButton]) {
         
         _ = buttons.map {
             $0.layer.borderWidth = 1.0
-            $0.layer.borderColor = UIColor(red: 124.0/255.0, green: 77.0/255.0, blue: 255.0/255.0, alpha: 1.0).cgColor
+            $0.layer.borderColor = OurColors.violet.cgColor
         }
     }
     
     private func showPinCodeViewController() {
         
-        guard let pinCodeViewController = storyboard?.instantiateViewController(withIdentifier: "PinCodeViewController") as? PinCodeViewController else { print("DEBUG: An error occured while trying instantiate pincode VC"); return }
+        guard let pinCodeViewController = storyboard?.instantiateViewController(withIdentifier: .pincodeViewController) as? PinCodeViewController else { print("DEBUG: An error occured while trying instantiate pincode VC"); return }
         
         pinCodeViewController.mode = .logIn
         present(pinCodeViewController, animated: true, completion: nil)
@@ -124,12 +117,5 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                        selector: #selector(SignInViewController.userFailedToLogin),
                        name: .userFailedToLogin,
                        object: nil)
-    }
-    
-    //MARK: - show alert function
-    private func showAlert(title: String, errorMessage: String) {
-        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        self.present(alertController, animated: true, completion: nil)
     }    
 }

@@ -33,18 +33,24 @@ class KPIListTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     @IBAction func buttonDidTaped(_ sender: UIButton) {
+        
         self.delegate = KPIListVC
-        switch sender {
+        
+        switch sender
+        {
         case editButton:
-            delegate.editButtonDidTaped(sender: sender)
+            delegate.userTapped(button: sender, edit: true)
+            
         case reportButton:
-            delegate.reportButtonDidTaped(sender: sender)
+            delegate.userTapped(button: sender, edit: false)
+            
         case memberNameButton:
             delegate.memberNameDidTaped(sender: sender)
+            
         case deleteButton:
             delegate.deleteDidTaped(sender: sender)
-        default:
-            break
+            
+        default: break
         }
     }
 

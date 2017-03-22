@@ -22,43 +22,35 @@ class RegisterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
-        registerButton.layer.borderColor = UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0).cgColor
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : OurColors.cyan]
+        registerButton.layer.borderColor = OurColors.cyan.cgColor
     }
     
     @IBAction func tapRegisterButton(_ sender: Any) {
         
+        let errorTitle = "Error occured"
+        
         email = emailTextField.text?.lowercased()
         password = passwordTextField.text
+        
         let repeatPassword = repeatPasswordTextField.text
         
         if email == "" || password == "" || repeatPassword == "" {
-            showAlert(title: "Oops", errorMessage: "All fields must be filled!")
+            showAlert(title: errorTitle, errorMessage: "All fields must be filled!")
             return
         }
         
-        if email?.range(of: "@") == nil || (email?.components(separatedBy: "@")[0].isEmpty)! ||  (email?.components(separatedBy: "@")[1].isEmpty)!{
-            showAlert(title: "Oops", errorMessage: "Invalid E-mail adress")
-            return
-        }
+        if !validate(email: email, password: nil) { showAlert(title: errorTitle, errorMessage: "Invalid E-mail adress") }
         
         if password != repeatPassword {
-            showAlert(title: "Oops", errorMessage: "Entered passwords are different!")
+            showAlert(title: errorTitle, errorMessage: "Entered passwords are different!")
         }
         
-        let vc = storyboard?.instantiateViewController(withIdentifier: "RegistrationCreateProfileVC") as! NewProfileTableViewController
+        let vc = storyboard?.instantiateViewController(withIdentifier: .registerViewController) as! NewProfileTableViewController
         delegate = vc
         delegate.updateLoginAndPassword(email: email, password: password)
         navigationController?.pushViewController(vc, animated: true)
     }
-    
-    //MARK: - show alert function
-    func showAlert(title: String, errorMessage: String) {
-        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
 }
 
 extension RegisterViewController: UITextFieldDelegate {

@@ -11,13 +11,11 @@ import UIKit
 class NewProfileTableViewController: UITableViewController {
     
     var delegate: updateModelDelegate!
-    
     var typeOfAccount: TypeOfAccount!
     var model = ModelCoreKPI.modelShared
     
     var email: String!
     var password: String!
-    
     var firstName: String!
     var lastName: String!
     var position: String!
@@ -80,6 +78,7 @@ class NewProfileTableViewController: UITableViewController {
         let registrationRequest = RegistrationRequest()
         registrationRequest.registrationRequest(email: email, password: password, firstname: firstName, lastname: lastName, position: position, photo: profileImageBase64String,
                                                 success: { _ in
+                                                    
                                                     self.segueToVC()
         }, failure: { error in
             self.showAlert(title: "Registration error", errorMessage: error)
@@ -88,33 +87,15 @@ class NewProfileTableViewController: UITableViewController {
     
     func segueToVC() {
         
-        if model.profile?.typeOfAccount == TypeOfAccount.Admin {
-            let vc = storyboard?.instantiateViewController(withIdentifier: "InviteVC") as! InviteTableViewController
+        if model.profile?.typeOfAccount == TypeOfAccount.Admin
+        {
+            let vc = storyboard?.instantiateViewController(withIdentifier: .inviteViewController) as! InviteTableViewController
+            vc.email = email
+            vc.password = password
+            
             navigationController?.pushViewController(vc, animated: true)
-        } else {
-            let tabBarController = storyboard?.instantiateViewController(withIdentifier: .mainTabBarController) as! MainTabBarViewController
-            
-            let dashboardNavigationViewController = tabBarController.viewControllers?[0] as! DashboardsNavigationViewController
-            let dashboardViewController = dashboardNavigationViewController.childViewControllers[0] as! KPIsListTableViewController
-            dashboardViewController.model = model
-            dashboardViewController.loadKPIsFromServer()
-            
-            let alertsNavigationViewController = tabBarController.viewControllers?[1] as! AlertsNavigationViewController
-            let alertsViewController = alertsNavigationViewController.childViewControllers[0] as! AlertsListTableViewController
-            alertsViewController.model = model
-            
-            let teamListNavigationViewController = tabBarController.viewControllers?[2] as! TeamListViewController
-            let teamListController = teamListNavigationViewController.childViewControllers[0] as! MemberListTableViewController
-            teamListController.model = model
-            
-            present(tabBarController, animated: true, completion: nil)
         }
-    }
-    
-    func showAlert(title: String, errorMessage: String) {
-        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        present(alertController, animated: true, completion: nil)
+        else { UserStateMachine.shared.logInWith(email: email, password: password) }
     }
 }
 

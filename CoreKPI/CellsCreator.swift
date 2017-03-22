@@ -10,8 +10,7 @@ import Foundation
 import UIKit
 
 extension ReportAndViewKPITableViewController {
-    
-    
+        
     //MARK: - Number of Sections
     func numberOfSections() -> Int {
         switch buttonDidTaped {

@@ -175,6 +175,7 @@ class UserStateMachine
     }
     
     private func saveLocalToken() {
+        
         UserDefaults.standard.set(model.profile.userId, forKey: UserDefaultsKeys.userId)
         UserDefaults.standard.set(model.token, forKey: UserDefaultsKeys.token)
     }

@@ -166,8 +166,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     var typeOfSetting = TypeOfSetting.none
     var settingArray: [(SettingName: String, value: Bool)] = []
     
-    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
-    
     var datePickerIsVisible = false
     var dataPickerIsVisible = false
     
@@ -175,7 +173,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         super.viewDidLoad()
         
         let nc = NotificationCenter.default
-        nc.addObserver(forName:modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
+        nc.addObserver(forName: .modelDidChanged, object:nil, queue:nil, using: catchNotification)
         
         createExecutantArray()
         
@@ -184,10 +182,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         checkInputValues()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     //MARK: - Create arrays for external services KPI
@@ -226,15 +220,15 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         }
     }
     
-    
-    
     //MARK: - updateKPIArray method
     func updateKPIArray() {
+        
         self.kpiArray.removeAll()
         let buildInKPI = BuildInKPI(department: self.department)
         var dictionary: [String:String] = [:]
         
-        switch department {
+        switch department
+        {
         case .none:
             return
         case .Sales:
@@ -268,7 +262,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         },
                         failure: { (error) in
                             print(error)
-                            self.showAlert(title: "Sorry!", message: error)
+                            self.showAlert(title: "Sorry!", errorMessage: error)
         }
         )
     }
@@ -288,7 +282,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
             } else {
                 let errorMessage = json["message"] as! String
                 print("Json error message: \(errorMessage)")
-                showAlert(title: "Error geting list if departments", message: errorMessage)
+                showAlert(title: "Error geting list if departments", errorMessage: errorMessage)
             }
         } else {
             print("Json file is broken!")
@@ -297,6 +291,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     
     //MARK: create executantArray
     func createExecutantArray() {
+        
         for profile in model.team {
             let executantName = profile.firstName! + " " + profile.lastName!
             self.executantArray.append((executantName, false))
@@ -306,24 +301,12 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     //MARK: - catchNotification
     func catchNotification(notification:Notification) -> Void {
         
-        if notification.name == self.modelDidChangeNotification {
-            guard let userInfo = notification.userInfo,
-                let model = userInfo["model"] as? ModelCoreKPI else {
-                    print("No userInfo found in notification")
-                    return
-            }
-            self.model.team = model.team
+        if notification.name == .modelDidChanged
+        {
             executantArray.removeAll()
             createExecutantArray()
             tableView.reloadData()
         }
-    }
-    
-    //MARK: - Show alert method
-    func showAlert(title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alertController, animated: true, completion: nil)
     }
     
     // MARK: - Table view data source
@@ -386,7 +369,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         case .User:
             SuggestedCell.accessoryType = .disclosureIndicator
             SuggestedCell.trailingToRightConstraint.constant = 0
-            switch timeInterval {
+            switch timeInterval
+            {
             case .Daily:
                 switch indexPath.row {
                 case 0:
@@ -697,7 +681,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     showSelectSettingVC()
                 case 2:
                     if department == .none {
-                        showAlert(title: "Error", message: "First select a department please")
+                        showAlert(title: "Error", errorMessage: "First select a department please")
                         tableView.deselectRow(at: indexPath, animated: true)
                     } else {
                         typeOfSetting = .SuggestedKPI
@@ -741,7 +725,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                         showSelectSettingVC()
                     case 2:
                         if department == .none {
-                            showAlert(title: "Error", message: "First select a department please")
+                            showAlert(title: "Error", errorMessage: "First select a department please")
                             tableView.deselectRow(at: indexPath, animated: true)
                         } else {
                             typeOfSetting = .SuggestedKPI
@@ -803,7 +787,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                         showSelectSettingVC()
                     case 2:
                         if department == .none {
-                            showAlert(title: "Error", message: "First select a department please")
+                            showAlert(title: "Error", errorMessage: "First select a department please")
                             tableView.deselectRow(at: indexPath, animated: true)
                         } else {
                             typeOfSetting = .SuggestedKPI
@@ -1042,10 +1026,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
                 _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
             }, failure: { error in
-                self.showAlert(title: "Sorry", message: error)
-                
-            }
-            )
+                self.showAlert(title: "Sorry", errorMessage: error)
+            })
         default:
             break
         }
@@ -1088,9 +1070,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     
     //MARK: - Show SelectIntegratedServicesViewController method
     func showIntegratedServicesVC() {
-        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "SelectIntegratedServices") as! SelectIntegratedServicesViewController
+        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: .integratedServicesVC) as! SelectIntegratedServicesViewController
         destinatioVC.chooseSuggestKPIVC = self
-        
         destinatioVC.saleForceKPIArray = self.saleForceKPIArray
         destinatioVC.quickBooksKPIArray = self.quickBooksKPIArray
         destinatioVC.googleAnalyticsKPIArray = self.googleAnalyticsKPIArray
@@ -1262,9 +1243,8 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate {
         }
         tableView.reloadData()
     }
-    func updateDoubleValue(number: Double?) {
-    }
     
+    func updateDoubleValue(number: Double?) { }
 }
 
 extension ChooseSuggestedKPITableViewController: UpdateTimeDelegate {

@@ -83,25 +83,26 @@ class LaunchViewController: UIViewController {
                 
         appDelegate.pinCodeVCPresenter.presentedFromBG = false
         appDelegate.pinCodeVCPresenter.presentPinCodeVC()
-    }   
-    
-    //MARK: - show alert function
-    func showAlert(title: String, errorMessage: String) {
-        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        present(alertController, animated: true, completion: nil)
-    }    
+    }
     
     func showTabBarVC() {
         
         appDelegate.loggedIn = true
         mainTabBar.selectedIndex = 0
         appDelegate.window?.rootViewController = mainTabBar
+        
+        if mainTabBar.teamListNavController.viewControllers.count >= 2,
+            let memberInfoVC = mainTabBar.teamListNavController.viewControllers[1] as? MemberInfoViewController
+        {
+            memberInfoVC.tableView.reloadData()
+        }
     }
     
     func presentStartVC() {
                 
         appDelegate.window?.rootViewController = signInUpViewController
-        signInUpViewController.signInViewController?.clearTextFields()
+        guard let signInViewController = signInUpViewController.signInViewController else { return }
+        signInViewController.clearTextFields()
+        signInViewController.toggleEnterByKeyButton(isEnabled: appDelegate.pinCodeAttempts > 0)
     }
 }

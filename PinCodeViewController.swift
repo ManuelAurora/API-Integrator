@@ -217,8 +217,6 @@ class PinCodeViewController: UIViewController
     
     fileprivate func toggleDeleteButton() {
         
-       // if dismissCompletion != nil { dismissCompletion!(); return }
-        
         let isPassCodeEmpty = pincodeLock.passcode.count == 0
         let title = isPassCodeEmpty ? TextForLabels.cancel : TextForLabels.delete
         

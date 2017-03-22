@@ -14,11 +14,20 @@ class InviteTableViewController: UITableViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var numberOfInvationsLAbel: UILabel!
     
+    var stateMachine = UserStateMachine.shared
     var model: ModelCoreKPI!
     var invitePerson: Profile!
     var typeOfAccount = TypeOfAccount.Manager
-    
     var numberOfInvations = 0
+    var email: String?
+    var password: String?
+    
+    @IBAction func laterButtonTapped(_ sender: UIBarButtonItem) {
+        
+        guard let email = email, let password = password else { return }
+        
+        stateMachine.logInWith(email: email, password: password)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,18 +76,20 @@ class InviteTableViewController: UITableViewController {
     //MARK: - Invite button did taped
     func tapInviteButton() {
         if numberOfInvations < 1 {
-            showAlert(title: "Error", message: "You have not more invations!")
+            showAlert(title: "Error", errorMessage: "You haven't more invitations!")
             return
         }
         if emailTextField.text == "" {
-            showAlert(title: "Error", message: "Field(s) are emty!")
+            showAlert(title: "Error", errorMessage: "Field(s) are empty!")
             return
         }
-        if emailTextField.text!.range(of: "@") == nil || (emailTextField.text!.components(separatedBy: "@")[0].isEmpty) ||  (emailTextField.text!.components(separatedBy: "@")[1].isEmpty) {
-            showAlert(title: "Oops", message: "Invalid E-mail adress")
-            return
+        
+        if !validate(email: emailTextField.text!, password: nil)
+        {
+            showAlert(title: "Error occured", errorMessage: "Invalid E-mail adress")
         }
-        let alertController = UIAlertController(title: "Send invation", message: "We’ll send an invation to \(emailTextField.text!)", preferredStyle: .alert)
+        
+        let alertController = UIAlertController(title: "Send invitation", message: "We’ll send an invitation to \(emailTextField.text!)", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alertController.addAction(UIAlertAction(title: "Send", style: .default, handler:{
             (action: UIAlertAction!) -> Void in
@@ -103,10 +114,10 @@ class InviteTableViewController: UITableViewController {
     func sendInvations() {
         
         let emailLowercased = emailTextField.text?.lowercased()
-        
         let inviteRequest = SendInvation(model: model)
+        
         inviteRequest.sendInvations(email: emailLowercased!, typeOfAccount: typeOfAccount, success: {number in
-            self.showAlert(title: "Congratulation!", message: "You send invation for \(self.emailTextField.text!)")
+            self.showAlert(title: "Congratulation!", errorMessage: "You send invitation to \(self.emailTextField.text!)")
             self.emailTextField.text = ""
             self.numberOfInvations = number
             self.numberOfInvationsLAbel.text = "\(self.numberOfInvations) invitations left"
@@ -114,38 +125,15 @@ class InviteTableViewController: UITableViewController {
             self.typeOfAccountLabel.text = self.typeOfAccount.rawValue
             self.tableView.reloadData()
         }, failure: { error in
-        self.showAlert(title: "Send invation error", message: error)
+            self.showAlert(title: "Error occured", errorMessage: error)
         })
-    }
-    
-    //MARK: - show alert function
-    func showAlert(title: String ,message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        self.present(alertController, animated: true, completion: nil)
     }
     
     //MARK: - prepare for navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "TabBarFromInvite" {
-            
-            let tabBarController = segue.destination as! MainTabBarViewController
-            
-            let dashboardNavigationViewController = tabBarController.viewControllers?[0] as! DashboardsNavigationViewController
-            let dashboardViewController = dashboardNavigationViewController.childViewControllers[0] as! KPIsListTableViewController
-            dashboardViewController.model = model
-            
-            let alertsNavigationViewController = tabBarController.viewControllers?[1] as! AlertsNavigationViewController
-            let alertsViewController = alertsNavigationViewController.childViewControllers[0] as! AlertsListTableViewController
-            alertsViewController.model = model
-            
-            let teamListNavigationViewController = tabBarController.viewControllers?[2] as! TeamListViewController
-            let teamListController = teamListNavigationViewController.childViewControllers[0] as! MemberListTableViewController
-            teamListController.model = model
-        }
-        
-        if segue.identifier == "TypeOfNewAccount" {
+        if segue.identifier == "TypeOfNewAccount"
+        {
             let destinationViewController = segue.destination as! TypeOfAccountTableViewController
             destinationViewController.typeOfAccount = self.typeOfAccount
             destinationViewController.InviteVC = self
@@ -160,7 +148,7 @@ class InviteTableViewController: UITableViewController {
             self.numberOfInvations = number
             self.numberOfInvationsLAbel.text = "\(self.numberOfInvations) invitations left"
         }, failure: { error in
-            self.showAlert(title: "Sorry!", message: error)
+            self.showAlert(title: "Sorry!", errorMessage: error)
         })
     }
     

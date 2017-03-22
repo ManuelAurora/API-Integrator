@@ -30,10 +30,6 @@ class PayPalAuthViewController: UIViewController {
         tableView.isScrollEnabled = false
         activateButton.isEnabled = false
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
     
     @IBAction func activateButtonDidTaped(_ sender: UIBarButtonItem) {
         checkAPICredentials()

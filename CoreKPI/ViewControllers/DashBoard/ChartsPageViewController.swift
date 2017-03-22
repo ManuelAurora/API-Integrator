@@ -14,12 +14,6 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     var kpi: KPI!
     var quickBooksDataManager = QuickBookDataManager.shared()
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        print("DEBUG: Did Appear")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         dataSource = self
@@ -27,16 +21,6 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         self.setViewControllers([getViewController(AtIndex: 0)] as [UIViewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
         self.view.backgroundColor = UIColor.white
         self.navigationController?.navigationBar.backgroundColor = UIColor.white    
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-      //TODO: quickBooksDataManager.balanceSheet.removeAll()
     }
     
     // MARK:- UIPageViewControllerDataSource Methods
@@ -67,9 +51,9 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     
     // MARK:- Other Methods
     func getViewController(AtIndex index: Int) -> UIViewController {
-        let webViewChartOneVC = storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewChartViewController
-        let webViewChartTwoVC = storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewChartViewController
-        let tableViewChartVC = storyboard?.instantiateViewController(withIdentifier: "TableViewController") as! TableViewChartController
+        let webViewChartOneVC = storyboard?.instantiateViewController(withIdentifier: .webViewController) as! WebViewChartViewController
+        let webViewChartTwoVC = storyboard?.instantiateViewController(withIdentifier: .webViewController) as! WebViewChartViewController
+        let tableViewChartVC  = storyboard?.instantiateViewController(withIdentifier: .chartTableVC)      as! TableViewChartController
         
         switch kpi.typeOfKPI {
         case .createdKPI:
@@ -783,18 +767,9 @@ extension ChartsPageViewController {
                 external.setValue(credential.oauthRefreshToken, forKey: "oauthRefreshToken")
                 external.setValue(credential.oauthTokenExpiresAt, forKey: "oauthTokenExpiresAt")
             }, failure: { error in
-                self.showAlert(title: "Sorry", message: error)
-            }
-            )
+                self.showAlert(title: "Sorry", errorMessage: error)
+            })
         }
         ))
     }
-    
-    //MARK: - Show alert method
-    func showAlert(title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alertController, animated: true, completion: nil)
-    }
-
 }

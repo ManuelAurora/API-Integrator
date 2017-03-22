@@ -36,7 +36,6 @@ class WebViewController: OAuthWebViewController {
 }
 
 // MARK: delegate
-
 extension WebViewController: UIWebViewDelegate
 {
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {

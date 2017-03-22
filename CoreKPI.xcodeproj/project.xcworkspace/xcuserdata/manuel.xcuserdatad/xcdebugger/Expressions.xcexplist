@@ -25,6 +25,14 @@
          contextName = "ChartsPageViewController.createDataFromRequest(success : ([(leftValue : String, centralValue : String, rightValue : String)]) -&gt; ()) -&gt; ():ChartsPageViewController.swift">
       </ContextState>
       <ContextState
+         contextName = "ChooseSuggestedKPITableViewController.(iterateEnum&lt;A where ...&gt; (A.Type) -&gt; AnyIterator&lt;A&gt;).(closure #1).(closure #1):ChooseSuggestedKPITableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "T.self">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "QuickBookDataManager.(doOAuthQuickbooks(() -&gt; ()) -&gt; ()).(closure #1):QuickBook.swift">
          <PersistentStrings>
             <PersistentString
@@ -40,10 +48,10 @@
                value = "kpi.oAuthTokenSecret">
             </PersistentString>
             <PersistentString
-               value = "$0.realmId">
+               value = "newQbKPI.oAuthTokenSecret">
             </PersistentString>
             <PersistentString
-               value = "newQbKPI.oAuthTokenSecret">
+               value = "$0.realmId">
             </PersistentString>
             <PersistentString
                value = "newQbKPI.oAuthToken">
@@ -147,10 +155,18 @@
          contextName = "QuickBookDataManager.saveNewEntities() -&gt; ():QuickBook.swift">
          <PersistentStrings>
             <PersistentString
-               value = "kpiRequestsToSave">
+               value = "listOfRequests">
             </PersistentString>
             <PersistentString
-               value = "listOfRequests">
+               value = "kpiRequestsToSave">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "LaunchViewController.viewDidLoad() -&gt; ():LaunchViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "userStateMachine.userStateInfo.usesPinCode ">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -189,14 +205,6 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "LaunchViewController.viewDidLoad() -&gt; ():LaunchViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "userStateMachine.userStateInfo.usesPinCode ">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "MemberListTableViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:MemberListTableViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -222,7 +230,10 @@
          contextName = "LaunchViewController.showTabBarVC() -&gt; ():LaunchViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "childViewControllers">
+               value = "mainTabBar.teamListNavController.viewControllers[1] as? MemberInfoViewController">
+            </PersistentString>
+            <PersistentString
+               value = "mainTabBar.teamListNavController.viewControllers.count">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -365,6 +376,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ChooseSuggestedKPITableViewController.(iterateEnum&lt;A where ...&gt; (A.Type) -&gt; AnyIterator&lt;A&gt;).(closure #1):ChooseSuggestedKPITableViewController.swift">
+      </ContextState>
+      <ContextState
          contextName = "KPIsListTableViewController.viewDidLoad() -&gt; ():KPIsListTableViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -439,10 +453,10 @@
                value = "memberProfilePhotoImage">
             </PersistentString>
             <PersistentString
-               value = "memberProfilePositionLabel">
+               value = "memberProfileNameLabel">
             </PersistentString>
             <PersistentString
-               value = "memberProfileNameLabel">
+               value = "memberProfilePositionLabel">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -582,21 +596,13 @@
                value = "kpi.integratedKPI.quickbooksKPI">
             </PersistentString>
             <PersistentString
-               value = "kpiValue!">
-            </PersistentString>
-            <PersistentString
                value = "tableViewChartVC.dataArray">
             </PersistentString>
             <PersistentString
-               value = "kpi.integratedKPI.requestJsonString!">
+               value = "kpiValue!">
             </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "PinCodeViewController.checkOut(pinCode : [String]) -&gt; ():PinCodeViewController.swift">
-         <PersistentStrings>
             <PersistentString
-               value = "appDelegate.pinCodeAttempts">
+               value = "kpi.integratedKPI.requestJsonString!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -605,6 +611,14 @@
          <PersistentStrings>
             <PersistentString
                value = "UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.pinCodeAttempts)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PinCodeViewController.checkOut(pinCode : [String]) -&gt; ():PinCodeViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate.pinCodeAttempts">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -620,13 +634,13 @@
          contextName = "MemberInfoViewController.updateMemberInfo() -&gt; ():MemberInfoViewController.swift">
          <PersistentStrings>
             <PersistentString
+               value = "memberProfileNameLabel.text">
+            </PersistentString>
+            <PersistentString
                value = "model.team[index].photo">
             </PersistentString>
             <PersistentString
                value = "memberProfilePositionLabel.text">
-            </PersistentString>
-            <PersistentString
-               value = "memberProfileNameLabel.text">
             </PersistentString>
             <PersistentString
                value = "model.team[index]">
@@ -715,6 +729,14 @@
             </PersistentString>
             <PersistentString
                value = "notificationCenter">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ChooseSuggestedKPITableViewController.iterateEnum&lt;A where ...&gt; (A.Type) -&gt; AnyIterator&lt;A&gt;:ChooseSuggestedKPITableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "T.Type">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -946,7 +968,7 @@
                value = "realmId[0].index(realmId[0].startIndex, offsetBy: 8)">
             </PersistentString>
             <PersistentString
-               value = "indexToEscape">
+               value = "url.absoluteString.removingPercentEncoding?.components(separatedBy: &quot;&amp;&quot;)">
             </PersistentString>
             <PersistentString
                value = "parameters?.filter({ $0.contains(&quot;realmId&quot;) })">
@@ -958,7 +980,7 @@
                value = "realmId[0].substring(from: index)">
             </PersistentString>
             <PersistentString
-               value = "url.absoluteString.removingPercentEncoding?.components(separatedBy: &quot;&amp;&quot;)">
+               value = "indexToEscape">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -969,7 +991,7 @@
                value = "dealId">
             </PersistentString>
             <PersistentString
-               value = "self.closeDate">
+               value = "properties[&quot;hubspot_owner_id&quot;] as? [String: Any]">
             </PersistentString>
             <PersistentString
                value = "self.sourseID">
@@ -987,10 +1009,10 @@
                value = "properties[&quot;closedate&quot;] as! Int">
             </PersistentString>
             <PersistentString
-               value = "properties[&quot;createdate&quot;] as? [String: Any]">
+               value = "self.closeDate">
             </PersistentString>
             <PersistentString
-               value = "properties[&quot;hubspot_owner_id&quot;] as? [String: Any]">
+               value = "properties[&quot;createdate&quot;] as? [String: Any]">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -998,7 +1020,7 @@
          contextName = "QuickBookDataManager.formListOfRequests(from : [(SettingName : String, value : Bool)]) -&gt; ():QuickBook.swift">
          <PersistentStrings>
             <PersistentString
-               value = "urlString">
+               value = "kpiRequestsToSave">
             </PersistentString>
             <PersistentString
                value = "oauthswift.client.credential">
@@ -1007,7 +1029,7 @@
                value = "kpi">
             </PersistentString>
             <PersistentString
-               value = "kpiRequestsToSave">
+               value = "urlString">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -1106,10 +1128,10 @@
          contextName = "MemberInfoViewController.viewDidLoad() -&gt; ():MemberInfoViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "memberProfileNameLabel">
+               value = "model.team[index].firstName!">
             </PersistentString>
             <PersistentString
-               value = "model.team[index].firstName!">
+               value = "securityButton.isHidden">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

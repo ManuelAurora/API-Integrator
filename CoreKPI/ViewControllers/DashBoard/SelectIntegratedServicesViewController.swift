@@ -36,11 +36,12 @@ class SelectIntegratedServicesViewController: UIViewController {
     
     @IBAction func buttonDidTaped(_ sender: UIButton) {
         
-        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ConfigureExternal") as! ExternalKPIViewController
+        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: .externalKPIVC) as! ExternalKPIViewController
         
         destinatioVC.ChoseSuggestedVC = chooseSuggestKPIVC
         
-        switch sender {
+        switch sender
+        {
         case saleforceButton:
             destinatioVC.serviceKPI = saleForceKPIArray
             destinatioVC.selectedService = .SalesForce

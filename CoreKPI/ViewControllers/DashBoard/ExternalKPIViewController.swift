@@ -46,16 +46,11 @@ class ExternalKPIViewController: OAuthViewController {
     var serviceKPI: [(SettingName: String, value: Bool)]!
     var tokenDelegate: UpdateExternalTokensDelegate!
     var settingDelegate: updateSettingsDelegate!
-    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = selectedService.rawValue + " KPI"
         tableView.tableFooterView = UIView(frame: .zero)        
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     @IBAction func didTapedSaveButton(_ sender: UIBarButtonItem) {
@@ -83,14 +78,8 @@ class ExternalKPIViewController: OAuthViewController {
             }
             doAuthService()
         } else {
-            showAlert(title: "Sorry!", message: "First you should select one or more KPI")
+            showAlert(title: "Sorry!", errorMessage: "First you should select one or more KPI")
         }
-    }
-    
-    func showAlert(title: String, message: String) {
-        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alertVC, animated: true, completion: nil)
     }
 }
 
@@ -111,7 +100,6 @@ extension ExternalKPIViewController: UITableViewDataSource {
         cell.accessoryType = serviceKPI[indexPath.row].value ? .checkmark : .none
         return cell
     }
-    
 }
 
 //MARK: - UITableViewDelegate methods
@@ -153,9 +141,8 @@ extension ExternalKPIViewController {
             //TODO:
             print(crededential.oauthToken)
         }, failure: { error in
-            self.showAlert(title: "Sorry!", message: error)
-        }
-        )
+            self.showAlert(title: "Sorry!", errorMessage: error)
+        })
     }
     
     //MARK: QuickBooks
@@ -166,7 +153,7 @@ extension ExternalKPIViewController {
             {                
                 navigationController.popToRootViewController(animated: true)
             }
-            //self.ChoseSuggestedVC.dismiss(animated: true, completion: nil)
+            
             self.quickBookDataManager.formListOfRequests(from: self.selectedQBKPIs)
             self.quickBookDataManager.fetchDataFromIntuit(isCreation: true)           
         }
@@ -190,15 +177,13 @@ extension ExternalKPIViewController {
             self.selectViewID(credential: credential)
         
         }, failure: { error in
-            self.showAlert(title: "Sorry", message: error)
-        }
-        )
+            self.showAlert(title: "Sorry", errorMessage: error)
+        })
     }
-    
     
     // MARK: PayPal
     func doOAuthPayPal(){
-        let payPalAuthVC = storyboard?.instantiateViewController(withIdentifier: "PayPalAuth") as! PayPalAuthViewController
+        let payPalAuthVC = storyboard?.instantiateViewController(withIdentifier: .payPalAuthVC) as! PayPalAuthViewController
         payPalAuthVC.ChooseSuggestedKPIVC = ChoseSuggestedVC
         payPalAuthVC.serviceKPI = serviceKPI
         payPalAuthVC.selectedService = selectedService
@@ -217,15 +202,13 @@ extension ExternalKPIViewController {
             for viewID in viewIDArray {
                 alertVC.addAction(UIAlertAction(title: viewID.webSiteUri, style: .default, handler: { (UIAlertAction) in
                     self.saveGoogleAnalyticsData(credential: credential, viewID: viewID)
-                }
-                ))
+                }))
             }
             alertVC.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             self.present(alertVC, animated: true, completion: nil)
         }, failure: { error in
-        self.showAlert(title: "Sorry", message: error)
-        }
-        )
+        self.showAlert(title: "Sorry", errorMessage: error)
+        })
     }
     
     //MARK: save google analytics data

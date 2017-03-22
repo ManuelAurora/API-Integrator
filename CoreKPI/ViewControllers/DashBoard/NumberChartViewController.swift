@@ -25,13 +25,4 @@ class NumberChartViewController: UIViewController {
     @IBOutlet weak var singleTodayNumber: UILabel!
     @IBOutlet weak var singleTodayValueAndPercent: UILabel!
     @IBOutlet weak var singleTodayArrow: UIImageView!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
 }

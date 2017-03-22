@@ -36,9 +36,9 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
         tableView.tableFooterView = UIView(frame: .zero)
         
         guard let qBMethod = qBMethod else { return }
+        
         switch qBMethod
         {
-            
         case .query:
             subscribeToNotification(named: .qBInvoicesRefreshed)
             
@@ -67,10 +67,6 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
         super.viewDidDisappear(animated)
         
         notificationCenter.removeObserver(self)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     func reloadTableView() {

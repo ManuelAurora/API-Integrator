@@ -20,12 +20,7 @@ class KPIsListTableViewController: UITableViewController {
     var model: ModelCoreKPI!
     var arrayOfKPI: [KPI] = []
     
-    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
-    
-    deinit {
-        print("DEBUG: DEINITIALIZED KPIList")
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,9 +28,9 @@ class KPIsListTableViewController: UITableViewController {
         if model.profile?.typeOfAccount != TypeOfAccount.Admin {
             self.navigationItem.rightBarButtonItem = nil
         }
-
+        
         let nc = NotificationCenter.default
-        nc.addObserver(forName:modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
+        nc.addObserver(forName: .modelDidChanged, object:nil, queue:nil, using:catchNotification)
         nc.addObserver(forName: .newExternalKPIadded, object: nil, queue: nil, using: catchNotification)
         
         //test ->
@@ -50,9 +45,9 @@ class KPIsListTableViewController: UITableViewController {
         tableView.addSubview(refreshControl!)
         
         self.navigationController?.hideTransparentNavigationBar()
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : OurColors.cyan]
         tableView.tableFooterView = UIView(frame: .zero)
-        tableView.backgroundColor = UIColor(red: 241/255, green: 241/255, blue: 241/255, alpha: 1.0)
+        tableView.backgroundColor = OurColors.gray
     }
     
     //Called, when long press occurred
@@ -72,11 +67,10 @@ class KPIsListTableViewController: UITableViewController {
         if let firstLoad = UserDefaults.standard.data(forKey: "firstLoad"),
             let _ = NSKeyedUnarchiver.unarchiveObject(with: firstLoad) as? Bool {
         } else {
-            let onboardingVC = storyboard?.instantiateViewController(withIdentifier: "OnboardingVC") as! OnboardingPageViewController
+            let onboardingVC = storyboard?.instantiateViewController(withIdentifier: .onboardViewController) as! OnboardingPageViewController
             present(onboardingVC, animated: true, completion: nil)
-            print("First load!")
             saveData()
-        }        
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -88,11 +82,6 @@ class KPIsListTableViewController: UITableViewController {
         let data: Bool = true
         let encodedData = NSKeyedArchiver.archivedData(withRootObject: data)
         UserDefaults.standard.set(encodedData, forKey: "firstLoad")
-        print("First loading mark saved in NSKeyedArchive")
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     // MARK: - Table view data source
@@ -130,7 +119,7 @@ class KPIsListTableViewController: UITableViewController {
             cell.reportButton.isHidden = true
             cell.ManagedByStack.isHidden = true
             let integratedKPI = arrayOfKPI[indexPath.row].integratedKPI
-            cell.KPIListHeaderLabel.text = integratedKPI?.kpiName            
+            cell.KPIListHeaderLabel.text = integratedKPI?.kpiName
             
         case .createdKPI:
             let createdKPI = arrayOfKPI[indexPath.row].createdKPI
@@ -165,23 +154,20 @@ class KPIsListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let destinationVC = storyboard?.instantiateViewController(withIdentifier: "PageVC") as! ChartsPageViewController
+        
+        let destinationVC = storyboard?.instantiateViewController(withIdentifier: .chartsViewController) as! ChartsPageViewController
         
         destinationVC.kpi = arrayOfKPI[indexPath.row]
-        navigationController?.pushViewController(destinationVC, animated: true)        
+        navigationController?.pushViewController(destinationVC, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        
         let selectCell = tableView.cellForRow(at: indexPath) as! KPIListTableViewCell
         if !selectCell.deleteButton.isHidden {
             return indexPath
-        } else {
-//            for i in 0..<arrayOfKPI.count {
-//                let index = IndexPath(item: i, section: 1)
-//                let cell = tableView.cellForRow(at: index) as! KPIListTableViewCell
-//                cell.deleteButton.isHidden = true
-//            }
         }
+        
         return indexPath
     }
     
@@ -238,10 +224,9 @@ class KPIsListTableViewController: UITableViewController {
             print("KPI with id \(kpiID) was deleted")
         }, failure: { error in
             print(error)
-            self.showAlert(title: "Sorry", message: error)
+            self.showAlert(title: "Sorry", errorMessage: error)
             self.loadKPIsFromServer()
-        }
-        )
+        })
     }
     
     //MARK: -  Pull to refresh method
@@ -264,10 +249,9 @@ class KPIsListTableViewController: UITableViewController {
         }, failure: { error in
             print(error)
             self.refreshControl?.endRefreshing()
-            self.showAlert(title: "Sorry!", message: error)
+            self.showAlert(title: "Sorry!", errorMessage: error)
             self.tableView.reloadData()
-        }
-        )
+        })
     }
     
     func loadExternal() {
@@ -279,39 +263,22 @@ class KPIsListTableViewController: UITableViewController {
                 arrayOfKPI.append(kpi)
             }
         } catch {
-            print("Fetching faild")
+            print("Fetching failed")
         }
-
     }
     
     //MARK: Load reports
     func loadReports() {
         let getReportRequest = GetReports(model: model)
         for kpi in arrayOfKPI {
-            getReportRequest.getReportForKPI(withID: kpi.id, success: {reports in
-                //kpi.createdKPI?.number.removeAll()
-//                var newNumbers: [(date: Date, number: Double)] = []
-//                var dict = report
-//                for _ in 0..<dict.count {
-//                    let report = dict.popFirst()
-//                    let dateDtring = report?.key
-//                    let value = report?.value
-//                    let dateFormatter = DateFormatter()
-//                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-//                    let date = dateFormatter.date(from: dateDtring!)
-//                    newNumbers.append((date!, value!)) //debug!
-//                }
-//                let reports = getReportRequest.filterReports(kpi: kpi, reports: newNumbers)
+            getReportRequest.getReportForKPI(withID: kpi.id, success: { reports in
                 kpi.createdKPI?.number = getReportRequest.filterReports(kpi: kpi, reports: reports)
                 self.tableView.reloadData()
                 let nc = NotificationCenter.default
-                nc.post(name: self.modelDidChangeNotification,
+                nc.post(name: .modelDidChanged,
                         object: nil,
-                        userInfo:["model": self.model])
-            },
-                                             failure: { error in
-                                                print(error)
-            })
+                        userInfo: nil)
+            }, failure: { error in })
         }
     }
     
@@ -324,35 +291,20 @@ class KPIsListTableViewController: UITableViewController {
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
             if self.arrayOfKPI.isEmpty {
-                self.showAlert(title: "Sorry", message: "No KPI!")
+                self.showAlert(title: "Sorry", errorMessage: "No KPI!")
             }
         }, failure: { error in
             print(error)
             self.refreshControl?.endRefreshing()
-            self.showAlert(title: "Sorry!", message: error)
+            self.showAlert(title: "Sorry!", errorMessage: error)
             self.tableView.reloadData()
         })
-    }
-    
-    //MARK: - Show alert method
-    func showAlert(title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alertController, animated: true, completion: nil)
     }
     
     //MARK: - CatchNotification
     func catchNotification(notification:Notification) -> Void {
         
-        if notification.name == modelDidChangeNotification {
-            guard let userInfo = notification.userInfo,
-                let model = userInfo["model"] as? ModelCoreKPI else {
-                    print("No userInfo found in notification")
-                    return
-            }
-            self.model.team = model.team
-            tableView.reloadData()
-        }
+        if notification.name == .modelDidChanged { tableView.reloadData() }
         else if notification.name == .newExternalKPIadded
         {
             refresh(sender: self)
@@ -381,12 +333,14 @@ class KPIsListTableViewController: UITableViewController {
 extension KPIsListTableViewController: updateKPIListDelegate {
     
     func addNewKPI(kpi: KPI) {
+        
         self.model.kpis.append(kpi)
         self.arrayOfKPI.append(kpi)
         self.tableView.reloadData()
     }
     
     func updateKPIList(kpiArray: [KPI]) {
+        
         self.model.kpis = kpiArray
         self.arrayOfKPI = kpiArray
         self.tableView.reloadData()
@@ -395,23 +349,15 @@ extension KPIsListTableViewController: updateKPIListDelegate {
 
 //MARK: - KPIListButtonCellDelegate methods
 extension KPIsListTableViewController: KPIListButtonCellDelegate {
-    func editButtonDidTaped(sender: UIButton) {
-        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ReportAndViewKPI") as! ReportAndViewKPITableViewController
-        destinatioVC.model = model
-        destinatioVC.kpiIndex = sender.tag
-        destinatioVC.buttonDidTaped = ButtonDidTaped.Edit
-        
-        destinatioVC.KPIListVC = self
-        navigationController?.pushViewController(destinatioVC, animated: true)
-    }
     
-    func reportButtonDidTaped(sender: UIButton) {
-        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "ReportAndViewKPI") as! ReportAndViewKPITableViewController
+    func userTapped(button: UIButton, edit: Bool) {
+        
+        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: .reportViewController) as! ReportAndViewKPITableViewController
         destinatioVC.model = model
-        destinatioVC.kpiIndex = sender.tag
-        destinatioVC.buttonDidTaped = ButtonDidTaped.Report
+        destinatioVC.kpiIndex = button.tag
+        destinatioVC.buttonDidTaped = edit ? ButtonDidTaped.Edit : ButtonDidTaped.Report
         destinatioVC.KPIListVC = self
-        navigationController?.pushViewController(destinatioVC, animated: true)
+        navigationController?.pushViewController(destinatioVC, animated: true)        
     }
     
     func memberNameDidTaped(sender: UIButton) {
@@ -423,7 +369,7 @@ extension KPIsListTableViewController: KPIListButtonCellDelegate {
             return
         }
         
-        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "MemberInfo") as! MemberInfoViewController
+        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: .memberViewController) as! MemberInfoViewController
         destinatioVC.model = model
         destinatioVC.navigationItem.rightBarButtonItem = nil
         let createdKPI = arrayOfKPI[sender.tag].createdKPI
@@ -435,13 +381,13 @@ extension KPIsListTableViewController: KPIListButtonCellDelegate {
                 return
             }
         }
-        showAlert(title: "Error", message: "Unknown member!")
+        showAlert(title: "Error", errorMessage: "Unknown member!")
         return
     }
     
     func deleteDidTaped(sender: UIButton) {
         let indexPath = IndexPath(item: sender.tag, section: 1)
-
+        
         deleteKPI(kpiID: model.kpis[indexPath.row].id)
         model.kpis.remove(at: indexPath.row)
         arrayOfKPI.remove(at: indexPath.row)

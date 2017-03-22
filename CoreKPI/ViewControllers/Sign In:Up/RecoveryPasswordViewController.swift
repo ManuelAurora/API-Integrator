@@ -17,23 +17,15 @@ class RecoveryPasswordViewController: UIViewController {
         super.viewDidLoad()
         
         self.sendButton.layer.borderWidth = 1.0
-        self.sendButton.layer.borderColor = UIColor(red: 124.0/255.0, green: 77.0/255.0, blue: 255.0/255.0, alpha: 1.0).cgColor
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+        self.sendButton.layer.borderColor = OurColors.violet.cgColor
     }
     
     @IBAction func tapSendButton(_ sender: Any) {
         
         let email = emailTextField.text?.lowercased()
         
-        if email == "" || email?.range(of: "@") == nil || (email?.components(separatedBy: "@")[0].isEmpty)! ||  (email?.components(separatedBy: "@")[1].isEmpty)!{
-            showAlert(title: "Oops", errorMessage: "Invalid E-mail adress")
-            return
-        } else {
-            recoveryPassword(email: email!)
-        }
+        if validate(email: email, password: nil) { recoveryPassword(email: email!) }
+        else { showAlert(title: "Error occured", errorMessage: "Invalid E-mail adress") }
     }
     
     func recoveryPassword(email: String) {
@@ -46,13 +38,6 @@ class RecoveryPasswordViewController: UIViewController {
                                          failure: { error in
                                             self.showAlert(title: "Sorry!", errorMessage: error)
         })
-    }
-    
-    //MARK: - show alert function
-    func showAlert(title: String, errorMessage: String) {
-        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        self.present(alertController, animated: true, completion: nil)
     }
 }
 

@@ -46,10 +46,6 @@ class AddReportTableViewController: UITableViewController {
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -72,7 +68,7 @@ class AddReportTableViewController: UITableViewController {
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
         
         if report == nil {
-            self.showAlert(title: "Error", description: "Add report value!")
+            self.showAlert(title: "Error", errorMessage: "Add report value!")
         } else {
             delegate = ReportAndViewVC
             delegate.updateDoubleValue(number: self.report)
@@ -92,15 +88,7 @@ class AddReportTableViewController: UITableViewController {
         
         let finalString = formatter.string(from: NSNumber(value: doubleFromString!))
         return finalString!
-    }
-    
-    //MARK: - Show alert
-    func showAlert(title: String, description: String) {
-        let alertController = UIAlertController(title: title, message: description, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
+    }    
 }
 
 extension AddReportTableViewController: UITextFieldDelegate {
@@ -166,7 +154,7 @@ extension AddReportTableViewController: UITextFieldDelegate {
             let numbersSize = replacedString.replacingOccurrences(of: ".", with: "").characters.count
             
             if numbersSize > maxNumberOfCharacter {
-                showAlert(title: "Warning", description: "So long number!")
+                showAlert(title: "Warning", errorMessage: "So long number!")
                 return false
             } else {
                 numberOfCharacters = numbersSize
@@ -189,7 +177,7 @@ extension AddReportTableViewController: UITextFieldDelegate {
                         numberOfCharactersLabel.text = "\(maxNumberOfCharacter-numberOfCharacters)"
                         return true
                     } else {
-                        showAlert(title: "Warning", description: "So long number!")
+                        showAlert(title: "Warning", errorMessage: "So long number!")
                         return false
                     }
                     
@@ -198,7 +186,7 @@ extension AddReportTableViewController: UITextFieldDelegate {
                 replacedString = originalString.replacingOccurrences(of: ",", with: "") + string.replacingOccurrences(of: ",", with: "")
                 let numbersSize = replacedString.replacingOccurrences(of: ".", with: "").characters.count
                 if numbersSize > maxNumberOfCharacter {
-                    showAlert(title: "Warning", description: "So long number!")
+                    showAlert(title: "Warning", errorMessage: "So long number!")
                     return false
                 } else {
                     report = Double(replacedString)
@@ -238,7 +226,7 @@ extension AddReportTableViewController: UITextFieldDelegate {
                         numberOfCharactersLabel.text = "\(maxNumberOfCharacter - numberOfCharacters)"
                         return true
                     } else {
-                        showAlert(title: "Warning", description: "So long number!")
+                        showAlert(title: "Warning", errorMessage: "So long number!")
                         return false
                     }
                 }
@@ -248,7 +236,7 @@ extension AddReportTableViewController: UITextFieldDelegate {
             let numbersSize = replacedString.replacingOccurrences(of: ".", with: "").characters.count
             
             if numbersSize > maxNumberOfCharacter {
-                showAlert(title: "Warning", description: "So long number!")
+                showAlert(title: "Warning", errorMessage: "So long number!")
                 return false
             } else {
                 report = Double(replacedString)
