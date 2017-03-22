@@ -35,8 +35,8 @@ class PinCodeViewController: UIViewController
     fileprivate let pincodeLock = PinCodeLock()
     private var isAnimationCompleted = true
     
-    weak var presenter: PinCodeVCPresenter?
-    var delegate: MemberInfoViewController?
+    weak var presenter: PinCodeVCPresenter!
+    weak var delegate: MemberInfoViewController!
     
     var dismissCompletion: (() -> Void)?
     var successCompletion: (() -> Void)?
@@ -48,10 +48,10 @@ class PinCodeViewController: UIViewController
     var model = ModelCoreKPI.modelShared
     
     
+    @IBOutlet var pincodePlaceholderViews: [PinCodePlaceholderView]!
     @IBOutlet weak private var infoLabel: UILabel!
     @IBOutlet weak fileprivate var deleteButton: UIButton!
     @IBOutlet weak private var placeholdersConstrainX: NSLayoutConstraint!
-    @IBOutlet fileprivate  var pinCodePlaceholderViews: [PinCodePlaceholderView]!
     
     @IBAction private func pinCodeButtonTapped(_ sender: PinCodeButton) {
         guard isAnimationCompleted == true else { return }
@@ -87,7 +87,7 @@ class PinCodeViewController: UIViewController
     }
     
     deinit {
-        print("DEBUG: Deinitialized")
+        print("DEBUG: PincodeVC Deinitialized")
     }
     
     convenience init(mode: PinMode) {
@@ -224,7 +224,7 @@ class PinCodeViewController: UIViewController
     }
     
     func clearAllPlaceholders() {
-        _ = pinCodePlaceholderViews.map { $0.animate(state: .empty) }
+        _ = pincodePlaceholderViews.map { $0.animate(state: .empty) }
     }
     
     func animateFailedLoginAttempt() {
@@ -249,12 +249,12 @@ extension PinCodeViewController: PinCodeLockDelegate
 {
     func addedValue(at index: Int) {
         
-        pinCodePlaceholderViews[index].animate(state: .filled)
+        pincodePlaceholderViews[index].animate(state: .filled)
     }
     
     func removedValue(at index: Int) {
         
-        pinCodePlaceholderViews[index].animate(state: .empty)
+        pincodePlaceholderViews[index].animate(state: .empty)
     }
     
     func handleAuthorizationBy(pinCode: [String]) {

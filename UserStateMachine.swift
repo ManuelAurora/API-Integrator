@@ -85,8 +85,7 @@ class UserStateMachine
                                     profile.typeOfAccount = typeOfAccount
                                     self.model.signedInUpWith(token: token, profile: profile)
                                     self.saveLocalToken()
-                                    self.userLoggedIn()
-                                    
+                                    self.userLoggedIn()                                    
         },
                                   failure: { error in
                                     print(error)

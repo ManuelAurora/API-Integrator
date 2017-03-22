@@ -34,6 +34,10 @@ class PinCodeVCPresenter
         mainWindow?.windowLevel = 1
     }
     
+    deinit {
+        print("DEBUG: PRESENTER DEINITIALIZED")
+    }
+    
     func presentPinCodeVC() {
         
         pinCodeController = PinCodeViewController(mode: .logIn)
@@ -44,14 +48,14 @@ class PinCodeVCPresenter
         secondaryWindow.makeKeyAndVisible()
         secondaryWindow.rootViewController = pinCodeController
         mainWindow?.windowLevel = 1
-        mainWindow?.endEditing(true)        
+        mainWindow?.endEditing(true)
         
         pinCodeController.logOutCompletion = { [weak self] in
             self?.mainWindow?.windowLevel = 1
             self?.mainWindow?.makeKeyAndVisible()
             self?.animateDismissal()
             self?.stateMachine.logOut()
-            self?.launchController.dismiss(animated: true, completion: nil)            
+            self?.launchController.dismiss(animated: true, completion: nil)
         }
         
         pinCodeController.cancelledFromBGCompletion = { [weak self] in
@@ -63,7 +67,7 @@ class PinCodeVCPresenter
         
         pinCodeController.dismissCompletion = { [weak self] in
             self?.mainWindow?.windowLevel = 1
-            self?.mainWindow?.makeKeyAndVisible()            
+            self?.mainWindow?.makeKeyAndVisible()
             self?.animateDismissal()
             self?.launchController.presentStartVC()
         }

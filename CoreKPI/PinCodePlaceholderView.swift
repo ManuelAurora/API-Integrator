@@ -45,6 +45,10 @@ class PinCodePlaceholderView: UIView
         setupView()
     }
     
+    deinit {
+        print("DEBUG: Placeholders deinitialized")
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }

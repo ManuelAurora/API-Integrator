@@ -15,6 +15,8 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     var memberProfilePhotoImage = UIImageView()
     var memberProfileNameLabel = UILabel()
     var memberProfilePositionLabel = UILabel()
+    var notificationCenter = NotificationCenter.default
+    
     
     @IBOutlet weak var responsibleForButton: UIButton!
     @IBOutlet weak var myKPIsButton: UIButton!
@@ -32,19 +34,14 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     
     var updateModelDelegate: updateModelDelegate!
     
+    deinit {
+        notificationCenter.removeObserver(self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(MemberInfoViewController.reloadTableView),
-                                               name: .modelDidChanged,
-                                               object: nil)
-        
-        //Subscribed for security switcher
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(MemberInfoViewController.changeSecuritySettings),
-                                               name:  .userTappedSecuritySwitch,
-                                               object: nil)
+        subscribeNotifications()
         
         let nib = UINib(nibName: "UserInfoTableViewCell", bundle: nil)
         
@@ -296,6 +293,21 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         
         tableView?.reloadData()
         updateMemberInfo()
+    }
+    
+    private func subscribeNotifications() {
+        
+        notificationCenter.addObserver(self,
+                                               selector: #selector(MemberInfoViewController.reloadTableView),
+                                               name: .modelDidChanged,
+                                               object: nil)
+        
+        //Subscribed for security switcher
+        notificationCenter.addObserver(self,
+                                               selector: #selector(MemberInfoViewController.changeSecuritySettings),
+                                               name:  .userTappedSecuritySwitch,
+                                               object: nil)
+
     }
     
     private func updateMemberInfo() {

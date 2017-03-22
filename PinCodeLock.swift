@@ -19,7 +19,7 @@ class PinCodeLock
     var passcode = [String]()
     var attempts = PinLockConfiguration.attempts
     
-    var delegate: PinCodeLockDelegate?
+    weak var delegate: PinCodeLockDelegate!
     
     private var currentIndex: Int {
         return passcode.count > 0 ? passcode.count - 1 : 0

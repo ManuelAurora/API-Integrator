@@ -135,6 +135,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "PinCodeViewController.viewDidLoad() -&gt; ():PinCodeViewController.swift">
+      </ContextState>
+      <ContextState
          contextName = "MemberInfoViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:MemberInfoViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -220,6 +223,9 @@
                value = "model.team[indexPath.row]">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PinCodeViewController.deleteButtonTapped(UIButton) -&gt; ():PinCodeViewController.swift">
       </ContextState>
       <ContextState
          contextName = "MemberEditViewController.viewDidLoad() -&gt; ():MemberEditViewController.swift">
@@ -343,6 +349,17 @@
          contextName = "HubSpotManager.getDealsFrom(json : [String : Any]) -&gt; [HSDeal]:HubspotManager.swift">
       </ContextState>
       <ContextState
+         contextName = "UIImageView.(downloadedFrom(url : URL, contentMode : UIViewContentMode) -&gt; ()).(closure #1):UIImageExtension.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "httpURLResponse.statusCode">
+            </PersistentString>
+            <PersistentString
+               value = "url">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "QBIncomeProfitKPI.checkValuesAreFilled() -&gt; ():QuickBookHelpers.swift">
          <PersistentStrings>
             <PersistentString
@@ -394,6 +411,9 @@
                value = "model">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PinCodeViewController.__deallocating_deinit:PinCodeViewController.swift">
       </ContextState>
       <ContextState
          contextName = "QuickBookDataManager.createNewEntityForArrayOf(type : QuickBookDataManager.ResultArrayType) -&gt; ():QuickBook.swift">
@@ -704,6 +724,17 @@
       </ContextState>
       <ContextState
          contextName = "HubSpotManager.getContactsFrom(json : [String : Any]) -&gt; [HSContact]:HubspotManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "GetMemberList.parsingJson(json : NSDictionary) -&gt; [Team]?:GetMemberList.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "userData[&quot;photo&quot;] as? String">
+            </PersistentString>
+            <PersistentString
+               value = "photoServer + (userData[&quot;photo&quot;] as? String)!">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "HubSpotManager.showContactsFromVisits() -&gt; [HSContact]:HubspotManager.swift">
@@ -1022,6 +1053,14 @@
             </PersistentString>
             <PersistentString
                value = "properties[&quot;createdate&quot;] as? [String: Any]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PinCodeVCPresenter.presentPinCodeVC() -&gt; ():PinCodeVCPresenter.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "pinCodeController">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
