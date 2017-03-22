@@ -6,6 +6,8 @@
 //                {number: "Week 5", rate: numFive}
 //                ];
 
+//var lable = "Label";
+
 function pie(w, h, data) {
     var margin = 10;
     var width = w,
@@ -43,7 +45,7 @@ function pie(w, h, data) {
      var title = svg_wraper
      	.append('div')
      		.attr('class', 'chart-title')
-     		.text('Weekly')
+     		.text(lable)
     
     var tooltip_pie = d3.select('.chart-wrapper_pie .tooltip.tooltip-pie');
     

@@ -27,8 +27,8 @@ class WebViewChartViewController: UIViewController {
     var header: String = " "
     
     //data for charts
-    var pointData:[(country: String, life: Double, population: Int, gdp: Int, color: String, kids: Double, median_age: Double)]!
-    
+    var pieChartData: [(number: String, rate: Int)]!
+    var pointChartData: [(country: String, life: Double, population: Int, gdp: Int, color: String, kids: Double, median_age: Double)]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -151,30 +151,30 @@ class WebViewChartViewController: UIViewController {
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + js2! + downOfJsFile + "</script>", baseURL: nil)
         }
     }
-
-//    private func getRandomValues() -> String {
-//        let numOne = 200
-//        let numTwo = 150
-//        let numThree = 200
-//        let numFour = 300
-//        let numFive = 200
-//        
-//        var array = [numOne, numTwo, numThree, numFour, numFive]
-//        
-//        let random = Int(arc4random_uniform(4))
-//        array[random] = Int(arc4random_uniform(500))
-//        
-//        return "var numOne = \(array[0]); var numTwo = \(array[1]); var numThree = \(array[2]); var numFour = \(array[3]); var numFive = \(array[4]);"
-//    }
     
     private func generateDataForJS() -> String {
         switch typeOfChart {
         case .PieChart:
-            return "var data_pie = [{number: 'Week 1', rate: 200},{number: 'Week 2', rate: 150},{number: 'Week 3', rate: 200},{number: 'Week 4', rate: 300},{number: 'Week 5', rate: 200}];"
+            //TODO: Remove test data
+            //->Debug
+            pieChartData = [("Value 1", 200), ("Value 2", 150), ("Value 3", 200), ("Value 4", 300), ("Value 5", 200)]
+            header = "This is Pie"
+            //<-Debug
+            var dataForJS = "var lable = '\(header)'; var data_pie = ["
+            
+            for (index,item) in pieChartData.enumerated() {
+                if index > 0 {
+                    dataForJS += ","
+                }
+                let pieData = "{number: '\(item.number)', rate: \(item.rate)}"
+                dataForJS += pieData
+            }
+            dataForJS += "];"
+            return dataForJS
         case .PointChart:
             //TODO: Remove test data
             //->Debug
-            pointData = [
+            pointChartData = [
                 ("Algeria",70.6,35468208,6300,"blue",2.12,26.247),
                 ("Belgium",80,10754056,32832,"green", 1.76,41.301),
                 ("France",81.3,63125894,29691,"green",1.92,40.112),
@@ -190,7 +190,7 @@ class WebViewChartViewController: UIViewController {
             //<-Debug
             var dataForJS = "var label = '\(header)'; var pointJson = ["
             
-            for (index,item) in pointData.enumerated() {
+            for (index,item) in pointChartData.enumerated() {
                 if index > 0 {
                     dataForJS += ","
                 }
