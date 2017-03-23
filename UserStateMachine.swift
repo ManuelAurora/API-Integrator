@@ -22,10 +22,9 @@ class UserStateMachine
     //MARK: *Properties
     //Private instance properties section
     private let notificationCenter = NotificationCenter.default
-    private let appDelegate = UIApplication.shared .delegate as! AppDelegate
-    private var usersPin: [String]? {
-        return UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCode) as? [String]
-    }
+    private lazy var appDelegate: AppDelegate = {
+        return UIApplication.shared.delegate as! AppDelegate
+    }()
     
     //Class-static section
     static let shared = UserStateMachine()
@@ -33,7 +32,20 @@ class UserStateMachine
     //Open instance properties section
     let model = ModelCoreKPI.modelShared
     var userStateInfo = UserStateInfo()
+    var usersPin: [String]? {
+        let pin = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCode) as? [String]
+        return pin
+    }
     
+    var pinCodeAttempts: Int {
+        get {
+            return UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCodeAttempts) as? Int ?? 0
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.pinCodeAttempts)
+        }
+    }
+
     //MARK: *Initializers
     init() {
         subscribeToNotifications()
@@ -129,7 +141,7 @@ class UserStateMachine
     
     private func userLoggedIn() {
         
-        appDelegate.loggedIn   = true
+        pinCodeAttempts = usersPin != nil ? PinLockConfiguration.attempts : 0
         userStateInfo.loggedIn = true       
         userStateInfo.haveLocalToken = true
         notificationCenter.post(name: .userLoggedIn, object: nil)
@@ -141,7 +153,6 @@ class UserStateMachine
         
         let context = appDelegate.persistentContainer.viewContext
         
-        appDelegate.loggedIn         = false
         userStateInfo.loggedIn       = false
         userStateInfo.haveLocalToken = false
         userStateInfo.usesPinCode    = false
@@ -183,8 +194,14 @@ class UserStateMachine
         UserDefaults.standard.set(model.token, forKey: UserDefaultsKeys.token)
     }
     
+    func setNew(pincode: [String]?) {
+        
+        UserDefaults.standard.set(pincode, forKey: UserDefaultsKeys.pinCode)
+        pinCodeAttempts = PinLockConfiguration.attempts
+    }
+    
     //Notifications handlers
-    @objc private func userSetPin() { userStateInfo.usesPinCode = true; appDelegate.loggedIn = true }
+    @objc private func userSetPin() { userStateInfo.usesPinCode = true }
     
     @objc private func userRemovedPin() { userStateInfo.usesPinCode = false }
     

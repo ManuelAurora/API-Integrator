@@ -87,8 +87,7 @@ class LaunchViewController: UIViewController {
     
     func showTabBarVC() {
         mainTabBar.applyInitialSettings()
-        show(mainTabBar)
-        appDelegate.loggedIn = true
+        show(mainTabBar)        
         mainTabBar.selectedIndex = 0
         userStateMachine.makeLoaded()
         
@@ -112,7 +111,7 @@ class LaunchViewController: UIViewController {
         guard let signInViewController = signInUpViewController.signInViewController else { return }
         
         signInViewController.clearTextFields()
-        signInViewController.toggleEnterByKeyButton(isEnabled: appDelegate.pinCodeAttempts > 0)
+        signInViewController.toggleEnterByKeyButton(isEnabled: userStateMachine.pinCodeAttempts > 0)
     }
     
     private func show(_ viewController: UIViewController) {

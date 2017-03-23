@@ -16,7 +16,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     var memberProfileNameLabel = UILabel()
     var memberProfilePositionLabel = UILabel()
     var notificationCenter = NotificationCenter.default
-    
+    var stateMachine = UserStateMachine.shared
     
     @IBOutlet weak var responsibleForButton: UIButton!
     @IBOutlet weak var myKPIsButton: UIButton!
@@ -26,10 +26,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     var model: ModelCoreKPI!
     var index: Int!
     var securityCellIndexPath = IndexPath()
-    var usersPin: [String]? {
-        return UserDefaults.standard.value(forKey: "PinCode") as? [String]
-    }
-    
+        
     weak var memberListVC: MemberListTableViewController!
     
     var updateModelDelegate: updateModelDelegate!
@@ -179,7 +176,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                 cell.headerCellLabel.text = "Security"
                 cell.securitySwitch.isHidden = false
                 cell.dataCellLabel.text = "Pin code lock"
-                cell.securitySwitch.isOn = usersPin == nil ? false : true
+                cell.securitySwitch.isOn = stateMachine.usersPin == nil ? false : true
                 securityCellIndexPath = indexPath
                 
             default:
@@ -205,7 +202,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             case 3:
                 cell.headerCellLabel.text = "Security"
                 cell.securitySwitch.isHidden = false
-                cell.securitySwitch.isOn = usersPin == nil ? false : true
+                cell.securitySwitch.isOn = stateMachine.usersPin == nil ? false : true
                 securityCellIndexPath = indexPath
                 
             default:
@@ -277,7 +274,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func changeSecuritySettings() {        
         
-        if usersPin == nil
+        if stateMachine.usersPin == nil
         {
             let pinViewController = PinCodeViewController(mode: .createNewPin)
             pinViewController.delegate = self

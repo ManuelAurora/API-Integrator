@@ -46,7 +46,7 @@ class PinCodeViewController: UIViewController
     var mode: PinMode?
     var confirmed = false
     var model = ModelCoreKPI.modelShared
-    
+    let stateMachine = UserStateMachine.shared
     
     @IBOutlet var pincodePlaceholderViews: [PinCodePlaceholderView]!
     @IBOutlet weak private var infoLabel: UILabel!
@@ -123,43 +123,41 @@ class PinCodeViewController: UIViewController
     
     func createNew(pinCode: [String]) {
         
-        if pinToConfirm == pinCode {
-            UserDefaults.standard.set(pinCode, forKey: UserDefaultsKeys.pinCode)
+        if pinToConfirm == pinCode
+        {
+            stateMachine.setNew(pincode: pinCode)
             NotificationCenter.default.post(name: .userAddedPincode, object: nil)
             dismiss(animated: true, completion: nil)
         }
-        else if pincodeLock.attempts > 1 {
+        else if pincodeLock.attempts > 1
+        {
             infoLabel.text = TextForLabels.tryAgain
             pincodeLock.passcode.removeAll()
             pincodeLock.attempts -= 1
             clearAllPlaceholders()
             animateFailedLoginAttempt()
         }
-        else {
-            
-            if let presenter = delegate {
+        else
+        {
+            if let presenter = delegate
+            {
                 let cell = presenter.tableView.cellForRow(at: presenter.securityCellIndexPath) as! MemberInfoTableViewCell
                 cell.securitySwitch.isOn = false
             }
-            
             dismiss(animated: true, completion: nil)
         }
     }
     
     private func check(_ pinCode: [String]) -> Bool {
         
-        let usersPin = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCode) as? [String] ?? []
-        
-        return pinCode == usersPin
+        return pinCode == stateMachine.usersPin!
     }
     
     fileprivate func checkOut(pinCode: [String]) {
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if !check(pinCode) {  stateMachine.pinCodeAttempts -= 1 }
         
-        if !check(pinCode) { appDelegate.pinCodeAttempts -= 1 }
-        
-        if appDelegate.pinCodeAttempts > 0 {
+        if stateMachine.pinCodeAttempts > 0 {
             
             isAnimationCompleted  = false            
             
@@ -205,7 +203,7 @@ class PinCodeViewController: UIViewController
                 if presenter!.presentedFromBG {
                     logOutCompletion!()
                 }
-                else if appDelegate.pinCodeAttempts <= 0 {
+                else if stateMachine.pinCodeAttempts <= 0 {
                     logOutCompletion!()
                 }
                 else {

@@ -30,7 +30,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         super.viewWillAppear(animated)
         
         configure(buttons: [signInButton, enterByKeyButton])
-        toggleEnterByKeyButton(isEnabled: appDelegate.pinCodeAttempts > 0)
+        toggleEnterByKeyButton(isEnabled: stateMachine.pinCodeAttempts > 0)
     }    
     
     //MARK: - UITextFieldDelegate method

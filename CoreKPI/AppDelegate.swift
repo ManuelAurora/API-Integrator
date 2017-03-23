@@ -16,25 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     var launchViewController: LaunchViewController!
-    var usersPin: [String]? {
-        let pin = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCode) as? [String]
-        return pin
-    }
-    
-    var loggedIn = false {
-        didSet {
-            pinCodeAttempts = (loggedIn && usersPin != nil) ? PinLockConfiguration.attempts : 0
-        }
-    }    
-    
-    var pinCodeAttempts: Int {
-        get {
-            return UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCodeAttempts) as? Int ?? 0
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.pinCodeAttempts)
-        }
-    }
+    let stateMachine = UserStateMachine.shared
     
     lazy var pinCodeVCPresenter: PinCodeVCPresenter = {
         
@@ -45,8 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {        
         
-        pinCodeAttempts = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCodeAttempts) as! Int? ?? 0
-        
+        //stateMachine.pinCodeAttempts = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCodeAttempts) as! Int? ?? 0        
         // Override point for customization after application launch.
         
         //NavigationBar style
@@ -110,7 +91,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NotificationCenter.default.post(name: .appDidEnteredBackground, object: nil)
         
-        if loggedIn && usersPin != nil {
+        if stateMachine.userStateInfo.loggedIn && stateMachine.usersPin != nil {
             pinCodeVCPresenter.presentPinCodeVC()
             pinCodeVCPresenter.presentedFromBG = true           
         }
