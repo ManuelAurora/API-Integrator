@@ -252,7 +252,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
             
             self.navigationController!.popViewController(animated: true)
         } else {
-            showAlert(title: "Warning", message: "Profile not changed")
+            showAlert(title: "Warning", errorMessage: "Profile not changed")
         }
         
     }
@@ -269,7 +269,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                     userInfo:nil)
             _ = self.navigationController?.popViewController(animated: true)
         }, failure: { error in
-            self.showAlert(title: "Error", message: error)
+            self.showAlert(title: "Error", errorMessage: error)
         }
         )
     }
@@ -284,7 +284,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                                     success()
         },
                                  failure: { error in
-                                    self.showAlert(title: "Error", message: error)
+                                    self.showAlert(title: "Error", errorMessage: error)
         }
         )
     }
@@ -316,13 +316,6 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
             print(error)
             return
         }
-    }
-    
-    //MARK: - Show alert method
-    func showAlert(title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alertController, animated: true, completion: nil)
     }
     
     // MARK: - Navigation
