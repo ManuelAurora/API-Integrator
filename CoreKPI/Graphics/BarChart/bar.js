@@ -44,7 +44,7 @@ svg.append("text")
 .attr("fill", "#ffffff")
 .style("font-size", "22px")
 .style("font-family", "Arial")
-.text("Converter Leads");
+.text(label);
 
 // размер осей
 var svg__axis = svg
