@@ -1,4 +1,4 @@
-//
+
 //  MainTabBarViewController.swift
 //  CoreKPI
 //
@@ -65,11 +65,11 @@ class MainTabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        applyInitialSettings()
+        
     }
         
     //MARK: *Private functions
-    private func applyInitialSettings() {
+    func applyInitialSettings() {
               
         dashboardViewController.model = model
         alertsViewController.model    = model

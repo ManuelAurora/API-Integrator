@@ -16,11 +16,10 @@
                 <outlet property="infoLabel" destination="Kje-EW-Od6" id="vOs-Am-0cR"/>
                 <outlet property="placeholdersConstrainX" destination="2y3-4H-0HE" id="OHj-MJ-UPA"/>
                 <outlet property="view" destination="Snn-Mp-Otq" id="hEO-Hn-MqT"/>
-                <outletCollection property="pinCodePlaceholderViews" destination="nM9-1y-3e8" collectionClass="NSMutableArray" id="Nkw-oy-Nmo"/>
-                <outletCollection property="pinCodePlaceholderViews" destination="oOV-Pm-sgu" collectionClass="NSMutableArray" id="Nwh-u1-MWQ"/>
-                <outletCollection property="pinCodePlaceholderViews" destination="NqE-gS-HFr" collectionClass="NSMutableArray" id="iRf-ty-hd7"/>
-                <outletCollection property="pinCodePlaceholderViews" destination="b1N-uU-Iby" collectionClass="NSMutableArray" id="HgT-pK-i4V"/>
-                <outletCollection property="pincodePlaceholderViews" destination="NqE-gS-HFr" collectionClass="NSMutableArray" id="1Nv-0G-vQE"/>
+                <outletCollection property="pincodePlaceholderViews" destination="nM9-1y-3e8" collectionClass="NSMutableArray" id="2Js-fo-cz8"/>
+                <outletCollection property="pincodePlaceholderViews" destination="oOV-Pm-sgu" collectionClass="NSMutableArray" id="04I-Zc-Ghh"/>
+                <outletCollection property="pincodePlaceholderViews" destination="NqE-gS-HFr" collectionClass="NSMutableArray" id="Zzw-Dq-5RN"/>
+                <outletCollection property="pincodePlaceholderViews" destination="b1N-uU-Iby" collectionClass="NSMutableArray" id="eHx-Bs-WD5"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

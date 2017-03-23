@@ -58,7 +58,7 @@ class MemberListTableViewController: UITableViewController {
         if let memberNickname = model.team[indexPath.row].nickname {
             cell.userNameLabel.text = memberNickname
         } else {
-            cell.userNameLabel.text = "\(model.team[indexPath.row].firstName ?? "") \(model.team[indexPath.row].lastName ?? "")"
+            cell.userNameLabel.text = "\(model.team[indexPath.row].firstName!) \(model.team[indexPath.row].lastName!)"
         }
         
         cell.userPosition.text = model.team[indexPath.row].position
@@ -196,7 +196,7 @@ class MemberListTableViewController: UITableViewController {
                 let tag = userInfo["UIImageViewTag"] as? Int,
                 let image = userInfo["photo"] as? UIImage
                 else {
-                    print("No userInfo found in notification")
+                    print("No userInfo with Picture found in notification")
                     return
             }
             model.team[tag].setValue(UIImagePNGRepresentation(image), forKey: "photo")

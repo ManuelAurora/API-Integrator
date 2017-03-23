@@ -2542,15 +2542,15 @@ The main advantage of a computer audio player is that you can play your audio CD
                         <outlet property="deleteButton" destination="u7Z-Pc-621" id="rBa-tl-ytL"/>
                         <outlet property="infoLabel" destination="FPr-j3-kFv" id="eFF-G3-Nau"/>
                         <outlet property="placeholdersConstrainX" destination="4TW-2h-bry" id="Xfp-Kl-Qz5"/>
-                        <outletCollection property="pinCodePlaceholderViews" destination="qD4-xH-ooN" collectionClass="NSMutableArray" id="Web-nB-wN6"/>
-                        <outletCollection property="pinCodePlaceholderViews" destination="JlE-eV-McO" collectionClass="NSMutableArray" id="iP9-Wz-mZq"/>
-                        <outletCollection property="pinCodePlaceholderViews" destination="8NX-7B-uXa" collectionClass="NSMutableArray" id="wSg-Bd-839"/>
-                        <outletCollection property="pinCodePlaceholderViews" destination="pth-Fh-yi3" collectionClass="NSMutableArray" id="2AR-Cr-fwz"/>
+                        <outletCollection property="pincodePlaceholderViews" destination="qD4-xH-ooN" collectionClass="NSMutableArray" id="zbc-Ai-ZVH"/>
+                        <outletCollection property="pincodePlaceholderViews" destination="JlE-eV-McO" collectionClass="NSMutableArray" id="hkv-bs-Th9"/>
+                        <outletCollection property="pincodePlaceholderViews" destination="8NX-7B-uXa" collectionClass="NSMutableArray" id="xyj-0e-9kQ"/>
+                        <outletCollection property="pincodePlaceholderViews" destination="pth-Fh-yi3" collectionClass="NSMutableArray" id="AYo-1r-J4L"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hOM-qi-JNc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-338.39999999999998" y="-544.67766116941539"/>
+            <point key="canvasLocation" x="-338.39999999999998" y="-545.57721139430294"/>
         </scene>
         <!--Type of account-->
         <scene sceneID="iPx-ga-s2Y">

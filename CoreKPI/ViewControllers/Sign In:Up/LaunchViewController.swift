@@ -86,12 +86,13 @@ class LaunchViewController: UIViewController {
     }
     
     func showTabBarVC() {
-       
+        mainTabBar.applyInitialSettings()
         show(mainTabBar)
         appDelegate.loggedIn = true
         mainTabBar.selectedIndex = 0
         userStateMachine.makeLoaded()
         
+        //This will be executed, when user return from BG and left chosen profile opened
         if mainTabBar.teamListNavController.viewControllers.count >= 2,
             let memberInfoVC = mainTabBar.teamListNavController.viewControllers[1] as? MemberInfoViewController
         {
@@ -102,6 +103,11 @@ class LaunchViewController: UIViewController {
     func presentStartVC() {
         
         show(signInUpViewController)
+        
+        mainTabBar.teamListNavController.popToRootViewController(animated: false)
+        mainTabBar.alertsNavController.popToRootViewController(animated: false)
+        mainTabBar.supportNavController.popToRootViewController(animated: false)
+        mainTabBar.dashboardNavController.popToRootViewController(animated: false)
         
         guard let signInViewController = signInUpViewController.signInViewController else { return }
         

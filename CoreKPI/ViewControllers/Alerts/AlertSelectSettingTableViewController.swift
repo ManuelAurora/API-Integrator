@@ -145,16 +145,9 @@ class AlertSelectSettingTableViewController: UITableViewController {
     func catchNotification(notification:Notification) -> Void {
         
         if notification.name == modelDidChangeNotification {
-            guard let userInfo = notification.userInfo,
-                let _ = userInfo["model"] as? ModelCoreKPI else {
-                    print("No userInfo found in notification")
-                    return
-            }
-            let firstVC = navigationController?.viewControllers[0]
-            _ = navigationController?.popToViewController(firstVC!, animated: true)
+            _ = navigationController?.popToRootViewController(animated: true)
         }
-    }
-    
+    }    
 }
 
 //MARK: - UITextFieldDelegate method

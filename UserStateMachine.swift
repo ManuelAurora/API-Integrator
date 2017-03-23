@@ -147,6 +147,7 @@ class UserStateMachine
         userStateInfo.usesPinCode    = false
         
         _ = model.team.map { context.delete($0) }
+        model.team.removeAll()
         
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.token)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.pinCode)        
