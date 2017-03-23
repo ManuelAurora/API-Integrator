@@ -1,3 +1,4 @@
+
 var positiveBar = function(w, h, data, minVal, rangeRoundBands){
     var margin  = {top: 50, right: 30, bottom: 30, left: 30};
     var width   = w - (margin.left + margin.right);
@@ -220,22 +221,22 @@ var positiveBar = function(w, h, data, minVal, rangeRoundBands){
 }
 
 
-var data = [
-            {"name":"test",	"value":0,	"val":0},
-            {"name":"AA",	"value":250,	"val":230},
-            {"name":"AB",	"value":300,	"val":230},
-            {"name":"AC",	"value":220,	"val":200},
-            {"name":"AD",	"value":180,	"val":160},
-            {"name":"AE",	"value":200,	"val":180},
-            {"name":"AF",	"value":60,		"val":40},
-            {"name":"AG",	"value":260,	"val":200},
-            {"name":"AH",	"value":180,	"val":100},
-            {"name":"BA",	"value":150,	"val":100},
-            {"name":"BB",	"value":300,	"val":150},
-            {"name":"BC",	"value":220,	"val":190},
-            {"name":"BD",	"value":180,	"val":90},
-            {"name":"BE",	"value":120,	"val":100},
-            {"name":"BF",	"value":60,		"val":20},
-            {"name":"BG",	"value":260,	"val":50},
-            {"name":"BH",	"value":180,	"val":150}
-            ];
+//var data = [
+//            
+//            {"name":"AA",	"value":250,	"val":230},
+//            {"name":"AB",	"value":300,	"val":230},
+//            {"name":"AC",	"value":220,	"val":200},
+//            {"name":"AD",	"value":180,	"val":160},
+//            {"name":"AE",	"value":200,	"val":180},
+//            {"name":"AF",	"value":60,		"val":40},
+//            {"name":"AG",	"value":260,	"val":200},
+//            {"name":"AH",	"value":180,	"val":100},
+//            {"name":"BA",	"value":150,	"val":100},
+//            {"name":"BB",	"value":300,	"val":150},
+//            {"name":"BC",	"value":220,	"val":190},
+//            {"name":"BD",	"value":180,	"val":90},
+//            {"name":"BE",	"value":120,	"val":100},
+//            {"name":"BF",	"value":60,		"val":20},
+//            {"name":"BG",	"value":260,	"val":50},
+//            {"name":"BH",	"value":180,	"val":150}
+//            ];

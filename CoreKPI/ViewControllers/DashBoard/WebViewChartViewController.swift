@@ -32,6 +32,8 @@ class WebViewChartViewController: UIViewController {
     var lineChartData: (usdData: [(date: String, rate: String)], eurData: [(date: String, rate: String)])!
     var barChartData: [(value: String, val: String)] = []
     var funnelChartData: [(name: String, value: String)] = []
+    var positiveBarData: [(value: String, val: String)] = []
+    var areaChartData: [(date: String, kermit: String, piggy: String, gonzo: String, lol: String)] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -139,7 +141,7 @@ class WebViewChartViewController: UIViewController {
             let css = try? String(contentsOfFile: cssFile!, encoding: String.Encoding.utf8)
             let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
-            let downOfJsFile = "positiveBar(\(width), \(height), data, 180, 0.35);"
+            let downOfJsFile = generateDataForJS() + "positiveBar(\(width), \(height), data, 180, 0.35);"
             
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + js2! + downOfJsFile + "</script>", baseURL: nil)
         case .AreaChart:
@@ -152,7 +154,7 @@ class WebViewChartViewController: UIViewController {
             let css = try? String(contentsOfFile: cssFile!, encoding: String.Encoding.utf8)
             let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
-            let downOfJsFile = "stack_area(\(width) - 0, \(height), data_stack_area);"
+            let downOfJsFile = generateDataForJS() + "stack_area(\(width) - 0, \(height), data_stack_area);"
             
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + js2! + downOfJsFile + "</script>", baseURL: nil)
         }
@@ -235,8 +237,8 @@ class WebViewChartViewController: UIViewController {
                 if index > 0 {
                     dataForJS += ","
                 }
-                let pieData = "{date: new Date(\(item.date)), rate: \(item.rate)}"
-                dataForJS += pieData
+                let lineData = "{date: new Date(\(item.date)), rate: \(item.rate)}"
+                dataForJS += lineData
             }
             dataForJS += "]; var eurData = ["
             for (index,item) in lineChartData.eurData.enumerated() {
@@ -278,8 +280,8 @@ class WebViewChartViewController: UIViewController {
                 if index > 0 {
                     dataForJS += ","
                 }
-                let pieData = "{'name':'\(randomString(10))','value':\(item.value),'val':\(item.val)}"
-                dataForJS += pieData
+                let barData = "{'name':'\(randomString(10))','value':\(item.value),'val':\(item.val)}"
+                dataForJS += barData
             }
             dataForJS += "]"
             return dataForJS
@@ -300,12 +302,60 @@ class WebViewChartViewController: UIViewController {
             dataForJS += "];"
             return dataForJS
         case .PositiveBar:
-            return ""
+            //TODO: Remove test data
+            //->Debug
+            positiveBarData = [
+                ("250","230"),
+                ("300","230"),
+                ("220","200"),
+                ("180","160"),
+                ("200","180"),
+                ("60","40"),
+                ("260","200"),
+                ("180","100"),
+                ("150","100"),
+                ("300","150"),
+                ("220","190"),
+                ("180","90"),
+                ("120","100"),
+                ("60","20"),
+                ("260","50"),
+                ("180","150"),
+            ]
+            //<-Debug
+            var dataForJS = "var data = ["
+            for (index,item) in positiveBarData.enumerated() {
+                if index > 0 {
+                    dataForJS += ","
+                }
+                let positiveBar = "{'name': '\(randomString(10))','value': \(item.value),'val': \(item.val)}"
+                dataForJS += positiveBar
+            }
+            dataForJS += "];"
+            return dataForJS
         case .AreaChart:
-            return ""
+            //TODO: Remove test data
+            //->Debug
+            areaChartData = [
+                ("13-Oct-31","85.44","150","80.57","50"),
+                ("13-Nov-30","130","200.85","168.97","150"),
+                ("13-Dec-31","113.46","350.88","40.57","200"),
+                ("14-Jan-30","140.46","350.88","40.57","100")
+            ]
+            //<-Debug
+            var dataForJS = "var data_stack_area = ["
+            for (index,item) in areaChartData.enumerated() {
+                if index > 0 {
+                    dataForJS += ","
+                }
+                let areaChart = "{'date': '\(item.date)','Kermit': \(item.kermit),'piggy': \(item.piggy),'Gonzo': \(item.gonzo),'Lol': \(item.lol)}"
+                dataForJS += areaChart
+            }
+            dataForJS += "];"
+            return dataForJS
         }
     }
-    
+
     private func randomString(_ length: Int) -> String {
         
         let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
