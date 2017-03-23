@@ -21,33 +21,33 @@ svg.append("text")
 .style("font-family", "Arial")
 .text("Net Sales / Total Sales");
 // Данные для чарта
-var usdData = [
-               {date: new Date(2016, 12, 22), rate: 26.4},
-               {date: new Date(2016, 12, 23), rate: 29.2},
-               {date: new Date(2016, 12, 24), rate: 26.4},
-               {date: new Date(2016, 12, 25), rate: 26.45},
-               {date: new Date(2016, 12, 26), rate: 26.3},
-               {date: new Date(2016, 12, 27), rate: 26.87},
-               {date: new Date(2016, 12, 28), rate: 26.52}
-               ];
-var eurData = [
-               {date: new Date(2016, 12, 22), rate: 28.2},
-               {date: new Date(2016, 12, 23), rate: 28.3},
-               {date: new Date(2016, 12, 24), rate: 29.46},
-               {date: new Date(2016, 12, 25), rate: 27.95},
-               {date: new Date(2016, 12, 26), rate: 27.90},
-               {date: new Date(2016, 12, 27), rate: 27.9},
-               {date: new Date(2016, 12, 28), rate: 28.5}
-               ];
+//var usdData = [
+//               {date: new Date(2016, 12, 22), rate: 26.4},
+//               {date: new Date(2016, 12, 23), rate: 29.2},
+//               {date: new Date(2016, 12, 24), rate: 26.4},
+//               {date: new Date(2016, 12, 25), rate: 26.45},
+//               {date: new Date(2016, 12, 26), rate: 26.3},
+//               {date: new Date(2016, 12, 27), rate: 26.87},
+//               {date: new Date(2016, 12, 28), rate: 26.52}
+//               ];
+//var eurData = [
+//               {date: new Date(2016, 12, 22), rate: 28.2},
+//               {date: new Date(2016, 12, 23), rate: 28.3},
+//               {date: new Date(2016, 12, 24), rate: 29.46},
+//               {date: new Date(2016, 12, 25), rate: 27.95},
+//               {date: new Date(2016, 12, 26), rate: 27.90},
+//               {date: new Date(2016, 12, 27), rate: 27.9},
+//               {date: new Date(2016, 12, 28), rate: 28.5}
+//               ];
 
 var test = [
-            {date: new Date(2016, 12, 22), rate: 27.2},
-            {date: new Date(2016, 12, 23), rate: 27.3},
-            {date: new Date(2016, 12, 24), rate: 27.46},
-            {date: new Date(2016, 12, 25), rate: 29.95},
-            {date: new Date(2016, 12, 26), rate: 25.90},
-            {date: new Date(2016, 12, 27), rate: 26.9},
-            {date: new Date(2016, 12, 28), rate: 24.5}
+//            {date: new Date(2016, 12, 22), rate: 27.2},
+//            {date: new Date(2016, 12, 23), rate: 27.3},
+//            {date: new Date(2016, 12, 24), rate: 27.46},
+//            {date: new Date(2016, 12, 25), rate: 29.95},
+//            {date: new Date(2016, 12, 26), rate: 25.90},
+//            {date: new Date(2016, 12, 27), rate: 26.9},
+//            {date: new Date(2016, 12, 28), rate: 24.5}
             ];
 
 // // минимальные значения Y axis

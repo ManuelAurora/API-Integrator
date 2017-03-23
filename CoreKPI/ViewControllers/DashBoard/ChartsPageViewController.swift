@@ -132,7 +132,10 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
             //debug->
             tableViewChartVC.header = kpi.integratedKPI.kpiName!
             tableViewChartVC.index = 0
+            webViewChartOneVC.header = kpi.integratedKPI.kpiName!
+            webViewChartOneVC.index = 0
             //<-debug
+            
             
             switch (IntegratedServices(rawValue: kpi.integratedKPI.serviceName!))! {
                 
@@ -337,11 +340,19 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                         tableViewChartVC.tableView.reloadData()
                     })
                 case .TopChannelsBySessions:
-                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
+                   // tableViewChartVC.titleOfTable = ("Top Source","","Value")
                     createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
+                        var pieData: [(number: String, rate: String)] = []
+                        for item in dataForPresent {
+                            let pie: (number: String, rate: String) = (item.leftValue, item.rightValue)
+                            pieData.append(pie)
+                        }
+                        webViewChartOneVC.pieChartData = pieData
+                        webViewChartOneVC.refreshView()
+//                        tableViewChartVC.dataArray = dataForPresent
+//                        tableViewChartVC.tableView.reloadData()
                     })
+                    return webViewChartOneVC
                 case .RevenueTransactions:
                     tableViewChartVC.titleOfTable = ("Top Source","","Value")
                     createDataFromRequest(success: { dataForPresent in

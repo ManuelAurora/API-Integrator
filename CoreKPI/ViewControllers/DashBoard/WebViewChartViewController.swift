@@ -27,8 +27,10 @@ class WebViewChartViewController: UIViewController {
     var header: String = " "
     
     //data for charts
-    var pieChartData: [(number: String, rate: Int)]!
-    var pointChartData: [(country: String, life: Double, population: Int, gdp: Int, color: String, kids: Double, median_age: Double)]!
+    var pieChartData: [(number: String, rate: String)] = []
+    var pointChartData: [(country: String, life: String, population: String, gdp: String, color: String, kids: String, median_age: String)] = []
+    var lineChartData: (usdData: [(date: String, rate: String)], eurData: [(date: String, rate: String)])!
+    var barChartData: [(value: String, val: String)] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +39,10 @@ class WebViewChartViewController: UIViewController {
         webView.scrollView.bounces = false
         webView.backgroundColor = UIColor.white
         webView.frame = view.bounds
-        
+        createCharts()
+    }
+    
+    private func createCharts() {
         let tabBarHeight = self.tabBarController?.tabBar.frame.size.height
         let navigationBarHeight = self.navigationController?.navigationBar.frame.size.height
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
@@ -75,7 +80,7 @@ class WebViewChartViewController: UIViewController {
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
             
             let topOfJS = "var margin = {top: 50, right: 30, bottom: 30, left: 30}; var width = \(width) - margin.left - margin.right; var height = \(height) - margin.top - margin.bottom;" + generateDataForJS()
-        
+            
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + topOfJS + js2! + "</script>", baseURL: nil)
         case .LineChart:
             let htmlFile = Bundle.main.path(forResource:"Lines", ofType: "html")
@@ -87,7 +92,7 @@ class WebViewChartViewController: UIViewController {
             let css = try? String(contentsOfFile: cssFile!, encoding: String.Encoding.utf8)
             let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
-            let topOfJsFile = "var margin    = {top: 50, right: 30, bottom: 30, left: 30}; var width = \(width) - (margin.left + margin.right); var height = \(height) - (margin.top + margin.bottom);"
+            let topOfJsFile = "var margin    = {top: 50, right: 30, bottom: 30, left: 30}; var width = \(width) - (margin.left + margin.right); var height = \(height) - (margin.top + margin.bottom);" + generateDataForJS()
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + topOfJsFile + js2! + "</script>", baseURL: nil)
         case  .BarChart:
             let htmlFile = Bundle.main.path(forResource:"bar", ofType: "html")
@@ -157,8 +162,8 @@ class WebViewChartViewController: UIViewController {
         case .PieChart:
             //TODO: Remove test data
             //->Debug
-            pieChartData = [("Value 1", 200), ("Value 2", 150), ("Value 3", 200), ("Value 4", 300), ("Value 5", 200)]
-            header = "This is Pie"
+            //pieChartData = [("кусок 1", 499), ("Value 2", 150), ("Value 3", 200), ("Value 4", 300), ("Value 5", 200)]
+            //header = "This is Pie"
             //<-Debug
             var dataForJS = "var lable = '\(header)'; var data_pie = ["
             
@@ -175,16 +180,16 @@ class WebViewChartViewController: UIViewController {
             //TODO: Remove test data
             //->Debug
             pointChartData = [
-                ("Algeria",70.6,35468208,6300,"blue",2.12,26.247),
-                ("Belgium",80,10754056,32832,"green", 1.76,41.301),
-                ("France",81.3,63125894,29691,"green",1.92,40.112),
-                ("Honduras",72.9,7754687,3516,"firebrick",2.94,20.945),
-                ("Iran",73.1,74798599,12483,"coral",1.57,26.799),
-                ("Morocco",70.2,32272974,4263,"blue",2.12,26.215),
-                ("Russia",67.6,142835555,14207,"green",1.35,38.054),
-                ("Spain",81.6,46454895,26779,"green",1.42,40.174),
-                ("USA",78.5,313085380,41230,"firebrick",2,36.59),
-                ("Australia",82.1,22268384,34885,"violet",1.9,37.776)
+                ("Algeria","70.6","35468208","6300","blue","2.12","26.247"),
+                ("Belgium","80","10754056","32832","green", "1.76","41.301"),
+                ("France","81.3","63125894","29691","green","1.92","40.112"),
+                ("Honduras","72.9","7754687","3516","firebrick","2.94","20.945"),
+                ("Iran","73.1","74798599","12483","coral","1.57","26.799"),
+                ("Morocco","70.2","32272974","4263","blue","2.12","26.215"),
+                ("Russia","67.6","142835555","14207","green","1.35","38.054"),
+                ("Spain","81.6","46454895","26779","green","1.42","40.174"),
+                ("USA","78.5","313085380","41230","firebrick","2","36.59"),
+                ("Australia","82.1","22268384","34885","violet","1.9","37.776")
             ]
             header = "This is PointChart"
             //<-Debug
@@ -200,9 +205,83 @@ class WebViewChartViewController: UIViewController {
             dataForJS += "]"
             return dataForJS
         case .LineChart:
-            return ""
+            //TODO: Remove test data
+            //->Debug
+            lineChartData = (
+                [
+                    ("1482354000000", "26.4"),
+                    ("1482440400000", "29.2"),
+                    ("1482526800000", "26.4"),
+                    ("1482613200000", "26.45"),
+                    ("1482699600000", "26.3"),
+                    ("1482786000000", "26.87"),
+                    ("1482872400000", "26.52")
+                ],
+                [
+                    ("1482354000000", "28.2"),
+                    ("1482440400000", "28.3"),
+                    ("1482526800000", "29.46"),
+                    ("1482613200000", "27.95"),
+                    ("1482699600000", "27.90"),
+                    ("1482786000000", "27.9"),
+                    ("1482872400000", "28.5")
+                ])
+            header = "This is LineChart"
+            //<-Debug
+        
+            var dataForJS = "var usdData = ["
+            for (index,item) in lineChartData.usdData.enumerated() {
+                if index > 0 {
+                    dataForJS += ","
+                }
+                let pieData = "{date: new Date(\(item.date)), rate: \(item.rate)}"
+                dataForJS += pieData
+            }
+            dataForJS += "]; var eurData = ["
+            for (index,item) in lineChartData.eurData.enumerated() {
+                if index > 0 {
+                    dataForJS += ","
+                }
+                let lineData = "{date: \(item.date), rate: \(item.rate)}"
+                dataForJS += lineData
+            }
+            dataForJS += "];"
+            return dataForJS
         case .BarChart:
-            return "var data =  [{'name':'AA','value':-250,'val':-230},{'name':'AB','value':-300,'val':-230},{'name':'AC','value':-220,'val':-200},{'name':'AD','value':-180,'val':-160},{'name':'AE','value':200,'val':180},{'name':'AF','value':-60,'val':-40},{'name':'AG','value':-260,'val':-200},{'name':'AH','value':180,'val':100},{'name':'BA','value':-150,'val':-100},{'name':'BB','value':300,'val':150},{'name':'BC','value':-220,'val':-190},{'name':'BD','value':-180,'val':-90},{'name':'BE','value':120,'val':100},{'name':'BF','value':60,'val':20},{'name':'BG','value':260,'val':50},{'name':'BH','value':180,'val':150},{'name':null}]"
+            //TODO: Remove test data
+            //->Debug
+            barChartData =
+                [
+                    ("-250", "-230"),
+                    ("-300", "-230"),
+                    ("-220", "-200"),
+                    ("-180", "-160"),
+                    ("200", "180"),
+                    ("-60", "-40"),
+                    ("-260", "-200"),
+                    ("180", "100"),
+                    ("-150", "-100"),
+                    ("300", "150"),
+                    ("-220", "-190"),
+                    ("-180", "-90"),
+                    ("120", "100"),
+                    ("60", "20"),
+                    ("260", "50"),
+                    ("180", "150")
+                ]
+            header = "This is BarChart"
+            //<-Debug
+            
+            var dataForJS = "var data = ["
+            for (index,item) in barChartData.enumerated() {
+                if index > 0 {
+                    dataForJS += ","
+                }
+                let pieData = "{'name':'\(randomString(10))','value':\(item.value),'val':\(item.val)}"
+                dataForJS += pieData
+            }
+            dataForJS += "]"
+            return dataForJS
         case .Funnel:
             return ""
         case .PositiveBar:
@@ -210,6 +289,26 @@ class WebViewChartViewController: UIViewController {
         case .AreaChart:
             return ""
         }
+    }
+    
+    private func randomString(_ length: Int) -> String {
+        
+        let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        let len = UInt32(letters.length)
+        
+        var randomString = ""
+        
+        for _ in 0 ..< length {
+            let rand = arc4random_uniform(len)
+            var nextChar = letters.character(at: Int(rand))
+            randomString += NSString(characters: &nextChar, length: 1) as String
+        }
+        
+        return randomString
+    }
+    
+    func refreshView() {
+        createCharts()
     }
     
     override func didReceiveMemoryWarning() {
