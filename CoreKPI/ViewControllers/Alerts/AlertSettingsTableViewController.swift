@@ -17,8 +17,7 @@ class AlertSettingsTableViewController: UITableViewController {
     @IBOutlet weak var savaButton: UIBarButtonItem!
     
     var model: ModelCoreKPI!
-    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
-    
+       
     var typeOfDigit: TypeOfDigit = .Reminder
     var datePickerIsVisible = false
     
@@ -84,7 +83,7 @@ class AlertSettingsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         let nc = NotificationCenter.default
-        nc.addObserver(forName:modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
+        nc.addObserver(forName: .modelDidChanged, object:nil, queue:nil, using:catchNotification)
         
         createArrays()
         tableView.tableFooterView = UIView(frame: .zero)
@@ -564,7 +563,7 @@ class AlertSettingsTableViewController: UITableViewController {
                 request.addAlert(alert: alert, success: {
                     self.model.alerts.append(alert)
                     let nc = NotificationCenter.default
-                    nc.post(name: self.modelDidChangeNotification,
+                    nc.post(name: .modelDidChanged,
                             object: nil,
                             userInfo:["model": self.model])
                     self.navigationController!.popViewController(animated: true)
@@ -634,7 +633,7 @@ class AlertSettingsTableViewController: UITableViewController {
                 request.addReminder(reminder: reminder, success: {
                     self.model.reminders.append(reminder)
                     let nc = NotificationCenter.default
-                    nc.post(name: self.modelDidChangeNotification,
+                    nc.post(name: .modelDidChanged,
                             object: nil,
                             userInfo:nil)
                     self.navigationController!.popViewController(animated: true)
@@ -678,7 +677,7 @@ class AlertSettingsTableViewController: UITableViewController {
             let request = EditAlert(model: model)
             request.editAlert(alert: model.alerts[indexOfDigit], success: {
                 let nc = NotificationCenter.default
-                nc.post(name: self.modelDidChangeNotification,
+                nc.post(name: .modelDidChanged,
                         object: nil,
                         userInfo:["model": self.model])
                 self.navigationController!.popViewController(animated: true)
@@ -740,7 +739,7 @@ class AlertSettingsTableViewController: UITableViewController {
             let request = EditReminder(model: model)
             request.editReminder(reminder: model.reminders[indexOfDigit], success: {
                 let nc = NotificationCenter.default
-                nc.post(name: self.modelDidChangeNotification,
+                nc.post(name: .modelDidChanged,
                         object: nil,
                         userInfo:["model": self.model])
                 self.navigationController!.popViewController(animated: true)
@@ -927,7 +926,7 @@ class AlertSettingsTableViewController: UITableViewController {
     //MARK: - CatchNotification
     func catchNotification(notification:Notification) -> Void {
         
-        if notification.name == modelDidChangeNotification {
+        if notification.name == .modelDidChanged {
             _ = navigationController?.popToRootViewController(animated: true)
         }
     }

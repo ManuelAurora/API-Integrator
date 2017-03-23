@@ -16,8 +16,7 @@ class ReminderViewTableViewController: UITableViewController {
     var typeOfDigit: TypeOfDigit = .Reminder
     
     weak var AlertListVC: AlertsListTableViewController!
-    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,7 +28,7 @@ class ReminderViewTableViewController: UITableViewController {
         }
         
         let nc = NotificationCenter.default
-        nc.addObserver(forName:modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
+        nc.addObserver(forName: .modelDidChanged, object:nil, queue:nil, using:catchNotification)
         
         tableView.tableFooterView = UIView(frame: .zero)
     }
@@ -241,7 +240,7 @@ class ReminderViewTableViewController: UITableViewController {
     //MARK: - catchNotification
     func catchNotification(notification:Notification) -> Void {
         
-        if notification.name == modelDidChangeNotification {            
+        if notification.name == .modelDidChanged {            
             _ = navigationController?.popToRootViewController(animated: true)
         }
     }

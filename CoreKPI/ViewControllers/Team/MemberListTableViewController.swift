@@ -11,7 +11,6 @@ import UIKit
 class MemberListTableViewController: UITableViewController {
     
     var model: ModelCoreKPI!
-    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     let profilePhotoDownloadNotification = Notification.Name(rawValue:"ProfilePhotoDownloaded")
     
     var indexPath: IndexPath!
@@ -36,7 +35,7 @@ class MemberListTableViewController: UITableViewController {
         
         let nc = NotificationCenter.default
         nc.addObserver(forName: profilePhotoDownloadNotification, object:nil, queue:nil, using:catchNotification)
-        nc.addObserver(forName: modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
+        nc.addObserver(forName: .modelDidChanged, object:nil, queue:nil, using:catchNotification)
 
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
@@ -95,7 +94,7 @@ class MemberListTableViewController: UITableViewController {
             
             
             let nc = NotificationCenter.default
-            nc.post(name: self.modelDidChangeNotification,
+            nc.post(name: .modelDidChanged,
                     object: nil,
                     userInfo:["model": self.model])
         }
@@ -171,7 +170,7 @@ class MemberListTableViewController: UITableViewController {
                 return
             }
             let nc = NotificationCenter.default
-            nc.post(name: self.modelDidChangeNotification,
+            nc.post(name: .modelDidChanged,
                     object: nil,
                     userInfo: nil)
             self.tableView.reloadData()
@@ -207,7 +206,7 @@ class MemberListTableViewController: UITableViewController {
                 return
             }
         }
-        if notification.name == modelDidChangeNotification {
+        if notification.name == .modelDidChanged {
             tableView?.reloadData()
         }
     }

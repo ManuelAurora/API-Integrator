@@ -347,7 +347,6 @@ class ReportAndViewKPITableViewController: UITableViewController {
     var typeOfSetting = Setting.none
     var settingArray: [(SettingName: String, value: Bool)] = []
     
-    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     var datePickerIsVisible = false
     var dataPickerIsVisible = false
     
@@ -364,7 +363,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
             tableView.isScrollEnabled = true
             self.createExecutantArray()
             let nc = NotificationCenter.default
-            nc.addObserver(forName: modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
+            nc.addObserver(forName: .modelDidChanged, object:nil, queue:nil, using:catchNotification)
             
             for i in 1...31 {
                 self.mounthlyIntervalArray.append(("\(i)", false))
@@ -462,7 +461,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
     //MARK: - catchNotification
     func catchNotification(notification:Notification) -> Void {
         
-        if notification.name == self.modelDidChangeNotification {
+        if notification.name == .modelDidChanged {
             self.model.team = model.team
             executantArray.removeAll()
             createExecutantArray()

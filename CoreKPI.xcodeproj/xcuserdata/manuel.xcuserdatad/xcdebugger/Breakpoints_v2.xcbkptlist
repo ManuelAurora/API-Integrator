@@ -276,11 +276,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/ViewControllers/Team/MemberListTableViewController.swift"
-            timestampString = "511886986.822409"
+            timestampString = "511966345.133107"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -520,9 +520,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "307"
-            endingLineNumber = "307"
-            landmarkName = "catchNotification(notification:)"
-            landmarkType = "7">
+            endingLineNumber = "307">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -536,9 +534,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "80"
-            endingLineNumber = "80"
-            landmarkName = "viewDidAppear(_:)"
-            landmarkType = "7">
+            endingLineNumber = "80">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -548,11 +544,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/ViewControllers/Team/MemberListTableViewController.swift"
-            timestampString = "511947664.954203"
+            timestampString = "511966345.133107"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "160"
-            endingLineNumber = "160"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "loadTeamListFromServer()"
             landmarkType = "7">
          </BreakpointContent>
@@ -674,8 +670,8 @@
                   symbolName = "CoreKPI.ChangeProfile.(changeProfile (userID : Swift.Int, params : Swift.Dictionary&lt;Swift.String, Swift.Optional&lt;Swift.String&gt;&gt;, success : (Swift.Optional&lt;Swift.String&gt;) -&gt; (), failure : (Swift.String) -&gt; ()) -&gt; ()).(closure #1)"
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_17_03/CoreKPI/Services/ChangeProfile.swift"
-                  timestampString = "511960391.318397"
+                  urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_23_03/CoreKPI/Services/ChangeProfile.swift"
+                  timestampString = "511966347.013681"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "19"
@@ -689,8 +685,8 @@
                   symbolName = "CoreKPI.ChangeProfile.(changeProfile (userID : Swift.Int, params : Swift.Dictionary&lt;Swift.String, Swift.Optional&lt;Swift.String&gt;&gt;, success : (Swift.Optional&lt;Swift.String&gt;) -&gt; (), failure : (Swift.String) -&gt; ()) -&gt; ()).(closure #1)"
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_17_03/CoreKPI/Services/ChangeProfile.swift"
-                  timestampString = "511960391.320908"
+                  urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_23_03/CoreKPI/Services/ChangeProfile.swift"
+                  timestampString = "511966347.016084"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "19"
@@ -703,7 +699,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/RequestServise.swift"
@@ -716,14 +712,14 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "CoreKPI.Request.getJson (category : Swift.String, data : Swift.Dictionary&lt;Swift.String, Any&gt;, success : (__ObjC.NSDictionary) -&gt; (), failure : (Swift.String) -&gt; ()) -&gt; ()"
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_17_03/CoreKPI/RequestServise.swift"
-                  timestampString = "511960391.329816"
+                  urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_23_03/CoreKPI/RequestServise.swift"
+                  timestampString = "511966347.02084"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
@@ -731,14 +727,14 @@
                   offsetFromSymbolStart = "1936">
                </Location>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "CoreKPI.Request.(getJson (category : Swift.String, data : Swift.Dictionary&lt;Swift.String, Any&gt;, success : (__ObjC.NSDictionary) -&gt; (), failure : (Swift.String) -&gt; ()) -&gt; ()).(closure #1)"
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_17_03/CoreKPI/RequestServise.swift"
-                  timestampString = "511960391.332444"
+                  urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_23_03/CoreKPI/RequestServise.swift"
+                  timestampString = "511966347.0307"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "58"
@@ -751,7 +747,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/RequestServise.swift"
@@ -767,7 +763,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/RequestServise.swift"

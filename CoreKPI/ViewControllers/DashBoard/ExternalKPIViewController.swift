@@ -46,6 +46,7 @@ class ExternalKPIViewController: OAuthViewController {
     var serviceKPI: [(SettingName: String, value: Bool)]!
     var tokenDelegate: UpdateExternalKPICredentialsDelegate!
     var settingDelegate: updateSettingsDelegate!
+    let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -200,7 +201,13 @@ extension ExternalKPIViewController {
             let alertVC = UIAlertController(title: "Select source", message: "Please!", preferredStyle: .actionSheet)
             for viewID in viewIDArray {
                 alertVC.addAction(UIAlertAction(title: viewID.webSiteUri, style: .default, handler: { (UIAlertAction) in
-                    self.saveGoogleAnalyticsData(credential: credential, viewID: viewID)
+                    //let googleKPI = GoogleKPI(context: self.context)
+                    //googleKPI.oAuthToken = credential.oauthToken
+                    //googleKPI.oAuthRefreshToken = credential.oauthRefreshToken
+                    //googleKPI.oAuthTokenExpiresAt = credential.oauthTokenExpiresAt as NSDate?
+                    googleKPI.viewID = viewID.viewID
+                    googleKPI.siteURL = viewID.webSiteUri
+                    self.saveOauth2Data(googleAnalyticsObject: googleKPI, payPalObject: nil, salesForceObject: nil)
                 }))
             }
             alertVC.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

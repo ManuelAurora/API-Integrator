@@ -11,7 +11,6 @@ import UIKit
 class AlertSelectSettingTableViewController: UITableViewController {
     
     weak var AlertSettingVC: AlertSettingsTableViewController!
-    let modelDidChangeNotification = Notification.Name(rawValue:"modelDidChange")
     
     var selectSetting: [(SettingName: String, value: Bool)]!
     var textFieldInputData: String?
@@ -33,7 +32,7 @@ class AlertSelectSettingTableViewController: UITableViewController {
             present(alertVC, animated: true, completion: nil)
         }
         let nc = NotificationCenter.default
-        nc.addObserver(forName: modelDidChangeNotification, object:nil, queue:nil, using:catchNotification)
+        nc.addObserver(forName: .modelDidChanged, object:nil, queue:nil, using:catchNotification)
         tableView.tableFooterView = UIView(frame: .zero)
     }
     
@@ -144,7 +143,7 @@ class AlertSelectSettingTableViewController: UITableViewController {
     //MARK: - catchNotification
     func catchNotification(notification:Notification) -> Void {
         
-        if notification.name == modelDidChangeNotification {
+        if notification.name == .modelDidChanged {
             _ = navigationController?.popToRootViewController(animated: true)
         }
     }    

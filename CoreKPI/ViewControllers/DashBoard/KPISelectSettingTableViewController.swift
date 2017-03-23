@@ -175,7 +175,7 @@ class KPISelectSettingTableViewController: UITableViewController {
     
     //MARK: - catchNotification
     func catchNotification(notification:Notification) -> Void {
-        if notification.name == modelDidChangeNotification {
+        if notification.name == .modelDidChanged {
             _ = navigationController?.popViewController(animated: true)
         }
     }
