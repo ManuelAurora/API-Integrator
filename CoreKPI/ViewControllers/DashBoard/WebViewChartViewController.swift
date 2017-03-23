@@ -31,6 +31,7 @@ class WebViewChartViewController: UIViewController {
     var pointChartData: [(country: String, life: String, population: String, gdp: String, color: String, kids: String, median_age: String)] = []
     var lineChartData: (usdData: [(date: String, rate: String)], eurData: [(date: String, rate: String)])!
     var barChartData: [(value: String, val: String)] = []
+    var funnelChartData: [(name: String, value: String)] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,7 +126,7 @@ class WebViewChartViewController: UIViewController {
             let jsD3Funnel = try? String(contentsOfFile: jsD3FunnelFile!, encoding: String.Encoding.utf8)
             let js = try? String(contentsOfFile: jsFile!, encoding: String.Encoding.utf8)
             
-            let jsHead = "var FunnelWidth = \(width), FunnelHeight = \(height)"
+            let jsHead = "var FunnelWidth = \(width), FunnelHeight = \(height);" + generateDataForJS()
             
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + jsJquerry! + "</script><script>" + jsD3! + "</script><script>" + jsD3Funnel! + "</script><script>" + jsHead + js! + "</script>", baseURL: nil)
         case .PositiveBar:
@@ -283,7 +284,21 @@ class WebViewChartViewController: UIViewController {
             dataForJS += "]"
             return dataForJS
         case .Funnel:
-            return ""
+            //TODO: Remove test data
+            //->Debug
+            funnelChartData = [("Шаг вперед", "100"), ("Step 2", "200"), ("Step 3", "500"), ("Step 4", "50")]
+            header = "This is FunnelChart"
+            //<-Debug
+            var dataForJS = "var dataByFunnel = ["
+            for (index,item) in funnelChartData.enumerated() {
+                if index > 0 {
+                    dataForJS += ","
+                }
+                let funnelData = "['\(item.name)', \(item.value), '#87d37c']"
+                dataForJS += funnelData
+            }
+            dataForJS += "];"
+            return dataForJS
         case .PositiveBar:
             return ""
         case .AreaChart:

@@ -95,7 +95,7 @@ function funnel_d3v4(id, heightCoef, bottomWidthCoef) {
         bottomWidthCoef = 1 / 1000000; // при таком значении соберется в точку
     }
     
-    var dataByFunnel = [['Step 1', 300, '#87d37c'], ['Step 2', 200, '#36d7b7'], ['Step 3', 150, '#c8f7c5'], ['Step 4', 350, '#3fc380']];
+//    var dataByFunnel = [['Step 1', 300, '#87d37c'], ['Step 2', 200, '#36d7b7'], ['Step 3', 150, '#c8f7c5'], ['Step 4', 350, '#3fc380']];
     
     // console.log(dataByFunnel);
     function summByDataFunnel(data) {
