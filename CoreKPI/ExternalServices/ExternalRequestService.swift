@@ -13,6 +13,7 @@ import OAuthSwift
 class ExternalRequest {
     
     var errorMessage: String?
+    let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     
     var oauthToken: String
     let oauthRefreshToken: String
@@ -62,19 +63,20 @@ class ExternalRequest {
     
     func updateAccessToken(servise: IntegratedServices, success: @escaping (_ accessToken: String) -> (), failure: @escaping failure) {
         var clientID = ""
-        let clientSecret = ""
+        var clientSecret = ""
         var accessTokenURL = ""
-        var grantType = ""
+        let grantType = "refresh_token"
         var headers: [String:String] = [:]
         
         switch servise {
         case .GoogleAnalytics:
             clientID = "988266735713-9ruvi1tjo1bk6gckjuiqnncuq6otn0ko.apps.googleusercontent.com"
             accessTokenURL = "https://www.googleapis.com/oauth2/v4/token"
-            grantType = "refresh_token"
             headers = ["Content-Type" : "application/x-www-form-urlencoded"]
-        case .PayPal:
-            break
+        case .SalesForce:
+            clientID = "3MVG9HxRZv05HarSOV2Bh.pnwumGqpwVny5raeBxpjMwIQCVzeb7HmzJvGTOxEm6N3S2Q7LFo48KvA.0DrKYt"
+            clientSecret = "2273564242408453432"
+            accessTokenURL = "https://login.salesforce.com/services/oauth2/token"
         default:
             break
         }
@@ -111,34 +113,34 @@ class ExternalRequest {
     }
     
     //Autorisation OAuth 1.0/2.0
-    func oAuthAutorisation(servise: IntegratedServices, viewController: UIViewController, success: @escaping (_ credential: OAuthSwiftCredential) -> (), failure: @escaping failure) {
+    func oAuthAutorisation(servise: IntegratedServices, viewController: UIViewController, success: @escaping (_ object: (googleAnalyticsObject: GoogleKPI?, payPalObject: PayPalKPI?, salesForceObject: SalesForceKPI?)) -> (), failure: @escaping failure) {
         
         switch servise {
         case .GoogleAnalytics:
-            doOAuthGoogle(viewController: viewController, success: { credential in
-                success(credential)
+            doOAuthGoogle(viewController: viewController, success: { google in
+                success((google, nil, nil))
             }, failure: { error in
                 failure(error)
             })
                   
         case .SalesForce:
-            doOAuthSalesforce(viewController: viewController, success: { credential in
-                success(credential)
+            doOAuthSalesforce(viewController: viewController, success: { saleForceKPI in
+                success((nil, nil, saleForceKPI))
             }, failure: {error in
                 failure(error)
             })
-        case .PayPal:
-            doOAuthPayPal(viewController: viewController, success: { credential in
-                success(credential)
-            }, failure: {error in
-                failure(error)
-            })
+//        case .PayPal:
+//            doOAuthPayPal(viewController: viewController, success: { credential in
+//                success(credential)
+//            }, failure: {error in
+//                failure(error)
+//            })
         default:
             break
         }
     }
     
-    private func doOAuthGoogle(viewController: UIViewController, success: @escaping (_ credential: OAuthSwiftCredential) -> (), failure: @escaping failure) {
+    private func doOAuthGoogle(viewController: UIViewController, success: @escaping (_ googleKPI: GoogleKPI) -> (), failure: @escaping failure) {
         let oauthswift = OAuth2Swift(
             consumerKey:    "988266735713-9ruvi1tjo1bk6gckjuiqnncuq6otn0ko.apps.googleusercontent.com",
             consumerSecret: "",
@@ -150,37 +152,42 @@ class ExternalRequest {
         oauthswift.allowMissingStateCheck = true
         oauthswift.authorizeURLHandler = SafariURLHandler(viewController: viewController, oauthSwift: oauthswift)
         let _ = oauthswift.authorize(
-            withCallbackURL: URL(string: "CoreKPI.CoreKPI:/oauth2Callback")!, scope: "https://www.googleapis.com/auth/analytics.readonly", state: "",
+            withCallbackURL: URL(string: "smichrissoft.CoreKPI:/oauth2callback")!, scope: "https://www.googleapis.com/auth/analytics.readonly", state: "",
             success: { credential, response, parameters in
-                success(credential)
+                let googleKPI = GoogleKPI(context: self.context)
+                googleKPI.oAuthToken = credential.oauthToken
+                googleKPI.oAuthRefreshToken = credential.oauthRefreshToken
+                googleKPI.oAuthTokenExpiresAt = credential.oauthTokenExpiresAt
+                 as NSDate?
+                success(googleKPI)
         },
             failure: { error in
                 failure("\(error.localizedDescription)")
         })
     }
     
-    private func doOAuthPayPal(viewController: UIViewController, success: @escaping (_ credential: OAuthSwiftCredential) -> (), failure: @escaping failure) {
-        let oauthswift = OAuth2Swift(
-            consumerKey:    "AdA0F4asoYIoJoGK1Mat3i0apr1bdYeeRiZ6ktSgPrNmAMIQBO_TZtn_U80H7KwPdmd72CJhUTY5LYJH",
-            consumerSecret: "EBA8OIWD2WLj7Z0hytEiKl3F3PbdKGrYe-kqGOl-YY25R3M05H6RCfoPhXauYy7_nQUjsQ_Pss7LNBgI",
-            authorizeUrl:   "https://www.sandbox.paypal.com/signin/authorize",
-            accessTokenUrl: "https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice",
-            responseType:   "code"
-        )
-        oauthswift.authorizeURLHandler = SafariURLHandler(viewController: viewController, oauthSwift: oauthswift)
-        let state = generateState(withLength: 20)
-        
-        let _ = oauthswift.authorize(
-            withCallbackURL: URL(string: "https://appauth.demo-app.io:/oauth2redirect")!, scope: "", state: state,
-            success: { credential, response, parameters in
-                success(credential)
-        },
-            failure: { error in
-                failure(error.description)
-        })
-    }
+//    private func doOAuthPayPal(viewController: UIViewController, success: @escaping (_ credential: OAuthSwiftCredential) -> (), failure: @escaping failure) {
+//        let oauthswift = OAuth2Swift(
+//            consumerKey:    "AdA0F4asoYIoJoGK1Mat3i0apr1bdYeeRiZ6ktSgPrNmAMIQBO_TZtn_U80H7KwPdmd72CJhUTY5LYJH",
+//            consumerSecret: "EBA8OIWD2WLj7Z0hytEiKl3F3PbdKGrYe-kqGOl-YY25R3M05H6RCfoPhXauYy7_nQUjsQ_Pss7LNBgI",
+//            authorizeUrl:   "https://www.sandbox.paypal.com/signin/authorize",
+//            accessTokenUrl: "https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice",
+//            responseType:   "code"
+//        )
+//        oauthswift.authorizeURLHandler = SafariURLHandler(viewController: viewController, oauthSwift: oauthswift)
+//        let state = generateState(withLength: 20)
+//        
+//        let _ = oauthswift.authorize(
+//            withCallbackURL: URL(string: "https://appauth.demo-app.io:/oauth2redirect")!, scope: "", state: state,
+//            success: { credential, response, parameters in
+//                success(credential)
+//        },
+//            failure: { error in
+//                failure(error.description)
+//        })
+//    }
     
-    private func doOAuthSalesforce(viewController: UIViewController, success: @escaping (_ credential: OAuthSwiftCredential) -> (), failure: @escaping failure) {
+    private func doOAuthSalesforce(viewController: UIViewController, success: @escaping (_ saleForceKPI: SalesForceKPI) -> (), failure: @escaping failure) {
         let oauthswift = OAuth2Swift(
             consumerKey:    "3MVG9HxRZv05HarSOV2Bh.pnwumGqpwVny5raeBxpjMwIQCVzeb7HmzJvGTOxEm6N3S2Q7LFo48KvA.0DrKYt",
             consumerSecret: "2273564242408453432",
@@ -191,9 +198,29 @@ class ExternalRequest {
         oauthswift.authorizeURLHandler = SafariURLHandler(viewController: viewController, oauthSwift: oauthswift)
         let state = generateState(withLength: 20)
         let _ = oauthswift.authorize(
-            withCallbackURL: URL(string: "https://appauth.demo-app.io:/oauth2redirect")!, scope: "full", state: state,
+            withCallbackURL: URL(string: "Smichrissoft.CoreKPI:/oauth2callback")!, scope: "", state: state,
             success: { credential, response, parameters in
-                success(credential)
+                
+                let salesForceKPI = SalesForceKPI(context: self.context)
+                
+                if let data = response?.data {
+                    
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
+                        if let jsonDictionary = json {
+                            salesForceKPI.instance_url = jsonDictionary["instance_url"] as? String
+                            salesForceKPI.oAuthRefreshToken = jsonDictionary["refresh_token"] as? String
+                            salesForceKPI.oAuthToken = jsonDictionary["access_token"] as? String
+                        } else {
+                            failure("")
+                        }
+                    } catch {
+                        print("Serialization error")
+                    }
+                }
+                success(salesForceKPI)
+
+                
         },
             failure: { error in
                 failure(error.description)

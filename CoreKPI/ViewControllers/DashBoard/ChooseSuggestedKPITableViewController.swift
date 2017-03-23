@@ -61,12 +61,14 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     var hubspotMarketingKPIs: [HubSpotMarketingKPIs] = []
     var hubSpotMarketingKPIArray: [(SettingName: String, value: Bool)] = []
     
-    var oauthToken: String?
-    var oauthRefreshToken: String?
-    var oauthTokenExpiresAt: Date?
-    var viewID: String?
+//    var oauthToken: String?
+//    var oauthRefreshToken: String?
+//    var oauthTokenExpiresAt: Date?
+//    var viewID: String?
     
+    var googleKPI: GoogleKPI?
     var payPalKPI: PayPalKPI?
+    var salesForceKPI: SalesForceKPI?
     
     //MARK: User's KPI
     var department: Departments {
@@ -914,7 +916,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
         
         if !dataIsEntered() {
-            //showAlert(title: "Error", message: "One ore more parameters are not selected")
             return
         }
         
@@ -923,20 +924,24 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         switch source {
         case .Integrated:
             var arrayOfKPI: [(SettingName: String, value: Bool)] = []
-            var googleKPI: GoogleKPI?
+            //var googleKPI: GoogleKPI?
+            //var saleForceKPI: SalesForceKPI?
             
             switch integrated {
             case .SalesForce:
                 arrayOfKPI = saleForceKPIArray
+//                saleForceKPI = SalesForceKPI(context: context)
+//                saleForceKPI?.oAuthToken = oauthToken
+//                saleForceKPI?.oAuthRefreshToken = oauthRefreshToken
             case .Quickbooks:
                 arrayOfKPI = quickBooksKPIArray
             case .GoogleAnalytics:
                 arrayOfKPI = googleAnalyticsKPIArray
-                googleKPI = GoogleKPI(context: context)
-                googleKPI?.oAuthToken = oauthToken
-                googleKPI?.oAuthRefreshToken = oauthRefreshToken
-                googleKPI?.oAuthTokenExpiresAt = oauthTokenExpiresAt! as NSDate
-                googleKPI?.viewID = viewID
+//                googleKPI = GoogleKPI(context: context)
+//                googleKPI?.oAuthToken = oauthToken
+//                googleKPI?.oAuthRefreshToken = oauthRefreshToken
+//                googleKPI?.oAuthTokenExpiresAt = oauthTokenExpiresAt! as NSDate
+//                googleKPI?.viewID = viewID
             case .PayPal:
                 arrayOfKPI = payPalKPIArray
             case .HubSpotCRM:
@@ -954,6 +959,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     externalKPI.kpiName = extKpi.SettingName
                     externalKPI.googleAnalyticsKPI = googleKPI
                     externalKPI.payPalKPI = payPalKPI
+                    externalKPI.saleForceKPI = salesForceKPI
                     
                     do {
                         try self.context.save()
@@ -1264,14 +1270,21 @@ extension ChooseSuggestedKPITableViewController: UpdateTimeDelegate {
     }
 }
 
-extension ChooseSuggestedKPITableViewController: UpdateExternalTokensDelegate {
-    func updateTokens(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date, viewID: String?) {
-        self.oauthToken = oauthToken
-        self.oauthRefreshToken = oauthRefreshToken
-        self.oauthTokenExpiresAt = oauthTokenExpiresAt
-        self.viewID = viewID
+extension ChooseSuggestedKPITableViewController: UpdateExternalKPICredentialsDelegate {
+    func updateCredentials(googleAnalyticsObject: GoogleKPI?, payPalObject: PayPalKPI?, salesForceObject: SalesForceKPI?) {
+        googleKPI = googleAnalyticsObject
+        payPalKPI = payPalObject
+        salesForceKPI = salesForceObject
     }
 }
+//extension ChooseSuggestedKPITableViewController: UpdateExternalTokensDelegate {
+//    func updateTokens(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date?, viewID: String?) {
+//        self.oauthToken = oauthToken
+//        self.oauthRefreshToken = oauthRefreshToken
+//        self.oauthTokenExpiresAt = oauthTokenExpiresAt
+//        self.viewID = viewID
+//    }
+//}
 
 //MARK: - UIPickerViewDataSource and UIPickerViewDelegate methods
 extension ChooseSuggestedKPITableViewController: UIPickerViewDataSource,UIPickerViewDelegate {
@@ -1318,8 +1331,8 @@ extension ChooseSuggestedKPITableViewController: UIPickerViewDataSource,UIPicker
     }
 }
 
-extension ChooseSuggestedKPITableViewController: UpdatePayPalAPICredentialsDelegate {
-    func updatePayPalCredentials(payPalObject: PayPalKPI) {
-        payPalKPI = payPalObject
-    }
-}
+//extension ChooseSuggestedKPITableViewController: UpdatePayPalAPICredentialsDelegate {
+//    func updatePayPalCredentials(payPalObject: PayPalKPI) {
+//        payPalKPI = payPalObject
+//    }
+//}

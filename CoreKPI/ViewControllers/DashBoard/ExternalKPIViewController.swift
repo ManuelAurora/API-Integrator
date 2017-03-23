@@ -44,7 +44,7 @@ class ExternalKPIViewController: OAuthViewController {
     weak var ChoseSuggestedVC: ChooseSuggestedKPITableViewController!
     var selectedService: IntegratedServices!
     var serviceKPI: [(SettingName: String, value: Bool)]!
-    var tokenDelegate: UpdateExternalTokensDelegate!
+    var tokenDelegate: UpdateExternalKPICredentialsDelegate!
     var settingDelegate: updateSettingsDelegate!
     
     override func viewDidLoad() {
@@ -137,9 +137,8 @@ extension ExternalKPIViewController {
     //MARK: Salesforce
     func doOAuthSalesforce() {
         let request = ExternalRequest()
-        request.oAuthAutorisation(servise: .SalesForce, viewController: self, success: { crededential in
-            //TODO:
-            print(crededential.oauthToken)
+        request.oAuthAutorisation(servise: .SalesForce, viewController: self, success: { saleForceKPI in
+            self.saveOauth2Data(googleAnalyticsObject: nil, payPalObject: nil, salesForceObject: saleForceKPI.salesForceObject)
         }, failure: { error in
             self.showAlert(title: "Sorry!", errorMessage: error)
         })
@@ -173,8 +172,8 @@ extension ExternalKPIViewController {
     // MARK: Google
     func doOAuthGoogle(){
         let request = ExternalRequest()
-        request.oAuthAutorisation(servise: .GoogleAnalytics, viewController: self, success: { credential in
-            self.selectViewID(credential: credential)
+        request.oAuthAutorisation(servise: .GoogleAnalytics, viewController: self, success: { objects in
+            self.selectViewID(googleKPI: objects.googleAnalyticsObject!)
         
         }, failure: { error in
             self.showAlert(title: "Sorry", errorMessage: error)
@@ -195,8 +194,8 @@ extension ExternalKPIViewController {
     }
     
     //MARK: - get ViewID for google analytics
-    func selectViewID(credential: OAuthSwiftCredential) {
-        let request = GoogleAnalytics(oauthToken: credential.oauthToken, oauthRefreshToken: credential.oauthRefreshToken, oauthTokenExpiresAt: credential.oauthTokenExpiresAt!)
+    func selectViewID(googleKPI: GoogleKPI) {
+        let request = GoogleAnalytics(oauthToken: googleKPI.oAuthToken!, oauthRefreshToken: googleKPI.oAuthRefreshToken!, oauthTokenExpiresAt: googleKPI.oAuthTokenExpiresAt as! Date)
         request.getViewID(success: { viewIDArray in
             let alertVC = UIAlertController(title: "Select source", message: "Please!", preferredStyle: .actionSheet)
             for viewID in viewIDArray {
@@ -211,17 +210,14 @@ extension ExternalKPIViewController {
         })
     }
     
-    //MARK: save google analytics data
-    func saveGoogleAnalyticsData(credential: OAuthSwiftCredential, viewID: (viewID: String, webSiteUri: String)) {
-        
-        let oauthToken = credential.oauthToken
-        let oauthRefreshToken = credential.oauthRefreshToken
-        let oauthTokenExpiresAt = credential.oauthTokenExpiresAt
+    //MARK: save Oauth2.0 credentials data
+    func saveOauth2Data(googleAnalyticsObject: GoogleKPI?, payPalObject: PayPalKPI?, salesForceObject: SalesForceKPI?) {
+    
         ChoseSuggestedVC.integrated = selectedService
         settingDelegate = ChoseSuggestedVC
         settingDelegate.updateSettingsArray(array: serviceKPI)
         tokenDelegate = ChoseSuggestedVC
-        tokenDelegate.updateTokens(oauthToken: oauthToken, oauthRefreshToken: oauthRefreshToken, oauthTokenExpiresAt: oauthTokenExpiresAt!, viewID: viewID.viewID)
+        tokenDelegate.updateCredentials(googleAnalyticsObject: googleAnalyticsObject, payPalObject: payPalObject, salesForceObject: salesForceObject)
         let stackVC = navigationController?.viewControllers
         _ = navigationController?.popToViewController((stackVC?[(stackVC?.count)! - 3])!, animated: true)
     }

@@ -70,8 +70,8 @@ class PayPalAuthViewController: UIViewController {
         settingDelegate = ChooseSuggestedKPIVC
         settingDelegate.updateSettingsArray(array: serviceKPI)
         
-        let payPalDelegate: UpdatePayPalAPICredentialsDelegate = ChooseSuggestedKPIVC
-        payPalDelegate.updatePayPalCredentials(payPalObject: payPalKPI)
+        let externalCredentialsDelegate: UpdateExternalKPICredentialsDelegate = ChooseSuggestedKPIVC
+        externalCredentialsDelegate.updateCredentials(googleAnalyticsObject: nil, payPalObject: payPalKPI, salesForceObject: nil)
         let stackVC = navigationController?.viewControllers
         _ = navigationController?.popToViewController((stackVC?[(stackVC?.count)! - 4])!, animated: true)
     }

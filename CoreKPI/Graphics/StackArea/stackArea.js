@@ -1,28 +1,28 @@
-var data_stack_area = [{
-                       "date": "13-Oct-31",
-                       "Kermit": 85.44,
-                       "piggy": 150,
-                       "Gonzo": 80.57,
-                       "Lol": 50
-                       }, {
-                       "date": "13-Nov-30",
-                       "Kermit": 130,
-                       "piggy": 200.85,
-                       "Gonzo": 168.97,
-                       "Lol": 150
-                       }, {
-                       "date": "13-Dec-31",
-                       "Kermit": 113.46,
-                       "piggy": 350.88,
-                       "Gonzo": 40.57,
-                       "Lol": 200
-                       }, {
-                       "date": "14-Jan-30",
-                       "Kermit": 140.46,
-                       "piggy": 350.88,
-                       "Gonzo": 40.57,
-                       "Lol": 100
-                       }];
+//var data_stack_area = [{
+//                       "date": "13-Oct-31",
+//                       "Kermit": 85.44,
+//                       "piggy": 150,
+//                       "Gonzo": 80.57,
+//                       "Lol": 50
+//                       }, {
+//                       "date": "13-Nov-30",
+//                       "Kermit": 130,
+//                       "piggy": 200.85,
+//                       "Gonzo": 168.97,
+//                       "Lol": 150
+//                       }, {
+//                       "date": "13-Dec-31",
+//                       "Kermit": 113.46,
+//                       "piggy": 350.88,
+//                       "Gonzo": 40.57,
+//                       "Lol": 200
+//                       }, {
+//                       "date": "14-Jan-30",
+//                       "Kermit": 140.46,
+//                       "piggy": 350.88,
+//                       "Gonzo": 40.57,
+//                       "Lol": 100
+//                       }];
 
 function stack_area(w, h, data) {
     var margin = { top: 50, right: 30, bottom: 30, left: 30 };

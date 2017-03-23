@@ -103,8 +103,7 @@ class GetReports: Request {
         let deadlineDay = kpi.createdKPI?.deadlineDay
         let deadlineTime = kpi.createdKPI?.deadlineTime
         
-        var calendar = Calendar.current
-        //calendar.timeZone = TimeZone(secondsFromGMT: 3600*3)!
+        let calendar = Calendar.current
         var deadlineTimeComponent = calendar.dateComponents([.hour, .minute, .second], from: deadlineTime!)
         let reportDayComponent = calendar.dateComponents([.year, .month, .day], from: report.date)
         
