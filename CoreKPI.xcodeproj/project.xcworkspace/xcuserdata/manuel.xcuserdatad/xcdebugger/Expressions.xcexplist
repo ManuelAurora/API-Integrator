@@ -1204,6 +1204,14 @@
          contextName = "HubSpotManager.getPagesFrom(json : [String : Any]) -&gt; [HSPage]:HubspotManager.swift">
       </ContextState>
       <ContextState
+         contextName = "LaunchViewController.presentStartVC() -&gt; ():LaunchViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "userStateMachine.pinCodeAttempts">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "HSPipeline.init(json : [String : Any]) -&gt; HSPipeline:HubspotRequestedObjects.swift">
          <PersistentStrings>
             <PersistentString

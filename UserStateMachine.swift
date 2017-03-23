@@ -149,8 +149,6 @@ class UserStateMachine
     
     private func userLoggedOut() {
         
-        self.notificationCenter.post(name: .userLoggedOut, object: nil)
-        
         let context = appDelegate.persistentContainer.viewContext
         
         userStateInfo.loggedIn       = false
@@ -161,7 +159,9 @@ class UserStateMachine
         model.team.removeAll()
         
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.token)
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.pinCode)        
+        userRemovedPin()
+        
+        notificationCenter.post(name: .userLoggedOut, object: nil)
     }
     
     private func subscribeToNotifications() {
@@ -203,7 +203,12 @@ class UserStateMachine
     //Notifications handlers
     @objc private func userSetPin() { userStateInfo.usesPinCode = true }
     
-    @objc private func userRemovedPin() { userStateInfo.usesPinCode = false }
+    @objc private func userRemovedPin() {
+        
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.pinCode)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.pinCodeAttempts)
+        userStateInfo.usesPinCode = false
+    }
     
     @objc private func modelDidChanged() {
         
