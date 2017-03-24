@@ -4387,7 +4387,7 @@ Deliveries</string>
                                                     <rect key="frame" x="134.5" y="0.0" width="224.5" height="43.5"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="3B6-vE-Icu" id="lsK-qI-HxO"/>
                                                     </connections>

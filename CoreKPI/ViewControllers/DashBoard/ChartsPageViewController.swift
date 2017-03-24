@@ -14,11 +14,24 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     var kpi: KPI!
     var quickBooksDataManager = QuickBookDataManager.shared()
     
+    lazy var webViewChartOneVC: WebViewChartViewController =  {
+        return self.storyboard?.instantiateViewController(withIdentifier: .webViewController) as! WebViewChartViewController
+    }()
+    
+    lazy var webViewChartTwoVC: WebViewChartViewController = {
+        return self.storyboard?.instantiateViewController(withIdentifier: .webViewController) as! WebViewChartViewController
+    }()
+    
+    lazy var tableViewChartVC: TableViewChartController = {
+        return self.storyboard?.instantiateViewController(withIdentifier: .chartTableVC) as! TableViewChartController
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         dataSource = self
         
-        self.setViewControllers([getViewController(AtIndex: 0)] as [UIViewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
+        self.setViewControllers([tableViewChartVC], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
         self.view.backgroundColor = UIColor.white
         self.navigationController?.navigationBar.backgroundColor = UIColor.white    
     }
@@ -26,27 +39,12 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     // MARK:- UIPageViewControllerDataSource Methods
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController?
     {
-        var index = returnIndexForVC(vc: viewController)
-        if (index == 0) || index == NSNotFound {
-            return nil
-        }
-        
-        index -= 1
-        return getViewController(AtIndex: index)
+        return tableViewChartVC
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController?
     {
-        if self.kpi.typeOfKPI == .IntegratedKPI {
-            return nil
-        }
-        
-        var index = returnIndexForVC(vc: viewController)
-        if (index == NSNotFound) || (index == 1) {
-            return nil
-        }
-        index += 1
-        return getViewController(AtIndex: index)
+        return tableViewChartVC
     }
     
     // MARK:- Other Methods
@@ -117,7 +115,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
             tableViewChartVC.header = kpi.integratedKPI.kpiName!
             tableViewChartVC.index = 0
             webViewChartOneVC.header = kpi.integratedKPI.kpiName!
-            webViewChartOneVC.index = 0
+            webViewChartOneVC.index = 1
             //<-debug
             
             
@@ -387,8 +385,11 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                         tableViewChartVC.tableView.reloadData()
                     })
                 case .NetSalesTotalSales:
+                    webViewChartOneVC.typeOfChart = kpi.KPIChartOne!
+                    
                     tableViewChartVC.titleOfTable = ("Sales","Net amount","Gross amount")
                     createDataFromRequest(success: { dataForPresent in
+                        //webViewChartOneVC.lineChartData =  dataForPresent
                         tableViewChartVC.dataArray = dataForPresent
                         tableViewChartVC.tableView.reloadData()
                     })
@@ -442,7 +443,15 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                     })
                 }
                 //debug->
-                return tableViewChartVC
+                switch index {
+                case 0:
+                    return tableViewChartVC
+                case 1:
+                    return webViewChartOneVC
+                default:
+                    break
+                }
+                
                 //<-debug
             case .SalesForce:
                 navigationItem.title = "SalesForce"

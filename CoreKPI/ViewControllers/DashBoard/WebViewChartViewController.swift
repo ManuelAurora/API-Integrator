@@ -46,14 +46,16 @@ class WebViewChartViewController: UIViewController {
     }
     
     private func createCharts() {
-        let tabBarHeight = self.tabBarController?.tabBar.frame.size.height
+        
+        let tabBarHeight        = self.tabBarController?.tabBar.frame.size.height
         let navigationBarHeight = self.navigationController?.navigationBar.frame.size.height
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let statusBarHeight     = UIApplication.shared.statusBarFrame.height
         
         let height = webView.bounds.size.height - (tabBarHeight! + navigationBarHeight! + statusBarHeight)
-        let width = webView.bounds.size.width
+        let width  = webView.bounds.size.width
         
-        switch typeOfChart {
+        switch typeOfChart
+        {
         case .PieChart:
             let htmlFile = Bundle.main.path(forResource:"index", ofType: "html")
             let cssFile = Bundle.main.path(forResource:"style", ofType: "css")
@@ -86,6 +88,7 @@ class WebViewChartViewController: UIViewController {
             let topOfJS = "var margin = {top: 50, right: 30, bottom: 30, left: 30}; var width = \(width) - margin.left - margin.right; var height = \(height) - margin.top - margin.bottom;" + generateDataForJS()
             
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + topOfJS + js2! + "</script>", baseURL: nil)
+            
         case .LineChart:
             let htmlFile = Bundle.main.path(forResource:"Lines", ofType: "html")
             let cssFile = Bundle.main.path(forResource:"Lines", ofType: "css")
@@ -98,6 +101,7 @@ class WebViewChartViewController: UIViewController {
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
             let topOfJsFile = "var margin    = {top: 50, right: 30, bottom: 30, left: 30}; var width = \(width) - (margin.left + margin.right); var height = \(height) - (margin.top + margin.bottom);" + generateDataForJS()
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + topOfJsFile + js2! + "</script>", baseURL: nil)
+            
         case  .BarChart:
             let htmlFile = Bundle.main.path(forResource:"bar", ofType: "html")
             let cssFile = Bundle.main.path(forResource:"bar", ofType: "css")
@@ -114,6 +118,7 @@ class WebViewChartViewController: UIViewController {
             let htmlstring = html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + topOfJsFile + js2! + "</script>"
             
             webView.loadHTMLString(htmlstring, baseURL: nil)
+            
         case .Funnel:
             let htmlFile = Bundle.main.path(forResource:"funnel", ofType: "html")
             let cssFile = Bundle.main.path(forResource:"funnel", ofType: "css")
@@ -132,6 +137,7 @@ class WebViewChartViewController: UIViewController {
             let jsHead = "var FunnelWidth = \(width), FunnelHeight = \(height);" + generateDataForJS()
             
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + jsJquerry! + "</script><script>" + jsD3! + "</script><script>" + jsD3Funnel! + "</script><script>" + jsHead + js! + "</script>", baseURL: nil)
+            
         case .PositiveBar:
             let htmlFile = Bundle.main.path(forResource:"positiveBar", ofType: "html")
             let cssFile = Bundle.main.path(forResource:"positiveBar", ofType: "css")
@@ -145,6 +151,7 @@ class WebViewChartViewController: UIViewController {
             let downOfJsFile = generateDataForJS() + "positiveBar(\(width), \(height), data, 180, 0.35);"
             
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + js2! + downOfJsFile + "</script>", baseURL: nil)
+            
         case .AreaChart:
             let htmlFile = Bundle.main.path(forResource:"stackArea", ofType: "html")
             let cssFile = Bundle.main.path(forResource:"stackArea", ofType: "css")
@@ -180,6 +187,7 @@ class WebViewChartViewController: UIViewController {
             }
             dataForJS += "];"
             return dataForJS
+            
         case .PointChart:
             //TODO: Remove test data
             //->Debug
@@ -195,6 +203,7 @@ class WebViewChartViewController: UIViewController {
                 ("USA","78.5","313085380","41230","firebrick","2","36.59"),
                 ("Australia","82.1","22268384","34885","violet","1.9","37.776")
             ]
+            
             header = "This is PointChart"
             //<-Debug
             var dataForJS = "var label = '\(header)'; var pointJson = ["
@@ -208,6 +217,7 @@ class WebViewChartViewController: UIViewController {
             }
             dataForJS += "]"
             return dataForJS
+            
         case .LineChart:
             //TODO: Remove test data
             //->Debug
@@ -286,6 +296,7 @@ class WebViewChartViewController: UIViewController {
             }
             dataForJS += "]"
             return dataForJS
+            
         case .Funnel:
             //TODO: Remove test data
             //->Debug
@@ -376,9 +387,4 @@ class WebViewChartViewController: UIViewController {
     func refreshView() {
         createCharts()
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
 }
