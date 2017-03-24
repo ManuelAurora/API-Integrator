@@ -162,9 +162,9 @@ class WebViewChartViewController: UIViewController {
             let css = try? String(contentsOfFile: cssFile!, encoding: String.Encoding.utf8)
             let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
-            let downOfJsFile = generateDataForJS() + "stack_area(\(width) - 0, \(height), data_stack_area);"
+            let downOfJsFile = "stack_area(\(width) - 0, \(height), data_stack_area);"
             
-            webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + js2! + downOfJsFile + "</script>", baseURL: nil)
+            webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + generateDataForJS() + js2! + downOfJsFile + "</script>", baseURL: nil)
         }
     }
     
@@ -243,7 +243,7 @@ class WebViewChartViewController: UIViewController {
             header = "This is LineChart"
             //<-Debug
         
-            var dataForJS = "var usdData = ["
+            var dataForJS = "var label = '\(header)'; var usdData = ["
             for (index,item) in lineChartData.usdData.enumerated() {
                 if index > 0 {
                     dataForJS += ","
@@ -286,7 +286,7 @@ class WebViewChartViewController: UIViewController {
             header = "This is BarChart"
             //<-Debug
             
-            var dataForJS = "var data = ["
+            var dataForJS = "var label = '\(header)'; var data = ["
             for (index,item) in barChartData.enumerated() {
                 if index > 0 {
                     dataForJS += ","
@@ -303,7 +303,7 @@ class WebViewChartViewController: UIViewController {
             funnelChartData = [("Шаг вперед", "100"), ("Step 2", "200"), ("Step 3", "500"), ("Step 4", "50")]
             header = "This is FunnelChart"
             //<-Debug
-            var dataForJS = "var dataByFunnel = ["
+            var dataForJS = "var label = '\(header)'; var dataByFunnel = ["
             for (index,item) in funnelChartData.enumerated() {
                 if index > 0 {
                     dataForJS += ","
@@ -334,8 +334,9 @@ class WebViewChartViewController: UIViewController {
                 ("260","50"),
                 ("180","150"),
             ]
+            header = "This is PositiveBar))";
             //<-Debug
-            var dataForJS = "var data = ["
+            var dataForJS = "var label = '\(header)'; var data = ["
             for (index,item) in positiveBarData.enumerated() {
                 if index > 0 {
                     dataForJS += ","
@@ -354,8 +355,9 @@ class WebViewChartViewController: UIViewController {
                 ("13-Dec-31","113.46","350.88","40.57","200"),
                 ("14-Jan-30","140.46","350.88","40.57","100")
             ]
+            header = "This is AreaChart"
             //<-Debug
-            var dataForJS = "var data_stack_area = ["
+            var dataForJS = "var label = '\(header)'; var data_stack_area = ["
             for (index,item) in areaChartData.enumerated() {
                 if index > 0 {
                     dataForJS += ","

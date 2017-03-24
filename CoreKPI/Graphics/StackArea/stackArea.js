@@ -34,7 +34,7 @@ function stack_area(w, h, data) {
     var svg = d3.select("#chart-stackArea").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("class", "chart__cnt").attr("transform", "translate(" + 50 + "," + margin.top + ")");
     
     // добавляем заголовок
-    svg.append("text").attr("x", 0).attr("y", -15).attr("text-anchor", "start").attr("fill", "#ffffff").style("font-size", "1.3em").text("Detroid Sales");
+    svg.append("text").attr("x", 0).attr("y", -15).attr("text-anchor", "start").attr("fill", "#ffffff").style("font-size", "1.3em").text(label);
     
     //Зададим цветовую гамму
     var color = d3.scale.ordinal().range(["#f2784b", "#f5a623", "#f9bf3b", "#f9690e", "#f62459"]);

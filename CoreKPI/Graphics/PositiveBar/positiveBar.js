@@ -1,4 +1,3 @@
-
 var positiveBar = function(w, h, data, minVal, rangeRoundBands){
     var margin  = {top: 50, right: 30, bottom: 30, left: 30};
     var width   = w - (margin.left + margin.right);
@@ -54,7 +53,7 @@ var positiveBar = function(w, h, data, minVal, rangeRoundBands){
     .attr("fill", "#ffffff")
     .style("font-size", "22px")
     .style("font-family", "Arial")
-    .text("Converter Leads");
+    .text(label);
     
     // размер осей
     var svg__axis = svg

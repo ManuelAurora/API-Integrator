@@ -19,7 +19,7 @@ svg.append("text")
 .attr("fill", "#ffffff")
 .style("font-size", "22px")
 .style("font-family", "Arial")
-.text("Net Sales / Total Sales");
+.text(label);
 // Данные для чарта
 //var usdData = [
 //               {date: new Date(2016, 12, 22), rate: 26.4},
