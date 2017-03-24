@@ -90,6 +90,7 @@ class Profile {
 
 //KPI
 class KPI {
+    
     var typeOfKPI: TypeOfKPI
     var integratedKPI: ExternalKPI!
     var createdKPI: CreatedKPI?

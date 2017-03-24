@@ -14,18 +14,13 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
     
     var qBMethod: QBMethod!
     var kpiName: QiuckBooksKPIs!
-    
-    lazy var qbDataManager: QuickBookDataManager = {
-        let qbdm = QuickBookDataManager.shared()
-        return qbdm
-    }()
-    
+        
     var index = 0
     var header: String = " "
     let notificationCenter = NotificationCenter.default
     var reportArray: [(Date, Double)] = []
     
-    var dataArray: [(leftValue: String, centralValue: String, rightValue: String)] = []
+    var dataArray = resultArray()
     var titleOfTable: (leftTitle: String, centralTitle: String, rightTitle: String) = ("","","")
     
     var typeOfKPI: TypeOfKPI = .createdKPI
@@ -34,33 +29,6 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
         super.viewDidLoad()
         
         tableView.tableFooterView = UIView(frame: .zero)
-        
-        guard let qBMethod = qBMethod else { return }
-        
-        switch qBMethod
-        {
-        case .query:
-            subscribeToNotification(named: .qBInvoicesRefreshed)
-            
-        case .balanceSheet:
-            subscribeToNotification(named: .qBBalanceSheetRefreshed)
-            
-        case .accountList:
-            subscribeToNotification(named: .qBAccountListRefreshed)
-            
-        case .profitLoss:
-            subscribeToNotification(named: .qBProfitAndLossRefreshed)
-            
-        case .paidInvoicesByCustomers:
-            subscribeToNotification(named: .qBPaidInvoicesByCustomersRefreshed)
-            
-        case .paidExpenses:
-            subscribeToNotification(named: .qBExpencesByVendorSummaryRefreshed)
-        }
-    }
-    
-    private func subscribeToNotification(named: Notification.Name) {
-        notificationCenter.addObserver(self, selector: #selector(TableViewChartController.reloadTableView), name: named, object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -70,51 +38,6 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func reloadTableView() {
-        
-        guard let qBMethod = qBMethod else { return }
-        
-        switch qBMethod
-        {
-        case .query:
-            switch kpiName!
-            {
-            case .Invoices:
-                dataArray = qbDataManager.invoices
-                
-            case .NonPaidInvoices:
-                dataArray = qbDataManager.nonPaidInvoicesPercent
-                
-            case .PaidInvoices:
-                dataArray = qbDataManager.paidInvoicesPercent
-                
-            case .NetIncome:
-                dataArray = qbDataManager.netIncome
-                
-            case .OverdueCustomers:
-                dataArray = qbDataManager.overdueCustomers
-                
-            case .OpenInvoicesByCustomers:
-                dataArray = qbDataManager.nonPaidInvoices
-                
-            default:
-                break
-            }
-            
-        case .balanceSheet:
-            dataArray = qbDataManager.balanceSheet
-            
-        case .accountList:
-            dataArray = qbDataManager.accountList
-            
-        case .profitLoss:
-            dataArray = qbDataManager.profitAndLoss
-            
-        case .paidInvoicesByCustomers:
-            dataArray = qbDataManager.paidInvoicesByCustomer
-            
-        case .paidExpenses:
-            dataArray = qbDataManager.expencesByVendorSummary
-        }
         
         tableView.reloadData()
     }
@@ -127,12 +50,13 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        tableView.reloadData()
+        reloadTableView()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        switch typeOfKPI {
+        switch typeOfKPI
+        {
         case .createdKPI:
             return reportArray.count + 1
         case .IntegratedKPI:
@@ -177,8 +101,7 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
                 cell.rightLabel.text = dataArray[indexPath.row - 1].rightValue
             }
         }
-        
-        
+                
         return cell
     }
     
@@ -192,6 +115,5 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
         header.textLabel?.text = self.header
         header.textLabel?.font = UIFont(name: "Helvetica Neue", size: 13)
         header.textLabel?.textColor = UIColor.lightGray
-    }
-    
+    }    
 }

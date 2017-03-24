@@ -139,6 +139,19 @@ class QuickBookDataManager
         queryMethod = method
     }
     
+    func dataFor(kpi: QiuckBooksKPIs) -> resultArray {
+        
+        switch kpi
+        {
+        case .Balance:
+            return balanceSheet
+            
+        default: break
+        }
+        
+        return resultArray()
+    }
+    
     private func makeDate() {
         
         //TODO: Add date generating

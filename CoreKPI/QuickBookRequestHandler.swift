@@ -71,10 +71,7 @@ class QuickBookRequestHandler
                 
                 let result = (kpiInfo.kpiName,"",kpiInfo.kpiValue)
                                 
-                manager.balanceSheet.append(result)
-                notificationCenter.post(name: .qBBalanceSheetRefreshed, object: nil)
-                
-                return kpiInfo
+                manager.balanceSheet.append(result)               
                 
             case .query:
                 //Invoices
@@ -156,7 +153,6 @@ class QuickBookRequestHandler
                 }
                 
                 manager.overdueCustomers = filteredOverdueArray
-                notificationCenter.post(name: .qBInvoicesRefreshed, object: nil)
                 
             case .profitLoss:
                 
@@ -212,8 +208,6 @@ class QuickBookRequestHandler
                     print("DEBUG: \(result)")
                 }
                 
-                notificationCenter.post(name: .qBAccountListRefreshed, object: nil)
-                
             case .paidInvoicesByCustomers:
                 let rows = jsonDict!["Rows"] as! [String: Any]
                 let rows2 = rows["Row"] as! [[String: Any]]
@@ -231,8 +225,6 @@ class QuickBookRequestHandler
                         manager.paidInvoicesByCustomer.append(result)
                     }
                 }
-                
-                notificationCenter.post(name: .qBPaidInvoicesByCustomersRefreshed, object: nil)
                 
             case .paidExpenses:
                 let rows = jsonDict!["Rows"] as! [String: Any]
@@ -252,9 +244,8 @@ class QuickBookRequestHandler
                         print("DEBUG: \(manager.profitAndLoss)")
                     }
                 }
-                
-                notificationCenter.post(name: .qBPaidInvoicesByCustomersRefreshed, object: nil)
             }
+            notificationCenter.post(name: .qbManagerRecievedData, object: nil)
         }
         return nil
     }

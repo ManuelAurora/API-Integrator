@@ -12,7 +12,7 @@ import OAuthSwift
 class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSource {
     
     var kpi: KPI!
-    var quickBooksDataManager = QuickBookDataManager.shared()
+    var reportDataManipulator = ReportDataManipulator()
     
     lazy var webViewChartOneVC: WebViewChartViewController =  {
         return self.storyboard?.instantiateViewController(withIdentifier: .webViewController) as! WebViewChartViewController
@@ -26,805 +26,120 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         return self.storyboard?.instantiateViewController(withIdentifier: .chartTableVC) as! TableViewChartController
     }()
     
+    var providedControllers = [UIViewController]()
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         dataSource = self
         
-        self.setViewControllers([tableViewChartVC], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
-        self.view.backgroundColor = UIColor.white
-        self.navigationController?.navigationBar.backgroundColor = UIColor.white    
+        subscribeToNotifications()
+        setInitialViewControllers()
+        formData()
+        
+        self.setViewControllers([providedControllers[0]],
+                                direction: UIPageViewControllerNavigationDirection.forward,
+                                animated: false,
+                                completion: nil)
+        
+        self.view.backgroundColor = .white
+        self.navigationController?.navigationBar.backgroundColor = .white
+    }
+    
+    private func setInitialViewControllers() {
+        
+        if  firstReportIsTable() { providedControllers.append(tableViewChartVC)  }
+        else                     { providedControllers.append(webViewChartOneVC) }
+        
+        providedControllers.append(webViewChartTwoVC)
     }
     
     // MARK:- UIPageViewControllerDataSource Methods
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController?
-    {
-        return tableViewChartVC
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        return providedControllers[0] == viewController ? nil : providedControllers[0]
     }
     
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController?
-    {
-        return tableViewChartVC
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        return providedControllers[1] == viewController ? nil : providedControllers[1]
     }
     
     // MARK:- Other Methods
-    func getViewController(AtIndex index: Int) -> UIViewController {
-        let webViewChartOneVC = storyboard?.instantiateViewController(withIdentifier: .webViewController) as! WebViewChartViewController
-        let webViewChartTwoVC = storyboard?.instantiateViewController(withIdentifier: .webViewController) as! WebViewChartViewController
-        let tableViewChartVC  = storyboard?.instantiateViewController(withIdentifier: .chartTableVC)      as! TableViewChartController
+    private func firstReportIsTable() -> Bool
+    {
+        return kpi.KPIViewOne == .Numbers
+    }
+    
+    private func formData() {
         
-        switch kpi.typeOfKPI {
+        switch kpi.typeOfKPI
+        {
         case .createdKPI:
-            navigationItem.title = "Report"
+            if firstReportIsTable()
+            {
+                _ = kpi.createdKPI?.number.map { tableViewChartVC.reportArray.append($0) }
+                tableViewChartVC.header = kpi.createdKPI?.KPI ?? ""
+            }
+            else { webViewChartOneVC.typeOfChart = kpi.KPIChartOne! }
             
-            if kpi.KPIViewOne == .Numbers && kpi.KPIViewTwo == .Graph {
-                for i in (kpi.createdKPI?.number)! {
-                    tableViewChartVC.reportArray.append(i)
-                }
-                tableViewChartVC.header = (kpi.createdKPI?.KPI)!
-                tableViewChartVC.index = 0
-                webViewChartOneVC.typeOfChart = kpi.KPIChartTwo!
-                webViewChartOneVC.index = 1
-                switch index {
-                case 0:
-                    return tableViewChartVC
-                case 1:
-                    return webViewChartOneVC
-                default:
-                    break
-                }
-            }
-            if kpi.KPIViewOne == .Graph && kpi.KPIViewTwo == .Numbers {
-                webViewChartOneVC.typeOfChart = kpi.KPIChartOne!
-                webViewChartOneVC.index = 0
-                for i in (kpi.createdKPI?.number)! {
-                    tableViewChartVC.reportArray.append(i)
-                }
-                tableViewChartVC.header = (kpi.createdKPI?.KPI)!
-                tableViewChartVC.index = 1
-                switch index {
-                case 0:
-                    return webViewChartOneVC
-                case 1:
-                    return tableViewChartVC
-                default:
-                    break
-                }
-            }
-            if kpi.KPIViewOne == .Graph && kpi.KPIViewTwo == .Graph {
-                
-                webViewChartOneVC.typeOfChart = kpi.KPIChartOne!
-                webViewChartOneVC.index = 0
-                
-                webViewChartTwoVC.typeOfChart = kpi.KPIChartTwo!
-                webViewChartTwoVC.index = 1
-                switch index {
-                case 0:
-                    return webViewChartOneVC
-                case 1:
-                    return webViewChartTwoVC
-                default:
-                    break
-                }
-            }
+            webViewChartTwoVC.typeOfChart = kpi.KPIChartTwo!
+            
         case .IntegratedKPI:
-            
             tableViewChartVC.typeOfKPI = .IntegratedKPI
             
-            //debug->
-            tableViewChartVC.header = kpi.integratedKPI.kpiName!
-            tableViewChartVC.index = 0
-            webViewChartOneVC.header = kpi.integratedKPI.kpiName!
-            webViewChartOneVC.index = 1
-            //<-debug
+            let kpiName = kpi.integratedKPI.kpiName!
             
+            if firstReportIsTable() { tableViewChartVC.header  = kpiName }
+            else                    { webViewChartOneVC.header = kpiName }
             
-            switch (IntegratedServices(rawValue: kpi.integratedKPI.serviceName!))! {
-                
-            case .Quickbooks:
-                navigationItem.title = "Quickbooks"
-                
-                let kpiName = kpi.integratedKPI.kpiName!
-                let kpiValue = QiuckBooksKPIs(rawValue: kpiName)!
-                
-                //TODO: Refine, too much repeated code!
-                
-                switch kpiValue
-                {
-                case .Invoices:
-                    let method = QBQuery(with: [:])
-                    
-                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
-                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method, kpiName: kpiValue))
-                    
-                    createDataFromRequestWith(qBMethod: method, success: { _ in
-                        tableViewChartVC.kpiName = kpiValue
-                        tableViewChartVC.qBMethod = .query
-                    })
-                    
-                    return tableViewChartVC
-                    
-                case .Balance:
-                    let method = QBBalanceSheet(with: [:])
-                    
-                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
-                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method, kpiName: kpiValue))
-                    
-                    createDataFromRequestWith(qBMethod: method, success: { _ in
-                        tableViewChartVC.qBMethod = .balanceSheet
-                    })                    
-                    
-                    return tableViewChartVC
-                    
-                case .BalanceByBankAccounts:
-                    let method = QBAccountList(with: [:])
-                    
-                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
-                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method, kpiName: kpiValue))
-                    
-                    createDataFromRequestWith(qBMethod: method, success: { _ in
-                        tableViewChartVC.qBMethod = .accountList
-                    })
-                    
-                    return tableViewChartVC
-                    
-                case .IncomeProfitKPIs:
-                    let method = QBProfitAndLoss(with: [:])
-                    
-                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
-                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method, kpiName: kpiValue))
-                    
-                    createDataFromRequestWith(qBMethod: method, success: { _ in
-                        tableViewChartVC.qBMethod = .profitLoss
-                    })
-                    
-                    return tableViewChartVC
-                    
-                case .PaidExpenses:
-                    let method = QBPaidExpenses(with: [:])
-                    
-                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
-                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method, kpiName: kpiValue))
-                    
-                    createDataFromRequestWith(qBMethod: method, success: { _ in
-                        tableViewChartVC.qBMethod = .paidExpenses
-                    })
-                    
-                    return tableViewChartVC
-                    
-                case .PaidInvoicesByCustomers:
-                    let method = QBPaidInvoicesByCustomers(with: [:])
-                    
-                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
-                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method, kpiName: kpiValue))
-                    
-                    createDataFromRequestWith(qBMethod: method, success: { _ in
-                        tableViewChartVC.qBMethod = .paidInvoicesByCustomers
-                    })
-                    
-                    return tableViewChartVC
-                    
-                case .NetIncome:
-                    let method = QBQuery(with: [:])
-                    
-                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
-                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method, kpiName: kpiValue))
-                    
-                    
-                    let credential = OAuthSwiftCredential(consumerKey: quickBooksDataManager.serviceParameters[.consumerKey]!,
-                                                          consumerSecret: quickBooksDataManager.serviceParameters[.consumerSecret]!)
-                    
-                    credential.oauthToken = kpi.integratedKPI.quickbooksKPI!.oAuthToken!
-                    credential.oauthTokenSecret = kpi.integratedKPI.quickbooksKPI!.oAuthTokenSecret!
-                    credential.oauthRefreshToken = kpi.integratedKPI.quickbooksKPI!.oAuthRefreshToken!
-                    
-                    quickBooksDataManager.credentialTempList.append(credential)
-                    
-                    createDataFromRequestWith(qBMethod: method, success: { _ in
-                        tableViewChartVC.kpiName = kpiValue
-                        tableViewChartVC.qBMethod = .query
-                    })
-                    
-                    return tableViewChartVC
-                    
-                case .OverdueCustomers:
-                    let method = QBQuery(with: [:])
-                    
-                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
-                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method, kpiName: kpiValue))
-                    
-                    createDataFromRequestWith(qBMethod: method, success: { _ in
-                        tableViewChartVC.kpiName = kpiValue
-                        tableViewChartVC.qBMethod = .query
-                    })
-                    
-                    return tableViewChartVC
-                    
-                case .PaidInvoices:
-                    let method = QBQuery(with: [:])
-                    
-                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
-                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method, kpiName: kpiValue))
-                    
-                    createDataFromRequestWith(qBMethod: method, success: { _ in
-                        tableViewChartVC.kpiName = kpiValue
-                        tableViewChartVC.qBMethod = .query
-                    })
-                    
-                    return tableViewChartVC
-                    
-                    
-                case .NonPaidInvoices:
-                    let method = QBQuery(with: [:])
-                    
-                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
-                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method, kpiName: kpiValue))
-                    
-                    createDataFromRequestWith(qBMethod: method, success: { _ in
-                        tableViewChartVC.kpiName = kpiValue
-                        tableViewChartVC.qBMethod = .query
-                    })
-                    
-                    return tableViewChartVC
-                 
-                case .OpenInvoicesByCustomers:
-                    let method = QBQuery(with: [:])
-                    
-                    tableViewChartVC.titleOfTable = (kpiName, "", "Value")
-                    quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method, kpiName: kpiValue))
-                    
-                    createDataFromRequestWith(qBMethod: method, success: { _ in
-                        tableViewChartVC.kpiName = kpiValue
-                        tableViewChartVC.qBMethod = .query
-                    })
-                    
-                     return tableViewChartVC
-               
-                }
-                
-            case .GoogleAnalytics:
-                navigationItem.title = "Google Analytics"
-                switch (GoogleAnalyticsKPIs(rawValue: kpi.integratedKPI.kpiName!))! {
-                case .UsersSessions:
-                    tableViewChartVC.titleOfTable = ("Date","","Value")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .AudienceOverview:
-                    tableViewChartVC.titleOfTable = ("Ages","Genders","Market category")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .GoalOverview:
-                    tableViewChartVC.titleOfTable = ("Goal Overview","","Value")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .TopPagesByPageviews:
-                    tableViewChartVC.titleOfTable = ("Top Pages","","Value")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .TopSourcesBySessions:
-                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .TopOrganicKeywordsBySession:
-                    tableViewChartVC.titleOfTable = ("Top Keywords","","Value")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .TopChannelsBySessions:
-                   // tableViewChartVC.titleOfTable = ("Top Source","","Value")
-                    createDataFromRequest(success: { dataForPresent in
-                        var pieData: [(number: String, rate: String)] = []
-                        for item in dataForPresent {
-                            let pie: (number: String, rate: String) = (item.leftValue, item.rightValue)
-                            pieData.append(pie)
-                        }
-                        webViewChartOneVC.pieChartData = pieData
-                        webViewChartOneVC.refreshView()
-//                        tableViewChartVC.dataArray = dataForPresent
-//                        tableViewChartVC.tableView.reloadData()
-                    })
-                    return webViewChartOneVC
-                case .RevenueTransactions:
-                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .EcommerceOverview:
-                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .RevenueByLandingPage:
-                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .RevenueByChannels:
-                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .TopKeywordsByRevenue:
-                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .TopSourcesByRevenue:
-                    tableViewChartVC.titleOfTable = ("Top Source","","Value")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                }
-                //debug->
-                return tableViewChartVC
-                //<-debug
-            case .PayPal:
-                navigationItem.title = "PayPal"
-                switch (PayPalKPIs(rawValue: kpi.integratedKPI.kpiName!))! {
-                case .Balance:
-                    tableViewChartVC.titleOfTable = ("Balance","","$")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .NetSalesTotalSales:
-                    webViewChartOneVC.typeOfChart = kpi.KPIChartOne!
-                    
-                    tableViewChartVC.titleOfTable = ("Sales","Net amount","Gross amount")
-                    createDataFromRequest(success: { dataForPresent in
-                        //webViewChartOneVC.lineChartData =  dataForPresent
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .KPIS:
-                    tableViewChartVC.titleOfTable = ("KPIs","Last 30 days","%")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .AverageRevenueSale:
-                    tableViewChartVC.titleOfTable = ("Sale","","$")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .AverageRevenueSaleByPeriod:
-                    tableViewChartVC.titleOfTable = ("Period","$","Total")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .TopCountriesBySales:
-                    tableViewChartVC.titleOfTable = ("Name","Sales","Total")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .TopProducts:
-                    tableViewChartVC.titleOfTable = ("Name","Sales","Total")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .TransactionsByStatus:
-                    tableViewChartVC.titleOfTable = ("Status","","Count")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .PendingByType:
-                    tableViewChartVC.titleOfTable = ("Type","","Count")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .RecentExpenses:
-                    tableViewChartVC.titleOfTable = ("Transaction","","$")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                }
-                //debug->
-                switch index {
-                case 0:
-                    return tableViewChartVC
-                case 1:
-                    return webViewChartOneVC
-                default:
-                    break
-                }
-                
-                //<-debug
-            case .SalesForce:
-                navigationItem.title = "SalesForce"
-                switch (SalesForceKPIs(rawValue: kpi.integratedKPI.kpiName!))! {
-                case .RevenueNewLeads:
-                    tableViewChartVC.titleOfTable = ("Revenue","New leads","Date")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .KeyMetrics:
-                    tableViewChartVC.titleOfTable = ("Metrics","","Month to date")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .ConvertedLeads:
-                    tableViewChartVC.titleOfTable = ("Balance","","$")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .OpenOpportunitiesByStage:
-                    tableViewChartVC.titleOfTable = ("Name","","Stage")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .TopSalesRep:
-                    tableViewChartVC.titleOfTable = ("Name","Won","Revenue")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .NewLeadsByIndustry:
-                    tableViewChartVC.titleOfTable = ("Industry","","Month to date")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                case .CampaignROI:
-                    tableViewChartVC.titleOfTable = ("Metrics","","All time")
-                    createDataFromRequest(success: { dataForPresent in
-                        tableViewChartVC.dataArray = dataForPresent
-                        tableViewChartVC.tableView.reloadData()
-                    })
-                }
-            default:
-                break
-            }
+            webViewChartTwoVC.header = kpiName
+            reportDataManipulator.kpi = kpi
+            reportDataManipulator.dataForReport()
         }
-        return UIViewController()
     }
     
-    func returnIndexForVC(vc: UIViewController) -> Int {
-        if let webVC: WebViewChartViewController = vc as? WebViewChartViewController {
-            return webVC.index
-        }
-        if let tableVC: TableViewChartController = vc as? TableViewChartController {
-            return tableVC.index
-        }
-        return 0
+    private func subscribeToNotifications() {
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(ChartsPageViewController.prepareDataForReportFromQB),
+                                               name: .qbManagerRecievedData,
+                                               object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(ChartsPageViewController.prepareDataForReportFromPayPal),
+                                               name: .paypalManagerRecievedData,
+                                               object: nil)
+    }
+ 
+    @objc private func prepareDataForReportFromPayPal() {
+        
+        tableViewChartVC.dataArray.append(contentsOf: reportDataManipulator.dataFromPaypalToPresent)
+        tableViewChartVC.reloadTableView()
     }
     
-    func setIndexForVC(vc: UIViewController, index: Int) {
-        if let webVC: WebViewChartViewController = vc as? WebViewChartViewController {
-            webVC.index = index
-        }
-        if let tableVC: TableViewChartController = vc as? TableViewChartController {
-            tableVC.index = index
-        }
+    @objc private func prepareDataForReportFromQB() {
+        
+        let kpiName = kpi.integratedKPI.kpiName!
+        let kpiValue = QiuckBooksKPIs(rawValue: kpiName)!
+        let data = reportDataManipulator.quickBooksDataManager.dataFor(kpi: kpiValue)
+        
+        print(data)
+        
+        tableViewChartVC.dataArray.append(contentsOf: data)
+        
+        tableViewChartVC.reloadTableView()
     }
     
     override func willMove(toParentViewController parent: UIViewController?) {
         self.navigationController?.navigationBar.backgroundColor = UIColor.clear
-    }
-    
+    }    
 }
 
 //load data from external services
 extension ChartsPageViewController {
-    
-    //MARK: - get analytics data
-    func getGoogleAnalyticsData(success: @escaping (_ report: Report) -> ()) {
-        let external = kpi.integratedKPI
-        let request = GoogleAnalytics(oauthToken: (external?.googleAnalyticsKPI?.oAuthToken)!, oauthRefreshToken: (external?.googleAnalyticsKPI?.oAuthRefreshToken)!, oauthTokenExpiresAt: (external?.googleAnalyticsKPI?.oAuthTokenExpiresAt)! as Date)
-        let param = ReportRequest()
-        param.viewId = (external?.googleAnalyticsKPI?.viewID)!
-        
-        var ranges:[ReportRequest.DateRange] = []
-        var metrics: [ReportRequest.Metric] = []
-        var dimentions: [ReportRequest.Dimension] = []
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let curentDate = dateFormatter.string(from: Date())
-        let sevenDaysAgo = dateFormatter.string(from: Date(timeIntervalSinceNow: -(7*24*3600)))
-        let mounthAgo = dateFormatter.string(from: Date(timeIntervalSinceNow: -(30*24*3600)))
-        
-        switch (GoogleAnalyticsKPIs(rawValue: (external?.kpiName)!))! {
-        case .UsersSessions:
-            ranges.append(ReportRequest.DateRange(startDate: "2017-02-14", endDate: "2017-02-21"))
-            metrics.append(ReportRequest.Metric(expression: "ga:7dayUsers/ga:sessions", formattingType: .FLOAT))
-            dimentions.append(ReportRequest.Dimension(name: "ga:day"))
-        case .AudienceOverview:
-            metrics.append(ReportRequest.Metric(expression: "ga:users", formattingType: .FLOAT))
-            ranges.append(ReportRequest.DateRange(startDate: mounthAgo, endDate: curentDate))
-            dimentions.append(ReportRequest.Dimension(name: "ga:interestInMarketCategory"))
-            dimentions.append(ReportRequest.Dimension(name: "ga:userAgeBracket"))
-            dimentions.append(ReportRequest.Dimension(name: "ga:userGender"))
-
-        case .GoalOverview:
-            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
-            metrics.append(ReportRequest.Metric(expression: "ga:goalCompletionsAll", formattingType: .INTEGER))
-        case .TopPagesByPageviews:
-            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
-            metrics.append(ReportRequest.Metric(expression: "ga:pageviews", formattingType: .INTEGER))
-            dimentions.append(ReportRequest.Dimension(name: "ga:pagePath"))
-        case .TopSourcesBySessions:
-            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
-            metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .INTEGER))
-            dimentions.append(ReportRequest.Dimension(name: "ga:source"))
-        case .TopOrganicKeywordsBySession:
-            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
-            metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .INTEGER))
-            dimentions.append(ReportRequest.Dimension(name: "ga:keyword"))
-        case .TopChannelsBySessions:
-            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
-            metrics.append(ReportRequest.Metric(expression: "ga:sessions", formattingType: .FLOAT))
-            dimentions.append(ReportRequest.Dimension(name: "ga:channelGrouping"))
-        case .RevenueTransactions:
-            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
-            metrics.append(ReportRequest.Metric(expression: "ga:totalValue/ga:transactions", formattingType: .FLOAT))
-        case .EcommerceOverview:
-            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
-            metrics.append(ReportRequest.Metric(expression: "ga:itemQuantity", formattingType: .FLOAT))
-            metrics.append(ReportRequest.Metric(expression: "ga:uniquePurchases", formattingType: .FLOAT))
-            metrics.append(ReportRequest.Metric(expression: "ga:localTransactionShipping", formattingType: .FLOAT))
-            metrics.append(ReportRequest.Metric(expression: "ga:localRefundAmount", formattingType: .FLOAT))
-            metrics.append(ReportRequest.Metric(expression: "ga:productListViews", formattingType: .FLOAT))
-            metrics.append(ReportRequest.Metric(expression: "ga:productListClicks", formattingType: .FLOAT))
-            metrics.append(ReportRequest.Metric(expression: "ga:productAddsToCart", formattingType: .FLOAT))
-            metrics.append(ReportRequest.Metric(expression: "ga:revenuePerUser", formattingType: .FLOAT))
-            metrics.append(ReportRequest.Metric(expression: "ga:transactionsPerUser", formattingType: .FLOAT))
-        case .RevenueByLandingPage:
-            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
-            metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
-            dimentions.append(ReportRequest.Dimension(name: "ga:landingPagePath"))
-        case .RevenueByChannels:
-            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
-            metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
-            dimentions.append(ReportRequest.Dimension(name: "ga:channelGrouping"))
-        case .TopKeywordsByRevenue:
-            ranges.append(ReportRequest.DateRange(startDate: sevenDaysAgo, endDate: curentDate))
-            metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
-            dimentions.append(ReportRequest.Dimension(name: "ga:keyword"))
-        case .TopSourcesByRevenue:
-            ranges.append(ReportRequest.DateRange(startDate: mounthAgo, endDate: curentDate))
-            metrics.append(ReportRequest.Metric(expression: "ga:totalValue", formattingType: .FLOAT))
-            dimentions.append(ReportRequest.Dimension(name: "ga:source"))
-        }
-        
-        param.dateRanges = ranges
-        param.metrics = metrics
-        param.dimensions = dimentions
-        
-        request.getAnalytics(param: param, success: { report, token in
-            if token != nil {
-                let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
-                external?.googleAnalyticsKPI?.setValue(token, forKey: "oAuthToken")
-                do {
-                    try context.save()
-                } catch {
-                    print(error)
-                    return
-                }
-            }
-            success(report)
-        }, failure: { error in
-            if error == "403" {
-                //user has not rules for this view
-                self.autorisationAgain(external: external!)
-            }
-        })
-    }
-    
-    //MARK: - crate data from request
-    func createDataFromRequestWith(qBMethod: QuickBookMethod?, success: @escaping () -> ()) {
-        
-        self.quickBooksDataManager.fetchDataFromIntuit(isCreation: false)
-        
-        success()        
-    }
-    
-    func createDataFromRequest(success: @escaping ([(leftValue: String, centralValue: String, rightValue: String)])->()) {
-        
-        var dataForPresent: [(leftValue: String, centralValue: String, rightValue: String)] = []
-        
-        switch (IntegratedServices(rawValue: kpi.integratedKPI.serviceName!))! {
-            
-        case .GoogleAnalytics:
-            getGoogleAnalyticsData(success: { report in
-                switch (GoogleAnalyticsKPIs(rawValue: self.kpi.integratedKPI.kpiName!))! {
-                case .UsersSessions:
-                    for i in 0..<(report.data?.rowCount)! {
-                        let data = report.data?.rows[i]
-                        let dateFormatter = DateFormatter()
-                        dateFormatter.dateFormat = "yyyy/MM/"
-                        
-                        dataForPresent.append(("\(dateFormatter.string(from: Date()))\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
-                    }
-                    success(dataForPresent)
-                    
-                case .AudienceOverview:
-                    for i in 0..<(report.data?.rowCount)! {
-                        let data = report.data?.rows[i]
-                        dataForPresent.append(("\((data?.dimensions[1])!)", "\((data?.dimensions[2])!)", "\((data?.dimensions[0])!)"))
-                    }
-                    
-                    success(dataForPresent)
-                case .GoalOverview:
-                    for _ in 0..<(report.data?.rowCount)! {
-                        for data in (report.data?.totals)! {
-                            dataForPresent.append(("Goal", "", "\(data.values[0])"))
-                        }
-                    }
-                    success(dataForPresent)
-                case .TopPagesByPageviews:
-                    for i in 0..<(report.data?.rowCount)! {
-                        let data = report.data?.rows[i]
-                        dataForPresent.append(("\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
-                    }
-                    success(dataForPresent)
-                    
-                case .TopSourcesBySessions:
-                    for i in 0..<(report.data?.rowCount)! {
-                        let data = report.data?.rows[i]
-                        dataForPresent.append(("\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
-                    }
-                    success(dataForPresent)
-                case .TopOrganicKeywordsBySession:
-                    for i in 0..<(report.data?.rowCount)! {
-                        let data = report.data?.rows[i]
-                        dataForPresent.append(("\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
-                    }
-                    success(dataForPresent)
-                case .TopChannelsBySessions:
-                    for i in 0..<(report.data?.rowCount)! {
-                        let data = report.data?.rows[i]
-                        dataForPresent.append(("\((data?.dimensions[0])!)", "", "\((data?.metrics[0].values[0])!)"))
-                    }
-                    success(dataForPresent)
-                case .RevenueTransactions:
-                    dataForPresent.append(("Revenue", "", "\((report.data?.totals[0].values[0])!)"))
-                    success(dataForPresent)
-                case .EcommerceOverview:
-                    for values in (report.data?.totals)! {
-                        for number in values.values {
-                            dataForPresent.append(("OverView", "", "\(number)"))
-                        }
-                    }
-                    success(dataForPresent)
-                case .RevenueByLandingPage:
-                    dataForPresent.append(("Revenue", "", "\((report.data?.totals[0].values[0])!)"))
-                    success(dataForPresent)
-                case .RevenueByChannels:
-                    dataForPresent.append(("Revenue", "", "\((report.data?.totals[0].values[0])!)"))
-                    success(dataForPresent)
-                case .TopKeywordsByRevenue:
-                    dataForPresent.append(("Revenue", "", "\((report.data?.totals[0].values[0])!)"))
-                    success(dataForPresent)
-                case .TopSourcesByRevenue:
-                    dataForPresent.append(("Revenue", "", "\((report.data?.totals[0].values[0])!)"))
-                    success(dataForPresent)
-                }
-            }
-            )
-        case .PayPal:
-            let external = kpi.integratedKPI
-            let request = PayPal(apiUsername: (external?.payPalKPI?.apiUsername)!, apiPassword: (external?.payPalKPI?.apiPassword)!, apiSignature: (external?.payPalKPI?.apiSignature)!)
-            switch (PayPalKPIs(rawValue: (external?.kpiName)!))! {
-            case .Balance:
-                request.getBalance(success: { balance in
-                    dataForPresent.append(("Balance", "", balance))
-                    success(dataForPresent)
-                }, failure: {error in
-                    print(error)
-                })
-            case .NetSalesTotalSales:
-                request.getSales(success: {sales in
-                    for sale in sales {
-                        dataForPresent.append((sale.payer , sale.netAmount, sale.amount))
-                    }
-                    success(dataForPresent)
-                }, failure: {error in
-                    print(error)
-                })
-            case .KPIS:
-                request.getKPIS(success: { kpis in
-                    for kpi in kpis {
-                        dataForPresent.append((kpi.kpiName , kpi.value, "\(kpi.percent)"))
-                    }
-                    success(dataForPresent)
-                })
-            case .AverageRevenueSale:
-                request.getAverageRevenue(success: { revenue in
-                    dataForPresent.append(("Average", "", revenue))
-                    success(dataForPresent)
-                }, failure: {error in
-                    print(error)
-                })
-            case .AverageRevenueSaleByPeriod:
-                request.getAverageRevenueSaleByPeriod(success: {revenues in
-                    for revenue in revenues {
-                        dataForPresent.append((revenue.period , revenue.revenue, "\(revenue.total)"))
-                    }
-                    success(dataForPresent)
-                }, failure: {error in
-                    print(error)
-                })
-            case .TopCountriesBySales:
-                request.getTopCountriesBySales(success: {countries in
-                    for country in countries {
-                        dataForPresent.append((country.country , "\(country.sale)", "\(country.total)"))
-                    }
-                    success(dataForPresent)
-                }, failure: {error in
-                    print(error)
-                })
-            case .TopProducts:
-                request.getTopProduct(success: {products in
-                    for product in products {
-                        dataForPresent.append((product.product , "\(product.size)", "\(product.total)"))
-                    }
-                    success(dataForPresent)
-                }, failure: {error in
-                    print(error)
-                })
-            case .TransactionsByStatus:
-                request.getTransactionsByStatus(success: {transactionsSize in
-                    for status in transactionsSize {
-                        dataForPresent.append((status.status , "", "\(status.size)"))
-                    }
-                    success(dataForPresent)
-                }, failure: {error in
-                    print(error)
-                })
-            case .PendingByType:
-                request.getPendingByType(success: { pending in
-                    for value in pending {
-                        dataForPresent.append((value.status , "", "\(value.count)"))
-                    }
-                    success(dataForPresent)
-                }, failure: {error in
-                    print(error)
-                })
-            case .RecentExpenses:
-                request.getRecentExpenses(success: {expenses in
-                    for expense in expenses {
-                        dataForPresent.append((expense.payer , "", expense.netAmount))
-                    }
-                    success(dataForPresent)
-                }, failure: {error in
-                    print(error)
-                })
-            }
-        case .SalesForce:
-            break
-            //TODO: Add request
-        default:
-            break
-        }
-    }
     
     //MARK: - Autorisation again method
     func autorisationAgain(external: ExternalKPI) {
@@ -843,7 +158,6 @@ extension ChartsPageViewController {
             }, failure: { error in
                 self.showAlert(title: "Sorry", errorMessage: error)
             })
-        }
-        ))
+        }))
     }
 }

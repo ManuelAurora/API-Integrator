@@ -270,8 +270,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
             _ = self.navigationController?.popViewController(animated: true)
         }, failure: { error in
             self.showAlert(title: "Error", errorMessage: error)
-        }
-        )
+        })
     }
     
     func changeUserRights(typeOfAccount: TypeOfAccount, success: @escaping ()->()) {
@@ -285,8 +284,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         },
                                  failure: { error in
                                     self.showAlert(title: "Error", errorMessage: error)
-        }
-        )
+        })
     }
     
     func updateProfile(photoLink: String?) {

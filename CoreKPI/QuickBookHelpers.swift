@@ -167,7 +167,7 @@ struct QBIncomeProfitKPI
             incomeQuartal != nil &&
             incomeYear    != nil {
             let notificationCenter = NotificationCenter.default
-            notificationCenter.post(name: .qBProfitAndLossRefreshed, object: nil)
+            notificationCenter.post(name: .qbManagerRecievedData, object: nil)
         }        
     }
 }

@@ -12,13 +12,8 @@ import UIKit
 extension Notification.Name
 {    
     static let userTappedSecuritySwitch = Notification.Name("UserTappedSecuritySwitch")
-    static let qBBalanceSheetRefreshed = Notification.Name("QuickbooksBalanceSheetRefreshed")
-    static let qBInvoicesRefreshed = Notification.Name("QuickbooksInvoicesRefreshed")
-    static let qBAccountListRefreshed = Notification.Name("QuickbooksAccountListRefreshed")
-    static let qBProfitAndLossRefreshed = Notification.Name("ProfitAndLossRefreshed")
-    static let qBOverdueCustomersRefreshed = Notification.Name("OverdueCustomersRefreshed")
-    static let qBPaidInvoicesByCustomersRefreshed = Notification.Name("PaidInvoicesByCustomersRefreshed")
-    static let qBExpencesByVendorSummaryRefreshed = Notification.Name("ExpencesByVendorSummaryRefreshed")
+    static let qbManagerRecievedData = Notification.Name("qbManagerRecievedData")
+    static let paypalManagerRecievedData = Notification.Name("paypalManagerRecievedData")
     static let newExternalKPIadded = Notification.Name("NewExternalKPIAdded")
     static let modelDidChanged = Notification.Name("modelDidChange")
     static let userLoggedIn = Notification.Name("UserLoggedIn")
