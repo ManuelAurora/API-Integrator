@@ -143,12 +143,19 @@ class QuickBookDataManager
         
         switch kpi
         {
-        case .Balance:
-            return balanceSheet
-            
+        case .Balance: return balanceSheet
+        case .BalanceByBankAccounts: return accountList
+        //case .IncomeProfitKPIs: return incomeProfitKPI
+        case .Invoices:                return invoices
+        case .NetIncome:               return netIncome
+        case .NonPaidInvoices:         return nonPaidInvoicesPercent
+        case .OpenInvoicesByCustomers: return openInvoicesByCustomers
+        case .OverdueCustomers:        return overdueCustomers
+        case .PaidExpenses:            return expencesByVendorSummary
+        case .PaidInvoices:            return paidInvoicesPercent
+        case .PaidInvoicesByCustomers: return paidInvoicesByCustomer
         default: break
-        }
-        
+        }        
         return resultArray()
     }
     

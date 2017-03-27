@@ -10,6 +10,8 @@ import Foundation
 import Alamofire
 import AEXML
 
+typealias payPalData = (payer: String, netAmount: String, amount: String, date: String)
+
 class PayPal: ExternalRequest {
     
     var apiUsername = ""
@@ -73,14 +75,14 @@ class PayPal: ExternalRequest {
     }
     
     //MARK:- Get net sales/total sales
-    func getSales(success: @escaping (_ sales: [(payer: String, netAmount: String, amount: String)]) -> (), failure: @escaping failure) {
+    func getSales(success: @escaping (_ sales: [payPalData]) -> (), failure: @escaping failure) {
         
         let params: [(field: String, description: [String:String], value: String)] = [("StartDate", ["xs:type":"dateTime"], getDate(mounthsAgo: 1)), ("TransactionClass", ["xs:type":"ePaymentTransactionClassCodeType"], "Received")]
         let soapRequest = createXMLRequest(method: "TransactionSearch", subject: (nil, [:]), requestParams: params)
         request(getMutableRequest(soapRequest))
             .responseString { response in
                 
-                var dataArray: [(payer: String, netAmount: String, amount: String)] = []
+                var dataArray: [payPalData] = []
                 
                 if let xmlString = response.result.value {
                     do {
@@ -88,7 +90,7 @@ class PayPal: ExternalRequest {
                         let transactions = xmlDoc.root["SOAP-ENV:Body"]["TransactionSearchResponse"].children
                         for transaction in transactions {
                             if transaction.name == "PaymentTransactions" {
-                                dataArray.append((transaction["PayerDisplayName"].value!, transaction["NetAmount"].value!, transaction["GrossAmount"].value!))
+                                dataArray.append((transaction["PayerDisplayName"].value!, transaction["NetAmount"].value!, transaction["GrossAmount"].value!, transaction["Timestamp"].value!))
                             }
                         }
                         success(dataArray)
@@ -120,9 +122,6 @@ class PayPal: ExternalRequest {
                 success(kpiData)
             }
         })
-        
-        
-
     }
     
     private func createDataForResponse(curentData: (netSales: Double, fees: Double, shippingCost: Double, refunds: Double, incomingRefunds: Double, pending: Double, expenses: Double)?, lastPeriodData: (netSales: Double, fees: Double, shippingCost: Double, refunds: Double, incomingRefunds: Double, pending: Double, expenses: Double)?) -> [(kpiName: String, value: String, percent: Int)]? {

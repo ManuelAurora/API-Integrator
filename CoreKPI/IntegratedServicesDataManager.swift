@@ -110,8 +110,9 @@ class IntegratedServicesDataManager
             case .NetSalesTotalSales:
                 request.getSales(success: {sales in
                     for sale in sales {
-                        dataForPresent.append((sale.payer , sale.netAmount, sale.amount))
+                        dataForPresent.append((sale.payer , "\(sale.netAmount)&\(sale.amount)", sale.date))                        
                     }
+                    
                     success(dataForPresent)
                 }, failure: {error in
                     print(error)

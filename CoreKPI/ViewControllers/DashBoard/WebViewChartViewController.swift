@@ -9,6 +9,14 @@
 import UIKit
 import WebKit
 
+struct PaypalSale
+{
+    let payer: String
+    let value: String
+    let netValue: String
+    let timestamp: String
+}
+
 enum TypeOfChart: String {
     case PieChart = "Pie chart"
     case PointChart = "Point chart"
@@ -27,9 +35,10 @@ class WebViewChartViewController: UIViewController {
     var header: String = " "
     
     //data for charts
+    var rawDataArray: resultArray = []
     var pieChartData: [(number: String, rate: String)] = []
     var pointChartData: [(country: String, life: String, population: String, gdp: String, color: String, kids: String, median_age: String)] = []
-    var lineChartData: (usdData: [(date: String, rate: String)], eurData: [(date: String, rate: String)])!
+    var lineChartData: [[PaypalSale]] = []
     var barChartData: [(value: String, val: String)] = []
     var funnelChartData: [(name: String, value: String)] = []
     var positiveBarData: [(value: String, val: String)] = []
@@ -221,46 +230,63 @@ class WebViewChartViewController: UIViewController {
         case .LineChart:
             //TODO: Remove test data
             //->Debug
-            lineChartData = (
-                [
-                    ("1482354000000", "26.4"),
-                    ("1482440400000", "29.2"),
-                    ("1482526800000", "26.4"),
-                    ("1482613200000", "26.45"),
-                    ("1482699600000", "26.3"),
-                    ("1482786000000", "26.87"),
-                    ("1482872400000", "26.52")
-                ],
-                [
-                    ("1482354000000", "28.2"),
-                    ("1482440400000", "28.3"),
-                    ("1482526800000", "29.46"),
-                    ("1482613200000", "27.95"),
-                    ("1482699600000", "27.90"),
-                    ("1482786000000", "27.9"),
-                    ("1482872400000", "28.5")
-                ])
+            
+            var payers = [String]()
+            
+            _ = rawDataArray.map { if !payers.contains($0.leftValue) { payers.append($0.leftValue) } } //Filling payers array
+            
+            let salesByPayers = payers.map { payer -> [PaypalSale] in
+                
+                let dataArray: resultArray = rawDataArray.filter { $0.leftValue == payer }
+                
+                let result: [PaypalSale] = dataArray.map {
+                    (leftValue: String, centralValue: String, rightValue: String) -> PaypalSale in
+                    
+                    let df = DateFormatter()
+                    
+                    df.dateFormat = "yyyy-MM-dd'T'hh:mm:ss'Z'"
+                    let date = df.date(from: rightValue)!
+                    let timestamp = date.timeIntervalSince1970
+                    
+                    let values = centralValue.components(separatedBy: "&")
+                    
+                    let sale = PaypalSale(payer: leftValue,
+                                          value: values[1],
+                                          netValue: values[0],
+                                          timestamp: "\(Int(timestamp))")
+                    
+                    return sale
+                }
+                return result
+            }
+            
+            lineChartData = salesByPayers
+            
             header = "This is LineChart"
             //<-Debug
-        
+            
             var dataForJS = "var label = '\(header)'; var usdData = ["
-            for (index,item) in lineChartData.usdData.enumerated() {
+            
+            for (index,item) in lineChartData[0].enumerated() {
                 if index > 0 {
                     dataForJS += ","
                 }
-                let lineData = "{date: new Date(\(item.date)), rate: \(item.rate)}"
+                let lineData = "{date: new Date(\(item.timestamp)), rate: \(item.netValue)}"
                 dataForJS += lineData
             }
+
             dataForJS += "]; var eurData = ["
-            for (index,item) in lineChartData.eurData.enumerated() {
+            for (index,item) in lineChartData[1].enumerated() {
                 if index > 0 {
                     dataForJS += ","
                 }
-                let lineData = "{date: \(item.date), rate: \(item.rate)}"
+                let lineData = "{date: \(item.timestamp), rate: \(item.netValue)}"
                 dataForJS += lineData
             }
             dataForJS += "];"
+            
             return dataForJS
+            
         case .BarChart:
             //TODO: Remove test data
             //->Debug

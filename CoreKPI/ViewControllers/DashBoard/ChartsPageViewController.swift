@@ -95,6 +95,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
             if firstReportIsTable() { tableViewChartVC.header  = kpiName }
             else                    { webViewChartOneVC.header = kpiName }
             
+            webViewChartTwoVC.typeOfChart = .LineChart
             webViewChartTwoVC.header = kpiName
             reportDataManipulator.kpi = kpi
             reportDataManipulator.dataForReport()
@@ -117,6 +118,9 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     @objc private func prepareDataForReportFromPayPal() {
         
         tableViewChartVC.dataArray.append(contentsOf: reportDataManipulator.dataFromPaypalToPresent)
+        webViewChartOneVC.rawDataArray.append(contentsOf: reportDataManipulator.dataFromPaypalToPresent)
+        webViewChartTwoVC.rawDataArray.append(contentsOf: reportDataManipulator.dataFromPaypalToPresent)
+        
         tableViewChartVC.reloadTableView()
     }
     
