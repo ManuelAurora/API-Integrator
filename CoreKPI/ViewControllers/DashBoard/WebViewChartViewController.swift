@@ -33,6 +33,7 @@ class WebViewChartViewController: UIViewController {
     var typeOfChart = TypeOfChart.PieChart
     var index = 0
     var header: String = " "
+    var isAllowed = false
     
     //data for charts
     var rawDataArray: resultArray = []
@@ -46,7 +47,7 @@ class WebViewChartViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         webView.scrollView.isScrollEnabled = true
         webView.scrollView.bounces = false
         webView.backgroundColor = UIColor.white
@@ -187,11 +188,11 @@ class WebViewChartViewController: UIViewController {
             //<-Debug
             var dataForJS = "var lable = '\(header)'; var data_pie = ["
             
-            for (index,item) in pieChartData.enumerated() {
+            for (index,item) in rawDataArray.enumerated() {
                 if index > 0 {
                     dataForJS += ","
                 }
-                let pieData = "{number: '\(item.number)', rate: \(item.rate)}"
+                let pieData = "{number: '\(item.leftValue)', rate: \(item.rightValue)}"
                 dataForJS += pieData
             }
             dataForJS += "];"
@@ -262,7 +263,7 @@ class WebViewChartViewController: UIViewController {
             
             lineChartData = salesByPayers
             
-            header = "This is LineChart"
+            header = "Line chart"
             //<-Debug
             
             var dataForJS = "var label = '\(header)'; var usdData = ["

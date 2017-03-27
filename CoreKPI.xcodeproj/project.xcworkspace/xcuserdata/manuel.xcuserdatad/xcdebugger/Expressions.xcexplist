@@ -351,6 +351,9 @@
                value = "webViewChartTwoVC">
             </PersistentString>
             <PersistentString
+               value = "">
+            </PersistentString>
+            <PersistentString
                value = "providedControllers[1]">
             </PersistentString>
             <PersistentString
@@ -1260,16 +1263,25 @@
             <PersistentString
                value = "html! + &quot;&lt;style&gt;&quot; + css! + &quot;&lt;/style&gt;&quot; + &quot;&lt;script&gt;&quot; + acc! + &quot;&lt;/script&gt;&lt;script&gt;&quot; + js1! + &quot;&lt;/script&gt;&lt;script&gt;&quot; + topOfJS2 + js2! + endOfJS + &quot;&lt;/script&gt;&quot;">
             </PersistentString>
+            <PersistentString
+               value = "isAllowed">
+            </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "ChartsPageViewController.formData() -&gt; ():ChartsPageViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "tableViewChartVC.reportArray">
+               value = "reportDataManipulator.quickBooksDataManager">
             </PersistentString>
             <PersistentString
-               value = "reportDataManipulator.quickBooksDataManager">
+               value = "kpi.integratedKPI.serviceName">
+            </PersistentString>
+            <PersistentString
+               value = "webViewChartTwoVC.isAllowed">
+            </PersistentString>
+            <PersistentString
+               value = "tableViewChartVC.reportArray">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -1343,13 +1355,13 @@
          contextName = "WebViewChartViewController.generateDataForJS() -&gt; String:WebViewChartViewController.swift">
          <PersistentStrings>
             <PersistentString
+               value = "rawDataArray">
+            </PersistentString>
+            <PersistentString
                value = "lineChartData">
             </PersistentString>
             <PersistentString
                value = "dataForJS">
-            </PersistentString>
-            <PersistentString
-               value = "rawDataArray">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

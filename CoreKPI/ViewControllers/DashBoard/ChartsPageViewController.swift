@@ -36,7 +36,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         super.viewDidLoad()
         
         dataSource = self
-        
+        navigationItem.title = "Reports"
         subscribeToNotifications()
         setInitialViewControllers()
         formData()
@@ -64,7 +64,17 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        return providedControllers[1] == viewController ? nil : providedControllers[1]
+        
+        //return providedControllers[1] == viewController ? nil : providedControllers[1]
+        
+        if providedControllers[1] != viewController
+        {
+            guard let vc = providedControllers[1] as? WebViewChartViewController else { return nil }
+            
+            return vc.isAllowed ? vc : nil
+        }
+        
+        return nil
     }
     
     // MARK:- Other Methods
@@ -83,19 +93,43 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 _ = kpi.createdKPI?.number.map { tableViewChartVC.reportArray.append($0) }
                 tableViewChartVC.header = kpi.createdKPI?.KPI ?? ""
             }
-            else { webViewChartOneVC.typeOfChart = kpi.KPIChartOne! }
+            else { webViewChartOneVC.typeOfChart = kpi.KPIChartOne!; webViewChartOneVC.isAllowed = true }
             
+            webViewChartTwoVC.isAllowed = true
             webViewChartTwoVC.typeOfChart = kpi.KPIChartTwo!
             
         case .IntegratedKPI:
             tableViewChartVC.typeOfKPI = .IntegratedKPI
             
             let kpiName = kpi.integratedKPI.kpiName!
+            let service = IntegratedServices(rawValue: kpi.integratedKPI.serviceName!)!
+            var chart: TypeOfChart = .PieChart
+            
+            switch service
+            {
+            case .PayPal:
+                let kpiValue = PayPalKPIs(rawValue: kpiName)!
+                 
+                switch kpiValue
+                {
+                case .TransactionsByStatus, .PendingByType:
+                    chart = .PieChart
+                    webViewChartTwoVC.isAllowed = true
+                    
+                case .NetSalesTotalSales:
+                    chart = .LineChart
+                    webViewChartTwoVC.isAllowed = true
+                    
+                default: break
+                }
+                
+            default: break
+            }
             
             if firstReportIsTable() { tableViewChartVC.header  = kpiName }
             else                    { webViewChartOneVC.header = kpiName }
             
-            webViewChartTwoVC.typeOfChart = .LineChart
+            webViewChartTwoVC.typeOfChart = chart
             webViewChartTwoVC.header = kpiName
             reportDataManipulator.kpi = kpi
             reportDataManipulator.dataForReport()
