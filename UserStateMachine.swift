@@ -9,12 +9,14 @@
 import Foundation
 import UIKit //Just for appDelegate usage
 
-struct UserStateInfo {
+struct UserStateInfo
+{
     var loggedIn       = false
     var didEnterBG     = false
     var usesPinCode    = false
     var haveLocalToken = false
     var wasLoaded      = false
+    var fetchingData   = false
 }
 
 class UserStateMachine
@@ -59,6 +61,11 @@ class UserStateMachine
     func prepareToLogin() {
         
         if checkUserHaveLocalToken() { userStateInfo.haveLocalToken = true }
+    }
+    
+    func toggleAppFetchingData() {
+        
+        userStateInfo.fetchingData = !userStateInfo.fetchingData
     }
     
     func checkTokenOnServer() {

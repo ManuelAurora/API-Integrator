@@ -1,27 +1,3 @@
-//
-// AEXMLTests.swift
-//
-// Copyright (c) 2014 Marko Tadić <tadija@me.com> http://tadija.net
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-//
-
 import Foundation
 import XCTest
 @testable import AEXML
@@ -213,19 +189,30 @@ class AEXMLTests: XCTestCase {
     }
     
     func testBoolValue() {
-        XCTAssertEqual(plantsDocument.root["PLANT"]["TRUESTRING"].bool, true, "Should be able to cast element value as Bool.")
-        XCTAssertEqual(plantsDocument.root["PLANT"]["TRUENUMBER"].bool, true, "Should be able to cast element value as Bool.")
-        XCTAssertEqual(plantsDocument.root["PLANT"]["FALSEANYTHINGELSE"].bool, false, "Should be able to cast element value as Bool.")
+        let firstTrueString = plantsDocument.root["PLANT"]["TRUESTRING"].bool
+        XCTAssertEqual(firstTrueString, true, "Should be able to cast element value as Bool.")
+        
+        let firstFalseString = plantsDocument.root["PLANT"]["FALSESTRING"].bool
+        XCTAssertEqual(firstFalseString, false, "Should be able to cast element value as Bool.")
+        
+        let firstElementWithoutValue = plantsDocument.root["ELEMENTWITHOUTVALUE"].bool
+        XCTAssertNil(firstElementWithoutValue, "Should be able to return nil if value can't be represented as Bool.")
     }
     
     func testIntValue() {
         let firstPlantZone = plantsDocument.root["PLANT"]["ZONE"].int
         XCTAssertEqual(firstPlantZone, 4, "Should be able to cast element value as Integer.")
+        
+        let firstPlantPrice = plantsDocument.root["PLANT"]["PRICE"].int
+        XCTAssertNil(firstPlantPrice, "Should be able to return nil if value can't be represented as Integer.")
     }
     
     func testDoubleValue() {
         let firstPlantPrice = plantsDocument.root["PLANT"]["PRICE"].double
         XCTAssertEqual(firstPlantPrice, 2.44, "Should be able to cast element value as Double.")
+        
+        let firstPlantBotanical = plantsDocument.root["PLANT"]["BOTANICAL"].double
+        XCTAssertNil(firstPlantBotanical, "Should be able to return nil if value can't be represented as Double.")
     }
     
     func testNotExistingElement() {
@@ -302,6 +289,16 @@ class AEXMLTests: XCTestCase {
             }
         }
         XCTAssertEqual(count, 2, "Should be able to return elements with given attributes.")
+    }
+    
+    func testAllContainingAttributes() {
+        var count = 0
+        if let bulls = exampleDocument.root["dogs"]["dog"].all(containingAttributeKeys: ["gender"]) {
+            for _ in bulls {
+                count += 1
+            }
+        }
+        XCTAssertEqual(count, 2, "Should be able to return elements with given attribute keys.")
     }
     
     // MARK: - XML Write

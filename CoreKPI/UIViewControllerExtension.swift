@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 
 extension UIViewController {
+    
+    private static var spinner: OvalShapeLayer?
+    
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
@@ -24,6 +27,24 @@ extension UIViewController {
         let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func addWaitingSpinner() {
+        
+        guard UIViewController.spinner == nil else { return }
+        
+        UserStateMachine.shared.toggleAppFetchingData()
+        
+        UIViewController.spinner = OvalShapeLayer(point: view.center)
+        UIViewController.spinner?.frame.origin.y -= 80 //Temporary hardcoded
+        view.layer.addSublayer(UIViewController.spinner!)
+    }
+    
+    func removeWaitingSpinner() {
+       
+        UserStateMachine.shared.toggleAppFetchingData()
+        UIViewController.spinner?.removeFromSuperlayer()
+        UIViewController.spinner = nil
     }
 }
 

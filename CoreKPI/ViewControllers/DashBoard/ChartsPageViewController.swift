@@ -9,10 +9,11 @@
 import UIKit
 import OAuthSwift
 
-class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSource {
+class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     
     var kpi: KPI!
     var reportDataManipulator = ReportDataManipulator()
+    let stateMachine = UserStateMachine.shared
     
     lazy var webViewChartOneVC: WebViewChartViewController =  {
         return self.storyboard?.instantiateViewController(withIdentifier: .webViewController) as! WebViewChartViewController
@@ -35,6 +36,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        delegate   = self
         dataSource = self
         navigationItem.title = "Reports"
         subscribeToNotifications()
@@ -58,14 +60,12 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         providedControllers.append(webViewChartTwoVC)
     }
     
-    // MARK:- UIPageViewControllerDataSource Methods
+    // MARK:- UIPageViewControllerDataSource & delegate Methods
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         return providedControllers[0] == viewController ? nil : providedControllers[0]
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        
-        //return providedControllers[1] == viewController ? nil : providedControllers[1]
         
         if providedControllers[1] != viewController
         {
@@ -133,6 +133,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
             webViewChartTwoVC.header = kpiName
             reportDataManipulator.kpi = kpi
             reportDataManipulator.dataForReport()
+            addWaitingSpinner()
         }
     }
     
@@ -155,6 +156,8 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         webViewChartOneVC.rawDataArray.append(contentsOf: reportDataManipulator.dataFromPaypalToPresent)
         webViewChartTwoVC.rawDataArray.append(contentsOf: reportDataManipulator.dataFromPaypalToPresent)
         
+        removeWaitingSpinner()
+                
         tableViewChartVC.reloadTableView()
     }
     
@@ -164,9 +167,9 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         let kpiValue = QiuckBooksKPIs(rawValue: kpiName)!
         let data = reportDataManipulator.quickBooksDataManager.dataFor(kpi: kpiValue)
         
-        print(data)
-        
         tableViewChartVC.dataArray.append(contentsOf: data)
+        
+        removeWaitingSpinner()
         
         tableViewChartVC.reloadTableView()
     }

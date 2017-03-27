@@ -24,7 +24,7 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
     var titleOfTable: (leftTitle: String, centralTitle: String, rightTitle: String) = ("","","")
     
     var typeOfKPI: TypeOfKPI = .createdKPI
-    
+       
     override func viewDidLoad() {
         super.viewDidLoad()
         

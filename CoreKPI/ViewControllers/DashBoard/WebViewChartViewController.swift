@@ -52,6 +52,9 @@ class WebViewChartViewController: UIViewController {
         webView.scrollView.bounces = false
         webView.backgroundColor = UIColor.white
         webView.frame = view.bounds
+        
+        guard rawDataArray.count > 0 else { return }
+        
         createCharts()
     }
     
@@ -186,6 +189,7 @@ class WebViewChartViewController: UIViewController {
             //pieChartData = [("кусок 1", 499), ("Value 2", 150), ("Value 3", 200), ("Value 4", 300), ("Value 5", 200)]
             //header = "This is Pie"
             //<-Debug
+            
             var dataForJS = "var lable = '\(header)'; var data_pie = ["
             
             for (index,item) in rawDataArray.enumerated() {

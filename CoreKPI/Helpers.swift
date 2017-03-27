@@ -52,6 +52,19 @@ extension UIStoryboard
     }
 }
 
+struct AnimationConstants
+{
+    struct Keys
+    {
+        static let trainingAnimation = "TrainingAnimation"
+    }
+    
+    struct KeyPath
+    {
+        static let layer = "LayerToRemove"
+    }
+}
+
 struct UserDefaultsKeys
 {
     static let userId = "userId"
