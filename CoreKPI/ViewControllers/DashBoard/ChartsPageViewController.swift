@@ -33,6 +33,12 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         NotificationCenter.default.removeObserver(self)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        removeWaitingSpinner()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -123,6 +129,18 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 default: break
                 }
                 
+            case .Quickbooks:
+                let kpiValue = QiuckBooksKPIs(rawValue: kpiName)!
+                
+                switch kpiValue
+                {
+                case .NetIncome:
+                    chart = .LineChart
+                    webViewChartTwoVC.isAllowed = true
+                    
+                default: break
+                }
+                
             default: break
             }
             
@@ -152,34 +170,56 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                                                selector: #selector(ChartsPageViewController.prepareDataForReportFromPayPal),
                                                name: .paypalManagerRecievedData,
                                                object: nil)
+        
+        NotificationCenter.default.addObserver(forName: .errorDownloadingFile, object: nil, queue: nil) {
+            _ in
+            
+            self.removeWaitingSpinner()
+        }
     }
  
     @objc private func prepareDataForReportFromPayPal() {
         
-        tableViewChartVC.dataArray.append(contentsOf: reportDataManipulator.dataFromPaypalToPresent)
-        webViewChartOneVC.rawDataArray.append(contentsOf: reportDataManipulator.dataFromPaypalToPresent)
-        webViewChartTwoVC.rawDataArray.append(contentsOf: reportDataManipulator.dataFromPaypalToPresent)
-        
         removeWaitingSpinner()
-                
+        
+        tableViewChartVC.dataArray.append(contentsOf: reportDataManipulator.dataFromPaypalToPresent)
         tableViewChartVC.reloadTableView()
-        if webViewChartTwoVC.isAllowed { webViewChartTwoVC.refreshView() }
-        if webViewChartOneVC.isAllowed { webViewChartOneVC.refreshView() }
+        
+        if webViewChartTwoVC.isAllowed 
+        {
+            webViewChartTwoVC.rawDataArray.append(contentsOf: reportDataManipulator.dataFromPaypalToPresent)
+            webViewChartTwoVC.refreshView()
+        }
+        
+        if webViewChartOneVC.isAllowed
+        {
+            webViewChartOneVC.rawDataArray.append(contentsOf: reportDataManipulator.dataFromPaypalToPresent)
+            webViewChartOneVC.refreshView()
+        }
     }
     
     @objc private func prepareDataForReportFromQB() {
         
-        let kpiName = kpi.integratedKPI.kpiName!
-        let kpiValue = QiuckBooksKPIs(rawValue: kpiName)!
-        let data = reportDataManipulator.quickBooksDataManager.dataFor(kpi: kpiValue)
-        
-        tableViewChartVC.dataArray.append(contentsOf: data)
-        
         removeWaitingSpinner()
         
-        tableViewChartVC.reloadTableView()        
-        if webViewChartTwoVC.isAllowed { webViewChartTwoVC.refreshView() }
-        if webViewChartOneVC.isAllowed { webViewChartOneVC.refreshView() }
+        let kpiName  = kpi.integratedKPI.kpiName!
+        let kpiValue = QiuckBooksKPIs(rawValue: kpiName)!
+        let data     = reportDataManipulator.quickBooksDataManager.dataFor(kpi: kpiValue)
+        
+        tableViewChartVC.dataArray.append(contentsOf: data)
+        tableViewChartVC.reloadTableView()
+        
+        if webViewChartTwoVC.isAllowed
+        {
+            webViewChartTwoVC.rawDataArray.append(contentsOf: reportDataManipulator.quickBooksDataManager.paidInvoices)
+            webViewChartTwoVC.refreshView()
+        }
+        
+        if webViewChartOneVC.isAllowed
+        {
+            webViewChartOneVC.rawDataArray.append(contentsOf: reportDataManipulator.quickBooksDataManager.paidInvoices)
+            webViewChartOneVC.refreshView()
+        }
     }
     
     override func willMove(toParentViewController parent: UIViewController?) {

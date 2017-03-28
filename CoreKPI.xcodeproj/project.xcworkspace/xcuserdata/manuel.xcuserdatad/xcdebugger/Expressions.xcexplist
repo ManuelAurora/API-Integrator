@@ -156,13 +156,16 @@
          contextName = "WebViewChartViewController.createCharts() -&gt; ():WebViewChartViewController.swift">
          <PersistentStrings>
             <PersistentString
+               value = "rawDataArray">
+            </PersistentString>
+            <PersistentString
+               value = "self.navigationController">
+            </PersistentString>
+            <PersistentString
                value = "webView">
             </PersistentString>
             <PersistentString
                value = "webView.accessibilityElements">
-            </PersistentString>
-            <PersistentString
-               value = "self.navigationController">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -1120,6 +1123,9 @@
          <PersistentStrings>
             <PersistentString
                value = "reportDataManipulator.quickBooksDataManager.dataFor(kpi: kpiValue)">
+            </PersistentString>
+            <PersistentString
+               value = "reportDataManipulator.quickBooksDataManager.paidInvoices">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

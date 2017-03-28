@@ -22,6 +22,7 @@ extension Notification.Name
     static let userRemovedPincode = Notification.Name("UserRemovedPincode")
     static let userFailedToLogin = Notification.Name("LoginAttemptFailed")
     static let appDidEnteredBackground = Notification.Name("AppDidEnteredBackground")
+    static let errorDownloadingFile = Notification.Name("errorDownloadingFile")
 }
 
 extension UIStoryboard

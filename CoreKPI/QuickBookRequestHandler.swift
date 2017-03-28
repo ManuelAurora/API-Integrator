@@ -37,6 +37,7 @@ class QuickBookRequestHandler
                 }               
         },
             failure: { error in
+                self.notificationCenter.post(name: .errorDownloadingFile, object: nil)
                 print(error)
         })
     }
@@ -113,7 +114,7 @@ class QuickBookRequestHandler
                         }
                         else
                         {
-                            resultInvoice.leftValue = "Paid invoice"
+                            resultInvoice.leftValue = "\(date)"
                             resultInvoice.rightValue = "\(totalAmt)"
                             manager.paidInvoices.append(resultInvoice)
                         }

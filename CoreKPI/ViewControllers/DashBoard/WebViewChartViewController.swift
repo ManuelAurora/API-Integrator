@@ -233,8 +233,8 @@ class WebViewChartViewController: UIViewController {
             return dataForJS
             
         case .LineChart:
-            //TODO: Remove test data
-            //->Debug
+           
+            
             
             var payers = [String]()
             
