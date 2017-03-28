@@ -17,9 +17,9 @@ class Request
 {
     var errorMessage: String?
     
-    let serverIp = "http://dashmob.smichrissoft.com:8888"
+    //let serverIp = "http://dashmob.smichrissoft.com:8888"
     //debug!
-    //let serverIp = "http://192.168.0.118:8888"
+    let serverIp = "http://52.33.209.220:8888"
     
     var userID: Int!
     var token: String!
@@ -55,17 +55,19 @@ class Request
         
         request(http, method: .post, parameters: params, encoding: JSONEncoding.default).responseJSON { response in
             
-            if let statusCode = response.response?.statusCode {
-                switch statusCode {
+            if let statusCode = response.response?.statusCode
+            {
+                switch statusCode
+                {
                 case 200..<300, 400..<500:
-                    if let data = response.data {
-                        let json = try! JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
-                        if let jsonDictionary = json {
-                            success(jsonDictionary)
-                        } else {
-                            failure("Load failed")
-                        }
+                    if let data = response.data,
+                        let json = try? JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary,
+                        let jsonDictionary = json
+                    {
+                        success(jsonDictionary)
                     }
+                    else {  failure("Load failed") }
+                    
                 case 500..<600:
                     print(response.result.error ?? "Server error")
                 default:

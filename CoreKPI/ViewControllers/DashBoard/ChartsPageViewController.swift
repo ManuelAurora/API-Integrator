@@ -133,7 +133,11 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
             webViewChartTwoVC.header = kpiName
             reportDataManipulator.kpi = kpi
             reportDataManipulator.dataForReport()
-            addWaitingSpinner()
+            
+            var point = view.center
+            point.y -= 80
+            
+            addWaitingSpinner(at: point, color: OurColors.cyan)
         }
     }
     
@@ -159,6 +163,8 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         removeWaitingSpinner()
                 
         tableViewChartVC.reloadTableView()
+        if webViewChartTwoVC.isAllowed { webViewChartTwoVC.refreshView() }
+        if webViewChartOneVC.isAllowed { webViewChartOneVC.refreshView() }
     }
     
     @objc private func prepareDataForReportFromQB() {
@@ -171,7 +177,9 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         
         removeWaitingSpinner()
         
-        tableViewChartVC.reloadTableView()
+        tableViewChartVC.reloadTableView()        
+        if webViewChartTwoVC.isAllowed { webViewChartTwoVC.refreshView() }
+        if webViewChartOneVC.isAllowed { webViewChartOneVC.refreshView() }
     }
     
     override func willMove(toParentViewController parent: UIViewController?) {

@@ -29,14 +29,14 @@ extension UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    func addWaitingSpinner() {
+    func addWaitingSpinner(at point: CGPoint, color: UIColor) {
         
         guard UIViewController.spinner == nil else { return }
         
         UserStateMachine.shared.toggleAppFetchingData()
         
-        UIViewController.spinner = OvalShapeLayer(point: view.center)
-        UIViewController.spinner?.frame.origin.y -= 80 //Temporary hardcoded
+        UIViewController.spinner = OvalShapeLayer(point: point, color: color)
+        //UIViewController.spinner?.frame.origin.y -= 80 //Temporary hardcoded
         view.layer.addSublayer(UIViewController.spinner!)
     }
     

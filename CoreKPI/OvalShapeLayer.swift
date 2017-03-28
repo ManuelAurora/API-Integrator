@@ -14,13 +14,11 @@ class OvalShapeLayer: CAShapeLayer
     
     private let radius: CGFloat = 40
     
-    init(point: CGPoint) {
+    init(point: CGPoint, color: UIColor) {
         
         super.init()
         
-        let color = OurColors.cyan.cgColor
-        
-        strokeColor     = color
+        strokeColor     = color.cgColor
         fillColor       = UIColor.clear.cgColor
         lineDashPattern = [4, 3]
         lineWidth       = 6

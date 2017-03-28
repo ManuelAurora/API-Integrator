@@ -86,6 +86,13 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         enterByKeyButton.isEnabled = isEnabled
     }
     
+    private func toggleSignInButton(isEnabled: Bool) {
+        
+        signInButton.layer.borderColor = isEnabled ? OurColors.violet.cgColor : UIColor.lightGray.cgColor
+        signInButton.isEnabled = isEnabled
+    }
+
+    
     func clearTextFields() {
         
         passwordTextField.text = ""
@@ -94,6 +101,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func loginRequest() {
+        stateMachine.userStateInfo.tryingToLogIn = true
+        toggleSignInAnimation()
         
         if let username = self.emailTextField.text?.lowercased() {
             if let password = self.passwordTextField.text {
@@ -104,9 +113,35 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     @objc private func userFailedToLogin(_ notification: Notification) {
         
+        toggleSignInAnimation()
+        
         if let error = notification.userInfo?["error"] as? String
         {
             showAlert(title: "Authorization failed", errorMessage: error)
+        }
+    }
+    
+    private func toggleSignInAnimation() {
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            self.enterByKeyButton.alpha = self.stateMachine.userStateInfo.tryingToLogIn ? 0 : 1
+            
+        })
+        
+        let isEnabled = stateMachine.userStateInfo.tryingToLogIn ? false : true
+        
+        toggleSignInButton(isEnabled: isEnabled)
+        
+        if stateMachine.userStateInfo.tryingToLogIn
+        {
+            var point = enterByKeyButton.center
+            point.y += 25
+            
+            addWaitingSpinner(at: point, color: OurColors.blue)
+        }
+        else
+        {
+            removeWaitingSpinner()
         }
     }
     
@@ -117,5 +152,10 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                        selector: #selector(SignInViewController.userFailedToLogin),
                        name: .userFailedToLogin,
                        object: nil)
+        
+        nc.addObserver(forName: .userLoggedIn, object: nil, queue: nil) { _ in
+            
+            self.toggleSignInAnimation()
+        }
     }    
 }

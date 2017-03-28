@@ -24,6 +24,12 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var memberPositionTextField: BottomBorderTextField!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        removeWaitingSpinner()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,8 +46,21 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         self.navigationController?.hideTransparentNavigationBar()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    private func animateChanging() {
+        
+        if let cells = tableView.visibleCells as? [MemberEditTableViewCell]
+        {
+            _ = cells.map { $0.textFieldOfCell.resignFirstResponder()  }
+        }
+        
+        let yValue = view.bounds.height * 70 / 100
+        let point = CGPoint(x: view.center.x, y: yValue)
+        
+        addWaitingSpinner(at: point, color: OurColors.blue)
+        
+        saveButton.isEnabled = false
+        memberNameTextField.resignFirstResponder()
+        memberPositionTextField.resignFirstResponder()
     }
     
     //MARK: - TableViewDatasource methods
@@ -127,19 +146,22 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     //MARK: - tap Save button
     @IBAction func tapSaveButton(_ sender: Any) {
         
-        if checkInputValue() {
+        if checkInputValue()
+        {
+            animateChanging()
+            
             if newProfile.typeOfAccount == .Admin && model.team[index].isAdmin == false || newProfile.typeOfAccount == .Manager && model.team[index].isAdmin == true {
                 changeUserRights(typeOfAccount: newProfile.typeOfAccount, success: {
+                    
                     self.createDataForRequest(accountWasChanged: true)
-                }
-                )
-            } else {
-                createDataForRequest(accountWasChanged: false)
+                })
             }
-            
-        } else {
-            return
+            else
+            {
+                createDataForRequest(accountWasChanged: false)
+            }            
         }
+        else { return }
     }
     
     //MARK: - Check input value
@@ -252,6 +274,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
             
             self.navigationController!.popViewController(animated: true)
         } else {
+            saveButton.isEnabled = true
             showAlert(title: "Warning", errorMessage: "Profile not changed")
         }
         

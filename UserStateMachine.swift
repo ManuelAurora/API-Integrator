@@ -17,6 +17,7 @@ struct UserStateInfo
     var haveLocalToken = false
     var wasLoaded      = false
     var fetchingData   = false
+    var tryingToLogIn  = false
 }
 
 class UserStateMachine
@@ -95,19 +96,20 @@ class UserStateMachine
     //Needs for escaping bug when switching roots.
     func makeLoaded() { userStateInfo.wasLoaded = true }
     
-    func logInWith(email: String, password: String) {
+    func logInWith(email: String, password: String) {        
         
         let loginRequest = LoginRequest()
         loginRequest.loginRequest(username: email, password: password,
                                   success: {(userID, token, typeOfAccount) in
+                                    self.userStateInfo.tryingToLogIn = false
                                     let profile = Profile(userID: userID)
                                     profile.typeOfAccount = typeOfAccount
                                     self.model.signedInUpWith(token: token, profile: profile)
                                     self.saveLocalToken()
-                                    self.userLoggedIn()                                    
+                                    self.userLoggedIn()
         },
                                   failure: { error in
-                                    print(error)
+                                    self.userStateInfo.tryingToLogIn = false
                                     self.notificationCenter.post(name: .userFailedToLogin,
                                                                  object: nil,
                                                                  userInfo: ["error": error])

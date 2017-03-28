@@ -24,13 +24,12 @@
 		647B58911E65BA89001C968B /* QuickBookRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B58901E65BA89001C968B /* QuickBookRequestHandler.swift */; };
 		647CFCA11E8519C700F71632 /* ReportDataManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647CFCA01E8519C700F71632 /* ReportDataManipulator.swift */; };
 		647CFCA31E854BD600F71632 /* IntegratedServicesDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647CFCA21E854BD600F71632 /* IntegratedServicesDataManager.swift */; };
-		647F46D81E89361600641F42 /* pop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 647F46D71E89361600641F42 /* pop.framework */; };
-		647F46DA1E89362200641F42 /* pop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 647F46D91E89362200641F42 /* pop.framework */; };
-		647F46DB1E89362200641F42 /* pop.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 647F46D91E89362200641F42 /* pop.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		647F46DD1E89377900641F42 /* OvalShapeLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647F46DC1E89377900641F42 /* OvalShapeLayer.swift */; };
 		64936AEF1E543B480059D80A /* PinCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AEE1E543B480059D80A /* PinCodeViewController.swift */; };
 		64936AF21E543DC00059D80A /* PinCodeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AF01E543DC00059D80A /* PinCodeButton.swift */; };
 		64936AF31E543DC00059D80A /* PinCodePlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */; };
+		6496D6301E8A498D002591EA /* pop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6496D62F1E8A498D002591EA /* pop.framework */; };
+		6496D6311E8A498D002591EA /* pop.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6496D62F1E8A498D002591EA /* pop.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		64A32B921E5B394B008438DA /* String + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A32B911E5B394B008438DA /* String + Extension.swift */; };
 		64CB22A51E72E9EB00CBD6A3 /* PayPal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CB22A41E72E9EB00CBD6A3 /* PayPal.swift */; };
 		64E08EBF1E5C3D4B00FE1F8E /* Dictionary + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E08EBE1E5C3D4B00FE1F8E /* Dictionary + Extension.swift */; };
@@ -212,7 +211,7 @@
 				A2C6A5F51E6D7CBF005475B6 /* AEXML.framework in Embed Frameworks */,
 				A24A84041E486DD400440151 /* OAuthSwift.framework in Embed Frameworks */,
 				A2066D441E4DE25A00DCBA84 /* PhoneNumberKit.framework in Embed Frameworks */,
-				647F46DB1E89362200641F42 /* pop.framework in Embed Frameworks */,
+				6496D6311E8A498D002591EA /* pop.framework in Embed Frameworks */,
 				A24A84081E486DF500440151 /* Alamofire.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -239,12 +238,11 @@
 		647B58901E65BA89001C968B /* QuickBookRequestHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBookRequestHandler.swift; sourceTree = "<group>"; };
 		647CFCA01E8519C700F71632 /* ReportDataManipulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportDataManipulator.swift; path = ../ReportDataManipulator.swift; sourceTree = "<group>"; };
 		647CFCA21E854BD600F71632 /* IntegratedServicesDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegratedServicesDataManager.swift; sourceTree = "<group>"; };
-		647F46D71E89361600641F42 /* pop.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = pop.framework; path = Carthage/Build/iOS/pop.framework; sourceTree = "<group>"; };
-		647F46D91E89362200641F42 /* pop.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = pop.framework; path = Carthage/Build/iOS/pop.framework; sourceTree = "<group>"; };
 		647F46DC1E89377900641F42 /* OvalShapeLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OvalShapeLayer.swift; sourceTree = "<group>"; };
 		64936AEE1E543B480059D80A /* PinCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeViewController.swift; sourceTree = "<group>"; };
 		64936AF01E543DC00059D80A /* PinCodeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeButton.swift; sourceTree = "<group>"; };
 		64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodePlaceholderView.swift; sourceTree = "<group>"; };
+		6496D62F1E8A498D002591EA /* pop.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = pop.framework; path = Carthage/Build/iOS/pop.framework; sourceTree = "<group>"; };
 		64A32B911E5B394B008438DA /* String + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String + Extension.swift"; sourceTree = "<group>"; };
 		64A32B941E5B3B85008438DA /* BridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		64CB22A41E72E9EB00CBD6A3 /* PayPal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PayPal.swift; path = ExternalServices/PayPal.swift; sourceTree = "<group>"; };
@@ -405,12 +403,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				647F46DA1E89362200641F42 /* pop.framework in Frameworks */,
 				A25CA8531E4B21D8008B6331 /* ObjectMapper.framework in Frameworks */,
-				647F46D81E89361600641F42 /* pop.framework in Frameworks */,
 				A2C6A5F41E6D7CBF005475B6 /* AEXML.framework in Frameworks */,
 				A24A84031E486DD400440151 /* OAuthSwift.framework in Frameworks */,
 				A2066D431E4DE25A00DCBA84 /* PhoneNumberKit.framework in Frameworks */,
+				6496D6301E8A498D002591EA /* pop.framework in Frameworks */,
 				A24A84071E486DF500440151 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -535,7 +532,6 @@
 		A27820591E001503009F83DB = {
 			isa = PBXGroup;
 			children = (
-				647F46D91E89362200641F42 /* pop.framework */,
 				A27820641E001503009F83DB /* CoreKPI */,
 				A278207C1E001503009F83DB /* CoreKPITests */,
 				A27820871E001503009F83DB /* CoreKPIUITests */,
@@ -619,8 +615,8 @@
 		A278209A1E001581009F83DB /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
-				647F46DC1E89377900641F42 /* OvalShapeLayer.swift */,
 				A23E79481E5AE84C00EEBABE /* Extensions */,
+				647F46DC1E89377900641F42 /* OvalShapeLayer.swift */,
 				A20B6BCF1E31F5EC00FAF86A /* IntegratedKPI.swift */,
 				645D1C531E6444CE004574C8 /* Helpers.swift */,
 				A20B6BD11E31F62800FAF86A /* User's KPI.swift */,
@@ -657,7 +653,7 @@
 		A278209E1E001A0B009F83DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				647F46D71E89361600641F42 /* pop.framework */,
+				6496D62F1E8A498D002591EA /* pop.framework */,
 				A2C6A5F31E6D7CBF005475B6 /* AEXML.framework */,
 				A2066D421E4DE25A00DCBA84 /* PhoneNumberKit.framework */,
 				A25CA8521E4B21D8008B6331 /* ObjectMapper.framework */,

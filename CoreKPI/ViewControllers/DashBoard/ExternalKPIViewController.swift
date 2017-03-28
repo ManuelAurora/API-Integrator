@@ -13,6 +13,7 @@ import CoreData
 
 class ExternalKPIViewController: OAuthViewController {
     
+    @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
            
     var quickBookDataManager: QuickBookDataManager {
@@ -54,6 +55,13 @@ class ExternalKPIViewController: OAuthViewController {
         tableView.tableFooterView = UIView(frame: .zero)        
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationItem.setHidesBackButton(false, animated: true)
+        doneButton.isEnabled = true
+    }
+    
     @IBAction func didTapedSaveButton(_ sender: UIBarButtonItem) {
         
         var kpiNotSelected = true
@@ -74,10 +82,15 @@ class ExternalKPIViewController: OAuthViewController {
                 
                 hubSpotManager.webView = internalWebViewController
                 hubSpotManager.connect()
+                
             default:
                 break
             }
+            
+            doneButton.isEnabled = false
+            navigationItem.setHidesBackButton(true, animated: true)
             doAuthService()
+            
         } else {
             showAlert(title: "Sorry!", errorMessage: "First you should select one or more KPI")
         }
