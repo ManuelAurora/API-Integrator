@@ -8,10 +8,12 @@
 
 import Foundation
 import OAuthSwift
+import Alamofire
+
 
 class QuickBookRequestHandler
 {
-    private var oauthswift: OAuth1Swift!    
+    private var oauthswift: OAuth1Swift!
     var request: urlStringWithMethod!
     weak var manager: QuickBookDataManager!
     var isCreation: Bool
@@ -25,36 +27,32 @@ class QuickBookRequestHandler
         self.isCreation = isCreation
     }
     
-    func getData() {       
-               
-        _ = oauthswift.client.get(
-            
-            request.urlString, headers: ["Accept":"application/json"],
-            success: { response in
+    func getData() {
+        
+        manager.sessionManager.request(request.urlString, method: .get, headers: ["Accept":"application/json"])
+            .responseJSON { response in
+                guard response.result.isSuccess else { self.notificationCenter.post(name: .errorDownloadingFile, object: nil); return }
                 
-                if let method = self.request.method {
-                    _ = self.handle(response: response, method: method)
-                }               
-        },
-            failure: { error in
-                self.notificationCenter.post(name: .errorDownloadingFile, object: nil)
-                print(error)
-        })
+                if let method = self.request.method, let json = response.result.value as? [String: Any]
+                {
+                    _ = self.handle(response: json, method: method)
+                }
+        }
     }
     
-    func handle(response: OAuthSwiftResponse, method: QuickBookMethod) -> ExternalKpiInfo? {
+    func handle(response: Any, method: QuickBookMethod) -> ExternalKpiInfo? {
         
         //TODO:  This method NEED to be refined, due equivalent responses
         
         //guard let queryMethod = method else { print("DEBUG: Query method not found"); return nil }
         
-        if let jsonDict = try? response.jsonObject(options: .allowFragments) as? [String: Any] {
+        if let jsonDict = response as? [String: Any] {
             
             switch method.methodName
             {
             case .balanceSheet:
                 
-                let rows = jsonDict!["Rows"] as! [String: Any]
+                let rows = jsonDict["Rows"] as! [String: Any]
                 let rows2 = rows["Row"] as! [[String: Any]]
                 
                 var kpiInfo = ExternalKpiInfo()
@@ -81,7 +79,7 @@ class QuickBookRequestHandler
                 
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 
-                if let queryResult = jsonDict?["QueryResponse"] as? [String: Any],
+                if let queryResult = jsonDict["QueryResponse"] as? [String: Any],
                     let invoiceList = queryResult["Invoice"] as? [[String: Any]]
                 {
                     for invoice in invoiceList
@@ -157,9 +155,9 @@ class QuickBookRequestHandler
                 
             case .profitLoss:
                 
-                let rowsDict   = jsonDict!["Rows"]   as! [String: Any]
+                let rowsDict   = jsonDict["Rows"]   as! [String: Any]
                 let rows       = rowsDict["Row"]     as! [[String: Any]]
-                let header     = jsonDict!["Header"] as! [String: Any]
+                let header     = jsonDict["Header"] as! [String: Any]
                 let dateMacro  = header["DateMacro"] as! String
                 
                 for row in rows
@@ -197,7 +195,7 @@ class QuickBookRequestHandler
                 }                
                 
             case .accountList:
-                let rows = jsonDict!["Rows"] as! [String: Any]
+                let rows = jsonDict["Rows"] as! [String: Any]
                 let rows2 = rows["Row"] as! [[String: Any]]
                 
                 for row in rows2
@@ -210,7 +208,7 @@ class QuickBookRequestHandler
                 }
                 
             case .paidInvoicesByCustomers:
-                let rows = jsonDict!["Rows"] as! [String: Any]
+                let rows = jsonDict["Rows"] as! [String: Any]
                 let rows2 = rows["Row"] as! [[String: Any]]
                 
                 for row in rows2
@@ -228,7 +226,7 @@ class QuickBookRequestHandler
                 }
                 
             case .paidExpenses:
-                let rows = jsonDict!["Rows"] as! [String: Any]
+                let rows = jsonDict["Rows"] as! [String: Any]
                 let rows2 = rows["Row"] as! [[String: Any]]
                 
                 for row in rows2

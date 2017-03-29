@@ -8,6 +8,8 @@
 
 import UIKit
 import OAuthSwift
+import OAuthSwiftAlamofire
+import Alamofire
 
 class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     
@@ -35,6 +37,10 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        Alamofire.SessionManager.default.session.getAllTasks { tasks in
+            tasks.forEach { $0.cancel() }
+        }
         
         removeWaitingSpinner()
     }

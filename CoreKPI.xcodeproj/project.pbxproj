@@ -15,6 +15,8 @@
 		645759241E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645759231E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift */; };
 		645759261E67FB7D006FB5F9 /* ExternaKPI + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645759251E67FB7D006FB5F9 /* ExternaKPI + Extension.swift */; };
 		6458649D1E80FCC50077399B /* UserStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6458649C1E80FCC50077399B /* UserStateMachine.swift */; };
+		645CB51A1E8BBB8400ECAFEE /* OAuthSwiftAlamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 645CB5191E8BBB8400ECAFEE /* OAuthSwiftAlamofire.framework */; };
+		645CB51B1E8BBB8400ECAFEE /* OAuthSwiftAlamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 645CB5191E8BBB8400ECAFEE /* OAuthSwiftAlamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		645D1C541E6444CE004574C8 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D1C531E6444CE004574C8 /* Helpers.swift */; };
 		645DB20D1E76A405000BEFD4 /* HubspotHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645DB20C1E76A405000BEFD4 /* HubspotHelpers.swift */; };
 		646BF08E1E6E8B4200621FE2 /* HubspotManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */; };
@@ -208,6 +210,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				A25CA8541E4B21D8008B6331 /* ObjectMapper.framework in Embed Frameworks */,
+				645CB51B1E8BBB8400ECAFEE /* OAuthSwiftAlamofire.framework in Embed Frameworks */,
 				A2C6A5F51E6D7CBF005475B6 /* AEXML.framework in Embed Frameworks */,
 				A24A84041E486DD400440151 /* OAuthSwift.framework in Embed Frameworks */,
 				A2066D441E4DE25A00DCBA84 /* PhoneNumberKit.framework in Embed Frameworks */,
@@ -228,6 +231,7 @@
 		645759231E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "QuickBooksKPI + Extension.swift"; sourceTree = "<group>"; };
 		645759251E67FB7D006FB5F9 /* ExternaKPI + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExternaKPI + Extension.swift"; sourceTree = "<group>"; };
 		6458649C1E80FCC50077399B /* UserStateMachine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserStateMachine.swift; sourceTree = "<group>"; };
+		645CB5191E8BBB8400ECAFEE /* OAuthSwiftAlamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthSwiftAlamofire.framework; path = Carthage/Build/iOS/OAuthSwiftAlamofire.framework; sourceTree = "<group>"; };
 		645D1C531E6444CE004574C8 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		645DB20C1E76A405000BEFD4 /* HubspotHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotHelpers.swift; sourceTree = "<group>"; };
 		646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotManager.swift; sourceTree = "<group>"; };
@@ -404,6 +408,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A25CA8531E4B21D8008B6331 /* ObjectMapper.framework in Frameworks */,
+				645CB51A1E8BBB8400ECAFEE /* OAuthSwiftAlamofire.framework in Frameworks */,
 				A2C6A5F41E6D7CBF005475B6 /* AEXML.framework in Frameworks */,
 				A24A84031E486DD400440151 /* OAuthSwift.framework in Frameworks */,
 				A2066D431E4DE25A00DCBA84 /* PhoneNumberKit.framework in Frameworks */,
@@ -653,6 +658,7 @@
 		A278209E1E001A0B009F83DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				645CB5191E8BBB8400ECAFEE /* OAuthSwiftAlamofire.framework */,
 				6496D62F1E8A498D002591EA /* pop.framework */,
 				A2C6A5F31E6D7CBF005475B6 /* AEXML.framework */,
 				A2066D421E4DE25A00DCBA84 /* PhoneNumberKit.framework */,

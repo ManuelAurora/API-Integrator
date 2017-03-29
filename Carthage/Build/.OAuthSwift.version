@@ -3,7 +3,7 @@
   "commitish" : "1.1.1",
   "iOS" : [
     {
-      "hash" : "9e246bdea5a619e391db4fe78f71b3a873da28c809643dc49583488426514d06",
+      "hash" : "a7c98960098594322008447137e5958d5efbdad314d4b0b2caa2790450f93268",
       "name" : "OAuthSwift"
     }
   ]

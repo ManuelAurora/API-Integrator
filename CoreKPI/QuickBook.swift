@@ -10,6 +10,7 @@ import Foundation
 import OAuthSwift
 import Alamofire
 import CoreData
+import OAuthSwiftAlamofire
 
 typealias resultArray = [(leftValue: String, centralValue: String, rightValue: String)]
 typealias urlStringWithMethod = (
@@ -20,7 +21,13 @@ typealias urlStringWithMethod = (
 typealias success = () -> ()
 
 class QuickBookDataManager
-{
+{    
+    lazy var sessionManager: SessionManager =  {
+        let sm = SessionManager()
+        sm.adapter = self.oauthswift.requestAdapter
+        return sm
+    }()
+    
     enum ResultArrayType {
         case netIncome
         case balance

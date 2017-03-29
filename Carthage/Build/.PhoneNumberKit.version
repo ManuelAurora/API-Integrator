@@ -3,7 +3,7 @@
   "commitish" : "1.2.2",
   "iOS" : [
     {
-      "hash" : "8933488d3a670ae3f2d4d8a489b160f9d90561eec969c575eefced3b9bd87dd0",
+      "hash" : "16ddf99d768e77c715f9e4d0179935e4960cfdc175bcd7af8faa82ea06360d10",
       "name" : "PhoneNumberKit"
     }
   ]

@@ -550,19 +550,25 @@
          contextName = "QuickBookRequestHandler.getData() -&gt; ():QuickBookRequestHandler.swift">
          <PersistentStrings>
             <PersistentString
-               value = "oauthswift.parameters">
-            </PersistentString>
-            <PersistentString
-               value = "oauthswift">
+               value = "oauthswift.client.credential">
             </PersistentString>
             <PersistentString
                value = "oauthswift.client">
             </PersistentString>
             <PersistentString
-               value = "oauthswift.client.credential">
+               value = "oauthswift.parameters">
             </PersistentString>
             <PersistentString
                value = "request.urlString">
+            </PersistentString>
+            <PersistentString
+               value = "oauthswift">
+            </PersistentString>
+            <PersistentString
+               value = "oauthswift.requestAdapter">
+            </PersistentString>
+            <PersistentString
+               value = "oauthswift.currentRequests">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -784,10 +790,25 @@
          contextName = "QuickBookRequestHandler.(getData() -&gt; ()).(closure #1):QuickBookRequestHandler.swift">
          <PersistentStrings>
             <PersistentString
-               value = "self.request.method">
+               value = "oauthswift.client.credential">
             </PersistentString>
             <PersistentString
-               value = "oauthswift.client.credential">
+               value = "request.urlString">
+            </PersistentString>
+            <PersistentString
+               value = "oauthswift">
+            </PersistentString>
+            <PersistentString
+               value = "response.result.value as? [String: Any]">
+            </PersistentString>
+            <PersistentString
+               value = "response">
+            </PersistentString>
+            <PersistentString
+               value = "self.oauthswift.client">
+            </PersistentString>
+            <PersistentString
+               value = "Alamofire">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -1246,6 +1267,14 @@
          <PersistentStrings>
             <PersistentString
                value = "ownersArray">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ChartsPageViewController.viewWillDisappear(Bool) -&gt; ():ChartsPageViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "reportDataManipulator.quickBooksDataManager.oauthswift">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
