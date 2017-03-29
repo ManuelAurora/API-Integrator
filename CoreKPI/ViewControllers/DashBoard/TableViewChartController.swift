@@ -30,13 +30,7 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
         
         tableView.tableFooterView = UIView(frame: .zero)
     }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
         
-        notificationCenter.removeObserver(self)
-    }
-    
     func reloadTableView() {
         
         tableView.reloadData()

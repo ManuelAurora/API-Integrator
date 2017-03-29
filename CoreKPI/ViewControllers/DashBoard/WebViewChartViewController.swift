@@ -17,7 +17,8 @@ struct InfoBox
     let timestamp: String
 }
 
-enum TypeOfChart: String {
+enum TypeOfChart: String
+{
     case PieChart = "Pie chart"
     case PointChart = "Point chart"
     case LineChart = "Line chart"
@@ -28,8 +29,7 @@ enum TypeOfChart: String {
 }
 
 class WebViewChartViewController: UIViewController
-{
-    
+{    
     @IBOutlet weak var webView: UIWebView!
 
     var typeOfChart = TypeOfChart.PieChart

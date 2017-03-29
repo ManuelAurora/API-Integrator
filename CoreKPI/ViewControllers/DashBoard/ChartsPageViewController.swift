@@ -14,8 +14,11 @@ import Alamofire
 class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     
     var kpi: KPI!
-    var reportDataManipulator = ReportDataManipulator()
     let stateMachine = UserStateMachine.shared
+    
+    lazy var reportDataManipulator = {
+        return ReportDataManipulator()
+    }()
     
     lazy var webViewChartOneVC: WebViewChartViewController =  {
         return self.storyboard?.instantiateViewController(withIdentifier: .webViewController) as! WebViewChartViewController
@@ -32,11 +35,13 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     var providedControllers = [UIViewController]()
     
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        print("AAAAA")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self)
         
         Alamofire.SessionManager.default.session.getAllTasks { tasks in
             tasks.forEach { $0.cancel() }
@@ -102,7 +107,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         case .createdKPI:
             if firstReportIsTable()
             {
-                _ = kpi.createdKPI?.number.map { tableViewChartVC.reportArray.append($0) }
+                kpi.createdKPI?.number.forEach { tableViewChartVC.reportArray.append($0) }
                 tableViewChartVC.header = kpi.createdKPI?.KPI ?? ""
             }
             else { webViewChartOneVC.typeOfChart = kpi.KPIChartOne!; webViewChartOneVC.isAllowed = true }
@@ -233,7 +238,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     }
     
     override func willMove(toParentViewController parent: UIViewController?) {
-        self.navigationController?.navigationBar.backgroundColor = UIColor.clear
+        self.navigationController?.navigationBar.backgroundColor = .clear
     }    
 }
 

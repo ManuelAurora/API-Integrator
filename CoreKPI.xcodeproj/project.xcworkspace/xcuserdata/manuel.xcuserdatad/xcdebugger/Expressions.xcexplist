@@ -167,6 +167,9 @@
             <PersistentString
                value = "webView.accessibilityElements">
             </PersistentString>
+            <PersistentString
+               value = " html! + &quot;&lt;style&gt;&quot; + css! + &quot;&lt;/style&gt;&quot; + &quot;&lt;script&gt;&quot; + acc! + &quot;&lt;/script&gt;&lt;script&gt;&quot; + js1! + &quot;&lt;/script&gt;&lt;script&gt;&quot; + topOfJS2 + js2! + endOfJS + &quot;&lt;/script&gt;&quot;">
+            </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
@@ -422,6 +425,9 @@
                value = "listOfRequests">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ChartsPageViewController.viewDidDisappear(Bool) -&gt; ():ChartsPageViewController.swift">
       </ContextState>
       <ContextState
          contextName = "ChartsPageViewController.viewDidLoad() -&gt; ():ChartsPageViewController.swift">

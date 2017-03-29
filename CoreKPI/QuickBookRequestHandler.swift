@@ -19,6 +19,10 @@ class QuickBookRequestHandler
     var isCreation: Bool
     let notificationCenter = NotificationCenter.default
     
+    deinit {
+        print("DEINIT QBREQHANDL")
+    }
+    
     init(oauthswift: OAuth1Swift, request: urlStringWithMethod, manager: QuickBookDataManager, isCreation: Bool = false) {
         
         self.oauthswift = oauthswift
