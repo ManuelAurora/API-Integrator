@@ -1,0 +1,10 @@
+{
+  "xcodeVersion" : "Xcode 8.2.1\nBuild version 8C1002",
+  "commitish" : "1.1.1",
+  "iOS" : [
+    {
+      "hash" : "9e246bdea5a619e391db4fe78f71b3a873da28c809643dc49583488426514d06",
+      "name" : "OAuthSwift"
+    }
+  ]
+}

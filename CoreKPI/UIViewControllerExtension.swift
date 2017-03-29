@@ -43,6 +43,7 @@ extension UIViewController {
     func removeWaitingSpinner() {
        
         UserStateMachine.shared.toggleAppFetchingData()
+        
         UIViewController.spinner?.removeFromSuperlayer()
         UIViewController.spinner = nil
     }

@@ -187,12 +187,14 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         
         if webViewChartTwoVC.isAllowed 
         {
+            webViewChartTwoVC.service = .PayPal
             webViewChartTwoVC.rawDataArray.append(contentsOf: reportDataManipulator.dataFromPaypalToPresent)
             webViewChartTwoVC.refreshView()
         }
         
         if webViewChartOneVC.isAllowed
         {
+            webViewChartTwoVC.service = .PayPal
             webViewChartOneVC.rawDataArray.append(contentsOf: reportDataManipulator.dataFromPaypalToPresent)
             webViewChartOneVC.refreshView()
         }
@@ -211,12 +213,14 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         
         if webViewChartTwoVC.isAllowed
         {
+            webViewChartTwoVC.service = .Quickbooks
             webViewChartTwoVC.rawDataArray.append(contentsOf: reportDataManipulator.quickBooksDataManager.paidInvoices)
             webViewChartTwoVC.refreshView()
         }
         
         if webViewChartOneVC.isAllowed
         {
+            webViewChartTwoVC.service = .Quickbooks
             webViewChartOneVC.rawDataArray.append(contentsOf: reportDataManipulator.quickBooksDataManager.paidInvoices)
             webViewChartOneVC.refreshView()
         }

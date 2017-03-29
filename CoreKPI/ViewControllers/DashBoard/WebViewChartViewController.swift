@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-struct PaypalSale
+struct InfoBox
 {
     let payer: String
     let value: String
@@ -27,19 +27,28 @@ enum TypeOfChart: String {
     case AreaChart = "Area chart"
 }
 
-class WebViewChartViewController: UIViewController {
+class WebViewChartViewController: UIViewController
+{
+    
     @IBOutlet weak var webView: UIWebView!
 
     var typeOfChart = TypeOfChart.PieChart
     var index = 0
     var header: String = " "
     var isAllowed = false
+    var service: IntegratedServices!
+    
+    lazy var dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd'T'HH:mm:ssz"
+        return df
+    }()
     
     //data for charts
     var rawDataArray: resultArray = []
     var pieChartData: [(number: String, rate: String)] = []
     var pointChartData: [(country: String, life: String, population: String, gdp: String, color: String, kids: String, median_age: String)] = []
-    var lineChartData: [[PaypalSale]] = []
+    var lineChartData: [[InfoBox]] = []
     var barChartData: [(value: String, val: String)] = []
     var funnelChartData: [(name: String, value: String)] = []
     var positiveBarData: [(value: String, val: String)] = []
@@ -60,11 +69,12 @@ class WebViewChartViewController: UIViewController {
     
     private func createCharts() {
         
-        let tabBarHeight        = self.tabBarController?.tabBar.frame.size.height
-        let navigationBarHeight = self.navigationController?.navigationBar.frame.size.height
-        let statusBarHeight     = UIApplication.shared.statusBarFrame.height
+        guard let tabBarHeight        = self.tabBarController?.tabBar.frame.size.height,
+              let navigationBarHeight = self.navigationController?.navigationBar.frame.size.height else { return }
         
-        let height = webView.bounds.size.height - (tabBarHeight! + navigationBarHeight! + statusBarHeight)
+        
+        let statusBarHeight     = UIApplication.shared.statusBarFrame.height
+        let height = webView.bounds.size.height - (tabBarHeight + navigationBarHeight + statusBarHeight)
         let width  = webView.bounds.size.width
         
         switch typeOfChart
@@ -232,63 +242,41 @@ class WebViewChartViewController: UIViewController {
             dataForJS += "]"
             return dataForJS
             
-        case .LineChart:
-           
+        case .LineChart:            
             
-            
-            var payers = [String]()
-            
-            _ = rawDataArray.map { if !payers.contains($0.leftValue) { payers.append($0.leftValue) } } //Filling payers array
-            
-            let salesByPayers = payers.map { payer -> [PaypalSale] in
+            switch service!
+            {
+            case .PayPal:
+                lineChartData = formLineChartPaypalData()
+             
+            case .Quickbooks:
+                lineChartData = formLineChartQuickbooksData()
                 
-                let dataArray: resultArray = rawDataArray.filter { $0.leftValue == payer }
-                
-                let result: [PaypalSale] = dataArray.map {
-                    (leftValue: String, centralValue: String, rightValue: String) -> PaypalSale in
-                    
-                    let df = DateFormatter()
-                    
-                    df.dateFormat = "yyyy-MM-dd'T'hh:mm:ss'Z'"
-                    let date = df.date(from: rightValue)!
-                    let timestamp = date.timeIntervalSince1970
-                    
-                    let values = centralValue.components(separatedBy: "&")
-                    
-                    let sale = PaypalSale(payer: leftValue,
-                                          value: values[1],
-                                          netValue: values[0],
-                                          timestamp: "\(Int(timestamp))")
-                    
-                    return sale
-                }
-                return result
+            default: break
             }
             
-            lineChartData = salesByPayers
-            
             header = "Line chart"
-            //<-Debug
             
             var dataForJS = "var label = '\(header)'; var usdData = ["
             
-            for (index,item) in lineChartData[0].enumerated() {
-                if index > 0 {
-                    dataForJS += ","
+            for arrayOfData in lineChartData
+            {
+                for (index, item) in arrayOfData.enumerated()
+                {
+                    if index > 0 { dataForJS += "," }
+                    let lineData = "{date: new Date(\(item.timestamp)), rate: \(item.netValue)}"
+                    dataForJS += lineData
                 }
-                let lineData = "{date: new Date(\(item.timestamp)), rate: \(item.netValue)}"
-                dataForJS += lineData
-            }
-
-            dataForJS += "]; var eurData = ["
-            for (index,item) in lineChartData[1].enumerated() {
-                if index > 0 {
-                    dataForJS += ","
+                
+                dataForJS += "]; var eurData = ["
+                for (index,item) in arrayOfData.enumerated()
+                {
+                    if index > 0 { dataForJS += "," }
+                    let lineData = "{date: \(item.timestamp), rate: \(item.netValue)}"
+                    dataForJS += lineData
                 }
-                let lineData = "{date: \(item.timestamp), rate: \(item.netValue)}"
-                dataForJS += lineData
+                dataForJS += "];"
             }
-            dataForJS += "];"
             
             return dataForJS
             
@@ -400,7 +388,55 @@ class WebViewChartViewController: UIViewController {
             return dataForJS
         }
     }
+    
+    private func formLineChartQuickbooksData() -> [[InfoBox]] {
+        
+        let result: [InfoBox] = rawDataArray.map {
+            let date = dateFormatter.date(from: $0.leftValue)!
+            let timestamp = date.timeIntervalSince1970
+            let invoice = InfoBox(payer: "", value: "" , netValue: $0.rightValue, timestamp: "\(Int(timestamp))")
+        
+            return invoice
+        }
+        
+        let sorted = result.sorted { $0.timestamp < $1.timestamp }
+        
+        let lineChartData: [[InfoBox]] = [sorted]
+        
+        return lineChartData
+    }
 
+    private func formLineChartPaypalData() -> [[InfoBox]] {
+        
+        var payers = [String]()
+        
+        _ = rawDataArray.map { if !payers.contains($0.leftValue) { payers.append($0.leftValue) } } //Filling payers array
+        
+        let salesByPayers = payers.map { payer -> [InfoBox] in
+            
+            let dataArray: resultArray = rawDataArray.filter { $0.leftValue == payer }
+            
+            let result: [InfoBox] = dataArray.map {
+                (leftValue: String, centralValue: String, rightValue: String) -> InfoBox in
+                
+                let date = dateFormatter.date(from: rightValue)!
+                let timestamp = date.timeIntervalSince1970
+                
+                let values = centralValue.components(separatedBy: "&")
+                
+                let sale = InfoBox(payer: leftValue,
+                                   value: values[1],
+                                   netValue: values[0],
+                                   timestamp: "\(Int(timestamp))")
+                
+                return sale
+            }
+            return result
+        }
+        
+        return salesByPayers
+    }
+    
     private func randomString(_ length: Int) -> String {
         
         let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"

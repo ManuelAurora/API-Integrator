@@ -16,7 +16,7 @@ struct UserStateInfo
     var usesPinCode    = false
     var haveLocalToken = false
     var wasLoaded      = false
-    var fetchingData   = false
+    var isFetchingData   = false
     var tryingToLogIn  = false
 }
 
@@ -66,7 +66,7 @@ class UserStateMachine
     
     func toggleAppFetchingData() {
         
-        userStateInfo.fetchingData = !userStateInfo.fetchingData
+        userStateInfo.isFetchingData = !userStateInfo.isFetchingData
     }
     
     func checkTokenOnServer() {

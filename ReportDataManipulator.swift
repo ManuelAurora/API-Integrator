@@ -10,7 +10,7 @@ import Foundation
 import OAuthSwift
 
 class ReportDataManipulator
-{
+{       
     var kpi: KPI!
     let quickBooksDataManager = QuickBookDataManager.shared()
     let integratedServicesDataManager = IntegratedServicesDataManager()
