@@ -15,6 +15,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     
     var kpi: KPI!
     let stateMachine = UserStateMachine.shared
+    let nCenter = NotificationCenter.default
     
     lazy var reportDataManipulator = {
         return ReportDataManipulator()
@@ -118,25 +119,22 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         case .IntegratedKPI:
             tableViewChartVC.typeOfKPI = .IntegratedKPI
             
-            let kpiName = kpi.integratedKPI.kpiName!
-            let service = IntegratedServices(rawValue: kpi.integratedKPI.serviceName!)!
+            let kpiName  = kpi.integratedKPI.kpiName!
+            let service  = IntegratedServices(rawValue: kpi.integratedKPI.serviceName!)!
+            
             var chart: TypeOfChart = .PieChart
+            
+            webViewChartTwoVC.isAllowed = true
             
             switch service
             {
             case .PayPal:
                 let kpiValue = PayPalKPIs(rawValue: kpiName)!
-                 
+                
                 switch kpiValue
                 {
-                case .TransactionsByStatus, .PendingByType:
-                    chart = .PieChart
-                    webViewChartTwoVC.isAllowed = true
-                    
-                case .NetSalesTotalSales:
-                    chart = .LineChart
-                    webViewChartTwoVC.isAllowed = true
-                    
+                case .TransactionsByStatus, .PendingByType: chart = .PieChart
+                case .NetSalesTotalSales: chart = .LineChart
                 default: break
                 }
                 
@@ -145,10 +143,16 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 
                 switch kpiValue
                 {
-                case .NetIncome:
-                    chart = .LineChart
-                    webViewChartTwoVC.isAllowed = true
-                    
+                case .NetIncome: chart = .LineChart
+                default: break
+                }
+                
+            case .GoogleAnalytics:
+                let kpiValue = GoogleAnalyticsKPIs(rawValue: kpiName)!
+                
+                switch kpiValue
+                {
+                case .TopChannelsBySessions, .RevenueByChannels: chart = .PieChart
                 default: break
                 }
                 
@@ -172,41 +176,68 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     
     private func subscribeToNotifications() {
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(ChartsPageViewController.prepareDataForReportFromQB),
-                                               name: .qbManagerRecievedData,
-                                               object: nil)
+        nCenter.addObserver(self,
+                            selector: #selector(self.prepareDataForReportFromQB),
+                            name: .qbManagerRecievedData,
+                            object: nil)
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(ChartsPageViewController.prepareDataForReportFromPayPal),
-                                               name: .paypalManagerRecievedData,
-                                               object: nil)
+        nCenter.addObserver(self,
+                            selector: #selector(self.prepareDataForReportFromPayPal),
+                            name: .paypalManagerRecievedData,
+                            object: nil)
         
-        NotificationCenter.default.addObserver(forName: .errorDownloadingFile, object: nil, queue: nil) {
+        nCenter.addObserver(self,
+                            selector: #selector(self.prepareDataForReportFromGA),
+                            name: .googleManagerRecievedData,
+                            object: nil)
+        
+        nCenter.addObserver(forName: .errorDownloadingFile, object: nil, queue: nil) {
             _ in
             
             self.removeWaitingSpinner()
         }
     }
  
+    @objc private func prepareDataForReportFromGA() {
+        
+        removeWaitingSpinner()
+        
+        tableViewChartVC.dataArray.append(contentsOf: reportDataManipulator.dataToPresent)
+        tableViewChartVC.reloadTableView()
+        
+        if webViewChartTwoVC.isAllowed
+        {
+            webViewChartTwoVC.service = .GoogleAnalytics
+            webViewChartTwoVC.rawDataArray.append(contentsOf: reportDataManipulator.dataToPresent)
+            webViewChartTwoVC.refreshView()
+        }
+        
+        if webViewChartOneVC.isAllowed
+        {
+            webViewChartTwoVC.service = .GoogleAnalytics
+            webViewChartOneVC.rawDataArray.append(contentsOf: reportDataManipulator.dataToPresent)
+            webViewChartOneVC.refreshView()
+        }
+    }
+    
     @objc private func prepareDataForReportFromPayPal() {
         
         removeWaitingSpinner()
         
-        tableViewChartVC.dataArray.append(contentsOf: reportDataManipulator.dataFromPaypalToPresent)
+        tableViewChartVC.dataArray.append(contentsOf: reportDataManipulator.dataToPresent)
         tableViewChartVC.reloadTableView()
         
         if webViewChartTwoVC.isAllowed 
         {
             webViewChartTwoVC.service = .PayPal
-            webViewChartTwoVC.rawDataArray.append(contentsOf: reportDataManipulator.dataFromPaypalToPresent)
+            webViewChartTwoVC.rawDataArray.append(contentsOf: reportDataManipulator.dataToPresent)
             webViewChartTwoVC.refreshView()
         }
         
         if webViewChartOneVC.isAllowed
         {
             webViewChartTwoVC.service = .PayPal
-            webViewChartOneVC.rawDataArray.append(contentsOf: reportDataManipulator.dataFromPaypalToPresent)
+            webViewChartOneVC.rawDataArray.append(contentsOf: reportDataManipulator.dataToPresent)
             webViewChartOneVC.refreshView()
         }
     }

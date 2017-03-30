@@ -14,7 +14,7 @@ class ReportDataManipulator
     var kpi: KPI!
     let quickBooksDataManager = QuickBookDataManager.shared()
     let integratedServicesDataManager = IntegratedServicesDataManager()
-    var dataFromPaypalToPresent = resultArray()
+    var dataToPresent = resultArray()
     
     private func createDataFromRequestWith(qBMethod: QuickBookMethod?) {
         
@@ -48,108 +48,27 @@ class ReportDataManipulator
             
         case .PayPal:
             integratedServicesDataManager.kpi = kpi
-            integratedServicesDataManager.createDataFromRequest(success: { dataForPresent in
-                self.dataFromPaypalToPresent.append(contentsOf: dataForPresent)
-                NotificationCenter.default.post(name: .paypalManagerRecievedData, object: nil)
+            integratedServicesDataManager.createDataFromRequest(success: {
+                dataForPresent in
+                self.dataToPresent.append(contentsOf: dataForPresent)
+                NotificationCenter.default.post(name: .paypalManagerRecievedData,
+                                                object: nil)
+            })
+            
+        case .GoogleAnalytics:
+            integratedServicesDataManager.kpi = kpi
+            integratedServicesDataManager.createDataFromRequest(success: {
+                dataForPresent in
+                self.dataToPresent = dataForPresent
+                NotificationCenter.default.post(name: .googleManagerRecievedData,
+                                                object: nil)
             })
             
         default: break
         }
     }
 }
-//        case .GoogleAnalytics:
-//            switch (GoogleAnalyticsKPIs(rawValue: kpi.integratedKPI.kpiName!))!
-//            {
-//            case .UsersSessions:
-//
-//                createDataFromRequest(success: { dataForPresent in
-//                    tableViewChartVC.dataArray = dataForPresent
-//                    tableViewChartVC.tableView.reloadData()
-//                })
-//            case .AudienceOverview:
-//                tableViewChartVC.titleOfTable = ("Ages","Genders","Market category")
-//                createDataFromRequest(success: { dataForPresent in
-//                    tableViewChartVC.dataArray = dataForPresent
-//                    tableViewChartVC.tableView.reloadData()
-//                })
-//            case .GoalOverview:
-//                tableViewChartVC.titleOfTable = ("Goal Overview","","Value")
-//                createDataFromRequest(success: { dataForPresent in
-//                    tableViewChartVC.dataArray = dataForPresent
-//                    tableViewChartVC.tableView.reloadData()
-//                })
-//            case .TopPagesByPageviews:
-//                tableViewChartVC.titleOfTable = ("Top Pages","","Value")
-//                createDataFromRequest(success: { dataForPresent in
-//                    tableViewChartVC.dataArray = dataForPresent
-//                    tableViewChartVC.tableView.reloadData()
-//                })
-//            case .TopSourcesBySessions:
-//                tableViewChartVC.titleOfTable = ("Top Source","","Value")
-//                createDataFromRequest(success: { dataForPresent in
-//                    tableViewChartVC.dataArray = dataForPresent
-//                    tableViewChartVC.tableView.reloadData()
-//                })
-//            case .TopOrganicKeywordsBySession:
-//                tableViewChartVC.titleOfTable = ("Top Keywords","","Value")
-//                createDataFromRequest(success: { dataForPresent in
-//                    tableViewChartVC.dataArray = dataForPresent
-//                    tableViewChartVC.tableView.reloadData()
-//                })
-//            case .TopChannelsBySessions:
-//                // tableViewChartVC.titleOfTable = ("Top Source","","Value")
-//                createDataFromRequest(success: { dataForPresent in
-//                    var pieData: [(number: String, rate: String)] = []
-//                    for item in dataForPresent {
-//                        let pie: (number: String, rate: String) = (item.leftValue, item.rightValue)
-//                        pieData.append(pie)
-//                    }
-//                    webViewChartOneVC.pieChartData = pieData
-//                    webViewChartOneVC.refreshView()
-//                    //                        tableViewChartVC.dataArray = dataForPresent
-//                    //                        tableViewChartVC.tableView.reloadData()
-//                })
-//                return webViewChartOneVC
-//            case .RevenueTransactions:
-//                tableViewChartVC.titleOfTable = ("Top Source","","Value")
-//                createDataFromRequest(success: { dataForPresent in
-//                    tableViewChartVC.dataArray = dataForPresent
-//                    tableViewChartVC.tableView.reloadData()
-//                })
-//            case .EcommerceOverview:
-//                tableViewChartVC.titleOfTable = ("Top Source","","Value")
-//                createDataFromRequest(success: { dataForPresent in
-//                    tableViewChartVC.dataArray = dataForPresent
-//                    tableViewChartVC.tableView.reloadData()
-//                })
-//            case .RevenueByLandingPage:
-//                tableViewChartVC.titleOfTable = ("Top Source","","Value")
-//                createDataFromRequest(success: { dataForPresent in
-//                    tableViewChartVC.dataArray = dataForPresent
-//                    tableViewChartVC.tableView.reloadData()
-//                })
-//            case .RevenueByChannels:
-//                tableViewChartVC.titleOfTable = ("Top Source","","Value")
-//                createDataFromRequest(success: { dataForPresent in
-//                    tableViewChartVC.dataArray = dataForPresent
-//                    tableViewChartVC.tableView.reloadData()
-//                })
-//            case .TopKeywordsByRevenue:
-//                tableViewChartVC.titleOfTable = ("Top Source","","Value")
-//                createDataFromRequest(success: { dataForPresent in
-//                    tableViewChartVC.dataArray = dataForPresent
-//                    tableViewChartVC.tableView.reloadData()
-//                })
-//            case .TopSourcesByRevenue:
-//                tableViewChartVC.titleOfTable = ("Top Source","","Value")
-//                createDataFromRequest(success: { dataForPresent in
-//                    tableViewChartVC.dataArray = dataForPresent
-//                    tableViewChartVC.tableView.reloadData()
-//                })
-//            }
-//            //debug->
-//            return tableViewChartVC
-//        //<-debug
+
 //        case .SalesForce:
 //            navigationItem.title = "SalesForce"
 //            switch (SalesForceKPIs(rawValue: kpi.integratedKPI.kpiName!))! {
@@ -222,8 +141,4 @@ class ReportDataManipulator
 //        }
 //        ))
 //    }
-
-
-
-
 

@@ -11,18 +11,19 @@ import UIKit
 
 extension Notification.Name
 {    
-    static let userTappedSecuritySwitch = Notification.Name("UserTappedSecuritySwitch")
-    static let qbManagerRecievedData = Notification.Name("qbManagerRecievedData")
+    static let userTappedSecuritySwitch  = Notification.Name("UserTappedSecuritySwitch")
+    static let qbManagerRecievedData     = Notification.Name("qbManagerRecievedData")
     static let paypalManagerRecievedData = Notification.Name("paypalManagerRecievedData")
-    static let newExternalKPIadded = Notification.Name("NewExternalKPIAdded")
-    static let modelDidChanged = Notification.Name("modelDidChange")
-    static let userLoggedIn = Notification.Name("UserLoggedIn")
-    static let userLoggedOut = Notification.Name("UserLoggedOut")
-    static let userAddedPincode = Notification.Name("UserAddedPincode")
-    static let userRemovedPincode = Notification.Name("UserRemovedPincode")
-    static let userFailedToLogin = Notification.Name("LoginAttemptFailed")
-    static let appDidEnteredBackground = Notification.Name("AppDidEnteredBackground")
-    static let errorDownloadingFile = Notification.Name("errorDownloadingFile")
+    static let newExternalKPIadded       = Notification.Name("NewExternalKPIAdded")
+    static let modelDidChanged           = Notification.Name("modelDidChange")
+    static let userLoggedIn              = Notification.Name("UserLoggedIn")
+    static let userLoggedOut             = Notification.Name("UserLoggedOut")
+    static let userAddedPincode          = Notification.Name("UserAddedPincode")
+    static let userRemovedPincode        = Notification.Name("UserRemovedPincode")
+    static let userFailedToLogin         = Notification.Name("LoginAttemptFailed")
+    static let appDidEnteredBackground   = Notification.Name("AppDidEnteredBackground")
+    static let errorDownloadingFile      = Notification.Name("errorDownloadingFile")
+    static let googleManagerRecievedData = Notification.Name("googleManagerRecievedData")
 }
 
 extension UIStoryboard
