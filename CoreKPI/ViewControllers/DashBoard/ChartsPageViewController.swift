@@ -36,7 +36,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     var providedControllers = [UIViewController]()
     
     deinit {
-        print("AAAAA")
+        print("DEBUG: ChartPageVC deinitialized")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -153,6 +153,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 switch kpiValue
                 {
                 case .TopChannelsBySessions, .RevenueByChannels: chart = .PieChart
+                case .RevenueTransactions, .UsersSessions:       chart = .LineChart
                 default: break
                 }
                 
@@ -192,9 +193,8 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                             object: nil)
         
         nCenter.addObserver(forName: .errorDownloadingFile, object: nil, queue: nil) {
-            _ in
-            
-            self.removeWaitingSpinner()
+            [weak self] _ in
+            self?.removeWaitingSpinner()
         }
     }
  

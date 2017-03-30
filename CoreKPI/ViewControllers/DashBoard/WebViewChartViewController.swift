@@ -54,6 +54,10 @@ class WebViewChartViewController: UIViewController
     var positiveBarData: [(value: String, val: String)] = []
     var areaChartData: [(date: String, kermit: String, piggy: String, gonzo: String, lol: String)] = []
     
+    deinit {
+        print("DEBUG: WebViewVC deinitialized")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
                 
@@ -94,8 +98,11 @@ class WebViewChartViewController: UIViewController
             
             let endOfJS = "pie((\(width)), \(height), data_pie);"
             let topOfJS2 = generateDataForJS()
+            let htmlString: String = html! + "<style>" + css! + "</style>" +
+                "<script>" + acc! + "</script><script>" + js1! +
+                "</script><script>" + topOfJS2 + js2! + endOfJS + "</script>"
             
-            webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + acc! + "</script><script>" + js1! + "</script><script>" + topOfJS2 + js2! + endOfJS + "</script>", baseURL: nil)
+            webView.loadHTMLString(htmlString, baseURL: nil)
             
         case .PointChart:
             let htmlFile = Bundle.main.path(forResource:"points", ofType: "html")
@@ -194,12 +201,7 @@ class WebViewChartViewController: UIViewController
     private func generateDataForJS() -> String {
         switch typeOfChart {
         case .PieChart:
-            //TODO: Remove test data
-            //->Debug
-            //pieChartData = [("кусок 1", 499), ("Value 2", 150), ("Value 3", 200), ("Value 4", 300), ("Value 5", 200)]
-            //header = "This is Pie"
-            //<-Debug
-            
+                       
             var dataForJS = "var lable = '\(header)'; var data_pie = ["
             
             for (index,item) in rawDataArray.enumerated() {

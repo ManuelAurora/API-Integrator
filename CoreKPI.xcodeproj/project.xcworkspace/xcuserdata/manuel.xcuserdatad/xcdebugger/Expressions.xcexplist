@@ -156,10 +156,13 @@
          contextName = "WebViewChartViewController.createCharts() -&gt; ():WebViewChartViewController.swift">
          <PersistentStrings>
             <PersistentString
+               value = "html! + &quot;&lt;style&gt;&quot; + css! + &quot;&lt;/style&gt;&quot; + &quot;&lt;script&gt;&quot; + acc! + &quot;&lt;/script&gt;&lt;script&gt;&quot; + js1! + &quot;&lt;/script&gt;&lt;script&gt;&quot; + topOfJS2 + js2! + endOfJS + &quot;&lt;/script&gt;&quot;">
+            </PersistentString>
+            <PersistentString
                value = "rawDataArray">
             </PersistentString>
             <PersistentString
-               value = "self.navigationController">
+               value = "string">
             </PersistentString>
             <PersistentString
                value = "webView">
@@ -706,6 +709,9 @@
                value = "view.layer.frame">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ReportDataManipulator.(dataForReport() -&gt; ()).(closure #8):ReportDataManipulator.swift">
       </ContextState>
       <ContextState
          contextName = "ChartsPageViewController.viewControllersToShow() -&gt; [UIViewController]:ChartsPageViewController.swift">
