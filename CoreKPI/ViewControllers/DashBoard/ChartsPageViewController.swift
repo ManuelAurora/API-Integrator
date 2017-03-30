@@ -36,12 +36,6 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     var providedControllers = [UIViewController]()
     
     deinit {
-        print("DEBUG: ChartPageVC deinitialized")
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
         NotificationCenter.default.removeObserver(self)
         
         Alamofire.SessionManager.default.session.getAllTasks { tasks in
@@ -49,6 +43,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         }
         
         removeWaitingSpinner()
+        print("DEBUG: ChartPageVC deinitialized")
     }
     
     override func viewDidLoad() {
@@ -90,8 +85,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
             guard let vc = providedControllers[1] as? WebViewChartViewController else { return nil }
             
             return vc.isAllowed ? vc : nil
-        }
-        
+        }        
         return nil
     }
     

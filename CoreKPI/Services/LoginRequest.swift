@@ -11,7 +11,7 @@ import Foundation
 class LoginRequest: Request {
     
     func loginRequest(username: String, password: String, success: @escaping (_ data: (userID: Int, token: String, typeOfAccount: TypeOfAccount)) -> (), failure: @escaping failure) {
-        
+        UserStateMachine.shared.setTryingToLogin()
         let data: [String : Any] = ["username" : username, "password" : password]
         
         self.getJson(category: "/auth/auth", data: data,
@@ -28,7 +28,7 @@ class LoginRequest: Request {
     }
     
     func checkToken(success: @escaping (_ data: (userID: Int, token: String, typeOfAccount: TypeOfAccount)) -> (), failure: @escaping failure) {
-        
+        UserStateMachine.shared.setTryingToLogin()
         let data: [String : Any] = [:]
         
         self.getJson(category: "/auth/auth", data: data, success: { json in

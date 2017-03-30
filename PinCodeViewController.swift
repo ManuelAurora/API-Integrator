@@ -157,33 +157,34 @@ class PinCodeViewController: UIViewController
         
         if !check(pinCode) {  stateMachine.pinCodeAttempts -= 1 }
         
-        if stateMachine.pinCodeAttempts > 0 {
-            
+        if stateMachine.pinCodeAttempts > 0
+        {
             isAnimationCompleted  = false            
             
-            if check(pinCode) {
-                
-                if presentingViewController?.presentedViewController == self {
-                    
+            if check(pinCode)
+            {
+                if presentingViewController?.presentedViewController == self
+                {
                     let navController = self.presentingViewController as! UINavigationController
                     let presentingVC = navController.viewControllers[0] as! SignInViewController
                     
                     presentingVC.model = self.model
                     
-                    dismiss(animated: true, completion: { [weak self] _ in
+                    dismiss(animated: true, completion: {
+                        [weak self] _ in
                         self?.isAnimationCompleted = true
                         UserStateMachine.shared.checkTokenOnServer()
+                        presentingVC.toggleSignInAnimation()
                     })
-                } else if navigationController != nil {
-                    
-                  _ = navigationController?.popViewController(animated: true)
                 }
+                else if navigationController != nil
+                {
+                    _ = navigationController?.popViewController(animated: true)
+                } 
                 isAnimationCompleted = true
                 successCompletion?()
             }
-            else {
-                animateFailedLoginAttempt()
-            }
+            else { animateFailedLoginAttempt() }
             
             toggleDeleteButton()
             clearAllPlaceholders()
@@ -196,19 +197,16 @@ class PinCodeViewController: UIViewController
                 UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.pinCode)
                 
                 presenter.toggleEnterByKeyButton(isEnabled: false)
-                
                 dismiss(animated: true, completion: nil)
             }
-            else {
-                if presenter!.presentedFromBG {
+            else
+            {
+                if presenter!.presentedFromBG { logOutCompletion!() }
+                else if stateMachine.pinCodeAttempts <= 0
+                {
                     logOutCompletion!()
                 }
-                else if stateMachine.pinCodeAttempts <= 0 {
-                    logOutCompletion!()
-                }
-                else {
-                    dismissCompletion!()
-                }
+                else { dismissCompletion!() }
             }
         }
     }

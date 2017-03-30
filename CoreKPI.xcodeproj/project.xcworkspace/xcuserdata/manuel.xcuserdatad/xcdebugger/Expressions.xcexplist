@@ -766,6 +766,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "SignInViewController.toggleSignInAnimation() -&gt; ():SignInViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "stateMachine.userStateInfo.tryingToLogIn">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "OvalShapeLayer.addPrepareForTrainingAnimations() -&gt; ():OvalShapeLayer.swift">
          <PersistentStrings>
             <PersistentString

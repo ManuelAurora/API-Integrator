@@ -96,6 +96,10 @@ class UserStateMachine
     //Needs for escaping bug when switching roots.
     func makeLoaded() { userStateInfo.wasLoaded = true }
     
+    func setTryingToLogin() {
+        userStateInfo.tryingToLogIn = true 
+    }
+    
     func logInWith(email: String, password: String) {        
         
         let loginRequest = LoginRequest()
@@ -153,6 +157,8 @@ class UserStateMachine
         pinCodeAttempts = usersPin != nil ? PinLockConfiguration.attempts : 0
         userStateInfo.loggedIn = true       
         userStateInfo.haveLocalToken = true
+        userStateInfo.tryingToLogIn = false
+        
         notificationCenter.post(name: .userLoggedIn, object: nil)
     }
     

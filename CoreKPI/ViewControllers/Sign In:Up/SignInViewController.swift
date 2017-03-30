@@ -18,6 +18,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var emailTextField: BottomBorderTextField!
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var enterByKeyButton: UIButton!
+    @IBOutlet var auxillaryButtons: [UIButton]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,12 +87,16 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         enterByKeyButton.isEnabled = isEnabled
     }
     
-    private func toggleSignInButton(isEnabled: Bool) {
+    private func toggleSignInEnterByKeyButtons(isEnabled: Bool) {
         
-        signInButton.layer.borderColor = isEnabled ? OurColors.violet.cgColor : UIColor.lightGray.cgColor
-        signInButton.isEnabled = isEnabled
+        let violet = OurColors.violet.cgColor
+        let gray   = UIColor.lightGray.cgColor
+        
+        enterByKeyButton.layer.borderColor = isEnabled ? violet : gray
+        signInButton.layer.borderColor     = isEnabled ? violet : gray
+        signInButton.isEnabled     = isEnabled
+        enterByKeyButton.isEnabled = isEnabled
     }
-
     
     func clearTextFields() {
         
@@ -101,12 +106,10 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func loginRequest() {
-        stateMachine.userStateInfo.tryingToLogIn = true
-        toggleSignInAnimation()
-        
         if let username = self.emailTextField.text?.lowercased() {
             if let password = self.passwordTextField.text {
                 stateMachine.logInWith(email: username, password: password)
+                toggleSignInAnimation()
             }
         }
     }
@@ -121,21 +124,24 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    private func toggleSignInAnimation() {
+    func toggleSignInAnimation() {
+        
+        let tryingToLogin = stateMachine.userStateInfo.tryingToLogIn
         
         UIView.animate(withDuration: 0.3, animations: {
-            self.enterByKeyButton.alpha = self.stateMachine.userStateInfo.tryingToLogIn ? 0 : 1
-            
+            let alpha: CGFloat = tryingToLogin ? 0 : 1
+            self.auxillaryButtons.forEach { $0.alpha = alpha }
         })
         
-        let isEnabled = stateMachine.userStateInfo.tryingToLogIn ? false : true
+        emailTextField.isUserInteractionEnabled = !tryingToLogin
+        passwordTextField.isUserInteractionEnabled = !tryingToLogin
+       
+        toggleSignInEnterByKeyButtons(isEnabled: !tryingToLogin)
         
-        toggleSignInButton(isEnabled: isEnabled)
-        
-        if stateMachine.userStateInfo.tryingToLogIn
+        if tryingToLogin
         {
             var point = enterByKeyButton.center
-            point.y += 25
+            point.y += 85
             
             addWaitingSpinner(at: point, color: OurColors.blue)
         }
@@ -153,9 +159,9 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                        name: .userFailedToLogin,
                        object: nil)
         
-        nc.addObserver(forName: .userLoggedIn, object: nil, queue: nil) { _ in
-            
-            self.toggleSignInAnimation()
+        nc.addObserver(forName: .userLoggedIn, object: nil, queue: nil) {
+            [weak self] _ in
+            self?.toggleSignInAnimation()
         }
     }    
 }
