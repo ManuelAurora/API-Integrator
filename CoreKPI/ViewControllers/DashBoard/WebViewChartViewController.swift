@@ -130,7 +130,13 @@ class WebViewChartViewController: UIViewController
             let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
             
-            let topOfJS2 = generateDataForJS()
+//            const lineChartWidth = document.querySelector('#chart-linechart').parentNode.parentNode.clientWidth - 10;
+//            const lineChartHeight = 300;
+//            const margin = {top: 50, right: 30, bottom: 30, left: 30};
+            
+            
+            let topOfJS2 = "const lineChartHeight = \(height);" +
+                generateDataForJS()
             
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + topOfJS2 + js2! + "</script>", baseURL: nil)
             

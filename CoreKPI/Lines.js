@@ -1,7 +1,6 @@
 // Данные для чарта
 
 const lineChartWidth = document.querySelector('#chart-linechart').parentNode.parentNode.clientWidth - 10;
-const lineChartHeight = 300;
 const margin = {top: 50, right: 30, bottom: 30, left: 30};
 
 let width, height, svg_wraper, svg;
