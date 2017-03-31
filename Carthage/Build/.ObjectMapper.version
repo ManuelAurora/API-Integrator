@@ -1,9 +1,27 @@
 {
-  "xcodeVersion" : "Xcode 8.2.1\nBuild version 8C1002",
   "commitish" : "2.2.5",
   "iOS" : [
     {
-      "hash" : "9c15b2210eb9e82aefa950e918bcca9ed8d48bd76c76162c2622c5baa409cc73",
+      "hash" : "f5feb14d7da940dee8c58969c707e851e423d7a29ba9643ef37b812e33ee651e",
+      "name" : "ObjectMapper"
+    }
+  ],
+  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
+  "watchOS" : [
+    {
+      "hash" : "c888e898d3903782d6a24da4983890888091b56840191f0501d43b3267eb49f9",
+      "name" : "ObjectMapper"
+    }
+  ],
+  "tvOS" : [
+    {
+      "hash" : "0847261c31ef3c6b27b700f22abd72d7920391da3f886fba072a1bb7be7e6e1f",
+      "name" : "ObjectMapper"
+    }
+  ],
+  "Mac" : [
+    {
+      "hash" : "c99006eb7eb19f1bbb416ecb9a891866172074ca25140a59445b9fb40480e413",
       "name" : "ObjectMapper"
     }
   ]

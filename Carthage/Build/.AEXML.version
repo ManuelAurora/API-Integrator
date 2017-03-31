@@ -1,9 +1,27 @@
 {
-  "xcodeVersion" : "Xcode 8.2.1\nBuild version 8C1002",
   "commitish" : "4.1.0",
   "iOS" : [
     {
-      "hash" : "4ceea026b734ea74781b1c440f60a53c2f537fc69fab4ece4d80617bb47e5f3c",
+      "hash" : "c526f62c9d19049c5320cde486452f9de3bd74fcaa6e1f7b3e3182f4299d499e",
+      "name" : "AEXML"
+    }
+  ],
+  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
+  "watchOS" : [
+    {
+      "hash" : "1b1ffcb62cb1e2a053398a642fd30e0eb82d5487a188d4285489c9c12932d2a9",
+      "name" : "AEXML"
+    }
+  ],
+  "tvOS" : [
+    {
+      "hash" : "e82d81f51f9d47748f553a1a2f8277dd3b5cd99ba9d11fc03d67e554bee6bba6",
+      "name" : "AEXML"
+    }
+  ],
+  "Mac" : [
+    {
+      "hash" : "bdde13456700e13fa8230fd0fca9f4e9aae493eaed38bb2fa01fd9a49fc3c4eb",
       "name" : "AEXML"
     }
   ]

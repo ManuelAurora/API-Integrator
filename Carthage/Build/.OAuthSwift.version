@@ -1,9 +1,27 @@
 {
-  "xcodeVersion" : "Xcode 8.2.1\nBuild version 8C1002",
   "commitish" : "1.1.1",
   "iOS" : [
     {
-      "hash" : "a7c98960098594322008447137e5958d5efbdad314d4b0b2caa2790450f93268",
+      "hash" : "47028e3cd29457046e12b47cb84e84a0cb84eedf42414eddce1e96acacdb88d1",
+      "name" : "OAuthSwift"
+    }
+  ],
+  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
+  "watchOS" : [
+    {
+      "hash" : "245e7df87c8553f09f75659a4b50b23466bb6725d1b52c2cdfe2b2fff00d9d02",
+      "name" : "OAuthSwift"
+    }
+  ],
+  "tvOS" : [
+    {
+      "hash" : "50716e472529d25e67d817acd8f8bce001348d52392b46b8b235518b25da6e8d",
+      "name" : "OAuthSwift"
+    }
+  ],
+  "Mac" : [
+    {
+      "hash" : "026aed9e267ac20ee96364bb916460fe418e94caf9556944edd692f1b5c4068e",
       "name" : "OAuthSwift"
     }
   ]

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		641D74AF1E8E2C77001023FB /* Lines.js in Resources */ = {isa = PBXBuildFile; fileRef = 641D74AE1E8E2C77001023FB /* Lines.js */; };
 		641F74641E5AE27B00672534 /* QuickBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F74631E5AE27B00672534 /* QuickBook.swift */; };
 		641F74661E5B0F4200672534 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F74651E5B0F4200672534 /* WebViewController.swift */; };
 		644691CF1E55870900D964D5 /* PinCodeLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644691CE1E55870900D964D5 /* PinCodeLock.swift */; };
@@ -158,7 +159,6 @@
 		A2EFE2C61E2DF0A500BA2956 /* ChartsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EFE2C51E2DF0A500BA2956 /* ChartsPageViewController.swift */; };
 		A2EFE2C81E2DF0E300BA2956 /* TableViewChartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EFE2C71E2DF0E300BA2956 /* TableViewChartController.swift */; };
 		A2EFE2CA1E2E390900BA2956 /* Lines.html in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2C91E2E390900BA2956 /* Lines.html */; };
-		A2EFE2CD1E2E39BB00BA2956 /* Lines.js in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2CC1E2E39BB00BA2956 /* Lines.js */; };
 		A2EFE2CF1E2E39FF00BA2956 /* Lines.css in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2CE1E2E39FF00BA2956 /* Lines.css */; };
 		A2EFE2D21E2E3FAA00BA2956 /* bar.html in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2D11E2E3FAA00BA2956 /* bar.html */; };
 		A2EFE2D41E2E3FE200BA2956 /* bar.js in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2D31E2E3FE200BA2956 /* bar.js */; };
@@ -223,6 +223,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		641D74AE1E8E2C77001023FB /* Lines.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Lines.js; sourceTree = "<group>"; };
 		641F74631E5AE27B00672534 /* QuickBook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBook.swift; sourceTree = "<group>"; };
 		641F74651E5B0F4200672534 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		644691CE1E55870900D964D5 /* PinCodeLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeLock.swift; sourceTree = "<group>"; };
@@ -375,7 +376,6 @@
 		A2EFE2C51E2DF0A500BA2956 /* ChartsPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChartsPageViewController.swift; path = CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift; sourceTree = "<group>"; };
 		A2EFE2C71E2DF0E300BA2956 /* TableViewChartController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewChartController.swift; path = CoreKPI/ViewControllers/DashBoard/TableViewChartController.swift; sourceTree = "<group>"; };
 		A2EFE2C91E2E390900BA2956 /* Lines.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = Lines.html; path = Graphics/Lines/Lines.html; sourceTree = "<group>"; };
-		A2EFE2CC1E2E39BB00BA2956 /* Lines.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Lines.js; path = Graphics/Lines/Lines.js; sourceTree = "<group>"; };
 		A2EFE2CE1E2E39FF00BA2956 /* Lines.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = Lines.css; path = Graphics/Lines/Lines.css; sourceTree = "<group>"; };
 		A2EFE2D11E2E3FAA00BA2956 /* bar.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bar.html; path = Graphics/BarChart/bar.html; sourceTree = "<group>"; };
 		A2EFE2D31E2E3FE200BA2956 /* bar.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = bar.js; path = Graphics/BarChart/bar.js; sourceTree = "<group>"; };
@@ -434,6 +434,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		640C2BBA1E8D3876002A9A51 /* PayPal */ = {
+			isa = PBXGroup;
+			children = (
+				64CB22A41E72E9EB00CBD6A3 /* PayPal.swift */,
+			);
+			name = PayPal;
+			sourceTree = "<group>";
+		};
 		646BF08C1E6E8B1C00621FE2 /* Quickbooks */ = {
 			isa = PBXGroup;
 			children = (
@@ -597,8 +605,8 @@
 			children = (
 				647CFCA01E8519C700F71632 /* ReportDataManipulator.swift */,
 				A256F05F1E49B631004DAF75 /* ExternalRequestService.swift */,
-				64CB22A41E72E9EB00CBD6A3 /* PayPal.swift */,
 				647CFCA21E854BD600F71632 /* IntegratedServicesDataManager.swift */,
+				640C2BBA1E8D3876002A9A51 /* PayPal */,
 				A256F0611E49F56B004DAF75 /* GoogleAnalytics */,
 				646BF08C1E6E8B1C00621FE2 /* Quickbooks */,
 				64CB22A61E72EA0300CBD6A3 /* HubSpot */,
@@ -901,7 +909,7 @@
 			isa = PBXGroup;
 			children = (
 				A2EFE2C91E2E390900BA2956 /* Lines.html */,
-				A2EFE2CC1E2E39BB00BA2956 /* Lines.js */,
+				641D74AE1E8E2C77001023FB /* Lines.js */,
 				A2EFE2CE1E2E39FF00BA2956 /* Lines.css */,
 			);
 			name = Lines;
@@ -1056,10 +1064,10 @@
 				645616461E67029B00643340 /* UserInfoTableViewCell.xib in Resources */,
 				A2C9FD291E13E1D400433D43 /* Rd3.v3.min.js in Resources */,
 				A2C9FD261E13E1CD00433D43 /* style.css in Resources */,
+				641D74AF1E8E2C77001023FB /* Lines.js in Resources */,
 				A2C9ABDE1E2F5C4100623659 /* positiveBar.js in Resources */,
 				A2EFE2D91E2E446900BA2956 /* funnel.html in Resources */,
 				A2EFE2D41E2E3FE200BA2956 /* bar.js in Resources */,
-				A2EFE2CD1E2E39BB00BA2956 /* Lines.js in Resources */,
 				A2279D7E1E14DE2100669EB0 /* points.js in Resources */,
 				A2C9ABDA1E2F5BD600623659 /* positiveBar.html in Resources */,
 				A2C9ABDC1E2F5BFE00623659 /* positiveBar.css in Resources */,

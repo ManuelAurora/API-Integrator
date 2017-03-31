@@ -1,9 +1,27 @@
 {
-  "xcodeVersion" : "Xcode 8.2.1\nBuild version 8C1002",
   "commitish" : "1.2.2",
   "iOS" : [
     {
-      "hash" : "16ddf99d768e77c715f9e4d0179935e4960cfdc175bcd7af8faa82ea06360d10",
+      "hash" : "e8604a4aa6067432e7c31f9c77947648afd2e46cdc81566aee36207a01d0b0f3",
+      "name" : "PhoneNumberKit"
+    }
+  ],
+  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
+  "watchOS" : [
+    {
+      "hash" : "490567ed2f6feae45605e58d49f0951ff07ad32a994bd4879d02f0c5c95ec5b0",
+      "name" : "PhoneNumberKit"
+    }
+  ],
+  "tvOS" : [
+    {
+      "hash" : "51b20c0b457b1ebc15c06e5e08a7a70301c4ec7fc63ceb031847196178af4619",
+      "name" : "PhoneNumberKit"
+    }
+  ],
+  "Mac" : [
+    {
+      "hash" : "e95cbe6a29c81d749715f1ebe773cb9eb6dec694b4b4e2a42edd11122cb8c137",
       "name" : "PhoneNumberKit"
     }
   ]

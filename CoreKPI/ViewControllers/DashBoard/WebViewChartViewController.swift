@@ -129,8 +129,10 @@ class WebViewChartViewController: UIViewController
             let css = try? String(contentsOfFile: cssFile!, encoding: String.Encoding.utf8)
             let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
-            let topOfJsFile = "var margin    = {top: 50, right: 30, bottom: 30, left: 30}; var width = \(width) - (margin.left + margin.right); var height = \(height) - (margin.top + margin.bottom);" + generateDataForJS()
-            webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + topOfJsFile + js2! + "</script>", baseURL: nil)
+            
+            let topOfJS2 = generateDataForJS()
+            
+            webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + topOfJS2 + js2! + "</script>", baseURL: nil)
             
         case  .BarChart:
             let htmlFile = Bundle.main.path(forResource:"bar", ofType: "html")
@@ -259,25 +261,23 @@ class WebViewChartViewController: UIViewController
             
             header = "Line chart"
             
-            var dataForJS = "var label = '\(header)'; var usdData = ["
+            var dataForJS = "var label = '\(header)'; const dataIn = [["
             
-            for arrayOfData in lineChartData
+            if lineChartData.count > 0
             {
-                for (index, item) in arrayOfData.enumerated()
-                {
-                    if index > 0 { dataForJS += "," }
-                    let lineData = "{date: new Date(\(item.timestamp)), rate: \(item.netValue)}"
-                    dataForJS += lineData
-                }
+                let lastArrayIndex = lineChartData.count - 1
                 
-                dataForJS += "]; var eurData = ["
-                for (index,item) in arrayOfData.enumerated()
+                for (index, arrayOfData) in lineChartData.enumerated()
                 {
-                    if index > 0 { dataForJS += "," }
-                    let lineData = "{date: \(item.timestamp), rate: \(item.netValue)}"
-                    dataForJS += lineData
+                    for (index, item) in arrayOfData.enumerated()
+                    {
+                        if index > 0 { dataForJS += "," }
+                        let lineData = "{date: new Date(\(item.timestamp)), rate: \(item.netValue)}"
+                        dataForJS += lineData
+                    }
+                    
+                    dataForJS += index == lastArrayIndex ? "]] ;" : "], ["
                 }
-                dataForJS += "];"
             }
             
             return dataForJS

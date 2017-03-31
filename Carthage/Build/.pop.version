@@ -1,9 +1,24 @@
 {
-  "xcodeVersion" : "Xcode 8.2.1\nBuild version 8C1002",
   "commitish" : "1.0.9",
   "iOS" : [
     {
-      "hash" : "62c10bd911f70f858c3b5540dacf08bbce949f57b25d7b9370e2d2f2f561b340",
+      "hash" : "b2552ea18f158925cb958aed877963f7023783c72c61d8c5024a76c4faac9f03",
+      "name" : "pop"
+    }
+  ],
+  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+    {
+      "hash" : "131103a4ab8138c734ac2cf6f32a2c939cfa13b13a99e2541f4be79a4093db57",
+      "name" : "pop"
+    }
+  ],
+  "Mac" : [
+    {
+      "hash" : "d51ce5a2f98a63a8e716ec48032259262f2d14c15dfd0630b6692cb0effc7a5d",
       "name" : "pop"
     }
   ]
