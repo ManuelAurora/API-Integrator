@@ -33,6 +33,9 @@
 		64936AF31E543DC00059D80A /* PinCodePlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */; };
 		6496D6301E8A498D002591EA /* pop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6496D62F1E8A498D002591EA /* pop.framework */; };
 		6496D6311E8A498D002591EA /* pop.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6496D62F1E8A498D002591EA /* pop.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		64A2CAC91E8E6EA100BDECF8 /* Lines.css in Resources */ = {isa = PBXBuildFile; fileRef = 64A2CAC81E8E6EA100BDECF8 /* Lines.css */; };
+		64A2CACD1E8E6ED200BDECF8 /* d3.js in Resources */ = {isa = PBXBuildFile; fileRef = 64A2CACA1E8E6ED200BDECF8 /* d3.js */; };
+		64A2CACE1E8E6ED200BDECF8 /* d3v3.js in Resources */ = {isa = PBXBuildFile; fileRef = 64A2CACB1E8E6ED200BDECF8 /* d3v3.js */; };
 		64A32B921E5B394B008438DA /* String + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A32B911E5B394B008438DA /* String + Extension.swift */; };
 		64CB22A51E72E9EB00CBD6A3 /* PayPal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CB22A41E72E9EB00CBD6A3 /* PayPal.swift */; };
 		64E08EBF1E5C3D4B00FE1F8E /* Dictionary + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E08EBE1E5C3D4B00FE1F8E /* Dictionary + Extension.swift */; };
@@ -54,7 +57,6 @@
 		A2263B0E1E3B7685005C812D /* SupportNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2263B0D1E3B7684005C812D /* SupportNavigationViewController.swift */; };
 		A2263B101E3B8174005C812D /* GetFAQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2263B0F1E3B8174005C812D /* GetFAQ.swift */; };
 		A2279D7A1E14DE1700669EB0 /* points.html in Resources */ = {isa = PBXBuildFile; fileRef = A2279D791E14DE1700669EB0 /* points.html */; };
-		A2279D7D1E14DE2100669EB0 /* d3.js in Resources */ = {isa = PBXBuildFile; fileRef = A2279D7B1E14DE2100669EB0 /* d3.js */; };
 		A2279D7E1E14DE2100669EB0 /* points.js in Resources */ = {isa = PBXBuildFile; fileRef = A2279D7C1E14DE2100669EB0 /* points.js */; };
 		A2279D801E14DE2A00669EB0 /* points.css in Resources */ = {isa = PBXBuildFile; fileRef = A2279D7F1E14DE2A00669EB0 /* points.css */; };
 		A2279D821E14E86400669EB0 /* TeamListNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2279D811E14E86400669EB0 /* TeamListNavigationViewController.swift */; };
@@ -159,7 +161,6 @@
 		A2EFE2C61E2DF0A500BA2956 /* ChartsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EFE2C51E2DF0A500BA2956 /* ChartsPageViewController.swift */; };
 		A2EFE2C81E2DF0E300BA2956 /* TableViewChartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EFE2C71E2DF0E300BA2956 /* TableViewChartController.swift */; };
 		A2EFE2CA1E2E390900BA2956 /* Lines.html in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2C91E2E390900BA2956 /* Lines.html */; };
-		A2EFE2CF1E2E39FF00BA2956 /* Lines.css in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2CE1E2E39FF00BA2956 /* Lines.css */; };
 		A2EFE2D21E2E3FAA00BA2956 /* bar.html in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2D11E2E3FAA00BA2956 /* bar.html */; };
 		A2EFE2D41E2E3FE200BA2956 /* bar.js in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2D31E2E3FE200BA2956 /* bar.js */; };
 		A2EFE2D61E2E400500BA2956 /* bar.css in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2D51E2E400500BA2956 /* bar.css */; };
@@ -248,6 +249,9 @@
 		64936AF01E543DC00059D80A /* PinCodeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeButton.swift; sourceTree = "<group>"; };
 		64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodePlaceholderView.swift; sourceTree = "<group>"; };
 		6496D62F1E8A498D002591EA /* pop.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = pop.framework; path = Carthage/Build/iOS/pop.framework; sourceTree = "<group>"; };
+		64A2CAC81E8E6EA100BDECF8 /* Lines.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = Lines.css; sourceTree = "<group>"; };
+		64A2CACA1E8E6ED200BDECF8 /* d3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = d3.js; sourceTree = "<group>"; };
+		64A2CACB1E8E6ED200BDECF8 /* d3v3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = d3v3.js; sourceTree = "<group>"; };
 		64A32B911E5B394B008438DA /* String + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String + Extension.swift"; sourceTree = "<group>"; };
 		64A32B941E5B3B85008438DA /* BridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		64CB22A41E72E9EB00CBD6A3 /* PayPal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PayPal.swift; path = ExternalServices/PayPal.swift; sourceTree = "<group>"; };
@@ -269,7 +273,6 @@
 		A2263B0D1E3B7684005C812D /* SupportNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SupportNavigationViewController.swift; path = CoreKPI/ViewControllers/SupportNavigationViewController.swift; sourceTree = "<group>"; };
 		A2263B0F1E3B8174005C812D /* GetFAQ.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetFAQ.swift; path = Services/GetFAQ.swift; sourceTree = "<group>"; };
 		A2279D791E14DE1700669EB0 /* points.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = points.html; path = Graphics/Point/points.html; sourceTree = "<group>"; };
-		A2279D7B1E14DE2100669EB0 /* d3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = d3.js; path = Graphics/Point/js/d3.js; sourceTree = "<group>"; };
 		A2279D7C1E14DE2100669EB0 /* points.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = points.js; path = Graphics/Point/js/points.js; sourceTree = "<group>"; };
 		A2279D7F1E14DE2A00669EB0 /* points.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = points.css; path = Graphics/Point/css/points.css; sourceTree = "<group>"; };
 		A2279D811E14E86400669EB0 /* TeamListNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TeamListNavigationViewController.swift; path = CoreKPI/ViewControllers/Team/TeamListNavigationViewController.swift; sourceTree = "<group>"; };
@@ -376,7 +379,6 @@
 		A2EFE2C51E2DF0A500BA2956 /* ChartsPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChartsPageViewController.swift; path = CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift; sourceTree = "<group>"; };
 		A2EFE2C71E2DF0E300BA2956 /* TableViewChartController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewChartController.swift; path = CoreKPI/ViewControllers/DashBoard/TableViewChartController.swift; sourceTree = "<group>"; };
 		A2EFE2C91E2E390900BA2956 /* Lines.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = Lines.html; path = Graphics/Lines/Lines.html; sourceTree = "<group>"; };
-		A2EFE2CE1E2E39FF00BA2956 /* Lines.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = Lines.css; path = Graphics/Lines/Lines.css; sourceTree = "<group>"; };
 		A2EFE2D11E2E3FAA00BA2956 /* bar.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bar.html; path = Graphics/BarChart/bar.html; sourceTree = "<group>"; };
 		A2EFE2D31E2E3FE200BA2956 /* bar.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = bar.js; path = Graphics/BarChart/bar.js; sourceTree = "<group>"; };
 		A2EFE2D51E2E400500BA2956 /* bar.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = bar.css; path = Graphics/BarChart/bar.css; sourceTree = "<group>"; };
@@ -881,7 +883,6 @@
 		A2B807EC1E13A4A500F2C1CB /* js */ = {
 			isa = PBXGroup;
 			children = (
-				A2279D7B1E14DE2100669EB0 /* d3.js */,
 				A2279D7C1E14DE2100669EB0 /* points.js */,
 			);
 			name = js;
@@ -908,9 +909,11 @@
 		A2EFE2CB1E2E391B00BA2956 /* Lines */ = {
 			isa = PBXGroup;
 			children = (
+				64A2CACA1E8E6ED200BDECF8 /* d3.js */,
+				64A2CACB1E8E6ED200BDECF8 /* d3v3.js */,
 				A2EFE2C91E2E390900BA2956 /* Lines.html */,
 				641D74AE1E8E2C77001023FB /* Lines.js */,
-				A2EFE2CE1E2E39FF00BA2956 /* Lines.css */,
+				64A2CAC81E8E6EA100BDECF8 /* Lines.css */,
 			);
 			name = Lines;
 			sourceTree = "<group>";
@@ -1054,9 +1057,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64A2CACE1E8E6ED200BDECF8 /* d3v3.js in Resources */,
+				64A2CACD1E8E6ED200BDECF8 /* d3.js in Resources */,
 				A2C9ABE01E2F91B800623659 /* accounting.min.js in Resources */,
 				A2EFE2CA1E2E390900BA2956 /* Lines.html in Resources */,
-				A2EFE2CF1E2E39FF00BA2956 /* Lines.css in Resources */,
 				A2EFE2DB1E2E454A00BA2956 /* funnel.css in Resources */,
 				A2EFE2D21E2E3FAA00BA2956 /* bar.html in Resources */,
 				A27820731E001503009F83DB /* LaunchScreen.storyboard in Resources */,
@@ -1073,7 +1077,6 @@
 				A2C9ABDC1E2F5BFE00623659 /* positiveBar.css in Resources */,
 				64EE4DFA1E55B6DC0007926F /* PinCodeView.xib in Resources */,
 				A26BEEAA1E3F70C800C2D2AC /* funnel.js in Resources */,
-				A2279D7D1E14DE2100669EB0 /* d3.js in Resources */,
 				A2B720981E2E4AFD00471E91 /* d3-funnel.js in Resources */,
 				A2279D7A1E14DE1700669EB0 /* points.html in Resources */,
 				A2C9FD2A1E13E1D400433D43 /* round.js in Resources */,
@@ -1082,6 +1085,7 @@
 				A26BEEAC1E3F86F900C2D2AC /* stackArea.html in Resources */,
 				A2EFE2DF1E2E494200BA2956 /* jquery.min.js in Resources */,
 				A2EFE2E11E2E4A1300BA2956 /* d3V442.min.js in Resources */,
+				64A2CAC91E8E6EA100BDECF8 /* Lines.css in Resources */,
 				A2C9FD231E13E1C500433D43 /* index.html in Resources */,
 				A278206B1E001503009F83DB /* Main.storyboard in Resources */,
 				A26BEEB11E3F8AD400C2D2AC /* stackArea.js in Resources */,

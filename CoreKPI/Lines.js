@@ -101,7 +101,7 @@ function lineChart(w, h, data) {
         .attr("y2", 0);
 
     data.forEach((el) => {
-        createChart(el, "black", "usd");
+        createChart(el, "6de1b1", "usd");
     });
 
     // общая функция для создания графиков

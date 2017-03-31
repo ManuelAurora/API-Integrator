@@ -1,0 +1,800 @@
+/*
+* @section      Normalize
+*
+* @description  Resets default browser styling
+*
+* @link         http://github.com/necolas/normalize.css
+* @license      MIT license - http://opensource.org/licenses/MIT
+* @version      3.0.3
+* @revision     1.0
+*/
+@import "//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+@import url("https://fonts.googleapis.com/css?family=Exo+2:300,400,700&subset=cyrillic");
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video, button, input, textarea {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: top; }
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, main, time, section {
+  display: block; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: ''; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+button, input, textarea, select {
+  display: inline-block;
+  -webkit-appearance: none;
+  outline: none;
+  color: inherit;
+  overflow: visible;
+  background-color: transparent;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  -webkit-border-radius: 0;
+  border-radius: 0; }
+
+button,
+input[type='button'],
+input[type='submit'] {
+  cursor: pointer; }
+
+/*
+* @bugfix input text-overflow padding ignore
+* @affected lt IE11
+*/
+.lt-ie11 input {
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+  -webkit-border-bottom-left-radius: 1px !important;
+  border-bottom-left-radius: 1px !important; }
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+a,
+a[href^="tel:"],
+a[href^="callto:"] {
+  font: inherit;
+  color: inherit;
+  text-decoration: none; }
+  a:focus,
+  a[href^="tel:"]:focus,
+  a[href^="callto:"]:focus {
+    outline: none; }
+
+img {
+  max-width: 100%;
+  height: auto; }
+
+a, button, input {
+  -webkit-transition: .3s all ease;
+  transition: .3s all ease; }
+
+* {
+  outline: none; }
+
+* {
+  background: rgba(0, 0, 0, 0.04); }
+
+/*
+* @section      Grid module
+* @description  This section use grid
+*/
+/*
+* @section      Grid module
+*/
+.container {
+  margin: 0 auto; }
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .container {
+    width: 100%; } }
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .container {
+    width: 960px; } }
+
+@media (min-width: 1200px) {
+  .container {
+    width: 1160px; } }
+
+/*
+* @section      Fonts
+* @description  This section holds all icon fonts stored in template
+*/
+/*========================================================
+                      Main Styles
+=========================================================*/
+/*
+* @section      Main Styles
+* @description  This section holds template default elements style declarations
+*/
+.page {
+  overflow: hidden; }
+  .lt-ie9 .page {
+    min-width: 1200px; }
+
+html {
+  font-size: 70px; }
+  @media (min-width: 768px) and (max-width: 991px) {
+    html {
+      font-size: 80px; } }
+  @media (min-width: 992px) and (max-width: 1199px) {
+    html {
+      font-size: 90px; } }
+  @media (min-width: 1200px) {
+    html {
+      font-size: 100px; } }
+
+body {
+  font-family: "Exo 2", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  -webkit-text-size-adjust: none;
+  color: #333333;
+  background: #ffffff; }
+
+* {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
+
+/*========================================================
+                      Typography
+=========================================================*/
+/*
+* @subsection   Typography
+* @description  Describes default font settings for basic html elements and
+*               css classes
+*/
+h1, .heading-1 {
+  font-size: 32px;
+  line-height: 40px; }
+
+h2, .heading-2 {
+  font-size: 32px;
+  line-height: 40px; }
+
+p a:hover, .list a:hover, .contact-info a:hover {
+  text-decoration: underline; }
+
+a {
+  cursor: pointer; }
+
+/*
+* @section      Helpers
+* @description  This section contain helpers style
+*/
+/*=======================================================
+                       Main Layout
+=========================================================*/
+/*
+* @subsection   Backgrounds
+* @description  Backgrounds custom styles
+*/
+.bg-white {
+  background: #ffffff; }
+
+.bg-what {
+  background: #f7f7f7; }
+
+.bg-ori {
+  background-image: url("../images/ori__1.jpg");
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover; }
+
+/*
+* @subsection   Colors
+* @description  Colors custom styles
+*/
+.clr-white {
+  color: #ffffff; }
+
+.clr-default {
+  color: #333333 !important; }
+
+/*
+* @subsection   Well
+* @description  Describes section inner indents
+*/
+.well {
+  padding-top: 20px;
+  padding-bottom: 20px; }
+
+/*=======================================================
+                        Components
+=========================================================*/
+/*
+* @section      Components
+* @description  This section holds all elements style declarations of template
+*/
+/*
+* @subsection   Imports
+*/
+/*
+* @components   Accordion
+*/
+.accordion {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  margin-left: -10px;
+  margin-right: -10px; }
+  .accordion__item {
+    position: relative;
+    background: #ffffff;
+    margin: 10px;
+    width: 45%; }
+  .accordion__head {
+    position: relative;
+    cursor: pointer;
+    text-transform: uppercase;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 30px; }
+    .accordion__head-left {
+      padding-left: 30px;
+      padding-right: 5px; }
+  .accordion__cnt {
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+    padding: 0px 5px;
+    -webkit-transition: 0.3s ease all;
+    transition: 0.3s ease all; }
+  .accordion__arrow {
+    position: absolute;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%); }
+    .accordion__arrow:before {
+      position: absolute;
+      content: '\f107';
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translateX(-50%) translateY(-50%);
+      -ms-transform: translateX(-50%) translateY(-50%);
+      transform: translateX(-50%) translateY(-50%);
+      font-family: "FontAwesome";
+      color: black; }
+  .accordion__arrow-left {
+    left: 5px; }
+  .accordion__arrow-right {
+    right: 5px; }
+
+.accordion__item-opened .accordion__arrow:before {
+  content: '\f106'; }
+
+.accordion__item-opened .accordion__cnt {
+  visibility: visible;
+  opacity: 1;
+  height: auto;
+  padding: 5px; }
+
+/*
+* @components   D3 styles
+* Positive Bar
+*/
+.chart-wrapper.chart-wrapper_positive-bar {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center; }
+  .chart-wrapper.chart-wrapper_positive-bar svg {
+    background: #2062f2; }
+  .chart-wrapper.chart-wrapper_positive-bar * {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
+  .chart-wrapper.chart-wrapper_positive-bar .bar--positive {
+    fill: steelblue; }
+  .chart-wrapper.chart-wrapper_positive-bar .bar--negative {
+    fill: steelblue; }
+  .chart-wrapper.chart-wrapper_positive-bar .axis text {
+    font: 10px Arial;
+    fill: #fff;
+    fill-opacity: 0.5; }
+  .chart-wrapper.chart-wrapper_positive-bar .axis .axis__y text {
+    fill: transparent; }
+  .chart-wrapper.chart-wrapper_positive-bar .axis path, .chart-wrapper.chart-wrapper_positive-bar .axis line {
+    fill: none;
+    stroke: #3872f2;
+    shape-rendering: crispEdges; }
+
+/*
+* @components   D3 styles
+* Negative Bar
+*/
+.chart-wrapper.chart-wrapper_negative-bar svg {
+  background: #2062f2; }
+
+.chart-wrapper.chart-wrapper_negative-bar * {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
+
+.chart-wrapper.chart-wrapper_negative-bar .bar--positive {
+  fill: steelblue; }
+
+.chart-wrapper.chart-wrapper_negative-bar .bar--negative {
+  fill: steelblue; }
+
+.chart-wrapper.chart-wrapper_negative-bar .axis text {
+  font-size: 10px;
+  fill: #fff;
+  fill-opacity: 0.5; }
+
+.chart-wrapper.chart-wrapper_negative-bar .axis .axis__y text {
+  fill: transparent; }
+
+.chart-wrapper.chart-wrapper_negative-bar .axis path, .chart-wrapper.chart-wrapper_negative-bar .axis line {
+  fill: none;
+  stroke: #3872f2;
+  shape-rendering: crispEdges; }
+
+/*
+* @components   D3 styles
+* Points
+*/
+.chart-wrapper {
+  max-width: 768px;
+  height: cacl(100vh/2); }
+
+.chart-wrapper.chart-wrapper_points svg {
+  background: #2062f2; }
+
+.chart-wrapper.chart-wrapper_points * {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
+
+.chart-wrapper.chart-wrapper_points .axis path, .chart-wrapper.chart-wrapper_points .axis line {
+  fill: none;
+  stroke: transparent; }
+
+.chart-wrapper.chart-wrapper_points .axis .grid-line {
+  stroke: #3872f2;
+  shape-rendering: crispedges;
+  /*stroke-opacity: 0.2;*/ }
+
+.chart-wrapper.chart-wrapper_points .axis text {
+  font: 10px Arial;
+  fill: #fff;
+  fill-opacity: 0.5; }
+
+.chart-wrapper.chart-wrapper_points .tooltip {
+  opacity: 0;
+  width: 40px;
+  height: 36px;
+  padding: 0 5px 0 5px;
+  max-width: 70px;
+  top: 0;
+  left: 0;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.4);
+  -webkit-transition: 0.4s ease all;
+  transition: 0.4s ease all; }
+
+.chart-wrapper.chart-wrapper_points .tooltip:before {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid rgba(0, 0, 0, 0.4);
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%); }
+
+.chart-wrapper.chart-wrapper_points .tooltip__text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 36px; }
+
+/*
+* @components   D3 styles
+* Stack Area
+*/
+.chart-wrapper.chart-wrapper_stackArea svg {
+  background: #2062f2; }
+
+.chart-wrapper.chart-wrapper_stackArea * {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
+
+.chart-wrapper.chart-wrapper_stackArea .axis path, .chart-wrapper.chart-wrapper_stackArea .axis line {
+  fill: none;
+  stroke: #3872f2; }
+
+.chart-wrapper.chart-wrapper_stackArea .axis .grid-line {
+  stroke: #3872f2;
+  shape-rendering: crispedges;
+  /*stroke-opacity: 0.2;*/ }
+
+.chart-wrapper.chart-wrapper_stackArea .axis text {
+  font-size: 10px;
+  fill: #fff;
+  fill-opacity: 0.5; }
+
+.chart-wrapper.chart-wrapper_stackArea .plotArea text {
+  text-anchor: start;
+  font-size: 12px;
+  font-weight: 700; }
+
+/*
+* @components   D3 styles
+* Pie
+*/
+.chart-wrapper.chart-wrapper_pie * {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
+
+.chart-wrapper.chart-wrapper_pie svg {
+  background: #2062f2; }
+
+.chart-wrapper.chart-wrapper_pie .chart-title {
+  position: absolute;
+  top: 1.2em;
+  left: 50%;
+  font-size: 18px;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  color: #ffffff; }
+
+.chart-wrapper.chart-wrapper_pie .tooltip {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  -webkit-transition: 0.4s ease all;
+  transition: 0.4s ease all; }
+  .chart-wrapper.chart-wrapper_pie .tooltip:before {
+    position: absolute;
+    content: '';
+    top: 100%;
+    left: 50%;
+    border: 5px solid transparent;
+    border-top: 5px solid #1a3b7f;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%); }
+
+.chart-wrapper.chart-wrapper_pie .tooltip-pie {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background: #1a3b7f;
+  color: #fff;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  padding: 0 0.5em 0 1.5em;
+  min-width: 10em;
+  height: 4em; }
+  .chart-wrapper.chart-wrapper_pie .tooltip-pie__title {
+    margin: 0;
+    font-size: 1em;
+    font-weight: 700; }
+  .chart-wrapper.chart-wrapper_pie .tooltip-pie__value {
+    font-size: 1.6em;
+    display: inline;
+    position: relative; }
+  .chart-wrapper.chart-wrapper_pie .tooltip-pie__status {
+    position: absolute;
+    top: 55%;
+    left: 7px;
+    display: block;
+    border: 5px solid transparent;
+    border-bottom: 5px solid limegreen; }
+
+/*
+* @components   D3 styles
+* Line chart
+*/
+.chart-wrapper.chart-wrapper_linechart {
+  /*
+	.dot{
+		&__usd,
+		&__euro{
+			transition: 0.4s;
+			cursor: pointer;
+		}
+		&.active{
+			stroke: #ffffff !important;
+		}
+	}
+	*/ }
+  .chart-wrapper.chart-wrapper_linechart svg {
+    background: #2062f2; }
+  .chart-wrapper.chart-wrapper_linechart * {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
+  .chart-wrapper.chart-wrapper_linechart .axis path, .chart-wrapper.chart-wrapper_linechart .axis line {
+    fill: none;
+    stroke: #3872f2; }
+  .chart-wrapper.chart-wrapper_linechart .axis .grid-line {
+    stroke: #3872f2;
+    shape-rendering: crispedges;
+    /*stroke-opacity: 0.2;*/ }
+  .chart-wrapper.chart-wrapper_linechart .axis text {
+    font-size: 10px;
+    fill: #fff;
+    fill-opacity: 0.5; }
+  .chart-wrapper.chart-wrapper_linechart .linePath {
+    fill: transparent; }
+  .chart-wrapper.chart-wrapper_linechart .tooltip {
+    position: absolute;
+    display: none;
+    width: 60px !important;
+    height: 36px;
+    padding: 0 5px 0 5px;
+    max-width: 70px;
+    top: 0;
+    left: 0;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.4);
+    -webkit-transition: 0.4s ease all;
+    transition: 0.4s ease all; }
+  .chart-wrapper.chart-wrapper_linechart .tooltip:before {
+    position: absolute;
+    top: 100% !important;
+    left: 50%;
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid rgba(0, 0, 0, 0.4);
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%); }
+  .chart-wrapper.chart-wrapper_linechart .tooltip__text {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 36px; }
+
+@-webkit-keyframes dash {
+  to {
+    stroke-dashoffset: 0; } }
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0; } }
+
+/*
+* @components   D3 styles
+* Funnel
+*/
+.funnel {
+  -ms-flex-align: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -ms-flex-pack: center;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: auto;
+  height: 100%;
+  padding: 10px 0;
+  background: #2062f2; }
+  .funnel > * {
+    width: -webkit-calc( 100% - ( 10px + 10px ));
+    width: calc( 100% - ( 10px + 10px )); }
+  .funnel__cnt {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap; }
+  .funnel__title {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    font-weight: 700;
+    color: #fff;
+    font-size: 20px;
+    line-height: 1.2; }
+  .funnel__label, .funnel__persent {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 300; }
+  .funnel__chart {
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    -webkit-transform-origin: 100% 0 0;
+    -ms-transform-origin: 100% 0 0;
+    transform-origin: 100% 0 0;
+    -webkit-transform: rotate(-90deg) translateX(0%) translateY(-50%);
+    -ms-transform: rotate(-90deg) translateX(0%) translateY(-50%);
+    transform: rotate(-90deg) translateX(0%) translateY(-50%); }
+    .funnel__chart text {
+      opacity: 0; }
+
+.funnel__title + * {
+  margin: auto; }
+
+.funnel__chart-wrapper {
+  margin: 1em 0; }
+
+/* ========================================================
+                     HEADER  Section
+=========================================================*/
+/*
+* @section      Page Header
+* @description  This section holds specific style redeclarations for some
+*               of common elements in page header
+*/
+header, .page-header {
+  position: relative; }
+  header .parallax, .page-header .parallax {
+    -webkit-perspective: 100px;
+    perspective: 100px;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    right: 0;
+    bottom: 0;
+    margin-left: -1500px; }
+  header .parallax__layer, .page-header .parallax__layer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0; }
+    header .parallax__layer img, .page-header .parallax__layer img {
+      display: block;
+      position: absolute;
+      bottom: 0; }
+  header .parallax__cover, .page-header .parallax__cover {
+    background: #2D112B;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 2000px;
+    z-index: 2; }
+  header .parallax__layer_0, .page-header .parallax__layer_0 {
+    -webkit-transform: translateZ(-300px) scale(4);
+    transform: translateZ(-300px) scale(4); }
+  header .parallax__layer_1, .page-header .parallax__layer_1 {
+    -webkit-transform: translateZ(-250px) scale(3.5);
+    transform: translateZ(-250px) scale(3.5); }
+  header .parallax__layer_2, .page-header .parallax__layer_2 {
+    -webkit-transform: translateZ(-200px) scale(3);
+    transform: translateZ(-200px) scale(3); }
+  header .parallax__layer_3, .page-header .parallax__layer_3 {
+    -webkit-transform: translateZ(-150px) scale(2.5);
+    transform: translateZ(-150px) scale(2.5); }
+  header .parallax__layer_4, .page-header .parallax__layer_4 {
+    -webkit-transform: translateZ(-100px) scale(2);
+    transform: translateZ(-100px) scale(2); }
+  header .parallax__layer_5, .page-header .parallax__layer_5 {
+    -webkit-transform: translateZ(-50px) scale(1.5);
+    transform: translateZ(-50px) scale(1.5); }
+  header .parallax__layer_6, .page-header .parallax__layer_6 {
+    -webkit-transform: translateZ(0px) scale(1);
+    transform: translateZ(0px) scale(1); }
+
+/* ========================================================
+					 MAIN  Section
+=========================================================*/
+/*
+* @section      Page Content
+* @description  This section holds specific style redeclarations for some
+*               of common elements in page content
+*/
+main, .page-content {
+  min-height: 100vh; }
+
+/* ========================================================
+					 FOOTER  Section
+=========================================================*/
+/*
+* @section      Page Footer
+* @description  This section holds specific style redeclarations for some
+*               of common elements in page footer
+*/
+footer, .page-footer {
+  background: white;
+  color: #333333; }

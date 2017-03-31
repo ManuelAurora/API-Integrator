@@ -122,19 +122,14 @@ class WebViewChartViewController: UIViewController
         case .LineChart:
             let htmlFile = Bundle.main.path(forResource:"Lines", ofType: "html")
             let cssFile = Bundle.main.path(forResource:"Lines", ofType: "css")
-            let jsFile1 = Bundle.main.path(forResource:"Rd3.v3.min", ofType: "js")
+            let jsFile1 = Bundle.main.path(forResource:"d3", ofType: "js")
             let jsFile2 = Bundle.main.path(forResource:"Lines", ofType: "js")
             
             let html = try? String(contentsOfFile: htmlFile!, encoding: String.Encoding.utf8)
             let css = try? String(contentsOfFile: cssFile!, encoding: String.Encoding.utf8)
             let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
-            
-//            const lineChartWidth = document.querySelector('#chart-linechart').parentNode.parentNode.clientWidth - 10;
-//            const lineChartHeight = 300;
-//            const margin = {top: 50, right: 30, bottom: 30, left: 30};
-            
-            
+                        
             let topOfJS2 = "const lineChartHeight = \(height);" +
                 generateDataForJS()
             
@@ -220,6 +215,7 @@ class WebViewChartViewController: UIViewController
                 dataForJS += pieData
             }
             dataForJS += "];"
+            
             return dataForJS
             
         case .PointChart:
@@ -261,6 +257,9 @@ class WebViewChartViewController: UIViewController
              
             case .Quickbooks:
                 lineChartData = formLineChartQuickbooksData()
+                
+            case .GoogleAnalytics:
+                lineChartData = formLineChartGAData()
                 
             default: break
             }
@@ -397,21 +396,63 @@ class WebViewChartViewController: UIViewController
         }
     }
     
-    private func formLineChartQuickbooksData() -> [[InfoBox]] {
+    private func timestampStringFrom(date: String) -> String {
         
-        let result: [InfoBox] = rawDataArray.map {
-            let date = dateFormatter.date(from: $0.leftValue)!
+        if let date = dateFormatter.date(from: date)
+        {
             let timestamp = date.timeIntervalSince1970
-            let invoice = InfoBox(payer: "", value: "" , netValue: $0.rightValue, timestamp: "\(Int(timestamp))")
-        
-            return invoice
+            return String(Int(timestamp))
         }
         
-        let sorted = result.sorted { $0.timestamp < $1.timestamp }
+        print("DEBUG: Timestamp error")
         
+        return "";
+    }
+    
+    private func lineChartDataFrom(result: [InfoBox]) -> [[InfoBox]] {
+        
+        let sorted = result.sorted { $0.timestamp < $1.timestamp }
         let lineChartData: [[InfoBox]] = [sorted]
         
         return lineChartData
+    }
+    
+    private func formLineChartGAData() -> [[InfoBox]] {
+        
+        let df = DateFormatter()
+        df.dateFormat = "yyyy/MM/dd"
+        
+        let result: [InfoBox] = rawDataArray.map {
+            let date = df.date(from: $0.leftValue)
+            var timestamp = ""
+             
+            if let stamp = date?.timeIntervalSince1970
+            {
+                timestamp = String(Int(stamp))
+            }
+            
+            let infoBox   = InfoBox(payer: "",
+                                    value: "",
+                                    netValue: $0.rightValue,
+                                    timestamp: timestamp)
+            return infoBox
+        }
+        
+        return lineChartDataFrom(result: result)
+    }
+    
+    private func formLineChartQuickbooksData() -> [[InfoBox]] {
+        
+        let result: [InfoBox] = rawDataArray.map {
+            let timestamp = timestampStringFrom(date: $0.leftValue)
+            let invoice = InfoBox(payer: "",
+                                  value: "",
+                                  netValue: $0.rightValue,
+                                  timestamp: timestamp)
+            return invoice
+        }
+        
+        return lineChartDataFrom(result: result)
     }
 
     private func formLineChartPaypalData() -> [[InfoBox]] {
@@ -426,16 +467,12 @@ class WebViewChartViewController: UIViewController
             
             let result: [InfoBox] = dataArray.map {
                 (leftValue: String, centralValue: String, rightValue: String) -> InfoBox in
-                
-                let date = dateFormatter.date(from: rightValue)!
-                let timestamp = date.timeIntervalSince1970
-                
+                let timestamp = timestampStringFrom(date: rightValue)
                 let values = centralValue.components(separatedBy: "&")
-                
                 let sale = InfoBox(payer: leftValue,
                                    value: values[1],
                                    netValue: values[0],
-                                   timestamp: "\(Int(timestamp))")
+                                   timestamp: timestamp)
                 
                 return sale
             }
