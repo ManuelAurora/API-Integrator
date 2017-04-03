@@ -184,7 +184,7 @@ class QuickBookDataManager
         
         if let begin = beginDate, let end = endDate
         {
-            queryParameters[.query] = "SELECT * FROM Invoice"// WHERE MetaData.CreateTime >= '\(begin)' AND MetaData.CreateTime <= '\(end)'"
+            queryParameters[.query] = "SELECT * FROM Invoice WHERE MetaData.CreateTime >= '\(begin)' AND MetaData.CreateTime <= '\(end)'"
         }
         
         return queryParameters
@@ -428,29 +428,27 @@ class QuickBookDataManager
             qbKPI = filteredArray[0]
         }
         
+        extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+        
         switch type
         {
         case .nonPaidInvoicesPercent:
             extKPI.kpiName = QiuckBooksKPIs.NonPaidInvoices.rawValue
-            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             extKPI.quickbooksKPI = qbKPI
             extKPI.requestJsonString = urlString
             
         case .balance:
             extKPI.kpiName = QiuckBooksKPIs.Balance.rawValue
-            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             extKPI.quickbooksKPI = qbKPI
             extKPI.requestJsonString = urlString
             
         case .invoices:
             extKPI.kpiName = QiuckBooksKPIs.Invoices.rawValue
-            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             extKPI.quickbooksKPI = qbKPI
             extKPI.requestJsonString = urlString
             
         case .accountList:
             extKPI.kpiName = QiuckBooksKPIs.BalanceByBankAccounts.rawValue
-            extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             extKPI.quickbooksKPI = qbKPI
             extKPI.requestJsonString = urlString
             

@@ -24,6 +24,7 @@ extension Notification.Name
     static let appDidEnteredBackground   = Notification.Name("AppDidEnteredBackground")
     static let errorDownloadingFile      = Notification.Name("errorDownloadingFile")
     static let googleManagerRecievedData = Notification.Name("googleManagerRecievedData")
+    static let hubspotManagerRecievedData = Notification.Name("hubspotManagerRecievedData")
 }
 
 extension UIStoryboard

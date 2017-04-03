@@ -14,6 +14,8 @@ class ReportDataManipulator
     var kpi: KPI!
     let quickBooksDataManager = QuickBookDataManager.shared()
     let integratedServicesDataManager = IntegratedServicesDataManager()
+    let hubspotDataManager = HubSpotManager.sharedInstance
+    
     var dataToPresent = resultArray()
     
     private func createDataFromRequestWith(qBMethod: QuickBookMethod?) {
@@ -24,6 +26,7 @@ class ReportDataManipulator
     func dataForReport() {
         
         let kpiName  = kpi.integratedKPI.kpiName!
+        integratedServicesDataManager.kpi = kpi
         
         switch (IntegratedServices(rawValue: kpi.integratedKPI.serviceName!))!
         {
@@ -47,7 +50,6 @@ class ReportDataManipulator
             createDataFromRequestWith(qBMethod: method)
             
         case .PayPal:
-            integratedServicesDataManager.kpi = kpi
             integratedServicesDataManager.createDataFromRequest(success: {
                 dataForPresent in
                 self.dataToPresent.append(contentsOf: dataForPresent)
@@ -63,6 +65,9 @@ class ReportDataManipulator
                 NotificationCenter.default.post(name: .googleManagerRecievedData,
                                                 object: nil)
             })
+            
+        case .HubSpotCRM:
+            hubspotDataManager.connect()            
             
         default: break
         }

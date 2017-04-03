@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 import UIKit
 import OAuthSwift
+import CoreData
 
 enum HSRequestParameterKeys: String
 {
@@ -41,6 +42,8 @@ class HubSpotManager
 {
     static let sharedInstance = HubSpotManager()
     
+    let managedContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     var dealsArray: [HSDeal] = [] {
         didSet {
             updatePipelinesAndDeals()
@@ -48,11 +51,7 @@ class HubSpotManager
     }
     
     var pagesArray: [HSPage] = []
-    var contactsArray: [HSContact] = [] {
-        didSet {
-            if contactsArray != nil && contactsArray.count > 0 { showContactsFromVisits() }
-        }
-    }
+    var contactsArray: [HSContact] = []    
     var ownersArray: [HSOwner] = []
     var companiesArray: [HSCompany] = []
     var pipelinesArray: [HSPipeline] = [] {
@@ -64,6 +63,18 @@ class HubSpotManager
     var delegate: ExternalKPIViewController?
     var webView: WebViewController!
     var merged: Bool = false
+    
+    private var requestCounter: Int = 0 {
+        didSet {
+            if requestCounter == 6 {
+                NotificationCenter.default.post(
+                name: .hubspotManagerRecievedData,
+                object: nil)
+                
+                requestCounter = 0
+            }
+        }
+    }
     
     private let apiURL = "https://api.hubapi.com"
     private let authorizeURL = "https://app.hubspot.com"
@@ -112,26 +123,80 @@ class HubSpotManager
         }
     }
     
+    func createNewEntity(type: HubSpotCRMKPIs) {
+        
+        let extKPI = ExternalKPI()
+        var hubspotKPI: HubspotKPI!
+        let fetchHubspotKPI = NSFetchRequest<HubspotKPI>(entityName: "HubspotKPI")
+        
+        do {
+            let result = try? managedContext.fetch(fetchHubspotKPI)
+            hubspotKPI = (result == nil) || result!.isEmpty ? HubspotKPI() : result![0]
+        }        
+        
+        extKPI.serviceName = IntegratedServices.HubSpotCRM.rawValue
+        extKPI.kpiName = type.rawValue
+        extKPI.hubspotKPI = hubspotKPI        
+        
+        do {
+            try managedContext.save()
+            
+            NotificationCenter.default.post(Notification(name: .newExternalKPIadded))
+        }
+        catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
     func connect() {
         
-        let url = URL(string: makeUrlPathForAuthentication())
+        //let url = URL(string: makeUrlPathForAuthentication())
+        // webView.handle(url!)
         
-        webView.handle(url!)
+        getDataFromHubSpot([.pages,
+                            .companies,
+                            .owners,
+                            .deals,
+                            .contacts,
+                            .dealPipelines])
+    }
+    
+    func getDataForReport(kpi: HubSpotCRMKPIs) -> resultArray {
         
-        handle(request: .pages)
-        handle(request: .companies)
-        handle(request: .owners)
-        handle(request: .deals)
-        handle(request: .contacts)
-        handle(request: .dealPipelines)
+        var result: resultArray = []
+        
+        switch kpi
+        {
+        case .DealsRevenue:
+            
+            let deals = dealsArray
+            let revenue = showClosedAndWonDeals()
+            
+            deals.forEach {
+                let amount = $0.amount ?? 0
+                if let date = $0.createDate
+                {
+                    result.append((leftValue: "\(date)", centralValue: "deal", rightValue: "\(amount)"))
+                }
+            }
+            
+            revenue.forEach {
+                let amount = $0.amount ?? 0
+                if let date = $0.createDate
+                {
+                    result.append((leftValue: "\(date)", centralValue: "revenue", rightValue: "\(amount)"))
+                }
+            }
+            
+        default: break
+        }
+        
+        return result
     }
     
     func getDataFromHubSpot(_ array: [HSAPIMethods]) {
         
-        for request in array
-        {
-            handle(request: request)
-        }
+        array.forEach { handle(request: $0) }
     }
     
     private func makeUrlPathFor(request: HSAPIMethods, parameters: [HSRequestParameterKeys: String]) -> String {
@@ -174,6 +239,8 @@ class HubSpotManager
         Alamofire.request(requestURL!, headers: [:])
             .responseJSON(completionHandler:
                 { response in
+                    
+                    self.requestCounter += 1
                     
                     var error = false
                     
@@ -339,7 +406,7 @@ class HubSpotManager
     //Array in wich deals are closed and have Amount value
     func showClosedAndWonDeals() -> [HSDeal] {
         
-        return dealsArray.filter { $0.amount != nil && dateIsInCurrentPeriod($0.closeDate) }
+        return dealsArray.filter { $0.amount != nil && $0.closeDate != nil /* && dateIsInCurrentPeriod($0.closeDate)*/ }
     }
     
     //Array of deals that was created in given period

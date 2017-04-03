@@ -480,6 +480,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "HubSpotManager.showClosedAndWonDeals() -&gt; [HSDeal]:HubspotManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "$0.amount">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "Date.beginningOfMonth.getter:Date + Extension.swift">
       </ContextState>
       <ContextState
@@ -518,6 +526,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "HubSpotManager.requestCounter.didset:HubspotManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "requestCounter">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "WebViewChartViewController.(formLineChartQuickbooksData() -&gt; [[InfoBox]]).(closure #1):WebViewChartViewController.swift">
       </ContextState>
       <ContextState
@@ -538,6 +554,9 @@
                value = "qbKPI.kpiValue">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HubSpotManager.getDataForReport(kpi : HubSpotCRMKPIs) -&gt; ():HubspotManager.swift">
       </ContextState>
       <ContextState
          contextName = "SignInViewController.toggleSignInAnimation() -&gt; ():SignInViewController.swift">
@@ -587,10 +606,26 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "WebViewChartViewController.formLineChartHSData() -&gt; [[InfoBox]]:WebViewChartViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "rawDataArray">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "QuickBookDataManager.fetchDataFromIntuit() -&gt; ():QuickBook.swift">
          <PersistentStrings>
             <PersistentString
                value = "listOfRequests">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HubSpotManager.(showClosedAndWonDeals() -&gt; [HSDeal]).(closure #1):HubspotManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "dealsArray">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -757,6 +792,9 @@
             </PersistentString>
             <PersistentString
                value = "navigationController?.navigationBar.backItem?.backBarButtonItem?.title">
+            </PersistentString>
+            <PersistentString
+               value = "selectedHSKPIs">
             </PersistentString>
             <PersistentString
                value = "navigationController">
@@ -1118,6 +1156,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "WebViewChartViewController.(formLineChartHSData() -&gt; [[InfoBox]]).(closure #3):WebViewChartViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "info.sorted { $0.timestamp &lt; $1.timestamp }">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ExternalKPIViewController.(doOAuthQuickbooks() -&gt; ()).(closure #2):ExternalKPIViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -1349,6 +1395,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ChartsPageViewController.prepareDataForReportFromHubspot() -&gt; ():ChartsPageViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "kpi">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "SignInViewController.viewWillAppear(Bool) -&gt; ():SignInViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -1558,6 +1612,9 @@
                value = "Alamofire">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HubSpotManager.handle(request : HSAPIMethods) -&gt; ():HubspotManager.swift">
       </ContextState>
       <ContextState
          contextName = "ChartsPageViewController.viewControllersToShow() -&gt; [UIViewController]:ChartsPageViewController.swift">

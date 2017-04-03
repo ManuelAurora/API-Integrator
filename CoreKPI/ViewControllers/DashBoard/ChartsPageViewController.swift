@@ -175,6 +175,17 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 default: break
                 }
                 
+            case .HubSpotCRM:
+                let kpiValue = HubSpotCRMKPIs(rawValue: kpiName)!
+                
+                switch kpiValue
+                {
+                case .DealsRevenue: chart = .LineChart
+                case .SalesFunnel: chart = .Funnel
+                case .DealsClosedWonAndLost: chart = .PieChart
+                default: break
+                }
+                
             default: break
             }
             
@@ -210,10 +221,44 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                             name: .googleManagerRecievedData,
                             object: nil)
         
+        nCenter.addObserver(self,
+                            selector: #selector(self.prepareDataForReportFromHubspot),
+                            name: .hubspotManagerRecievedData,
+                            object: nil)
+        
         nCenter.addObserver(forName: .errorDownloadingFile, object: nil, queue: nil) {
             [weak self] _ in
             self?.removeWaitingSpinner()
             self?.refreshControl.endRefreshing()
+        }
+    }
+        
+    @objc private func prepareDataForReportFromHubspot() {
+        
+        removeWaitingSpinner()
+        refreshControl.endRefreshing()
+        var data: resultArray = []
+        
+        if let kpiName  = kpi.integratedKPI.kpiName,
+            let kpiValue = HubSpotCRMKPIs(rawValue: kpiName)
+        {
+            data = reportDataManipulator.hubspotDataManager.getDataForReport(kpi: kpiValue)
+            tableViewChartVC.dataArray.append(contentsOf: data)
+            tableViewChartVC.reloadTableView()
+        }
+        
+        if webViewChartTwoVC.isAllowed
+        {
+            webViewChartTwoVC.service = .HubSpotCRM
+            webViewChartTwoVC.rawDataArray.append(contentsOf: data)
+            webViewChartTwoVC.refreshView()
+        }
+        
+        if webViewChartOneVC.isAllowed
+        {
+            webViewChartTwoVC.service = .GoogleAnalytics
+            webViewChartOneVC.rawDataArray.append(contentsOf: data)
+            webViewChartOneVC.refreshView()
         }
     }
  

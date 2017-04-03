@@ -31,6 +31,7 @@ class ExternalKPIViewController: OAuthViewController {
     }()
     
     var selectedQBKPIs = [(SettingName: String, value: Bool)]()
+    var selectedHSKPIs = [(SettingName: String, value: Bool)]()
     
     lazy var internalWebViewController: WebViewController = {
         let controller = WebViewController()
@@ -80,8 +81,16 @@ class ExternalKPIViewController: OAuthViewController {
                     self.addChildViewController(internalWebViewController)
                 }
                 
+                selectedHSKPIs         = serviceKPI.filter { $0.value == true }
                 hubSpotManager.webView = internalWebViewController
-                hubSpotManager.connect()
+                hubSpotManager.connect()                
+                
+                selectedHSKPIs.forEach {
+                    if let type = HubSpotCRMKPIs(rawValue: $0.SettingName)
+                    {
+                        hubSpotManager.createNewEntity(type: type)
+                    }
+                }
                 
             default:
                 break
@@ -209,7 +218,7 @@ extension ExternalKPIViewController {
     
     //MARK: - get ViewID for google analytics
     func selectViewID(googleKPI: GoogleKPI) {
-        let request = GoogleAnalytics(oauthToken: googleKPI.oAuthToken!, oauthRefreshToken: googleKPI.oAuthRefreshToken!, oauthTokenExpiresAt: googleKPI.oAuthTokenExpiresAt as! Date)
+        let request = GoogleAnalytics(oauthToken: googleKPI.oAuthToken!, oauthRefreshToken: googleKPI.oAuthRefreshToken!, oauthTokenExpiresAt: googleKPI.oAuthTokenExpiresAt! as Date)
         request.getViewID(success: { viewIDArray in
             let alertVC = UIAlertController(title: "Select source", message: "Please!", preferredStyle: .actionSheet)
             for viewID in viewIDArray {

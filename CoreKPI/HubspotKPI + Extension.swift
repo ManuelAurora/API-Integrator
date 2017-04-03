@@ -7,3 +7,17 @@
 //
 
 import Foundation
+import CoreData
+import UIKit
+
+extension HubspotKPI
+{
+    convenience init() {
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let description = NSEntityDescription.entity(forEntityName: "HubspotKPI", in: managedContext)!
+        self.init(entity: description, insertInto: managedContext)
+    }
+}

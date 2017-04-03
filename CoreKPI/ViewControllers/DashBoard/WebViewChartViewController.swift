@@ -274,6 +274,9 @@ class WebViewChartViewController: UIViewController
             case .GoogleAnalytics:
                 lineChartData = formLineChartGAData()
                 
+            case .HubSpotCRM:
+                lineChartData = formLineChartHSData()
+                
             default: break
             }
             
@@ -428,6 +431,38 @@ class WebViewChartViewController: UIViewController
         let lineChartData: [[InfoBox]] = [sorted]
         
         return lineChartData
+    }
+    
+    private func formLineChartHSData() -> [[InfoBox]] {
+        
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd HH:mm:ss z"
+        
+        let deals = rawDataArray.filter { $0.centralValue == "deal" && $0.rightValue != "0" }
+        let revenue = rawDataArray.filter { $0.centralValue == "revenue" && $0.rightValue != "0" }
+        
+        let parentArray = [deals, revenue]
+        let result: [[InfoBox]] = parentArray.map {
+        
+            let info = $0.map { tuple -> InfoBox in
+                let date = df.date(from: tuple.leftValue)
+                var timestamp = ""
+                
+                if let stamp = date?.timeIntervalSince1970
+                {
+                    timestamp = String(Int(stamp))
+                }
+                
+                let infoBox   = InfoBox(payer: "",
+                                        value: "",
+                                        netValue: tuple.rightValue,
+                                        timestamp: timestamp)
+                
+                return infoBox
+            }
+            return info.sorted { $0.timestamp < $1.timestamp }
+        }
+        return result
     }
     
     private func formLineChartGAData() -> [[InfoBox]] {
