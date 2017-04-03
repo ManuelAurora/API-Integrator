@@ -11,10 +11,11 @@ import UIKit
 class TableViewChartController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
-    
+        
     var qBMethod: QBMethod!
     var kpiName: QiuckBooksKPIs!
-        
+    var refreshControl: UIRefreshControl!
+    
     var index = 0
     var header: String = " "
     let notificationCenter = NotificationCenter.default
@@ -22,7 +23,6 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
     
     var dataArray = resultArray()
     var titleOfTable: (leftTitle: String, centralTitle: String, rightTitle: String) = ("","","")
-    
     var typeOfKPI: TypeOfKPI = .createdKPI
     
     deinit {
@@ -32,6 +32,7 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.addSubview(refreshControl)
         tableView.tableFooterView = UIView(frame: .zero)
     }
         
@@ -50,7 +51,7 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
         
         reloadTableView()
     }
-    
+        
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         switch typeOfKPI

@@ -70,7 +70,6 @@ class QuickBookDataManager
     }
     
     var kpiRequestsToSave: [urlStringWithMethod] = [] //This Array stores values for saving new kpi's into CoreData
-    
     var profitAndLoss: resultArray = []
     var accountList: resultArray  = []
     var paidInvoices: resultArray = []
@@ -165,15 +164,7 @@ class QuickBookDataManager
         }        
         return resultArray()
     }
-    
-    private func makeDate() {
         
-        //TODO: Add date generating
-        //let startOfQuarter: Date
-        //let date = Date()
-        //let calendar = Calendar.current
-    }
-    
     private func formUrlPath(method: QuickBookMethod) -> String {
         
         let companyId = serviceParameters[AuthenticationParameterKeys.companyId]!

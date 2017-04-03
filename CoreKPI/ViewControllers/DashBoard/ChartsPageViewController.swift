@@ -17,6 +17,13 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     let stateMachine = UserStateMachine.shared
     let nCenter = NotificationCenter.default
     
+    lazy var refreshControl: UIRefreshControl = {
+        let rc = UIRefreshControl()
+        rc.addTarget(self, action: #selector(self.handleRefresh), for: UIControlEvents.valueChanged)
+        
+        return rc
+    }()
+    
     lazy var reportDataManipulator = {
         return ReportDataManipulator()
     }()
@@ -52,6 +59,8 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         delegate   = self
         dataSource = self
         navigationItem.title = "Reports"
+        tableViewChartVC.refreshControl = refreshControl
+        
         subscribeToNotifications()
         setInitialViewControllers()
         formData()
@@ -90,6 +99,20 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     }
     
     // MARK:- Other Methods
+    @objc private func handleRefresh() {
+        
+        tableViewChartVC.dataArray.removeAll()
+        tableViewChartVC.reportArray.removeAll()
+        webViewChartOneVC.lineChartData.removeAll()
+        webViewChartOneVC.pieChartData.removeAll()
+        webViewChartOneVC.rawDataArray.removeAll()
+        webViewChartTwoVC.rawDataArray.removeAll()
+        reportDataManipulator.dataToPresent.removeAll()
+        
+        tableViewChartVC.reloadTableView()
+        formData()
+    }
+    
     private func firstReportIsTable() -> Bool
     {
         return kpi.KPIViewOne == .Numbers
@@ -189,12 +212,14 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         nCenter.addObserver(forName: .errorDownloadingFile, object: nil, queue: nil) {
             [weak self] _ in
             self?.removeWaitingSpinner()
+            self?.refreshControl.endRefreshing()
         }
     }
  
     @objc private func prepareDataForReportFromGA() {
         
         removeWaitingSpinner()
+        refreshControl.endRefreshing()
         
         tableViewChartVC.dataArray.append(contentsOf: reportDataManipulator.dataToPresent)
         tableViewChartVC.reloadTableView()
@@ -217,6 +242,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     @objc private func prepareDataForReportFromPayPal() {
         
         removeWaitingSpinner()
+        refreshControl.endRefreshing()
         
         tableViewChartVC.dataArray.append(contentsOf: reportDataManipulator.dataToPresent)
         tableViewChartVC.reloadTableView()
@@ -239,6 +265,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     @objc private func prepareDataForReportFromQB() {
         
         removeWaitingSpinner()
+        refreshControl.endRefreshing()
         
         let kpiName  = kpi.integratedKPI.kpiName!
         let kpiValue = QiuckBooksKPIs(rawValue: kpiName)!
