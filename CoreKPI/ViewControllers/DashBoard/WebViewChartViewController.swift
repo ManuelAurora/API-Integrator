@@ -204,8 +204,21 @@ class WebViewChartViewController: UIViewController
     private func generateDataForJS() -> String {
         switch typeOfChart {
         case .PieChart:
-                       
-            var dataForJS = "var lable = '\(header)'; var data_pie = ["
+             var dataForJS = "var lable = '\(header)'; var data_pie = ["
+            
+            if service == .Quickbooks
+            {
+                let hundredPercent = 100
+                let value  = rawDataArray[0].rightValue
+                let truncatedValue = value.substring(to: value.index(before: value.endIndex))
+                let resultValue = hundredPercent - (Int(truncatedValue) ?? 0)
+                let object = (leftValue: rawDataArray[0].leftValue, centralValue: "", rightValue: truncatedValue)
+                let agonist = (leftValue: "", centralValue: "", rightValue: String(resultValue))
+                
+                rawDataArray.removeAll()
+                rawDataArray.append(object)
+                rawDataArray.append(agonist)
+            }
             
             for (index,item) in rawDataArray.enumerated() {
                 if index > 0 {

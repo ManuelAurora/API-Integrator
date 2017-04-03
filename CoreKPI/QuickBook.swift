@@ -153,7 +153,7 @@ class QuickBookDataManager
         case .BalanceByBankAccounts: return accountList
         //case .IncomeProfitKPIs: return incomeProfitKPI
         case .Invoices:                return invoices
-        case .NetIncome:               return netIncome
+        case .NetIncome:               return paidInvoices
         case .NonPaidInvoices:         return nonPaidInvoicesPercent
         case .OpenInvoicesByCustomers: return openInvoicesByCustomers
         case .OverdueCustomers:        return overdueCustomers
@@ -184,7 +184,7 @@ class QuickBookDataManager
         
         if let begin = beginDate, let end = endDate
         {
-            queryParameters[.query] = "SELECT * FROM Invoice WHERE MetaData.CreateTime >= '\(begin)' AND MetaData.CreateTime <= '\(end)'"
+            queryParameters[.query] = "SELECT * FROM Invoice"// WHERE MetaData.CreateTime >= '\(begin)' AND MetaData.CreateTime <= '\(end)'"
         }
         
         return queryParameters

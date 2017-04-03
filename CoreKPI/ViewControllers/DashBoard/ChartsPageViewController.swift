@@ -20,7 +20,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     lazy var refreshControl: UIRefreshControl = {
         let rc = UIRefreshControl()
         rc.addTarget(self, action: #selector(self.handleRefresh), for: UIControlEvents.valueChanged)
-        
+        rc.tintColor = .clear
         return rc
     }()
     
@@ -161,6 +161,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 switch kpiValue
                 {
                 case .NetIncome: chart = .LineChart
+                case .NonPaidInvoices, .PaidInvoices: chart = .PieChart
                 default: break
                 }
                 
@@ -277,7 +278,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         if webViewChartTwoVC.isAllowed
         {
             webViewChartTwoVC.service = .Quickbooks
-            webViewChartTwoVC.rawDataArray.append(contentsOf: reportDataManipulator.quickBooksDataManager.paidInvoices)
+            webViewChartTwoVC.rawDataArray.append(contentsOf: data)
             webViewChartTwoVC.refreshView()
         }
         
