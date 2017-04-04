@@ -95,15 +95,15 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     
     var executantArray:  [(SettingName: String, value: Bool)] = []
     
-    var timeInterval: TimeInterval {
+    var timeInterval: AlertTimeInterval {
         for interval in timeIntervalArray {
             if interval.value == true {
-                return TimeInterval(rawValue: interval.SettingName)!
+                return AlertTimeInterval(rawValue: interval.SettingName)!
             }
         }
-        return TimeInterval.Daily
+        return AlertTimeInterval.Daily
     }
-    var timeIntervalArray: [(SettingName: String, value: Bool)] = [(TimeInterval.Daily.rawValue, true), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, false)]
+    var timeIntervalArray: [(SettingName: String, value: Bool)] = [(AlertTimeInterval.Daily.rawValue, true), (AlertTimeInterval.Weekly.rawValue, false), (AlertTimeInterval.Monthly.rawValue, false)]
     
     var weeklyInterval: WeeklyInterval {
         get {
@@ -903,7 +903,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 return false
             }
         case .User:
-            if department == .none || kpiName == nil || executant == nil || (timeInterval == TimeInterval.Weekly && weeklyInterval == WeeklyInterval.none) || (timeInterval == TimeInterval.Monthly && mounthlyInterval == nil) || timeZone == nil || deadline == nil {
+            if department == .none || kpiName == nil || executant == nil || (timeInterval == AlertTimeInterval.Weekly && weeklyInterval == WeeklyInterval.none) || (timeInterval == AlertTimeInterval.Monthly && mounthlyInterval == nil) || timeZone == nil || deadline == nil {
                 return false
             }
         default:

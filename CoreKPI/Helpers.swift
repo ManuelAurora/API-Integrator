@@ -48,6 +48,7 @@ extension UIStoryboard
         case payPalAuthVC           = "PayPalAuth"
         case webViewController      = "WebViewController"
         case chartTableVC           = "TableViewController"
+        case choosePipelineVC       = "hubspotPipelineController"
     }
     
     func instantiateViewController(withIdentifier: StoryboardIDs) -> UIViewController {

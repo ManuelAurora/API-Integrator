@@ -132,14 +132,14 @@ class ReportAndViewKPITableViewController: UITableViewController {
     }
     var executantArray:  [(SettingName: String, value: Bool)] = []
     //TimeInterval
-    var timeInterval: TimeInterval {
+    var timeInterval: AlertTimeInterval {
         get {
             for interval in timeIntervalArray {
                 if interval.value == true {
-                    return TimeInterval(rawValue: interval.SettingName)!
+                    return AlertTimeInterval(rawValue: interval.SettingName)!
                 }
             }
-            return TimeInterval.Daily
+            return AlertTimeInterval.Daily
         }
         set {
             var newTimeIntervalArray: [(SettingName: String, value: Bool)] = []
@@ -155,7 +155,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
         }
         
     }
-    var timeIntervalArray: [(SettingName: String, value: Bool)] = [(TimeInterval.Daily.rawValue, true), (TimeInterval.Weekly.rawValue, false), (TimeInterval.Monthly.rawValue, false)]
+    var timeIntervalArray: [(SettingName: String, value: Bool)] = [(AlertTimeInterval.Daily.rawValue, true), (AlertTimeInterval.Weekly.rawValue, false), (AlertTimeInterval.Monthly.rawValue, false)]
     //WeeklyInterval
     var weeklyInterval: WeeklyInterval {
         get {
@@ -389,7 +389,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
     
     func dataIsEntered() -> Bool {
 
-            if department == .none || kpiName == nil || executant == nil || (timeInterval == TimeInterval.Weekly && weeklyInterval == WeeklyInterval.none) || (timeInterval == TimeInterval.Monthly && mounthlyInterval == nil) || timeZone == nil || deadlineTime == nil {
+            if department == .none || kpiName == nil || executant == nil || (timeInterval == AlertTimeInterval.Weekly && weeklyInterval == WeeklyInterval.none) || (timeInterval == AlertTimeInterval.Monthly && mounthlyInterval == nil) || timeZone == nil || deadlineTime == nil {
                 return false
             }
 

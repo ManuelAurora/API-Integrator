@@ -24,6 +24,8 @@ class ExternalKPIViewController: OAuthViewController {
         return HubSpotManager.sharedInstance
     }
     
+    lazy var animator = { return TransitionAnimator() }()
+    
     lazy var managedContext: NSManagedObjectContext = {
        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -52,6 +54,8 @@ class ExternalKPIViewController: OAuthViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        providesPresentationContextTransitionStyle = true
+        definesPresentationContext = true
         navigationItem.title = selectedService.rawValue + " KPI"
         tableView.tableFooterView = UIView(frame: .zero)        
     }
@@ -80,6 +84,11 @@ class ExternalKPIViewController: OAuthViewController {
                 if internalWebViewController.parent == nil {
                     self.addChildViewController(internalWebViewController)
                 }
+                
+                let pipelineVC = storyboard?.instantiateViewController(withIdentifier: .choosePipelineVC) as! HubspotChoosePipelineViewController
+                pipelineVC.transitioningDelegate = self
+                
+                present(pipelineVC, animated: true, completion: nil)
                 
                 selectedHSKPIs         = serviceKPI.filter { $0.value == true }
                 hubSpotManager.webView = internalWebViewController
@@ -249,6 +258,32 @@ extension ExternalKPIViewController {
         tokenDelegate.updateCredentials(googleAnalyticsObject: googleAnalyticsObject, payPalObject: payPalObject, salesForceObject: salesForceObject)
         let stackVC = navigationController?.viewControllers
         _ = navigationController?.popToViewController((stackVC?[(stackVC?.count)! - 3])!, animated: true)
+    }
+}
+
+extension ExternalKPIViewController: UIViewControllerTransitioningDelegate
+{
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+       
+        animator.forDismissal = true
+        return animator
+    }
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        animator.forDismissal = false
+        return animator
+    }
+}
+
+extension ExternalKPIViewController: HubspotSalesFunnelMakerProtocol
+{
+    func formChoosen(pipelines: [HSPipeline]) {
+        
+        pipelines.forEach {_ in 
+            
+        
+        }
     }
 }
 

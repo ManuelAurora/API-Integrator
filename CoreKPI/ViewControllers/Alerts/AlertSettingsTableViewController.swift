@@ -28,7 +28,7 @@ class AlertSettingsTableViewController: UITableViewController {
     var dataSourceArray: [(SettingName: String, value: Bool)] = []
     
     //MARK: Reminders
-    var timeInterval = TimeInterval.Daily
+    var timeInterval = AlertTimeInterval.Daily
     var timeIntervalArray: [(SettingName: String, value: Bool)] = []
     
     var deliveryDay: String?
@@ -98,7 +98,7 @@ class AlertSettingsTableViewController: UITableViewController {
                 dataSourceArray.append((model.getNameKPI(FromID: kpi.id)!, false))
             }
         }
-        for timeInterval in iterateEnum(TimeInterval.self) {
+        for timeInterval in iterateEnum(AlertTimeInterval.self) {
             if timeInterval == self.timeInterval {
                 timeIntervalArray.append((timeInterval.rawValue, true))
             } else {
@@ -172,7 +172,7 @@ class AlertSettingsTableViewController: UITableViewController {
             case .Alert:
                 return 3
             case .Reminder:
-                if timeInterval == TimeInterval.Daily {
+                if timeInterval == AlertTimeInterval.Daily {
                     return datePickerIsVisible ? 4 : 3
                 } else {
                     return datePickerIsVisible ? 5 : 4
@@ -234,7 +234,7 @@ class AlertSettingsTableViewController: UITableViewController {
                     break
                 }
             case .Reminder:
-                if timeInterval == TimeInterval.Daily   {
+                if timeInterval == AlertTimeInterval.Daily   {
                     switch indexPath.row {
                     case 0:
                         cell.headerCellLabel.text = "Time interval"
@@ -373,7 +373,7 @@ class AlertSettingsTableViewController: UITableViewController {
                 }
                 return
             case .Reminder:
-                if timeInterval == TimeInterval.Daily   {
+                if timeInterval == AlertTimeInterval.Daily   {
                     switch indexPath.row {
                     case 0:
                         self.typeOfSetting = Setting.TimeInterval
@@ -444,7 +444,7 @@ class AlertSettingsTableViewController: UITableViewController {
             
             var newIndexPath = IndexPath()
             
-            if timeInterval == TimeInterval.Daily {
+            if timeInterval == AlertTimeInterval.Daily {
                 switch indexPath.row {
                 case 2,3:
                     return indexPath
@@ -855,7 +855,7 @@ class AlertSettingsTableViewController: UITableViewController {
             
             //TimeInterval
             if let reminderTimeInterval = reminder.timeInterval {
-                timeInterval = TimeInterval(rawValue: reminderTimeInterval)!
+                timeInterval = AlertTimeInterval(rawValue: reminderTimeInterval)!
                 var newTimeIntervalArray: [(SettingName: String, value: Bool)] = []
                 for interval in timeIntervalArray {
                     if interval.SettingName == timeInterval.rawValue {
@@ -975,7 +975,7 @@ extension AlertSettingsTableViewController: updateSettingsDelegate {
             timeIntervalArray = array
             for interval in array {
                 if interval.value == true {
-                    timeInterval = TimeInterval(rawValue: interval.SettingName)!
+                    timeInterval = AlertTimeInterval(rawValue: interval.SettingName)!
                 }
             }
             deliveryDay = nil

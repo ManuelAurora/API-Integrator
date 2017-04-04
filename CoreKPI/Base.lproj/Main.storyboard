@@ -3766,7 +3766,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Npf-51-174" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7876" y="-4003.4482758620693"/>
+            <point key="canvasLocation" x="6815" y="-3685"/>
         </scene>
         <!--Web View Chart View Controller-->
         <scene sceneID="bAf-tX-HkV">
@@ -4523,6 +4523,60 @@ Deliveries</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pO2-Rq-hCh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="6829.6000000000004" y="-4442.4287856071969"/>
+        </scene>
+        <!--Hubspot Choose Pipeline View Controller-->
+        <scene sceneID="QJ3-Lb-xbB">
+            <objects>
+                <viewController storyboardIdentifier="hubspotPipelineController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="cLN-vr-aan" customClass="HubspotChoosePipelineViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8wj-vK-csc"/>
+                        <viewControllerLayoutGuide type="bottom" id="jUT-Kf-Xut"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="faE-fe-t2t">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8fG-27-IYR">
+                                <rect key="frame" x="67" y="183" width="240" height="300"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="ULI-CW-Wtn"/>
+                                    <constraint firstAttribute="height" constant="300" id="qeJ-2g-YCQ"/>
+                                </constraints>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="checkmark" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PipelineCell" textLabel="wsI-Mv-3co" style="IBUITableViewCellStyleDefault" id="QcC-JB-hH2">
+                                        <rect key="frame" x="0.0" y="28" width="240" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QcC-JB-hH2" id="tBk-Wf-P0I">
+                                            <rect key="frame" x="0.0" y="0.0" width="201" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wsI-Mv-3co">
+                                                    <rect key="frame" x="15" y="0.0" width="186" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8fG-27-IYR" firstAttribute="centerX" secondItem="faE-fe-t2t" secondAttribute="centerX" id="Arp-i2-bDk"/>
+                            <constraint firstItem="8fG-27-IYR" firstAttribute="centerY" secondItem="faE-fe-t2t" secondAttribute="centerY" id="Jj7-TN-9nS"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="pipelinesTableView" destination="8fG-27-IYR" id="V7v-g2-dq0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lzK-Pu-0dy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7660" y="-4445.1274362818594"/>
         </scene>
         <!--Alerts-->
         <scene sceneID="3iT-s7-hhQ">

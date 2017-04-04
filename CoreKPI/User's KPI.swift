@@ -16,7 +16,7 @@ struct CreatedKPI {
     var KPI: String
     var descriptionOfKPI: String?
     var executant: Int
-    var timeInterval: TimeInterval
+    var timeInterval: AlertTimeInterval
     var deadlineDay: Int //Daily : 1, Weekly : 1-7, Mounthly : 1-31
     var timeZone: String
     var deadlineTime: Date

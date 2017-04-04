@@ -49,7 +49,7 @@ class ReminderViewTableViewController: UITableViewController {
             case .Alert:
                 return 3
             case .Reminder:
-                if model.reminders[index].timeInterval == TimeInterval.Daily.rawValue {
+                if model.reminders[index].timeInterval == AlertTimeInterval.Daily.rawValue {
                     return 3
                 } else {
                     return 4
@@ -118,7 +118,7 @@ class ReminderViewTableViewController: UITableViewController {
                     break
                 }
             case .Reminder:
-                if model.reminders[index].timeInterval == TimeInterval.Daily.rawValue {
+                if model.reminders[index].timeInterval == AlertTimeInterval.Daily.rawValue {
                     switch indexPath.row {
                     case 0:
                         cell.textLabel?.text = model.reminders[index].timeInterval
@@ -127,7 +127,7 @@ class ReminderViewTableViewController: UITableViewController {
                     case 2:
                         let dateFormatter = DateFormatter()
                         dateFormatter.timeStyle = .short
-                        cell.textLabel?.text = "Delivery at " + dateFormatter.string(from: model.reminders[index].deliveryTime as! Date)
+                        cell.textLabel?.text = "Delivery at " + dateFormatter.string(from: model.reminders[index].deliveryTime! as Date)
                     default:
                         break
                     }
@@ -142,7 +142,7 @@ class ReminderViewTableViewController: UITableViewController {
                     case 3:
                         let dateFormatter = DateFormatter()
                         dateFormatter.timeStyle = .short
-                        cell.textLabel?.text = "Delivery at " + dateFormatter.string(from: model.reminders[index].deliveryTime as! Date)
+                        cell.textLabel?.text = "Delivery at " + dateFormatter.string(from: model.reminders[index].deliveryTime! as Date)
                     default:
                         break
                     }

@@ -26,7 +26,7 @@ enum Setting: String {
     case TypeOfNotification
 }
 
-enum TimeInterval: String {
+enum AlertTimeInterval: String {
     case Daily
     case Weekly
     case Monthly
