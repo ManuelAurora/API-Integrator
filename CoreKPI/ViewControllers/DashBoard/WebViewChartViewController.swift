@@ -219,6 +219,20 @@ class WebViewChartViewController: UIViewController
                 rawDataArray.append(object)
                 rawDataArray.append(agonist)
             }
+             
+             if service == .HubSpotCRM
+             {
+                let wonDeals  = rawDataArray.filter { $0.centralValue == "Won" }
+                let lostDeals = rawDataArray.filter { $0.centralValue == "Lost" }
+                
+                rawDataArray.removeAll()
+                rawDataArray.append((leftValue: "Won",
+                                     centralValue: "",
+                                     rightValue: "\(wonDeals.count)"))
+                rawDataArray.append((leftValue: "Lost",
+                                     centralValue: "",
+                                     rightValue: "\(lostDeals.count)"))
+             }
             
             for (index,item) in rawDataArray.enumerated() {
                 if index > 0 {

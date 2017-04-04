@@ -193,7 +193,24 @@ class HubSpotManager
                 
                 result.append(resultTuple)
             }
-                  default: break
+            
+        case .DealsClosedWonAndLost:
+            let closedDeals   = showClosedDeals()
+            
+            closedDeals.forEach { deal in
+                var resultTuple = (leftValue: "\(deal.closeDate!)",
+                                   centralValue: "Lost",
+                                   rightValue: "")
+                
+                if let amount = deal.amount, amount > 0
+                {
+                    resultTuple.centralValue  = "Won"
+                    resultTuple.rightValue = "\(amount)"
+                }                
+                result.append(resultTuple)
+            }
+            
+        default: break
         }
         return result
     }
@@ -401,7 +418,6 @@ class HubSpotManager
     }
     
     //MARK: Functions for getting key parameters
-    
     //Array in wich deals are closed
     func showClosedDeals() -> [HSDeal] {
         
