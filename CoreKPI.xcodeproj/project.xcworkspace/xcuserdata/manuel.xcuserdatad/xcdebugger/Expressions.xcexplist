@@ -438,6 +438,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "HubSpotManager.(getDataForReport(kpi : HubSpotCRMKPIs) -&gt; [(leftValue : String, centralValue : String, rightValue : String)]).(closure #3):HubspotManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "totalDeals">
+            </PersistentString>
+            <PersistentString
+               value = "total">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "Request.(getJson(category : String, data : [String : Any], success : (NSDictionary) -&gt; (), failure : (String) -&gt; ()) -&gt; ()).(closure #1):RequestServise.swift">
          <PersistentStrings>
             <PersistentString
@@ -458,13 +469,16 @@
          contextName = "HubSpotManager.updatePipelinesAndDeals() -&gt; ():HubspotManager.swift">
          <PersistentStrings>
             <PersistentString
-               value = "pipelinesArray.count">
+               value = "dealsArray.count">
+            </PersistentString>
+            <PersistentString
+               value = "merged">
             </PersistentString>
             <PersistentString
                value = "pipelinesArray">
             </PersistentString>
             <PersistentString
-               value = "dealsArray.count">
+               value = "pipelinesArray.count">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -1175,12 +1189,18 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "WebViewChartViewController.(formLineChartHSData() -&gt; [[InfoBox]]).(closure #1):WebViewChartViewController.swift">
+      </ContextState>
+      <ContextState
          contextName = "ExternalKPIViewController.(doOAuthQuickbooks() -&gt; ()).(closure #2):ExternalKPIViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = "quickBookDataManager.oauthswift.client.credential">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HubSpotManager.dealsArray.didset:HubspotManager.swift">
       </ContextState>
       <ContextState
          contextName = "WebViewChartViewController.createCharts() -&gt; ():WebViewChartViewController.swift">
@@ -1414,6 +1434,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "HubSpotManager.(getDataForReport(kpi : HubSpotCRMKPIs) -&gt; [(leftValue : String, centralValue : String, rightValue : String)]).(closure #1):HubspotManager.swift">
+      </ContextState>
+      <ContextState
          contextName = "SignInViewController.viewWillAppear(Bool) -&gt; ():SignInViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -1563,6 +1586,17 @@
                value = "pincodePlaceholderViews">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HubSpotManager.getDataForReport(kpi : HubSpotCRMKPIs) -&gt; [(leftValue : String, centralValue : String, rightValue : String)]:HubspotManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "pipelinesArray">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "WebViewChartViewController.(generateDataForJS() -&gt; String).(closure #3):WebViewChartViewController.swift">
       </ContextState>
       <ContextState
          contextName = "QuickBookDataManager.updateOauthCredentialsFor(request : (urlString : String, method : QuickBookMethod?, kpiName : QiuckBooksKPIs?)) -&gt; ():QuickBook.swift">

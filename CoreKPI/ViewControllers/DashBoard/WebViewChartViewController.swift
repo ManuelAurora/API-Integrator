@@ -356,7 +356,10 @@ class WebViewChartViewController: UIViewController
         case .Funnel:
             //TODO: Remove test data
             //->Debug
-            funnelChartData = [("Шаг вперед", "100"), ("Step 2", "200"), ("Step 3", "500"), ("Step 4", "50")]
+            funnelChartData = rawDataArray.map { tuple -> (name: String, value: String) in
+                return (name: tuple.leftValue, value: tuple.rightValue)
+            }
+            
             header = "This is FunnelChart"
             //<-Debug
             var dataForJS = "var label = '\(header)'; var dataByFunnel = ["

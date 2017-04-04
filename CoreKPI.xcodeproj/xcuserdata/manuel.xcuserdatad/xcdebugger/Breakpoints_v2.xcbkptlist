@@ -835,11 +835,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/ViewControllers/DashBoard/WebViewChartViewController.swift"
-            timestampString = "512986399.275868"
+            timestampString = "512990782.819003"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "517"
-            endingLineNumber = "517"
+            startingLineNumber = "520"
+            endingLineNumber = "520"
             landmarkName = "formLineChartQuickbooksData()"
             landmarkType = "7">
          </BreakpointContent>
@@ -851,11 +851,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/ViewControllers/DashBoard/WebViewChartViewController.swift"
-            timestampString = "512986399.275868"
+            timestampString = "512990782.819003"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "447"
-            endingLineNumber = "447"
+            startingLineNumber = "450"
+            endingLineNumber = "450"
             landmarkName = "lineChartDataFrom(result:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -915,13 +915,109 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CoreKPI/ViewControllers/DashBoard/WebViewChartViewController.swift"
-            timestampString = "512986399.275868"
+            timestampString = "512990782.819003"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "500"
-            endingLineNumber = "500"
+            startingLineNumber = "503"
+            endingLineNumber = "503"
             landmarkName = "formLineChartGAData()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/ViewControllers/DashBoard/WebViewChartViewController.swift"
+            timestampString = "512990771.636704"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "360"
+            endingLineNumber = "360"
+            landmarkName = "generateDataForJS()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/HubspotManager.swift"
+            timestampString = "512998356.155693"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "226"
+            endingLineNumber = "226"
+            landmarkName = "getDataForReport(kpi:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/HubspotManager.swift"
+            timestampString = "512998356.155693"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
+            landmarkName = "getDataForReport(kpi:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CoreKPI.HubSpotManager.getDataForReport (kpi : CoreKPI.HubSpotCRMKPIs) -&gt; Swift.Array&lt;(leftValue : Swift.String, centralValue : Swift.String, rightValue : Swift.String)&gt;"
+                  moduleName = "CoreKPI"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_23_03/CoreKPI/HubspotManager.swift"
+                  timestampString = "512998185.206284"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "219"
+                  endingLineNumber = "219"
+                  offsetFromSymbolStart = "916">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CoreKPI.HubSpotManager.(getDataForReport (kpi : CoreKPI.HubSpotCRMKPIs) -&gt; Swift.Array&lt;(leftValue : Swift.String, centralValue : Swift.String, rightValue : Swift.String)&gt;).(closure #3)"
+                  moduleName = "CoreKPI"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_23_03/CoreKPI/HubspotManager.swift"
+                  timestampString = "512998185.208083"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "220"
+                  endingLineNumber = "220"
+                  offsetFromSymbolStart = "176">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/HubspotManager.swift"
+            timestampString = "512998240.92938"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "dealsArray"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

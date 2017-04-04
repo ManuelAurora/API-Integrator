@@ -121,6 +121,8 @@ class HubSpotManager
             appendDealsToCompanies()
             print("DEBUG: Merged")
         }
+        
+        merged = false
     }
     
     func createNewEntity(type: HubSpotCRMKPIs) {
@@ -209,6 +211,22 @@ class HubSpotManager
                 }                
                 result.append(resultTuple)
             }
+            
+        case .SalesFunnel:
+            //FIXME: Need to decide which pipeline needs to be visualised
+            let pipe = pipelinesArray[9]
+            var previousDealsCounter = 0
+            var resultArray: resultArray = []
+            
+            pipe.stages.reversed().forEach {
+                let total = $0.deals.count
+                resultArray.append((leftValue: $0.label,
+                                    centralValue: "",
+                                    rightValue: "\(total + previousDealsCounter)"))
+                previousDealsCounter += total
+            }
+            
+            result.append(contentsOf: resultArray.reversed())
             
         default: break
         }
