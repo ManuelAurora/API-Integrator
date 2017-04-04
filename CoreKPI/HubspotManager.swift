@@ -80,7 +80,7 @@ class HubSpotManager
     private let authorizeURL = "https://app.hubspot.com"
     
     var currentDate: Date {
-        return Date()
+        return Date(timeIntervalSince1970: 1489096636) //FIXME: DEBUGGING
     }
     
     lazy var oauthParameters: [HSRequestParameterKeys: String] = [
@@ -168,29 +168,33 @@ class HubSpotManager
         switch kpi
         {
         case .DealsRevenue:
-            
-            let deals = dealsArray
+            let deals   = showClosedDeals()
             let revenue = showClosedAndWonDeals()
             
-            deals.forEach {
-                let amount = $0.amount ?? 0
-                if let date = $0.createDate
+            deals.forEach { deal in
+                let wonDeal = revenue.filter { $0.dealId == deal.dealId }
+                var resultTuple = (leftValue: "",
+                                   centralValue: "0",
+                                   rightValue: "0")
+                
+                if let date = deal.createDate
                 {
-                    result.append((leftValue: "\(date)", centralValue: "deal", rightValue: "\(amount)"))
+                    resultTuple.leftValue = "\(date)"
                 }
-            }
-            
-            revenue.forEach {
-                let amount = $0.amount ?? 0
-                if let date = $0.createDate
+                
+                if wonDeal.count > 0
                 {
-                    result.append((leftValue: "\(date)", centralValue: "revenue", rightValue: "\(amount)"))
+                    let wonAmount  = wonDeal[0].amount ?? 0
+                    resultTuple.centralValue = "\(wonAmount)"
                 }
+                
+                let dealAmount = deal.amount ?? 0
+                resultTuple.rightValue   = "\(dealAmount)"
+                
+                result.append(resultTuple)
             }
-            
-        default: break
+                  default: break
         }
-        
         return result
     }
     
@@ -199,7 +203,8 @@ class HubSpotManager
         array.forEach { handle(request: $0) }
     }
     
-    private func makeUrlPathFor(request: HSAPIMethods, parameters: [HSRequestParameterKeys: String]) -> String {
+    private func makeUrlPathFor(request: HSAPIMethods,
+                                parameters: [HSRequestParameterKeys: String]) -> String {
         
         return apiURL + request.rawValue + parameters.stringFromHttpParameters()
     }
@@ -400,13 +405,24 @@ class HubSpotManager
     //Array in wich deals are closed
     func showClosedDeals() -> [HSDeal] {
         
-        return dealsArray.filter { dateIsInCurrentPeriod($0.closeDate) }
+        return dealsArray.filter {
+            
+            if let closeDate = $0.closeDate
+            {
+                return dateIsInCurrentPeriod(closeDate)
+            }
+            else { return false }
+        }
     }
     
     //Array in wich deals are closed and have Amount value
     func showClosedAndWonDeals() -> [HSDeal] {
         
-        return dealsArray.filter { $0.amount != nil && $0.closeDate != nil /* && dateIsInCurrentPeriod($0.closeDate)*/ }
+        return dealsArray.filter {
+            $0.amount != nil &&
+                $0.closeDate != nil  &&
+                dateIsInCurrentPeriod($0.closeDate)
+        }
     }
     
     //Array of deals that was created in given period

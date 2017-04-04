@@ -438,32 +438,32 @@ class WebViewChartViewController: UIViewController
         let df = DateFormatter()
         df.dateFormat = "yyyy-MM-dd HH:mm:ss z"
         
-        let deals = rawDataArray.filter { $0.centralValue == "deal" && $0.rightValue != "0" }
-        let revenue = rawDataArray.filter { $0.centralValue == "revenue" && $0.rightValue != "0" }
+        let dealRevenueArray: [InfoBox] = rawDataArray.map { tuple -> InfoBox in
         
-        let parentArray = [deals, revenue]
-        let result: [[InfoBox]] = parentArray.map {
-        
-            let info = $0.map { tuple -> InfoBox in
-                let date = df.date(from: tuple.leftValue)
-                var timestamp = ""
-                
-                if let stamp = date?.timeIntervalSince1970
-                {
-                    timestamp = String(Int(stamp))
-                }
-                
-                let infoBox   = InfoBox(payer: "",
-                                        value: "",
-                                        netValue: tuple.rightValue,
-                                        timestamp: timestamp)
-                
-                return infoBox
+            let date      = df.date(from: tuple.leftValue)
+            var timestamp = ""
+            let dealValue = Float(tuple.rightValue) ?? 0
+            let revenue   = Float(tuple.centralValue) ?? 0
+            var result: Float = 0
+            
+            if dealValue > 0
+            {
+                result = revenue / dealValue
             }
-            return info.sorted { $0.timestamp < $1.timestamp }
+            
+            if let stamp = date?.timeIntervalSince1970
+            {
+                timestamp = String(Int(stamp))
+            }
+            
+            let infoBox   = InfoBox(payer: "",
+                                    value: "",
+                                    netValue: "\(result)",
+                                    timestamp: timestamp)
+            
+            return infoBox
         }
-        return result
-    }
+        return [dealRevenueArray.sorted { $0.timestamp < $1.timestamp }]    }
     
     private func formLineChartGAData() -> [[InfoBox]] {
         
