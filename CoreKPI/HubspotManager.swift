@@ -12,6 +12,8 @@ import UIKit
 import OAuthSwift
 import CoreData
 
+typealias resultElement = (leftValue: String, centralValue: String, rightValue: String)
+
 enum HSRequestParameterKeys: String
 {
     case scope = "scope"
@@ -214,7 +216,6 @@ class HubSpotManager
             }
             
         case .SalesFunnel:
-            //FIXME: Need to decide which pipeline needs to be visualised
             let pipe = pipelinesArray.filter { $0.pipelineId == pipelineId }[0]
             var previousDealsCounter = 0
             var resultArray: resultArray = []
@@ -229,6 +230,91 @@ class HubSpotManager
             
             result.append(contentsOf: resultArray.reversed())
             
+        case .SalesPerformance:
+            let contactsCreated  = showContactsCreated().count
+            let contactsAssigned = showContactsAssigned().count
+            let contactsWorked   = showContactsWorked().count
+            let newDealsCreated  = showNewDealsCreated().count
+            let dealsClosedWon   = showClosedAndWonDeals().count
+            
+            result.append((leftValue: "Contacts created",
+                           centralValue: "",
+                           rightValue: "\(contactsCreated)"))
+            
+            result.append((leftValue: "Contacts assigned",
+                           centralValue: "",
+                           rightValue: "\(contactsAssigned)"))
+            
+            result.append((leftValue: "Contacts worked",
+                           centralValue: "",
+                           rightValue: "\(contactsWorked)"))
+            
+            result.append((leftValue: "Deals created",
+                           centralValue: "",
+                           rightValue: "\(newDealsCreated)"))
+            
+            result.append((leftValue: "Deals closed won",
+                           centralValue: "",
+                           rightValue: "\(dealsClosedWon)"))
+            
+        case .SalesLeaderboard:
+            let salesLeaderboard = showSalesLeaderboard()
+            
+            salesLeaderboard.forEach {
+                result.append((leftValue:    "\($0.firstName ?? "")",
+                               centralValue: "\($0.lastName ?? "")",
+                               rightValue:   "\($0.sum())"))
+            }
+            
+        case .DealRevenueLeaderboard:
+            let revenues = showDealRevenueLeaderboard()
+            
+            revenues.forEach {
+            result.append((leftValue:    "id: \($0.dealId ?? 0)",
+                           centralValue: "",
+                           rightValue:   "\($0.amount ?? 0)"))
+            }
+            
+        case .ClosedDealsLeaderboard:
+            let leaderboard = showClosedDealsLeaderboard()
+            
+            leaderboard.forEach {
+                result.append((leftValue:    "id: \($0.dealId ?? 0)",
+                               centralValue: "",
+                               rightValue:   "\($0.amount ?? 0)"))            
+            }
+            
+        case .TopWonDeals:
+            let deals = showTopWonDeals()
+            
+            deals.forEach {
+                result.append((leftValue: "id: \($0.dealId!)",
+                               centralValue: "",
+                               rightValue: "\($0.amount!)"))
+            }
+            
+        case .RevenueByCompany:
+            let companies = companiesArray.filter { $0.deals.count > 0 }
+            
+            companies.forEach {
+                
+                let dealsToSum = $0.deals.filter { $0.amount != nil &&
+                                                   $0.amount > 0 &&
+                                                   dateIsInCurrentPeriod($0.closeDate)
+                }
+                
+                let revenue = dealsToSum.reduce(Float(0), { (res, deal) -> Float in
+                    res + Float(deal.amount)
+                })
+                
+                var resElem: resultElement = ("","","")
+                
+                resElem.leftValue = "id: \($0.companyId!)"
+                resElem.rightValue = "\(revenue)"
+                
+                result.append(resElem)
+            }
+           
         default: break
         }
         return result
@@ -462,7 +548,7 @@ class HubSpotManager
     func showClosedAndWonDeals() -> [HSDeal] {
         
         return dealsArray.filter {
-            $0.amount != nil &&
+            $0.amount != nil && $0.amount > 0 &&
                 $0.closeDate != nil  &&
                 dateIsInCurrentPeriod($0.closeDate)
         }
@@ -483,13 +569,13 @@ class HubSpotManager
     //Array filled with assign property filled in given period
     func showContactsAssigned() -> [HSContact] {
         
-        return contactsArray.filter { dateIsInCurrentPeriod($0.assignDate) }
+        return contactsArray.filter { $0.assignDate != nil && dateIsInCurrentPeriod($0.assignDate) }
     }
     
     //Array filled with contacts wich was contacted in given period
     func showContactsWorked() -> [HSContact] {
         
-        return contactsArray.filter { dateIsInCurrentPeriod($0.lastContactDate) }
+        return contactsArray.filter { ($0.lastContactDate != nil) && dateIsInCurrentPeriod($0.lastContactDate) }
     }
     
     //Array filled with sales leaders
@@ -530,7 +616,7 @@ class HubSpotManager
         
         let deals = showClosedDeals()
         
-        return deals.sorted { $0.amount > $1.amount }
+        return deals.sorted { $0.amount ?? 0 > $1.amount ?? 0 }
     }
     
     //Array of closed and won deals, sorted by amount value

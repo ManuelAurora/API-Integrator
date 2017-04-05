@@ -165,7 +165,10 @@ struct HSOwner
     
     func sum() -> Int {
         
-        return deals.reduce(0, { sum, deal -> Int in
+        let dealsWithAmount = deals.filter { $0.amount != nil }
+        
+        return dealsWithAmount.reduce(0, { sum, deal -> Int in
+            
             sum + deal.amount
         })
     }
@@ -207,7 +210,7 @@ struct HSCompany
         portalId = json["portalId"] as? Int
         companyId = json["companyId"] as? Int
         isDeleted = json["isDeleted"] as? Bool
-    }
+    }    
 }
 
 struct HSDeal
