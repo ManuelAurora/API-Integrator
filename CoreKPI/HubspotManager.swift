@@ -125,7 +125,7 @@ class HubSpotManager
         merged = false
     }
     
-    func createNewEntity(type: HubSpotCRMKPIs) {
+    func createNewEntity(type: HubSpotCRMKPIs, pipelineID: String? = nil) {
         
         let extKPI = ExternalKPI()
         var hubspotKPI: HubspotKPI!
@@ -134,8 +134,9 @@ class HubSpotManager
         do {
             let result = try? managedContext.fetch(fetchHubspotKPI)
             hubspotKPI = (result == nil) || result!.isEmpty ? HubspotKPI() : result![0]
-        }        
-        
+        }
+              
+        extKPI.hsPipelineID = pipelineID
         extKPI.serviceName = IntegratedServices.HubSpotCRM.rawValue
         extKPI.kpiName = type.rawValue
         extKPI.hubspotKPI = hubspotKPI        
@@ -163,7 +164,7 @@ class HubSpotManager
                             .dealPipelines])
     }
     
-    func getDataForReport(kpi: HubSpotCRMKPIs) -> resultArray {
+    func getDataForReport(kpi: HubSpotCRMKPIs, pipelineId: String? = nil) -> resultArray {
         
         var result: resultArray = []
         
@@ -214,7 +215,7 @@ class HubSpotManager
             
         case .SalesFunnel:
             //FIXME: Need to decide which pipeline needs to be visualised
-            let pipe = pipelinesArray[9]
+            let pipe = pipelinesArray.filter { $0.pipelineId == pipelineId }[0]
             var previousDealsCounter = 0
             var resultArray: resultArray = []
             
@@ -252,22 +253,28 @@ class HubSpotManager
         switch request
         {
         case .deals:
-            urlPath = makeUrlPathFor(request: request, parameters: [.hapiKey: "demo"]) + getDealsParameters[.properties]!
+            urlPath = makeUrlPathFor(request: request,
+                                     parameters: [.hapiKey: "demo"]) + getDealsParameters[.properties]!
             
         case .contacts:
-            urlPath = makeUrlPathFor(request: .contacts, parameters: [.hapiKey: "demo"]) + getContactsParameters[.properties]!
+            urlPath = makeUrlPathFor(request: .contacts,
+                                     parameters: [.hapiKey: "demo"]) + getContactsParameters[.properties]!
             
         case .dealPipelines:
-            urlPath = makeUrlPathFor(request: .dealPipelines, parameters: [.hapiKey: "demo"])
+            urlPath = makeUrlPathFor(request: .dealPipelines,
+                                     parameters: [.hapiKey: "demo"])
             
         case .owners:
-            urlPath = makeUrlPathFor(request: .owners, parameters: [.hapiKey: "demo"])
+            urlPath = makeUrlPathFor(request: .owners,
+                                     parameters: [.hapiKey: "demo"])
           
         case .companies:
-           urlPath = makeUrlPathFor(request: .companies, parameters: [.hapiKey: "demo"])
+           urlPath = makeUrlPathFor(request: .companies,
+                                    parameters: [.hapiKey: "demo"])
             
         case .pages:
-            urlPath = makeUrlPathFor(request: .pages, parameters: [.hapiKey: "demo"])
+            urlPath = makeUrlPathFor(request: .pages,
+                                     parameters: [.hapiKey: "demo"])
             
         default: break
         }
@@ -385,7 +392,9 @@ class HubSpotManager
     
     private func dateIsInCurrentPeriod(_ date: Date) -> Bool {
         
-        let comparisonResult = Calendar.current.compare(currentDate, to: date, toGranularity: .month)
+        let comparisonResult = Calendar.current.compare(currentDate,
+                                                        to: date,
+                                                        toGranularity: .month)
         
         return comparisonResult == .orderedSame ? true : false
     }

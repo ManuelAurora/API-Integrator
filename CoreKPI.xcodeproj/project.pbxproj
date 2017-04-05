@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6413AFBF1E94CF6E00CC2ABB /* PipelineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6413AFBE1E94CF6E00CC2ABB /* PipelineTableViewCell.swift */; };
 		641D74AF1E8E2C77001023FB /* Lines.js in Resources */ = {isa = PBXBuildFile; fileRef = 641D74AE1E8E2C77001023FB /* Lines.js */; };
 		641F74641E5AE27B00672534 /* QuickBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F74631E5AE27B00672534 /* QuickBook.swift */; };
 		641F74661E5B0F4200672534 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F74651E5B0F4200672534 /* WebViewController.swift */; };
@@ -229,6 +230,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6413AFBE1E94CF6E00CC2ABB /* PipelineTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipelineTableViewCell.swift; sourceTree = "<group>"; };
 		641D74AE1E8E2C77001023FB /* Lines.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Lines.js; sourceTree = "<group>"; };
 		641F74631E5AE27B00672534 /* QuickBook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBook.swift; sourceTree = "<group>"; };
 		641F74651E5B0F4200672534 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
@@ -675,6 +677,7 @@
 				64EE4DF91E55B6DC0007926F /* PinCodeView.xib */,
 				645616451E67029B00643340 /* UserInfoTableViewCell.xib */,
 				645616471E67039800643340 /* UserViewCellTableViewCell.swift */,
+				6413AFBE1E94CF6E00CC2ABB /* PipelineTableViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1150,6 +1153,7 @@
 				644B4C701E926B6000F55F1F /* HubspotKPI + Extension.swift in Sources */,
 				A24A840E1E4898EF00440151 /* GoogleAnalyticsRequestDataCreator.swift in Sources */,
 				646E2AC11E7C070C0010E4BE /* Date + Extension.swift in Sources */,
+				6413AFBF1E94CF6E00CC2ABB /* PipelineTableViewCell.swift in Sources */,
 				A26408F41E2239910034EEC2 /* ReportAndViewTableViewCell.swift in Sources */,
 				A22302C31E1F96B900C9D0B4 /* ReminderViewTableViewController.swift in Sources */,
 				6492B9A91E93D39400BD8492 /* HubspotChoosePipelineViewController.swift in Sources */,

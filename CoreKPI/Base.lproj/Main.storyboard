@@ -4525,58 +4525,50 @@ Deliveries</string>
             <point key="canvasLocation" x="6829.6000000000004" y="-4442.4287856071969"/>
         </scene>
         <!--Hubspot Choose Pipeline View Controller-->
-        <scene sceneID="QJ3-Lb-xbB">
+        <scene sceneID="TA9-t3-Kr9">
             <objects>
-                <viewController storyboardIdentifier="hubspotPipelineController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="cLN-vr-aan" customClass="HubspotChoosePipelineViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="8wj-vK-csc"/>
-                        <viewControllerLayoutGuide type="bottom" id="jUT-Kf-Xut"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="faE-fe-t2t">
+                <tableViewController storyboardIdentifier="hubspotPipelineController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Acb-kq-vzO" customClass="HubspotChoosePipelineViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="3Gh-4s-lrl">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8fG-27-IYR">
-                                <rect key="frame" x="67" y="183" width="240" height="300"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="240" id="ULI-CW-Wtn"/>
-                                    <constraint firstAttribute="height" constant="300" id="qeJ-2g-YCQ"/>
-                                </constraints>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="checkmark" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PipelineCell" textLabel="wsI-Mv-3co" style="IBUITableViewCellStyleDefault" id="QcC-JB-hH2">
-                                        <rect key="frame" x="0.0" y="28" width="240" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QcC-JB-hH2" id="tBk-Wf-P0I">
-                                            <rect key="frame" x="0.0" y="0.0" width="201" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wsI-Mv-3co">
-                                                    <rect key="frame" x="15" y="0.0" width="186" height="43.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="8fG-27-IYR" firstAttribute="centerX" secondItem="faE-fe-t2t" secondAttribute="centerX" id="Arp-i2-bDk"/>
-                            <constraint firstItem="8fG-27-IYR" firstAttribute="centerY" secondItem="faE-fe-t2t" secondAttribute="centerY" id="Jj7-TN-9nS"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="pipelinesTableView" destination="8fG-27-IYR" id="V7v-g2-dq0"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lzK-Pu-0dy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PipelineCell" id="DzP-Gy-Dnh" customClass="PipelineTableViewCell" customModule="CoreKPI" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DzP-Gy-Dnh" id="PS3-xD-sDN">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XeJ-oX-Ghw">
+                                            <rect key="frame" x="8" y="8" width="359" height="27.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="XeJ-oX-Ghw" firstAttribute="leading" secondItem="PS3-xD-sDN" secondAttribute="leadingMargin" id="5xw-KW-kQh"/>
+                                        <constraint firstItem="XeJ-oX-Ghw" firstAttribute="top" secondItem="PS3-xD-sDN" secondAttribute="top" constant="8" id="frJ-N7-oPi"/>
+                                        <constraint firstAttribute="bottom" secondItem="XeJ-oX-Ghw" secondAttribute="bottom" constant="8" id="ixe-yI-kAZ"/>
+                                        <constraint firstItem="XeJ-oX-Ghw" firstAttribute="trailing" secondItem="PS3-xD-sDN" secondAttribute="trailingMargin" id="jgI-XW-GbJ"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="pipelineTitleLabel" destination="XeJ-oX-Ghw" id="0Mw-ex-Q8R"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Acb-kq-vzO" id="2BS-Yq-JR4"/>
+                            <outlet property="delegate" destination="Acb-kq-vzO" id="xb7-oP-H6X"/>
+                        </connections>
+                    </tableView>
+                    <toolbarItems/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FKB-W2-ufJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7660" y="-4445.1274362818594"/>
+            <point key="canvasLocation" x="7732" y="-4442.4287856071969"/>
         </scene>
         <!--Alerts-->
         <scene sceneID="3iT-s7-hhQ">

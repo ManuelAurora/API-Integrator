@@ -9,46 +9,74 @@
 import Foundation
 import UIKit
 
-class HubspotChoosePipelineViewController: UIViewController
+class HubspotChoosePipelineViewController: UITableViewController
 {
-    var delegate: HubspotSalesFunnelMakerProtocol!
+    weak var delegate: HubspotSalesFunnelMakerProtocol!
     
-    @IBOutlet weak var pipelinesTableView: UITableView!
+    var pipelines: [HSPipeline]!
+    
+    private var choosenPipelines: [HSPipeline] = []
+    
+    deinit {
+        print("DEBUG: HubspotChoosePipelineVC Deinitialized")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .clear
-        pipelinesTableView.layer.cornerRadius = 15
-        pipelinesTableView.delegate = self
-        pipelinesTableView.dataSource = self
+        
+        let button = UIBarButtonItem(barButtonSystemItem: .done,
+                                     target: self,
+                                     action: #selector(self.transferChoosenPipelines))
+        
+        navigationItem.rightBarButtonItem = button
+        navigationItem.setHidesBackButton(true, animated: false)
+        title = "Pipelines"
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        modalPresentationStyle = .custom
-    }
-}
-
-extension HubspotChoosePipelineViewController: UITableViewDelegate
-{
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PipelineCell") as! PipelineTableViewCell
         
-        let cell = tableView.cellForRow(at: indexPath)
+        cell.pipelineTitleLabel.text = pipelines?[indexPath.row].label
         
-    }
-}
-
-extension HubspotChoosePipelineViewController: UITableViewDataSource
-{    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return cell
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PipelineCell")
-        cell?.textLabel?.text = "cell"
-        return cell!
+        return pipelines!.count
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let cell = tableView.cellForRow(at: indexPath) as! PipelineTableViewCell
+        cell.wasSelected = !cell.wasSelected
+        
+        addRemovePipelineFrom(indexPath: indexPath, selected: cell.wasSelected)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    @objc private func transferChoosenPipelines() {
+        
+        delegate.formChoosen(pipelines: choosenPipelines)
+        navigationController?.popToRootViewController(animated: true)
+    }
+    
+    private func addRemovePipelineFrom(indexPath: IndexPath, selected: Bool) {
+        
+        let pipe = pipelines[indexPath.row]
+        
+        if selected
+        {
+            choosenPipelines.append(pipe)
+        }
+        else
+        {
+            let filtered = choosenPipelines.filter { $0.pipelineId != pipe.pipelineId }
+            
+            choosenPipelines = filtered
+        }
     }
 }

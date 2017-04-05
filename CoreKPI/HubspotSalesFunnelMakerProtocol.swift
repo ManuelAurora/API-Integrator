@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol HubspotSalesFunnelMakerProtocol
+protocol HubspotSalesFunnelMakerProtocol: class
 {
     func formChoosen(pipelines: [HSPipeline])
 }

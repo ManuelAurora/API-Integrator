@@ -24,8 +24,6 @@ class ExternalKPIViewController: OAuthViewController {
         return HubSpotManager.sharedInstance
     }
     
-    lazy var animator = { return TransitionAnimator() }()
-    
     lazy var managedContext: NSManagedObjectContext = {
        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -52,8 +50,15 @@ class ExternalKPIViewController: OAuthViewController {
     var settingDelegate: updateSettingsDelegate!
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        print("DEBUG: ExternalKPIVC Deinitialized")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        subscribeToNotifications()
         providesPresentationContextTransitionStyle = true
         definesPresentationContext = true
         navigationItem.title = selectedService.rawValue + " KPI"
@@ -85,24 +90,19 @@ class ExternalKPIViewController: OAuthViewController {
                     self.addChildViewController(internalWebViewController)
                 }
                 
-                let pipelineVC = storyboard?.instantiateViewController(withIdentifier: .choosePipelineVC) as! HubspotChoosePipelineViewController
-                pipelineVC.transitioningDelegate = self
-                
-                present(pipelineVC, animated: true, completion: nil)
-                
                 selectedHSKPIs         = serviceKPI.filter { $0.value == true }
                 hubSpotManager.webView = internalWebViewController
                 hubSpotManager.connect()                
                 
                 selectedHSKPIs.forEach {
-                    if let type = HubSpotCRMKPIs(rawValue: $0.SettingName)
+                    if let kpiType = HubSpotCRMKPIs(rawValue: $0.SettingName),
+                        kpiType != .SalesFunnel
                     {
-                        hubSpotManager.createNewEntity(type: type)
+                        hubSpotManager.createNewEntity(type: kpiType)
                     }
                 }
                 
-            default:
-                break
+            default: break
             }
             
             doneButton.isEnabled = false
@@ -112,6 +112,32 @@ class ExternalKPIViewController: OAuthViewController {
         } else {
             showAlert(title: "Sorry!", errorMessage: "First you should select one or more KPI")
         }
+    }
+    
+    private func subscribeToNotifications() {
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.choosePipelines),
+                                               name: .hubspotManagerRecievedData,
+                                               object: nil)
+    }
+    
+    @objc private func choosePipelines() {
+        
+        let salesFunnel = HubSpotCRMKPIs.SalesFunnel.rawValue
+        
+        guard (selectedHSKPIs.filter { $0.SettingName == salesFunnel }).count > 0
+            else {
+                navigationController?.popToRootViewController(animated: true)
+                return
+        }
+        
+        let pipelineVC = storyboard?.instantiateViewController(withIdentifier: .choosePipelineVC) as! HubspotChoosePipelineViewController
+        
+        pipelineVC.pipelines = hubSpotManager.pipelinesArray
+        pipelineVC.delegate  = self
+        
+        navigationController?.pushViewController(pipelineVC, animated: true)
     }
 }
 
@@ -261,28 +287,12 @@ extension ExternalKPIViewController {
     }
 }
 
-extension ExternalKPIViewController: UIViewControllerTransitioningDelegate
-{
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-       
-        animator.forDismissal = true
-        return animator
-    }
-    
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
-        animator.forDismissal = false
-        return animator
-    }
-}
-
 extension ExternalKPIViewController: HubspotSalesFunnelMakerProtocol
 {
     func formChoosen(pipelines: [HSPipeline]) {
         
-        pipelines.forEach {_ in 
-            
-        
+        pipelines.forEach { pipe in
+            hubSpotManager.createNewEntity(type: .SalesFunnel, pipelineID: pipe.pipelineId )        
         }
     }
 }

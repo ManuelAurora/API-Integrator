@@ -12,6 +12,7 @@
         <attribute name="threshold" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="ExternalKPI" representedClassName="ExternalKPI" syncable="YES" codeGenerationType="class">
+        <attribute name="hsPipelineID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="kpiName" attributeType="String" syncable="YES"/>
         <attribute name="requestJsonString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="serviceName" attributeType="String" syncable="YES"/>
@@ -89,9 +90,10 @@
     <entity name="UserKPI" representedClassName="UserKPI" syncable="YES" codeGenerationType="class"/>
     <elements>
         <element name="Alert" positionX="-54" positionY="63" width="128" height="180"/>
-        <element name="ExternalKPI" positionX="-54" positionY="117" width="128" height="165"/>
+        <element name="ExternalKPI" positionX="-54" positionY="117" width="128" height="180"/>
         <element name="FAQ" positionX="-54" positionY="117" width="128" height="90"/>
         <element name="GoogleKPI" positionX="-54" positionY="117" width="128" height="135"/>
+        <element name="HubspotKPI" positionX="-45" positionY="117" width="128" height="60"/>
         <element name="OverallKPI" positionX="-27" positionY="117" width="128" height="75"/>
         <element name="PayPalKPI" positionX="-36" positionY="126" width="128" height="105"/>
         <element name="QuickbooksKPI" positionX="-45" positionY="117" width="128" height="135"/>
@@ -99,6 +101,5 @@
         <element name="SalesForceKPI" positionX="-45" positionY="117" width="128" height="120"/>
         <element name="Team" positionX="-63" positionY="-18" width="128" height="195"/>
         <element name="UserKPI" positionX="-36" positionY="108" width="128" height="45"/>
-        <element name="HubspotKPI" positionX="-45" positionY="117" width="128" height="60"/>
     </elements>
 </model>

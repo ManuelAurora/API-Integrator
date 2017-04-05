@@ -242,7 +242,9 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         if let kpiName  = kpi.integratedKPI.kpiName,
             let kpiValue = HubSpotCRMKPIs(rawValue: kpiName)
         {
-            data = reportDataManipulator.hubspotDataManager.getDataForReport(kpi: kpiValue)
+            data = reportDataManipulator.hubspotDataManager.getDataForReport(kpi: kpiValue,
+                                                                             pipelineId: kpi.integratedKPI.hsPipelineID)
+            
             tableViewChartVC.dataArray.append(contentsOf: data)
             tableViewChartVC.reloadTableView()
         }
