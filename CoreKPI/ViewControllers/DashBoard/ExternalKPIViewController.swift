@@ -96,7 +96,7 @@ class ExternalKPIViewController: OAuthViewController {
                 
                 selectedHSKPIs.forEach {
                     if let kpiType = HubSpotCRMKPIs(rawValue: $0.SettingName),
-                        kpiType != .SalesFunnel
+                        kpiType != .SalesFunnel && kpiType != .DealStageFunnel
                     {
                         hubSpotManager.createNewEntity(type: kpiType)
                     }
@@ -125,8 +125,9 @@ class ExternalKPIViewController: OAuthViewController {
     @objc private func choosePipelines() {
         
         let salesFunnel = HubSpotCRMKPIs.SalesFunnel.rawValue
-        
-        guard (selectedHSKPIs.filter { $0.SettingName == salesFunnel }).count > 0
+        let dealStageFunnel = HubSpotCRMKPIs.DealStageFunnel.rawValue
+        guard (selectedHSKPIs.filter { $0.SettingName == salesFunnel }).count > 0 ||
+              (selectedHSKPIs.filter { $0.SettingName == dealStageFunnel}).count > 0
             else {
                 navigationController?.popToRootViewController(animated: true)
                 return
@@ -291,8 +292,19 @@ extension ExternalKPIViewController: HubspotSalesFunnelMakerProtocol
 {
     func formChoosen(pipelines: [HSPipeline]) {
         
-        pipelines.forEach { pipe in
-            hubSpotManager.createNewEntity(type: .SalesFunnel, pipelineID: pipe.pipelineId )        
+        let choosenKPI = serviceKPI.filter {
+            ($0.SettingName == HubSpotCRMKPIs.SalesFunnel.rawValue && $0.value == true) ||
+            ($0.SettingName == HubSpotCRMKPIs.DealStageFunnel.rawValue && $0.value == true)
+        }
+        
+        choosenKPI.forEach { kpi in
+            pipelines.forEach { pipe in
+                
+                guard let kpiType = HubSpotCRMKPIs(rawValue: kpi.SettingName) else { return }
+                
+                hubSpotManager.createNewEntity(type: kpiType,
+                                               pipelineID: pipe.pipelineId )
+            }
         }
     }
 }

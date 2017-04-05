@@ -61,9 +61,9 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         navigationItem.title = "Reports"
         tableViewChartVC.refreshControl = refreshControl
         
+        formData()
         subscribeToNotifications()
         setInitialViewControllers()
-        formData()
         
         self.setViewControllers([providedControllers[0]],
                                 direction: UIPageViewControllerNavigationDirection.forward,
@@ -77,7 +77,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     private func setInitialViewControllers() {
         
         if  firstReportIsTable() { providedControllers.append(tableViewChartVC)  }
-        else                     { providedControllers.append(webViewChartOneVC) }
+        else if kpi.integratedKPI == nil { providedControllers.append(webViewChartOneVC) }
         
         providedControllers.append(webViewChartTwoVC)
     }
@@ -89,7 +89,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
-        if providedControllers[1] != viewController
+        if providedControllers.count > 1, providedControllers[1] != viewController
         {
             guard let vc = providedControllers[1] as? WebViewChartViewController else { return nil }
             
@@ -115,7 +115,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     
     private func firstReportIsTable() -> Bool
     {
-        return kpi.KPIViewOne == .Numbers
+        return kpi.KPIViewOne == .Numbers && !webViewChartTwoVC.isAllowed
     }
     
     private func formData() {
@@ -140,7 +140,6 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
             let service  = IntegratedServices(rawValue: kpi.integratedKPI.serviceName!)!
             
             var chart: TypeOfChart = .PieChart
-            
             webViewChartTwoVC.isAllowed = true
             
             switch service
@@ -183,7 +182,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 case .DealsRevenue: chart = .LineChart
                 case .SalesFunnel: chart = .Funnel
                 case .DealsClosedWonAndLost: chart = .PieChart
-                default: break
+                default: webViewChartTwoVC.isAllowed = false; break
                 }
                 
             default: break
@@ -193,7 +192,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
             else                    { webViewChartOneVC.header = kpiName }
             
             webViewChartTwoVC.typeOfChart = chart
-            webViewChartTwoVC.header = kpiName
+            webViewChartTwoVC.header  = kpiName
             reportDataManipulator.kpi = kpi
             reportDataManipulator.dataForReport()
             

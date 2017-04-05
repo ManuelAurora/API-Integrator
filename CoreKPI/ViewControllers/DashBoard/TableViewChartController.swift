@@ -38,7 +38,7 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
         
     func reloadTableView() {
         
-        tableView.reloadData()
+        tableView?.reloadData()
     }
     
     // MARK: - Table view data source

@@ -137,7 +137,7 @@ class HubSpotManager
             let result = try? managedContext.fetch(fetchHubspotKPI)
             hubspotKPI = (result == nil) || result!.isEmpty ? HubspotKPI() : result![0]
         }
-              
+        
         extKPI.hsPipelineID = pipelineID
         extKPI.serviceName = IntegratedServices.HubSpotCRM.rawValue
         extKPI.kpiName = type.rawValue
@@ -215,7 +215,7 @@ class HubSpotManager
                 result.append(resultTuple)
             }
             
-        case .SalesFunnel:
+        case .SalesFunnel, .DealStageFunnel:
             let pipe = pipelinesArray.filter { $0.pipelineId == pipelineId }[0]
             var previousDealsCounter = 0
             var resultArray: resultArray = []

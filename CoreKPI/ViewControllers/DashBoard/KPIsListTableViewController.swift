@@ -259,7 +259,13 @@ class KPIsListTableViewController: UITableViewController {
         do {
             let external = try context.fetch(ExternalKPI.fetchRequest())
             for kpi in external {
-                let kpi = KPI(kpiID: 0, typeOfKPI: .IntegratedKPI, integratedKPI: (kpi as! ExternalKPI), createdKPI: nil, imageBacgroundColour: UIColor(hex: "D8F7D7".hex!))
+                let kpi = KPI(kpiID: 0,
+                              typeOfKPI: .IntegratedKPI,
+                              integratedKPI: (kpi as! ExternalKPI),
+                              createdKPI: nil,
+                              imageBacgroundColour: UIColor(hex: "D8F7D7".hex!))
+                
+                kpi.KPIViewOne = .Numbers
                 arrayOfKPI.append(kpi)
             }
         } catch {
