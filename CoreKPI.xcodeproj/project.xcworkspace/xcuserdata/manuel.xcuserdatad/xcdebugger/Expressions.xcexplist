@@ -365,6 +365,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "HubSpotManager.companiesArray.getter:HubspotManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "companiesArray.filter { $0.deals.count &gt; 0 }">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "UIViewController.removeWaitingSpinner() -&gt; ():UIViewControllerExtension.swift">
          <PersistentStrings>
             <PersistentString
@@ -496,6 +504,9 @@
                value = "pipelinesArray.count">
             </PersistentString>
             <PersistentString
+               value = "companiesArray.filter { $0.deals.count &gt; 0 }">
+            </PersistentString>
+            <PersistentString
                value = "merged">
             </PersistentString>
             <PersistentString
@@ -511,6 +522,9 @@
          <PersistentStrings>
             <PersistentString
                value = "companiesArray">
+            </PersistentString>
+            <PersistentString
+               value = "tempArray.filter { $0.deals.count &gt; 0 }">
             </PersistentString>
             <PersistentString
                value = "dealsArray">
@@ -531,6 +545,9 @@
       <ContextState
          contextName = "HubSpotManager.getDataForReport(kpi : HubSpotCRMKPIs, pipelineId : String?) -&gt; [(leftValue : String, centralValue : String, rightValue : String)]:HubspotManager.swift">
          <PersistentStrings>
+            <PersistentString
+               value = "companiesArray.filter { $0.deals.count &gt; 0 }">
+            </PersistentString>
             <PersistentString
                value = "companiesArray">
             </PersistentString>
@@ -1088,6 +1105,9 @@
       <ContextState
          contextName = "HubSpotManager.(appendDealsToCompanies() -&gt; ()).(closure #1).(closure #1):HubspotManager.swift">
          <PersistentStrings>
+            <PersistentString
+               value = "companiesArray.filter { $0.deals.count &gt; 0 }">
+            </PersistentString>
             <PersistentString
                value = "tempCompany.deals">
             </PersistentString>

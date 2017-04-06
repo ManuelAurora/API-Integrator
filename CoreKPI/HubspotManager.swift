@@ -64,16 +64,18 @@ class HubSpotManager
     
     var delegate: ExternalKPIViewController?
     var webView: WebViewController!
-    var merged: Bool = false
+    var merged: Bool = false //This variable prevents multiple didSet from pipelinesArray
     
     private var requestCounter: Int = 0 {
         didSet {
-            if requestCounter == 6 {
+            if requestCounter == 6
+            {
+                requestCounter = 0
+                merged = false
+
                 NotificationCenter.default.post(
                 name: .hubspotManagerRecievedData,
                 object: nil)
-                
-                requestCounter = 0
             }
         }
     }
@@ -119,12 +121,10 @@ class HubSpotManager
     private func updatePipelinesAndDeals() {
         
         if pipelinesArray.count > 0 && dealsArray.count > 0 && merged == false {
-            appendDealsToPipelineStages()
             appendDealsToCompanies()
+            appendDealsToPipelineStages()
             print("DEBUG: Merged")
         }
-        
-        merged = false
     }
     
     func createNewEntityFor(service: IntegratedServices,
@@ -354,6 +354,47 @@ class HubSpotManager
                 result.append(resValue)
             }
             
+        case .MarketingFunnel, .MarketingPerformance:
+            let contacts = showContactsCreated()
+            let visits = contacts.count * 10
+            let customers = showCustomersFromContacts()
+            
+            result.append((leftValue:    "Visits",
+                           centralValue: "",
+                           rightValue:   "\(visits)"))
+            
+            result.append((leftValue:    "Contacts",
+                           centralValue: "",
+                           rightValue:   "\(contacts.count)"))
+            
+           result.append((leftValue:    "Customers",
+                          centralValue: "",
+                          rightValue:   "\(customers.count)"))
+            
+        case .ContactsVisitsBySource:
+            let referrals = showContactsByReferrals()
+            let direct = showContactsFromDirectTraffic()
+            let offline = showContactsFromOffline()
+            
+            result.append((leftValue:    "Referrals",
+                           centralValue: "",
+                           rightValue:   "\(referrals.count)"))
+            
+            result.append((leftValue:    "Direct",
+                           centralValue: "",
+                           rightValue:   "\(direct.count)"))
+            
+            result.append((leftValue:    "Offline",
+                           centralValue: "",
+                           rightValue:   "\(offline.count)"))
+            
+        case .ContactsByReferrals:
+            let referrals = showContactsByReferrals()
+            
+                result.append((leftValue: "Referrals:",
+                               centralValue: "",
+                               rightValue: "\(referrals.count)"))
+            
         default: break
         }
         return result
@@ -411,9 +452,6 @@ class HubSpotManager
         Alamofire.request(requestURL!, headers: [:])
             .responseJSON(completionHandler:
                 { response in
-                    
-                    self.requestCounter += 1
-                    
                     var error = false
                     
                     if let responseValue = response.result.value as? [String: String],
@@ -461,6 +499,8 @@ class HubSpotManager
             HSCompany(json: companyJson)
         }
         
+        self.requestCounter += 1
+        
         return resultArray
     }
     
@@ -471,6 +511,8 @@ class HubSpotManager
         let resultArray: [HSContact] = allContacts.map { contactJson in
             HSContact(json: contactJson)
         }
+        
+        self.requestCounter += 1
         
         return resultArray
     }
@@ -483,12 +525,14 @@ class HubSpotManager
             HSDeal(json: dealJson)
         }
         
+        self.requestCounter += 1
+        
         return resultArray
     }
     
     private func getPipelinesFrom(json file: [[String: Any]]) -> [HSPipeline] {
         
-        return file.map { pipelineJson -> HSPipeline in
+        let pipes = file.map { pipelineJson -> HSPipeline in
             
             var pipeline = HSPipeline(json: pipelineJson)
             
@@ -499,10 +543,14 @@ class HubSpotManager
             
             return pipeline
         }
+        
+        self.requestCounter += 1
+        return pipes
     }
     
     private func getOwnersFrom(json file: [[String: Any]]) -> [HSOwner] {
         
+        self.requestCounter += 1
         return file.map { HSOwner(json: $0) }
     }
     
@@ -512,6 +560,7 @@ class HubSpotManager
         
         let resultArray = pages.map { HSPage(json: $0) }
         
+        self.requestCounter += 1
         return resultArray
     }
     
@@ -525,8 +574,6 @@ class HubSpotManager
     }
     
     private func appendDealsToPipelineStages() {
-        
-        merged = true
         
         pipelinesArray = pipelinesArray.map { pipeline  -> HSPipeline in
             
@@ -547,20 +594,20 @@ class HubSpotManager
                 }
                 return modifiedStage
             }
+            merged = true
             return pipelineModified
         }
     }
     
     func appendDealsToCompanies() {
         
-        companiesArray = companiesArray.map { company -> HSCompany in
+        let tempArray = companiesArray.map { company -> HSCompany in
             
             var tempCompany = company
             
             dealsArray.forEach {
                 if let dealsCompanyIds = $0.companyIds, let companyId = company.companyId
                 {
-                    
                     if dealsCompanyIds.count > 0 && dealsCompanyIds[0] == companyId {
                         tempCompany.deals.append($0)
                     }
@@ -568,6 +615,9 @@ class HubSpotManager
             }
             return tempCompany
         }
+        
+        companiesArray.removeAll()
+        companiesArray.append(contentsOf: tempArray)
     }
     
     //MARK: Functions for getting key parameters
@@ -686,9 +736,25 @@ class HubSpotManager
         
         return customers
     }
+   
+    //Array of contacts from offline
+    func showContactsFromOffline() -> [HSContact] {
+        
+        let resultArray = contactsArray.filter { $0.sourceType != nil && $0.sourceType == .offline }
+        
+        return resultArray
+    }
+    
+    //Array of directs
+    func showContactsFromDirectTraffic() -> [HSContact] {
+        
+        let resultArray = contactsArray.filter { $0.sourceType != nil && $0.sourceType == .directTraffic }
+        
+        return resultArray
+    }
     
     //Array of referals
-    func showContactsByReferals() -> [HSContact] {
+    func showContactsByReferrals() -> [HSContact] {
         
         let resultArray = contactsArray.filter { $0.sourceType != nil && $0.sourceType == .referrals }
         

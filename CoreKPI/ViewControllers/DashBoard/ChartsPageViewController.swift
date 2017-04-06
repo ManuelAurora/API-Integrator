@@ -190,7 +190,8 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 
                 switch kpiValue
                 {
-                case .VisitsContacts: chart = .LineChart
+                case .VisitsContacts:  chart = .LineChart
+                case .MarketingFunnel: chart = .Funnel
                 default: webViewChartTwoVC.isAllowed = false; break
                 }
                 
