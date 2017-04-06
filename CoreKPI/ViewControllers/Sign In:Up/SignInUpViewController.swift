@@ -28,9 +28,7 @@ class SignInUpViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let navController = segue.destination as! UINavigationController
-        let vc = navController.viewControllers[0] as! SignInViewController
-        signInViewController = vc
-        vc.model = model        
+     //   let navController = segue.destination as! UINavigationController
+     //   let vc = navController.viewControllers[0] as! RegisterViewController
     }
 }

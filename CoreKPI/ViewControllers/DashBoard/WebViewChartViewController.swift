@@ -205,9 +205,9 @@ class WebViewChartViewController: UIViewController
         switch typeOfChart {
         case .PieChart:
              var dataForJS = "var lable = '\(header)'; var data_pie = ["
-            
-            if service == .Quickbooks
-            {
+             
+             if service == .Quickbooks
+             {
                 let hundredPercent = 100
                 let value  = rawDataArray[0].rightValue
                 let truncatedValue = value.substring(to: value.index(before: value.endIndex))
@@ -218,7 +218,7 @@ class WebViewChartViewController: UIViewController
                 rawDataArray.removeAll()
                 rawDataArray.append(object)
                 rawDataArray.append(agonist)
-            }
+             }
              
              if service == .HubSpotCRM
              {
@@ -233,17 +233,17 @@ class WebViewChartViewController: UIViewController
                                      centralValue: "",
                                      rightValue: "\(lostDeals.count)"))
              }
-            
-            for (index,item) in rawDataArray.enumerated() {
+             
+             for (index,item) in rawDataArray.enumerated() {
                 if index > 0 {
                     dataForJS += ","
                 }
                 let pieData = "{number: '\(item.leftValue)', rate: \(item.rightValue)}"
                 dataForJS += pieData
-            }
-            dataForJS += "];"
-            
-            return dataForJS
+             }
+             dataForJS += "];"
+             
+             return dataForJS
             
         case .PointChart:
             //TODO: Remove test data
@@ -288,7 +288,7 @@ class WebViewChartViewController: UIViewController
             case .GoogleAnalytics:
                 lineChartData = formLineChartGAData()
                 
-            case .HubSpotCRM:
+            case .HubSpotCRM, .HubSpotMarketing:
                 lineChartData = formLineChartHSData()
                 
             default: break
@@ -455,33 +455,56 @@ class WebViewChartViewController: UIViewController
         let df = DateFormatter()
         df.dateFormat = "yyyy-MM-dd HH:mm:ss z"
         
-        let dealRevenueArray: [InfoBox] = rawDataArray.map { tuple -> InfoBox in
-        
-            let date      = df.date(from: tuple.leftValue)
-            var timestamp = ""
-            let dealValue = Float(tuple.rightValue) ?? 0
-            let revenue   = Float(tuple.centralValue) ?? 0
-            var result: Float = 0
-            
-            if dealValue > 0
-            {
-                result = revenue / dealValue
+        if service == .HubSpotCRM
+        {
+            let dealRevenueArray: [InfoBox] = rawDataArray.map { tuple -> InfoBox in
+                let date      = df.date(from: tuple.leftValue)
+                var timestamp = ""
+                let dealValue = Float(tuple.rightValue) ?? 0
+                let revenue   = Float(tuple.centralValue) ?? 0
+                var result: Float = 0
+                
+                if dealValue > 0
+                {
+                    result = revenue / dealValue
+                }
+                
+                if let stamp = date?.timeIntervalSince1970
+                {
+                    timestamp = String(Int(stamp))
+                }
+                
+                let infoBox = InfoBox(payer: "",
+                                      value: "",
+                                      netValue: "\(result)",
+                    timestamp: timestamp)
+                
+                return infoBox
             }
-            
-            if let stamp = date?.timeIntervalSince1970
-            {
-                timestamp = String(Int(stamp))
-            }
-            
-            let infoBox   = InfoBox(payer: "",
-                                    value: "",
-                                    netValue: "\(result)",
-                                    timestamp: timestamp)
-            
-            return infoBox
+            return [dealRevenueArray.sorted { $0.timestamp < $1.timestamp }]
         }
-        return [dealRevenueArray.sorted { $0.timestamp < $1.timestamp }]    }
-    
+        else
+        {
+            let visitsContactsArray: [InfoBox] = rawDataArray.map { tuple -> InfoBox in
+                let date      = df.date(from: tuple.leftValue)
+                var timestamp = ""
+                let value     = tuple.rightValue
+                if let stamp = date?.timeIntervalSince1970
+                {
+                    timestamp = String(Int(stamp))
+                }
+                
+                let infoBox = InfoBox(payer: "",
+                                      value: "",
+                                      netValue: "\(value)",
+                                      timestamp: timestamp)
+                
+                return infoBox
+            }
+            return [visitsContactsArray]
+        }
+    }
+        
     private func formLineChartGAData() -> [[InfoBox]] {
         
         let df = DateFormatter()

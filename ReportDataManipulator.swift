@@ -66,7 +66,7 @@ class ReportDataManipulator
                                                 object: nil)
             })
             
-        case .HubSpotCRM:
+        case .HubSpotCRM, .HubSpotMarketing:
             hubspotDataManager.connect()            
             
         default: break

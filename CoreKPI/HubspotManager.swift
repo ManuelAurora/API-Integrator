@@ -127,8 +127,11 @@ class HubSpotManager
         merged = false
     }
     
-    func createNewEntity(type: HubSpotCRMKPIs, pipelineID: String? = nil) {
+    func createNewEntityFor(service: IntegratedServices,
+                            kpiName: String,
+                            pipelineID: String? = nil) {
         
+        let serviceName = service.rawValue        
         let extKPI = ExternalKPI()
         var hubspotKPI: HubspotKPI!
         let fetchHubspotKPI = NSFetchRequest<HubspotKPI>(entityName: "HubspotKPI")
@@ -138,10 +141,10 @@ class HubSpotManager
             hubspotKPI = (result == nil) || result!.isEmpty ? HubspotKPI() : result![0]
         }
         
+        extKPI.kpiName = kpiName
         extKPI.hsPipelineID = pipelineID
-        extKPI.serviceName = IntegratedServices.HubSpotCRM.rawValue
-        extKPI.kpiName = type.rawValue
-        extKPI.hubspotKPI = hubspotKPI        
+        extKPI.serviceName = serviceName
+        extKPI.hubspotKPI = hubspotKPI
         
         do {
             try managedContext.save()
@@ -314,7 +317,43 @@ class HubSpotManager
                 
                 result.append(resElem)
             }
-           
+        }
+        return result
+    }
+    
+    func getDataForReport(kpi: HubSpotMarketingKPIs, pipelineId: String? = nil) -> resultArray {
+        
+        var result: resultArray = []
+        
+        switch kpi
+        {
+        case .VisitsContacts:
+            let calendar   = Calendar.current
+            let contacts   = showContactsCreated()
+            let days       = (calendar.range(of: .day,
+                                             in: .month,
+                                             for: currentDate))!
+                    
+            for day in days.lowerBound..<days.upperBound
+            {
+                let contactsForDay = contacts.filter {
+                    let createDay = calendar.dateComponents([.day], from: $0.createDate)
+                    return createDay.day! == day
+                }
+                
+                let resValue: resultElement
+                let dateComponents = DateComponents(year: calendar.component(.year, from: currentDate),
+                                                    month: calendar.component(.month, from: currentDate),
+                                                    day: day)
+                                
+                let analisedDate = calendar.date(from: dateComponents)
+                resValue.centralValue = ""
+                resValue.leftValue = "\(analisedDate!)"
+                resValue.rightValue = "\(contactsForDay.count)"
+                
+                result.append(resValue)
+            }
+            
         default: break
         }
         return result
@@ -515,15 +554,16 @@ class HubSpotManager
     func appendDealsToCompanies() {
         
         companiesArray = companiesArray.map { company -> HSCompany in
-        
+            
             var tempCompany = company
             
-            for deal in dealsArray
-            {
-                if let dealsCompanyIds = deal.companyIds, let companyId = company.companyId
+            dealsArray.forEach {
+                if let dealsCompanyIds = $0.companyIds, let companyId = company.companyId
                 {
-                   
-                    if dealsCompanyIds.count > 0 && dealsCompanyIds[0] == companyId { tempCompany.deals.append(deal) }
+                    
+                    if dealsCompanyIds.count > 0 && dealsCompanyIds[0] == companyId {
+                        tempCompany.deals.append($0)
+                    }
                 }
             }
             return tempCompany

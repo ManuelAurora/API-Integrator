@@ -185,6 +185,15 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 default: webViewChartTwoVC.isAllowed = false; break
                 }
                 
+            case .HubSpotMarketing:
+                let kpiValue = HubSpotMarketingKPIs(rawValue: kpiName)!
+                
+                switch kpiValue
+                {
+                case .VisitsContacts: chart = .LineChart
+                default: webViewChartTwoVC.isAllowed = false; break
+                }
+                
             default: break
             }
             
@@ -231,18 +240,25 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
             self?.refreshControl.endRefreshing()
         }
     }
-        
+    
     @objc private func prepareDataForReportFromHubspot() {
         
         removeWaitingSpinner()
         refreshControl.endRefreshing()
         var data: resultArray = []
         
-        if let kpiName  = kpi.integratedKPI.kpiName,
-            let kpiValue = HubSpotCRMKPIs(rawValue: kpiName)
+        if let kpiName  = kpi.integratedKPI.kpiName
         {
-            data = reportDataManipulator.hubspotDataManager.getDataForReport(kpi: kpiValue,
-                                                                             pipelineId: kpi.integratedKPI.hsPipelineID)
+            if let kpiValue = HubSpotCRMKPIs(rawValue: kpiName)
+            {
+                data = reportDataManipulator.hubspotDataManager.getDataForReport(kpi: kpiValue,
+                                                                                 pipelineId: kpi.integratedKPI.hsPipelineID)
+            }
+            else if let kpiValue = HubSpotMarketingKPIs(rawValue: kpiName)
+            {
+                data = reportDataManipulator.hubspotDataManager.getDataForReport(kpi: kpiValue,
+                                                                                 pipelineId: kpi.integratedKPI.hsPipelineID)
+            }            
             
             tableViewChartVC.dataArray.append(contentsOf: data)
             tableViewChartVC.reloadTableView()
@@ -250,14 +266,22 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         
         if webViewChartTwoVC.isAllowed
         {
-            webViewChartTwoVC.service = .HubSpotCRM
+            if let _ = HubSpotCRMKPIs(rawValue: kpi.integratedKPI.kpiName!)
+            {
+                webViewChartTwoVC.service = .HubSpotCRM
+            }
+            else if let _ = HubSpotMarketingKPIs(rawValue: kpi.integratedKPI.kpiName!)
+            {
+                webViewChartTwoVC.service = .HubSpotMarketing
+            }
+            
             webViewChartTwoVC.rawDataArray.append(contentsOf: data)
             webViewChartTwoVC.refreshView()
         }
         
         if webViewChartOneVC.isAllowed
         {
-            webViewChartTwoVC.service = .GoogleAnalytics
+            webViewChartTwoVC.service = .HubSpotCRM
             webViewChartOneVC.rawDataArray.append(contentsOf: data)
             webViewChartOneVC.refreshView()
         }

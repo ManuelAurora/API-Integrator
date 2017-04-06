@@ -85,8 +85,9 @@ class ExternalKPIViewController: OAuthViewController {
             case .Quickbooks:
                 selectedQBKPIs = serviceKPI.filter { $0.value == true }
                 
-            case .HubSpotCRM:
-                if internalWebViewController.parent == nil {
+            case .HubSpotCRM, .HubSpotMarketing:
+                if internalWebViewController.parent == nil
+                {
                     self.addChildViewController(internalWebViewController)
                 }
                 
@@ -95,13 +96,12 @@ class ExternalKPIViewController: OAuthViewController {
                 hubSpotManager.connect()                
                 
                 selectedHSKPIs.forEach {
-                    if let kpiType = HubSpotCRMKPIs(rawValue: $0.SettingName),
-                        kpiType != .SalesFunnel && kpiType != .DealStageFunnel
+                    if $0.SettingName != HubSpotCRMKPIs.SalesFunnel.rawValue &&
+                        $0.SettingName != HubSpotCRMKPIs.DealStageFunnel.rawValue
                     {
-                        hubSpotManager.createNewEntity(type: kpiType)
+                        hubSpotManager.createNewEntityFor(service: selectedService, kpiName: $0.SettingName)
                     }
                 }
-                
             default: break
             }
             
@@ -300,10 +300,9 @@ extension ExternalKPIViewController: HubspotSalesFunnelMakerProtocol
         choosenKPI.forEach { kpi in
             pipelines.forEach { pipe in
                 
-                guard let kpiType = HubSpotCRMKPIs(rawValue: kpi.SettingName) else { return }
-                
-                hubSpotManager.createNewEntity(type: kpiType,
-                                               pipelineID: pipe.pipelineId )
+                hubSpotManager.createNewEntityFor(service: selectedService,
+                                                  kpiName: kpi.SettingName,
+                                                  pipelineID: pipe.pipelineId)
             }
         }
     }
