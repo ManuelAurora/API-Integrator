@@ -504,7 +504,7 @@
                value = "pipelinesArray.count">
             </PersistentString>
             <PersistentString
-               value = "companiesArray.filter { $0.deals.count &gt; 0 }">
+               value = "companiesArray">
             </PersistentString>
             <PersistentString
                value = "merged">
@@ -1294,6 +1294,11 @@
       </ContextState>
       <ContextState
          contextName = "HubSpotManager.dealsArray.didset:HubspotManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "companiesArray.count">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "WebViewChartViewController.createCharts() -&gt; ():WebViewChartViewController.swift">

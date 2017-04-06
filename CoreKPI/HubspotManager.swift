@@ -46,21 +46,12 @@ class HubSpotManager
     
     let managedContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    var dealsArray: [HSDeal] = [] {
-        didSet {
-            updatePipelinesAndDeals()
-        }
-    }
-    
+    var dealsArray: [HSDeal] = []
     var pagesArray: [HSPage] = []
     var contactsArray: [HSContact] = []    
     var ownersArray: [HSOwner] = []
     var companiesArray: [HSCompany] = []
-    var pipelinesArray: [HSPipeline] = [] {
-        didSet {
-            updatePipelinesAndDeals()
-        }
-    }
+    var pipelinesArray: [HSPipeline] = []
     
     var delegate: ExternalKPIViewController?
     var webView: WebViewController!
@@ -73,6 +64,8 @@ class HubSpotManager
                 requestCounter = 0
                 merged = false
 
+                updatePipelinesAndDeals()
+                
                 NotificationCenter.default.post(
                 name: .hubspotManagerRecievedData,
                 object: nil)
@@ -120,7 +113,11 @@ class HubSpotManager
     //This function filles deals array in Pipeline.stage.deals
     private func updatePipelinesAndDeals() {
         
-        if pipelinesArray.count > 0 && dealsArray.count > 0 && merged == false {
+        if pipelinesArray.count > 0
+        && dealsArray.count     > 0
+        && companiesArray.count > 0
+        && merged == false
+        {
             appendDealsToCompanies()
             appendDealsToPipelineStages()
             print("DEBUG: Merged")
