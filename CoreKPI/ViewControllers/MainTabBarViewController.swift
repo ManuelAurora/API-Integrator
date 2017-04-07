@@ -63,9 +63,7 @@ class MainTabBarViewController: UITabBarController {
     
     //MARK: *Lifecycle functions
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        
+        super.viewDidLoad()        
     }
         
     //MARK: *Private functions
@@ -81,3 +79,4 @@ class MainTabBarViewController: UITabBarController {
         alertsViewController.loadAlerts()
     }
 }
+

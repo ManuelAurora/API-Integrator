@@ -9,7 +9,7 @@ import UIKit
 
 class TransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning
 {
-    let duration      = 1.0
+    let duration      = 0.45
     var forDismissal  = false
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -20,15 +20,7 @@ class TransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning
         
         let container = transitionContext.containerView
         let view      = forDismissal ? transitionContext.view(forKey: .from)! : transitionContext.view(forKey: .to)!
-        
-        let dimmingView = GradientView(frame: CGRect.zero)
-        
-        dimmingView.frame = container.bounds
-        
-        view.insertSubview(dimmingView, at: 0)
-        
-        view.alpha = forDismissal ? 1.0 : 0
-        
+                
         container.addSubview(view)
         
         UIView.animate(withDuration: duration, animations: { 

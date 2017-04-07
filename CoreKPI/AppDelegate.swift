@@ -218,3 +218,13 @@ extension AppDelegate {
         return true
     }
 }
+
+extension AppDelegate: UINavigationControllerDelegate
+{
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        guard let settingsVC = viewController as? KPISelectSettingTableViewController else {
+            return
+        }
+    }
+    
+}

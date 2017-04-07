@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension UINavigationController {
-    
+
     public func presentTransparentNavigationBar() {
         navigationBar.setBackgroundImage(UIImage(), for:UIBarMetrics.default)
         navigationBar.isTranslucent = true

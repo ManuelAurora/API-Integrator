@@ -11,10 +11,10 @@ import UIKit
 class KPISelectSettingTableViewController: UITableViewController {
     
     weak var ReportAndViewVC: ReportAndViewKPITableViewController!
-    weak var ChoseSuggestedVC: ChooseSuggestedKPITableViewController!
+    var ChoseSuggestedVC: ChooseSuggestedKPITableViewController!
     var selectSetting: [(SettingName: String, value: Bool)]!
     var textFieldInputData: String?
-    var delegate: updateSettingsDelegate!
+    weak var delegate: updateSettingsDelegate!
     
     var integratedService = IntegratedServices.none
     var headerForTableView: String!
@@ -27,21 +27,28 @@ class KPISelectSettingTableViewController: UITableViewController {
     
     var colourDictionary: [Colour : UIColor] = [:]
     
+    deinit {
+        print("DEBUG: KPISelectSettingVC deinitialized")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+     
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        
+        navigationController!.delegate = delegate
         
         tableView.tableFooterView = UIView(frame: .zero)        
         tableView.alwaysBounceVertical = rowsWithInfoAccesory ? true : false
         
         if selectSetting.isEmpty {
-            let alertVC = UIAlertController(title: "Sorry!", message: "No Data for select", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) -> Void in
-                _ = self.navigationController?.popViewController(animated: true)
+            let alertVC = UIAlertController(title: "Sorry!", message: "No Data for select",
+                                            preferredStyle: .alert)
+            alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: {
+                (action: UIAlertAction!) -> Void in
+                self.popFromRight()
             }))
         }
-        
-        let nc = NotificationCenter.default
-        nc.addObserver(forName: .modelDidChanged, object:nil, queue:nil, using:catchNotification)
         
         tableView.estimatedRowHeight = 70
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -141,7 +148,7 @@ class KPISelectSettingTableViewController: UITableViewController {
         }
         
         if rowsWithInfoAccesory || segueWithSelecting {
-            self.navigationController!.popViewController(animated: true)
+            popFromRight()
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -172,13 +179,6 @@ class KPISelectSettingTableViewController: UITableViewController {
         let ChoseSuggestVC = self.navigationController?.viewControllers[1] as! ChooseSuggestedKPITableViewController
         _ = self.navigationController?.popToViewController(ChoseSuggestVC, animated: true)
     }
-    
-    //MARK: - catchNotification
-    func catchNotification(notification:Notification) -> Void {
-        if notification.name == .modelDidChanged {
-            _ = navigationController?.popViewController(animated: true)
-        }
-    }
 }
 
 //MARK: - UITextFieldDelegate method
@@ -195,7 +195,7 @@ extension KPISelectSettingTableViewController: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if(text == "\n") {
-            let _ = navigationController?.popViewController(animated: true)
+            popFromRight()
             return false
         }
         return true

@@ -19,7 +19,7 @@ class Request
     
     //let serverIp = "http://dashmob.smichrissoft.com:8888"
     //debug!
-    let serverIp = "http://52.33.209.220:8888"
+    let serverIp = "https://corekpi.gtwenty.com"
     
     var userID: Int!
     var token: String!

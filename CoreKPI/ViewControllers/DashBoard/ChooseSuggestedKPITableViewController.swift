@@ -24,6 +24,9 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     var model: ModelCoreKPI!
     weak var KPIListVC: KPIsListTableViewController!
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
+    lazy var animator: TransitionAnimator = {
+        return TransitionAnimator()
+    }()
     
     enum TypeOfSetting: String {
         case none
@@ -1044,7 +1047,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     //MARK: - Show KPISelectSettingTableViewController method
     func showSelectSettingVC() {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "SelectSettingForKPI") as! KPISelectSettingTableViewController
-        destinatioVC.ChoseSuggestedVC = self
+        destinatioVC.ChoseSuggestedVC = self        
         destinatioVC.selectSetting = settingArray
         destinatioVC.segueWithSelecting = true
         switch typeOfSetting {

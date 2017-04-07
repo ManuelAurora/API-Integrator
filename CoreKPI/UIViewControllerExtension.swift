@@ -46,5 +46,17 @@ extension UIViewController {
         UIViewController.spinner?.removeFromSuperlayer()
         UIViewController.spinner = nil
     }
+    
+    func popFromRight() {
+        
+        let transition = CATransition()
+        transition.duration       = 0.45
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type           = kCATransitionPush
+        transition.subtype        = kCATransitionFromRight
+        
+        self.navigationController?.view.layer.add(transition, forKey: nil)
+        _ = self.navigationController?.popViewController(animated: false)
+    }
 }
 

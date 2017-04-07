@@ -661,6 +661,7 @@
 			isa = PBXGroup;
 			children = (
 				A27820711E001503009F83DB /* LaunchScreen.storyboard */,
+				645616451E67029B00643340 /* UserInfoTableViewCell.xib */,
 				A27820691E001503009F83DB /* Main.storyboard */,
 			);
 			name = StoryBoards;
@@ -675,7 +676,6 @@
 				64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */,
 				A278209C1E0015BA009F83DB /* StoryBoards */,
 				64EE4DF91E55B6DC0007926F /* PinCodeView.xib */,
-				645616451E67029B00643340 /* UserInfoTableViewCell.xib */,
 				645616471E67039800643340 /* UserViewCellTableViewCell.swift */,
 				6413AFBE1E94CF6E00CC2ABB /* PipelineTableViewCell.swift */,
 			);
