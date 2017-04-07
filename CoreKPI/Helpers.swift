@@ -85,13 +85,20 @@ struct OurColors
     static let blue = UIColor(red: 0/255, green: 185/255, blue: 230/255, alpha: 1.0)
 }
 
-public func validate(email: String?, password: String?) -> Bool {
+public func validate(email: String? = nil, password: String? = nil) -> Bool {
     
-    if email == "" || password == "" { return false }
+    if let email = email
+    {
+        if email == "" { return false }
+        else if email.range(of: "@") == nil ||
+            (email.components(separatedBy: "@")[0].isEmpty) ||
+            (email.components(separatedBy: "@")[1].isEmpty) { return false }
+    }
     
-    if email?.range(of: "@") == nil ||
-        (email?.components(separatedBy: "@")[0].isEmpty)! ||
-        (email?.components(separatedBy: "@")[1].isEmpty)! { return false }
+    if let password = password
+    {
+        if password == "" { return false }
+    }
     
     return true
 }

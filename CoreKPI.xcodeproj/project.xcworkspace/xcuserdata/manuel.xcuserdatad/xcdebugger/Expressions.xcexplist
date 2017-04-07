@@ -135,6 +135,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "validate(email : String?, password : String?) -&gt; Bool:Helpers.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "email == nil">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "PinCodeViewController.checkOut(pinCode : [String]) -&gt; ():PinCodeViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -1317,6 +1325,17 @@
          <PersistentStrings>
             <PersistentString
                value = "shoulUseCustomAnimation">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "RegisterViewController.tapRegisterButton(Any) -&gt; ():RegisterViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "validate(password: password)">
+            </PersistentString>
+            <PersistentString
+               value = "validate(email: email) ">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

@@ -35,15 +35,16 @@ class RegisterViewController: UIViewController {
         
         let repeatPassword = repeatPasswordTextField.text
         
-        if email == "" || password == "" || repeatPassword == "" {
-            showAlert(title: errorTitle, errorMessage: "All fields must be filled!")
-            return
+        if email == "" && password == "" && repeatPassword == "" {
+            showAlert(title: errorTitle, errorMessage: "To successfully register, please enter your email address, a password, and its confirmation.")
         }
         
-        if !validate(email: email, password: nil) { showAlert(title: errorTitle, errorMessage: "Invalid E-mail adress") }
+        if !validate(email: email) { showAlert(title: errorTitle, errorMessage: "Invalid e-mail adress.") }
+        
+        if !validate(password: password) { showAlert(title: errorTitle, errorMessage: "To proceed, fill password and confirmation text fields.") }
         
         if password != repeatPassword {
-            showAlert(title: errorTitle, errorMessage: "Entered passwords are different!")
+            showAlert(title: errorTitle, errorMessage: "Password and its confirmation must be similar.")
         }
         
         let vc = storyboard?.instantiateViewController(withIdentifier: .registerViewController) as! NewProfileTableViewController
