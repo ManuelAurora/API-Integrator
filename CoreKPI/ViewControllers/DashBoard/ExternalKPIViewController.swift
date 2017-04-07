@@ -35,8 +35,8 @@ class ExternalKPIViewController: OAuthViewController {
     
     lazy var internalWebViewController: WebViewController = {
         let controller = WebViewController()
-        
-        controller.delegate = self
+        weak var weakSelf = self
+        controller.delegate = weakSelf
         controller.view = UIView(frame: UIScreen.main.bounds)       
         controller.viewDidLoad()
         
@@ -86,13 +86,16 @@ class ExternalKPIViewController: OAuthViewController {
                 selectedQBKPIs = serviceKPI.filter { $0.value == true }
                 
             case .HubSpotCRM, .HubSpotMarketing:
-                if internalWebViewController.parent == nil
-                {
-                    self.addChildViewController(internalWebViewController)
-                }
                 
-                selectedHSKPIs         = serviceKPI.filter { $0.value == true }
-                hubSpotManager.webView = internalWebViewController
+                /*This code causes memory leaking, so when authorisation through WebController will be
+                 finished, keep this in mind.
+                 if internalWebViewController.parent == nil
+                 {
+                 self.addChildViewController(internalWebViewController)
+                 }
+                 */
+                selectedHSKPIs = serviceKPI.filter { $0.value == true }
+               
                 hubSpotManager.connect()                
                 
                 selectedHSKPIs.forEach {

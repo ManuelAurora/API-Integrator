@@ -10,7 +10,7 @@ import pop
 
 class TransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning
 {
-    let duration      = 0.35
+    let duration      = 0.40
     var transContext: UIViewControllerContextTransitioning!
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -30,7 +30,7 @@ class TransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning
         
         let transition = CATransition()
                 transition.duration       = duration
-                transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+                transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
                 transition.type           = kCATransitionPush
                 transition.subtype        = kCATransitionFromRight
                 transition.fillMode       = kCAFillModeForwards

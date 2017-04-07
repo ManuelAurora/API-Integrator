@@ -484,6 +484,9 @@
          contextName = "Request.(getJson(category : String, data : [String : Any], success : (NSDictionary) -&gt; (), failure : (String) -&gt; ()) -&gt; ()).(closure #1):RequestServise.swift">
          <PersistentStrings>
             <PersistentString
+               value = "response.response">
+            </PersistentString>
+            <PersistentString
                value = "http">
             </PersistentString>
             <PersistentString

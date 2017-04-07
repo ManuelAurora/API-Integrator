@@ -51,10 +51,8 @@ class HubSpotManager
     var contactsArray: [HSContact] = []    
     var ownersArray: [HSOwner] = []
     var companiesArray: [HSCompany] = []
-    var pipelinesArray: [HSPipeline] = []
-    
-    var delegate: ExternalKPIViewController?
-    var webView: WebViewController!
+    var pipelinesArray: [HSPipeline] = []    
+   
     var merged: Bool = false //This variable prevents multiple didSet from pipelinesArray
     
     private var requestCounter: Int = 0 {
