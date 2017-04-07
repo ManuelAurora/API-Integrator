@@ -23,6 +23,7 @@ class KPISelectSettingTableViewController: UITableViewController {
     var rowsWithInfoAccesory = false
     var segueWithSelecting = false
     var cellsWithColourView = false
+    var shoulUseCustomAnimation = false
     var department = Departments.none
     
     var colourDictionary: [Colour : UIColor] = [:]
@@ -46,7 +47,7 @@ class KPISelectSettingTableViewController: UITableViewController {
                                             preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: {
                 (action: UIAlertAction!) -> Void in
-                self.popFromRight()
+                self.navigationController?.popViewController(animated: true)
             }))
         }
         
@@ -148,7 +149,8 @@ class KPISelectSettingTableViewController: UITableViewController {
         }
         
         if rowsWithInfoAccesory || segueWithSelecting {
-            popFromRight()
+            shoulUseCustomAnimation = tableView.visibleCells.count == 2 ? true : false 
+            navigationController?.popViewController(animated: true)
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -195,7 +197,7 @@ extension KPISelectSettingTableViewController: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if(text == "\n") {
-            popFromRight()
+            navigationController?.popViewController(animated: true)
             return false
         }
         return true

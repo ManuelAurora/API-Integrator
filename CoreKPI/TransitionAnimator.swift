@@ -6,11 +6,12 @@
 //
 
 import UIKit
+import pop
 
 class TransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning
 {
-    let duration      = 0.45
-    var forDismissal  = false
+    let duration      = 0.35
+    var transContext: UIViewControllerContextTransitioning!
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
@@ -19,14 +20,37 @@ class TransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
         let container = transitionContext.containerView
-        let view      = forDismissal ? transitionContext.view(forKey: .from)! : transitionContext.view(forKey: .to)!
-                
-        container.addSubview(view)
+        let toView    = transitionContext.view(forKey: .to)!
+        let fromView  = transitionContext.view(forKey: .from)!
         
-        UIView.animate(withDuration: duration, animations: { 
-            view.alpha = self.forDismissal ? 0 : 1.0
-        }) { _ in
-            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+        transContext  = transitionContext
+        
+        container.addSubview(fromView)
+        container.addSubview(toView)
+        
+        let transition = CATransition()
+                transition.duration       = duration
+                transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+                transition.type           = kCATransitionPush
+                transition.subtype        = kCATransitionFromRight
+                transition.fillMode       = kCAFillModeForwards
+                transition.isRemovedOnCompletion = true
+                transition.delegate       = self
+        toView.layer.add(transition, forKey: "thx1138")
+        
+        UIView.animate(withDuration: duration) { 
+            
+            fromView.alpha = 0.8
+            fromView.frame.origin.x -= 50
         }
+    }
+}
+
+extension TransitionAnimator: CAAnimationDelegate
+{
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        
+        transContext.completeTransition(!transContext.transitionWasCancelled)
+
     }
 }

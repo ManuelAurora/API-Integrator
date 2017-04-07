@@ -221,10 +221,15 @@ extension AppDelegate {
 
 extension AppDelegate: UINavigationControllerDelegate
 {
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        guard let settingsVC = viewController as? KPISelectSettingTableViewController else {
-            return
+    
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        if operation == .pop, let vc = fromVC as? KPISelectSettingTableViewController, vc.shoulUseCustomAnimation == true
+        {
+            return TransitionAnimator()
         }
+        
+        return nil
     }
     
 }
