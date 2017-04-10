@@ -127,6 +127,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     func toggleSignInAnimation() {
         
         let tryingToLogin = stateMachine.userStateInfo.tryingToLogIn
+        let usesPin = stateMachine.userStateInfo.usesPinCode
         
         UIView.animate(withDuration: 0.3, animations: {
             let alpha: CGFloat = tryingToLogin ? 0 : 1
@@ -137,6 +138,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.isUserInteractionEnabled = !tryingToLogin
        
         toggleSignInEnterByKeyButtons(isEnabled: !tryingToLogin)
+        toggleEnterByKeyButton(isEnabled: !tryingToLogin && usesPin)
         
         if tryingToLogin
         {
@@ -158,6 +160,10 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                        selector: #selector(SignInViewController.userFailedToLogin),
                        name: .userFailedToLogin,
                        object: nil)
+        
+        nc.addObserver(forName: .userLoggedOut, object: nil, queue: nil) { [weak self] _ in
+            self?.clearTextFields()
+        }
         
         nc.addObserver(forName: .userLoggedIn, object: nil, queue: nil) {
             [weak self] _ in

@@ -14,6 +14,14 @@ class RecoveryPassword: Request {
         
         self.getJson(category: "/auth/resetPassword", data: data,
             success: { json in
+                guard let successK = json["success"] as? Int, successK == 1 else {
+                    if let message = json["message"] as? String
+                    {
+                        failure(message)
+                    }
+                    return
+                }
+                
                 if self.parsingJson(json: json) == true {
                     success()
                 } else {

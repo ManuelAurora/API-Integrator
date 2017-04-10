@@ -96,16 +96,17 @@ class UserStateMachine
     //Needs for escaping bug when switching roots.
     func makeLoaded() { userStateInfo.wasLoaded = true }
     
-    func setTryingToLogin() {
-        userStateInfo.tryingToLogIn = true 
+    func setTryingToLogin(_ state: Bool) {
+        userStateInfo.tryingToLogIn = state
     }
     
     func logInWith(email: String, password: String) {        
         
+        setTryingToLogin(true)
         let loginRequest = LoginRequest()
         loginRequest.loginRequest(username: email, password: password,
                                   success: {(userID, token, typeOfAccount) in
-                                    self.userStateInfo.tryingToLogIn = false
+                                    self.setTryingToLogin(false)
                                     let profile = Profile(userID: userID)
                                     profile.typeOfAccount = typeOfAccount
                                     self.model.signedInUpWith(token: token, profile: profile)
@@ -113,7 +114,7 @@ class UserStateMachine
                                     self.userLoggedIn()
         },
                                   failure: { error in
-                                    self.userStateInfo.tryingToLogIn = false
+                                    self.setTryingToLogin(false)
                                     self.notificationCenter.post(name: .userFailedToLogin,
                                                                  object: nil,
                                                                  userInfo: ["error": error])
@@ -157,7 +158,7 @@ class UserStateMachine
         pinCodeAttempts = usersPin != nil ? PinLockConfiguration.attempts : 0
         userStateInfo.loggedIn = true       
         userStateInfo.haveLocalToken = true
-        userStateInfo.tryingToLogIn = false
+        setTryingToLogin(false)
         
         notificationCenter.post(name: .userLoggedIn, object: nil)
     }

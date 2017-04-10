@@ -22,14 +22,37 @@ class RegistrationRequest: Request {
         
         self.getJson(category: "/auth/createAccount", data: data,
                      success: { json in
-                        self.parsingJson(username: email, firstname: firstname, lastname: lastname, position: position, photo: photo, json: json)
+                        
+                        guard let success = json["success"] as? Int, success == 1 else {
+                            if let errorMessage = json["message"] as? String
+                            {
+                                failure(errorMessage)
+                            }
+                            return
+                        }
+                        
+                        self.parsingJson(username:  email,
+                                         firstname: firstname,
+                                         lastname:  lastname,
+                                         position:  position,
+                                         photo:     photo,
+                                         email:     email,
+                                         password:  password,
+                                         json:      json)
         },
                      failure: { (error) in
                         failure(error)
         })
     }
     
-    func parsingJson(username: String, firstname: String, lastname: String, position: String, photo: String?, json: NSDictionary) {
+    func parsingJson(username: String,
+                     firstname: String,
+                     lastname: String,
+                     position: String,
+                     photo: String?,
+                     email: String,
+                     password: String,
+                     json: NSDictionary) {
         
         var userId: Int
         var token: String
@@ -45,6 +68,7 @@ class RegistrationRequest: Request {
                     let profile = Profile(userId: userId, userName: username, firstName: firstname, lastName: lastname, position: position, photo: photo, phone: nil, nickname: nil, typeOfAccount: typeOfAccount)
                     
                     ModelCoreKPI.modelShared.signedInUpWith(token: token, profile: profile)
+                    UserStateMachine.shared.logInWith(email: email, password: password)
                     
                 } else {
                     print("Json data is broken")

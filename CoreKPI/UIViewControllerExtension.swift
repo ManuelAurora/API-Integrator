@@ -8,8 +8,10 @@
 
 import Foundation
 import UIKit
+import Alamofire
 
-extension UIViewController {
+extension UIViewController
+{
     
     private static var spinner: OvalShapeLayer?
     
@@ -47,16 +49,11 @@ extension UIViewController {
         UIViewController.spinner = nil
     }
     
-//    func popFromRight() {
-//        
-//        let transition = CATransition()
-//        transition.duration       = 0.35
-//        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-//        transition.type           = kCATransitionPush
-//        transition.subtype        = kCATransitionFromRight
-//        
-//        self.navigationController?.view.layer.add(transition, forKey: nil)
-//        _ = self.navigationController?.popViewController(animated: true)
-//    }
+    func removeAllAlamofireNetworking() {
+        
+        Alamofire.SessionManager.default.session.getAllTasks { tasks in
+            tasks.forEach { $0.cancel() }
+        }
+    }
 }
 

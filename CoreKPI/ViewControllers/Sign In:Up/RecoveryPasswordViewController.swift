@@ -7,11 +7,19 @@
 //
 
 import UIKit
+import Alamofire
 
 class RecoveryPasswordViewController: UIViewController {
     
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var emailTextField: UITextField!
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        removeWaitingSpinner()
+        removeAllAlamofireNetworking()        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +29,8 @@ class RecoveryPasswordViewController: UIViewController {
     }
     
     @IBAction func tapSendButton(_ sender: Any) {
+        
+        toggleUserInterface(enabled: false)
         
         let email = emailTextField.text?.lowercased()
         
@@ -33,11 +43,38 @@ class RecoveryPasswordViewController: UIViewController {
         let recoveryPasswod = RecoveryPassword()
         recoveryPasswod.recoveryPassword(email: email,
                                          success: {
+                                            self.toggleUserInterface(enabled: true)
             self.dismiss(animated: true, completion: nil)
         },
                                          failure: { error in
-                                            self.showAlert(title: "Sorry!", errorMessage: error)
+                                            self.toggleUserInterface(enabled: true)
+                                            self.showAlert(title: "Error occured",
+                                                           errorMessage: error)
         })
+    }
+    
+    private func toggleUserInterface(enabled: Bool) {
+        
+        if !enabled
+        {
+            var point = sendButton.center
+            
+            point.y += 120
+            
+            addWaitingSpinner(at: point, color: OurColors.blue)
+        }
+        else { removeWaitingSpinner(); emailTextField.becomeFirstResponder() }
+        
+        let violet = OurColors.violet
+        let gray   = UIColor.lightGray
+        let color  = enabled ? violet : gray
+        
+        
+        sendButton.layer.borderColor = color.cgColor
+        sendButton.setTitleColor(color, for: .normal)
+        sendButton.isEnabled = enabled
+        emailTextField.resignFirstResponder()
+        emailTextField.isUserInteractionEnabled = enabled
     }
 }
 

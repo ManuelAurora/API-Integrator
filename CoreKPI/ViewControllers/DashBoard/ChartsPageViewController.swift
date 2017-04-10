@@ -44,11 +44,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     
     deinit {
         NotificationCenter.default.removeObserver(self)
-        
-        Alamofire.SessionManager.default.session.getAllTasks { tasks in
-            tasks.forEach { $0.cancel() }
-        }
-        
+        removeAllAlamofireNetworking()
         removeWaitingSpinner()
         print("DEBUG: ChartPageVC deinitialized")
     }
