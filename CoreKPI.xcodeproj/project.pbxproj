@@ -11,6 +11,7 @@
 		641D74AF1E8E2C77001023FB /* Lines.js in Resources */ = {isa = PBXBuildFile; fileRef = 641D74AE1E8E2C77001023FB /* Lines.js */; };
 		641F74641E5AE27B00672534 /* QuickBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F74631E5AE27B00672534 /* QuickBook.swift */; };
 		641F74661E5B0F4200672534 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F74651E5B0F4200672534 /* WebViewController.swift */; };
+		643645021E9BC23F0074B9A6 /* SalesforceRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643645011E9BC23F0074B9A6 /* SalesforceRequestManager.swift */; };
 		644691CF1E55870900D964D5 /* PinCodeLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644691CE1E55870900D964D5 /* PinCodeLock.swift */; };
 		644B4C701E926B6000F55F1F /* HubspotKPI + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644B4C6F1E926B6000F55F1F /* HubspotKPI + Extension.swift */; };
 		645616461E67029B00643340 /* UserInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 645616451E67029B00643340 /* UserInfoTableViewCell.xib */; };
@@ -234,6 +235,7 @@
 		641D74AE1E8E2C77001023FB /* Lines.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Lines.js; sourceTree = "<group>"; };
 		641F74631E5AE27B00672534 /* QuickBook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBook.swift; sourceTree = "<group>"; };
 		641F74651E5B0F4200672534 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		643645011E9BC23F0074B9A6 /* SalesforceRequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SalesforceRequestManager.swift; sourceTree = "<group>"; };
 		644691CE1E55870900D964D5 /* PinCodeLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeLock.swift; sourceTree = "<group>"; };
 		644B4C6F1E926B6000F55F1F /* HubspotKPI + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HubspotKPI + Extension.swift"; sourceTree = "<group>"; };
 		645616451E67029B00643340 /* UserInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserInfoTableViewCell.xib; sourceTree = "<group>"; };
@@ -625,6 +627,7 @@
 				646BF08C1E6E8B1C00621FE2 /* Quickbooks */,
 				64CB22A61E72EA0300CBD6A3 /* HubSpot */,
 				A24A840C1E48941C00440151 /* CoreKPI API */,
+				643645011E9BC23F0074B9A6 /* SalesforceRequestManager.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -1252,6 +1255,7 @@
 				647F46DD1E89377900641F42 /* OvalShapeLayer.swift in Sources */,
 				A2279D841E14EBF200669EB0 /* AlertsNavigationViewController.swift in Sources */,
 				A22302C51E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift in Sources */,
+				643645021E9BC23F0074B9A6 /* SalesforceRequestManager.swift in Sources */,
 				A2F77E111E3B199400BB8318 /* RegistrationRequest.swift in Sources */,
 				A2425CB41E1CE8EE00DFDF91 /* UIImageExtension.swift in Sources */,
 				64936AEF1E543B480059D80A /* PinCodeViewController.swift in Sources */,

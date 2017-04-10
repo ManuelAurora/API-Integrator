@@ -69,7 +69,6 @@ class RecoveryPasswordViewController: UIViewController {
         let gray   = UIColor.lightGray
         let color  = enabled ? violet : gray
         
-        
         sendButton.layer.borderColor = color.cgColor
         sendButton.setTitleColor(color, for: .normal)
         sendButton.isEnabled = enabled

@@ -14,7 +14,7 @@ class ExternalRequest {
     
     var errorMessage: String?
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
-    
+    let salesforceManager = SalesforceRequestManager.shared
     var oauthToken: String
     let oauthRefreshToken: String
     var oauthTokenExpiresAt: Date
@@ -203,6 +203,16 @@ class ExternalRequest {
                 
                 let salesForceKPI = SalesForceKPI(context: self.context)
                 
+                if let url = parameters["instance_url"] as? String
+                {
+                    self.salesforceManager.instanceURL = url
+                }
+                
+                if let id = parameters["id"] as? String
+                {
+                    self.salesforceManager.idURL = id
+                }
+                
                 if let data = response?.data {
                     
                     do {
@@ -219,8 +229,6 @@ class ExternalRequest {
                     }
                 }
                 success(salesForceKPI)
-
-                
         },
             failure: { error in
                 failure(error.description)
