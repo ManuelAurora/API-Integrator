@@ -22,6 +22,12 @@ enum URLHeaderKey: String
     case oauthToken = "Authorization"
 }
 
+enum SFQueryType
+{
+    case Lead
+    case Opportunity
+}
+
 class SalesforceRequestManager
 {
     static let shared = SalesforceRequestManager()
@@ -64,11 +70,12 @@ class SalesforceRequestManager
         static let support             = "/services/data/v39.0/support"
     }
     
-    private var urlParameters = [URLParameterKey: String]()
     private var urlHeaders    = [String: String]()
     
     private var instanceURL: String!
     private var idURL: String!
+    
+    var leads = [Lead]()
     
     init() {
         
@@ -94,19 +101,46 @@ class SalesforceRequestManager
         }
     }
     
+    private func requestSalesForce(urls: [String]) {
+        
+        urls.forEach {
+            request($0, method: .get, parameters: nil, headers: urlHeaders).responseJSON {
+                data in
+                if let json = data.value as? [String: Any], let records = json["records"] as? [[String: Any]]
+                {
+                    //self.leads.append(contentsOf: records.map { Lead(json: $0) } )
+                }
+                
+                print(data)
+            }
+        }
+    }
+    
+    private func formParametersFor(queryType: SFQueryType) -> String {
+        
+        var parameters: [URLParameterKey: String] = [:]
+        let currentMonth = Date().beginningOfMonth!.stringForSalesForceQuery()
+        
+        switch queryType
+        {
+        case .Lead:
+            parameters[.query] = "SELECT Name, CreatedDate, Status, Id, isConverted, Industry FROM Lead WHERE CreatedDate > \(currentMonth)"
+            
+        case .Opportunity:
+            parameters[.query] = "SELECT Id, Name, Amount, IsWon, CloseDate FROM Opportunity WHERE CreatedDate > \(currentMonth) AND IsWon = TRUE"
+        }
+        
+        return parameters.stringFromHttpParameters()
+    }
+    
     func requestData() {
         
         getToken()
         
-        urlParameters[.query] = "SELECT name, CreatedDate FROM Lead"
+        let leadsUrl = instanceURL + APIMethods.query + "?" + formParametersFor(queryType: .Lead)
+        let oppUrl   = instanceURL + APIMethods.query + "?" + formParametersFor(queryType: .Opportunity)
         
-        let url = instanceURL + APIMethods.query + "?" + urlParameters.stringFromHttpParameters()
-        
-        request(url, method: .get, parameters: nil, headers: urlHeaders).responseJSON {
-            data in
-            print(data)
-        }
+        requestSalesForce(urls: [leadsUrl, oppUrl])
         
     }
-    
 }

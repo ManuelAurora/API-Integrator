@@ -12,8 +12,8 @@ extension Date
 {
     var calendar: Calendar { return Calendar.current }
     var dateFormatter: DateFormatter {
-        let f = DateFormatter()        
-        f.dateFormat = "yyyy-MM-dd'T'hh:mm:ssZZZZZ"
+        let f = DateFormatter()
+        f.dateFormat = "yyyy-MM-dd'T'hh:mm:ssZ"
         return f
     }
     
@@ -34,10 +34,20 @@ extension Date
         else { return nil }
     }
     
-    func stringForQuickbooksQuery() -> String {
-        
+    private func formattedString() -> String
+    {
         let formattedString = dateFormatter.string(from: self)
         
         return formattedString
+    }
+    
+    func stringForSalesForceQuery() -> String {
+                
+        return formattedString()
+    }
+    
+    func stringForQuickbooksQuery() -> String {
+        
+        return formattedString()
     }
 }

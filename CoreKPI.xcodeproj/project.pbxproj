@@ -29,6 +29,7 @@
 		647B588F1E65AA2F001C968B /* QuickBookHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B588E1E65AA2F001C968B /* QuickBookHelpers.swift */; };
 		647B58911E65BA89001C968B /* QuickBookRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B58901E65BA89001C968B /* QuickBookRequestHandler.swift */; };
 		647C76AB1E9CFB3D00D48900 /* SalesForceKPI + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647C76AA1E9CFB3D00D48900 /* SalesForceKPI + Extension.swift */; };
+		647C76AD1E9D160500D48900 /* SalesForceHelperObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647C76AC1E9D160500D48900 /* SalesForceHelperObjects.swift */; };
 		647CFCA11E8519C700F71632 /* ReportDataManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647CFCA01E8519C700F71632 /* ReportDataManipulator.swift */; };
 		647CFCA31E854BD600F71632 /* IntegratedServicesDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647CFCA21E854BD600F71632 /* IntegratedServicesDataManager.swift */; };
 		647F46DD1E89377900641F42 /* OvalShapeLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647F46DC1E89377900641F42 /* OvalShapeLayer.swift */; };
@@ -254,6 +255,7 @@
 		647B588E1E65AA2F001C968B /* QuickBookHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBookHelpers.swift; sourceTree = "<group>"; };
 		647B58901E65BA89001C968B /* QuickBookRequestHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBookRequestHandler.swift; sourceTree = "<group>"; };
 		647C76AA1E9CFB3D00D48900 /* SalesForceKPI + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SalesForceKPI + Extension.swift"; sourceTree = "<group>"; };
+		647C76AC1E9D160500D48900 /* SalesForceHelperObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SalesForceHelperObjects.swift; sourceTree = "<group>"; };
 		647CFCA01E8519C700F71632 /* ReportDataManipulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportDataManipulator.swift; path = ../ReportDataManipulator.swift; sourceTree = "<group>"; };
 		647CFCA21E854BD600F71632 /* IntegratedServicesDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegratedServicesDataManager.swift; sourceTree = "<group>"; };
 		647F46DC1E89377900641F42 /* OvalShapeLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OvalShapeLayer.swift; sourceTree = "<group>"; };
@@ -631,6 +633,7 @@
 				64CB22A61E72EA0300CBD6A3 /* HubSpot */,
 				A24A840C1E48941C00440151 /* CoreKPI API */,
 				643645011E9BC23F0074B9A6 /* SalesforceRequestManager.swift */,
+				647C76AC1E9D160500D48900 /* SalesForceHelperObjects.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -1259,6 +1262,7 @@
 				647F46DD1E89377900641F42 /* OvalShapeLayer.swift in Sources */,
 				A2279D841E14EBF200669EB0 /* AlertsNavigationViewController.swift in Sources */,
 				A22302C51E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift in Sources */,
+				647C76AD1E9D160500D48900 /* SalesForceHelperObjects.swift in Sources */,
 				643645021E9BC23F0074B9A6 /* SalesforceRequestManager.swift in Sources */,
 				A2F77E111E3B199400BB8318 /* RegistrationRequest.swift in Sources */,
 				A2425CB41E1CE8EE00DFDF91 /* UIImageExtension.swift in Sources */,

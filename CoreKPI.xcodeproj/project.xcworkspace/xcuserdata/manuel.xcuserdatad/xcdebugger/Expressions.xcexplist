@@ -601,6 +601,14 @@
          contextName = "HubSpotManager.getContactsFrom(json : [String : Any]) -&gt; [HSContact]:HubspotManager.swift">
       </ContextState>
       <ContextState
+         contextName = "Lead.init(json : [String : Any]) -&gt; Lead:SalesForceHelperObjects.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "json[&quot;CreatedDate&quot;] as? String">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "UserStateMachine.userSetPin() -&gt; ():UserStateMachine.swift">
          <PersistentStrings>
             <PersistentString
@@ -1071,6 +1079,14 @@
             </PersistentString>
             <PersistentString
                value = "photoServer + (userData[&quot;photo&quot;] as? String)!">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SalesforceRequestManager.(requestData() -&gt; ()).(closure #1):SalesforceRequestManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "data.value">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
