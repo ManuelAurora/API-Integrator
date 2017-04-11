@@ -28,6 +28,7 @@
 		646E2AC11E7C070C0010E4BE /* Date + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646E2AC01E7C070C0010E4BE /* Date + Extension.swift */; };
 		647B588F1E65AA2F001C968B /* QuickBookHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B588E1E65AA2F001C968B /* QuickBookHelpers.swift */; };
 		647B58911E65BA89001C968B /* QuickBookRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B58901E65BA89001C968B /* QuickBookRequestHandler.swift */; };
+		647C76AB1E9CFB3D00D48900 /* SalesForceKPI + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647C76AA1E9CFB3D00D48900 /* SalesForceKPI + Extension.swift */; };
 		647CFCA11E8519C700F71632 /* ReportDataManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647CFCA01E8519C700F71632 /* ReportDataManipulator.swift */; };
 		647CFCA31E854BD600F71632 /* IntegratedServicesDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647CFCA21E854BD600F71632 /* IntegratedServicesDataManager.swift */; };
 		647F46DD1E89377900641F42 /* OvalShapeLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647F46DC1E89377900641F42 /* OvalShapeLayer.swift */; };
@@ -252,6 +253,7 @@
 		646E2AC01E7C070C0010E4BE /* Date + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date + Extension.swift"; sourceTree = "<group>"; };
 		647B588E1E65AA2F001C968B /* QuickBookHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBookHelpers.swift; sourceTree = "<group>"; };
 		647B58901E65BA89001C968B /* QuickBookRequestHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBookRequestHandler.swift; sourceTree = "<group>"; };
+		647C76AA1E9CFB3D00D48900 /* SalesForceKPI + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SalesForceKPI + Extension.swift"; sourceTree = "<group>"; };
 		647CFCA01E8519C700F71632 /* ReportDataManipulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportDataManipulator.swift; path = ../ReportDataManipulator.swift; sourceTree = "<group>"; };
 		647CFCA21E854BD600F71632 /* IntegratedServicesDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegratedServicesDataManager.swift; sourceTree = "<group>"; };
 		647F46DC1E89377900641F42 /* OvalShapeLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OvalShapeLayer.swift; sourceTree = "<group>"; };
@@ -483,6 +485,7 @@
 			children = (
 				A2C9ABD81E2F5B7E00623659 /* PositivBar */,
 				A2EFE2D71E2E444200BA2956 /* Funnel */,
+				644B4C6F1E926B6000F55F1F /* HubspotKPI + Extension.swift */,
 				A2EFE2D01E2E3F6B00BA2956 /* BarChart */,
 				A2EFE2CB1E2E391B00BA2956 /* Lines */,
 				A2B807E71E13A48800F2C1CB /* Points */,
@@ -637,8 +640,8 @@
 			children = (
 				A278206C1E001503009F83DB /* CoreKPI.xcdatamodeld */,
 				645759231E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift */,
-				644B4C6F1E926B6000F55F1F /* HubspotKPI + Extension.swift */,
 				645759251E67FB7D006FB5F9 /* ExternaKPI + Extension.swift */,
+				647C76AA1E9CFB3D00D48900 /* SalesForceKPI + Extension.swift */,
 			);
 			name = CoreData;
 			sourceTree = "<group>";
@@ -1252,6 +1255,7 @@
 				A261D91C1E129F1600638C56 /* DashboardSetingTableViewCell.swift in Sources */,
 				A2DA8E631E56D6AE00D302C7 /* EditAlert.swift in Sources */,
 				A2FB98A41E25FE6900A856E8 /* KPISettingInputTableViewCell.swift in Sources */,
+				647C76AB1E9CFB3D00D48900 /* SalesForceKPI + Extension.swift in Sources */,
 				647F46DD1E89377900641F42 /* OvalShapeLayer.swift in Sources */,
 				A2279D841E14EBF200669EB0 /* AlertsNavigationViewController.swift in Sources */,
 				A22302C51E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift in Sources */,

@@ -7,12 +7,28 @@
 //
 
 import Foundation
+import Alamofire
+import CoreData
+import UIKit
+
+enum URLParameterKey: String
+{
+    case oauthToken = "oauthToken"
+    case query      = "q"
+}
+
+enum URLHeaderKey: String
+{
+    case oauthToken = "Authorization"
+}
 
 class SalesforceRequestManager
 {
     static let shared = SalesforceRequestManager()
     
-    struct Methods
+    private let managedContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    private struct APIMethods
     {
         static let tooling             = "/services/data/v39.0/tooling"
         static let eclair              = "/services/data/v39.0/eclair"
@@ -48,7 +64,49 @@ class SalesforceRequestManager
         static let support             = "/services/data/v39.0/support"
     }
     
-    var instanceURL: String!
-    var idURL: String!
+    private var urlParameters = [URLParameterKey: String]()
+    private var urlHeaders    = [String: String]()
+    
+    private var instanceURL: String!
+    private var idURL: String!
+    
+    init() {
+        
+        getToken()
+    }
+    
+    private func getToken() {
+        
+        do {
+            let request = NSFetchRequest<SalesForceKPI>(entityName: "SalesForceKPI")
+            let result  = try managedContext.fetch(request)
+            
+            if result.count > 0
+            {
+                let sfEntity = result[0]
+                
+                instanceURL = sfEntity.instance_url                
+                urlHeaders[URLHeaderKey.oauthToken.rawValue] = "Bearer " + sfEntity.oAuthToken!
+            }
+        }
+        catch let error {
+            print("DEBUG: Core Data" + error.localizedDescription)
+        }
+    }
+    
+    func requestData() {
+        
+        getToken()
+        
+        urlParameters[.query] = "SELECT name, CreatedDate FROM Lead"
+        
+        let url = instanceURL + APIMethods.query + "?" + urlParameters.stringFromHttpParameters()
+        
+        request(url, method: .get, parameters: nil, headers: urlHeaders).responseJSON {
+            data in
+            print(data)
+        }
+        
+    }
     
 }

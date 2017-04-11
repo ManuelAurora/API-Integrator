@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import OAuthSwift
+import CoreData
 
 class ExternalRequest {
     
@@ -201,18 +202,19 @@ class ExternalRequest {
             withCallbackURL: URL(string: "Smichrissoft.CoreKPI:/oauth2callback")!, scope: "", state: state,
             success: { credential, response, parameters in
                 
-                let salesForceKPI = SalesForceKPI(context: self.context)
-                
-                if let url = parameters["instance_url"] as? String
+                let salesForceKPI: SalesForceKPI!
+                let fetchRequest = NSFetchRequest<SalesForceKPI>(entityName: "SalesForceKPI")
+                let result       = try? self.context.fetch(fetchRequest)
+                    
+                if let result = result, result.count > 0
                 {
-                    self.salesforceManager.instanceURL = url
+                    salesForceKPI = result[0]
                 }
-                
-                if let id = parameters["id"] as? String
+                else
                 {
-                    self.salesforceManager.idURL = id
+                    salesForceKPI = SalesForceKPI(context: self.context)
                 }
-                
+                                
                 if let data = response?.data {
                     
                     do {

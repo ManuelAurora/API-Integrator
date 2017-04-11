@@ -25,6 +25,10 @@ extension Dictionary
                 percentEscapedKey = key.rawValue
             }
             
+            else if let key = key as? URLParameterKey {
+                percentEscapedKey = key.rawValue
+            }
+        
             let percentEscapedValue = (value as! String).addingPercentEncodingForURLQueryValue()!
             return "\(percentEscapedKey)=\(percentEscapedValue)"
         }

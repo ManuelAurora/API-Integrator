@@ -15,6 +15,7 @@ class ReportDataManipulator
     let quickBooksDataManager = QuickBookDataManager.shared()
     let integratedServicesDataManager = IntegratedServicesDataManager()
     let hubspotDataManager = HubSpotManager.sharedInstance
+    let salesForceDataManager = SalesforceRequestManager.shared
     
     var dataToPresent = resultArray()
     
@@ -30,6 +31,10 @@ class ReportDataManipulator
         
         switch (IntegratedServices(rawValue: kpi.integratedKPI.serviceName!))!
         {
+        case .SalesForce:
+            
+            salesForceDataManager.requestData()
+            
         case .Quickbooks:
             var method: QuickBookMethod!
             let kpiValue = QiuckBooksKPIs(rawValue: kpiName)!
