@@ -48,7 +48,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         removeWaitingSpinner()
         print("DEBUG: ChartPageVC deinitialized")
     }
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -36,8 +36,14 @@ struct Lead
     }
 }
 
-struct Opportunity {
-    
+struct Revenue
+{
+    let amount: Float
+    let date: Date
+}
+
+struct Opportunity
+{    
     let name: String!
     let id: String!
     let amount: Float!

@@ -14,10 +14,9 @@ import CoreData
 class ExternalRequest {
     
     var errorMessage: String?
-    let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
-    let salesforceManager = SalesforceRequestManager.shared
+    let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext   
     var oauthToken: String
-    let oauthRefreshToken: String
+    var oauthRefreshToken: String
     var oauthTokenExpiresAt: Date
     
     init(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date) {
