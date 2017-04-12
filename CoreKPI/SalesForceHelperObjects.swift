@@ -49,6 +49,7 @@ struct Opportunity
     let amount: Float!
     var isWon: Bool! = nil
     var closeDate: Date! = nil
+    let stage: String!
     
     init(json: [String: Any]) {
         
@@ -59,6 +60,7 @@ struct Opportunity
         id   = json["Id"]   as? String ?? ""
         amount = json["Amount"] as? Float ?? 0
         isWon = json["IsWon"] as? Bool
+        stage = json["StageName"] as? String ?? ""
         
         if let dateString = json["CloseDate"] as? String,
             let date = dateFormatter.date(from: dateString)

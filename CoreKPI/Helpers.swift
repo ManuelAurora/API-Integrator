@@ -11,20 +11,21 @@ import UIKit
 
 extension Notification.Name
 {    
-    static let userTappedSecuritySwitch  = Notification.Name("UserTappedSecuritySwitch")
-    static let qbManagerRecievedData     = Notification.Name("qbManagerRecievedData")
-    static let paypalManagerRecievedData = Notification.Name("paypalManagerRecievedData")
-    static let newExternalKPIadded       = Notification.Name("NewExternalKPIAdded")
-    static let modelDidChanged           = Notification.Name("modelDidChange")
-    static let userLoggedIn              = Notification.Name("UserLoggedIn")
-    static let userLoggedOut             = Notification.Name("UserLoggedOut")
-    static let userAddedPincode          = Notification.Name("UserAddedPincode")
-    static let userRemovedPincode        = Notification.Name("UserRemovedPincode")
-    static let userFailedToLogin         = Notification.Name("LoginAttemptFailed")
-    static let appDidEnteredBackground   = Notification.Name("AppDidEnteredBackground")
-    static let errorDownloadingFile      = Notification.Name("errorDownloadingFile")
-    static let googleManagerRecievedData = Notification.Name("googleManagerRecievedData")
-    static let hubspotManagerRecievedData = Notification.Name("hubspotManagerRecievedData")
+    static let userTappedSecuritySwitch      = Notification.Name("UserTappedSecuritySwitch")
+    static let qbManagerRecievedData         = Notification.Name("qbManagerRecievedData")
+    static let paypalManagerRecievedData     = Notification.Name("paypalManagerRecievedData")
+    static let newExternalKPIadded           = Notification.Name("NewExternalKPIAdded")
+    static let modelDidChanged               = Notification.Name("modelDidChange")
+    static let userLoggedIn                  = Notification.Name("UserLoggedIn")
+    static let userLoggedOut                 = Notification.Name("UserLoggedOut")
+    static let userAddedPincode              = Notification.Name("UserAddedPincode")
+    static let userRemovedPincode            = Notification.Name("UserRemovedPincode")
+    static let userFailedToLogin             = Notification.Name("LoginAttemptFailed")
+    static let appDidEnteredBackground       = Notification.Name("AppDidEnteredBackground")
+    static let errorDownloadingFile          = Notification.Name("errorDownloadingFile")
+    static let googleManagerRecievedData     = Notification.Name("googleManagerRecievedData")
+    static let hubspotManagerRecievedData    = Notification.Name("hubspotManagerRecievedData")
+    static let salesForceManagerRecievedData = Notification.Name("salesForceManagerRecievedData")
 }
 
 extension UIStoryboard
@@ -101,4 +102,16 @@ public func validate(email: String? = nil, password: String? = nil) -> Bool {
     }
     
     return true
+}
+
+public func iterateEnum<T: Hashable>(_: T.Type) -> AnyIterator<T> {
+    var i = 0
+    return AnyIterator {
+        let next = withUnsafePointer(to: &i) {
+            $0.withMemoryRebound(to: T.self, capacity: 1) { $0.pointee }
+        }
+        if next.hashValue != i { return nil }
+        i += 1
+        return next
+    }
 }

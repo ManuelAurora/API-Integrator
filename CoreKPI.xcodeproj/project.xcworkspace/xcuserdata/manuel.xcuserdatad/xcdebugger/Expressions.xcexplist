@@ -103,6 +103,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "WebViewChartViewController.formLineChartSFData() -&gt; [[InfoBox]]:WebViewChartViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "rawDataArray">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "validate(email : String?, password : String?) -&gt; Bool:Helpers.swift">
          <PersistentStrings>
             <PersistentString
@@ -364,13 +372,16 @@
          contextName = "WebViewChartViewController.generateDataForJS() -&gt; String:WebViewChartViewController.swift">
          <PersistentStrings>
             <PersistentString
+               value = "lineChartData">
+            </PersistentString>
+            <PersistentString
                value = "rawDataArray">
             </PersistentString>
             <PersistentString
                value = "rawDataArray[0].rightValue">
             </PersistentString>
             <PersistentString
-               value = "rawDataArray[0].rightValue.substring(to: rawDataArray[0].rightValue.endIndex)">
+               value = "positiveBarData">
             </PersistentString>
             <PersistentString
                value = "value.substring(to: value.index(before: value.endIndex))">
@@ -392,10 +403,21 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "SalesforceRequestManager.getRevenueNewLeads() -&gt; [(date : Date, value : Float)]:SalesforceRequestManager.swift">
+      </ContextState>
+      <ContextState
          contextName = "HubSpotManager.companiesArray.getter:HubspotManager.swift">
          <PersistentStrings>
             <PersistentString
                value = "companiesArray.filter { $0.deals.count &gt; 0 }">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ReportDataManipulator.dataForReport() -&gt; ():ReportDataManipulator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "salesForceDataManager">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -943,6 +965,9 @@
                value = "createDay.day!">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "WebViewChartViewController.(formLineChartSFData() -&gt; [[InfoBox]]).(closure #2):WebViewChartViewController.swift">
       </ContextState>
       <ContextState
          contextName = "HubSpotManager.(appendDealsToPipelineStages() -&gt; ()).(closure #1).(closure #1):HubspotManager.swift">
@@ -1556,6 +1581,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ChartsPageViewController.prepareDataForReportFromSalesForce() -&gt; ():ChartsPageViewController.swift">
+      </ContextState>
+      <ContextState
          contextName = "HSContact.init(json : [String : Any]) -&gt; HSContact:HubspotRequestedObjects.swift">
          <PersistentStrings>
             <PersistentString
@@ -1728,6 +1756,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "SalesforceRequestManager.getLeadsConvertedLeads() -&gt; [SFResult]:SalesforceRequestManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "leads">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "HubSpotManager.(getDataForReport(kpi : HubSpotCRMKPIs) -&gt; [(leftValue : String, centralValue : String, rightValue : String)]).(closure #1):HubspotManager.swift">
       </ContextState>
       <ContextState
@@ -1740,6 +1776,9 @@
                value = "HubSpotMarketingKPIs(rawValue: kpi.integratedKPI.kpiName)">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SalesforceRequestManager.getDataForChart(kpi : SalesForceKPIs) -&gt; [(leftValue : String, centralValue : String, rightValue : String)]:SalesforceRequestManager.swift">
       </ContextState>
       <ContextState
          contextName = "SignInViewController.viewWillAppear(Bool) -&gt; ():SignInViewController.swift">
@@ -1954,6 +1993,9 @@
                value = "kpi.oAuthRefreshToken!">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "WebViewChartViewController.(generateDataForJS() -&gt; String).(closure #4):WebViewChartViewController.swift">
       </ContextState>
       <ContextState
          contextName = "HubSpotManager.handle(request : HSAPIMethods) -&gt; ():HubspotManager.swift">

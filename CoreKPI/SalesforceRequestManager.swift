@@ -11,7 +11,24 @@ import Alamofire
 import CoreData
 import UIKit
 
-typealias salesForceResult = (date: Date, value: Float)
+struct SFResult
+{
+    var date:        Date?
+    var firstValue:  Float?
+    var secondValue: Float?
+}
+
+enum SFOpportunityStage: String
+{
+    case qualification     = "Qualification"
+    case needsAnalysis     = "Needs Analysis"
+    case negotiationReview = "Negotiation/Review"
+    case valueProposition  = "Value Proposition"
+    case prospecting       = "Prospecting"
+    case perceptAnalysis   = "Perception Analysis"
+    case decisionMakers    = "Id. Decision Makers"
+    case proposalPrice     = "Proposal/Price Quote"
+}
 
 enum URLParameterKey: String
 {
@@ -32,6 +49,18 @@ enum SFQueryType: String
 
 class SalesforceRequestManager
 {
+    private var requestCounter: Int = 0 {
+        didSet {
+            if requestCounter == 2
+            {
+                requestCounter = 0
+                fillRevenueArray()
+                NotificationCenter.default.post(
+                    name: .salesForceManagerRecievedData,
+                    object: nil)
+            }
+        }
+    }
     static let shared = SalesforceRequestManager()
     
     private let managedContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -80,7 +109,6 @@ class SalesforceRequestManager
     private var instanceURL: String!
     private var idURL:       String!
     
-    
     ///  This helper method will return SaleforceKPI which contains token,
     ///  refreshToken and url info.
     ///
@@ -104,7 +132,6 @@ class SalesforceRequestManager
         return nil
     }
     
-    
     /// This method updates token using refresh token. It also updates token in
     /// SalesForceKPI instance.
     /// - Parameter success: will be executed after all things done with success
@@ -127,7 +154,6 @@ class SalesforceRequestManager
         }
     }
     
-    
     /// This method firstly will call updateToken(), then it will set manager's
     /// properties: instanceURL and urlHeaders (oauth token will be appended).
     /// - Parameter success: will be executed after all things done with success
@@ -143,7 +169,6 @@ class SalesforceRequestManager
         }
     }    
     
-    
     /// This method will execute REST API query for all given urls.
     ///
     /// - Parameter urls: Contains all url that need to be requested
@@ -152,6 +177,7 @@ class SalesforceRequestManager
         urls.forEach {
             request($0, method: .get, parameters: nil, headers: urlHeaders).responseJSON {
                 data in
+                
                 if let json = data.value as? [String: Any], let records = json["records"] as? [[String: Any]]
                 {
                     records.forEach { record in
@@ -170,10 +196,10 @@ class SalesforceRequestManager
                         }
                     }
                 }
+                self.requestCounter += 1
             }
         }
     }
-   
     
     /// This method parses all opportunity structs, and fills property array 
     /// revenueByDates with Revenue objects
@@ -196,7 +222,6 @@ class SalesforceRequestManager
         }
     }
     
-    
     /// This method forms query string which will be used as url request parameter
     ///
     /// - Parameter queryType: type of record that will be requested
@@ -212,15 +237,24 @@ class SalesforceRequestManager
             parameters[.query] = "SELECT Name, CreatedDate, Status, Id, isConverted, Industry FROM Lead WHERE CreatedDate > \(currentMonth)"
             
         case .Opportunity:
-            parameters[.query] = "SELECT Id, Name, Amount, IsWon, CloseDate FROM Opportunity WHERE CreatedDate > \(currentMonth)"
+            parameters[.query] = "SELECT Id, Name, Amount, IsWon, CloseDate, StageName FROM Opportunity WHERE CreatedDate > \(currentMonth)"
         }
         
         return parameters.stringFromHttpParameters()
     }
     
+    private func clearAllData() {
+        
+        leads.removeAll()
+        opportunities.removeAll()
+        revenueByDates.removeAll()
+        
+    }
     
     /// This method fetch all data from SalesForce.
     func requestData() {
+        
+        clearAllData()
         
         getToken { [weak self] in
             let leadsUrl = (self?.instanceURL)! + APIMethods.query + "?" + (self?.formParametersFor(queryType: .Lead))!
@@ -230,18 +264,67 @@ class SalesforceRequestManager
         }
     }
     
+    /// This method returns data for Converted Leads KPI
+    ///
+    /// - Returns: array of SFResult
+    func getLeadsConvertedLeads() -> [SFResult] {
+        
+        var result   = [SFResult]()
+        let newLeads = leads
+        let convertedLeads = leads.filter { $0.isConverted != nil && $0.isConverted == true }
+        
+        let currentDate = Date()
+        let calendar    = Calendar.current
+        let days        = (calendar.range(of: .day,
+                                          in: .month,
+                                          for: currentDate))!
+        
+        for day in days.lowerBound..<days.upperBound
+        {
+            let leadsThisDay = newLeads.filter { lead in
+                let creationDay = creationDayFrom(date: lead.createdDate)
+                return creationDay == day
+            }
+            
+            let convertedThisDay = convertedLeads.filter { lead in
+                let creationDay = creationDayFrom(date: lead.createdDate)
+                return creationDay == day
+            }
+            
+            if leadsThisDay.count > 0 || convertedThisDay.count > 0
+            {
+                var sfResult = SFResult()
+                
+                sfResult.firstValue  = Float(leadsThisDay.count)
+                sfResult.secondValue = Float(convertedThisDay.count)
+                
+                result.append(sfResult)
+            }
+        }
+        
+        return result
+    }
+    
+    /// This method returns day-number from chosen date.
+    ///
+    /// - Parameter date: date to take value from.
+    /// - Returns: integer representation of day's number in current month
+    private func creationDayFrom(date: Date) -> Int {
+        
+        let calendar   = Calendar.current
+        let dayCreated = calendar.component(.day, from: date)
+        
+        return dayCreated
+    }
     
     /// This method returns values for Revenue/New Leads KPI
     ///
     /// - Returns: array of tuple (date, value)
-    func getRevenueNewLeads() -> [salesForceResult] {
+    func getRevenueNewLeads() -> [SFResult] {
         
-        var result = [salesForceResult]()
-        
-        fillRevenueArray()
-        
-        let newLeads = leads
-        let revenue  = revenueByDates
+        var result      = [SFResult]()
+        let newLeads    = leads
+        let revenue     = revenueByDates
         let currentDate = Date()
         let calendar    = Calendar.current
         let days        = (calendar.range(of: .day,
@@ -251,12 +334,12 @@ class SalesforceRequestManager
         for day in days.lowerBound..<days.upperBound
         {
             let newLeads = newLeads.filter { lead in
-                let dayCreated = calendar.component(.day, from: lead.createdDate)
+                let dayCreated = creationDayFrom(date: lead.createdDate)
                 return dayCreated == day
             }
             
             let revenuesThisDay = revenue.filter { revenue in
-                let dayClosed = calendar.component(.day, from: revenue.date)
+                let dayClosed   = creationDayFrom(date: revenue.date)
                 return dayClosed == day
             }
             
@@ -272,13 +355,57 @@ class SalesforceRequestManager
                 
                 let date = calendar.date(from: dateComponents)
                 
-                let sfResult: salesForceResult
-                sfResult.date  = date!
-                sfResult.value = totalRevenueThisDay / Float(newLeads.count) 
+                var sfResult        = SFResult()
+                sfResult.date       = date!
+                sfResult.firstValue = totalRevenueThisDay / Float(newLeads.count)
                 
                 result.append(sfResult)
             }
         }
         return result
     }
+    
+    /// For some reason Semeon hardcoded chart values to tuple.
+    /// This extra method will help us convert data to it.
+    /// - Parameter kpi: kpi value
+    /// - Returns: tuple (date, val, val)
+    func getDataForChart(kpi: SalesForceKPIs) -> resultArray {
+        
+        var array: resultArray = []
+        
+        switch kpi
+        {
+        case .RevenueNewLeads:
+            let data = getRevenueNewLeads()
+            
+            data.forEach {
+                array.append(( leftValue:    "\($0.date!)",
+                    centralValue: "\($0.firstValue ?? 0)",
+                    rightValue:   "\($0.secondValue ?? 0)"))
+            }
+            
+        case .ConvertedLeads:
+            let data = getLeadsConvertedLeads()
+            
+            data.forEach {
+                array.append((leftValue:    "\($0.firstValue ?? 0)",
+                              centralValue: "",
+                              rightValue:   "\($0.secondValue ?? 0)"))
+            }
+            
+        case .OpenOpportunitiesByStage:
+            for stage in iterateEnum(SFOpportunityStage.self)
+            {
+                let oppsStaged = opportunities.filter { $0.stage == stage.rawValue }
+                array.append((leftValue: stage.rawValue,
+                              centralValue: "",
+                              rightValue: "\(oppsStaged.count)"))
+            }
+            
+        default: break
+        }
+        
+        return array
+    }
 }
+

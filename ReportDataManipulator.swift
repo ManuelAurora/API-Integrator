@@ -32,7 +32,6 @@ class ReportDataManipulator
         switch (IntegratedServices(rawValue: kpi.integratedKPI.serviceName!))!
         {
         case .SalesForce:
-            
             salesForceDataManager.requestData()
             
         case .Quickbooks:

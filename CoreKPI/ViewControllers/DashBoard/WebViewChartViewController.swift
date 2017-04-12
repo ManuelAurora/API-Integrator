@@ -233,7 +233,7 @@ class WebViewChartViewController: UIViewController
                                      centralValue: "",
                                      rightValue: "\(lostDeals.count)"))
              }
-             
+                         
              for (index,item) in rawDataArray.enumerated() {
                 if index > 0 {
                     dataForJS += ","
@@ -290,6 +290,9 @@ class WebViewChartViewController: UIViewController
                 
             case .HubSpotCRM, .HubSpotMarketing:
                 lineChartData = formLineChartHSData()
+                
+            case .SalesForce:
+                lineChartData = formLineChartSFData()
                 
             default: break
             }
@@ -373,28 +376,13 @@ class WebViewChartViewController: UIViewController
             dataForJS += "];"
             return dataForJS
         case .PositiveBar:
-            //TODO: Remove test data
-            //->Debug
-            positiveBarData = [
-                ("250","230"),
-                ("300","230"),
-                ("220","200"),
-                ("180","160"),
-                ("200","180"),
-                ("60","40"),
-                ("260","200"),
-                ("180","100"),
-                ("150","100"),
-                ("300","150"),
-                ("220","190"),
-                ("180","90"),
-                ("120","100"),
-                ("60","20"),
-                ("260","50"),
-                ("180","150"),
-            ]
+                  
+            rawDataArray.forEach {
+                 positiveBarData.append(($0.leftValue, $0.rightValue))                
+            }
+
             header = "This is PositiveBar))";
-            //<-Debug
+            
             var dataForJS = "var label = '\(header)'; var data = ["
             for (index,item) in positiveBarData.enumerated() {
                 if index > 0 {
@@ -448,6 +436,37 @@ class WebViewChartViewController: UIViewController
         let lineChartData: [[InfoBox]] = [sorted]
         
         return lineChartData
+    }
+    
+    private func formLineChartSFData() -> [[InfoBox]] {
+        
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd HH:mm:ss z"
+        
+        let revenueNewLeadsArray = rawDataArray.map { tuple -> InfoBox in
+            let date      = df.date(from: tuple.leftValue)
+            var timestamp = ""
+            var res: Float = 0
+            
+            if let stamp = date?.timeIntervalSince1970
+            {
+                timestamp = String(Int(stamp))
+            }
+            
+            if let value = Float(tuple.centralValue)
+            {
+                res = value
+            }
+            
+            let infoBox = InfoBox(payer: "",
+                                  value: "",
+                                  netValue: "\(res)",
+                timestamp: timestamp)
+            
+            return infoBox
+        }
+        
+        return [revenueNewLeadsArray.sorted { $0.timestamp < $1.timestamp }]
     }
     
     private func formLineChartHSData() -> [[InfoBox]] {

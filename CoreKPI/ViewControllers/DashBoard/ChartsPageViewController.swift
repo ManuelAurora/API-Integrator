@@ -191,6 +191,17 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 default: webViewChartTwoVC.isAllowed = false; break
                 }
                 
+            case .SalesForce:
+                let kpiValue = SalesForceKPIs(rawValue: kpiName)!
+                
+                switch kpiValue
+                {
+                case .RevenueNewLeads:          chart = .LineChart
+                case .ConvertedLeads:           chart = .PositiveBar
+                case .OpenOpportunitiesByStage: chart = .PieChart
+                default: webViewChartTwoVC.isAllowed = false; break
+                }            
+                
             default: break
             }
             
@@ -231,10 +242,38 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                             name: .hubspotManagerRecievedData,
                             object: nil)
         
+        nCenter.addObserver(self,
+                            selector: #selector(self.prepareDataForReportFromSalesForce),
+                            name: .salesForceManagerRecievedData,
+                            object: nil)
+        
         nCenter.addObserver(forName: .errorDownloadingFile, object: nil, queue: nil) {
             [weak self] _ in
             self?.removeWaitingSpinner()
             self?.refreshControl.endRefreshing()
+        }
+    }
+    
+    @objc private func prepareDataForReportFromSalesForce() {
+        
+        removeWaitingSpinner()
+        refreshControl.endRefreshing()
+        
+        var data: resultArray = []
+        
+        if let kpiName = kpi.integratedKPI.kpiName
+        {
+            if let kpiValue = SalesForceKPIs(rawValue: kpiName)
+            {
+                data = reportDataManipulator.salesForceDataManager.getDataForChart(kpi: kpiValue)
+            }
+        }
+        
+        if webViewChartTwoVC.isAllowed
+        {
+            webViewChartTwoVC.service = .SalesForce
+            webViewChartTwoVC.rawDataArray.append(contentsOf: data)
+            webViewChartTwoVC.refreshView()
         }
     }
     
