@@ -44,29 +44,45 @@ struct Revenue
 
 struct Opportunity
 {    
-    let name: String!
-    let id: String!
-    let amount: Float!
-    var isWon: Bool! = nil
+    let name:      String!
+    let id:        String!
+    let amount:    Float!
+    var isWon:     Bool! = nil
     var closeDate: Date! = nil
-    let stage: String!
+    let stage:     String!
+    let ownerId:   String!
     
     init(json: [String: Any]) {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
-        name = json["Name"] as? String ?? ""
-        id   = json["Id"]   as? String ?? ""
-        amount = json["Amount"] as? Float ?? 0
-        isWon = json["IsWon"] as? Bool
-        stage = json["StageName"] as? String ?? ""
+        name    = json["Name"]      as? String ?? ""
+        id      = json["Id"]        as? String ?? ""
+        amount  = json["Amount"]    as? Float  ?? 0
+        isWon   = json["IsWon"]     as? Bool
+        stage   = json["StageName"] as? String ?? ""
+        ownerId = json["OwnerId"]   as? String ?? ""
         
         if let dateString = json["CloseDate"] as? String,
             let date = dateFormatter.date(from: dateString)
         {
             closeDate = date
         }
+    }
+}
+
+struct User
+{
+    let id: String!
+    let name: String!
+    let email: String!
+    
+    init(json: [String: Any]) {
+        
+        id    = json["Id"] as? String
+        name  = json["Name"] as? String
+        email = json["Email"] as? String
     }
 }
 

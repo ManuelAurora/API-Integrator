@@ -43,15 +43,16 @@ enum URLHeaderKey: String
 
 enum SFQueryType: String
 {
-    case Lead        = "Lead"
-    case Opportunity = "Opportunity"
+    case lead        = "Lead"
+    case opportunity = "Opportunity"
+    case user        = "User"
 }
 
 class SalesforceRequestManager
 {
     private var requestCounter: Int = 0 {
         didSet {
-            if requestCounter == 2
+            if requestCounter == 3
             {
                 requestCounter = 0
                 fillRevenueArray()
@@ -105,6 +106,7 @@ class SalesforceRequestManager
     private var leads          = [Lead]()
     private var opportunities  = [Opportunity]()
     private var revenueByDates = [Revenue]()
+    private var users          = [User]()
     
     private var instanceURL: String!
     private var idURL:       String!
@@ -187,11 +189,14 @@ class SalesforceRequestManager
                         {
                             switch type
                             {
-                            case .Lead:
+                            case .lead:
                                 self.leads.append(Lead(json: record))
                                 
-                            case .Opportunity:
+                            case .opportunity:
                                 self.opportunities.append(Opportunity(json: record))
+                                
+                            case .user:
+                                self.users.append(User(json: record))
                             }
                         }
                     }
@@ -233,11 +238,14 @@ class SalesforceRequestManager
         
         switch queryType
         {
-        case .Lead:
+        case .lead:
             parameters[.query] = "SELECT Name, CreatedDate, Status, Id, isConverted, Industry FROM Lead WHERE CreatedDate > \(currentMonth)"
             
-        case .Opportunity:
-            parameters[.query] = "SELECT Id, Name, Amount, IsWon, CloseDate, StageName FROM Opportunity WHERE CreatedDate > \(currentMonth)"
+        case .opportunity:
+            parameters[.query] = "SELECT Id, Name, Amount, IsWon, CloseDate, StageName, OwnerId FROM Opportunity WHERE CreatedDate > \(currentMonth)"
+            
+        case .user:
+            parameters[.query] = "SELECT Id, Name, Email FROM User"
         }
         
         return parameters.stringFromHttpParameters()
@@ -257,10 +265,14 @@ class SalesforceRequestManager
         clearAllData()
         
         getToken { [weak self] in
-            let leadsUrl = (self?.instanceURL)! + APIMethods.query + "?" + (self?.formParametersFor(queryType: .Lead))!
-            let oppUrl   = (self?.instanceURL)! + APIMethods.query + "?" + (self?.formParametersFor(queryType: .Opportunity))!
             
-            self?.requestSalesForce(urls: [leadsUrl, oppUrl])
+            guard let weakSelf = self else { return }
+            
+            let leadsUrl = weakSelf.instanceURL + APIMethods.query + "?" + weakSelf.formParametersFor(queryType: .lead)
+            let oppUrl   = weakSelf.instanceURL + APIMethods.query + "?" + weakSelf.formParametersFor(queryType: .opportunity)
+            let userUrl  = weakSelf.instanceURL + APIMethods.query + "?" + weakSelf.formParametersFor(queryType: .user)
+            
+            weakSelf.requestSalesForce(urls: [leadsUrl, oppUrl, userUrl])
         }
     }
     
@@ -402,6 +414,25 @@ class SalesforceRequestManager
                               rightValue: "\(oppsStaged.count)"))
             }
             
+        case .TopSalesRep:
+            users.forEach { user in
+                let sales = opportunities.filter {
+                    $0.isWon   == true && $0.ownerId == user.id
+                }
+                
+                if sales.count > 0
+                {
+                    guard let name = user.name else { return }
+                    
+                    let revenue = sales.reduce(Float(0)) { (result, opp) -> Float in
+                        return result + opp.amount
+                    }
+                    
+                    array.append((leftValue:    name,
+                                  centralValue: "\(sales.count)",
+                                  rightValue:   "\(revenue)"))
+                }
+            }            
         default: break
         }
         

@@ -275,6 +275,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
             webViewChartTwoVC.rawDataArray.append(contentsOf: data)
             webViewChartTwoVC.refreshView()
         }
+        else { tableViewChartVC.dataArray = data; tableViewChartVC.reloadTableView() }
     }
     
     @objc private func prepareDataForReportFromHubspot() {

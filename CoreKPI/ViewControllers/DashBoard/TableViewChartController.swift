@@ -113,6 +113,6 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.text = self.header
         header.textLabel?.font = UIFont(name: "Helvetica Neue", size: 13)
-        header.textLabel?.textColor = UIColor.lightGray
+        header.textLabel?.textColor = .lightGray
     }    
 }

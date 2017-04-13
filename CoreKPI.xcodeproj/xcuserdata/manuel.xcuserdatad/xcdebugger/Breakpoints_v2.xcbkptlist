@@ -442,7 +442,7 @@
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_23_03/CoreKPI/Services/RegistrationRequest.swift"
-                  timestampString = "513700310.405194"
+                  timestampString = "513760946.615845"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "26"
@@ -457,7 +457,7 @@
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_23_03/CoreKPI/Services/RegistrationRequest.swift"
-                  timestampString = "513700310.406521"
+                  timestampString = "513760946.617155"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "26"
@@ -554,7 +554,7 @@
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_23_03/CoreKPI/Services/RecoveryPassword.swift"
-                  timestampString = "513700310.412021"
+                  timestampString = "513760946.622609"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
@@ -569,7 +569,7 @@
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_23_03/CoreKPI/Services/RecoveryPassword.swift"
-                  timestampString = "513700310.413645"
+                  timestampString = "513760946.623827"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
@@ -824,44 +824,106 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CoreKPI/SalesforceRequestManager.swift"
-            timestampString = "513695400.641779"
+            filePath = "ReportDataManipulator.swift"
+            timestampString = "513682922.702644"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "177"
-            endingLineNumber = "177"
-            landmarkName = "requestSalesForce(urls:)"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "dataForReport()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/SalesforceRequestManager.swift"
+            timestampString = "513758919.933497"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "386"
+            endingLineNumber = "386"
+            landmarkName = "getDataForChart(kpi:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CoreKPI/ViewControllers/DashBoard/SelectIntegratedServicesViewController.swift"
+            timestampString = "513760520.564355"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "SelectIntegratedServicesViewController"
+            landmarkType = "3">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "CoreKPI.SalesforceRequestManager.(requestSalesForce in _E99C33C65F29D53A024EF6CA2A5A5F60) (urls : Swift.Array&lt;Swift.String&gt;) -&gt; ()"
+                  symbolName = "CoreKPI.SelectIntegratedServicesViewController.saleForceKPIArray.getter : Swift.Array&lt;(SettingName : Swift.String, value : Swift.Bool)&gt;"
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_23_03/CoreKPI/SalesforceRequestManager.swift"
-                  timestampString = "513682924.233486"
+                  urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_23_03/CoreKPI/ViewControllers/DashBoard/SelectIntegratedServicesViewController.swift"
+                  timestampString = "513760520.578214"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "164"
-                  endingLineNumber = "164"
-                  offsetFromSymbolStart = "28">
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "48">
                </Location>
                <Location
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "CoreKPI.SalesforceRequestManager.((requestSalesForce in _E99C33C65F29D53A024EF6CA2A5A5F60) (urls : Swift.Array&lt;Swift.String&gt;) -&gt; ()).(closure #1)"
+                  symbolName = "CoreKPI.SelectIntegratedServicesViewController.saleForceKPIArray.setter : Swift.Array&lt;(SettingName : Swift.String, value : Swift.Bool)&gt;"
                   moduleName = "CoreKPI"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_23_03/CoreKPI/SalesforceRequestManager.swift"
-                  timestampString = "513682924.234989"
+                  urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_23_03/CoreKPI/ViewControllers/DashBoard/SelectIntegratedServicesViewController.swift"
+                  timestampString = "513760520.580829"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "165"
-                  endingLineNumber = "165"
-                  offsetFromSymbolStart = "44">
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "76">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CoreKPI.SelectIntegratedServicesViewController.init (nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; CoreKPI.SelectIntegratedServicesViewController"
+                  moduleName = "CoreKPI"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_23_03/CoreKPI/ViewControllers/DashBoard/SelectIntegratedServicesViewController.swift"
+                  timestampString = "513760520.582932"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "456">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CoreKPI.SelectIntegratedServicesViewController.init (coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;CoreKPI.SelectIntegratedServicesViewController&gt;"
+                  moduleName = "CoreKPI"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Manuel/Documents/CoreKPI_Merge_23_03/CoreKPI/ViewControllers/DashBoard/SelectIntegratedServicesViewController.swift"
+                  timestampString = "513760520.586025"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "396">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -872,13 +934,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ReportDataManipulator.swift"
-            timestampString = "513682922.702644"
+            filePath = "CoreKPI/ViewControllers/DashBoard/ChooseSuggestedKPITableViewController.swift"
+            timestampString = "513760584.671387"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
-            landmarkName = "dataForReport()"
+            startingLineNumber = "1073"
+            endingLineNumber = "1073"
+            landmarkName = "showIntegratedServicesVC()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
