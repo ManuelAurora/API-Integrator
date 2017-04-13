@@ -46,13 +46,14 @@ enum SFQueryType: String
     case lead        = "Lead"
     case opportunity = "Opportunity"
     case user        = "User"
+    case campaign    = "Campaign"
 }
 
 class SalesforceRequestManager
 {
     private var requestCounter: Int = 0 {
         didSet {
-            if requestCounter == 3
+            if requestCounter == 4
             {
                 requestCounter = 0
                 fillRevenueArray()
@@ -107,6 +108,7 @@ class SalesforceRequestManager
     private var opportunities  = [Opportunity]()
     private var revenueByDates = [Revenue]()
     private var users          = [User]()
+    private var campaigns      = [Campaign]()
     
     private var instanceURL: String!
     private var idURL:       String!
@@ -197,6 +199,9 @@ class SalesforceRequestManager
                                 
                             case .user:
                                 self.users.append(User(json: record))
+                                
+                            case .campaign:
+                                self.campaigns.append(Campaign(json: record))
                             }
                         }
                     }
@@ -246,6 +251,9 @@ class SalesforceRequestManager
             
         case .user:
             parameters[.query] = "SELECT Id, Name, Email FROM User"
+            
+        case .campaign:
+            parameters[.query] = "SELECT Id, Type, Status, OwnerId, IsActive, StartDate, AmountWonOpportunities FROM Campaign WHERE CreatedDate > \(currentMonth)"
         }
         
         return parameters.stringFromHttpParameters()
@@ -254,9 +262,10 @@ class SalesforceRequestManager
     private func clearAllData() {
         
         leads.removeAll()
+        users.removeAll()
+        campaigns.removeAll()
         opportunities.removeAll()
         revenueByDates.removeAll()
-        
     }
     
     /// This method fetch all data from SalesForce.
@@ -268,12 +277,19 @@ class SalesforceRequestManager
             
             guard let weakSelf = self else { return }
             
-            let leadsUrl = weakSelf.instanceURL + APIMethods.query + "?" + weakSelf.formParametersFor(queryType: .lead)
-            let oppUrl   = weakSelf.instanceURL + APIMethods.query + "?" + weakSelf.formParametersFor(queryType: .opportunity)
-            let userUrl  = weakSelf.instanceURL + APIMethods.query + "?" + weakSelf.formParametersFor(queryType: .user)
+            let leadsUrl = weakSelf.formUrl(withQuery: .lead)
+            let oppUrl   = weakSelf.formUrl(withQuery: .opportunity)
+            let userUrl  = weakSelf.formUrl(withQuery: .user)
+            let campUrl  = weakSelf.formUrl(withQuery: .campaign)
             
-            weakSelf.requestSalesForce(urls: [leadsUrl, oppUrl, userUrl])
+            weakSelf.requestSalesForce(urls: [leadsUrl, oppUrl, userUrl, campUrl])
         }
+    }
+    
+    private func formUrl(withQuery type: SFQueryType) -> String {
+        
+        let url = instanceURL + APIMethods.query + "?" + formParametersFor(queryType: type)
+        return url
     }
     
     /// This method returns data for Converted Leads KPI
@@ -424,9 +440,7 @@ class SalesforceRequestManager
                 {
                     guard let name = user.name else { return }
                     
-                    let revenue = sales.reduce(Float(0)) { (result, opp) -> Float in
-                        return result + opp.amount
-                    }
+                    let revenue = sales.reduce(0) { $0 + $1.amount }
                     
                     array.append((leftValue:    name,
                                   centralValue: "\(sales.count)",
@@ -456,6 +470,24 @@ class SalesforceRequestManager
                 array.append((leftValue: industry,
                               centralValue: "",
                               rightValue: "\(leadsByIndustry.count)"))
+            }
+            
+        case .CampaignROI:
+            var campaignTypes = [String]()
+            
+            campaigns.forEach {
+                guard let campType = $0.type,
+                    !campaignTypes.contains(campType) else { return }
+                campaignTypes.append(campType)
+            }
+            
+            campaignTypes.forEach { type in
+                let camps = self.campaigns.filter { $0.type == type }
+                let roi = camps.reduce(0) { $0 + $1.amountWonOpportunities }
+                
+                array.append((leftValue: type,
+                              centralValue: "",
+                              rightValue: "\(roi)"))
             }
             
         default: break

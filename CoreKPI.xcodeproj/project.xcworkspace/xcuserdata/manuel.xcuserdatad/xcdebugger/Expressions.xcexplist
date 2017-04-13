@@ -614,6 +614,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ReportAndViewKPITableViewController.tableView(UITableView, titleForHeaderInSection : Int) -&gt; String?:ReportAndViewKPITableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "model.kpis">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "HubSpotManager.getDataForReport(kpi : HubSpotCRMKPIs, pipelineId : String?) -&gt; [(leftValue : String, centralValue : String, rightValue : String)]:HubspotManager.swift">
          <PersistentStrings>
             <PersistentString
@@ -1823,6 +1831,9 @@
             </PersistentString>
             <PersistentString
                value = "leads">
+            </PersistentString>
+            <PersistentString
+               value = "campaigns">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

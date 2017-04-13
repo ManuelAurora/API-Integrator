@@ -86,5 +86,32 @@ struct User
     }
 }
 
-
+struct Campaign
+{
+    let id:        String!
+    let type:      String!
+    let status:    String!
+    var startDate: Date! = nil
+    let ownerId:   String!
+    let isActive:  Bool!
+    let amountWonOpportunities: Float!
+    
+    init(json: [String: Any]) {
+        
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd"
+        
+        id       = json["Id"]       as? String
+        type     = json["Type"]     as? String
+        status   = json["Status"]   as? String
+        ownerId  = json["OwnerId"]  as? String
+        isActive = json["IsActive"] as? Bool
+        amountWonOpportunities = json["AmountWonOpportunities"] as? Float
+        
+        if let dateString = json["StartDate"] as? String, let date = df.date(from: dateString)
+        {
+            startDate = date
+        }
+    }
+}
 
