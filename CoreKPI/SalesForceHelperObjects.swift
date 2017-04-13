@@ -15,7 +15,7 @@ struct Lead
     var isConverted: Bool! = nil
     var createdDate: Date! = nil
     let status:      String!
-    let industry:    String!
+    var industry:    String!
     
     init(json: [String: Any]) {
         
@@ -26,7 +26,7 @@ struct Lead
         id          = json["Id"]          as? String ?? ""
         isConverted = json["IsConverted"] as? Bool   ?? false
         status      = json["Status"]      as? String ?? ""
-        industry    = json["Status"]      as? String ?? ""
+        industry    = json["Industry"]    as? String ?? ""
         
         if let dateString = json["CreatedDate"] as? String,
             let date = dateFormatter.date(from: dateString)

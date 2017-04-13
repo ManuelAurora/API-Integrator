@@ -432,7 +432,32 @@ class SalesforceRequestManager
                                   centralValue: "\(sales.count)",
                                   rightValue:   "\(revenue)"))
                 }
-            }            
+            }
+            
+        case .NewLeadsByIndustry:
+            var listOfIndustries = [String]()
+                
+            leads.forEach {
+                guard var industry = $0.industry,
+                    !listOfIndustries.contains(industry) else { return }
+                
+                if industry == "" { industry = "Not Set" }
+                
+                listOfIndustries.append(industry)
+            }
+            
+            listOfIndustries.forEach { industry in
+                let leadsByIndustry = leads.filter { lead in
+                    var mutableLead = lead
+                    if mutableLead.industry == "" { mutableLead.industry = "Not Set" }
+                    return mutableLead.industry == industry                    
+                }
+                
+                array.append((leftValue: industry,
+                              centralValue: "",
+                              rightValue: "\(leadsByIndustry.count)"))
+            }
+            
         default: break
         }
         

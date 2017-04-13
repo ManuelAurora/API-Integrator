@@ -1338,6 +1338,9 @@
          contextName = "ExternalRequest.(doOAuthSalesforce(viewController : UIViewController, success : (SalesForceKPI) -&gt; (), failure : (String) -&gt; ()) -&gt; ()).(closure #1):ExternalRequestService.swift">
       </ContextState>
       <ContextState
+         contextName = "SalesforceRequestManager.(getDataForChart(kpi : SalesForceKPIs) -&gt; [(leftValue : String, centralValue : String, rightValue : String)]).(closure #5):SalesforceRequestManager.swift">
+      </ContextState>
+      <ContextState
          contextName = "KPISelectSettingTableViewController.tableView(UITableView, didSelectRowAt : IndexPath) -&gt; ():KPISelectSettingTableViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -1817,6 +1820,9 @@
          <PersistentStrings>
             <PersistentString
                value = "self.users">
+            </PersistentString>
+            <PersistentString
+               value = "leads">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
