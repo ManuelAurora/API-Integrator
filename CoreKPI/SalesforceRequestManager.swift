@@ -28,6 +28,8 @@ enum SFOpportunityStage: String
     case perceptAnalysis   = "Perception Analysis"
     case decisionMakers    = "Id. Decision Makers"
     case proposalPrice     = "Proposal/Price Quote"
+    case closedWon         = "Closed Won"
+    case closedLost        = "Closed Lost"
 }
 
 enum URLParameterKey: String
@@ -47,13 +49,14 @@ enum SFQueryType: String
     case opportunity = "Opportunity"
     case user        = "User"
     case campaign    = "Campaign"
+    case cases       = "Case"
 }
 
 class SalesforceRequestManager
 {
     private var requestCounter: Int = 0 {
         didSet {
-            if requestCounter == 4
+            if requestCounter == 5
             {
                 requestCounter = 0
                 fillRevenueArray()
@@ -109,6 +112,7 @@ class SalesforceRequestManager
     private var revenueByDates = [Revenue]()
     private var users          = [User]()
     private var campaigns      = [Campaign]()
+    private var cases          = [Case]()
     
     private var instanceURL: String!
     private var idURL:       String!
@@ -202,6 +206,9 @@ class SalesforceRequestManager
                                 
                             case .campaign:
                                 self.campaigns.append(Campaign(json: record))
+                                
+                            case .cases:
+                                self.cases.append(Case(json: record))
                             }
                         }
                     }
@@ -254,6 +261,9 @@ class SalesforceRequestManager
             
         case .campaign:
             parameters[.query] = "SELECT Id, Type, Status, OwnerId, IsActive, StartDate, AmountWonOpportunities FROM Campaign WHERE CreatedDate > \(currentMonth)"
+          
+        case .cases:
+            parameters[.query] = "SELECT Id, CaseNumber, IsClosed, ClosedDate, CreatedDate FROM Case WHERE CreatedDate > \(currentMonth)"
         }
         
         return parameters.stringFromHttpParameters()
@@ -266,6 +276,7 @@ class SalesforceRequestManager
         campaigns.removeAll()
         opportunities.removeAll()
         revenueByDates.removeAll()
+        cases.removeAll()
     }
     
     /// This method fetch all data from SalesForce.
@@ -281,8 +292,9 @@ class SalesforceRequestManager
             let oppUrl   = weakSelf.formUrl(withQuery: .opportunity)
             let userUrl  = weakSelf.formUrl(withQuery: .user)
             let campUrl  = weakSelf.formUrl(withQuery: .campaign)
+            let caseUrl  = weakSelf.formUrl(withQuery: .cases)
             
-            weakSelf.requestSalesForce(urls: [leadsUrl, oppUrl, userUrl, campUrl])
+            weakSelf.requestSalesForce(urls: [leadsUrl, oppUrl, userUrl, campUrl, caseUrl])
         }
     }
     
@@ -490,9 +502,85 @@ class SalesforceRequestManager
                               rightValue: "\(roi)"))
             }
             
-        default: break
+        case .KeyMetrics:
+            let openOpps = opportunities.filter { $0.stage != SFOpportunityStage.closedWon.rawValue &&
+                $0.stage != SFOpportunityStage.closedLost.rawValue }
+            
+            let convertedLeads = leads.filter   { $0.isConverted == true }
+            let oopsWon  = opportunities.filter { $0.isWon == true }
+            let oopsLost = opportunities.filter { $0.stage == SFOpportunityStage.closedLost.rawValue }
+            
+            let revenueValue: Float = opportunities.reduce(0) {
+                guard $1.isWon == true else { return $0 }
+                return $0 + $1.amount
+            }
+            
+            var avgCaseTime   = 0
+            var avgTimeValues = [Int]()
+            
+            cases.forEach { sfCase in
+                let openDate    = sfCase.createdDate!
+                let closeDate   = sfCase.closedDate!
+                let resultTime = Calendar.current.dateComponents([.minute],
+                                                                  from: openDate,
+                                                                  to: closeDate)
+                
+                avgTimeValues.append(resultTime.minute!)
+            }
+            
+            if avgTimeValues.count > 0
+            {
+                avgCaseTime = (avgTimeValues.reduce(0) { $0 + $1 }) / avgTimeValues.count
+            }
+            
+            let expectedRevenue: Float = opportunities.reduce(0) { $0 + $1.amount }
+            
+            let avgCaseCloseTimeDate = ((leftValue:    "Avg Case Close Time",
+                                         centralValue: "",
+                                         rightValue:   "\(avgCaseTime)m"))
+            
+            let newCases = ((leftValue:    "New Cases",
+                             centralValue: "",
+                             rightValue:   "\(cases.count)"))
+            
+            let openOppsData = ((leftValue:    "Open Opportunities",
+                                 centralValue: "",
+                                 rightValue:   "\(openOpps.count)"))
+            
+            let revenueData = ((leftValue:    "Revenue",
+                                centralValue: "",
+                                rightValue:   "\(revenueValue)"))
+            
+            let oppsWonData = ((leftValue:    "Opportunities Won",
+                                centralValue: "",
+                                rightValue:   "\(oopsWon.count)"))
+            
+            let oppsLostData = ((leftValue:   "Opportunities Lost",
+                                centralValue: "",
+                                rightValue:   "\(oopsLost.count)"))
+            
+            let newLeadsData = ((leftValue:    "New Leads",
+                                 centralValue: "",
+                                 rightValue:   "\(leads.count)"))
+            
+            let convertedLeadsData = ((leftValue:    "Converted Leads",
+                                       centralValue: "",
+                                       rightValue:   "\(convertedLeads.count)"))
+            
+            let expectedRevenueData    = ((leftValue: "Expected Revenue",
+                                       centralValue:  "",
+                                       rightValue:    "\(expectedRevenue)"))
+            
+            array.append(contentsOf: [openOppsData,
+                                      revenueData,
+                                      oppsWonData,
+                                      oppsLostData,
+                                      newLeadsData,
+                                      convertedLeadsData,
+                                      newCases,
+                                      avgCaseCloseTimeDate,
+                                      expectedRevenueData])
         }
-        
         return array
     }
 }

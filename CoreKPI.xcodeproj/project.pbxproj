@@ -23,6 +23,7 @@
 		645CB51B1E8BBB8400ECAFEE /* OAuthSwiftAlamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 645CB5191E8BBB8400ECAFEE /* OAuthSwiftAlamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		645D1C541E6444CE004574C8 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D1C531E6444CE004574C8 /* Helpers.swift */; };
 		645DB20D1E76A405000BEFD4 /* HubspotHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645DB20C1E76A405000BEFD4 /* HubspotHelpers.swift */; };
+		64637DA51E9F9C8C00F33A1C /* Sequence + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64637DA41E9F9C8C00F33A1C /* Sequence + Extension.swift */; };
 		646BF08E1E6E8B4200621FE2 /* HubspotManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */; };
 		646BF0911E6EE64800621FE2 /* HubspotRequestedObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BF0901E6EE64800621FE2 /* HubspotRequestedObjects.swift */; };
 		646E2AC11E7C070C0010E4BE /* Date + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646E2AC01E7C070C0010E4BE /* Date + Extension.swift */; };
@@ -248,6 +249,7 @@
 		645CB5191E8BBB8400ECAFEE /* OAuthSwiftAlamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthSwiftAlamofire.framework; path = Carthage/Build/iOS/OAuthSwiftAlamofire.framework; sourceTree = "<group>"; };
 		645D1C531E6444CE004574C8 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		645DB20C1E76A405000BEFD4 /* HubspotHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotHelpers.swift; sourceTree = "<group>"; };
+		64637DA41E9F9C8C00F33A1C /* Sequence + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence + Extension.swift"; sourceTree = "<group>"; };
 		646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotManager.swift; sourceTree = "<group>"; };
 		646BF08F1E6ECD9500621FE2 /* CoreKPI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CoreKPI.entitlements; sourceTree = "<group>"; };
 		646BF0901E6EE64800621FE2 /* HubspotRequestedObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotRequestedObjects.swift; sourceTree = "<group>"; };
@@ -507,6 +509,7 @@
 				64A32B911E5B394B008438DA /* String + Extension.swift */,
 				64E08EBE1E5C3D4B00FE1F8E /* Dictionary + Extension.swift */,
 				646E2AC01E7C070C0010E4BE /* Date + Extension.swift */,
+				64637DA41E9F9C8C00F33A1C /* Sequence + Extension.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -1151,6 +1154,7 @@
 				A2279D821E14E86400669EB0 /* TeamListNavigationViewController.swift in Sources */,
 				A274DC111E082617008CBF36 /* MemberListTableViewController.swift in Sources */,
 				A2C6A5F71E6D9C33005475B6 /* PayPalAuthViewController.swift in Sources */,
+				64637DA51E9F9C8C00F33A1C /* Sequence + Extension.swift in Sources */,
 				A2263B0E1E3B7685005C812D /* SupportNavigationViewController.swift in Sources */,
 				A26D282A1E0D551D005342BA /* KPIListTableViewCell.swift in Sources */,
 				647B58911E65BA89001C968B /* QuickBookRequestHandler.swift in Sources */,

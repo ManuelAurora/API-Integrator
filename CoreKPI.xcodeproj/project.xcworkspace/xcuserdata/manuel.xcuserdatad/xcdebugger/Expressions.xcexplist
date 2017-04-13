@@ -1830,10 +1830,13 @@
                value = "self.users">
             </PersistentString>
             <PersistentString
-               value = "leads">
+               value = "opportunities">
             </PersistentString>
             <PersistentString
                value = "campaigns">
+            </PersistentString>
+            <PersistentString
+               value = "leads">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

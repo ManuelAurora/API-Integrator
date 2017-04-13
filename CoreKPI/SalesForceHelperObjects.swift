@@ -99,6 +99,7 @@ struct Campaign
     init(json: [String: Any]) {
         
         let df = DateFormatter()
+        
         df.dateFormat = "yyyy-MM-dd"
         
         id       = json["Id"]       as? String
@@ -111,6 +112,38 @@ struct Campaign
         if let dateString = json["StartDate"] as? String, let date = df.date(from: dateString)
         {
             startDate = date
+        }
+    }
+}
+
+struct Case
+{
+    let id:          String!
+    let number:      String!
+    var closedDate:  Date! = nil
+    var createdDate: Date! = nil
+    let isClosed:    Bool!
+    
+    init(json: [String: Any]) {
+        
+        let df = DateFormatter()
+        
+        df.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"
+        
+        id       = json["Id"]         as? String
+        number   = json["CaseNumber"] as? String
+        isClosed = json["IsClosed"]   as? Bool
+        
+        if let closedDateString = json["ClosedDate"] as? String,
+            let date = df.date(from: closedDateString)
+        {
+            closedDate = date
+        }
+        
+        if let createdDateString = json["CreatedDate"] as? String,
+            let date = df.date(from: createdDateString)
+        {
+            createdDate = date
         }
     }
 }
