@@ -133,8 +133,7 @@ class PayPal: ExternalRequest {
             let numberFormatter = NumberFormatter()
             numberFormatter.numberStyle = .decimal
             numberFormatter.maximumFractionDigits = 3
-            
-            //FIXME: / 0 = CRASH
+                        
             var salesValue = 0
             var feesValue = 0
             var refundsValue = 0

@@ -19,23 +19,25 @@ class LaunchViewController: UIViewController {
     lazy var mainTabBar: MainTabBarViewController = {
         let mtbvc = self.storyboard?.instantiateViewController(withIdentifier: .mainTabBarController) as! MainTabBarViewController
         mtbvc.appDelegate = self.appDelegate
-        mtbvc.model = self.userStateMachine.model
-        
+        mtbvc.model       = self.userStateMachine.model
         return mtbvc
     }()
     
     lazy var signInUpViewController: SignInUpViewController = {
-        
         let siuvc = self.storyboard?.instantiateViewController(withIdentifier: .signInUpViewController) as! SignInUpViewController
-        siuvc.launchController = self
-        siuvc.model = self.userStateMachine.model
+        siuvc.launchController       = self
+        siuvc.model                  = self.userStateMachine.model        
         return siuvc
     }()
     
     lazy var signInViewController: SignInViewController = {
         let sivc = self.storyboard?.instantiateViewController(withIdentifier: .signInViewController) as! SignInViewController
-        
         return sivc
+    }()
+    
+    lazy var registerViewController: RegisterViewController = {
+        let regVC = self.storyboard?.instantiateViewController(withIdentifier: .registerViewController) as! RegisterViewController
+        return regVC
     }()
     
     override func viewDidLoad() {
@@ -101,15 +103,17 @@ class LaunchViewController: UIViewController {
     
     func presentStartVC() {
         
-        show(signInUpViewController)
+        let navController = UINavigationController()
+        navController.viewControllers = [signInUpViewController]
+        navController.isNavigationBarHidden = true
+        
+        show(navController)
         
         mainTabBar.teamListNavController.popToRootViewController(animated: false)
         mainTabBar.alertsNavController.popToRootViewController(animated: false)
         mainTabBar.supportNavController.popToRootViewController(animated: false)
         mainTabBar.dashboardNavController.popToRootViewController(animated: false)
-        
-        guard let signInViewController = signInUpViewController.signInViewController else { return }
-        
+                
         signInViewController.clearTextFields()
         signInViewController.toggleEnterByKeyButton(isEnabled: userStateMachine.pinCodeAttempts > 0)
     }

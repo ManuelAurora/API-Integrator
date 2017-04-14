@@ -11,7 +11,6 @@ import Alamofire
 
 class NewProfileTableViewController: UITableViewController {
     
-    var delegate: updateModelDelegate!
     var typeOfAccount: TypeOfAccount!
     var model = ModelCoreKPI.modelShared
     
@@ -42,10 +41,6 @@ class NewProfileTableViewController: UITableViewController {
         super.viewDidLoad()
         tableView.tableFooterView = UIView(frame: .zero)
         toggleInterface(enabled: true)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -217,7 +212,8 @@ extension NewProfileTableViewController: UITextFieldDelegate {
 }
 
 //MARK: registerDelegate
-extension NewProfileTableViewController: registerDelegate {
+extension NewProfileTableViewController
+{
     func updateLoginAndPassword(email: String, password: String) {
         self.email = email
         self.password = password

@@ -1270,7 +1270,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <segue destination="hDU-VL-yhS" kind="show" id="3k5-ee-EEG"/>
+                                            <action selector="signIn:" destination="XjM-3J-9ce" eventType="touchUpInside" id="G6e-Yl-uF4"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vVd-Hk-QI3">
@@ -1299,7 +1299,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <segue destination="izu-K9-I0k" kind="presentation" id="jgU-QK-nbY"/>
+                                            <action selector="register:" destination="XjM-3J-9ce" eventType="touchUpInside" id="k15-48-y5E"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1339,6 +1339,8 @@ The main advantage of a computer audio player is that you can play your audio CD
                             <constraint firstItem="8OB-in-ASZ" firstAttribute="centerX" secondItem="fbE-Se-atQ" secondAttribute="centerX" constant="-90.5" id="qI9-bN-3f9"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="njL-Ke-Ufb"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="registerButton" destination="VjJ-s8-6Yk" id="VVh-Ts-777"/>
                         <outlet property="signInButton" destination="nHQ-OJ-CSb" id="Ut1-IP-6DO"/>
@@ -1346,12 +1348,12 @@ The main advantage of a computer audio player is that you can play your audio CD
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A87-go-QDd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2863" y="123"/>
+            <point key="canvasLocation" x="-2042" y="123"/>
         </scene>
         <!-- -->
         <scene sceneID="fLu-9G-eHQ">
             <objects>
-                <viewController id="Sac-hW-KJs" customClass="RegisterViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Sac-hW-KJs" customClass="RegisterViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="7W2-0G-tKx"/>
                         <viewControllerLayoutGuide type="bottom" id="7M3-aP-U3W"/>
@@ -1424,9 +1426,6 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 <state key="normal" title="I’m already registered">
                                     <color key="titleColor" red="0.0" green="0.72549019609999998" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <connections>
-                                    <segue destination="hDU-VL-yhS" kind="presentation" id="Xff-M0-iKw"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1457,7 +1456,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IQO-SO-V5b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-898" y="564"/>
+            <point key="canvasLocation" x="-1031" y="564"/>
         </scene>
         <!--Profile-->
         <scene sceneID="FFK-vh-1uD">
@@ -1940,7 +1939,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IAq-0r-mAJ">
-                                <rect key="frame" x="65" y="259" width="246" height="26"/>
+                                <rect key="frame" x="65" y="215" width="246" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="7J9-UV-SmK"/>
                                     <constraint firstAttribute="width" constant="245.80000000000001" id="q4T-3F-13r"/>
@@ -1962,7 +1961,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="APg-82-K9D">
-                                <rect key="frame" x="65" y="297" width="246" height="26"/>
+                                <rect key="frame" x="65" y="253" width="246" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="82g-D3-WB1"/>
                                     <constraint firstAttribute="width" constant="245.80000000000001" id="yqh-xI-rUG"/>
@@ -1984,7 +1983,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="6Zz-t8-Pmm">
-                                <rect key="frame" x="16" y="133" width="343" height="88"/>
+                                <rect key="frame" x="16" y="89" width="343" height="88"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xzd-Ti-zys" customClass="BottomBorderTextField" customModule="CoreKPI">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="44"/>
@@ -2013,7 +2012,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="cQF-Kq-Cpc" userLabel="Auxillary buttons">
-                                <rect key="frame" x="129" y="371" width="119" height="66"/>
+                                <rect key="frame" x="129" y="327" width="119" height="66"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JQ4-UY-pOa">
                                         <rect key="frame" x="0.0" y="0.0" width="119" height="27"/>
@@ -2031,9 +2030,6 @@ The main advantage of a computer audio player is that you can play your audio CD
                                         <state key="normal" title="I want to register">
                                             <color key="titleColor" red="0.0" green="0.72549019607843135" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
-                                        <connections>
-                                            <segue destination="izu-K9-I0k" kind="show" id="qv2-gM-Bl2"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -2628,24 +2624,6 @@ The main advantage of a computer audio player is that you can play your audio CD
             </objects>
             <point key="canvasLocation" x="1751" y="124"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="hQg-Nn-vYj">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="izu-K9-I0k" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="n9A-Dc-lHd">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Sac-hW-KJs" kind="relationship" relationship="rootViewController" id="QC3-Sm-mVZ"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="sMB-K9-nj6" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1607" y="565"/>
-        </scene>
         <!--Support-->
         <scene sceneID="Ujo-ve-uH2">
             <objects>
@@ -2668,6 +2646,7 @@ The main advantage of a computer audio player is that you can play your audio CD
         <!--Navigation Controller-->
         <scene sceneID="Zca-lo-exp">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xol-ws-0jR" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hDU-VL-yhS" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="FFr-NB-xN3">
@@ -2676,12 +2655,11 @@ The main advantage of a computer audio player is that you can play your audio CD
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="UUU-Ct-TSs" kind="relationship" relationship="rootViewController" id="HUW-Zy-0m3"/>
+                        <segue destination="XjM-3J-9ce" kind="relationship" relationship="rootViewController" id="kPe-4i-HIE"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xol-ws-0jR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2006" y="-542"/>
+            <point key="canvasLocation" x="-2855" y="123"/>
         </scene>
         <!--Alerts-->
         <scene sceneID="E89-rP-cn3">
@@ -4639,8 +4617,6 @@ Deliveries</string>
         <image name="teamsIcons1" width="25" height="26"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="3k5-ee-EEG"/>
-        <segue reference="qv2-gM-Bl2"/>
         <segue reference="z63-ET-xrJ"/>
         <segue reference="b7M-Dv-TzG"/>
         <segue reference="hOe-3T-3Gf"/>

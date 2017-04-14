@@ -20,6 +20,10 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var enterByKeyButton: UIButton!
     @IBOutlet var auxillaryButtons: [UIButton]!
     
+    deinit {
+        print("DEBUG: SignInVC deinitialized")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -83,8 +87,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     func toggleEnterByKeyButton(isEnabled: Bool) {
         
-        enterByKeyButton.layer.borderColor = isEnabled ? OurColors.violet.cgColor : UIColor.lightGray.cgColor
-        enterByKeyButton.isEnabled = isEnabled
+        enterByKeyButton?.layer.borderColor = isEnabled ? OurColors.violet.cgColor : UIColor.lightGray.cgColor
+        enterByKeyButton?.isEnabled = isEnabled
     }
     
     private func toggleSignInEnterByKeyButtons(isEnabled: Bool) {
@@ -99,6 +103,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     }
     
     func clearTextFields() {
+        
+        guard passwordTextField != nil, emailTextField != nil else { return }
         
         passwordTextField.text = ""
         emailTextField.text = ""

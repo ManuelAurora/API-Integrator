@@ -18,12 +18,23 @@ class RegisterViewController: UIViewController {
     var email: String!
     var password: String!
     
-    var delegate: registerDelegate!
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.navigationItem.hidesBackButton = true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : OurColors.cyan]
+        
+        let attributes = [NSForegroundColorAttributeName : OurColors.cyan]
+        navigationController?.navigationBar.titleTextAttributes = attributes
         registerButton.layer.borderColor = OurColors.cyan.cgColor
+    }
+    
+    deinit {
+        print("DEBUG: RegisterVC deinitialised")
     }
     
     @IBAction func tapRegisterButton(_ sender: Any) {
@@ -47,9 +58,8 @@ class RegisterViewController: UIViewController {
             showAlert(title: errorTitle, errorMessage: "Password and its confirmation must be similar.")
         }
         
-        let vc = storyboard?.instantiateViewController(withIdentifier: .registerViewController) as! NewProfileTableViewController
-        delegate = vc
-        delegate.updateLoginAndPassword(email: email, password: password)
+        let vc = storyboard?.instantiateViewController(withIdentifier: .newProfViewController) as! NewProfileTableViewController
+        vc.updateLoginAndPassword(email: email, password: password)
         navigationController?.pushViewController(vc, animated: true)
     }
 }

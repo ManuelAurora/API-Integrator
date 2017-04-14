@@ -11,11 +11,20 @@ import UIKit
 class SignInUpViewController: UIViewController {
     
     var launchController: LaunchViewController!
-    var signInViewController: SignInViewController!
     var model: ModelCoreKPI!
     
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
+    
+    @IBAction func register(_ sender: UIButton) {        
+        navigationController?.pushViewController(launchController.registerViewController,
+                                                 animated: true)
+    }
+    
+    @IBAction func signIn(_ sender: UIButton) {
+        navigationController?.pushViewController(launchController.signInViewController,
+                                                 animated: true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,8 +36,4 @@ class SignInUpViewController: UIViewController {
         registerButton.layer.borderColor = UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0).cgColor
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     //   let navController = segue.destination as! UINavigationController
-     //   let vc = navController.viewControllers[0] as! RegisterViewController
-    }
-}
+  }

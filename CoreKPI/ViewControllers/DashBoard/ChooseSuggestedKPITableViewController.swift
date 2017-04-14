@@ -179,9 +179,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         
         center = view.center
         
-        let nc = NotificationCenter.default
-        nc.addObserver(forName: .modelDidChanged, object:nil, queue:nil, using: catchNotification)
-        
         createExecutantArray()
         
         tableView.tableFooterView = UIView(frame: .zero)
@@ -291,17 +288,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
             {
                 self.executantArray.append(("\(executantName) \(executantLastName)", false))
             }
-        }
-    }
-    
-    //MARK: - catchNotification
-    func catchNotification(notification:Notification) -> Void {
-        
-        if notification.name == .modelDidChanged
-        {
-            executantArray.removeAll()
-            createExecutantArray()
-            tableView.reloadData()
         }
     }
     
