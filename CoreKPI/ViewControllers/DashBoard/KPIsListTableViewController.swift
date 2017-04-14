@@ -278,12 +278,8 @@ class KPIsListTableViewController: UITableViewController {
         let getReportRequest = GetReports(model: model)
         for kpi in arrayOfKPI {
             getReportRequest.getReportForKPI(withID: kpi.id, success: { reports in
-                kpi.createdKPI?.number = getReportRequest.filterReports(kpi: kpi, reports: reports)
-                self.tableView.reloadData()
-                let nc = NotificationCenter.default
-                nc.post(name: .modelDidChanged,
-                        object: nil,
-                        userInfo: nil)
+                kpi.createdKPI?.number = reports.reversed() //getReportRequest.filterReports(kpi: kpi, reports: reports)
+                self.tableView.reloadData()               
             }, failure: { error in })
         }
     }
@@ -345,10 +341,8 @@ extension KPIsListTableViewController: updateKPIListDelegate {
         self.tableView.reloadData()
     }
     
-    func updateKPIList(kpiArray: [KPI]) {
+    func updateKPIList() {
         
-        self.model.kpis = kpiArray
-        self.arrayOfKPI = kpiArray
         self.tableView.reloadData()
     }
 }

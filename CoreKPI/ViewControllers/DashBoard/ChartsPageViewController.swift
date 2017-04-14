@@ -105,13 +105,26 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         webViewChartTwoVC.rawDataArray.removeAll()
         reportDataManipulator.dataToPresent.removeAll()
         
-        tableViewChartVC.reloadTableView()
         formData()
+        tableViewChartVC.reloadTableView()
+                
+        if kpi.typeOfKPI == .createdKPI
+        {
+            removeWaitingSpinner()
+            refreshControl.endRefreshing()
+        }
     }
     
     private func firstReportIsTable() -> Bool
     {
-        return kpi.KPIViewOne == .Numbers && !webViewChartTwoVC.isAllowed
+        if kpi.typeOfKPI == .createdKPI
+        {
+            return kpi.KPIViewOne == .Numbers
+        }
+        else
+        {
+            return kpi.KPIViewOne == .Numbers && !webViewChartTwoVC.isAllowed
+        }
     }
     
     private func formData() {
@@ -147,7 +160,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 {
                 case .TransactionsByStatus, .PendingByType: chart = .PieChart
                 case .NetSalesTotalSales: chart = .LineChart
-                default: break
+                default: webViewChartTwoVC.isAllowed = false; break
                 }
                 
             case .Quickbooks:
@@ -157,7 +170,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 {
                 case .NetIncome: chart = .LineChart
                 case .NonPaidInvoices, .PaidInvoices: chart = .PieChart
-                default: break
+                default: webViewChartTwoVC.isAllowed = false; break
                 }
                 
             case .GoogleAnalytics:
@@ -167,7 +180,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                 {
                 case .TopChannelsBySessions, .RevenueByChannels: chart = .PieChart
                 case .RevenueTransactions, .UsersSessions:       chart = .LineChart
-                default: break
+                default: webViewChartTwoVC.isAllowed = false; break
                 }
                 
             case .HubSpotCRM:

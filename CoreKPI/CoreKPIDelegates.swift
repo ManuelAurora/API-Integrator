@@ -32,7 +32,7 @@ protocol updateNicknameDelegate {
 }
 
 protocol updateKPIListDelegate {
-    func updateKPIList(kpiArray: [KPI])
+    func updateKPIList()
     func addNewKPI(kpi: KPI)
 }
 

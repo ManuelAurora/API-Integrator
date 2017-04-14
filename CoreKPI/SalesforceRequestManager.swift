@@ -458,6 +458,7 @@ class SalesforceRequestManager
                                   centralValue: "\(sales.count)",
                                   rightValue:   "\(revenue)"))
                 }
+                array.sort { $0 > $1 }
             }
             
         case .NewLeadsByIndustry:
@@ -521,7 +522,7 @@ class SalesforceRequestManager
             cases.forEach { sfCase in
                 let openDate    = sfCase.createdDate!
                 let closeDate   = sfCase.closedDate!
-                let resultTime = Calendar.current.dateComponents([.minute],
+                let resultTime  = Calendar.current.dateComponents([.minute],
                                                                   from: openDate,
                                                                   to: closeDate)
                 

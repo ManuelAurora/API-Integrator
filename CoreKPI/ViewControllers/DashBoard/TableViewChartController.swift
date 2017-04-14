@@ -35,7 +35,7 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
         tableView.addSubview(refreshControl)
         tableView.tableFooterView = UIView(frame: .zero)
     }
-        
+    
     func reloadTableView() {
         
         tableView?.reloadData()

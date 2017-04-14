@@ -68,10 +68,10 @@ class AddReportTableViewController: UITableViewController {
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
         
         if report == nil {
-            self.showAlert(title: "Error", errorMessage: "Add report value!")
+            showAlert(title: "Error", errorMessage: "Add report value!")
         } else {
             delegate = ReportAndViewVC
-            delegate.updateDoubleValue(number: self.report)
+            delegate.updateDoubleValue(number: report)
             _ = navigationController?.popViewController(animated: true)
         }
     }

@@ -134,14 +134,43 @@ class PayPal: ExternalRequest {
             numberFormatter.numberStyle = .decimal
             numberFormatter.maximumFractionDigits = 3
             
-            kpis.append(("Net sales", numberFormatter.string(for: curentData?.netSales)!, Int((lastPeriodData?.netSales)!/((curentData?.netSales)!/100))))
-            kpis.append(("Fees", numberFormatter.string(for: curentData?.fees)!, Int((lastPeriodData?.fees)!/((curentData?.fees)!/100))))
+            //FIXME: / 0 = CRASH
+            var salesValue = 0
+            var feesValue = 0
+            var refundsValue = 0
+            var incomingValue = 0
+            var expensesValue = 0
             
-            kpis.append(("Refunds", numberFormatter.string(for: curentData?.refunds)!, Int((lastPeriodData?.refunds)!/((curentData?.refunds)!/100))))
-            kpis.append(("Incoming refunds", numberFormatter.string(for: curentData?.incomingRefunds)!, Int((lastPeriodData?.incomingRefunds)!/((curentData?.incomingRefunds)!/100))))
+            if curentData!.netSales > 0
+            {
+                salesValue = Int((lastPeriodData?.netSales)!/((curentData?.netSales)!/100))
+            }
             
+            if curentData!.fees > 0
+            {
+                feesValue = Int((lastPeriodData?.fees)!/((curentData?.fees)!/100))
+            }
             
-            kpis.append(("Expenses", numberFormatter.string(for: curentData?.expenses)!, Int((lastPeriodData?.expenses)!/((curentData?.expenses)!/100))))
+            if curentData!.refunds > 0
+            {
+                refundsValue = Int((lastPeriodData?.refunds)!/((curentData?.refunds)!/100))
+            }
+            
+            if curentData!.incomingRefunds > 0
+            {
+                incomingValue = Int((lastPeriodData?.incomingRefunds)!/((curentData?.incomingRefunds)!/100))
+            }
+            
+            if curentData!.expenses > 0
+            {
+                expensesValue = Int((lastPeriodData?.expenses)!/((curentData?.expenses)!/100))
+            }            
+            
+            kpis.append(("Net sales", numberFormatter.string(for: curentData?.netSales)!, salesValue ))
+            kpis.append(("Fees", numberFormatter.string(for: curentData?.fees)!, feesValue))
+            kpis.append(("Refunds", numberFormatter.string(for: curentData?.refunds)!, refundsValue))
+            kpis.append(("Incoming refunds", numberFormatter.string(for: curentData?.incomingRefunds)!, incomingValue))
+            kpis.append(("Expenses", numberFormatter.string(for: curentData?.expenses)!, expensesValue))
             
             return kpis
         } else {

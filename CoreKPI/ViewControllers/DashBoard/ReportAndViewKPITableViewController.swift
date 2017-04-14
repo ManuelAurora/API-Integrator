@@ -363,12 +363,12 @@ class ReportAndViewKPITableViewController: UITableViewController {
             tableView.isScrollEnabled = true
             self.createExecutantArray()
             let nc = NotificationCenter.default
-            nc.addObserver(forName: .modelDidChanged, object:nil, queue:nil, using:catchNotification)
             
             for i in 1...31 {
                 self.mounthlyIntervalArray.append(("\(i)", false))
             }
         }
+        
         tableView.autoresizesSubviews = true
         tableView.tableFooterView = UIView(frame: .zero)
         updateKPIInfo()
@@ -455,17 +455,6 @@ class ReportAndViewKPITableViewController: UITableViewController {
         case .IntegratedKPI:
             //let integratedKPI = self.kpiArray[kpiIndex].integratedKPI
             break
-        }
-    }
-    
-    //MARK: - catchNotification
-    func catchNotification(notification:Notification) -> Void {
-        
-        if notification.name == .modelDidChanged {
-            self.model.team = model.team
-            executantArray.removeAll()
-            createExecutantArray()
-            tableView.reloadData()
         }
     }
     
@@ -628,15 +617,14 @@ class ReportAndViewKPITableViewController: UITableViewController {
     }
     
     @IBAction func tapRightBarButton(_ sender: UIBarButtonItem) {
-        
-        var newKpi = self.model.kpis[kpiIndex].createdKPI
-        
-        switch buttonDidTaped {
+                
+        switch buttonDidTaped
+        {
         case .Report:
             let request = AddReport(model: model)
-            request.addReportForKPI(withID: self.model.kpis[kpiIndex].id, report: self.report!, success: {
-                newKpi?.addReport(date: Date(), report: self.report!)
-                self.model.kpis[self.kpiIndex].createdKPI = newKpi
+            
+            request.addReportForKPI(withID: model.kpis[kpiIndex].id, report: report!, success: {
+                self.model.kpis[self.kpiIndex].createdKPI?.addReport(date: Date(), report: self.report!)
                 self.prepareToMove()
             }, failure: { error in
                 print(error)
@@ -675,7 +663,8 @@ class ReportAndViewKPITableViewController: UITableViewController {
                         deadlineDay = mounthlyInterval!
                     }
                     let executantProfile: Int! = executant
-                    newKpi = CreatedKPI(source: .User, department: self.department, KPI: self.kpiName!, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, deadlineDay: deadlineDay, timeZone: self.timeZone!, deadlineTime: self.deadlineTime, number: (self.model.kpis[kpiIndex].createdKPI?.number)!)
+                    //FIXME: WTF IS THIS
+                    let newKpi = CreatedKPI(source: .User, department: self.department, KPI: self.kpiName!, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, deadlineDay: deadlineDay, timeZone: self.timeZone!, deadlineTime: self.deadlineTime, number: (self.model.kpis[kpiIndex].createdKPI?.number)!)
                     self.model.kpis[kpiIndex].createdKPI = newKpi
                     self.model.kpis[kpiIndex].KPIViewOne = self.KPIOneView
                     self.model.kpis[kpiIndex].KPIChartOne = self.typeOfChartOne
@@ -705,7 +694,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
     
     func prepareToMove() {
         delegate = KPIListVC
-        delegate.updateKPIList(kpiArray: self.model.kpis)
+        delegate.updateKPIList()
         _ = navigationController?.popViewController(animated: true)
     }
 }
@@ -796,8 +785,9 @@ extension ReportAndViewKPITableViewController: updateSettingsDelegate {
     }
     
     func updateDoubleValue(number: Double?) {
-        self.report = number
+        report = number
         self.tableView.reloadData()
+        
         if report != nil {
             self.navigationItem.rightBarButtonItem?.isEnabled = true
         } else {
