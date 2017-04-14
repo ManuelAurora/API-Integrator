@@ -13,7 +13,7 @@ import Alamofire
 extension UIViewController
 {
     
-    private static var spinner: OvalShapeLayer?
+    @nonobjc static var spinner: OvalShapeLayer?
     
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))

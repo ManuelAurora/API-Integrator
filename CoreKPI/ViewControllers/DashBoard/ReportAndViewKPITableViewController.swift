@@ -362,7 +362,6 @@ class ReportAndViewKPITableViewController: UITableViewController {
             self.navigationItem.title = "KPI Edit"
             tableView.isScrollEnabled = true
             self.createExecutantArray()
-            let nc = NotificationCenter.default
             
             for i in 1...31 {
                 self.mounthlyIntervalArray.append(("\(i)", false))
@@ -616,6 +615,18 @@ class ReportAndViewKPITableViewController: UITableViewController {
         return UITableViewAutomaticDimension
     }
     
+    private func ui(block: Bool) {
+        
+        var point = view.center
+        point.y -= 80
+        
+        if block { addWaitingSpinner(at: point, color: OurColors.cyan) }
+        else     { removeWaitingSpinner() }
+        navigationItem.leftBarButtonItem?.isEnabled  = !block
+        navigationItem.rightBarButtonItem?.isEnabled = !block
+        tableView.isUserInteractionEnabled           = !block
+    }
+    
     @IBAction func tapRightBarButton(_ sender: UIBarButtonItem) {
                 
         switch buttonDidTaped
@@ -623,10 +634,13 @@ class ReportAndViewKPITableViewController: UITableViewController {
         case .Report:
             let request = AddReport(model: model)
             
+            ui(block: true)
             request.addReportForKPI(withID: model.kpis[kpiIndex].id, report: report!, success: {
+                self.ui(block: false)
                 self.model.kpis[self.kpiIndex].createdKPI?.addReport(date: Date(), report: self.report!)
                 self.prepareToMove()
             }, failure: { error in
+                self.ui(block: false)
                 print(error)
                 self.showAlert(title: "Sorry",errorMessage: error)
             }

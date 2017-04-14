@@ -607,6 +607,17 @@
          contextName = "PinCodeViewController.deleteButtonTapped(UIButton) -&gt; ():PinCodeViewController.swift">
       </ContextState>
       <ContextState
+         contextName = "KPIsListTableViewController.(tableView(UITableView, editActionsForRowAt : IndexPath) -&gt; [UITableViewRowAction]?).(closure #1):KPIsListTableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexPath.row">
+            </PersistentString>
+            <PersistentString
+               value = "self.model.kpis">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ChooseSuggestedKPITableViewController.(iterateEnum&lt;A where ...&gt; (A.Type) -&gt; AnyIterator&lt;A&gt;).(closure #1):ChooseSuggestedKPITableViewController.swift">
       </ContextState>
       <ContextState
@@ -739,6 +750,9 @@
       <ContextState
          contextName = "UIViewController.removeWaitingSpinner() -&gt; ():UIViewControllerExtension.swift">
          <PersistentStrings>
+            <PersistentString
+               value = "UIViewController.spinner.frame">
+            </PersistentString>
             <PersistentString
                value = " UIViewController.spinner?.superlayer">
             </PersistentString>
@@ -941,6 +955,26 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ChooseSuggestedKPITableViewController.ui(block : Bool) -&gt; ():ChooseSuggestedKPITableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "view.bounds">
+            </PersistentString>
+            <PersistentString
+               value = "view.center">
+            </PersistentString>
+            <PersistentString
+               value = "view.layer.bounds">
+            </PersistentString>
+            <PersistentString
+               value = "UIViewController.spinner?.position">
+            </PersistentString>
+            <PersistentString
+               value = "center">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "SignInViewController.toggleSignInAnimation() -&gt; ():SignInViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -1021,6 +1055,14 @@
             </PersistentString>
             <PersistentString
                value = "self.leads">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "UIViewController.(removeAllAlamofireNetworking() -&gt; ()).(closure #1).(closure #1):UIViewControllerExtension.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "tasks">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -1241,6 +1283,14 @@
          <PersistentStrings>
             <PersistentString
                value = "params">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ChooseSuggestedKPITableViewController.(tapSaveButton(UIBarButtonItem) -&gt; ()).(closure #1):ChooseSuggestedKPITableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.navigationController">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -1741,6 +1791,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "UIViewController.addWaitingSpinner(at : CGPoint, color : UIColor) -&gt; ():UIViewControllerExtension.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "UIViewController.spinner">
+            </PersistentString>
+            <PersistentString
+               value = "UIViewController.spinner.frame">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "MemberEditViewController.animateChanging() -&gt; ():MemberEditViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -2132,6 +2193,9 @@
                value = "salesForceDataManager">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "UIViewController.(removeAllAlamofireNetworking() -&gt; ()).(closure #1):UIViewControllerExtension.swift">
       </ContextState>
       <ContextState
          contextName = "IntegratedServicesDataManager.(createDataFromRequest(success : ([(leftValue : String, centralValue : String, rightValue : String)]) -&gt; ()) -&gt; ()).(closure #4):IntegratedServicesDataManager.swift">

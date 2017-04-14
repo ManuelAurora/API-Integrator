@@ -86,8 +86,8 @@ class ExternalKPIViewController: OAuthViewController {
                 selectedQBKPIs = serviceKPI.filter { $0.value == true }
                 
             case .HubSpotCRM, .HubSpotMarketing:
-                
-                /*This code causes memory leaking, so when authorisation through WebController will be
+                ui(block: true)
+                /* FIXME: This code causes memory leaking, so when authorisation through WebController will be
                  finished, keep this in mind.
                  if internalWebViewController.parent == nil
                  {
@@ -107,14 +107,26 @@ class ExternalKPIViewController: OAuthViewController {
                 }
             default: break
             }
-            
-            doneButton.isEnabled = false
-            navigationItem.setHidesBackButton(true, animated: true)
             doAuthService()
             
         } else {
             showAlert(title: "Sorry!", errorMessage: "First you should select one or more KPI")
         }
+    }
+    
+    private func ui(block: Bool) {
+        
+        if block
+        {
+            view.layoutIfNeeded()
+            let center = view.center
+            addWaitingSpinner(at: center, color: OurColors.cyan)
+        }
+        else     { removeWaitingSpinner() }
+        
+        doneButton.isEnabled = !block
+        navigationItem.setHidesBackButton(block, animated: true)
+        tableView.isUserInteractionEnabled = !block
     }
     
     private func subscribeToNotifications() {
@@ -127,6 +139,7 @@ class ExternalKPIViewController: OAuthViewController {
     
     @objc private func choosePipelines() {
         
+        ui(block: false)
         let salesFunnel = HubSpotCRMKPIs.SalesFunnel.rawValue
         let dealStageFunnel = HubSpotCRMKPIs.DealStageFunnel.rawValue
         guard (selectedHSKPIs.filter { $0.SettingName == salesFunnel }).count > 0 ||

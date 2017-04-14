@@ -217,6 +217,11 @@ class KPIsListTableViewController: UITableViewController {
         }
     }
     
+    func reloadTableView() {
+        
+        tableView.reloadData()
+    }
+    
     //MARK: - Delete KPI
     func deleteKPI(kpiID: Int) {
         let request = DeleteKPI(model: model)

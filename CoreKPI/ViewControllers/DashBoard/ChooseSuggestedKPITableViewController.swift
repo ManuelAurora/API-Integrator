@@ -45,7 +45,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     }
     
     var delegate: updateKPIListDelegate!
-    
+    var center = CGPoint.zero
     var source = Source.none
     var sourceArray: [(SettingName: String, value: Bool)] = [(Source.User.rawValue, false), (Source.Integrated.rawValue, false)]
     
@@ -176,6 +176,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        center = view.center
         
         let nc = NotificationCenter.default
         nc.addObserver(forName: .modelDidChanged, object:nil, queue:nil, using: catchNotification)
@@ -886,6 +888,20 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         }
     }
     
+    private func ui(block: Bool) {
+      
+        if block
+        {
+            view.layoutIfNeeded()
+            center = view.center
+            center.y += view.frame.height / 2
+            addWaitingSpinner(at: center, color: OurColors.cyan)
+        }
+        else     { removeWaitingSpinner() }
+        tableView.isUserInteractionEnabled = !block
+        navigationItem.rightBarButtonItem?.isEnabled = !block
+    }
+    
     func dataIsEntered() -> Bool {
         switch source {
         case .Integrated:
@@ -971,6 +987,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         case .User:
             var executantProfile: Int!
             
+            ui(block: true)
+            
             for profile in model.team {
                 if executant?.components(separatedBy: " ")[0] == profile.firstName && executant?.components(separatedBy: " ")[1] == profile.lastName {
                     executantProfile = Int(profile.userID)
@@ -1021,10 +1039,13 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 kpi.id = id
                 self.delegate = self.KPIListVC
                 self.delegate.addNewKPI(kpi: kpi)
-                let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
-                _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
+                self.ui(block: false)
+                let kpiListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
+                kpiListVC.loadKPIsFromServer()
+                _ = self.navigationController?.popToViewController(kpiListVC, animated: true)
             }, failure: { error in
-                self.showAlert(title: "Sorry", errorMessage: error)
+                self.ui(block: false)
+                self.showAlert(title: "Error occured", errorMessage: error)
             })
         default:
             break

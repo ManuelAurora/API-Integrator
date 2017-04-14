@@ -44,9 +44,14 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     
     deinit {
         NotificationCenter.default.removeObserver(self)
-        removeAllAlamofireNetworking()
         removeWaitingSpinner()
         print("DEBUG: ChartPageVC deinitialized")
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        removeAllAlamofireNetworking()
     }
         
     override func viewDidLoad() {

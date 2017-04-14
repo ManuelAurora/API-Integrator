@@ -15,7 +15,6 @@ class OvalShapeLayer: CAShapeLayer
     private let radius: CGFloat = 40
     
     init(point: CGPoint, color: UIColor) {
-        
         super.init()
         
         strokeColor     = color.cgColor
@@ -57,10 +56,6 @@ class OvalShapeLayer: CAShapeLayer
         self.pop_add(strokeStartAnimation, forKey: nil)
         self.pop_add(strokeEndAnimation, forKey: nil)
     }
-    
-    deinit {
-        print("DEBUG: DEINIT")
-    }   
 }
 
 extension OvalShapeLayer: CAAnimationDelegate
