@@ -29,45 +29,32 @@ class KPIsListTableViewController: UITableViewController {
             self.navigationItem.rightBarButtonItem = nil
         }
         
+        let attrs = [NSForegroundColorAttributeName : OurColors.cyan]
         let nc = NotificationCenter.default
-        nc.addObserver(forName: .modelDidChanged, object:nil, queue:nil, using:catchNotification)
-        nc.addObserver(forName: .newExternalKPIadded, object: nil, queue: nil, using: catchNotification)
-        
-        //test ->
-        let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.longPress(_:)))
-        longPressGesture.minimumPressDuration = 1 // 1 second press
-        self.tableView.addGestureRecognizer(longPressGesture)
-        //<- test
+        nc.addObserver(forName: .newExternalKPIadded,
+                       object: nil,
+                       queue: nil,
+                       using: catchNotification)
         
         refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
+        refreshControl?.addTarget(self,
+                                  action: #selector(self.refresh),
+                                  for: UIControlEvents.valueChanged)
         refreshControl?.backgroundColor = UIColor.clear
         tableView.addSubview(refreshControl!)
         
         self.navigationController?.hideTransparentNavigationBar()
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : OurColors.cyan]
+        self.navigationController?.navigationBar.titleTextAttributes = attrs
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.backgroundColor = OurColors.gray
-    }
-    
-    //Called, when long press occurred
-    func longPress(_ longPressGestureRecognizer: UILongPressGestureRecognizer) {
-        
-        if longPressGestureRecognizer.state == UIGestureRecognizerState.began {
-            
-            let touchPoint = longPressGestureRecognizer.location(in: self.view)
-            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
-                let cell = tableView.cellForRow(at: indexPath) as! KPIListTableViewCell
-                cell.deleteButton.isHidden = false
-            }
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         if let firstLoad = UserDefaults.standard.data(forKey: "firstLoad"),
             let _ = NSKeyedUnarchiver.unarchiveObject(with: firstLoad) as? Bool {
         } else {
-            let onboardingVC = storyboard?.instantiateViewController(withIdentifier: .onboardPageVC) as! OnboardingPageViewController
+            let onboardingVC = storyboard?.instantiateViewController(
+                withIdentifier: .onboardPageVC) as! OnboardingPageViewController
             present(onboardingVC, animated: true, completion: nil)
             saveData()
         }
@@ -153,17 +140,22 @@ class KPIsListTableViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView,
+                            didSelectRowAt indexPath: IndexPath) {
         
-        let destinationVC = storyboard?.instantiateViewController(withIdentifier: .chartsViewController) as! ChartsPageViewController
+        let destinationVC = storyboard?.instantiateViewController(withIdentifier:
+            .chartsViewController) as! ChartsPageViewController
         
         destinationVC.kpi = arrayOfKPI[indexPath.row]
         navigationController?.pushViewController(destinationVC, animated: true)
     }
     
-    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+    override func tableView(_ tableView: UITableView,
+                            willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         
         let selectCell = tableView.cellForRow(at: indexPath) as! KPIListTableViewCell
+        
+       
         if !selectCell.deleteButton.isHidden {
             return indexPath
         }
@@ -171,8 +163,12 @@ class KPIsListTableViewController: UITableViewController {
         return indexPath
     }
     
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let deleteAction =  UITableViewRowAction(style: .default, title: "Delete", handler: {
+    override func tableView(_ tableView: UITableView,
+                            editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let deleteAction =  UITableViewRowAction(style: .default,
+                                                 title: "Delete",
+                                                 handler: {
             (action, indexPath) -> Void in
             
             if self.arrayOfKPI[indexPath.row].typeOfKPI == .IntegratedKPI {
@@ -202,7 +198,9 @@ class KPIsListTableViewController: UITableViewController {
             cell.reportButton.isHidden = false
             cell.editButton.isHidden = false
             
-            if model.profile?.typeOfAccount == TypeOfAccount.Admin && model.profile?.userId != kpi.createdKPI?.executant {
+            if model.profile?.typeOfAccount == TypeOfAccount.Admin &&
+                model.profile?.userId != kpi.createdKPI?.executant
+            {
                 cell.reportButton.isHidden = true
                 cell.editButton.isHidden = false
             }
@@ -280,10 +278,14 @@ class KPIsListTableViewController: UITableViewController {
     
     //MARK: Load reports
     func loadReports() {
-        let getReportRequest = GetReports(model: model)
-        for kpi in arrayOfKPI {
-            getReportRequest.getReportForKPI(withID: kpi.id, success: { reports in
-                kpi.createdKPI?.number = reports.reversed() //getReportRequest.filterReports(kpi: kpi, reports: reports)
+        
+        let request = GetReports(model: model)
+        
+        for kpi in arrayOfKPI
+        {
+            request.getReportForKPI(withID: kpi.id, success: { reports in
+                kpi.createdKPI?.number = reports.reversed()
+                //getReportRequest.filterReports(kpi: kpi, reports: reports)
                 self.tableView.reloadData()               
             }, failure: { error in })
         }
@@ -323,7 +325,7 @@ class KPIsListTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AddKPI" {
             let destinationVC = segue.destination as! ChooseSuggestedKPITableViewController
-            destinationVC.model = model
+            destinationVC.model = model            
             destinationVC.KPIListVC = self
         }
     }
@@ -358,7 +360,7 @@ extension KPIsListTableViewController: KPIListButtonCellDelegate {
     func userTapped(button: UIButton, edit: Bool) {
         
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: .reportViewController) as! ReportAndViewKPITableViewController
-        destinatioVC.model = model
+        destinatioVC.model = model        
         destinatioVC.kpiIndex = button.tag
         destinatioVC.buttonDidTaped = edit ? ButtonDidTaped.Edit : ButtonDidTaped.Report
         destinatioVC.KPIListVC = self

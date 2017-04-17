@@ -8,14 +8,16 @@
 
 import UIKit
 
-class OnboardingPageViewController: UIPageViewController, UIPageViewControllerDataSource {
-
+class OnboardingPageViewController: UIPageViewController, UIPageViewControllerDataSource
+{    
     let onboardingLodo = [#imageLiteral(resourceName: "onboarding1"), #imageLiteral(resourceName: "onboarding2"), #imageLiteral(resourceName: "onboarding3")]
     let onboardingText = [
         "Save money for your business by using CoreKPI. It has never been easier.",
         "Save your valuable time and energy with CoreKPI to focus on important things.",
         "Choose the best direction for your business with full control of your KPIs from a palm of your hand."
     ]
+    
+    var selfType = OnboardingPageViewController.self
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,12 +26,8 @@ class OnboardingPageViewController: UIPageViewController, UIPageViewControllerDa
         
         self.setViewControllers([getViewControllerAtIndex(0)] as [UIViewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
         self.view.backgroundColor = UIColor(red: 0/255.0, green: 188.0/255.0, blue: 212.0/255.0, alpha: 1.0)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
+    }    
+    
     // MARK:- UIPageViewControllerDataSource Methods
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController?
     {

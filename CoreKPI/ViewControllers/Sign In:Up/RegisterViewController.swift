@@ -22,6 +22,7 @@ class RegisterViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        clearTextFields()
         navigationItem.setHidesBackButton(true, animated: false)
         navigationController?.isNavigationBarHidden = false        
     }
@@ -36,6 +37,16 @@ class RegisterViewController: UIViewController {
     
     deinit {
         print("DEBUG: RegisterVC deinitialised")
+    }
+    
+    private func clearTextFields() {
+        
+        guard passwordTextField != nil, emailTextField != nil else { return }
+        
+        passwordTextField.text = ""
+        repeatPasswordTextField.text = ""
+        emailTextField.text = ""
+        emailTextField.becomeFirstResponder()
     }
     
     @IBAction func registeredButtonTapped(_ sender: UIButton) {
@@ -60,8 +71,12 @@ class RegisterViewController: UIViewController {
         
         let repeatPassword = repeatPasswordTextField.text
         
-        if email == "" && password == "" && repeatPassword == "" {
-            showAlert(title: errorTitle, errorMessage: "To successfully register, please enter your email address, a password, and its confirmation.")
+        if email == "" && password == "" && repeatPassword == ""
+        {
+            showAlert(title: errorTitle,
+                      errorMessage: "To successfully register, please enter" +
+                                    " your email address, a password, and" +
+                                    " its confirmation.")
         }
         
         if !validate(email: email) {
@@ -73,11 +88,14 @@ class RegisterViewController: UIViewController {
         {
             showAlert(title: errorTitle,
                       errorMessage: "To proceed, fill password and" +
-                                    "confirmation text fields.")
+                                    " confirmation text fields.")
         }
         
-        if password != repeatPassword {
-            showAlert(title: errorTitle, errorMessage: "Password and its confirmation must be similar.")
+        if password != repeatPassword
+        {
+            showAlert(title: errorTitle,
+                      errorMessage: "Password and its confirmation" +
+                                    " must be similar.")
         }
         
         let vc = storyboard?.instantiateViewController(withIdentifier: .newProfViewController) as! NewProfileTableViewController

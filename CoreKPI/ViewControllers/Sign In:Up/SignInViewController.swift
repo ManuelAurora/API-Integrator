@@ -34,6 +34,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        clearTextFields()
         navigationItem.setHidesBackButton(true, animated: false)
         navigationController?.isNavigationBarHidden = false 
         configure(buttons: [signInButton, enterByKeyButton])

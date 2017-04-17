@@ -1374,7 +1374,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <outlet property="delegate" destination="Sac-hW-KJs" id="Ude-Eu-Bay"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="799-FZ-UZE" customClass="BottomBorderTextField" customModule="CoreKPI">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="799-FZ-UZE" customClass="BottomBorderTextField" customModule="CoreKPI">
                                 <rect key="frame" x="0.0" y="104" width="375" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Iwy-iw-kSx"/>
@@ -1386,7 +1386,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <outlet property="delegate" destination="Sac-hW-KJs" id="Du4-bD-Wco"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Repeat Password" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="El6-Eg-dp3" customClass="BottomBorderTextField" customModule="CoreKPI">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Repeat Password" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="El6-Eg-dp3" customClass="BottomBorderTextField" customModule="CoreKPI">
                                 <rect key="frame" x="0.0" y="144" width="375" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="5Br-6p-eGH"/>

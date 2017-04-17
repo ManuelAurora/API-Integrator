@@ -22,6 +22,8 @@ enum WeeklyInterval: String {
 class ChooseSuggestedKPITableViewController: UITableViewController {
     
     var model: ModelCoreKPI!
+    var kpi: KPI!
+    
     weak var KPIListVC: KPIsListTableViewController!
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     lazy var animator: TransitionAnimator = {
@@ -41,6 +43,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         case WeeklyInterval
         case MounthlyInterval
         case TimeZone = "Time zone"
+        case firstChart = "Visualization 1"
         case Deadline
     }
     
@@ -86,6 +89,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     var kpiName: String?
     var kpiArray: [(SettingName: String, value: Bool)] = []
     var kpiDescription: String?
+    var firstChartName = ""
     
     var executant: String? {
         for member in executantArray {
@@ -165,6 +169,17 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         return nil
     }
     var timeZoneArray: [(SettingName: String, value: Bool)] = [("Hawaii Time (HST)",false), ("Alaska Time (AKST)", false), ("Pacific Time (PST)",false), ("Mountain Time (MST)", false), ("Central Time (CST)", false), ("Eastern Time (EST)",false)]
+    
+     var KPIOneViewArray: [(SettingName: String, value: Bool)] = [(TypeOfKPIView.Numbers.rawValue, true), (TypeOfKPIView.Graph.rawValue, false)]
+    
+    var typeOfChartOneArray: [(SettingName: String, value: Bool)] = [
+        (TypeOfChart.PieChart.rawValue, true),
+        (TypeOfChart.PointChart.rawValue, false),
+        (TypeOfChart.LineChart.rawValue, false),
+        (TypeOfChart.BarChart.rawValue, false),
+        (TypeOfChart.Funnel.rawValue, false),
+        (TypeOfChart.PositiveBar.rawValue, false),
+        (TypeOfChart.AreaChart.rawValue, false)]
     
     var deadline: Date?
     
@@ -303,12 +318,12 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         case .User:
             switch timeInterval {
             case .Daily:
-                return datePickerIsVisible == false ? 9 : 10
+                return datePickerIsVisible ? 11 : 10
             default:
                 if dataPickerIsVisible {
-                    return datePickerIsVisible == false ? 11 : 12
+                    return datePickerIsVisible ? 12 : 11
                 } else {
-                    return datePickerIsVisible == false ? 10 : 11
+                    return datePickerIsVisible ? 11 : 10
                 }
             }
         case .Integrated:
@@ -382,13 +397,18 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 case 5:
                     SuggestedCell.headerOfCell.text = "Executant"
                     SuggestedCell.descriptionOfCell.text = self.executant ?? ""
-                case 6:
+                case 6: 
                     SuggestedCell.headerOfCell.text = "Time Interval"
                     SuggestedCell.descriptionOfCell.text = timeInterval.rawValue
                 case 7:
                     SuggestedCell.headerOfCell.text = "Time Zone"
                     SuggestedCell.descriptionOfCell.text = timeZone ?? ""
+                    
                 case 8:
+                    SuggestedCell.headerOfCell.text = "KPI's 1 st view"
+                    SuggestedCell.descriptionOfCell.text = firstChartName
+                    
+                case 9:
                     SuggestedCell.headerOfCell.text = "Deadline"
                     let dateFormatter = DateFormatter()
                     dateFormatter.timeStyle = .short
@@ -397,7 +417,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     } else {
                         SuggestedCell.descriptionOfCell.text = dateFormatter.string(for: deadline)
                     }
-                case 9:
+                case 10:
                     let datePickerCell = tableView.dequeueReusableCell(withIdentifier: "DatePickerCell", for: indexPath)  as! DatePickerTableViewCell
                     datePickerCell.datePicker.setDate(deadline ?? Date(), animated: true)
                     datePickerCell.addKPIVC = self
@@ -688,7 +708,13 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     typeOfSetting = .TimeZone
                     settingArray = timeZoneArray
                     showSelectSettingVC()
+                    
                 case 8:
+                    typeOfSetting = .firstChart
+                    settingArray = KPIOneViewArray
+                    showSelectSettingVC()
+
+                case 9:
                     showDatePicker(row: indexPath.row)
                     tableView.deselectRow(at: indexPath, animated: true)
                 default:
@@ -1092,7 +1118,11 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
 //MARK: - updateSettingArrayDelegate methods
 extension ChooseSuggestedKPITableViewController: updateSettingsDelegate {
     func updateSettingsArray(array: [(SettingName: String, value: Bool)]) {
-        switch typeOfSetting {
+        switch typeOfSetting
+        {
+        case .firstChart:
+            firstChartName = array.filter { $0.value == true }[0].SettingName
+            
         case .Source:
             self.sourceArray = array
             for source in array {
@@ -1239,6 +1269,7 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate {
     
     func updateStringValue(string: String?) {
         switch typeOfSetting {
+            
         case .KPIName:
             self.kpiName = string
         case .KPINote:

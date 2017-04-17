@@ -12,7 +12,6 @@ import Alamofire
 
 extension UIViewController
 {
-    
     @nonobjc static var spinner: OvalShapeLayer?
     
     func hideKeyboardWhenTappedAround() {
@@ -56,4 +55,5 @@ extension UIViewController
         }
     }
 }
+
 

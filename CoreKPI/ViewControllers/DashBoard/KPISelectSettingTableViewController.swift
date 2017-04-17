@@ -85,7 +85,6 @@ class KPISelectSettingTableViewController: UITableViewController {
         destinatioVC.department = department
         destinatioVC.selectSetting = selectSetting
         navigationController?.pushViewController(destinatioVC, animated: true)
-
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -161,6 +160,8 @@ class KPISelectSettingTableViewController: UITableViewController {
     override func willMove(toParentViewController parent: UIViewController?) {
         if(!(parent?.isEqual(self.parent) ?? false)) {
             if ChoseSuggestedVC != nil {
+                let choosenValue = (selectSetting.filter { $0.value == true })[0]
+                textFieldInputData = choosenValue.SettingName
                 delegate = ChoseSuggestedVC
                 delegate.updateSettingsArray(array: selectSetting)
                 delegate.updateStringValue(string: textFieldInputData)

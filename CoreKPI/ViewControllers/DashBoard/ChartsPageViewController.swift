@@ -11,7 +11,11 @@ import OAuthSwift
 import OAuthSwiftAlamofire
 import Alamofire
 
-class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+class ChartsPageViewController:
+    UIPageViewController,
+    UIPageViewControllerDataSource,
+    UIPageViewControllerDelegate
+{
     
     var kpi: KPI!
     let stateMachine = UserStateMachine.shared
@@ -19,7 +23,8 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     
     lazy var refreshControl: UIRefreshControl = {
         let rc = UIRefreshControl()
-        rc.addTarget(self, action: #selector(self.handleRefresh), for: UIControlEvents.valueChanged)
+        rc.addTarget(self, action: #selector(self.handleRefresh),
+                     for: UIControlEvents.valueChanged)
         rc.tintColor = .clear
         return rc
     }()
@@ -29,16 +34,23 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     }()
     
     lazy var webViewChartOneVC: WebViewChartViewController =  {
-        return self.storyboard?.instantiateViewController(withIdentifier: .webViewController) as! WebViewChartViewController
+        return self.storyboard?.instantiateViewController(
+            withIdentifier: .webViewController) as! WebViewChartViewController
     }()
     
     lazy var webViewChartTwoVC: WebViewChartViewController = {
-        return self.storyboard?.instantiateViewController(withIdentifier: .webViewController) as! WebViewChartViewController
+        return self.storyboard?.instantiateViewController(
+            withIdentifier: .webViewController) as! WebViewChartViewController
     }()
     
     lazy var tableViewChartVC: TableViewChartController = {
-        return self.storyboard?.instantiateViewController(withIdentifier: .chartTableVC) as! TableViewChartController
+        return self.storyboard?.instantiateViewController(
+            withIdentifier: .chartTableVC) as! TableViewChartController
     }()
+    
+    private var dataToPresent: resultArray {
+        return reportDataManipulator.dataToPresent
+    }
     
     var providedControllers = [UIViewController]()
     
@@ -84,15 +96,19 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     }
     
     // MARK:- UIPageViewControllerDataSource & delegate Methods
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            viewControllerBefore viewController: UIViewController) -> UIViewController? {
         return providedControllers[0] == viewController ? nil : providedControllers[0]
     }
     
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
-        if providedControllers.count > 1, providedControllers[1] != viewController
+        if providedControllers.count > 1,
+            providedControllers[1] != viewController
         {
-            guard let vc = providedControllers[1] as? WebViewChartViewController else { return nil }
+            guard let vc = providedControllers[1] as? WebViewChartViewController
+                else { return nil }
             
             return vc.isAllowed ? vc : nil
         }        
@@ -134,26 +150,46 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
     
     private func formData() {
         
+        if let table = kpi.createdKPI?.number
+        {
+            
+            table.forEach {
+                let webChartObj = (leftValue:    "\($0.date)",
+                                   centralValue: "",
+                                   rightValue:   "\($0.number)")
+                
+                tableViewChartVC.reportArray.append($0)
+                webViewChartTwoVC.rawDataArray.append(webChartObj)
+                webViewChartOneVC.rawDataArray.append(webChartObj)
+            }
+        }
+        
         switch kpi.typeOfKPI
         {
         case .createdKPI:
             if firstReportIsTable()
             {
-                kpi.createdKPI?.number.forEach { tableViewChartVC.reportArray.append($0) }
                 tableViewChartVC.header = kpi.createdKPI?.KPI ?? ""
             }
-            else { webViewChartOneVC.typeOfChart = kpi.KPIChartOne!; webViewChartOneVC.isAllowed = true }
+            else
+            {
+                webViewChartOneVC.typeOfChart = kpi.KPIChartOne!
+                webViewChartOneVC.isAllowed = true
+            }
             
             webViewChartTwoVC.isAllowed = true
             webViewChartTwoVC.typeOfChart = kpi.KPIChartTwo!
             
+            
         case .IntegratedKPI:
             tableViewChartVC.typeOfKPI = .IntegratedKPI
             
-            let kpiName  = kpi.integratedKPI.kpiName!
-            let service  = IntegratedServices(rawValue: kpi.integratedKPI.serviceName!)!
+            let kpiName     = kpi.integratedKPI.kpiName!
+            let serviceName = kpi.integratedKPI.serviceName!
+            let service     = IntegratedServices(rawValue: serviceName)!
             
             var chart: TypeOfChart = .PieChart
+            
             webViewChartTwoVC.isAllowed = true
             
             switch service
@@ -265,7 +301,9 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
                             name: .salesForceManagerRecievedData,
                             object: nil)
         
-        nCenter.addObserver(forName: .errorDownloadingFile, object: nil, queue: nil) {
+        nCenter.addObserver(forName: .errorDownloadingFile,
+                            object: nil,
+                            queue: nil) {
             [weak self] _ in
             self?.removeWaitingSpinner()
             self?.refreshControl.endRefreshing()
@@ -279,11 +317,13 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         
         var data: resultArray = []
         
+        let sfManager = reportDataManipulator.salesForceDataManager
+        
         if let kpiName = kpi.integratedKPI.kpiName
         {
             if let kpiValue = SalesForceKPIs(rawValue: kpiName)
             {
-                data = reportDataManipulator.salesForceDataManager.getDataForChart(kpi: kpiValue)
+                data = sfManager.getDataForChart(kpi: kpiValue)
             }
         }
         
@@ -293,7 +333,11 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
             webViewChartTwoVC.rawDataArray.append(contentsOf: data)
             webViewChartTwoVC.refreshView()
         }
-        else { tableViewChartVC.dataArray = data; tableViewChartVC.reloadTableView() }
+        else
+        {
+            tableViewChartVC.dataArray = data
+            tableViewChartVC.reloadTableView()
+        }
     }
     
     @objc private func prepareDataForReportFromHubspot() {
@@ -302,18 +346,22 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         refreshControl.endRefreshing()
         var data: resultArray = []
         
+        let hsManager  = reportDataManipulator.hubspotDataManager
+        let pipeLineId = kpi.integratedKPI.hsPipelineID
+        let kpiName    = kpi.integratedKPI.kpiName!
+        
         if let kpiName  = kpi.integratedKPI.kpiName
         {
             if let kpiValue = HubSpotCRMKPIs(rawValue: kpiName)
             {
-                data = reportDataManipulator.hubspotDataManager.getDataForReport(kpi: kpiValue,
-                                                                                 pipelineId: kpi.integratedKPI.hsPipelineID)
+                data = hsManager.getDataForReport(kpi: kpiValue,
+                                                  pipelineId: pipeLineId)
             }
             else if let kpiValue = HubSpotMarketingKPIs(rawValue: kpiName)
             {
-                data = reportDataManipulator.hubspotDataManager.getDataForReport(kpi: kpiValue,
-                                                                                 pipelineId: kpi.integratedKPI.hsPipelineID)
-            }            
+                data = hsManager.getDataForReport(kpi: kpiValue,
+                                                  pipelineId: pipeLineId)
+            }
             
             tableViewChartVC.dataArray.append(contentsOf: data)
             tableViewChartVC.reloadTableView()
@@ -321,11 +369,11 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         
         if webViewChartTwoVC.isAllowed
         {
-            if let _ = HubSpotCRMKPIs(rawValue: kpi.integratedKPI.kpiName!)
+            if let _ = HubSpotCRMKPIs(rawValue: kpiName)
             {
                 webViewChartTwoVC.service = .HubSpotCRM
             }
-            else if let _ = HubSpotMarketingKPIs(rawValue: kpi.integratedKPI.kpiName!)
+            else if let _ = HubSpotMarketingKPIs(rawValue: kpiName)
             {
                 webViewChartTwoVC.service = .HubSpotMarketing
             }
@@ -347,20 +395,20 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         removeWaitingSpinner()
         refreshControl.endRefreshing()
         
-        tableViewChartVC.dataArray.append(contentsOf: reportDataManipulator.dataToPresent)
+        tableViewChartVC.dataArray.append(contentsOf: dataToPresent)
         tableViewChartVC.reloadTableView()
         
         if webViewChartTwoVC.isAllowed
         {
             webViewChartTwoVC.service = .GoogleAnalytics
-            webViewChartTwoVC.rawDataArray.append(contentsOf: reportDataManipulator.dataToPresent)
+            webViewChartTwoVC.rawDataArray.append(contentsOf: dataToPresent)
             webViewChartTwoVC.refreshView()
         }
         
         if webViewChartOneVC.isAllowed
         {
             webViewChartTwoVC.service = .GoogleAnalytics
-            webViewChartOneVC.rawDataArray.append(contentsOf: reportDataManipulator.dataToPresent)
+            webViewChartOneVC.rawDataArray.append(contentsOf: dataToPresent)
             webViewChartOneVC.refreshView()
         }
     }
@@ -370,20 +418,20 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         removeWaitingSpinner()
         refreshControl.endRefreshing()
         
-        tableViewChartVC.dataArray.append(contentsOf: reportDataManipulator.dataToPresent)
+        tableViewChartVC.dataArray.append(contentsOf: dataToPresent)
         tableViewChartVC.reloadTableView()
         
         if webViewChartTwoVC.isAllowed 
         {
             webViewChartTwoVC.service = .PayPal
-            webViewChartTwoVC.rawDataArray.append(contentsOf: reportDataManipulator.dataToPresent)
+            webViewChartTwoVC.rawDataArray.append(contentsOf: dataToPresent)
             webViewChartTwoVC.refreshView()
         }
         
         if webViewChartOneVC.isAllowed
         {
             webViewChartTwoVC.service = .PayPal
-            webViewChartOneVC.rawDataArray.append(contentsOf: reportDataManipulator.dataToPresent)
+            webViewChartOneVC.rawDataArray.append(contentsOf: dataToPresent)
             webViewChartOneVC.refreshView()
         }
     }
@@ -393,9 +441,10 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         removeWaitingSpinner()
         refreshControl.endRefreshing()
         
+        let qbManager = reportDataManipulator.quickBooksDataManager
         let kpiName  = kpi.integratedKPI.kpiName!
         let kpiValue = QiuckBooksKPIs(rawValue: kpiName)!
-        let data     = reportDataManipulator.quickBooksDataManager.dataFor(kpi: kpiValue)
+        let data     = qbManager.dataFor(kpi: kpiValue)
         
         tableViewChartVC.dataArray.append(contentsOf: data)
         tableViewChartVC.reloadTableView()
@@ -410,7 +459,7 @@ class ChartsPageViewController: UIPageViewController, UIPageViewControllerDataSo
         if webViewChartOneVC.isAllowed
         {
             webViewChartTwoVC.service = .Quickbooks
-            webViewChartOneVC.rawDataArray.append(contentsOf: reportDataManipulator.quickBooksDataManager.paidInvoices)
+            webViewChartOneVC.rawDataArray.append(contentsOf: data)
             webViewChartOneVC.refreshView()
         }
     }

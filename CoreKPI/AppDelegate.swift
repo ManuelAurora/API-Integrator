@@ -214,6 +214,7 @@ extension AppDelegate {
         
         QuickBookDataManager.shared().serviceParameters[.companyId] = findRealmId(in: url)
         applicationHandle(url: url)
+       
         
         return true
     }

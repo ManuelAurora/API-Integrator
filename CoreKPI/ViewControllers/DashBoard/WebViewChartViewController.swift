@@ -202,67 +202,76 @@ class WebViewChartViewController: UIViewController
     }
     
     private func generateDataForJS() -> String {
-        switch typeOfChart {
+        
+        switch typeOfChart
+        {
         case .PieChart:
-             var dataForJS = "var lable = '\(header)'; var data_pie = ["
-             
-             if service == .Quickbooks
-             {
-                let hundredPercent = 100
-                let value  = rawDataArray[0].rightValue
-                let truncatedValue = value.substring(to: value.index(before: value.endIndex))
-                let resultValue = hundredPercent - (Int(truncatedValue) ?? 0)
-                let object = (leftValue: rawDataArray[0].leftValue, centralValue: "", rightValue: truncatedValue)
-                let agonist = (leftValue: "", centralValue: "", rightValue: String(resultValue))
+            var dataForJS = "var lable = '\(header)'; var data_pie = ["
+            
+            if let service = service
+            {
+                if service == .Quickbooks
+                {
+                    let hundredPercent = 100
+                    let value  = rawDataArray[0].rightValue
+                    let truncatedValue = value.substring(to: value.index(before: value.endIndex))
+                    let resultValue = hundredPercent - (Int(truncatedValue) ?? 0)
+                    let object = (leftValue: rawDataArray[0].leftValue, centralValue: "", rightValue: truncatedValue)
+                    let agonist = (leftValue: "", centralValue: "", rightValue: String(resultValue))
+                    
+                    rawDataArray.removeAll()
+                    rawDataArray.append(object)
+                    rawDataArray.append(agonist)
+                }
                 
-                rawDataArray.removeAll()
-                rawDataArray.append(object)
-                rawDataArray.append(agonist)
-             }
-             
-             if service == .HubSpotCRM
-             {
-                let wonDeals  = rawDataArray.filter { $0.centralValue == "Won" }
-                let lostDeals = rawDataArray.filter { $0.centralValue == "Lost" }
-                
-                rawDataArray.removeAll()
-                rawDataArray.append((leftValue: "Won",
-                                     centralValue: "",
-                                     rightValue: "\(wonDeals.count)"))
-                rawDataArray.append((leftValue: "Lost",
-                                     centralValue: "",
-                                     rightValue: "\(lostDeals.count)"))
-             }
-                         
-             for (index,item) in rawDataArray.enumerated() {
+                if service == .HubSpotCRM
+                {
+                    let wonDeals  = rawDataArray.filter { $0.centralValue == "Won" }
+                    let lostDeals = rawDataArray.filter { $0.centralValue == "Lost" }
+                    
+                    rawDataArray.removeAll()
+                    rawDataArray.append((leftValue: "Won",
+                                         centralValue: "",
+                                         rightValue: "\(wonDeals.count)"))
+                    rawDataArray.append((leftValue: "Lost",
+                                         centralValue: "",
+                                         rightValue: "\(lostDeals.count)"))
+                }
+            }
+            
+            for (index,item) in rawDataArray.enumerated() {
                 if index > 0 {
                     dataForJS += ","
                 }
                 let pieData = "{number: '\(item.leftValue)', rate: \(item.rightValue)}"
                 dataForJS += pieData
-             }
-             dataForJS += "];"
-             
-             return dataForJS
+            }
+            dataForJS += "];"
+            
+            return dataForJS
             
         case .PointChart:
-            //TODO: Remove test data
-            //->Debug
-            pointChartData = [
-                ("Algeria","70.6","35468208","6300","blue","2.12","26.247"),
-                ("Belgium","80","10754056","32832","green", "1.76","41.301"),
-                ("France","81.3","63125894","29691","green","1.92","40.112"),
-                ("Honduras","72.9","7754687","3516","firebrick","2.94","20.945"),
-                ("Iran","73.1","74798599","12483","coral","1.57","26.799"),
-                ("Morocco","70.2","32272974","4263","blue","2.12","26.215"),
-                ("Russia","67.6","142835555","14207","green","1.35","38.054"),
-                ("Spain","81.6","46454895","26779","green","1.42","40.174"),
-                ("USA","78.5","313085380","41230","firebrick","2","36.59"),
-                ("Australia","82.1","22268384","34885","violet","1.9","37.776")
-            ]
+            let calendar  = Calendar.current
+            let formatter = DateFormatter()
+            
+            formatter.dateFormat = "yyyy-MM-dd hh:mm:ss Z"
+            
+            pointChartData = rawDataArray.map {
+                let dateStr = $0.leftValue
+                let date    = formatter.date(from: dateStr)!
+                let day     = calendar.component(.day, from: date)
+                
+                return ("Algeria",
+                        $0.rightValue,
+                        "35468208",
+                        "6300",
+                        "blue",
+                        "\(day)",
+                        "50")
+            }
             
             header = "This is PointChart"
-            //<-Debug
+           
             var dataForJS = "var label = '\(header)'; var pointJson = ["
             
             for (index,item) in pointChartData.enumerated() {
@@ -275,26 +284,48 @@ class WebViewChartViewController: UIViewController
             dataForJS += "]"
             return dataForJS
             
-        case .LineChart:            
-            
-            switch service!
+        case .LineChart:
+            if let service = service
             {
-            case .PayPal:
-                lineChartData = formLineChartPaypalData()
-             
-            case .Quickbooks:
-                lineChartData = formLineChartQuickbooksData()
+                switch service
+                {
+                case .PayPal:
+                    lineChartData = formLineChartPaypalData()
+                    
+                case .Quickbooks:
+                    lineChartData = formLineChartQuickbooksData()
+                    
+                case .GoogleAnalytics:
+                    lineChartData = formLineChartGAData()
+                    
+                case .HubSpotCRM, .HubSpotMarketing:
+                    lineChartData = formLineChartHSData()
+                    
+                case .SalesForce:
+                    lineChartData = formLineChartSFData()
+                    
+                default: break
+                }
+            }
+            else
+            {
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd hh:mm:ss Z"
                 
-            case .GoogleAnalytics:
-                lineChartData = formLineChartGAData()
-                
-            case .HubSpotCRM, .HubSpotMarketing:
-                lineChartData = formLineChartHSData()
-                
-            case .SalesForce:
-                lineChartData = formLineChartSFData()
-                
-            default: break
+                let infoboxes = rawDataArray.map { tuple -> InfoBox in
+                    
+                    let dateString = tuple.leftValue
+                    let date       = formatter.date(from: dateString)!
+                    let timeStamp  = date.timeIntervalSince1970
+                    let infoBox    = InfoBox(payer: "",
+                                             value: "",
+                                             netValue: tuple.rightValue,
+                                             timestamp: "\(timeStamp)")
+                    
+                    return infoBox
+                }
+                let sortedArr = infoboxes.sorted {$0.timestamp < $1.timestamp }
+                lineChartData = [sortedArr]
             }
             
             header = "Line chart"
@@ -321,27 +352,11 @@ class WebViewChartViewController: UIViewController
             return dataForJS
             
         case .BarChart:
-            //TODO: Remove test data
-            //->Debug
-            barChartData =
-                [
-                    ("-250", "-230"),
-                    ("-300", "-230"),
-                    ("-220", "-200"),
-                    ("-180", "-160"),
-                    ("200", "180"),
-                    ("-60", "-40"),
-                    ("-260", "-200"),
-                    ("180", "100"),
-                    ("-150", "-100"),
-                    ("300", "150"),
-                    ("-220", "-190"),
-                    ("-180", "-90"),
-                    ("120", "100"),
-                    ("60", "20"),
-                    ("260", "50"),
-                    ("180", "150")
-                ]
+            
+            rawDataArray.forEach {
+                barChartData.append(($0.leftValue, $0.rightValue))
+            }
+            
             header = "This is BarChart"
             //<-Debug
             
@@ -357,8 +372,7 @@ class WebViewChartViewController: UIViewController
             return dataForJS
             
         case .Funnel:
-            //TODO: Remove test data
-            //->Debug
+           
             funnelChartData = rawDataArray.map { tuple -> (name: String, value: String) in
                 return (name: tuple.leftValue, value: tuple.rightValue)
             }
@@ -375,6 +389,7 @@ class WebViewChartViewController: UIViewController
             }
             dataForJS += "];"
             return dataForJS
+            
         case .PositiveBar:
                   
             rawDataArray.forEach {
@@ -394,14 +409,15 @@ class WebViewChartViewController: UIViewController
             dataForJS += "];"
             return dataForJS
         case .AreaChart:
-            //TODO: Remove test data
-            //->Debug
+            
+            
             areaChartData = [
                 ("13-Oct-31","85.44","150","80.57","50"),
                 ("13-Nov-30","130","200.85","168.97","150"),
                 ("13-Dec-31","113.46","350.88","40.57","200"),
                 ("14-Jan-30","140.46","350.88","40.57","100")
             ]
+            
             header = "This is AreaChart"
             //<-Debug
             var dataForJS = "var label = '\(header)'; var data_stack_area = ["
@@ -409,6 +425,7 @@ class WebViewChartViewController: UIViewController
                 if index > 0 {
                     dataForJS += ","
                 }
+                
                 let areaChart = "{'date': '\(item.date)','Kermit': \(item.kermit),'piggy': \(item.piggy),'Gonzo': \(item.gonzo),'Lol': \(item.lol)}"
                 dataForJS += areaChart
             }
