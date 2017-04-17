@@ -21,6 +21,12 @@ class RecoveryPasswordViewController: UIViewController {
         removeAllAlamofireNetworking()        
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.isNavigationBarHidden = false
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

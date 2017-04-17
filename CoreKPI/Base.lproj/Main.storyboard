@@ -1426,6 +1426,9 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 <state key="normal" title="I’m already registered">
                                     <color key="titleColor" red="0.0" green="0.72549019609999998" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="registeredButtonTapped:" destination="Sac-hW-KJs" eventType="touchUpInside" id="K5q-fz-tQp"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2030,6 +2033,9 @@ The main advantage of a computer audio player is that you can play your audio CD
                                         <state key="normal" title="I want to register">
                                             <color key="titleColor" red="0.0" green="0.72549019607843135" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="registerButtonTapped:" destination="UUU-Ct-TSs" eventType="touchUpInside" id="YMr-XG-OMx"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -2646,7 +2652,6 @@ The main advantage of a computer audio player is that you can play your audio CD
         <!--Navigation Controller-->
         <scene sceneID="Zca-lo-exp">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xol-ws-0jR" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hDU-VL-yhS" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="FFr-NB-xN3">
@@ -2658,6 +2663,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                         <segue destination="XjM-3J-9ce" kind="relationship" relationship="rootViewController" id="kPe-4i-HIE"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xol-ws-0jR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2855" y="123"/>
         </scene>

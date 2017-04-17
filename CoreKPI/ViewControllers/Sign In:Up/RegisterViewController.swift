@@ -17,12 +17,13 @@ class RegisterViewController: UIViewController {
     
     var email: String!
     var password: String!
+    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.setNavigationBarHidden(false, animated: false)
-        navigationController?.navigationItem.hidesBackButton = true
+        navigationItem.setHidesBackButton(true, animated: false)
+        navigationController?.isNavigationBarHidden = false        
     }
     
     override func viewDidLoad() {
@@ -35,6 +36,19 @@ class RegisterViewController: UIViewController {
     
     deinit {
         print("DEBUG: RegisterVC deinitialised")
+    }
+    
+    @IBAction func registeredButtonTapped(_ sender: UIButton) {
+        
+        if navigationController?.viewControllers[1] is SignInViewController
+        {
+            navigationController?.popViewController(animated: true)
+        }
+        else
+        {
+            let controller = appDelegate.launchViewController.signInViewController
+            navigationController?.pushViewController(controller, animated: true)
+        }        
     }
     
     @IBAction func tapRegisterButton(_ sender: Any) {
@@ -50,9 +64,17 @@ class RegisterViewController: UIViewController {
             showAlert(title: errorTitle, errorMessage: "To successfully register, please enter your email address, a password, and its confirmation.")
         }
         
-        if !validate(email: email) { showAlert(title: errorTitle, errorMessage: "Invalid e-mail adress.") }
+        if !validate(email: email) {
+            showAlert(title: errorTitle,
+                      errorMessage: "Invalid e-mail adress.")
+        }
         
-        if !validate(password: password) { showAlert(title: errorTitle, errorMessage: "To proceed, fill password and confirmation text fields.") }
+        if !validate(password: password)
+        {
+            showAlert(title: errorTitle,
+                      errorMessage: "To proceed, fill password and" +
+                                    "confirmation text fields.")
+        }
         
         if password != repeatPassword {
             showAlert(title: errorTitle, errorMessage: "Password and its confirmation must be similar.")

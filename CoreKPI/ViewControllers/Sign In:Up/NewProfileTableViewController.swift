@@ -30,6 +30,12 @@ class NewProfileTableViewController: UITableViewController {
         print("DEBUG: NewProfileTableVC deinitialised")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+         navigationController?.isNavigationBarHidden = false
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -39,6 +45,7 @@ class NewProfileTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.tableFooterView = UIView(frame: .zero)
         toggleInterface(enabled: true)
     }

@@ -34,6 +34,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        navigationItem.setHidesBackButton(true, animated: false)
+        navigationController?.isNavigationBarHidden = false 
         configure(buttons: [signInButton, enterByKeyButton])
         toggleEnterByKeyButton(isEnabled: stateMachine.pinCodeAttempts > 0)
     }    
@@ -48,6 +50,19 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             tapSignInButton(signInButton)
         }
         return true
+    }
+   
+    @IBAction func registerButtonTapped(_ sender: UIButton) {
+        
+        if navigationController?.viewControllers[1] is RegisterViewController
+        {
+            navigationController?.popViewController(animated: true)
+        }
+        else
+        {
+            let controller = appDelegate.launchViewController.registerViewController
+            navigationController?.pushViewController(controller, animated: true)
+        }
     }
     
     @IBAction func enterByKeyButtonTapped(_ sender: UIButton) {
