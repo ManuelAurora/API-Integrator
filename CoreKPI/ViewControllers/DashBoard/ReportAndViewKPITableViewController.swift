@@ -678,7 +678,17 @@ class ReportAndViewKPITableViewController: UITableViewController {
                     }
                     let executantProfile: Int! = executant
                     //FIXME: WTF IS THIS
-                    let newKpi = CreatedKPI(source: .User, department: self.department, KPI: self.kpiName!, descriptionOfKPI: self.kpiDescription, executant: executantProfile, timeInterval: self.timeInterval, deadlineDay: deadlineDay, timeZone: self.timeZone!, deadlineTime: self.deadlineTime, number: (self.model.kpis[kpiIndex].createdKPI?.number)!)
+                    let newKpi = CreatedKPI(source: .User,
+                                            department: self.department,
+                                            KPI: self.kpiName!,
+                                            descriptionOfKPI: self.kpiDescription,
+                                            executant: executantProfile,
+                                            timeInterval: self.timeInterval,
+                                            deadlineDay: deadlineDay,
+                                            timeZone: self.timeZone!,
+                                            deadlineTime: self.deadlineTime,
+                                            number: (self.model.kpis[kpiIndex].createdKPI?.number)!)                    
+                    
                     self.model.kpis[kpiIndex].createdKPI = newKpi
                     self.model.kpis[kpiIndex].KPIViewOne = self.KPIOneView
                     self.model.kpis[kpiIndex].KPIChartOne = self.typeOfChartOne

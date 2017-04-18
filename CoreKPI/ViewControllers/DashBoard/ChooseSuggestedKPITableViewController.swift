@@ -44,13 +44,16 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         case MounthlyInterval
         case TimeZone = "Time zone"
         case firstChart = "Visualization 1"
+        case secondChart = "Visualization 2"
         case Deadline
     }
     
     var delegate: updateKPIListDelegate!
     var center = CGPoint.zero
     var source = Source.none
-    var sourceArray: [(SettingName: String, value: Bool)] = [(Source.User.rawValue, false), (Source.Integrated.rawValue, false)]
+    var sourceArray: [(SettingName: String, value: Bool)] = [
+        (Source.User.rawValue, false),
+        (Source.Integrated.rawValue, false)]
     
     //MARK: - integarted services
     var integrated = IntegratedServices.none
@@ -89,10 +92,25 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     var kpiName: String?
     var kpiArray: [(SettingName: String, value: Bool)] = []
     var kpiDescription: String?
-    var firstChartName = ""
+    var firstChartType: TypeOfKPIView?
+    var secondChartType = ""
+    var firstChartName = "" {
+        didSet {
+            if firstChartName == "Numbers"
+            {
+                firstChartType = .Numbers
+            }
+            else
+            {
+                firstChartType = .Graph
+            }
+        }
+    }
+    var secondChartName = ""
     
     var executant: String? {
-        for member in executantArray {
+        for member in executantArray
+        {
             if member.value == true {
                 return member.SettingName
             }
@@ -170,7 +188,9 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     }
     var timeZoneArray: [(SettingName: String, value: Bool)] = [("Hawaii Time (HST)",false), ("Alaska Time (AKST)", false), ("Pacific Time (PST)",false), ("Mountain Time (MST)", false), ("Central Time (CST)", false), ("Eastern Time (EST)",false)]
     
-     var KPIOneViewArray: [(SettingName: String, value: Bool)] = [(TypeOfKPIView.Numbers.rawValue, true), (TypeOfKPIView.Graph.rawValue, false)]
+     var KPIOneViewArray: [(SettingName: String, value: Bool)] = [
+        (TypeOfKPIView.Numbers.rawValue, false),
+        (TypeOfKPIView.Graph.rawValue, false)]
     
     var typeOfChartOneArray: [(SettingName: String, value: Bool)] = [
         (TypeOfChart.PieChart.rawValue, true),
@@ -205,7 +225,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     
     //MARK: - Create arrays for external services KPI
     func createExternalServicesArrays() {
-        
+               
         for saleforceKPI in iterateEnum(SalesForceKPIs.self) {
             saleForceKPIArray.append((saleforceKPI.rawValue, false))
         }
@@ -318,12 +338,12 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         case .User:
             switch timeInterval {
             case .Daily:
-                return datePickerIsVisible ? 11 : 10
+                return datePickerIsVisible ? 12 : 11
             default:
                 if dataPickerIsVisible {
-                    return datePickerIsVisible ? 12 : 11
+                    return datePickerIsVisible ? 13 : 12
                 } else {
-                    return datePickerIsVisible ? 11 : 10
+                    return datePickerIsVisible ? 12 : 11
                 }
             }
         case .Integrated:
@@ -409,6 +429,10 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     SuggestedCell.descriptionOfCell.text = firstChartName
                     
                 case 9:
+                    SuggestedCell.headerOfCell.text = "KPI's 2 st view"
+                    SuggestedCell.descriptionOfCell.text = secondChartName
+                    
+                case 10:
                     SuggestedCell.headerOfCell.text = "Deadline"
                     let dateFormatter = DateFormatter()
                     dateFormatter.timeStyle = .short
@@ -417,7 +441,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     } else {
                         SuggestedCell.descriptionOfCell.text = dateFormatter.string(for: deadline)
                     }
-                case 10:
+                case 11:
                     let datePickerCell = tableView.dequeueReusableCell(withIdentifier: "DatePickerCell", for: indexPath)  as! DatePickerTableViewCell
                     datePickerCell.datePicker.setDate(deadline ?? Date(), animated: true)
                     datePickerCell.addKPIVC = self
@@ -643,10 +667,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 }
             }
             
-            if datePickerIsVisible {
-                datePickerIsVisible = false
-                tableView.deleteRows(at: [newIndexPath], with: .top)
-            }
             if dataPickerIsVisible {
                 dataPickerIsVisible = false
                 tableView.deleteRows(at: [newIndexPath], with: .top)
@@ -712,14 +732,23 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 case 8:
                     typeOfSetting = .firstChart
                     settingArray = KPIOneViewArray
+                    tableView.deselectRow(at: indexPath, animated: true)
                     showSelectSettingVC()
 
                 case 9:
+                    typeOfSetting = .secondChart
+                    settingArray = KPIOneViewArray
+                    tableView.deselectRow(at: indexPath, animated: true)
+                    showSelectSettingVC()
+                    
+                case 10:
                     showDatePicker(row: indexPath.row)
                     tableView.deselectRow(at: indexPath, animated: true)
+                    
                 default:
                     break
                 }
+                
             case .Weekly, .Monthly:
                 if dataPickerIsVisible {
                     switch indexPath.row {
@@ -1036,7 +1065,17 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 }
             }
             
-            let userKPI = CreatedKPI(source: .User, department: department, KPI: kpiName!, descriptionOfKPI: kpiDescription, executant: executantProfile, timeInterval: timeInterval, deadlineDay: deadlineDay, timeZone: timeZone!, deadlineTime: deadline!, number: [])
+            let userKPI = CreatedKPI(source: .User,
+                                     department: department,
+                                     KPI: kpiName!,
+                                     descriptionOfKPI: kpiDescription,
+                                     executant: executantProfile,
+                                     timeInterval: timeInterval,
+                                     deadlineDay: deadlineDay,
+                                     timeZone: timeZone!,
+                                     deadlineTime: deadline!,
+                                     number: [])
+            
             var imageBacgroundColour: UIColor = .clear
             if userKPI.executant == model.profile?.userId {
                 imageBacgroundColour = UIColor(hex: "E3F2FD".hex!)
@@ -1044,7 +1083,16 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                 imageBacgroundColour = UIColor(hex: "FBE9E7".hex!)
             }
             
-            kpi = KPI(kpiID: 0, typeOfKPI: .createdKPI, integratedKPI: nil, createdKPI: userKPI, imageBacgroundColour: imageBacgroundColour)
+            kpi = KPI(kpiID: 0,
+                      typeOfKPI: .createdKPI,
+                      integratedKPI: nil,
+                      createdKPI: userKPI,
+                      imageBacgroundColour: imageBacgroundColour)
+                        
+            kpi.KPIViewOne  = firstChartType!
+            kpi.KPIViewTwo  = .Numbers
+            kpi.KPIChartOne = TypeOfChart(rawValue: firstChartName)!
+            kpi.KPIChartTwo = nil
             
             let request = AddKPI(model: model)
             request.addKPI(kpi: kpi, success: { id in
@@ -1070,6 +1118,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         destinatioVC.ChoseSuggestedVC = self        
         destinatioVC.selectSetting = settingArray
         destinatioVC.segueWithSelecting = true
+        
         switch typeOfSetting {
         case .SuggestedKPI:
             destinatioVC.rowsWithInfoAccesory = true
@@ -1122,6 +1171,9 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate {
         {
         case .firstChart:
             firstChartName = array.filter { $0.value == true }[0].SettingName
+            
+        case .secondChart:
+            secondChartName = array.filter { $0.value == true }[0].SettingName
             
         case .Source:
             self.sourceArray = array
@@ -1263,7 +1315,7 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate {
         }
         
         tableView.reloadData()
-        self.typeOfSetting = .none
+        //self.typeOfSetting = .none
         self.settingArray.removeAll()
     }
     

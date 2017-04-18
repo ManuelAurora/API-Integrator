@@ -25,7 +25,7 @@ class KPISelectSettingTableViewController: UITableViewController {
     var cellsWithColourView = false
     var shoulUseCustomAnimation = false
     var department = Departments.none
-    
+    var isChoosingChart = false    
     var colourDictionary: [Colour : UIColor] = [:]
     
     deinit {
@@ -127,6 +127,10 @@ class KPISelectSettingTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.reloadData()
+        
         if inputSettingCells == true {
             return
         }
@@ -147,26 +151,69 @@ class KPISelectSettingTableViewController: UITableViewController {
             cell.accessoryType = .none
         }
         
-        if rowsWithInfoAccesory || segueWithSelecting {
+        let chart = TypeOfKPIView.Graph.rawValue
+        
+        let typeOfChartArray: [(SettingName: String, value: Bool)] = [
+            (TypeOfChart.PieChart.rawValue, false),
+            (TypeOfChart.PointChart.rawValue, false),
+            (TypeOfChart.LineChart.rawValue, false),
+            (TypeOfChart.BarChart.rawValue, false),
+            (TypeOfChart.Funnel.rawValue, false),
+            (TypeOfChart.PositiveBar.rawValue, false),
+            (TypeOfChart.AreaChart.rawValue, false)]
+        
+        if isChoosingChart
+        {            
+            if let parent = parent as? KPISelectSettingTableViewController
+            {                
+                parent.selectSetting = selectSetting
+            }
+            
+            navigationController?.popToViewController(ChoseSuggestedVC,
+                                                      animated: true)
+        }
+        
+        if selectSetting[indexPath.row].SettingName == chart
+        {
+            isChoosingChart = true
+            
+            let destinatioVC = storyboard?.instantiateViewController(
+                withIdentifier: "SelectSettingForKPI")
+                as! KPISelectSettingTableViewController            
+            
+            destinatioVC.isChoosingChart = true
+            destinatioVC.ChoseSuggestedVC = self.ChoseSuggestedVC
+            destinatioVC.selectSetting = typeOfChartArray
+            navigationController?.pushViewController(destinatioVC,
+                                                     animated: true)
+        }
+        
+        if (rowsWithInfoAccesory || segueWithSelecting) && !isChoosingChart
+        {
             shoulUseCustomAnimation = tableView.visibleCells.count == 2 ? true : false 
             navigationController?.popViewController(animated: true)
         }
-        
-        tableView.deselectRow(at: indexPath, animated: true)
-        tableView.reloadData()
     }
     
     //MARK: - Send data to parent ViewController
     override func willMove(toParentViewController parent: UIViewController?) {
-        if(!(parent?.isEqual(self.parent) ?? false)) {
-            if ChoseSuggestedVC != nil {
-                let choosenValue = (selectSetting.filter { $0.value == true })[0]
-                textFieldInputData = choosenValue.SettingName
+        
+        if(!(parent?.isEqual(self.parent) ?? false))
+        {
+            if ChoseSuggestedVC != nil
+            {
+                let choosenValue = (selectSetting.filter { $0.value == true })
+                guard choosenValue.count > 0 else { return }
+                
+                let settingName = choosenValue[0].SettingName
+                
+                textFieldInputData = settingName
                 delegate = ChoseSuggestedVC
                 delegate.updateSettingsArray(array: selectSetting)
                 delegate.updateStringValue(string: textFieldInputData)
             }
-            if ReportAndViewVC != nil {
+            if ReportAndViewVC != nil
+            {
                 delegate = ReportAndViewVC
                 delegate.updateSettingsArray(array: selectSetting)
                 delegate.updateStringValue(string: textFieldInputData)
