@@ -300,12 +300,13 @@ class ReportAndViewKPITableViewController: UITableViewController {
         get {
             for type in KPITwoViewArray {
                 if type.value == true {
-                    let typeOfKPI: TypeOfKPIView = type.SettingName == "Table" ?
-                        .Numbers : .Graph
+                    let typeOfKPI: TypeOfKPIView = (
+                        type.SettingName == "Table" ||
+                        type.SettingName == "Numbers") ? .Numbers : .Graph
                     return typeOfKPI
                 }
             }
-            return TypeOfKPIView.Graph
+            return nil
         }
         set {
             var newKPITwoViewArray: [(SettingName: String, value: Bool)] = []
@@ -812,10 +813,7 @@ extension ReportAndViewKPITableViewController: updateSettingsDelegate {
             }
             
             KPITwoViewArray = array
-            if KPIOneView == .Numbers && KPITwoView == .Numbers {
-                KPIOneView = .Graph
-            }
-          
+            
         case .ChartTwo:
             typeOfChartTwoArray = array
            

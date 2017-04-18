@@ -598,54 +598,22 @@ extension ReportAndViewKPITableViewController {
                             }
                         }
                     case 3:
-                        if KPIOneView == .Numbers && KPITwoView == .Graph {
-                            switch indexPath.row {
-                            case 0:
-                                typeOfSetting = .KPIViewOne
-                                settingArray = typeOfVisualizationArray
-                                showSelectSettingVC()
-                            case 1:
-                                typeOfSetting = .KPIViewTwo
-                                settingArray = typeOfVisualizationArray
-                                showSelectSettingVC()
-                          
-                            default:
-                                break
-                            }
-                        }
-                        if KPIOneView == .Graph && KPITwoView == .Numbers {
-                            switch indexPath.row {
-                            case 0:
-                                typeOfSetting = .KPIViewOne
-                                settingArray = typeOfVisualizationArray
-                                showSelectSettingVC()
+                        switch indexPath.row
+                        {
+                        case 0:
+                            typeOfSetting = .KPIViewOne
+                            settingArray = typeOfVisualizationArray
+                            showSelectSettingVC()
                             
-                            case 1:
-                                typeOfSetting = .KPIViewTwo
-                                settingArray = typeOfVisualizationArray
-                                showSelectSettingVC()
-                                
-                            default:
-                                break
-
-                            }
+                        case 1:
+                            typeOfSetting = .KPIViewTwo
+                            settingArray = typeOfVisualizationArray
+                            showSelectSettingVC()
+                            
+                        default:
+                            break
                         }
-                        if KPIOneView == .Graph && KPITwoView == .Graph {
-                            switch indexPath.row {
-                            case 0:
-                                typeOfSetting = .KPIViewOne
-                                settingArray = typeOfVisualizationArray
-                                showSelectSettingVC()
-                           
-                            case 1:
-                                typeOfSetting = .KPIViewTwo
-                                settingArray = typeOfVisualizationArray
-                                showSelectSettingVC()
-                           
-                            default:
-                                break
-                            }
-                        }
+                        
                     default:
                         break
                     }
