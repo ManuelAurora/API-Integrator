@@ -70,7 +70,18 @@ class Request
                     else {  failure("Load failed") }
                     
                 case 500..<600:
-                    print(response.result.error ?? "Server error")
+                    print(response.result.value ?? "Server error")
+                    
+                    if let res = response.result.value as? [String: Any],
+                    let message = res["message"] as? String
+                    {
+                        //TODO: Add better explanation to user
+                        if message.contains("Incorrect string value")
+                        {
+                            failure(message)
+                        }
+                    }
+                    
                 default:
                     print("Request error")
                 }

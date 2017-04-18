@@ -730,7 +730,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
                 self.prepareToMove()
             }, failure: { error in
                 print(error)
-                self.showAlert(title: "Sorry",errorMessage: error)
+                self.showAlert(title: "Error Occured",errorMessage: error)
             })
         }        
     }
