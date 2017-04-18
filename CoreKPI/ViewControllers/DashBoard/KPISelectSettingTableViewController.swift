@@ -202,15 +202,18 @@ class KPISelectSettingTableViewController: UITableViewController {
         {
             if ChoseSuggestedVC != nil
             {
-                let choosenValue = (selectSetting.filter { $0.value == true })
-                guard choosenValue.count > 0 else { return }
-                
-                let settingName = choosenValue[0].SettingName
-                
-                textFieldInputData = settingName
                 delegate = ChoseSuggestedVC
+                
+                if textFieldInputData != nil
+                {
+                    delegate.updateStringValue(string: textFieldInputData)
+                }
+                
+                let choosenValue = (selectSetting.filter { $0.value == true })
+                
+                guard choosenValue.count > 0 else { return }
+                                
                 delegate.updateSettingsArray(array: selectSetting)
-                delegate.updateStringValue(string: textFieldInputData)
             }
             if ReportAndViewVC != nil
             {

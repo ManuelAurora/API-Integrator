@@ -93,10 +93,11 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     var kpiArray: [(SettingName: String, value: Bool)] = []
     var kpiDescription: String?
     var firstChartType: TypeOfKPIView?
-    var secondChartType = ""
+    var secondChartType: TypeOfKPIView?
+    
     var firstChartName = "" {
         didSet {
-            if firstChartName == "Numbers"
+            if firstChartName == "Table"
             {
                 firstChartType = .Numbers
             }
@@ -106,7 +107,19 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
             }
         }
     }
-    var secondChartName = ""
+    
+    var secondChartName = "" {
+        didSet {
+            if secondChartName == "Table"
+            {
+                secondChartType = .Numbers
+            }
+            else
+            {
+                secondChartType = .Graph
+            }
+        }
+    }
     
     var executant: String? {
         for member in executantArray
@@ -188,12 +201,9 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     }
     var timeZoneArray: [(SettingName: String, value: Bool)] = [("Hawaii Time (HST)",false), ("Alaska Time (AKST)", false), ("Pacific Time (PST)",false), ("Mountain Time (MST)", false), ("Central Time (CST)", false), ("Eastern Time (EST)",false)]
     
-     var KPIOneViewArray: [(SettingName: String, value: Bool)] = [
-        (TypeOfKPIView.Numbers.rawValue, false),
-        (TypeOfKPIView.Graph.rawValue, false)]
-    
-    var typeOfChartOneArray: [(SettingName: String, value: Bool)] = [
-        (TypeOfChart.PieChart.rawValue, true),
+    var typeOfVisualizationArray: [(SettingName: String, value: Bool)] = [
+        ("Table", false),
+        (TypeOfChart.PieChart.rawValue, false),
         (TypeOfChart.PointChart.rawValue, false),
         (TypeOfChart.LineChart.rawValue, false),
         (TypeOfChart.BarChart.rawValue, false),
@@ -208,9 +218,16 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
     
     var datePickerIsVisible = false
     var dataPickerIsVisible = false
+       
+    @objc private func tappedCancelButton() {
+        
+        prepareAlertController()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.leftBarButtonItem = nil
         
         center = view.center
         
@@ -244,7 +261,30 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         for hubSpotCrmKPI in iterateEnum(HubSpotCRMKPIs.self) {
             hubSpotCRMKPIArray.append((hubSpotCrmKPI.rawValue, false))
         }
-    }   
+    }
+    
+    private func prepareAlertController() {
+        
+        let alertController = UIAlertController(title: "Do you want to cancel?",
+                                                message: "All entered data will be lost",
+                                                preferredStyle: .actionSheet)
+        
+        let yesAction = UIAlertAction(title: "Yes, I'am sure",
+                                      style: .default) { _ in
+                                        self.navigationController?.popViewController(animated: true)
+        }
+        
+        let noAction = UIAlertAction(title: "No, I change my mind",
+                                     style: .cancel) { _ in
+                                        self.dismiss(animated: true,
+                                                     completion: nil)
+        }
+        
+        alertController.addAction(yesAction)
+        alertController.addAction(noAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
     
     //MARK: - updateKPIArray method
     func updateKPIArray() {
@@ -383,7 +423,16 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
         case .none:
             SuggestedCell.headerOfCell.text = "Source"
             SuggestedCell.descriptionOfCell.text = source.rawValue
+            
         case .User:
+            let selector = #selector(self.tappedCancelButton)
+            let cancelB  = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                           target: self,
+                                           action: selector)
+        
+            
+            navigationItem.setHidesBackButton(true, animated: false)
+            navigationItem.setLeftBarButton(cancelB, animated: false)
             SuggestedCell.accessoryType = .disclosureIndicator
             SuggestedCell.trailingToRightConstraint.constant = 0
             switch timeInterval
@@ -601,6 +650,9 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
 
             }
         case .Integrated:
+            navigationItem.leftBarButtonItem = nil
+            navigationItem.setHidesBackButton(false, animated: false)
+            
             switch indexPath.row {
             case 0:
                 SuggestedCell.headerOfCell.text = "Source"
@@ -731,23 +783,22 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                     
                 case 8:
                     typeOfSetting = .firstChart
-                    settingArray = KPIOneViewArray
-                    tableView.deselectRow(at: indexPath, animated: true)
+                    settingArray = typeOfVisualizationArray
                     showSelectSettingVC()
 
                 case 9:
                     typeOfSetting = .secondChart
-                    settingArray = KPIOneViewArray
-                    tableView.deselectRow(at: indexPath, animated: true)
+                    settingArray = typeOfVisualizationArray
+                    
                     showSelectSettingVC()
                     
                 case 10:
                     showDatePicker(row: indexPath.row)
-                    tableView.deselectRow(at: indexPath, animated: true)
                     
                 default:
                     break
                 }
+                tableView.deselectRow(at: indexPath, animated: true)
                 
             case .Weekly, .Monthly:
                 if dataPickerIsVisible {
@@ -1088,11 +1139,16 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
                       integratedKPI: nil,
                       createdKPI: userKPI,
                       imageBacgroundColour: imageBacgroundColour)
-                        
+            
+            
+            
             kpi.KPIViewOne  = firstChartType!
-            kpi.KPIViewTwo  = .Numbers
-            kpi.KPIChartOne = TypeOfChart(rawValue: firstChartName)!
-            kpi.KPIChartTwo = nil
+            kpi.KPIViewTwo  = secondChartType!
+            kpi.KPIChartOne = firstChartName != "Table" ?
+                TypeOfChart(rawValue: firstChartName)! : nil
+            
+            kpi.KPIChartTwo = secondChartName != "Table" ?
+                TypeOfChart(rawValue: secondChartName)! : nil
             
             let request = AddKPI(model: model)
             request.addKPI(kpi: kpi, success: { id in
@@ -1409,6 +1465,7 @@ extension ChooseSuggestedKPITableViewController: UIPickerViewDataSource,UIPicker
         let indexPath = IndexPath(item: 7, section: 0)
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
+    
 }
 
 //extension ChooseSuggestedKPITableViewController: UpdatePayPalAPICredentialsDelegate {

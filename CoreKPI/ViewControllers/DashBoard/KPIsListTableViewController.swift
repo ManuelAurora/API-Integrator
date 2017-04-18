@@ -183,6 +183,7 @@ class KPIsListTableViewController: UITableViewController {
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
         )
+        
         if model.profile?.typeOfAccount == TypeOfAccount.Admin {
             return [deleteAction]
         } else {

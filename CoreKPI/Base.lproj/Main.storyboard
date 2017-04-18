@@ -3080,7 +3080,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="mu1-RR-may">
                                             <rect key="frame" x="24" y="12" width="237" height="83"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sales Volume" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q0I-RY-Oap">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sales Volume" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q0I-RY-Oap">
                                                     <rect key="frame" x="0.0" y="0.0" width="144" height="29"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                     <nil key="textColor"/>
@@ -3198,7 +3198,6 @@ The main advantage of a computer audio player is that you can play your audio CD
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="My KPIs" id="oQT-9r-ilM">
-                        <barButtonItem key="backBarButtonItem" title=" " id="cv0-Ai-Bwa"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="54y-pu-HVR">
                             <connections>
                                 <segue destination="KdU-HZ-aWu" kind="show" identifier="AddKPI" id="xwc-gh-XR4"/>
