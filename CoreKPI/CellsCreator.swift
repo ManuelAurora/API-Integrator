@@ -67,11 +67,8 @@ extension ReportAndViewKPITableViewController {
                             }
                         }
                     case 3:
-                        if KPIOneView == .Numbers && KPITwoView == .Graph || KPIOneView == .Graph && KPITwoView == .Numbers {
-                            return 3
-                        } else {
-                            return 4
-                        }
+                        return 2
+                        
                     default:
                         return 0
                     }
@@ -345,54 +342,55 @@ extension ReportAndViewKPITableViewController {
                             }
                         }
                     case 3:
-                        if KPIOneView == .Numbers && KPITwoView == .Graph {
-                            switch indexPath.row {
-                            case 0:
-                                cell.headerOfCell.text = "KPI's 1 st view"
-                                cell.descriptionOfCell.text = KPIOneView.rawValue
-                            case 1:
-                                cell.headerOfCell.text = "KPI's 2 st view"
-                                cell.descriptionOfCell.text = KPITwoView?.rawValue
-                            case 2:
-                                cell.headerOfCell.text = "Graph type"
-                                cell.descriptionOfCell.text = typeOfChartTwo?.rawValue
-                            default:
-                                break
+                        
+                        let chartOne = typeOfChartOne?.rawValue
+                        let chartTwo = typeOfChartTwo?.rawValue
+                        var descr = ""
+                        
+                        switch indexPath.row {
+                        case 0:
+                            if KPIOneView == .Numbers
+                            {
+                                descr = "Table"
                             }
-                        }
-                        if KPIOneView == .Graph && KPITwoView == .Numbers {
-                            switch indexPath.row {
-                            case 0:
-                                cell.headerOfCell.text = "KPI's 1 st view"
-                                cell.descriptionOfCell.text = KPIOneView.rawValue
-                            case 1:
-                                cell.headerOfCell.text = "Graph type"
-                                cell.descriptionOfCell.text = typeOfChartOne?.rawValue
-                            case 2:
-                                cell.headerOfCell.text = "KPI's 2 st view"
-                                cell.descriptionOfCell.text = KPITwoView?.rawValue
-                            default:
-                                break
+                            else if KPIOneView == .Graph
+                            {
+                                descr = typeOfChartOne?.rawValue ?? ""
                             }
-                        }
-                        if KPIOneView == .Graph && KPITwoView == .Graph {
-                            switch indexPath.row {
-                            case 0:
-                                cell.headerOfCell.text = "KPI's 1 st view"
-                                cell.descriptionOfCell.text = KPIOneView.rawValue
-                            case 1:
-                                cell.headerOfCell.text = "Graph type"
-                                cell.descriptionOfCell.text = typeOfChartOne?.rawValue
-                            case 2:
-                                cell.headerOfCell.text = "KPI's 2 st view"
-                                cell.descriptionOfCell.text = KPITwoView?.rawValue
-                            case 3:
-                                cell.headerOfCell.text = "Graph type"
-                                cell.descriptionOfCell.text = typeOfChartTwo?.rawValue
-                            default:
-                                break
+                            
+                            if chartOne == chartTwo
+                            {
+                                typeOfChartTwo = nil
+                                KPITwoView = nil
+                            }                            
+                            
+                            cell.headerOfCell.text = "KPI's 1 st view"
+                            cell.descriptionOfCell.text = descr
+                            
+                        case 1:
+                            if KPITwoView == .Numbers
+                            {
+                                descr = "Table"
                             }
+                            else if KPITwoView == .Graph
+                            {
+                                descr = typeOfChartTwo?.rawValue ?? ""
+                            }                            
+
+                            if chartOne == chartTwo
+                            {
+                                typeOfChartOne = typeOfChartTwo
+                                KPIOneView     = KPITwoView
+                                typeOfChartTwo = nil
+                                KPITwoView     = nil
+                            }
+                            cell.headerOfCell.text = "KPI's 2 st view"
+                            cell.descriptionOfCell.text = descr
+                            
+                        default:
+                            break
                         }
+                        
                     default:
                         break
                     }
@@ -432,7 +430,7 @@ extension ReportAndViewKPITableViewController {
                                 switch indexPath.row {
                                 case 0:
                                     cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = KPIOneView.rawValue
+                                    cell.descriptionOfCell.text = KPIOneView?.rawValue
                                 case 1:
                                     cell.headerOfCell.text = "KPI's 2 st view"
                                     cell.descriptionOfCell.text = KPITwoView?.rawValue
@@ -447,7 +445,7 @@ extension ReportAndViewKPITableViewController {
                                 switch indexPath.row {
                                 case 0:
                                     cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = KPIOneView.rawValue
+                                    cell.descriptionOfCell.text = KPIOneView?.rawValue
                                 case 1:
                                     cell.headerOfCell.text = "Graph type"
                                     cell.descriptionOfCell.text = typeOfChartOne?.rawValue
@@ -462,7 +460,7 @@ extension ReportAndViewKPITableViewController {
                                 switch indexPath.row {
                                 case 0:
                                     cell.headerOfCell.text = "KPI's 1 st view"
-                                    cell.descriptionOfCell.text = KPIOneView.rawValue
+                                    cell.descriptionOfCell.text = KPIOneView?.rawValue
                                 case 1:
                                     cell.headerOfCell.text = "Graph type"
                                     cell.descriptionOfCell.text = typeOfChartOne?.rawValue
@@ -604,16 +602,13 @@ extension ReportAndViewKPITableViewController {
                             switch indexPath.row {
                             case 0:
                                 typeOfSetting = .KPIViewOne
-                                settingArray = KPIOneViewArray
+                                settingArray = typeOfVisualizationArray
                                 showSelectSettingVC()
                             case 1:
                                 typeOfSetting = .KPIViewTwo
-                                settingArray = KPITwoViewArray
+                                settingArray = typeOfVisualizationArray
                                 showSelectSettingVC()
-                            case 2:
-                                typeOfSetting = .ChartTwo
-                                settingArray = typeOfChartTwoArray
-                                showSelectSettingVC()
+                          
                             default:
                                 break
                             }
@@ -622,16 +617,14 @@ extension ReportAndViewKPITableViewController {
                             switch indexPath.row {
                             case 0:
                                 typeOfSetting = .KPIViewOne
-                                settingArray = KPIOneViewArray
+                                settingArray = typeOfVisualizationArray
                                 showSelectSettingVC()
+                            
                             case 1:
-                                typeOfSetting = .ChartOne
-                                settingArray = typeOfChartOneArray
-                                showSelectSettingVC()
-                            case 2:
                                 typeOfSetting = .KPIViewTwo
-                                settingArray = KPITwoViewArray
+                                settingArray = typeOfVisualizationArray
                                 showSelectSettingVC()
+                                
                             default:
                                 break
 
@@ -641,20 +634,14 @@ extension ReportAndViewKPITableViewController {
                             switch indexPath.row {
                             case 0:
                                 typeOfSetting = .KPIViewOne
-                                settingArray = KPIOneViewArray
+                                settingArray = typeOfVisualizationArray
                                 showSelectSettingVC()
+                           
                             case 1:
-                                typeOfSetting = .ChartOne
-                                settingArray = typeOfChartOneArray
-                                showSelectSettingVC()
-                            case 2:
                                 typeOfSetting = .KPIViewTwo
-                                settingArray = KPITwoViewArray
+                                settingArray = typeOfVisualizationArray
                                 showSelectSettingVC()
-                            case 3:
-                                typeOfSetting = .ChartTwo
-                                settingArray = typeOfChartTwoArray
-                                showSelectSettingVC()
+                           
                             default:
                                 break
                             }

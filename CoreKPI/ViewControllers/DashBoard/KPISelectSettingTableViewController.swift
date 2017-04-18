@@ -151,17 +151,6 @@ class KPISelectSettingTableViewController: UITableViewController {
             cell.accessoryType = .none
         }
         
-        let chart = TypeOfKPIView.Graph.rawValue
-        
-        let typeOfChartArray: [(SettingName: String, value: Bool)] = [
-            (TypeOfChart.PieChart.rawValue, false),
-            (TypeOfChart.PointChart.rawValue, false),
-            (TypeOfChart.LineChart.rawValue, false),
-            (TypeOfChart.BarChart.rawValue, false),
-            (TypeOfChart.Funnel.rawValue, false),
-            (TypeOfChart.PositiveBar.rawValue, false),
-            (TypeOfChart.AreaChart.rawValue, false)]
-        
         if isChoosingChart
         {            
             if let parent = parent as? KPISelectSettingTableViewController
@@ -171,21 +160,6 @@ class KPISelectSettingTableViewController: UITableViewController {
             
             navigationController?.popToViewController(ChoseSuggestedVC,
                                                       animated: true)
-        }
-        
-        if selectSetting[indexPath.row].SettingName == chart
-        {
-            isChoosingChart = true
-            
-            let destinatioVC = storyboard?.instantiateViewController(
-                withIdentifier: "SelectSettingForKPI")
-                as! KPISelectSettingTableViewController            
-            
-            destinatioVC.isChoosingChart = true
-            destinatioVC.ChoseSuggestedVC = self.ChoseSuggestedVC
-            destinatioVC.selectSetting = typeOfChartArray
-            navigationController?.pushViewController(destinatioVC,
-                                                     animated: true)
         }
         
         if (rowsWithInfoAccesory || segueWithSelecting) && !isChoosingChart
@@ -209,17 +183,18 @@ class KPISelectSettingTableViewController: UITableViewController {
                     delegate.updateStringValue(string: textFieldInputData)
                 }
                 
-                let choosenValue = (selectSetting.filter { $0.value == true })
-                
-                guard choosenValue.count > 0 else { return }
-                                
                 delegate.updateSettingsArray(array: selectSetting)
             }
             if ReportAndViewVC != nil
             {
                 delegate = ReportAndViewVC
+                
+                if textFieldInputData != nil
+                {
+                    delegate.updateStringValue(string: textFieldInputData)
+                }
+                                                
                 delegate.updateSettingsArray(array: selectSetting)
-                delegate.updateStringValue(string: textFieldInputData)
             }
         }
     }

@@ -228,15 +228,30 @@ class ReportAndViewKPITableViewController: UITableViewController {
             timeZoneArray = newTimeZoneArray
         }
     }
+    
+    var typeOfVisualizationArray: [(SettingName: String, value: Bool)] = [
+        ("Table", false),
+        (TypeOfChart.PieChart.rawValue, false),
+        (TypeOfChart.PointChart.rawValue, false),
+        (TypeOfChart.LineChart.rawValue, false),
+        (TypeOfChart.BarChart.rawValue, false),
+        (TypeOfChart.Funnel.rawValue, false),
+        (TypeOfChart.PositiveBar.rawValue, false),
+        (TypeOfChart.AreaChart.rawValue, false)]
+    
     var timeZoneArray: [(SettingName: String, value: Bool)] = [("Hawaii Time (HST)",false), ("Alaska Time (AKST)", false), ("Pacific Time (PST)",false), ("Mountain Time (MST)", false), ("Central Time (CST)", false), ("Eastern Time (EST)",false)]
+    
     //Deadline
     var deadlineTime: Date!
     //KPIOneView
-    var KPIOneView: TypeOfKPIView {
+    var KPIOneView: TypeOfKPIView? {
         get {
             for type in KPIOneViewArray {
                 if type.value == true {
-                    return TypeOfKPIView(rawValue: type.SettingName)!
+                    let typeOfKPI: TypeOfKPIView = (
+                        type.SettingName == "Table" ||
+                            type.SettingName == "Numbers") ? .Numbers : .Graph
+                    return typeOfKPI
                 }
             }
             return TypeOfKPIView.Numbers
@@ -244,7 +259,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
         set {
             var newKPIOneViewArray: [(SettingName: String, value: Bool)] = []
             for view in KPIOneViewArray {
-                if view.SettingName == newValue.rawValue {
+                if view.SettingName == newValue?.rawValue {
                     newKPIOneViewArray.append((view.SettingName, true))
                 } else {
                     newKPIOneViewArray.append((view.SettingName, false))
@@ -263,7 +278,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
                     return TypeOfChart(rawValue: type.SettingName)!
                 }
             }
-            return TypeOfChart.PieChart
+            return nil
         }
         set {
             var newTypeOfChartOneArray: [(SettingName: String, value: Bool)] = []
@@ -279,12 +294,15 @@ class ReportAndViewKPITableViewController: UITableViewController {
         }
     }
     var typeOfChartOneArray: [(SettingName: String, value: Bool)] = [(TypeOfChart.PieChart.rawValue, true), (TypeOfChart.PointChart.rawValue, false), (TypeOfChart.LineChart.rawValue, false), (TypeOfChart.BarChart.rawValue, false), (TypeOfChart.Funnel.rawValue, false), (TypeOfChart.PositiveBar.rawValue, false), (TypeOfChart.AreaChart.rawValue, false)]
+    
     //KPITwoView
     var KPITwoView: TypeOfKPIView? {
         get {
             for type in KPITwoViewArray {
                 if type.value == true {
-                    return TypeOfKPIView(rawValue: type.SettingName)!
+                    let typeOfKPI: TypeOfKPIView = type.SettingName == "Table" ?
+                        .Numbers : .Graph
+                    return typeOfKPI
                 }
             }
             return TypeOfKPIView.Graph
@@ -311,7 +329,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
                     return TypeOfChart(rawValue: type.SettingName)!
                 }
             }
-            return TypeOfChart.PieChart
+            return nil
         }
         set {
             var newTypeOfChartTwoArray: [(SettingName: String, value: Bool)] = []
@@ -690,7 +708,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
                                             number: (self.model.kpis[kpiIndex].createdKPI?.number)!)                    
                     
                     self.model.kpis[kpiIndex].createdKPI = newKpi
-                    self.model.kpis[kpiIndex].KPIViewOne = self.KPIOneView
+                    self.model.kpis[kpiIndex].KPIViewOne = self.KPIOneView!
                     self.model.kpis[kpiIndex].KPIChartOne = self.typeOfChartOne
                     self.model.kpis[kpiIndex].KPIViewTwo = self.KPITwoView
                     self.model.kpis[kpiIndex].KPIChartTwo = self.typeOfChartTwo
@@ -698,7 +716,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
                         self.model.kpis[kpiIndex].imageBacgroundColour = colourDictionary[self.colour]!
                     }
                 case .Manager:
-                    self.model.kpis[kpiIndex].KPIViewOne = self.KPIOneView
+                    self.model.kpis[kpiIndex].KPIViewOne = self.KPIOneView!
                     self.model.kpis[kpiIndex].KPIChartOne = self.typeOfChartOne
                     self.model.kpis[kpiIndex].KPIViewTwo = self.KPITwoView
                     self.model.kpis[kpiIndex].KPIChartTwo = self.typeOfChartTwo
@@ -741,73 +759,73 @@ extension ReportAndViewKPITableViewController: updateSettingsDelegate {
     }
     
     func updateSettingsArray(array: [(SettingName: String, value: Bool)]) {
-        switch typeOfSetting {
+        
+        let selectedVisualization = array.filter { $0.value == true }
+        
+        switch typeOfSetting
+        {
         case .Colour:
             colourArray = array
+            
         case .Department:
             departmentArray = array
+            
         case .Executant:
             executantArray = array
+            
         case .TimeInterval:
             timeIntervalArray = array
+            
         case .TimeZone:
             timeZoneArray = array
+            
         case .KPIViewOne:
+            if selectedVisualization.count > 0
+            {
+                let chartName = selectedVisualization[0].SettingName
+                
+                if chartName != "Table"
+                {
+                    typeOfChartOne = TypeOfChart(rawValue: chartName)
+                }
+                else { typeOfChartOne = nil }
+            }
+            
             KPIOneViewArray = array
+            
             if KPIOneView == .Numbers && KPITwoView == .Numbers {
                 KPITwoView = .Graph
             }
-            chartDublicateDisabler(typeOfSetting: .KPIViewOne)
+           
         case .ChartOne:
             typeOfChartOneArray = array
-            chartDublicateDisabler(typeOfSetting: .ChartOne)
+            
         case .KPIViewTwo:
+            if selectedVisualization.count > 0
+            {
+                let chartName = selectedVisualization[0].SettingName
+                if chartName != "Table"
+                {
+                    typeOfChartTwo = TypeOfChart(rawValue: chartName)
+                }
+                else { typeOfChartTwo = nil }
+            }
+            
             KPITwoViewArray = array
             if KPIOneView == .Numbers && KPITwoView == .Numbers {
                 KPIOneView = .Graph
             }
-            chartDublicateDisabler(typeOfSetting: .KPIViewTwo)
+          
         case .ChartTwo:
             typeOfChartTwoArray = array
-            chartDublicateDisabler(typeOfSetting: .ChartTwo)
+           
         default:
             break
         }
         tableView.reloadData()
         checkInputValues()
     }
-    
-    private func chartDublicateDisabler(typeOfSetting: Setting) {
-        switch typeOfSetting {
-        case .KPIViewTwo, .ChartOne:
-            if typeOfChartOne == typeOfChartTwo {
-                for i in 0..<typeOfChartOneArray.count {
-                    if typeOfChartOneArray[i].value == true {
-                        if i != (typeOfChartOneArray.count - 1) {
-                            typeOfChartTwo = TypeOfChart(rawValue: typeOfChartOneArray[i+1].SettingName)
-                        } else {
-                            typeOfChartTwo = .PieChart
-                        }
-                    }
-                }
-            }
-        case .KPIViewOne, .ChartTwo:
-            if typeOfChartOne == typeOfChartTwo {
-                for i in 0..<typeOfChartTwoArray.count {
-                    if typeOfChartTwoArray[i].value == true {
-                        if i != (typeOfChartTwoArray.count - 1) {
-                            typeOfChartOne = TypeOfChart(rawValue: typeOfChartTwoArray[i+1].SettingName)
-                        } else {
-                            typeOfChartOne = .PieChart
-                        }
-                    }
-                }
-            }
-        default:
-            break
-        }
-    }
-    
+   
     func updateDoubleValue(number: Double?) {
         report = number
         self.tableView.reloadData()
