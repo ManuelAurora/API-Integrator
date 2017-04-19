@@ -13,6 +13,7 @@ class KPIColourTableViewCell: UITableViewCell {
     @IBOutlet weak var headerOfCell: UILabel!
     @IBOutlet weak var descriptionOfCell: UILabel!
     @IBOutlet weak var colourView: UIView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

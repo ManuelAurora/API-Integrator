@@ -3445,7 +3445,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="KPI" id="tIn-EP-bsi">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="X3I-4l-iKy">
+                        <barButtonItem key="rightBarButtonItem" title="Send" id="X3I-4l-iKy" userLabel="Send">
                             <connections>
                                 <action selector="tapSaveButton:" destination="mY7-7P-8G5" id="dOU-JJ-uUA"/>
                             </connections>
@@ -3809,13 +3809,67 @@ The main advantage of a computer audio player is that you can play your audio CD
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="qf9-LI-KDz">
-                            <rect key="frame" x="0.0" y="630" width="375" height="440"/>
+                            <rect key="frame" x="0.0" y="674" width="375" height="440"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SuggestedKPICell" id="RkP-nZ-BOJ" customClass="DashboardSetingTableViewCell" customModule="CoreKPI" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SelectColourCell" id="HIo-e1-guL" customClass="KPIColourTableViewCell" customModule="CoreKPI" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="46" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HIo-e1-guL" id="D5g-dD-gp3">
+                                    <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pink" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aLi-2Q-iG0">
+                                            <rect key="frame" x="301" y="11" width="33" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="YSp-3O-NDC"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.54901960780000003" green="0.54901960780000003" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="1DK-1f-uwp">
+                                            <rect key="frame" x="16" y="7" width="82.5" height="29"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zbs-c0-q1n">
+                                                    <rect key="frame" x="0.0" y="0.0" width="29" height="29"/>
+                                                    <color key="backgroundColor" red="1" green="0.90220811629999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="29" id="nb2-dZ-Lax"/>
+                                                        <constraint firstAttribute="width" constant="29" id="yFi-6s-m8L"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <real key="value" value="14.5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AP6-Gp-OnU">
+                                                    <rect key="frame" x="41" y="0.0" width="41.5" height="29"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="aLi-2Q-iG0" firstAttribute="centerY" secondItem="D5g-dD-gp3" secondAttribute="centerY" id="Mbg-Lr-UIq"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="aLi-2Q-iG0" secondAttribute="trailing" id="Uit-RT-lQU"/>
+                                        <constraint firstItem="1DK-1f-uwp" firstAttribute="leading" secondItem="D5g-dD-gp3" secondAttribute="leading" constant="16" id="Ye0-c5-CAK"/>
+                                        <constraint firstItem="1DK-1f-uwp" firstAttribute="centerY" secondItem="D5g-dD-gp3" secondAttribute="centerY" id="hNv-q9-xgB"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="colourView" destination="zbs-c0-q1n" id="ANB-ep-fud"/>
+                                    <outlet property="descriptionOfCell" destination="aLi-2Q-iG0" id="q1f-57-q9H"/>
+                                    <outlet property="headerOfCell" destination="AP6-Gp-OnU" id="iGi-SM-evh"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SuggestedKPICell" id="RkP-nZ-BOJ" customClass="DashboardSetingTableViewCell" customModule="CoreKPI" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="90" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RkP-nZ-BOJ" id="xmN-0v-RZl">
                                     <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
@@ -3858,7 +3912,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DescriptionCell" rowHeight="160" id="jqA-uG-Gw2" customClass="KPIDescriptionTableViewCell" customModule="CoreKPI" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="90" width="375" height="160"/>
+                                <rect key="frame" x="0.0" y="134" width="375" height="160"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jqA-uG-Gw2" id="ltr-4z-ByW">
                                     <rect key="frame" x="0.0" y="0.0" width="342" height="160"/>
@@ -3918,7 +3972,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DatePickerCell" rowHeight="180" id="r6F-6s-jLJ" customClass="DatePickerTableViewCell" customModule="CoreKPI" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="250" width="375" height="180"/>
+                                <rect key="frame" x="0.0" y="294" width="375" height="180"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="r6F-6s-jLJ" id="Ytn-Fe-dXh">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="180"/>
@@ -3949,7 +4003,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DataPickerCell" rowHeight="200" id="PAu-Ud-Yhj" customClass="DataPickerTableViewCell" customModule="CoreKPI" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="430" width="375" height="200"/>
+                                <rect key="frame" x="0.0" y="474" width="375" height="200"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PAu-Ud-Yhj" id="iTK-nW-pOZ">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>

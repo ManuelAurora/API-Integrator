@@ -32,6 +32,12 @@ class KPISelectSettingTableViewController: UITableViewController {
         print("DEBUG: KPISelectSettingVC deinitialized")
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        title = ""
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
      

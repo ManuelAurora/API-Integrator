@@ -25,8 +25,7 @@ class AddReportTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        reportTextField.becomeFirstResponder()
-        
+        reportTextField.becomeFirstResponder()        
         formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.groupingSeparator = ","
@@ -72,6 +71,7 @@ class AddReportTableViewController: UITableViewController {
         } else {
             delegate = ReportAndViewVC
             delegate.updateDoubleValue(number: report)
+            ReportAndViewVC.saveReport()
             
             _ = navigationController?.popViewController(animated: true)
         }

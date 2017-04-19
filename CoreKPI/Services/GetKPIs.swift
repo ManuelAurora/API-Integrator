@@ -101,7 +101,7 @@ class GetKPIs: Request {
                                 
                                 let kpiViewOne = kpiData["view1"] as? String
                                 let kpiViewTwo = kpiData["view2"] as? String
-                                
+                                //TODO: Bug finded!!
                                 if kpiViewOne == "Numbers" {
                                     kpi.KPIViewOne = .Numbers
                                     kpi.KPIChartOne = nil

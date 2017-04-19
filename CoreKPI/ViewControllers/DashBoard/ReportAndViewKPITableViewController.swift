@@ -72,6 +72,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
         }
     }
     var colourArray: [(SettingName: String, value: Bool)] = [(Colour.Pink.rawValue, false), (Colour.Green.rawValue, false), (Colour.Blue.rawValue, false)]
+    
     var colourDictionary: [Colour : UIColor] = [
         Colour.Pink : UIColor(red: 251/255, green: 233/255, blue: 231/255, alpha: 1),
         Colour.Green : UIColor(red: 200/255, green: 247/255, blue: 197/255, alpha: 1),
@@ -373,18 +374,23 @@ class ReportAndViewKPITableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.rightBarButtonItem?.isEnabled = false
-        switch buttonDidTaped {
+        
+        tableView.isScrollEnabled = true
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        
+        switch buttonDidTaped
+        {
         case .Report:
-            self.navigationItem.rightBarButtonItem?.title = "Report"
-            self.navigationItem.title = "Report KPI"
-        case .Edit:
-            self.navigationItem.rightBarButtonItem?.title = "Save"
-            self.navigationItem.title = "KPI Edit"
-            tableView.isScrollEnabled = true
-            self.createExecutantArray()
+            navigationItem.rightBarButtonItem = nil
+            navigationItem.title = "Report KPI"
             
-            for i in 1...31 {
+        case .Edit:
+            navigationItem.rightBarButtonItem?.title = "Save"
+            navigationItem.title = "KPI Edit"
+            createExecutantArray()
+            
+            for i in 1...31
+            {
                 self.mounthlyIntervalArray.append(("\(i)", false))
             }
         }
@@ -649,25 +655,28 @@ class ReportAndViewKPITableViewController: UITableViewController {
         tableView.isUserInteractionEnabled           = !block
     }
     
+    func saveReport() {
+        
+        let request = AddReport(model: model)
+        
+        ui(block: true)
+        request.addReportForKPI(withID: model.kpis[kpiIndex].id, report: report!, success: {
+            self.ui(block: false)
+            self.model.kpis[self.kpiIndex].createdKPI?.addReport(date: Date(),
+                                                                 report: self.report!)
+            self.prepareToMove()
+        }, failure: { error in
+            self.ui(block: false)
+            print(error)
+            self.showAlert(title: "Sorry",errorMessage: error)
+        })
+  
+    }
+    
     @IBAction func tapRightBarButton(_ sender: UIBarButtonItem) {
                 
         switch buttonDidTaped
         {
-        case .Report:
-            let request = AddReport(model: model)
-            
-            ui(block: true)
-            request.addReportForKPI(withID: model.kpis[kpiIndex].id, report: report!, success: {
-                self.ui(block: false)
-                self.model.kpis[self.kpiIndex].createdKPI?.addReport(date: Date(),
-                                                                     report: self.report!)
-                self.prepareToMove()
-            }, failure: { error in
-                self.ui(block: false)
-                print(error)
-                self.showAlert(title: "Sorry",errorMessage: error)
-            }
-            )
         case .Edit:
             switch self.model.kpis[kpiIndex].typeOfKPI {
             case .createdKPI:
@@ -761,7 +770,10 @@ class ReportAndViewKPITableViewController: UITableViewController {
                 
                 self.showAlert(title: "Error Occured",errorMessage: error)
             })
-        }        
+            
+        default:
+            break
+        }
     }
     
     func prepareToMove() {
