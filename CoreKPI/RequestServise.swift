@@ -78,7 +78,23 @@ class Request
                         //TODO: Add better explanation to user
                         if message.contains("Incorrect string value")
                         {
-                            failure(message)
+                            var reason = ""
+                            
+                            if message.contains("desc")
+                            {
+                               reason = "Description"
+                            }
+                            else if message.contains("name")
+                            {
+                                reason = "Name"
+                            }
+                            else
+                            {
+                                failure("Unknown error occured")
+                            }
+                            
+                            failure("\(reason) of your KPI contains " +
+                                "inacceptable symbols")
                         }
                     }
                     

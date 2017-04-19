@@ -30,9 +30,11 @@ class ReportAndViewKPITableViewController: UITableViewController {
     var model: ModelCoreKPI!
     weak var KPIListVC: KPIsListTableViewController!
     var delegate: updateKPIListDelegate!
-    
     var kpiIndex: Int!
     var buttonDidTaped = ButtonDidTaped.Report
+    
+    fileprivate var oldName = ""
+    fileprivate var oldDesc = ""
     
     //MARK: - Report property
     var report: Double?
@@ -636,11 +638,12 @@ class ReportAndViewKPITableViewController: UITableViewController {
     
     private func ui(block: Bool) {
         
-        var point = view.center
-        point.y -= 80
+        let point = navigationController!.view.center
         
         if block { addWaitingSpinner(at: point, color: OurColors.cyan) }
         else     { removeWaitingSpinner() }
+        
+        navigationItem.setHidesBackButton(block, animated: true)
         navigationItem.leftBarButtonItem?.isEnabled  = !block
         navigationItem.rightBarButtonItem?.isEnabled = !block
         tableView.isUserInteractionEnabled           = !block
@@ -725,11 +728,36 @@ class ReportAndViewKPITableViewController: UITableViewController {
             default:
                 break
             }
+            
+            ui(block: true)
+            
             let request = EditKPI(model: model)
             request.editKPI(kpi: self.model.kpis[kpiIndex], success: {
+                self.ui(block: false)
                 self.prepareToMove()
             }, failure: { error in
-                print(error)
+                self.ui(block: false)
+                
+                //Uncomment this if you want to cancel changes
+                //                if error.contains("Name")
+                //                {
+                //                    self.kpiName = self.oldName
+                //                }
+                //                else if error.contains("Description")
+                //                {
+                //                    self.kpiDescription = self.oldDesc
+                //                }
+                
+                //let row       = error.contains("Name") ? 0 : 1
+                //let header    = error.contains("Name") ? self.oldName : self.oldDesc
+                //                let indexPath = IndexPath(row: row, section: 1)
+                //                let cell      = self.tableView.cellForRow(at: indexPath)
+                //
+                //                guard let repCell = cell as? ReportAndViewTableViewCell else {
+                //                    return
+                //                }                
+                // repCell.headerOfCell.text = header
+                
                 self.showAlert(title: "Error Occured",errorMessage: error)
             })
         }        
@@ -746,13 +774,18 @@ class ReportAndViewKPITableViewController: UITableViewController {
 extension ReportAndViewKPITableViewController: updateSettingsDelegate {
     
     func updateStringValue(string: String?) {
-        switch typeOfSetting {
+        
+        guard let str = string else { return }
+        switch typeOfSetting
+        {
         case .KPIname:
-            if string != nil {
-                kpiName = string!
-            }
+            oldName = kpiName ?? ""
+            kpiName = str
+            
         case .KPInote:
-            kpiDescription = string
+            oldDesc = kpiDescription ?? ""
+            kpiDescription = str
+            
         default:
             return
         }

@@ -38,7 +38,7 @@ extension UIViewController
         
         UIViewController.spinner = OvalShapeLayer(point: point, color: color)
         //UIViewController.spinner?.frame.origin.y -= 80 //Temporary hardcoded
-        view.layer.addSublayer(UIViewController.spinner!)
+        navigationController!.view.layer.addSublayer(UIViewController.spinner!)
     }
     
     func removeWaitingSpinner() {
