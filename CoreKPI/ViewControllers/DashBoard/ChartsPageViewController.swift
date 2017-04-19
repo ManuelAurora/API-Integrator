@@ -92,7 +92,14 @@ class ChartsPageViewController:
         if  firstReportIsTable() { providedControllers.append(tableViewChartVC)  }
         else if kpi.integratedKPI == nil { providedControllers.append(webViewChartOneVC) }
         
-        providedControllers.append(webViewChartTwoVC)
+        if kpi.KPIChartTwo == nil
+        {
+            providedControllers.append(tableViewChartVC)
+        }
+        else
+        {
+            providedControllers.append(webViewChartTwoVC)
+        }
     }
     
     // MARK:- UIPageViewControllerDataSource & delegate Methods
@@ -104,11 +111,11 @@ class ChartsPageViewController:
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
-        if providedControllers.count > 1,
-            providedControllers[1] != viewController
+        if providedControllers.count > 1, providedControllers[1] != viewController
         {
             guard let vc = providedControllers[1] as? WebViewChartViewController
-                else { return nil }
+                else { return providedControllers[1] as? TableViewChartController
+            }
             
             return vc.isAllowed ? vc : nil
         }        
@@ -167,19 +174,19 @@ class ChartsPageViewController:
         switch kpi.typeOfKPI
         {
         case .createdKPI:
-            if firstReportIsTable()
-            {
-                tableViewChartVC.header = kpi.createdKPI?.KPI ?? ""
-            }
-            else
+            tableViewChartVC.header = kpi.createdKPI?.KPI ?? ""
+            
+            if !firstReportIsTable()
             {
                 webViewChartOneVC.typeOfChart = kpi.KPIChartOne!
                 webViewChartOneVC.isAllowed = true
             }
             
-            webViewChartTwoVC.isAllowed = true
-            webViewChartTwoVC.typeOfChart = kpi.KPIChartTwo!
-            
+            if kpi.KPIChartTwo != nil
+            {
+                webViewChartTwoVC.isAllowed = true
+                webViewChartTwoVC.typeOfChart = kpi.KPIChartTwo!
+            }           
             
         case .IntegratedKPI:
             tableViewChartVC.typeOfKPI = .IntegratedKPI

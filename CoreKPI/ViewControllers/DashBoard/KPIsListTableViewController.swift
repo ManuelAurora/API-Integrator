@@ -112,17 +112,16 @@ class KPIsListTableViewController: UITableViewController {
             let createdKPI = arrayOfKPI[indexPath.row].createdKPI
             cell.KPIListHeaderLabel.text = createdKPI?.KPI
             
-            if (createdKPI?.number.count)! > 0 {
-                if let number = createdKPI?.number[(createdKPI?.number.count)! - 1] {
-                    let formatter: NumberFormatter = NumberFormatter()
-                    formatter.numberStyle = .decimal
-                    formatter.maximumFractionDigits = 10
-                    let formatedStr: String = formatter.string(from: NSNumber(value: number.number))!
-                    cell.KPIListNumber.text = formatedStr
-                }
-            } else {
-                cell.KPIListNumber.text = ""
+            if let kpi = createdKPI, kpi.number.count > 0
+            {
+                let val = kpi.number[0].number as NSNumber
+                let formatter: NumberFormatter = NumberFormatter()
+                formatter.numberStyle = .decimal
+                formatter.maximumFractionDigits = 10
+                let formatedStr: String = formatter.string(from: val) ?? ""
+                cell.KPIListNumber.text = formatedStr
             }
+            else { cell.KPIListNumber.text = "" }
             
             if createdKPI?.executant == model.profile?.userId {
                 cell.memberNameButton.setTitle( "Me" , for: .normal )
@@ -285,8 +284,7 @@ class KPIsListTableViewController: UITableViewController {
         for kpi in arrayOfKPI
         {
             request.getReportForKPI(withID: kpi.id, success: { reports in
-                kpi.createdKPI?.number = reports.reversed()
-                //getReportRequest.filterReports(kpi: kpi, reports: reports)
+                kpi.createdKPI?.number = request.filterReports(kpi: kpi, reports: reports)
                 self.tableView.reloadData()               
             }, failure: { error in })
         }
@@ -351,7 +349,7 @@ extension KPIsListTableViewController: updateKPIListDelegate {
     
     func updateKPIList() {
         
-        self.tableView.reloadData()
+        loadKPIsFromServer()
     }
 }
 

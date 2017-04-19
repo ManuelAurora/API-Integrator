@@ -984,9 +984,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
       
         if block
         {
-            view.layoutIfNeeded()
-            center = view.center
-            center.y += view.frame.height / 2
+            center = navigationController!.view.center
             addWaitingSpinner(at: center, color: OurColors.cyan)
         }
         else     { removeWaitingSpinner() }
@@ -1222,14 +1220,24 @@ class ChooseSuggestedKPITableViewController: UITableViewController {
 
 //MARK: - updateSettingArrayDelegate methods
 extension ChooseSuggestedKPITableViewController: updateSettingsDelegate {
-    func updateSettingsArray(array: [(SettingName: String, value: Bool)]) {
+    typealias semenSettingsTuple = (SettingName: String, value: Bool)
+    private func checkArrayContainsValues(_ array: [semenSettingsTuple]) ->
+                                                          semenSettingsTuple? {
+        
+        let filteredArray = array.filter { $0.value == true }
+        guard filteredArray.count > 0 else { return nil  }
+        
+        return filteredArray[0]
+    }
+    
+    func updateSettingsArray(array: [semenSettingsTuple]) {
         switch typeOfSetting
         {
         case .firstChart:
-            firstChartName = array.filter { $0.value == true }[0].SettingName
+            firstChartName = checkArrayContainsValues(array)?.SettingName ?? ""
             
         case .secondChart:
-            secondChartName = array.filter { $0.value == true }[0].SettingName
+            secondChartName = checkArrayContainsValues(array)?.SettingName ?? ""
             
         case .Source:
             self.sourceArray = array

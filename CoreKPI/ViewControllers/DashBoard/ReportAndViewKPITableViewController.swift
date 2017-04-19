@@ -659,7 +659,8 @@ class ReportAndViewKPITableViewController: UITableViewController {
             ui(block: true)
             request.addReportForKPI(withID: model.kpis[kpiIndex].id, report: report!, success: {
                 self.ui(block: false)
-                self.model.kpis[self.kpiIndex].createdKPI?.addReport(date: Date(), report: self.report!)
+                self.model.kpis[self.kpiIndex].createdKPI?.addReport(date: Date(),
+                                                                     report: self.report!)
                 self.prepareToMove()
             }, failure: { error in
                 self.ui(block: false)

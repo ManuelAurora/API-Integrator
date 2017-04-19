@@ -72,6 +72,7 @@ class AddReportTableViewController: UITableViewController {
         } else {
             delegate = ReportAndViewVC
             delegate.updateDoubleValue(number: report)
+            
             _ = navigationController?.popViewController(animated: true)
         }
     }

@@ -13,7 +13,7 @@ extension Date
     var calendar: Calendar { return Calendar.current }
     var dateFormatter: DateFormatter {
         let f = DateFormatter()
-        f.dateFormat = "yyyy-MM-dd'T'hh:mm:ssZ"
+        f.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         return f
     }
     

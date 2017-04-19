@@ -363,7 +363,7 @@ class PayPal: ExternalRequest {
                                 let dateString = transaction["Timestamp"].value!
                                 //let timeZone = transaction["Timezone"].value!
                                 let dateFormatter = DateFormatter()
-                                dateFormatter.dateFormat = "yyyy-MM-dd'T'hh:mm:ss'Z'"
+                                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
                                 let date = dateFormatter.date(from: dateString)
                                 
                                 let calendar = Calendar.current

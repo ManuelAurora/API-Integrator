@@ -99,16 +99,14 @@ class KPI {
         
         switch typeOfKPI {
         case .createdKPI:
-            let numbers = createdKPI?.number
-            if (numbers?.count)! > 1 {
-                if (numbers?[(numbers?.count)! - 1].number)! < (numbers?[(numbers?.count)! - 2].number)! {
-                    return ImageForKPIList.Decreases
-                }
-                if (numbers?[(numbers?.count)! - 1].number)! > (numbers?[(numbers?.count)! - 2].number)! {
-                    return ImageForKPIList.Increases
-                }
+            guard let numbers = createdKPI?.number, numbers.count > 2 else {
+                return nil
             }
-            return nil
+            let currentDayValue  = numbers[0].number
+            let previousDayValue = numbers[1].number
+            
+            return currentDayValue > previousDayValue ? .Increases : .Decreases
+            
         case .IntegratedKPI:
             let service = IntegratedServices(rawValue: integratedKPI.serviceName!) //integratedKPI?.service
             switch service! {
@@ -135,7 +133,11 @@ class KPI {
     var KPIViewTwo: TypeOfKPIView? = TypeOfKPIView.Graph
     var KPIChartTwo: TypeOfChart? = TypeOfChart.PieChart
     
-    init(kpiID: Int ,typeOfKPI: TypeOfKPI, integratedKPI: ExternalKPI?, createdKPI: CreatedKPI?, imageBacgroundColour: UIColor?) {
+    init(kpiID: Int,
+         typeOfKPI: TypeOfKPI,
+         integratedKPI: ExternalKPI?,
+         createdKPI: CreatedKPI?,
+         imageBacgroundColour: UIColor?) {
         self.id = kpiID
         self.typeOfKPI = typeOfKPI
         self.integratedKPI = integratedKPI

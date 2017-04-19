@@ -254,7 +254,7 @@ class WebViewChartViewController: UIViewController
             let calendar  = Calendar.current
             let formatter = DateFormatter()
             
-            formatter.dateFormat = "yyyy-MM-dd hh:mm:ss Z"
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
             
             pointChartData = rawDataArray.map {
                 let dateStr = $0.leftValue
@@ -310,7 +310,7 @@ class WebViewChartViewController: UIViewController
             else
             {
                 let formatter = DateFormatter()
-                formatter.dateFormat = "yyyy-MM-dd hh:mm:ss Z"
+                formatter.dateFormat = "yyyy-MM-dd HH:mm:ss +zzzz"
                 
                 let infoboxes = rawDataArray.map { tuple -> InfoBox in
                     
