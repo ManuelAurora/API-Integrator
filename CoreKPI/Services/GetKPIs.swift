@@ -101,19 +101,25 @@ class GetKPIs: Request {
                                 
                                 let kpiViewOne = kpiData["view1"] as? String
                                 let kpiViewTwo = kpiData["view2"] as? String
-                                //TODO: Bug finded!!
-                                if kpiViewOne == "Numbers" {
+                                                             
+                                if kpiViewOne == "Numbers"
+                                {
                                     kpi.KPIViewOne = .Numbers
                                     kpi.KPIChartOne = nil
-                                } else {
+                                }
+                                else
+                                {
                                     kpi.KPIViewOne = .Graph
                                     kpi.KPIChartOne = TypeOfChart(rawValue: kpiViewOne!)
                                 }
                                 
-                                if kpiViewTwo == "Numbers" {
+                                if kpiViewTwo == "Numbers"
+                                {
                                     kpi.KPIViewTwo = .Numbers
                                     kpi.KPIChartTwo = nil
-                                } else {
+                                }
+                                else
+                                {
                                     kpi.KPIViewTwo = .Graph
                                     kpi.KPIChartTwo = TypeOfChart(rawValue: kpiViewTwo!)
                                 }

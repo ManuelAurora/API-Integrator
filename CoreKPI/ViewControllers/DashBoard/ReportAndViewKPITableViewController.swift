@@ -857,6 +857,7 @@ extension ReportAndViewKPITableViewController: updateSettingsDelegate {
                 }
                 else { typeOfChartTwo = nil }
             }
+            else { break }
             
             KPITwoViewArray = array
             

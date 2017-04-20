@@ -103,27 +103,18 @@ class ChooseSuggestedKPITableViewController: UITableViewController
     
     var firstChartName = "" {
         didSet {
-            if firstChartName == "Table"
-            {
-                firstChartType = .Numbers
-            }
-            else
-            {
-                firstChartType = .Graph
-            }
+            
+            if firstChartName == "Table" { firstChartType = .Numbers }
+            else if firstChartName == "" { firstChartType = nil }
+            else                         { firstChartType = .Graph }
         }
     }
     
     var secondChartName = "" {
         didSet {
-            if secondChartName == "Table"
-            {
-                secondChartType = .Numbers
-            }
-            else
-            {
-                secondChartType = .Graph
-            }
+            if secondChartName == "Table" { secondChartType = .Numbers }
+            else if secondChartName == "" { secondChartType = nil }
+            else                          { secondChartType = .Graph }
         }
     }
     
@@ -1418,10 +1409,45 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate
             }
             
         case .firstChart:
-            firstChartName = checkArrayContainsValues(array)?.SettingName ?? ""
+            guard let visualization = checkArrayContainsValues(array) else {
+                firstChartName = ""; return
+            }
+            
+            let chartName = visualization.SettingName
+            
+            if chartName != secondChartName
+            {
+                if chartName != "Table"
+                {
+                    firstChartName = chartName
+                }
+                else { firstChartName = "Table" }
+            }
+            else
+            {
+                firstChartName = secondChartName
+                secondChartName = ""
+            }
             
         case .secondChart:
-            secondChartName = checkArrayContainsValues(array)?.SettingName ?? ""
+            guard let visualization = checkArrayContainsValues(array) else {
+                secondChartName = "Table"; return
+            }
+            let chartName = visualization.SettingName
+            
+            if chartName != firstChartName
+            {
+                if chartName != "Table"
+                {
+                    secondChartName = chartName
+                }
+                else { secondChartName = "Table" }
+            }
+            else
+            {
+                firstChartName = secondChartName
+                secondChartName = ""
+            }
             
         case .Source:
             self.sourceArray = array
