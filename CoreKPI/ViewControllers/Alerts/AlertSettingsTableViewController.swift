@@ -26,7 +26,15 @@ class AlertSettingsTableViewController: UITableViewController {
     
     var dataSource: Int?
     var dataSourceArray: [(SettingName: String, value: Bool)] = []
-    
+    var kpiDataArray: [(SettingName: String, dataId: Int, value: Bool)] {
+        var dataArray = [(SettingName: String, dataId: Int, value: Bool)]()
+        self.model.kpis.forEach { kpi in
+            dataArray.append((model.getNameKPI(FromID: kpi.id)!,
+                              kpi.id, false))
+        }
+        return dataArray
+    }
+
     //MARK: Reminders
     var timeInterval = AlertTimeInterval.Daily
     var timeIntervalArray: [(SettingName: String, value: Bool)] = []
@@ -82,12 +90,30 @@ class AlertSettingsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if dataSource == nil { navigationItem.title = "Source" }
+        
         let nc = NotificationCenter.default
         nc.addObserver(forName: .modelDidChanged, object:nil, queue:nil, using:catchNotification)
         
         createArrays()
         tableView.tableFooterView = UIView(frame: .zero)
     }
+    
+    private func animateTableViewRealoadData() {
+        
+        let transition = CATransition()
+        let funcName   = kCAMediaTimingFunctionEaseInEaseOut
+        let timingFunc = CAMediaTimingFunction(name: funcName)
+        
+        transition.type = kCATransitionPush
+        transition.timingFunction = timingFunc
+        transition.fillMode = kCAFillModeForwards
+        transition.duration = 0.4
+        transition.subtype  = kCATransitionFromRight
+        
+        tableView.layer.add(transition, forKey: "UITableViewReloadAnimationKey")
+    }
+
     
     //MARK: - CreateArrays
     func createArrays() {
@@ -133,10 +159,6 @@ class AlertSettingsTableViewController: UITableViewController {
         deliveryDayOfWeekArray.removeFirst()        
     }    
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         
@@ -149,9 +171,11 @@ class AlertSettingsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        switch section {
+        switch section
+        {
         case 0:
-            return 1
+            return dataSource == nil ? kpiDataArray.count : 1
+            
         case 1:
             switch typeOfDigit {
             case .Alert:
@@ -173,21 +197,40 @@ class AlertSettingsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "AlertSettingCell", for: indexPath) as! AlertSettingTableViewCell
-        
+         cell.headerCellLabel.text = "Data source"
         switch indexPath.section {
         case 0:
             if ReminderViewVC != nil {
                 cell.selectionStyle = .none
                 cell.accessoryType = .none
-                cell.descriptionCellRightTrailing.constant = 16.0
-                cell.headerCellLabel.text = "Data source"
+                cell.headerCellLabel.isHidden = true 
                 cell.headerCellLabel.textColor = UIColor.lightGray
                 cell.descriptionCellLabel.text = model.getNameKPI(FromID: dataSource!)
-            } else {
-                cell.headerCellLabel.text = "Select a data source"
-                if dataSource != nil {
+            }
+            else
+            {
+                let kpiName = kpiDataArray[indexPath.row].SettingName
+                
+                if dataSource != nil
+                {
+                    navigationItem.title = "Reminder"
+                    cell.accessoryType = .disclosureIndicator
+                    cell.descriptionCellLabel.isHidden = false                   
+                    cell.descriptionCellLabel.text = kpiName
+                }
+                else
+                {
+                    cell.accessoryType = .none
+                    cell.descriptionCellLabel.isHidden = true
+                    cell.headerCellLabel.text = kpiName
+                }
+                
+                if dataSource != nil
+                {
                     cell.descriptionCellLabel.text = model.getNameKPI(FromID: dataSource!)
-                } else {
+                }
+                else
+                {
                     cell.descriptionCellLabel.text = "Select data source"
                 }
             }
@@ -330,13 +373,26 @@ class AlertSettingsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        switch indexPath.section {
+        switch indexPath.section
+        {
         case 0:
-            if ReminderViewVC == nil {
-                typeOfSetting = Setting.DataSource
-                settingsArray = dataSourceArray
-                showSelectSettingVC()
+            if ReminderViewVC == nil
+            {
+                if dataSource != nil
+                {
+                    typeOfSetting = Setting.DataSource
+                    settingsArray = dataSourceArray
+                    showSelectSettingVC()
+                }
+                else
+                {
+                    typeOfSetting = .none
+                    dataSource = kpiDataArray[indexPath.row].dataId
+                    animateTableViewRealoadData()
+                    tableView.reloadData()
+                }
             }
+            
         case 1:
             
             switch typeOfDigit {

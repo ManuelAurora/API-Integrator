@@ -2821,38 +2821,34 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select a data source" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mhu-97-TMA">
-                                            <rect key="frame" x="24" y="11" width="157" height="21"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="157" id="H3I-aU-EvJ"/>
-                                                <constraint firstAttribute="height" constant="21" id="fV8-PW-6UP"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My shop sales" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rk1-JF-u4n">
-                                            <rect key="frame" x="232" y="11" width="110" height="21"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="21" id="pFx-lD-eRI"/>
-                                                <constraint firstAttribute="width" priority="750" constant="110" id="wG0-L3-zqr"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" red="0.5607843137254902" green="0.55686274509803924" blue="0.58039215686274503" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                        <stackView opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="P23-3A-Qn4">
+                                            <rect key="frame" x="24" y="11" width="316" height="20.5"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select a data source" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mhu-97-TMA">
+                                                    <rect key="frame" x="0.0" y="0.0" width="156.5" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My shop sales" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rk1-JF-u4n">
+                                                    <rect key="frame" x="206.5" y="0.0" width="109.5" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.5607843137254902" green="0.55686274509803924" blue="0.58039215686274503" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="Mhu-97-TMA" firstAttribute="leading" secondItem="SEu-Va-Rnb" secondAttribute="leadingMargin" constant="16" id="2eN-LV-a01"/>
-                                        <constraint firstAttribute="trailing" secondItem="rk1-JF-u4n" secondAttribute="trailing" id="A5H-h7-mA8"/>
-                                        <constraint firstItem="rk1-JF-u4n" firstAttribute="centerY" secondItem="SEu-Va-Rnb" secondAttribute="centerY" id="ERn-re-yiS"/>
-                                        <constraint firstItem="rk1-JF-u4n" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Mhu-97-TMA" secondAttribute="trailing" constant="1" id="Pnz-pz-SFt"/>
-                                        <constraint firstItem="Mhu-97-TMA" firstAttribute="centerY" secondItem="SEu-Va-Rnb" secondAttribute="centerY" id="aDm-69-u1C"/>
+                                        <constraint firstItem="P23-3A-Qn4" firstAttribute="centerY" secondItem="SEu-Va-Rnb" secondAttribute="centerY" id="2Be-Bi-Jcu"/>
+                                        <constraint firstItem="P23-3A-Qn4" firstAttribute="leading" secondItem="SEu-Va-Rnb" secondAttribute="leading" constant="24" id="eKp-zw-zSY"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="P23-3A-Qn4" secondAttribute="trailing" constant="35" id="953-O0-TLf"/>
+                                </constraints>
                                 <connections>
                                     <outlet property="descriptionCellLabel" destination="rk1-JF-u4n" id="39d-u6-l2B"/>
-                                    <outlet property="descriptionCellRightTrailing" destination="A5H-h7-mA8" id="9v1-ov-Aep"/>
                                     <outlet property="headerCellLabel" destination="Mhu-97-TMA" id="0Qc-AH-QsR"/>
                                 </connections>
                             </tableViewCell>
@@ -4676,7 +4672,7 @@ Deliveries</string>
         <image name="teamsIcons1" width="25" height="26"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="z63-ET-xrJ"/>
+        <segue reference="XLe-yU-ghB"/>
         <segue reference="b7M-Dv-TzG"/>
         <segue reference="hOe-3T-3Gf"/>
     </inferredMetricsTieBreakers>
