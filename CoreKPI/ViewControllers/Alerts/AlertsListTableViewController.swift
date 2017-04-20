@@ -80,11 +80,7 @@ class AlertsListTableViewController: UITableViewController {
         loadReminders()
         loadAlerts()
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
+        
     //MARK: - CatchNotification
     func catchNotification(notification:Notification) -> Void {
         

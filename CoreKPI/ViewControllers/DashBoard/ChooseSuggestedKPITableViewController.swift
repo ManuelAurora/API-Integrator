@@ -1151,7 +1151,15 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                 return false
             }
         case .User:
-            if department == .none || kpiName == nil || executant == nil || (timeInterval == AlertTimeInterval.Weekly && weeklyInterval == WeeklyInterval.none) || (timeInterval == AlertTimeInterval.Monthly && mounthlyInterval == nil) || timeZone == nil || deadline == nil {
+            if department == .none ||
+                kpiName == nil ||
+                executant == nil ||
+                (timeInterval == AlertTimeInterval.Weekly && weeklyInterval == WeeklyInterval.none) ||
+                (timeInterval == AlertTimeInterval.Monthly && mounthlyInterval == nil) ||
+                timeZone == nil ||
+                deadline == nil ||
+                firstChartName == "" ||
+                secondChartName == "" {
                 return false
             }
         default:
@@ -1278,25 +1286,19 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                                      number: [])
             
             var imageBacgroundColour: UIColor = .clear
-            if userKPI.executant == model.profile?.userId {
-                imageBacgroundColour = UIColor(hex: "E3F2FD".hex!)
-            } else {
-                imageBacgroundColour = UIColor(hex: "FBE9E7".hex!)
-            }
             
+            colourArray.forEach { color in
+                guard color.value == true, let color = Colour(rawValue: color.SettingName),
+                    let exactColor = colourDictionary[color]  else { return }
+                
+                imageBacgroundColour = exactColor
+            }
+
             kpi = KPI(kpiID: 0,
                       typeOfKPI: .createdKPI,
                       integratedKPI: nil,
                       createdKPI: userKPI,
                       imageBacgroundColour: imageBacgroundColour)
-            
-            for color in colourDictionary
-            {
-                if color.key == colour
-                {
-                    kpi.imageBacgroundColour = color.value
-                }
-            }
             
             kpi.KPIViewOne  = firstChartType!
             kpi.KPIViewTwo  = secondChartType!
@@ -1425,7 +1427,7 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate
             }
             else
             {
-                firstChartName = secondChartName
+                firstChartName = chartName
                 secondChartName = ""
             }
             
@@ -1445,7 +1447,7 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate
             }
             else
             {
-                firstChartName = secondChartName
+                firstChartName = chartName
                 secondChartName = ""
             }
             
