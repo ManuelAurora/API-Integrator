@@ -11,7 +11,6 @@ import UIKit
 class MemberListTableViewController: UITableViewController {
     
     var model: ModelCoreKPI!
-    let profilePhotoDownloadNotification = Notification.Name(rawValue:"ProfilePhotoDownloaded")
     
     var indexPath: IndexPath!
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
@@ -34,12 +33,13 @@ class MemberListTableViewController: UITableViewController {
         loadTeamListFromServer()
         
         let nc = NotificationCenter.default
-        nc.addObserver(forName: profilePhotoDownloadNotification, object:nil, queue:nil, using:catchNotification)
+        nc.addObserver(forName: .profilePhotoDownloaded, object:nil, queue:nil, using:catchNotification)
         nc.addObserver(forName: .modelDidChanged, object:nil, queue:nil, using:catchNotification)
 
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
         tableView.tableFooterView = UIView(frame: .zero)
+        tableView.backgroundColor = OurColors.gray
     }
     
     // MARK: - Table view data source    
@@ -51,8 +51,19 @@ class MemberListTableViewController: UITableViewController {
         return model.team.count
     }
     
+    private func thisIsMyAccount(_ index: Int) -> Bool {
+        
+          return Int(model.team[index].userID) == model.profile?.userId
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MemberListCell", for: indexPath) as! MemberListTableViewCell
+        
+        if thisIsMyAccount(indexPath.row)
+        {
+            cell.aditionalBackground.layer.borderWidth = 2
+            cell.aditionalBackground.layer.borderColor = OurColors.cyan.cgColor
+        }
         
         if let memberNickname = model.team[indexPath.row].nickname {
             cell.userNameLabel.text = memberNickname
@@ -62,8 +73,9 @@ class MemberListTableViewController: UITableViewController {
         
         cell.userPosition.text = model.team[indexPath.row].position
         
-        if let photo = model.team[indexPath.row].photo as? Data {
-            cell.userProfilePhotoImage.image = UIImage(data: photo)
+        if let photo = model.team[indexPath.row].photo
+        {
+            cell.userProfilePhotoImage.image = UIImage(data: photo as Data)
         }
         
         if (model.team[indexPath.row].photoLink != nil) {
@@ -148,8 +160,7 @@ class MemberListTableViewController: UITableViewController {
             }
         }
         if segue.identifier == "MemberListInvite" {
-            let destinationViewController = segue.destination as! InviteTableViewController
-            destinationViewController.navigationItem.rightBarButtonItem = nil
+            let destinationViewController = segue.destination as! InviteTableViewController            
             destinationViewController.model = model
         }
     }
@@ -190,7 +201,7 @@ class MemberListTableViewController: UITableViewController {
     //MARK: - CatchNotification
     func catchNotification(notification:Notification) -> Void {
         
-        if notification.name == profilePhotoDownloadNotification {
+        if notification.name == .profilePhotoDownloaded {
             guard let userInfo = notification.userInfo,
                 let tag = userInfo["UIImageViewTag"] as? Int,
                 let image = userInfo["photo"] as? UIImage

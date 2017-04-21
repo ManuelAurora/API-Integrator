@@ -10,6 +10,7 @@ import UIKit
 
 class InviteTableViewController: UITableViewController {
     
+    @IBOutlet weak var addButton: UIBarButtonItem!
     @IBOutlet weak var typeOfAccountLabel: UILabel!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var numberOfInvationsLAbel: UILabel!
@@ -24,57 +25,35 @@ class InviteTableViewController: UITableViewController {
     
     @IBAction func laterButtonTapped(_ sender: UIBarButtonItem) {
         
-        guard let email = email, let password = password else { return }
-        
-        stateMachine.logInWith(email: email, password: password)
+        tapInviteButton()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+               
         getNumberOfInvations()
         numberOfInvationsLAbel.text = "\(numberOfInvations) invitations left"
         typeOfAccountLabel.text = typeOfAccount.rawValue
         
-        let controllers = navigationController?.viewControllers
+        let controllers = navigationController!.viewControllers
         
-        if controllers?[(controllers?.count)! - 2] is NewProfileTableViewController {
-            navigationItem.hidesBackButton = true
+        let filtered = controllers.filter {
+            $0 is NewProfileTableViewController
         }
+        
+        if filtered.count > 0 { navigationItem.hidesBackButton = true }
         
         tableView.tableFooterView = UIView(frame: .zero)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if  section == 0 {
-            return 3
-        } else {
-            return 1
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 2 {
-            tapInviteButton()
-            tableView.deselectRow(at: indexPath, animated: true)
-        }
-    }
-    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
         return " "
     }
     
     //MARK: - Invite button did taped
     func tapInviteButton() {
+        
         if numberOfInvations < 1 {
             showAlert(title: "Error", errorMessage: "You haven't more invitations!")
             return
@@ -93,6 +72,10 @@ class InviteTableViewController: UITableViewController {
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alertController.addAction(UIAlertAction(title: "Send", style: .default, handler:{
             (action: UIAlertAction!) -> Void in
+            
+            self.addButton.isEnabled = false
+            self.addWaitingSpinner(at: self.view.center, color: OurColors.cyan)
+            self.navigationItem.setHidesBackButton(true, animated: true)
             self.sendInvations()
         }))
         present(alertController, animated: true, completion: nil)
@@ -117,6 +100,10 @@ class InviteTableViewController: UITableViewController {
         let inviteRequest = SendInvation(model: model)
         
         inviteRequest.sendInvations(email: emailLowercased!, typeOfAccount: typeOfAccount, success: {number in
+            self.addButton.isEnabled = true
+            self.removeWaitingSpinner()
+            self.navigationItem.setHidesBackButton(false, animated: true)
+            
             self.showAlert(title: "Congratulation!", errorMessage: "You send invitation to \(self.emailTextField.text!)")
             self.emailTextField.text = ""
             self.numberOfInvations = number
@@ -125,6 +112,9 @@ class InviteTableViewController: UITableViewController {
             self.typeOfAccountLabel.text = self.typeOfAccount.rawValue
             self.tableView.reloadData()
         }, failure: { error in
+            self.addButton.isEnabled = true
+            self.removeWaitingSpinner()
+            self.navigationItem.setHidesBackButton(false, animated: true)
             self.showAlert(title: "Error occured", errorMessage: error)
         })
     }

@@ -13,14 +13,15 @@ class MemberListTableViewCell: UITableViewCell {
     @IBOutlet weak var userProfilePhotoImage: UIImageView!
     
     @IBOutlet weak var userNameLabel: UILabel!
-    
+    @IBOutlet weak var aditionalBackground: UIView!
     @IBOutlet weak var userPosition: UILabel!
     
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-    }
+        
+        contentView.backgroundColor = OurColors.gray
+     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

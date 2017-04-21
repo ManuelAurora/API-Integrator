@@ -21,12 +21,18 @@ extension UIImageView {
                 else { return }
             DispatchQueue.main.async() { () -> Void in
                 self.image = image
-                NotificationCenter.default.post(name: Notification.Name(rawValue:"ProfilePhotoDownloaded"),
-                        object: nil,
-                        userInfo:["UIImageViewTag": self.tag, "photo": image])
+                
+                let userInfo: [String: Any] = ["UIImageViewTag": self.tag,
+                                               "photo": image]
+                
+                NotificationCenter.default.post(name: .profilePhotoDownloaded,
+                                                object: nil,
+                                                userInfo: userInfo)
+                
             }
             }.resume()
     }
+    
     func downloadedFrom(link: String, contentMode mode: UIViewContentMode = .scaleAspectFill) {
         guard let url = URL(string: link) else { return }
         downloadedFrom(url: url, contentMode: mode)

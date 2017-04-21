@@ -34,6 +34,7 @@
 		647CFCA11E8519C700F71632 /* ReportDataManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647CFCA01E8519C700F71632 /* ReportDataManipulator.swift */; };
 		647CFCA31E854BD600F71632 /* IntegratedServicesDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647CFCA21E854BD600F71632 /* IntegratedServicesDataManager.swift */; };
 		647F46DD1E89377900641F42 /* OvalShapeLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647F46DC1E89377900641F42 /* OvalShapeLayer.swift */; };
+		648115F11EAA45930090B24B /* TalkToUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648115F01EAA45930090B24B /* TalkToUsViewController.swift */; };
 		6492B9A61E93CB2700BD8492 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6492B9A41E93CB2700BD8492 /* GradientView.swift */; };
 		6492B9A71E93CB2700BD8492 /* TransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6492B9A51E93CB2700BD8492 /* TransitionAnimator.swift */; };
 		6492B9A91E93D39400BD8492 /* HubspotChoosePipelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6492B9A81E93D39400BD8492 /* HubspotChoosePipelineViewController.swift */; };
@@ -261,6 +262,7 @@
 		647CFCA01E8519C700F71632 /* ReportDataManipulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportDataManipulator.swift; path = ../ReportDataManipulator.swift; sourceTree = "<group>"; };
 		647CFCA21E854BD600F71632 /* IntegratedServicesDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegratedServicesDataManager.swift; sourceTree = "<group>"; };
 		647F46DC1E89377900641F42 /* OvalShapeLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OvalShapeLayer.swift; sourceTree = "<group>"; };
+		648115F01EAA45930090B24B /* TalkToUsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TalkToUsViewController.swift; sourceTree = "<group>"; };
 		6492B9A41E93CB2700BD8492 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		6492B9A51E93CB2700BD8492 /* TransitionAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionAnimator.swift; sourceTree = "<group>"; };
 		6492B9A81E93D39400BD8492 /* HubspotChoosePipelineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotChoosePipelineViewController.swift; sourceTree = "<group>"; };
@@ -770,6 +772,7 @@
 			isa = PBXGroup;
 			children = (
 				A2263B0D1E3B7684005C812D /* SupportNavigationViewController.swift */,
+				648115F01EAA45930090B24B /* TalkToUsViewController.swift */,
 				A297F5B81E08234500F85963 /* SupportMainTableViewController.swift */,
 				A297F5B51E08234500F85963 /* AboutTableViewController.swift */,
 				A297F5B71E08234500F85963 /* faqTableViewController.swift */,
@@ -1249,6 +1252,7 @@
 				A2F77E061E3B199400BB8318 /* ChangeNickname.swift in Sources */,
 				A297F5B31E08233A00F85963 /* MemberEditViewController.swift in Sources */,
 				64EE4DF81E55ADD80007926F /* PinCodeVCPresenter.swift in Sources */,
+				648115F11EAA45930090B24B /* TalkToUsViewController.swift in Sources */,
 				A23E79471E5AE83900EEBABE /* UIColorExtention.swift in Sources */,
 				A2FB1AA21E252C110045824A /* KPIDescriptionTableViewCell.swift in Sources */,
 				A274DC0F1E0825DF008CBF36 /* InviteTableViewController.swift in Sources */,

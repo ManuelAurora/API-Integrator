@@ -26,6 +26,7 @@ extension Notification.Name
     static let googleManagerRecievedData     = Notification.Name("googleManagerRecievedData")
     static let hubspotManagerRecievedData    = Notification.Name("hubspotManagerRecievedData")
     static let salesForceManagerRecievedData = Notification.Name("salesForceManagerRecievedData")
+    static let profilePhotoDownloaded        = Notification.Name("ProfilePhotoDownloaded")
 }
 
 extension UIStoryboard

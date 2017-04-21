@@ -15,11 +15,9 @@ class SupportMainTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.backgroundColor = OurColors.gray
         tableView.tableFooterView = UIView(frame: .zero)        
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     // MARK: - Table view data source

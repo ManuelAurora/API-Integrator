@@ -34,7 +34,7 @@ class GetMemberList: Request {
     func parsingJson(json: NSDictionary) -> [Team]? {
         
         let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
-        let photoServer = self.serverIp + "/avatars/"
+        let photoServer = self.serverIp + "/uploads/avatars/"
         
         if let successKey = json["success"] as? Int {
             if successKey == 1 {

@@ -249,6 +249,8 @@ class KPIsListTableViewController: UITableViewController {
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
             self.loadReports()
+            NotificationCenter.default.post(name: .modelDidChanged, object: nil)
+            
         }, failure: { error in
             print(error)
             self.refreshControl?.endRefreshing()
@@ -261,13 +263,14 @@ class KPIsListTableViewController: UITableViewController {
         let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
         do {
             let external = try context.fetch(ExternalKPI.fetchRequest())
-            for kpi in external {
+            
+            for kpi in external
+            {
                 let kpi = KPI(kpiID: 0,
                               typeOfKPI: .IntegratedKPI,
                               integratedKPI: (kpi as! ExternalKPI),
                               createdKPI: nil,
                               imageBacgroundColour: UIColor(hex: "D8F7D7".hex!))
-                
                 kpi.KPIViewOne = .Numbers
                 arrayOfKPI.append(kpi)
             }

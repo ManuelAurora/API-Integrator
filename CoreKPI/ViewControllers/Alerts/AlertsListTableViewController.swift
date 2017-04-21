@@ -74,8 +74,11 @@ class AlertsListTableViewController: UITableViewController {
         
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.backgroundColor = UIColor(red: 241/255, green: 241/255, blue: 241/255, alpha: 1.0)
+        
+        loadReminders()
+        loadAlerts()
     }
-    
+        
     override func tableView(_ tableView: UITableView,
                             editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
@@ -87,12 +90,6 @@ class AlertsListTableViewController: UITableViewController {
                                                         indexPath: indexPath)
         })
         return [deleteAction]
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        
-        loadReminders()
-        loadAlerts()
     }
         
     //MARK: - CatchNotification
@@ -199,7 +196,11 @@ class AlertsListTableViewController: UITableViewController {
         
         switch indexPath.section {
         case 0:
-            cell.alertNameLabel.text = model.getNameKPI(FromID: Int(model.reminders[indexPath.row].sourceID)) ?? "Deleted reminder's KPI"
+            let alertText = model.getNameKPI(
+                FromID: Int(model.reminders[indexPath.row].sourceID))
+            
+            cell.alertNameLabel.text = alertText ?? "Deleted reminder's KPI"
+            cell.editButton.isHidden = alertText == nil ? true : false 
             cell.numberOfCell = indexPath.row
             cell.alertImageView.layer.backgroundColor = model.getBackgroundColourOfKPI(FromID: model.reminders[indexPath.row].sourceID).cgColor
             cell.editButton.tag = indexPath.row
@@ -247,15 +248,14 @@ extension AlertsListTableViewController
             //it is reminders
             let request = DeleteReminder(model: model)
             let reminderId =  Int(model.reminders[indexPath.row].reminderID)
+            model.reminders.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .top)
             request.deleteReminder(reminderID: reminderId, success: {
-                self.model.reminders.remove(at: indexPath.row)                
-                self.tableView.deleteRows(at: [indexPath], with: .top)
-                
             }, failure: { error in
                 self.showAlert(title: "Sorry", message: error)
                 self.loadReminders()
-            }
-            )
+            })
+            
         default:
             //it is alerts
             let request = DeleteAlert(model: model)

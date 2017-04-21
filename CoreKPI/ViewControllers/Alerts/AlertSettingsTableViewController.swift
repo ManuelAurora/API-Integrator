@@ -214,9 +214,11 @@ class AlertSettingsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AlertSettingCell", for: indexPath) as! AlertSettingTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AlertSettingCell",
+                                                 for: indexPath) as! AlertSettingTableViewCell
         
-        switch indexPath.section {
+        switch indexPath.section
+        {
         case 0:
             cell.headerCellLabel.text = "Data source"
             
@@ -250,12 +252,11 @@ class AlertSettingsTableViewController: UITableViewController {
                     cell.descriptionCellLabel.isHidden = true
                     cell.headerCellLabel.text = kpiName
                 }
-                
             }
             
         case 1:
-            
-            switch typeOfDigit {
+            switch typeOfDigit
+            {
             case .Alert:
                 switch indexPath.row {
                 case 0:
