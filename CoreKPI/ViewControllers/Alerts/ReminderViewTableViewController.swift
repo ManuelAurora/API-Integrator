@@ -233,6 +233,7 @@ class ReminderViewTableViewController: UITableViewController {
             destinationVC.model = model
             destinationVC.ReminderViewVC = self
             destinationVC.typeOfDigit = typeOfDigit
+            destinationVC.creationMode = .edit
             destinationVC.updateParameters(index: index)
         }
     }

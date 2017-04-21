@@ -8,6 +8,12 @@
 
 import UIKit
 
+enum СreationMode
+{
+    case createNew
+    case edit
+}
+
 class AlertSettingsTableViewController: UITableViewController {
     
     weak var AlertListVC: AlertsListTableViewController!
@@ -26,7 +32,7 @@ class AlertSettingsTableViewController: UITableViewController {
     
     var dataSource: Int?
     var dataSourceArray: [(SettingName: String, value: Bool)] = []
-    var kpiDataArray: [(SettingName: String, dataId: Int, value: Bool)] {
+    var kpiDataArr: [(SettingName: String, dataId: Int, value: Bool)] {
         var dataArray = [(SettingName: String, dataId: Int, value: Bool)]()
         self.model.kpis.forEach { kpi in
             dataArray.append((model.getNameKPI(FromID: kpi.id)!,
@@ -38,7 +44,7 @@ class AlertSettingsTableViewController: UITableViewController {
     //MARK: Reminders
     var timeInterval = AlertTimeInterval.Daily
     var timeIntervalArray: [(SettingName: String, value: Bool)] = []
-    
+    var creationMode: СreationMode!
     var deliveryDay: String?
     var deliveryDayOfWeekArray: [(SettingName: String, value: Bool)] = []
     var deliveryDayOfMounthArray: [(SettingName: String, value: Bool)] = []
@@ -87,16 +93,28 @@ class AlertSettingsTableViewController: UITableViewController {
     var typeOfNotification: [TypeOfNotification] = []
     var typeOfNotificationArray: [(SettingName: String, value: Bool)] = [(TypeOfNotification.Email.rawValue, false), (TypeOfNotification.SMS.rawValue, false), (TypeOfNotification.Push.rawValue, false)]
     
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        removeWaitingSpinner()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if dataSource == nil { navigationItem.title = "Source" }
         
         let nc = NotificationCenter.default
         nc.addObserver(forName: .modelDidChanged, object:nil, queue:nil, using:catchNotification)
         
         createArrays()
         tableView.tableFooterView = UIView(frame: .zero)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if dataSource == nil { navigationItem.title = "Source" }
+        else { navigationItem.title = "Reminder" }
     }
     
     private func animateTableViewRealoadData() {
@@ -174,7 +192,7 @@ class AlertSettingsTableViewController: UITableViewController {
         switch section
         {
         case 0:
-            return dataSource == nil ? kpiDataArray.count : 1
+            return dataSource == nil ? kpiDataArr.count : 1
             
         case 1:
             switch typeOfDigit {
@@ -197,10 +215,13 @@ class AlertSettingsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "AlertSettingCell", for: indexPath) as! AlertSettingTableViewCell
-         cell.headerCellLabel.text = "Data source"
+        
         switch indexPath.section {
         case 0:
-            if ReminderViewVC != nil {
+            cell.headerCellLabel.text = "Data source"
+            
+            if ReminderViewVC != nil
+            {
                 cell.selectionStyle = .none
                 cell.accessoryType = .none
                 cell.headerCellLabel.isHidden = true 
@@ -209,31 +230,29 @@ class AlertSettingsTableViewController: UITableViewController {
             }
             else
             {
-                let kpiName = kpiDataArray[indexPath.row].SettingName
+                var kpiName = ""
                 
                 if dataSource != nil
                 {
+                    kpiName = (model.kpis.filter {
+                        $0.id == dataSource!})[0].createdKPI!.KPI
+                        
                     navigationItem.title = "Reminder"
                     cell.accessoryType = .disclosureIndicator
                     cell.descriptionCellLabel.isHidden = false                   
                     cell.descriptionCellLabel.text = kpiName
+                    cell.headerCellLabel.isHidden = true
                 }
                 else
                 {
+                    kpiName = model.kpis[indexPath.row].createdKPI!.KPI
                     cell.accessoryType = .none
                     cell.descriptionCellLabel.isHidden = true
                     cell.headerCellLabel.text = kpiName
                 }
                 
-                if dataSource != nil
-                {
-                    cell.descriptionCellLabel.text = model.getNameKPI(FromID: dataSource!)
-                }
-                else
-                {
-                    cell.descriptionCellLabel.text = "Select data source"
-                }
             }
+            
         case 1:
             
             switch typeOfDigit {
@@ -242,6 +261,7 @@ class AlertSettingsTableViewController: UITableViewController {
                 case 0:
                     cell.headerCellLabel.text = "Condition"
                     cell.descriptionCellLabel.text = condition.rawValue
+                    
                 case 1:
                     cell.headerCellLabel.text = "Threshold"
                     if threshold == nil {
@@ -267,14 +287,21 @@ class AlertSettingsTableViewController: UITableViewController {
                     case 0:
                         cell.headerCellLabel.text = "Time interval"
                         cell.descriptionCellLabel.text = timeInterval.rawValue
+                        cell.descriptionCellLabel.isHidden = false
                     case 1:
                         cell.headerCellLabel.text  = "Time zone"
                         cell.descriptionCellLabel.text = timeZone
+                        cell.descriptionCellLabel.isHidden = false
+                        
                     case 2:
+                        let labelText = timeToString()
+                        
                         cell.headerCellLabel.text = "Delivery time"
-                        cell.descriptionCellLabel.text = timeToString()
-                        cell.descriptionCellLabel.textAlignment = .center
-                        cell.accessoryType = .none
+                        cell.descriptionCellLabel.text = labelText
+                        cell.descriptionCellLabel.isHidden = false
+                        cell.descriptionCellLabel.textAlignment = .right
+                        cell.accessoryType = .disclosureIndicator
+                        
                     case 3:
                         let dateCell =  tableView.dequeueReusableCell(withIdentifier: "DatePickerCell", for: indexPath) as! DatePickerTableViewCell
                         dateCell.datePicker.setDate(deliveryTime ?? Date(), animated: true)
@@ -289,6 +316,8 @@ class AlertSettingsTableViewController: UITableViewController {
                     case 0:
                         cell.headerCellLabel.text = "Time interval"
                         cell.descriptionCellLabel.text = timeInterval.rawValue
+                        cell.descriptionCellLabel.isHidden = false
+                        
                     case 1:
                         cell.headerCellLabel.text = "Delivery day"
                         cell.descriptionCellLabel.text = ""
@@ -324,6 +353,7 @@ class AlertSettingsTableViewController: UITableViewController {
                     }
                 }
             }
+            
         case 2:
             cell.headerCellLabel.text = "Type of notification"
             switch self.typeOfNotification.count {
@@ -387,7 +417,7 @@ class AlertSettingsTableViewController: UITableViewController {
                 else
                 {
                     typeOfSetting = .none
-                    dataSource = kpiDataArray[indexPath.row].dataId
+                    dataSource = kpiDataArr[indexPath.row].dataId
                     animateTableViewRealoadData()
                     tableView.reloadData()
                 }
@@ -561,13 +591,13 @@ class AlertSettingsTableViewController: UITableViewController {
     //MARK: - Save button was taped
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
         
-        if AlertListVC != nil {
-            addNewDigit()
-        }
+        addWaitingSpinner(at: navigationController!.view.center,
+                          color: OurColors.cyan)
         
-        if ReminderViewVC != nil {
-            updateDigit()
-        }
+        sender.isEnabled = false
+        
+        if creationMode == .createNew { addNewDigit() }
+        else { updateDigit() }        
     }
     
     func addNewDigit() {
@@ -602,6 +632,7 @@ class AlertSettingsTableViewController: UITableViewController {
                 //Send data to server
                 let request = AddAlert(model: model)
                 request.addAlert(alert: alert, success: {
+                    self.removeWaitingSpinner()
                     self.model.alerts.append(alert)
                     let nc = NotificationCenter.default
                     nc.post(name: .modelDidChanged,
@@ -609,6 +640,7 @@ class AlertSettingsTableViewController: UITableViewController {
                             userInfo:["model": self.model])
                     self.navigationController!.popViewController(animated: true)
                 }, failure: { error in
+                    self.removeWaitingSpinner()
                     self.showAlert(title: "Sorry", message: error)
                 }
                 )
@@ -672,20 +704,19 @@ class AlertSettingsTableViewController: UITableViewController {
                 //Send data to server
                 let request = AddReminder(model: model)
                 request.addReminder(reminder: reminder, success: {
+                    self.removeWaitingSpinner()
                     self.model.reminders.append(reminder)
                     let nc = NotificationCenter.default
                     nc.post(name: .modelDidChanged,
                             object: nil,
                             userInfo:nil)
-                    self.navigationController!.popViewController(animated: true)
+                    self.navigationController?.popViewController(animated: true)
                 }, failure: {error in
+                    self.removeWaitingSpinner()
                     self.showAlert(title: "Sorry", message: error)
-                }
-                )
-                
+                })
             }
         }
-
     }
     
     func updateDigit() {
@@ -717,15 +748,17 @@ class AlertSettingsTableViewController: UITableViewController {
             
             let request = EditAlert(model: model)
             request.editAlert(alert: model.alerts[indexOfDigit], success: {
+                self.removeWaitingSpinner()
                 let nc = NotificationCenter.default
                 nc.post(name: .modelDidChanged,
                         object: nil,
                         userInfo:["model": self.model])
                 self.navigationController!.popViewController(animated: true)
             }, failure: {error in
+                self.savaButton.isEnabled = true
+                self.removeWaitingSpinner()
                 self.showAlert(title: "Sorry", message: error)
-            }
-            )
+            })
         case .Reminder:
             switch timeInterval {
             case .Daily:
@@ -757,8 +790,8 @@ class AlertSettingsTableViewController: UITableViewController {
             
             model.reminders[indexOfDigit].setValue(timeZone, forKey: "timeZone")
             model.reminders[indexOfDigit].setValue(timeInterval.rawValue, forKey: "timeInterval")
-            model.reminders[indexOfDigit].setValue(deliveryDay, forKey: "deliveryDay")
-            model.reminders[indexOfDigit].setValue(deliveryTime as NSDate?, forKey: "deliveryTime")
+            model.reminders[indexOfDigit].setValue(Int64(deliveryDay!)!, forKey: "deliveryDay")
+            model.reminders[indexOfDigit].setValue(deliveryTime, forKey: "deliveryTime")
             
             model.reminders[indexOfDigit].setValue(false, forKey: "emailNotificationIsActive")
             model.reminders[indexOfDigit].setValue(false, forKey: "smsNotificationIsActive")
@@ -779,12 +812,15 @@ class AlertSettingsTableViewController: UITableViewController {
             
             let request = EditReminder(model: model)
             request.editReminder(reminder: model.reminders[indexOfDigit], success: {
+                self.removeWaitingSpinner()
                 let nc = NotificationCenter.default
                 nc.post(name: .modelDidChanged,
                         object: nil,
                         userInfo:["model": self.model])
-                self.navigationController!.popViewController(animated: true)
+                self.navigationController?.popViewController(animated: true)
             }, failure: {error in
+                self.removeWaitingSpinner()
+                self.savaButton.isEnabled = true 
                 self.showAlert(title: "Sorry", message: error)
             }
             )
@@ -797,6 +833,7 @@ class AlertSettingsTableViewController: UITableViewController {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "SelectSetting") as! AlertSelectSettingTableViewController
         destinatioVC.AlertSettingVC = self
         destinatioVC.selectSetting = settingsArray
+        
         switch typeOfSetting {
         case .TypeOfNotification:
             destinatioVC.selectSeveralEnable = true
@@ -811,11 +848,16 @@ class AlertSettingsTableViewController: UITableViewController {
             default:
                 destinatioVC.headerForTableView = "Add data"
             }
+            
         case .DeliveryDay:
             destinatioVC.segueWithSelect = true
             destinatioVC.tableView.isScrollEnabled = true
-        default:
+            
+        case .DataSource:
+            destinatioVC.title = "Source"
             destinatioVC.segueWithSelect = true
+            
+        default: destinatioVC.segueWithSelect = true; break
         }
         navigationController?.pushViewController(destinatioVC, animated: true)
     }

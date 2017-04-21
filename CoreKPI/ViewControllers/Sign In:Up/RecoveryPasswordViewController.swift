@@ -63,9 +63,7 @@ class RecoveryPasswordViewController: UIViewController {
         
         if !enabled
         {
-            var point = sendButton.center
-            
-            point.y += 120
+            let point = sendButton.center
             
             addWaitingSpinner(at: point, color: OurColors.blue)
         }

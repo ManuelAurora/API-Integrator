@@ -25,7 +25,8 @@ class EditReminder: Request {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let deliveryTime = dateFormatter.string(from: reminder.deliveryTime as! Date)
+        let dateValue = reminder.deliveryTime! as Date
+        let deliveryTime = dateFormatter.string(from: dateValue)
         
         let abbreviaion = reminder.timeZone?.components(separatedBy: "(")[1].replacingOccurrences(of: ")", with: "")
         print(abbreviaion ?? "nil")
@@ -33,7 +34,7 @@ class EditReminder: Request {
         let timeZoneHoursFromGMT = (timeZone?.secondsFromGMT())!/3600
         
         
-        let data: [String : Any] = ["kpi_id" : reminder.sourceID, "methods" : notificationArray, "delivery_day" : reminder.deliveryDay, "delivery_time" : deliveryTime, "interval_type" : reminder.timeInterval ?? "Daily", "timezone" : timeZoneHoursFromGMT]
+        let data: [String : Any] = ["kpi_id" : reminder.sourceID, "methods" : notificationArray, "delivery_day" : reminder.deliveryDay, "delivery_time" : deliveryTime, "interval_type" : reminder.timeInterval ?? "Daily", "timezone" : timeZoneHoursFromGMT, "reminder_id": reminder.reminderID ]
         
         self.getJson(category: "/reminders/editReminder", data: data,
                      success: { json in

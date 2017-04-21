@@ -51,6 +51,7 @@ extension UIStoryboard
         case webViewController      = "WebViewController"
         case chartTableVC           = "TableViewController"
         case choosePipelineVC       = "hubspotPipelineController"
+        case alertSettingsTableVC   = "AddAlert"
     }
     
     func instantiateViewController(withIdentifier: StoryboardIDs) -> UIViewController {

@@ -25,7 +25,7 @@ class AddReminder: Request {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let deliveryTime = dateFormatter.string(from: reminder.deliveryTime as! Date)
+        let deliveryTime = dateFormatter.string(from: reminder.deliveryTime! as Date)
         
         let abbreviaion = reminder.timeZone?.components(separatedBy: "(")[1].replacingOccurrences(of: ")", with: "")
         let timeZone = TimeZone(abbreviation: abbreviaion!)

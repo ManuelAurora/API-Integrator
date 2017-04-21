@@ -274,8 +274,7 @@ class ChartsPageViewController:
             reportDataManipulator.kpi = kpi
             reportDataManipulator.dataForReport()
             
-            var point = view.center
-            point.y -= 80
+            let point = view.center
             
             addWaitingSpinner(at: point, color: OurColors.cyan)
         }
