@@ -55,13 +55,15 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
    
     @IBAction func registerButtonTapped(_ sender: UIButton) {
         
-        if navigationController?.viewControllers[1] is RegisterViewController
+        if let regController = navigationController?.viewControllers[1] as? RegisterViewController
         {
+            regController.clearTextFields()
             navigationController?.popViewController(animated: true)
         }
         else
         {
             let controller = appDelegate.launchViewController.registerViewController
+            controller.clearTextFields()
             navigationController?.pushViewController(controller, animated: true)
         }
     }

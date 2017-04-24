@@ -22,7 +22,6 @@ class RegisterViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        clearTextFields()
         navigationItem.setHidesBackButton(true, animated: false)
         navigationController?.isNavigationBarHidden = false        
     }
@@ -39,7 +38,7 @@ class RegisterViewController: UIViewController {
         print("DEBUG: RegisterVC deinitialised")
     }
     
-    private func clearTextFields() {
+    func clearTextFields() {
         
         guard passwordTextField != nil, emailTextField != nil else { return }
         
