@@ -13,7 +13,7 @@ import OAuthSwift
 import CoreData
 
 typealias resultElement = (leftValue: String, centralValue: String, rightValue: String)
-
+typealias hubspotParameters = [HSRequestParameterKeys: String]
 enum HSRequestParameterKeys: String
 {
     case scope = "scope"
@@ -26,7 +26,8 @@ enum HSRequestParameterKeys: String
     case expiresIn = "expires_in"
     case hapiKey = "hapikey"
     case properties = "properties"
-}
+    case code       = "code"
+   }
 
 enum HSAPIMethods: String
 {
@@ -55,6 +56,28 @@ class HubSpotManager
    
     var merged: Bool = false //This variable prevents multiple didSet from pipelinesArray
     
+    var hubspotKPIManagedObject: HubspotKPI {
+        do {
+            let fetchHubspotKPI = NSFetchRequest<HubspotKPI>(entityName: "HubspotKPI")
+            let result = try? managedContext.fetch(fetchHubspotKPI)
+            let hskpi = (result == nil) || result!.isEmpty ? HubspotKPI() : result![0]
+            
+            return hskpi
+        }
+    }
+    
+    lazy var oauthSwift: OAuth2Swift = {
+        
+        let urlString = "https://app.hubspot.com/oauth/authorize"
+
+        let oauth = OAuth2Swift(consumerKey: self.oauthParameters[.clientID]!,
+                                          consumerSecret: "",
+                                          authorizeUrl: urlString,
+                                          responseType: "")
+        
+        return oauth
+    }()
+    
     private var requestCounter: Int = 0 {
         didSet {
             if requestCounter == 6
@@ -75,19 +98,20 @@ class HubSpotManager
     private let authorizeURL = "https://app.hubspot.com"
     
     var currentDate: Date {
-        return Date(timeIntervalSince1970: 1489096636) //FIXME: DEBUGGING
+        return Date()
     }
     
     lazy var oauthParameters: [HSRequestParameterKeys: String] = [
         .clientID: "93a8ccfd-db25-40b2-b793-969f5b4d3b21",
-        .redirectURI: "CoreKPI://callback" ,
-        .scope: "contacts" //scope=x%20x where x is a scope
+        .redirectURI: "https://corekpi.gtwenty.com/web/redirect/ios",
+        .scope: "contacts content" //scope=x%20x where x is a scope
     ]
     
     lazy var getTokenParameters: [HSRequestParameterKeys: String] = [
         .grantType: "authorization_code",
         .clientID: "93a8ccfd-db25-40b2-b793-969f5b4d3b21",
-        .clientSecret: "e9500393-5d36-4db3-a228-a449bc9e62a3"
+        .clientSecret: "e9500393-5d36-4db3-a228-a449bc9e62a3",
+        .redirectURI: "https://corekpi.gtwenty.com/web/redirect/ios"
     ]
     
     lazy var getDealsParameters: [HSRequestParameterKeys: String] = [
@@ -98,9 +122,21 @@ class HubSpotManager
         .properties: "&count=250&property=createdate&property=notes_last_contacted&property=hubspot_owner_assigneddate&property=hubspot_owner_id&property=hs_analytics_source"
     ]
     
-    private func makeUrlPathForAuthentication() -> String {
+    func makeUrlPathForAuthentication() -> String {
         
         return authorizeURL + HSAPIMethods.oauth.rawValue + oauthParameters.stringFromHttpParameters()
+    }
+    
+    let nc = NotificationCenter.default
+    
+    init() {        
+        nc.addObserver(self, selector: #selector(getAccessToken),
+                       name: .hubspotCodeRecieved,
+                       object: nil)        
+    }
+    
+    deinit {
+        nc.removeObserver(self)
     }
     
     private func makeUrlPathGetToken() -> String {
@@ -122,24 +158,106 @@ class HubSpotManager
         }
     }
     
+    private func requestToken(with url: URL) {
+        
+        Alamofire.request(url,
+                          method: HTTPMethod.post,
+                          parameters: [:],
+                          encoding: URLEncoding.default,
+                          headers: nil).responseJSON { response in
+                            
+                            if let json = response.value as? [String: Any],
+                                let token = json["access_token"] as? String,
+                                let refToken = json["refresh_token"] as? String,
+                                let expired = json["expires_in"] as? Double
+                            {
+                                let kpi = self.hubspotKPIManagedObject
+                                let validTill = Date(timeInterval: expired,
+                                                     since: Date())
+                                
+                                kpi.oauthToken     = token
+                                kpi.refreshToken   = refToken
+                                kpi.validationDate = validTill as NSDate
+                                
+                                try? self.managedContext.save()
+                                
+                                self.nc.post(name: .hubspotTokenRecieved,
+                                             object: nil)
+                            }
+        }
+        
+    }
+    
+    @objc func getAccessToken(_ notification: Notification) {
+        
+        guard let userInfo = notification.userInfo,
+            let code = userInfo["apiCode"] as? String else {
+            return
+        }
+        
+        var parameters = getTokenParameters
+        
+        parameters[.code] = code
+        
+        let urlString = makeUrlPathFor(request: .getToken,
+                                 parameters: parameters)
+        let url = URL(string: urlString)!
+        
+        requestToken(with: url)
+    }
+    
+    private func refreshToken(_ completion: ()->()) {
+        
+        var parameters = getTokenParameters
+        
+        parameters[.refreshToken] = hubspotKPIManagedObject.oauthToken!
+        
+        let urlString = makeUrlPathFor(request: .getToken,
+                                       parameters: parameters)
+        let url = URL(string: urlString)!
+        
+        requestToken(with: url)
+    }
+    
+    private func checkNeedsToRefreshToken(_ completion: ()->()) {
+        
+        let kpi = hubspotKPIManagedObject
+        let currDate = Date()
+        let tokenExpiredDate = kpi.validationDate! as Date
+        
+        if tokenExpiredDate <= currDate
+        {
+            refreshToken(completion)
+        }
+        else
+        {
+            completion()
+        }
+    }
+    
+    func connect() {
+        
+        checkNeedsToRefreshToken { 
+            getDataFromHubSpot([.pages,
+                                .companies,
+                                .owners,
+                                .deals,
+                                .contacts,
+                                .dealPipelines])
+        }
+    }
+    
     func createNewEntityFor(service: IntegratedServices,
                             kpiName: String,
                             pipelineID: String? = nil) {
         
         let serviceName = service.rawValue        
         let extKPI = ExternalKPI()
-        var hubspotKPI: HubspotKPI!
-        let fetchHubspotKPI = NSFetchRequest<HubspotKPI>(entityName: "HubspotKPI")
-        
-        do {
-            let result = try? managedContext.fetch(fetchHubspotKPI)
-            hubspotKPI = (result == nil) || result!.isEmpty ? HubspotKPI() : result![0]
-        }
         
         extKPI.kpiName = kpiName
         extKPI.hsPipelineID = pipelineID
         extKPI.serviceName = serviceName
-        extKPI.hubspotKPI = hubspotKPI
+        extKPI.hubspotKPI = hubspotKPIManagedObject
         
         do {
             try managedContext.save()
@@ -150,20 +268,7 @@ class HubSpotManager
             print(error.localizedDescription)
         }
     }
-    
-    func connect() {
         
-        //let url = URL(string: makeUrlPathForAuthentication())
-        // webView.handle(url!)
-        
-        getDataFromHubSpot([.pages,
-                            .companies,
-                            .owners,
-                            .deals,
-                            .contacts,
-                            .dealPipelines])
-    }
-    
     func getDataForReport(kpi: HubSpotCRMKPIs, pipelineId: String? = nil) -> resultArray {
         
         var result: resultArray = []
@@ -415,27 +520,27 @@ class HubSpotManager
         {
         case .deals:
             urlPath = makeUrlPathFor(request: request,
-                                     parameters: [.hapiKey: "demo"]) + getDealsParameters[.properties]!
+                                     parameters: [:]) + getDealsParameters[.properties]!
             
         case .contacts:
             urlPath = makeUrlPathFor(request: .contacts,
-                                     parameters: [.hapiKey: "demo"]) + getContactsParameters[.properties]!
+                                     parameters: [:]) + getContactsParameters[.properties]!
             
         case .dealPipelines:
             urlPath = makeUrlPathFor(request: .dealPipelines,
-                                     parameters: [.hapiKey: "demo"])
+                                     parameters: [:])
             
         case .owners:
             urlPath = makeUrlPathFor(request: .owners,
-                                     parameters: [.hapiKey: "demo"])
+                                     parameters: [:])
           
         case .companies:
            urlPath = makeUrlPathFor(request: .companies,
-                                    parameters: [.hapiKey: "demo"])
+                                    parameters: [:])
             
         case .pages:
             urlPath = makeUrlPathFor(request: .pages,
-                                     parameters: [.hapiKey: "demo"])
+                                     parameters: [:])
             
         default: break
         }
@@ -444,7 +549,11 @@ class HubSpotManager
         
         guard requestURL != nil else { return }
         
-        Alamofire.request(requestURL!, headers: [:])
+        let kpi    = hubspotKPIManagedObject
+        let token  = kpi.oauthToken!
+        let header = ["Authorization": "Bearer " + token]
+        
+        Alamofire.request(requestURL!, headers: header)
             .responseJSON(completionHandler:
                 { response in
                     var error = false

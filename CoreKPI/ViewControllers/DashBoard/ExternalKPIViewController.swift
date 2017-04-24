@@ -1,4 +1,4 @@
-//
+ //
 //  ExternalKPIViewController.swift
 //  CoreKPI
 //
@@ -23,6 +23,8 @@ class ExternalKPIViewController: OAuthViewController {
     var hubSpotManager: HubSpotManager {
         return HubSpotManager.sharedInstance
     }
+    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     lazy var managedContext: NSManagedObjectContext = {
        
@@ -86,25 +88,31 @@ class ExternalKPIViewController: OAuthViewController {
                 selectedQBKPIs = serviceKPI.filter { $0.value == true }
                 
             case .HubSpotCRM, .HubSpotMarketing:
-                ui(block: true)
-                /* FIXME: This code causes memory leaking, so when authorisation through WebController will be
-                 finished, keep this in mind.
-                 if internalWebViewController.parent == nil
-                 {
-                 self.addChildViewController(internalWebViewController)
-                 }
-                 */
+                //ui(block: true)
+                // FIXME: This code causes memory leaking, so when authorisation through WebController will be
+                //finished, keep this in mind.
+                
+                if internalWebViewController.parent == nil
+                {
+                    self.addChildViewController(internalWebViewController)
+                }
+                
+                let urlStr = hubSpotManager.makeUrlPathForAuthentication()
+                let url    = URL(string: urlStr)!
+                
+                internalWebViewController.handle(url)                
+                
                 selectedHSKPIs = serviceKPI.filter { $0.value == true }
-               
-                hubSpotManager.connect()                
                 
                 selectedHSKPIs.forEach {
                     if $0.SettingName != HubSpotCRMKPIs.SalesFunnel.rawValue &&
                         $0.SettingName != HubSpotCRMKPIs.DealStageFunnel.rawValue
                     {
-                        hubSpotManager.createNewEntityFor(service: selectedService, kpiName: $0.SettingName)
+                        hubSpotManager.createNewEntityFor(service: selectedService,
+                                                          kpiName: $0.SettingName)
                     }
                 }
+                
             default: break
             }
             doAuthService()
@@ -129,12 +137,23 @@ class ExternalKPIViewController: OAuthViewController {
         tableView.isUserInteractionEnabled = !block
     }
     
+    private var connected = false
+    
     private func subscribeToNotifications() {
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.choosePipelines),
-                                               name: .hubspotManagerRecievedData,
-                                               object: nil)
+        let nc = NotificationCenter.default
+        
+        nc.addObserver(self,
+                       selector: #selector(self.choosePipelines),
+                       name: .hubspotManagerRecievedData,
+                       object: nil)
+        
+        nc.addObserver(forName: .hubspotTokenRecieved,
+                       object: nil, queue: nil) { _ in
+                        guard self.connected == false else { return }
+                        self.hubSpotManager.connect()
+                        self.connected = true
+        }
     }
     
     @objc private func choosePipelines() {

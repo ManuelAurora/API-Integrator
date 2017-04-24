@@ -176,11 +176,23 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 extension AppDelegate {
     
     func applicationHandle(url: URL) {
-        if (url.host == "oauth-callback") {
+        if (url.host == "oauth-callback")
+        {
             OAuthSwift.handle(url: url)
-        } else {
-            // Google provider is the only one wuth your.bundle.id url schema.
-            OAuthSwift.handle(url: url)
+        }
+        else if url.host == "callback"
+        {
+            guard let components = URLComponents(url: url,
+                                                 resolvingAgainstBaseURL: false)
+                else { return }
+            if let items = components.queryItems,
+                items.count > 0,
+                let code = items[0].value
+            {
+                NotificationCenter.default.post(name: .hubspotCodeRecieved,
+                                                object: nil,
+                                                userInfo: ["apiCode": code])
+            }
         }
     }
     
@@ -212,9 +224,9 @@ extension AppDelegate {
     @available(iOS 9.0, *)
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        QuickBookDataManager.shared().serviceParameters[.companyId] = findRealmId(in: url)
         applicationHandle(url: url)
-       
+        
+        QuickBookDataManager.shared().serviceParameters[.companyId] = findRealmId(in: url)
         
         return true
     }

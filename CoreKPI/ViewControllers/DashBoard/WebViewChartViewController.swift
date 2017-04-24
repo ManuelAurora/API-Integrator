@@ -101,7 +101,7 @@ class WebViewChartViewController: UIViewController
             let htmlString: String = html! + "<style>" + css! + "</style>" +
                 "<script>" + acc! + "</script><script>" + js1! +
                 "</script><script>" + topOfJS2 + js2! + endOfJS + "</script>"
-            
+                      
             webView.loadHTMLString(htmlString, baseURL: nil)
             
         case .PointChart:
