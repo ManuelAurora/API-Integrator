@@ -409,16 +409,21 @@ class ChooseSuggestedKPITableViewController: UITableViewController
             return 2
             
         case .User:            
-            switch timeInterval {
+            switch timeInterval
+            {
             case .Daily:
                 return datePickerIsVisible ? 13 : 12
-            default:
-                if dataPickerIsVisible {
-                    return datePickerIsVisible ? 14 : 13
-                } else {
-                    return datePickerIsVisible ? 13 : 12
-                }
+                
+            case .Weekly, .Monthly:
+                var cells = 13
+                
+                if dataPickerIsVisible { cells += 1 }
+                if datePickerIsVisible { cells += 1 }
+                
+                return cells
+                
             }
+            
         case .Integrated:
             var numberOfKPIs = 0
             var arrayOfKPIs: [(SettingName: String, value: Bool)] = []
@@ -615,6 +620,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                             break
                         }
                         SuggestedCell.descriptionOfCell.text = text
+                        
                     case 9:
                         let dataPickerCell = tableView.dequeueReusableCell(withIdentifier: "DataPickerCell", for: indexPath)  as! DataPickerTableViewCell
                         dataPickerCell.dataPicker.reloadAllComponents()
@@ -635,7 +641,16 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                     case 10:
                         SuggestedCell.headerOfCell.text = "Time Zone"
                         SuggestedCell.descriptionOfCell.text = timeZone ?? ""
+                        
                     case 11:
+                        SuggestedCell.headerOfCell.text = "KPI's 1 st view"
+                        SuggestedCell.descriptionOfCell.text = firstChartName
+                        
+                    case 12:
+                        SuggestedCell.headerOfCell.text = "KPI's 2 st view"
+                        SuggestedCell.descriptionOfCell.text = secondChartName
+                        
+                    case 13:
                         SuggestedCell.headerOfCell.text = "Deadline"
                         let dateFormatter = DateFormatter()
                         dateFormatter.timeStyle = .short
@@ -644,7 +659,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                         } else {
                             SuggestedCell.descriptionOfCell.text = dateFormatter.string(for: deadline)
                         }
-                    case 12:
+                        
+                    case 14:
                         let datePickerCell = tableView.dequeueReusableCell(withIdentifier: "DatePickerCell", for: indexPath) as! DatePickerTableViewCell
                         datePickerCell.addKPIVC = self
                         return datePickerCell
@@ -713,6 +729,14 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                         SuggestedCell.descriptionOfCell.text = timeZone ?? ""
                         
                     case 10:
+                        SuggestedCell.headerOfCell.text = "KPI's 1 st view"
+                        SuggestedCell.descriptionOfCell.text = firstChartName
+                        
+                    case 11:
+                        SuggestedCell.headerOfCell.text = "KPI's 2 st view"
+                        SuggestedCell.descriptionOfCell.text = secondChartName
+                        
+                    case 12:
                         SuggestedCell.headerOfCell.text = "Deadline"
                         let dateFormatter = DateFormatter()
                         dateFormatter.timeStyle = .short
@@ -722,7 +746,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                             SuggestedCell.descriptionOfCell.text = dateFormatter.string(for: deadline)
                         }
                         
-                    case 11:
+                    case 13:
                         let datePickerCell = tableView.dequeueReusableCell(withIdentifier: "DatePickerCell", for: indexPath) as! DatePickerTableViewCell
                         datePickerCell.addKPIVC = self
                         return datePickerCell
@@ -843,7 +867,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        switch source {
+        switch source
+        {
         case .none:
             animateTableViewRealoadData()
             
@@ -988,7 +1013,18 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                         typeOfSetting = .TimeZone
                         settingArray = timeZoneArray
                         showSelectSettingVC()
+                        
                     case 10:
+                        typeOfSetting = .firstChart
+                        settingArray = typeOfVisualizationArray
+                        showSelectSettingVC()
+                        
+                    case 11:
+                        typeOfSetting = .secondChart
+                        settingArray = typeOfVisualizationArray
+                        showSelectSettingVC()
+
+                    case 12:
                         showDatePicker(row: indexPath.row)
                         tableView.deselectRow(at: indexPath, animated: true)
                         
@@ -1043,7 +1079,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                     case 8:
                         tableView.deselectRow(at: indexPath, animated: true)
                         dataPickerIsVisible = true
-                        let index = IndexPath(item: 8, section: 0)
+                        let index = IndexPath(item: 9, section: 0)
                         tableView.insertRows(at: [index], with: .fade)
                         tableView.scrollToRow(at: index, at: .bottom, animated: true)
                         
@@ -1053,6 +1089,16 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                         showSelectSettingVC()
                         
                     case 10:
+                        typeOfSetting = .firstChart
+                        settingArray = typeOfVisualizationArray
+                        showSelectSettingVC()
+                        
+                    case 11:
+                        typeOfSetting = .secondChart
+                        settingArray = typeOfVisualizationArray
+                        showSelectSettingVC()
+
+                    case 12:
                         showDatePicker(row: indexPath.row)
                         tableView.deselectRow(at: indexPath, animated: true)
                         
@@ -1231,6 +1277,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
             
             let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
             _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
+            
         case .User:
             var executantProfile: Int!
             
@@ -1306,6 +1353,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                 TypeOfChart(rawValue: secondChartName)! : nil
             
             let request = AddKPI(model: model)
+            
             request.addKPI(kpi: kpi, success: { id in
                 kpi.id = id
                 self.delegate = self.KPIListVC

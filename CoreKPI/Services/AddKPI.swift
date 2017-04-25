@@ -14,9 +14,9 @@ class AddKPI: Request {
         
         var data: [String : Any] = [:]
         
-        switch kpi.typeOfKPI {
+        switch kpi.typeOfKPI
+        {
         case .createdKPI:
-            
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "HH:mm:ss"
             let deadlineTime = dateFormatter.string(from: (kpi.createdKPI?.deadlineTime)!)
@@ -24,8 +24,31 @@ class AddKPI: Request {
             let abbreviaion = kpi.createdKPI?.timeZone.components(separatedBy: "(")[1].replacingOccurrences(of: ")", with: "")
             let timeZone = TimeZone(abbreviation: abbreviaion!)
             let timeZoneHoursFromGMT = (timeZone?.secondsFromGMT())!/3600
+            let firstChart = kpi.KPIChartOne == nil ?
+                "Numbers" : kpi.KPIChartOne!.rawValue
             
-            data = ["name" : (kpi.createdKPI?.KPI)!, "description" : kpi.createdKPI?.descriptionOfKPI ?? "", "department" : (kpi.createdKPI?.department.rawValue)!, "responsible_id" : (kpi.createdKPI?.executant)!, "interval" : (kpi.createdKPI?.timeInterval.rawValue)!, "delivery_day" : kpi.createdKPI?.deadlineDay ?? 1, "deadline" : deadlineTime, "timezone" : timeZoneHoursFromGMT]
+            let secondChart = kpi.KPIChartTwo == nil ?
+                "Numbers" : kpi.KPIChartTwo!.rawValue
+            
+            let color = kpi.imageBacgroundColour.getHexString()
+            
+            guard let createdKPI = kpi.createdKPI else {
+                fatalError("Created KPI is not createdKPI")
+            }
+            
+            data = ["name":           createdKPI.KPI,
+                    "description":    createdKPI.descriptionOfKPI ?? "",
+                    "department":     createdKPI.department.rawValue,
+                    "responsible_id": createdKPI.executant,
+                    "interval":       createdKPI.timeInterval.rawValue,
+                    "delivery_day":   createdKPI.deadlineDay,
+                    "deadline":       deadlineTime,
+                    "timezone":       timeZoneHoursFromGMT,
+                    "view1":          firstChart,
+                    "view2":          secondChart,
+                    "color":          color
+            ]
+            
         case .IntegratedKPI:
             break
             //TODO: Add external KPI

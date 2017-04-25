@@ -487,6 +487,11 @@ class ReportAndViewKPITableViewController: UITableViewController {
             let executantName = profile.firstName! + " " + profile.lastName!
             executantArray.append((executantName, false))
         }
+        
+        guard kpiIndex != nil else {
+            fatalError("DEBUG: KPI INDEX IS NULL")
+        }
+        
         let createdKPI = model.kpis[kpiIndex].createdKPI
         executant = createdKPI?.executant
     }
