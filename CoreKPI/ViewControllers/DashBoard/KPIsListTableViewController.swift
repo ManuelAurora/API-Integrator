@@ -21,6 +21,7 @@ class KPIsListTableViewController: UITableViewController {
     var arrayOfKPI: [KPI] = []
     
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
+    let nc = NotificationCenter.default
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -142,6 +143,13 @@ class KPIsListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView,
                             didSelectRowAt indexPath: IndexPath) {
         
+        let selectedKpi =  arrayOfKPI[indexPath.row]
+        
+        if selectedKpi.createdKPI != nil
+        {
+            loadReportsFor(kpi: selectedKpi)
+        }
+        
         let destinationVC = storyboard?.instantiateViewController(withIdentifier:
             .chartsViewController) as! ChartsPageViewController
         
@@ -248,7 +256,7 @@ class KPIsListTableViewController: UITableViewController {
             self.loadExternal()
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
-            self.loadReports()
+            //self.loadReports()
             NotificationCenter.default.post(name: .modelDidChanged, object: nil)
             
         }, failure: { error in
@@ -280,17 +288,17 @@ class KPIsListTableViewController: UITableViewController {
     }
     
     //MARK: Load reports
-    func loadReports() {
+    func loadReportsFor(kpi: KPI) {
+        
+        kpi.createdKPI?.number.removeAll()
         
         let request = GetReports(model: model)
         
-        for kpi in arrayOfKPI
-        {
-            request.getReportForKPI(withID: kpi.id, success: { reports in
-                kpi.createdKPI?.number = request.filterReports(kpi: kpi, reports: reports)
-                self.tableView.reloadData()               
-            }, failure: { error in })
-        }
+        request.getReportForKPI(withID: kpi.id, success: { reports in
+            kpi.createdKPI?.number = request.filterReports(kpi: kpi, reports: reports)
+            self.nc.post(name: .reportDataForKpiRecieved, object: nil)
+            self.tableView.reloadData()
+        }, failure: { error in })
     }
     
     //MARK: Load User's KPI

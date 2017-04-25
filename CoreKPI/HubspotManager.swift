@@ -14,6 +14,8 @@ import CoreData
 
 typealias resultElement = (leftValue: String, centralValue: String, rightValue: String)
 typealias hubspotParameters = [HSRequestParameterKeys: String]
+public typealias jsonDict = [String: Any]
+
 enum HSRequestParameterKeys: String
 {
     case scope = "scope"
@@ -166,7 +168,7 @@ class HubSpotManager
                           encoding: URLEncoding.default,
                           headers: nil).responseJSON { response in
                             
-                            if let json = response.value as? [String: Any],
+                            if let json = response.value as? jsonDict,
                                 let token = json["access_token"] as? String,
                                 let refToken = json["refresh_token"] as? String,
                                 let expired = json["expires_in"] as? Double
@@ -210,7 +212,8 @@ class HubSpotManager
         
         var parameters = getTokenParameters
         
-        parameters[.refreshToken] = hubspotKPIManagedObject.oauthToken!
+        parameters[.refreshToken] = hubspotKPIManagedObject.refreshToken!
+        parameters[.grantType]    = "refresh_token"
         
         let urlString = makeUrlPathFor(request: .getToken,
                                        parameters: parameters)

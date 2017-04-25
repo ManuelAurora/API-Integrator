@@ -236,11 +236,8 @@ class ReportAndViewKPITableViewController: UITableViewController {
         ("Table", false),
         (TypeOfChart.PieChart.rawValue, false),
         (TypeOfChart.PointChart.rawValue, false),
-        (TypeOfChart.LineChart.rawValue, false),
-        (TypeOfChart.BarChart.rawValue, false),
-        (TypeOfChart.Funnel.rawValue, false),
-        (TypeOfChart.PositiveBar.rawValue, false),
-        (TypeOfChart.AreaChart.rawValue, false)]
+        (TypeOfChart.LineChart.rawValue, false)
+        ]
     
     var timeZoneArray: [(SettingName: String, value: Bool)] = [("Hawaii Time (HST)",false), ("Alaska Time (AKST)", false), ("Pacific Time (PST)",false), ("Mountain Time (MST)", false), ("Central Time (CST)", false), ("Eastern Time (EST)",false)]
     

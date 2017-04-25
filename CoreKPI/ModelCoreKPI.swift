@@ -97,9 +97,10 @@ class KPI {
     var id: Int
     var image: ImageForKPIList? {
         
-        switch typeOfKPI {
+        switch typeOfKPI
+        {
         case .createdKPI:
-            guard let numbers = createdKPI?.number, numbers.count > 2 else {
+            guard let numbers = createdKPI?.number, numbers.count >= 2 else {
                 return nil
             }
             let currentDayValue  = numbers[0].number

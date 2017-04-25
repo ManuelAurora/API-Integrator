@@ -74,6 +74,11 @@ class ChartsPageViewController:
         navigationItem.title = "Reports"
         tableViewChartVC.refreshControl = refreshControl
         
+        if kpi.createdKPI != nil
+        {
+            addWaitingSpinner(at: view.center, color: OurColors.cyan)
+        }        
+        
         formData()
         subscribeToNotifications()
         setInitialViewControllers()
@@ -314,8 +319,17 @@ class ChartsPageViewController:
             self?.removeWaitingSpinner()
             self?.refreshControl.endRefreshing()
         }
+        
+        nCenter.addObserver(forName: .reportDataForKpiRecieved,
+                       object: nil,
+                       queue: nil) {
+                        [weak self] _ in
+                        self?.formData()
+                        self?.removeWaitingSpinner()
+                        self?.tableViewChartVC.reloadTableView()
+        }
     }
-    
+   
     @objc private func prepareDataForReportFromSalesForce() {
         
         removeWaitingSpinner()

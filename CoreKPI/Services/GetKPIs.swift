@@ -96,6 +96,15 @@ class GetKPIs: Request {
                                 deadlineDay = kpiData["delivery_day"] as! Int
                                 number = []
                                 
+                                if let preSubStr = kpiData["prelast_submit"] as? String,
+                                    let lastSubStr = kpiData["last_submit"] as? String,
+                                    let preSub = Double(preSubStr),
+                                    let lastSub = Double(lastSubStr)
+                                {
+                                    number.append(Date(), lastSub)
+                                    number.append((Date() - 190000, preSub))
+                                }
+                                
                                 let createdKPI = CreatedKPI(source: source, department: Departments(rawValue: department) ?? Departments.none , KPI: kpi_name, descriptionOfKPI: descriptionOfKPI, executant: executant, timeInterval: AlertTimeInterval(rawValue: timeInterval)!,deadlineDay: deadlineDay, timeZone: timeZone, deadlineTime: deadlineTime, number: number)
                                 let kpi = KPI(kpiID: id, typeOfKPI: typeOfKPI, integratedKPI: nil, createdKPI: createdKPI, imageBacgroundColour: imageBacgroundColour)
                                 
