@@ -890,8 +890,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                     
                 case 1:
                     typeOfSetting = .Source
-                    settingArray = sourceArray
-                    
+                    settingArray = sourceArray                
                     showSelectSettingVC()
                     
                 case 2:

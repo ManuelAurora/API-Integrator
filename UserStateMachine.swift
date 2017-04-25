@@ -171,8 +171,31 @@ class UserStateMachine
         userStateInfo.haveLocalToken = false
         userStateInfo.usesPinCode    = false
         
-        _ = model.team.map { context.delete($0) }
+        let mainTab    = appDelegate.launchViewController.mainTabBar
+        let teamListVC = mainTab.teamListController
+        let dashboard  = mainTab.dashboardViewController
+        
+        teamListVC.tableView.visibleCells.forEach { cell in
+            guard let c = cell as? MemberListTableViewCell else { return }
+            c.aditionalBackground.layer.borderWidth = 0
+            c.aditionalBackground.layer.borderColor = UIColor.white.cgColor
+        }
+        
+        let hsObject = HubSpotManager.sharedInstance.hubspotKPIManagedObject
+        
+        if let extKpi = hsObject.externalKPI,
+            let kpis = extKpi.allObjects as? [ExternalKPI]
+        {
+            kpis.forEach { context.delete($0) }
+        }
+        
+        model.team.forEach { context.delete($0) }
+        model.kpis.removeAll()
         model.team.removeAll()
+        dashboard.arrayOfKPI.removeAll()
+        dashboard.tableView.reloadData()
+        
+        try? context.save()
         
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.token)
         userRemovedPin()

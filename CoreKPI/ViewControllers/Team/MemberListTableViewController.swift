@@ -204,7 +204,8 @@ class MemberListTableViewController: UITableViewController {
         if notification.name == .profilePhotoDownloaded {
             guard let userInfo = notification.userInfo,
                 let tag = userInfo["UIImageViewTag"] as? Int,
-                let image = userInfo["photo"] as? UIImage
+                let image = userInfo["photo"] as? UIImage,
+                model.team.count > 0
                 else {
                     print("No userInfo with Picture found in notification")
                     return

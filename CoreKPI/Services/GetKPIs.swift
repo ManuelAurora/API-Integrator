@@ -96,12 +96,15 @@ class GetKPIs: Request {
                                 deadlineDay = kpiData["delivery_day"] as! Int
                                 number = []
                                 
-                                if let preSubStr = kpiData["prelast_submit"] as? String,
-                                    let lastSubStr = kpiData["last_submit"] as? String,
-                                    let preSub = Double(preSubStr),
+                                if let lastSubStr = kpiData["last_submit"] as? String,
                                     let lastSub = Double(lastSubStr)
                                 {
                                     number.append(Date(), lastSub)
+                                }
+                                
+                                if let preSubStr = kpiData["prelast_submit"] as? String,
+                                    let preSub = Double(preSubStr)
+                                {                                    
                                     number.append((Date() - 190000, preSub))
                                 }
                                 

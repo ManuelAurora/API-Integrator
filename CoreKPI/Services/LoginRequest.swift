@@ -50,7 +50,7 @@ class LoginRequest: Request {
         
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
-                if let dataKey = json["data"] as? NSDictionary {
+                if let dataKey = json["data"] as? jsonDict {
                     userId = dataKey["user_id"] as! Int
                     token = dataKey["token"] as! String
                     let mode = dataKey["mode"] as! Int

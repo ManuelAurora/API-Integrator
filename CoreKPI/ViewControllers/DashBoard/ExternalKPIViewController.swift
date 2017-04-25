@@ -150,7 +150,7 @@ class ExternalKPIViewController: OAuthViewController {
         
         nc.addObserver(forName: .hubspotTokenRecieved,
                        object: nil, queue: nil) { _ in
-                        guard self.connected == false else { return }
+                        //guard self.connected == false else { return }
                         self.hubSpotManager.connect()
                         self.connected = true
         }
