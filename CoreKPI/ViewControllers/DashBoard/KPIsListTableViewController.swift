@@ -19,12 +19,15 @@ class KPIsListTableViewController: UITableViewController {
     
     var model: ModelCoreKPI!
     var arrayOfKPI: [KPI] = []
-    
+    var isFilteredForUser = false 
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     let nc = NotificationCenter.default
+    var rightBarButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        rightBarButton = navigationItem.rightBarButtonItem
         
         if model.profile?.typeOfAccount != TypeOfAccount.Admin {
             self.navigationItem.rightBarButtonItem = nil
@@ -62,6 +65,11 @@ class KPIsListTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        if !isFilteredForUser {
+            navigationItem.rightBarButtonItem = rightBarButton
+        }
+        
         self.navigationController?.hideTransparentNavigationBar()
     }
     
@@ -82,6 +90,7 @@ class KPIsListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "KPIListCell", for: indexPath) as! KPIListTableViewCell
         cell.KPIListVC  = self
         cell.editButton.tag = indexPath.row

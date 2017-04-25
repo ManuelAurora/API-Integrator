@@ -37,7 +37,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+             
         subscribeNotifications()
         
         let nib = UINib(nibName: "UserInfoTableViewCell", bundle: nil)
@@ -246,10 +246,16 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     @IBAction func tapResponsibleForButton(_ sender: UIButton) {
+        
+        let newButton = UIBarButtonItem(title: "",
+                                        style: .plain,
+                                        target: nil,
+                                        action: nil)
+        
         let vc = storyboard?.instantiateViewController(withIdentifier: "KPIListVC") as! KPIsListTableViewController
         vc.model = model
         vc.loadUsersKPI(userID: Int(model.team[index].userID))
-        vc.navigationItem.rightBarButtonItem = nil
+        vc.navigationItem.setRightBarButton(newButton, animated: true)
         vc.refreshControl = nil
         self.navigationController?.show(vc, sender: nil)
     }
@@ -260,8 +266,8 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
 
     //MARK: - navigation
     override func willMove(toParentViewController parent: UIViewController?) {
-       
-        self.navigationController?.hideTransparentNavigationBar()
+        
+        navigationController?.hideTransparentNavigationBar()
     }
     
     func updateProfilePhoto() {
