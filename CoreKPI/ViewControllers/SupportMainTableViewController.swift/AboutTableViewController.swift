@@ -13,6 +13,8 @@ class AboutTableViewController: UITableViewController   {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = "About CoreKPI"
         tableView.tableFooterView = UIView(frame: .zero)
     }
 

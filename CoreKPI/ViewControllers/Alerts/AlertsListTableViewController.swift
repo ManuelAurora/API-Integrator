@@ -55,6 +55,12 @@ class AlertsListTableViewController: UITableViewController {
     var model: ModelCoreKPI!
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

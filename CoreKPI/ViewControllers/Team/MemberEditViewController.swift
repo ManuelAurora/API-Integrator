@@ -33,6 +33,8 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = "Edit Member"
+        
         self.memberNameTextField.text = "\(model.team[index].firstName!) \(model.team[index].lastName!)"
         self.memberPositionTextField.text = model.team[index].position
         
@@ -347,12 +349,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
             destinationVC.memberEditVC = self
             destinationVC.typeOfAccount = self.newProfile.typeOfAccount
         }
-    }
-    
-    override func willMove(toParentViewController parent: UIViewController?) {
-        self.navigationController?.presentTransparentNavigationBar()
-    }
-    
+    }    
 }
 
 //MARK: - UIImagePickerControllerDelegate methods

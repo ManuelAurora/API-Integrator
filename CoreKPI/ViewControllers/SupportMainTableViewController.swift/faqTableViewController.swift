@@ -23,6 +23,7 @@ class faqTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = "F.A.Q."
         dictionaryCreator()
         getFAQFromServer()
         

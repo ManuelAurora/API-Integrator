@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		6413AFBF1E94CF6E00CC2ABB /* PipelineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6413AFBE1E94CF6E00CC2ABB /* PipelineTableViewCell.swift */; };
-		641D74AF1E8E2C77001023FB /* Lines.js in Resources */ = {isa = PBXBuildFile; fileRef = 641D74AE1E8E2C77001023FB /* Lines.js */; };
 		641F74641E5AE27B00672534 /* QuickBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F74631E5AE27B00672534 /* QuickBook.swift */; };
 		641F74661E5B0F4200672534 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F74651E5B0F4200672534 /* WebViewController.swift */; };
 		643645021E9BC23F0074B9A6 /* SalesforceRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643645011E9BC23F0074B9A6 /* SalesforceRequestManager.swift */; };
@@ -24,6 +23,10 @@
 		645D1C541E6444CE004574C8 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D1C531E6444CE004574C8 /* Helpers.swift */; };
 		645DB20D1E76A405000BEFD4 /* HubspotHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645DB20C1E76A405000BEFD4 /* HubspotHelpers.swift */; };
 		64637DA51E9F9C8C00F33A1C /* Sequence + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64637DA41E9F9C8C00F33A1C /* Sequence + Extension.swift */; };
+		646B6E551EB0D75C00B85F42 /* d3.js in Resources */ = {isa = PBXBuildFile; fileRef = 646B6E511EB0D75C00B85F42 /* d3.js */; };
+		646B6E561EB0D75C00B85F42 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 646B6E521EB0D75C00B85F42 /* index.html */; };
+		646B6E571EB0D75C00B85F42 /* lines.js in Resources */ = {isa = PBXBuildFile; fileRef = 646B6E531EB0D75C00B85F42 /* lines.js */; };
+		646B6E581EB0D75C00B85F42 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 646B6E541EB0D75C00B85F42 /* style.css */; };
 		646BF08E1E6E8B4200621FE2 /* HubspotManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */; };
 		646BF0911E6EE64800621FE2 /* HubspotRequestedObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BF0901E6EE64800621FE2 /* HubspotRequestedObjects.swift */; };
 		646E2AC11E7C070C0010E4BE /* Date + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646E2AC01E7C070C0010E4BE /* Date + Extension.swift */; };
@@ -44,9 +47,6 @@
 		64936AF31E543DC00059D80A /* PinCodePlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */; };
 		6496D6301E8A498D002591EA /* pop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6496D62F1E8A498D002591EA /* pop.framework */; };
 		6496D6311E8A498D002591EA /* pop.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6496D62F1E8A498D002591EA /* pop.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		64A2CAC91E8E6EA100BDECF8 /* Lines.css in Resources */ = {isa = PBXBuildFile; fileRef = 64A2CAC81E8E6EA100BDECF8 /* Lines.css */; };
-		64A2CACD1E8E6ED200BDECF8 /* d3.js in Resources */ = {isa = PBXBuildFile; fileRef = 64A2CACA1E8E6ED200BDECF8 /* d3.js */; };
-		64A2CACE1E8E6ED200BDECF8 /* d3v3.js in Resources */ = {isa = PBXBuildFile; fileRef = 64A2CACB1E8E6ED200BDECF8 /* d3v3.js */; };
 		64A32B921E5B394B008438DA /* String + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A32B911E5B394B008438DA /* String + Extension.swift */; };
 		64CB22A51E72E9EB00CBD6A3 /* PayPal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CB22A41E72E9EB00CBD6A3 /* PayPal.swift */; };
 		64E08EBF1E5C3D4B00FE1F8E /* Dictionary + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E08EBE1E5C3D4B00FE1F8E /* Dictionary + Extension.swift */; };
@@ -171,7 +171,6 @@
 		A2E8F9FF1E3B32D700046870 /* DeleteKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E8F9FE1E3B32D700046870 /* DeleteKPI.swift */; };
 		A2EFE2C61E2DF0A500BA2956 /* ChartsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EFE2C51E2DF0A500BA2956 /* ChartsPageViewController.swift */; };
 		A2EFE2C81E2DF0E300BA2956 /* TableViewChartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EFE2C71E2DF0E300BA2956 /* TableViewChartController.swift */; };
-		A2EFE2CA1E2E390900BA2956 /* Lines.html in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2C91E2E390900BA2956 /* Lines.html */; };
 		A2EFE2D21E2E3FAA00BA2956 /* bar.html in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2D11E2E3FAA00BA2956 /* bar.html */; };
 		A2EFE2D41E2E3FE200BA2956 /* bar.js in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2D31E2E3FE200BA2956 /* bar.js */; };
 		A2EFE2D61E2E400500BA2956 /* bar.css in Resources */ = {isa = PBXBuildFile; fileRef = A2EFE2D51E2E400500BA2956 /* bar.css */; };
@@ -236,7 +235,6 @@
 
 /* Begin PBXFileReference section */
 		6413AFBE1E94CF6E00CC2ABB /* PipelineTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipelineTableViewCell.swift; sourceTree = "<group>"; };
-		641D74AE1E8E2C77001023FB /* Lines.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Lines.js; sourceTree = "<group>"; };
 		641F74631E5AE27B00672534 /* QuickBook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBook.swift; sourceTree = "<group>"; };
 		641F74651E5B0F4200672534 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		643645011E9BC23F0074B9A6 /* SalesforceRequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SalesforceRequestManager.swift; sourceTree = "<group>"; };
@@ -251,6 +249,10 @@
 		645D1C531E6444CE004574C8 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		645DB20C1E76A405000BEFD4 /* HubspotHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotHelpers.swift; sourceTree = "<group>"; };
 		64637DA41E9F9C8C00F33A1C /* Sequence + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence + Extension.swift"; sourceTree = "<group>"; };
+		646B6E511EB0D75C00B85F42 /* d3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = d3.js; sourceTree = "<group>"; };
+		646B6E521EB0D75C00B85F42 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		646B6E531EB0D75C00B85F42 /* lines.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = lines.js; sourceTree = "<group>"; };
+		646B6E541EB0D75C00B85F42 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
 		646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotManager.swift; sourceTree = "<group>"; };
 		646BF08F1E6ECD9500621FE2 /* CoreKPI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CoreKPI.entitlements; sourceTree = "<group>"; };
 		646BF0901E6EE64800621FE2 /* HubspotRequestedObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotRequestedObjects.swift; sourceTree = "<group>"; };
@@ -271,9 +273,6 @@
 		64936AF01E543DC00059D80A /* PinCodeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeButton.swift; sourceTree = "<group>"; };
 		64936AF11E543DC00059D80A /* PinCodePlaceholderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodePlaceholderView.swift; sourceTree = "<group>"; };
 		6496D62F1E8A498D002591EA /* pop.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = pop.framework; path = Carthage/Build/iOS/pop.framework; sourceTree = "<group>"; };
-		64A2CAC81E8E6EA100BDECF8 /* Lines.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = Lines.css; sourceTree = "<group>"; };
-		64A2CACA1E8E6ED200BDECF8 /* d3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = d3.js; sourceTree = "<group>"; };
-		64A2CACB1E8E6ED200BDECF8 /* d3v3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = d3v3.js; sourceTree = "<group>"; };
 		64A32B911E5B394B008438DA /* String + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String + Extension.swift"; sourceTree = "<group>"; };
 		64A32B941E5B3B85008438DA /* BridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		64CB22A41E72E9EB00CBD6A3 /* PayPal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PayPal.swift; path = ExternalServices/PayPal.swift; sourceTree = "<group>"; };
@@ -400,7 +399,6 @@
 		A2E8F9FE1E3B32D700046870 /* DeleteKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteKPI.swift; path = Services/DeleteKPI.swift; sourceTree = "<group>"; };
 		A2EFE2C51E2DF0A500BA2956 /* ChartsPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChartsPageViewController.swift; path = CoreKPI/ViewControllers/DashBoard/ChartsPageViewController.swift; sourceTree = "<group>"; };
 		A2EFE2C71E2DF0E300BA2956 /* TableViewChartController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewChartController.swift; path = CoreKPI/ViewControllers/DashBoard/TableViewChartController.swift; sourceTree = "<group>"; };
-		A2EFE2C91E2E390900BA2956 /* Lines.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = Lines.html; path = Graphics/Lines/Lines.html; sourceTree = "<group>"; };
 		A2EFE2D11E2E3FAA00BA2956 /* bar.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bar.html; path = Graphics/BarChart/bar.html; sourceTree = "<group>"; };
 		A2EFE2D31E2E3FE200BA2956 /* bar.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = bar.js; path = Graphics/BarChart/bar.js; sourceTree = "<group>"; };
 		A2EFE2D51E2E400500BA2956 /* bar.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = bar.css; path = Graphics/BarChart/bar.css; sourceTree = "<group>"; };
@@ -466,6 +464,17 @@
 			name = PayPal;
 			sourceTree = "<group>";
 		};
+		646B6E461EB0CE8000B85F42 /* LinearChart */ = {
+			isa = PBXGroup;
+			children = (
+				646B6E511EB0D75C00B85F42 /* d3.js */,
+				646B6E521EB0D75C00B85F42 /* index.html */,
+				646B6E531EB0D75C00B85F42 /* lines.js */,
+				646B6E541EB0D75C00B85F42 /* style.css */,
+			);
+			path = LinearChart;
+			sourceTree = "<group>";
+		};
 		646BF08C1E6E8B1C00621FE2 /* Quickbooks */ = {
 			isa = PBXGroup;
 			children = (
@@ -492,8 +501,8 @@
 				A2C9ABD81E2F5B7E00623659 /* PositivBar */,
 				A2EFE2D71E2E444200BA2956 /* Funnel */,
 				644B4C6F1E926B6000F55F1F /* HubspotKPI + Extension.swift */,
+				646B6E461EB0CE8000B85F42 /* LinearChart */,
 				A2EFE2D01E2E3F6B00BA2956 /* BarChart */,
-				A2EFE2CB1E2E391B00BA2956 /* Lines */,
 				A2B807E71E13A48800F2C1CB /* Points */,
 				A292F5C51E13ACFE009F9F48 /* Pie */,
 				A26BEEAD1E3F870B00C2D2AC /* StackArea */,
@@ -939,18 +948,6 @@
 			name = PositivBar;
 			sourceTree = "<group>";
 		};
-		A2EFE2CB1E2E391B00BA2956 /* Lines */ = {
-			isa = PBXGroup;
-			children = (
-				64A2CACA1E8E6ED200BDECF8 /* d3.js */,
-				64A2CACB1E8E6ED200BDECF8 /* d3v3.js */,
-				A2EFE2C91E2E390900BA2956 /* Lines.html */,
-				641D74AE1E8E2C77001023FB /* Lines.js */,
-				64A2CAC81E8E6EA100BDECF8 /* Lines.css */,
-			);
-			name = Lines;
-			sourceTree = "<group>";
-		};
 		A2EFE2D01E2E3F6B00BA2956 /* BarChart */ = {
 			isa = PBXGroup;
 			children = (
@@ -1090,10 +1087,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64A2CACE1E8E6ED200BDECF8 /* d3v3.js in Resources */,
-				64A2CACD1E8E6ED200BDECF8 /* d3.js in Resources */,
 				A2C9ABE01E2F91B800623659 /* accounting.min.js in Resources */,
-				A2EFE2CA1E2E390900BA2956 /* Lines.html in Resources */,
 				A2EFE2DB1E2E454A00BA2956 /* funnel.css in Resources */,
 				A2EFE2D21E2E3FAA00BA2956 /* bar.html in Resources */,
 				A27820731E001503009F83DB /* LaunchScreen.storyboard in Resources */,
@@ -1101,7 +1095,6 @@
 				645616461E67029B00643340 /* UserInfoTableViewCell.xib in Resources */,
 				A2C9FD291E13E1D400433D43 /* Rd3.v3.min.js in Resources */,
 				A2C9FD261E13E1CD00433D43 /* style.css in Resources */,
-				641D74AF1E8E2C77001023FB /* Lines.js in Resources */,
 				A2C9ABDE1E2F5C4100623659 /* positiveBar.js in Resources */,
 				A2EFE2D91E2E446900BA2956 /* funnel.html in Resources */,
 				A2EFE2D41E2E3FE200BA2956 /* bar.js in Resources */,
@@ -1109,16 +1102,19 @@
 				A2C9ABDA1E2F5BD600623659 /* positiveBar.html in Resources */,
 				A2C9ABDC1E2F5BFE00623659 /* positiveBar.css in Resources */,
 				64EE4DFA1E55B6DC0007926F /* PinCodeView.xib in Resources */,
+				646B6E561EB0D75C00B85F42 /* index.html in Resources */,
 				A26BEEAA1E3F70C800C2D2AC /* funnel.js in Resources */,
+				646B6E581EB0D75C00B85F42 /* style.css in Resources */,
 				A2B720981E2E4AFD00471E91 /* d3-funnel.js in Resources */,
 				A2279D7A1E14DE1700669EB0 /* points.html in Resources */,
 				A2C9FD2A1E13E1D400433D43 /* round.js in Resources */,
+				646B6E571EB0D75C00B85F42 /* lines.js in Resources */,
+				646B6E551EB0D75C00B85F42 /* d3.js in Resources */,
 				A2EFE2D61E2E400500BA2956 /* bar.css in Resources */,
 				A27820701E001503009F83DB /* Assets.xcassets in Resources */,
 				A26BEEAC1E3F86F900C2D2AC /* stackArea.html in Resources */,
 				A2EFE2DF1E2E494200BA2956 /* jquery.min.js in Resources */,
 				A2EFE2E11E2E4A1300BA2956 /* d3V442.min.js in Resources */,
-				64A2CAC91E8E6EA100BDECF8 /* Lines.css in Resources */,
 				A2C9FD231E13E1C500433D43 /* index.html in Resources */,
 				A278206B1E001503009F83DB /* Main.storyboard in Resources */,
 				A26BEEB11E3F8AD400C2D2AC /* stackArea.js in Resources */,

@@ -175,11 +175,11 @@ class UserStateMachine
         let teamListVC = mainTab.teamListController
         let dashboard  = mainTab.dashboardViewController
         
-        teamListVC.tableView.visibleCells.forEach { cell in
-            guard let c = cell as? MemberListTableViewCell else { return }
-            c.aditionalBackground.layer.borderWidth = 0
-            c.aditionalBackground.layer.borderColor = UIColor.white.cgColor
-        }
+//        teamListVC.tableView.visibleCells.forEach { cell in
+//            guard let c = cell as? MemberListTableViewCell else { return }
+//            c.aditionalBackground.layer.borderWidth = 0
+//            c.aditionalBackground.layer.borderColor = UIColor.white.cgColor
+//        }
         
         let hsObject = HubSpotManager.sharedInstance.hubspotKPIManagedObject
         

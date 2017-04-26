@@ -106,7 +106,7 @@ class KPI {
             let currentDayValue  = numbers[0].number
             let previousDayValue = numbers[1].number
             
-            return currentDayValue > previousDayValue ? .Increases : .Decreases
+            return currentDayValue >= previousDayValue ? .Increases : .Decreases
             
         case .IntegratedKPI:
             let service = IntegratedServices(rawValue: integratedKPI.serviceName!) //integratedKPI?.service

@@ -37,10 +37,15 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-             
+        
+        title = "Member Info"
+        
         subscribeNotifications()
         
         let nib = UINib(nibName: "UserInfoTableViewCell", bundle: nil)
+        
+        let insetValue = UIEdgeInsetsMake(69, 0, 0, 0)
+        tableView.contentInset = insetValue
         
         tableView.register(nib, forCellReuseIdentifier: "UserInfoCell")
         tableView.allowsSelection = false
@@ -63,9 +68,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         updateMemberInfo()
         
         self.tableView.tableFooterView = UIView(frame: .zero)
-        //Set Navigation Bar transparent
-        self.navigationController?.presentTransparentNavigationBar()
-        
+        tableView.backgroundColor = OurColors.gray        
     }
     
     private func thisIsMyAccount() -> Bool {
@@ -128,7 +131,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0
         {
-            return 250
+            return 200
         }
         else { return 62 }
     }    

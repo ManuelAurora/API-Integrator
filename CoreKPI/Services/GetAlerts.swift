@@ -46,6 +46,9 @@ class GetAlerts: Request {
                             let days = alert["days"] as! Int64
                             newAlert.onlyWorkHours = days == 0 ? false : true
                             newAlert.alertID = alert["id"] as! Int64
+                            
+                         //   newAlert.timezone = timezoneTitleFrom(hoursFromGMT: <#T##String#>)
+                            
                             if let typeOfNotifications = alert["methods"] as? NSArray, typeOfNotifications.count > 0 {
                                 
                                 newAlert.emailNotificationIsActive = false

@@ -1,10 +1,11 @@
-'use strict';
+"use strict";
 
 // Данные для чарта
-var dataIn = [[{ date: new Date(2016, 12, 22), rate: 26.4 }, { date: new Date(2016, 12, 23), rate: 29.2 }, { date: new Date(2016, 12, 24), rate: 26.4 }, { date: new Date(2016, 12, 25), rate: 26.45 }, { date: new Date(2016, 12, 26), rate: 26.3 }, { date: new Date(2016, 12, 27), rate: 26.87 }, { date: new Date(2016, 12, 28), rate: 26.52 }], [{ date: new Date(2016, 12, 22), rate: 28.2 }, { date: new Date(2016, 12, 23), rate: 28.3 }, { date: new Date(2016, 12, 24), rate: 29.46 }, { date: new Date(2016, 12, 25), rate: 27.95 }, { date: new Date(2016, 12, 26), rate: 27.90 }, { date: new Date(2016, 12, 27), rate: 27.9 }, { date: new Date(2016, 12, 28), rate: 28.5 }], [{ date: new Date(2016, 12, 22), rate: 27.2 }, { date: new Date(2016, 12, 23), rate: 27.3 }, { date: new Date(2016, 12, 24), rate: 27.46 }, { date: new Date(2016, 12, 25), rate: 29.95 }, { date: new Date(2016, 12, 26), rate: 25.90 }, { date: new Date(2016, 12, 27), rate: 26.9 }, { date: new Date(2016, 12, 28), rate: 27.9 }]];
+//var dataIn = [[{ date: new Date(1492189252000), rate: 26.4 }, { date: new Date(1492189252000), rate: 29.2 }, { date: new Date(1492189252000), rate: 26.4 }, { date: new Date(1492189252000), rate: 26.45 }, { date: new Date(1492189252000), rate: 26.3 }, { date: new Date(1492189252000), rate: 26.87 }, { date: new Date(1492189252000), rate: 26.52 }], [{ date: new Date(1492189252000), rate: 28.2 }, { date: new Date(1492189252000), rate: 28.3 }, { date: new Date(1492189252000), rate: 29.46 }, { date: new Date(1492189252000), rate: 27.95 }, { date: new Date(1492189252000), rate: 27.90 }, { date: new Date(1492189252000), rate: 27.9 }, { date: new Date(1492189252000), rate: 28.5 }]];
 
-var lineChartWidth = document.querySelector('.chart-wrapper').clientWidth;
-var lineChartHeight = document.querySelector('.chart-wrapper').clientHeight;
+var title = 'СЮДА НАЗВАНИЕ ЕЕЕЕЕЕ';
+var lineChartWidth = document.body.clientWidth;
+var lineChartHeight = document.body.clientHeight * 0.7;
 var margin = { top: 50, right: 30, bottom: 30, left: 30 };
 
 var width = void 0,
@@ -21,11 +22,11 @@ function startParams() {
     svg = d3.select("#chart-linechart").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("class", "chart__cnt").attr("transform", "translate(" + 50 + "," + margin.top + ")");
 
     // добавляем заголовок
-    svg.append("text").attr("x", 0).attr("y", -15).attr("text-anchor", "start").attr("fill", "#ffffff").style("font-size", "22px").text("Net Sales / Total Sales");
+    svg.append("text").attr("x", 0).attr("y", -15).attr("text-anchor", "start").attr("fill", "#ffffff").style("font-size", "22px").text(title);
 }
 
 function lineChart(w, h, data) {
-    var maxValue = d3.max([d3.max(data[0], function (d) {
+    var maxValue = d3.max([d3.max(data[data.length - 1], function (d) {
         return d.rate;
     })]);
 
@@ -36,14 +37,16 @@ function lineChart(w, h, data) {
     // функция интерполяции значений на ось Х
     var scaleX = d3.time.scale().domain([d3.min(data[0], function (d) {
         return d.date;
-    }), d3.max(data[0], function (d) {
+    }), d3.max(data[data.length - 1], function (d) {
         return d.date;
     })]).range([0, width - margin.left]);
 
     // функция интерполяции значений на ось Y
     var scaleY = d3.scale.linear().domain([maxValue + 0.5, minValue - 0.5]).range([0, height]);
 
-    var xAxis = d3.svg.axis().scale(scaleX).orient("bottom").tickFormat(d3.time.format('%e.%m'));
+    var xAxis = d3.svg.axis().scale(scaleX).orient("bottom")
+    // .tickFormat(d3.format());
+    .tickFormat(d3.time.format('%e.%m'));
 
     var yAxis = d3.svg.axis().scale(scaleY).orient('left');
 
@@ -118,13 +121,9 @@ function lineChart(w, h, data) {
     }
 }
 
-function init(w, h, data) {
-    lineChart(w, h, data);
-}
-
 function main(w, h, data) {
     startParams();
-    init(w, h, data);
+    lineChart(w, h, data);
 }
 
 main(lineChartWidth, lineChartHeight, dataIn);

@@ -120,18 +120,17 @@ class WebViewChartViewController: UIViewController
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + topOfJS + js2! + "</script>", baseURL: nil)
             
         case .LineChart:
-            let htmlFile = Bundle.main.path(forResource:"Lines", ofType: "html")
-            let cssFile = Bundle.main.path(forResource:"Lines", ofType: "css")
+            let htmlFile = Bundle.main.path(forResource:"index", ofType: "html")
+            let cssFile = Bundle.main.path(forResource:"style", ofType: "css")
             let jsFile1 = Bundle.main.path(forResource:"d3", ofType: "js")
-            let jsFile2 = Bundle.main.path(forResource:"Lines", ofType: "js")
+            let jsFile2 = Bundle.main.path(forResource:"lines", ofType: "js")
             
             let html = try? String(contentsOfFile: htmlFile!, encoding: String.Encoding.utf8)
             let css = try? String(contentsOfFile: cssFile!, encoding: String.Encoding.utf8)
             let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
                         
-            let topOfJS2 = "const lineChartHeight = \(height);" +
-                generateDataForJS()
+            let topOfJS2 = generateDataForJS()
             
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + topOfJS2 + js2! + "</script>", baseURL: nil)
             
@@ -330,7 +329,7 @@ class WebViewChartViewController: UIViewController
             
             header = "Line chart"
             
-            var dataForJS = "var label = '\(header)'; const dataIn = [["
+            var dataForJS = "var title = '\(header)'; const dataIn = [["
             
             if lineChartData.count > 0
             {
@@ -341,7 +340,8 @@ class WebViewChartViewController: UIViewController
                     for (index, item) in arrayOfData.enumerated()
                     {
                         if index > 0 { dataForJS += "," }
-                        let lineData = "{date: new Date(\(item.timestamp)), rate: \(item.netValue)}"
+                        let stamp = Int(Double(item.timestamp)!)
+                        let lineData = "{date: new Date(\(stamp)000), rate: \(item.netValue)}"
                         dataForJS += lineData
                     }
                     

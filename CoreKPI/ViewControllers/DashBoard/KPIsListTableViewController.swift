@@ -38,22 +38,22 @@ class KPIsListTableViewController: UITableViewController {
         nc.addObserver(forName: .newExternalKPIadded,
                        object: nil,
                        queue: nil,
-                       using: catchNotification)
-        
-        refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self,
-                                  action: #selector(self.refresh),
-                                  for: UIControlEvents.valueChanged)
-        refreshControl?.backgroundColor = UIColor.clear
-        tableView.addSubview(refreshControl!)
-        
-        self.navigationController?.hideTransparentNavigationBar()
+                       using: catchNotification)        
+       
         self.navigationController?.navigationBar.titleTextAttributes = attrs
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.backgroundColor = OurColors.gray
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         if let firstLoad = UserDefaults.standard.data(forKey: "firstLoad"),
             let _ = NSKeyedUnarchiver.unarchiveObject(with: firstLoad) as? Bool {
         } else {
@@ -65,8 +65,15 @@ class KPIsListTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        if !isFilteredForUser {
+        refreshControl?.addTarget(self,
+                                  action: #selector(self.refresh),
+                                  for: UIControlEvents.valueChanged)
+        refreshControl?.backgroundColor = UIColor.clear
+        
+        if !isFilteredForUser
+        {
             navigationItem.rightBarButtonItem = rightBarButton
         }
         
@@ -75,6 +82,7 @@ class KPIsListTableViewController: UITableViewController {
     
     //MARK: - Save mark about first loading
     func saveData() {
+        
         let data: Bool = true
         let encodedData = NSKeyedArchiver.archivedData(withRootObject: data)
         UserDefaults.standard.set(encodedData, forKey: "firstLoad")
@@ -148,7 +156,7 @@ class KPIsListTableViewController: UITableViewController {
         }
         return cell
     }
-    
+       
     override func tableView(_ tableView: UITableView,
                             didSelectRowAt indexPath: IndexPath) {
         
@@ -165,20 +173,7 @@ class KPIsListTableViewController: UITableViewController {
         destinationVC.kpi = arrayOfKPI[indexPath.row]
         navigationController?.pushViewController(destinationVC, animated: true)
     }
-    
-    override func tableView(_ tableView: UITableView,
-                            willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         
-        let selectCell = tableView.cellForRow(at: indexPath) as! KPIListTableViewCell
-        
-       
-        if !selectCell.deleteButton.isHidden {
-            return indexPath
-        }
-        
-        return indexPath
-    }
-    
     override func tableView(_ tableView: UITableView,
                             editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
@@ -351,7 +346,7 @@ class KPIsListTableViewController: UITableViewController {
     
     override func willMove(toParentViewController parent: UIViewController?) {
         if(!(parent?.isEqual(self.parent) ?? false)) {
-            self.navigationController?.presentTransparentNavigationBar()
+           // self.navigationController?.presentTransparentNavigationBar()
         }
     }
     

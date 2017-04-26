@@ -79,7 +79,7 @@ class GetKPIs: Request {
                                 executant = kpiData["responsive_id"] as! Int
                                 
                                 let timeZoneString = kpiData["timezone"] as! String
-                                timeZone = timeZoneString //TODO: parsing timeZones
+                                timeZone = timezoneTitleFrom(hoursFromGMT: timeZoneString).rawValue
                                 
                                 let dateFormatter = DateFormatter()
                                 dateFormatter.dateFormat = "HH:mm:ss"

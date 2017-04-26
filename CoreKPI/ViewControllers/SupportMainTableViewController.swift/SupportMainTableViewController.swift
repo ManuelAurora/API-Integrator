@@ -12,12 +12,17 @@ class SupportMainTableViewController: UITableViewController {
 
     var model: ModelCoreKPI!    
     var stateMachine = UserStateMachine.shared
+    private var isRequestForNewIntegration = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let attributes = [NSForegroundColorAttributeName: OurColors.cyan]
+                
+        title = "Support"        
         tableView.backgroundColor = OurColors.gray
-        tableView.tableFooterView = UIView(frame: .zero)        
+        tableView.tableFooterView = UIView(frame: .zero)
+        navigationController?.navigationBar.titleTextAttributes = attributes
     }
     
     // MARK: - Table view data source
@@ -32,5 +37,24 @@ class SupportMainTableViewController: UITableViewController {
     @IBAction func didTapLogoutButton(_ sender: UIBarButtonItem) {
         
        stateMachine.logOut()
-    }    
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 1
+        {
+            isRequestForNewIntegration = true
+        }
+        else
+        {
+            isRequestForNewIntegration = false 
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if let vc = segue.destination as? TalkToUsViewController
+        {
+            vc.isRequestForNewIntegration = isRequestForNewIntegration
+        }
+    }
 }

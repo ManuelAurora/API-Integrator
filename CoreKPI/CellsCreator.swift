@@ -198,7 +198,8 @@ extension ReportAndViewKPITableViewController {
                                 cell.descriptionOfCell.text = timeInterval.rawValue
                             case 2:
                                 cell.headerOfCell.text = "Time zone"
-                                cell.descriptionOfCell.text = timeZone ?? " "
+                                cell.descriptionOfCell.text = timeZone ?? "HUI"
+                                
                             case 3:
                                 cell.headerOfCell.text = "Deadline"
                                 let dateFormatter = DateFormatter()

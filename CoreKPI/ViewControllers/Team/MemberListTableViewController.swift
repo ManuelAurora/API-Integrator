@@ -17,8 +17,16 @@ class MemberListTableViewController: UITableViewController {
     
     @IBOutlet weak var addButton: UIBarButtonItem!
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = "Team List"
         
         refreshControl = UIRefreshControl()
         refreshControl?.backgroundColor = UIColor.clear
@@ -29,8 +37,6 @@ class MemberListTableViewController: UITableViewController {
         if model.profile?.typeOfAccount != TypeOfAccount.Admin {
             self.navigationItem.rightBarButtonItem = nil
         }
-        
-        loadTeamListFromServer()
         
         let nc = NotificationCenter.default
         nc.addObserver(forName: .profilePhotoDownloaded, object:nil, queue:nil, using:catchNotification)
@@ -63,6 +69,11 @@ class MemberListTableViewController: UITableViewController {
         {
             cell.aditionalBackground.layer.borderWidth = 2
             cell.aditionalBackground.layer.borderColor = OurColors.cyan.cgColor
+        }
+        else
+        {
+            cell.aditionalBackground.layer.borderWidth = 0
+            cell.aditionalBackground.layer.borderColor = UIColor.white.cgColor
         }
         
         if let memberNickname = model.team[indexPath.row].nickname {
@@ -167,6 +178,7 @@ class MemberListTableViewController: UITableViewController {
     
     //MARK: - load team list from server
     func loadTeamListFromServer() {
+        
         let request = GetMemberList(model: model)
         request.getMemberList(success: { team in
             for profile in self.model.team {
@@ -180,10 +192,7 @@ class MemberListTableViewController: UITableViewController {
                 print(error)
                 return
             }
-            let nc = NotificationCenter.default
-            nc.post(name: .modelDidChanged,
-                    object: nil,
-                    userInfo: nil)
+                        
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
             

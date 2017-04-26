@@ -121,3 +121,29 @@ public func iterateEnum<T: Hashable>(_: T.Type) -> AnyIterator<T> {
         return next
     }
 }
+
+public enum Timezones: String
+{
+    case hawaii   = "Hawaii Time (HST)" //-10
+    case alaska   = "Alaska Time (AKST)" //-8
+    case pacific  = "Pacific Time (PST)" //-7
+    case mountain = "Mountain Time (MST)" //-6
+    case central  = "Central Time (CST)" //-5
+    case eastern  = "Eastern Time (EST)" //-4
+    case error    = "Error"
+}
+
+public func timezoneTitleFrom(hoursFromGMT: String) -> Timezones
+{
+    switch hoursFromGMT
+    {
+    case "-10": return .hawaii
+    case "-8":  return .alaska
+    case "-7":  return .pacific
+    case "-6":  return .mountain
+    case "-5":  return .central
+    case "-4":  return .eastern
+    default:    return .error
+    }
+}
+

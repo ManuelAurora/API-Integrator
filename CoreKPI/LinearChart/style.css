@@ -162,7 +162,8 @@ body {
   line-height: 20px;
   -webkit-text-size-adjust: none;
   color: #333333;
-  background: #ffffff; }
+  background: #ffffff;
+  height: 100vh; }
 
 * {
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
@@ -586,7 +587,7 @@ a {
     shape-rendering: crispedges;
     /*stroke-opacity: 0.2;*/ }
   .chart-wrapper.chart-wrapper_linechart .axis text {
-    font-size: 10px;
+    font-size: 8px;
     fill: #fff;
     fill-opacity: 0.5; }
   .chart-wrapper.chart-wrapper_linechart .linePath {
@@ -663,8 +664,12 @@ a {
   padding: 10px 0;
   background: #2062f2; }
   .funnel > * {
-    width: -webkit-calc( 100% - ( 10px + 10px ));
-    width: calc( 100% - ( 10px + 10px )); }
+    width: -webkit-calc(
+ 100% -
+ ( 10px + 10px ));
+    width: calc(
+ 100% -
+ ( 10px + 10px )); }
   .funnel__cnt {
     display: -webkit-box;
     display: -webkit-flex;
