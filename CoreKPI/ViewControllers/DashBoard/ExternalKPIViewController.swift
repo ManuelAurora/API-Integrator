@@ -88,10 +88,6 @@ class ExternalKPIViewController: OAuthViewController {
                 selectedQBKPIs = serviceKPI.filter { $0.value == true }
                 
             case .HubSpotCRM, .HubSpotMarketing:
-                //ui(block: true)
-                // FIXME: This code causes memory leaking, so when authorisation through WebController will be
-                //finished, keep this in mind.
-                
                 if internalWebViewController.parent == nil
                 {
                     self.addChildViewController(internalWebViewController)
@@ -100,7 +96,7 @@ class ExternalKPIViewController: OAuthViewController {
                 let urlStr = hubSpotManager.makeUrlPathForAuthentication()
                 let url    = URL(string: urlStr)!
                 
-                internalWebViewController.handle(url)                
+                internalWebViewController.handle(url)
                 
                 selectedHSKPIs = serviceKPI.filter { $0.value == true }
                 
@@ -141,18 +137,19 @@ class ExternalKPIViewController: OAuthViewController {
     
     private func subscribeToNotifications() {
         
+        weak var weakSelf = self
         let nc = NotificationCenter.default
         
-        nc.addObserver(self,
-                       selector: #selector(self.choosePipelines),
+        nc.addObserver(weakSelf!,
+                       selector: #selector(weakSelf?.choosePipelines),
                        name: .hubspotManagerRecievedData,
                        object: nil)
         
         nc.addObserver(forName: .hubspotTokenRecieved,
                        object: nil, queue: nil) { _ in
                         //guard self.connected == false else { return }
-                        self.hubSpotManager.connect()
-                        self.connected = true
+                        weakSelf?.hubSpotManager.connect()
+                        weakSelf?.connected = true
         }
     }
     
@@ -364,6 +361,8 @@ extension ExternalKPIViewController: OAuthWebViewControllerDelegate {
     }
     func oauthWebViewControllerDidDisappear() {
         // Ensure all listeners are removed if presented web view close
+        internalWebViewController.delegate = nil
+        hubSpotManager.oauthSwift.cancel()
         quickBookDataManager.oauthswift.cancel()
     }
 }

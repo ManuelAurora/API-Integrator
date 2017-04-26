@@ -8,7 +8,7 @@ class WebViewController: OAuthWebViewController {
 
     var targetURL: URL?
     let webView: WebView = WebView()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
