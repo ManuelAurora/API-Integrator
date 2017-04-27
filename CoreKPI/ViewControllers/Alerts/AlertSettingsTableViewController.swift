@@ -96,7 +96,7 @@ class AlertSettingsTableViewController: UITableViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+    
         removeWaitingSpinner()
     }
     
@@ -305,20 +305,35 @@ class AlertSettingsTableViewController: UITableViewController {
                         {
                             cell.descriptionCellLabel.text = tz
                         }
-                        else
+                        else if let sourceId = dataSource
                         {
-                            let reminder = model.reminders.filter {
-                                Int($0.sourceID) == dataSource
+                            let kpi = model.kpis.filter {
+                                Int($0.id) == sourceId
                             }
                             
-                            guard reminder.count > 0 else {
+                            guard kpi.count > 0 else {
                                 cell.descriptionCellLabel.text = ""
                                 break
                             }
                             
-                            let tz = reminder[0].timeZone!
-                            let tzTitle = timezoneTitleFrom(hoursFromGMT: tz)
-                            cell.descriptionCellLabel.text = tzTitle.rawValue
+                            let choosenKpi = kpi[0]                            
+                            let tz = choosenKpi.createdKPI!.timeZone
+                            
+                            let tzArray = timeZoneArray.map {
+                                set -> semenSettingsTuple in
+                                if set.SettingName == tz
+                                {
+                                    return (set.SettingName, true)
+                                }
+                                else
+                                {
+                                    return set
+                                }
+                            }
+                            
+                            timeZoneArray = tzArray
+                            
+                            cell.descriptionCellLabel.text = tz
                         }
                         
                         cell.descriptionCellLabel.isHidden = false

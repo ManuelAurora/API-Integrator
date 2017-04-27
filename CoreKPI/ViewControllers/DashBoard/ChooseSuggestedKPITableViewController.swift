@@ -301,6 +301,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         
         let yesAction = UIAlertAction(title: "Yes, I'am sure",
                                       style: .default) { _ in
+                                        self.ui(block: false)
+                                        self.removeAllAlamofireNetworking()
                                         self.navigationController?.popViewController(animated: true)
         }
         
@@ -1429,11 +1431,11 @@ class ChooseSuggestedKPITableViewController: UITableViewController
     }
     
 }
-
+typealias semenSettingsTuple = (SettingName: String, value: Bool)
 //MARK: - updateSettingArrayDelegate methods
 extension ChooseSuggestedKPITableViewController: updateSettingsDelegate
 {
-    typealias semenSettingsTuple = (SettingName: String, value: Bool)
+    
     private func checkArrayContainsValues(_ array: [semenSettingsTuple]) ->
                                                           semenSettingsTuple? {
         

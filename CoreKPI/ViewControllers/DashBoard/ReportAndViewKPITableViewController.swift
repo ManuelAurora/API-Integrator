@@ -660,19 +660,32 @@ class ReportAndViewKPITableViewController: UITableViewController {
     func saveReport() {
         
         let request = AddReport(model: model)
+        var isRequestHandled = false
         
         ui(block: true)
         request.addReportForKPI(withID: model.kpis[kpiIndex].id, report: report!, success: {
+            isRequestHandled = true
             self.ui(block: false)
             self.model.kpis[self.kpiIndex].createdKPI?.addReport(date: Date(),
                                                                  report: self.report!)
             self.prepareToMove()
         }, failure: { error in
+            isRequestHandled = true
             self.ui(block: false)
             print(error)
             self.showAlert(title: "Sorry",errorMessage: error)
-        })
-  
+        })        
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            guard !isRequestHandled else { return }
+            let message = "Please, check your internet connection"
+            weak var weakSelf = self
+            
+            weakSelf?.navigationItem.rightBarButtonItem?.isEnabled = true            
+            weakSelf?.ui(block: false)
+            weakSelf?.showAlert(title: "Error occured", errorMessage: message)
+            weakSelf?.removeAllAlamofireNetworking()
+        }
     }
     
     @IBAction func tapRightBarButton(_ sender: UIBarButtonItem) {

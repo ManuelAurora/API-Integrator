@@ -40,7 +40,7 @@ class WebViewChartViewController: UIViewController
     
     lazy var dateFormatter: DateFormatter = {
         let df = DateFormatter()
-        df.dateFormat = "yyyy-MM-dd'T'HH:mm:ssz"
+        df.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         return df
     }()
     
@@ -84,22 +84,20 @@ class WebViewChartViewController: UIViewController
         switch typeOfChart
         {
         case .PieChart:
-            let htmlFile = Bundle.main.path(forResource:"index", ofType: "html")
-            let cssFile = Bundle.main.path(forResource:"style", ofType: "css")
-            let jsFile1 = Bundle.main.path(forResource:"Rd3.v3.min", ofType: "js")
-            let jsFile2 = Bundle.main.path(forResource:"round", ofType: "js")
-            let accountingFile = Bundle.main.path(forResource: "accounting.min", ofType: "js")
+            let htmlFile = Bundle.main.path(forResource:"pie", ofType: "html")
+            let cssFile = Bundle.main.path(forResource:"pieStyle", ofType: "css")
+            let jsFile1 = Bundle.main.path(forResource:"d3", ofType: "js")
+            let jsFile2 = Bundle.main.path(forResource:"pie", ofType: "js")
             
             let html = try? String(contentsOfFile: htmlFile!, encoding: String.Encoding.utf8)
             let css = try? String(contentsOfFile: cssFile!, encoding: String.Encoding.utf8)
             let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
-            let acc = try? String(contentsOfFile: accountingFile!, encoding: String.Encoding.utf8)
             
             let endOfJS = "pie((\(width)), \(height), data_pie);"
             let topOfJS2 = generateDataForJS()
             let htmlString: String = html! + "<style>" + css! + "</style>" +
-                "<script>" + acc! + "</script><script>" + js1! +
+                "<script>" + "</script><script>" + js1! +
                 "</script><script>" + topOfJS2 + js2! + endOfJS + "</script>"
                       
             webView.loadHTMLString(htmlString, baseURL: nil)
@@ -120,8 +118,8 @@ class WebViewChartViewController: UIViewController
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + topOfJS + js2! + "</script>", baseURL: nil)
             
         case .LineChart:
-            let htmlFile = Bundle.main.path(forResource:"index", ofType: "html")
-            let cssFile = Bundle.main.path(forResource:"style", ofType: "css")
+            let htmlFile = Bundle.main.path(forResource:"lines", ofType: "html")
+            let cssFile = Bundle.main.path(forResource:"lineStyle", ofType: "css")
             let jsFile1 = Bundle.main.path(forResource:"d3", ofType: "js")
             let jsFile2 = Bundle.main.path(forResource:"lines", ofType: "js")
             
@@ -131,7 +129,7 @@ class WebViewChartViewController: UIViewController
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
                         
             let topOfJS2 = generateDataForJS()
-            
+            print(topOfJS2)
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + topOfJS2 + js2! + "</script>", baseURL: nil)
             
         case  .BarChart:
@@ -238,11 +236,23 @@ class WebViewChartViewController: UIViewController
                 }
             }
             
-            for (index,item) in rawDataArray.enumerated() {
+            for (index,var item) in rawDataArray.enumerated() {
                 if index > 0 {
                     dataForJS += ","
                 }
-                let pieData = "{number: '\(item.leftValue)', rate: \(item.rightValue)}"
+                
+                if service == nil
+                {
+                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+                    let date = dateFormatter.date(from: item.leftValue)!
+                    
+                    dateFormatter.dateFormat = "dd/MM/yyyy"
+                    let dateString = dateFormatter.string(from: date)
+                    
+                    item.leftValue = dateString
+                }
+                
+                let pieData = "{name: '\(item.leftValue)', rate: \(item.rightValue)}"
                 dataForJS += pieData
             }
             dataForJS += "];"
@@ -340,8 +350,14 @@ class WebViewChartViewController: UIViewController
                     for (index, item) in arrayOfData.enumerated()
                     {
                         if index > 0 { dataForJS += "," }
-                        let stamp = Int(Double(item.timestamp)!)
-                        let lineData = "{date: new Date(\(stamp)000), rate: \(item.netValue)}"
+                        let stamp = Double(item.timestamp)!
+                        let date = Date(timeIntervalSince1970: stamp)
+                        let calendar = Calendar.current
+                        let day = calendar.component(.day, from: date)
+                        let mon = calendar.component(.month, from: date)
+                        let monStr = mon > 9 ? "\(mon)" : "0\(mon)"
+                        let dayStr = day > 9 ? "\(day)" : "0\(day)"
+                        let lineData = "{date:\"\(dayStr).\(monStr)\", rate: \(item.netValue)}"
                         dataForJS += lineData
                     }
                     

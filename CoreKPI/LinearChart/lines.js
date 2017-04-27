@@ -1,9 +1,28 @@
 "use strict";
 
-// Данные для чарта
-//var dataIn = [[{ date: new Date(1492189252000), rate: 26.4 }, { date: new Date(1492189252000), rate: 29.2 }, { date: new Date(1492189252000), rate: 26.4 }, { date: new Date(1492189252000), rate: 26.45 }, { date: new Date(1492189252000), rate: 26.3 }, { date: new Date(1492189252000), rate: 26.87 }, { date: new Date(1492189252000), rate: 26.52 }], [{ date: new Date(1492189252000), rate: 28.2 }, { date: new Date(1492189252000), rate: 28.3 }, { date: new Date(1492189252000), rate: 29.46 }, { date: new Date(1492189252000), rate: 27.95 }, { date: new Date(1492189252000), rate: 27.90 }, { date: new Date(1492189252000), rate: 27.9 }, { date: new Date(1492189252000), rate: 28.5 }]];
-
-var title = 'СЮДА НАЗВАНИЕ ЕЕЕЕЕЕ';
+// // Данные для чарта
+// const dataIn = [
+//     [
+//         {date: new Date(1492189252000), rate: 26.4},
+//         {date: new Date(1492189252000), rate: 29.2},
+//         {date: new Date(1492189252000), rate: 26.4},
+//         {date: new Date(1492189252000), rate: 26.45},
+//         {date: new Date(1492189252000), rate: 26.3},
+//         {date: new Date(1492189252000), rate: 26.87},
+//         {date: new Date(1492189252000), rate: 26.52}
+//     ],
+//     [
+//         {date: new Date(1492189252000), rate: 28.2},
+//         {date: new Date(1492189252000), rate: 28.3},
+//         {date: new Date(1492189252000), rate: 29.46},
+//         {date: new Date(1492189252000), rate: 27.95},
+//         {date: new Date(1492189252000), rate: 27.90},
+//         {date: new Date(1492189252000), rate: 27.9},
+//         {date: new Date(1492189252000), rate: 28.5}
+//     ]
+// ]
+//
+//var title = 'СЮДА НАЗВАНИЕ ЕЕЕЕЕЕ';
 var lineChartWidth = document.body.clientWidth;
 var lineChartHeight = document.body.clientHeight * 0.7;
 var margin = { top: 50, right: 30, bottom: 30, left: 30 };
@@ -26,6 +45,7 @@ function startParams() {
 }
 
 function lineChart(w, h, data) {
+
     var maxValue = d3.max([d3.max(data[data.length - 1], function (d) {
         return d.rate;
     })]);
@@ -44,9 +64,11 @@ function lineChart(w, h, data) {
     // функция интерполяции значений на ось Y
     var scaleY = d3.scale.linear().domain([maxValue + 0.5, minValue - 0.5]).range([0, height]);
 
-    var xAxis = d3.svg.axis().scale(scaleX).orient("bottom")
-    // .tickFormat(d3.format());
-    .tickFormat(d3.time.format('%e.%m'));
+    var xAxis = d3.svg.axis().scale(scaleX)
+    // .orient("bottom")
+    .tickFormat(d3.format('000'));
+    // .tickFormat(d3.time.format('%e.%m'));
+    // .tickFormat(d3.time.format("%m-%d"));
 
     var yAxis = d3.svg.axis().scale(scaleY).orient('left');
 

@@ -23,10 +23,13 @@
 		645D1C541E6444CE004574C8 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D1C531E6444CE004574C8 /* Helpers.swift */; };
 		645DB20D1E76A405000BEFD4 /* HubspotHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645DB20C1E76A405000BEFD4 /* HubspotHelpers.swift */; };
 		64637DA51E9F9C8C00F33A1C /* Sequence + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64637DA41E9F9C8C00F33A1C /* Sequence + Extension.swift */; };
-		646B6E551EB0D75C00B85F42 /* d3.js in Resources */ = {isa = PBXBuildFile; fileRef = 646B6E511EB0D75C00B85F42 /* d3.js */; };
-		646B6E561EB0D75C00B85F42 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 646B6E521EB0D75C00B85F42 /* index.html */; };
-		646B6E571EB0D75C00B85F42 /* lines.js in Resources */ = {isa = PBXBuildFile; fileRef = 646B6E531EB0D75C00B85F42 /* lines.js */; };
-		646B6E581EB0D75C00B85F42 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 646B6E541EB0D75C00B85F42 /* style.css */; };
+		64688B581EB1D73200F2D015 /* d3.js in Resources */ = {isa = PBXBuildFile; fileRef = 64688B541EB1D73200F2D015 /* d3.js */; };
+		64688B591EB1D73200F2D015 /* lines.html in Resources */ = {isa = PBXBuildFile; fileRef = 64688B551EB1D73200F2D015 /* lines.html */; };
+		64688B5A1EB1D73200F2D015 /* lines.js in Resources */ = {isa = PBXBuildFile; fileRef = 64688B561EB1D73200F2D015 /* lines.js */; };
+		64688B5B1EB1D73200F2D015 /* lineStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 64688B571EB1D73200F2D015 /* lineStyle.css */; };
+		64688B611EB207D300F2D015 /* pie.html in Resources */ = {isa = PBXBuildFile; fileRef = 64688B5D1EB207D300F2D015 /* pie.html */; };
+		64688B621EB207D300F2D015 /* pie.js in Resources */ = {isa = PBXBuildFile; fileRef = 64688B5E1EB207D300F2D015 /* pie.js */; };
+		64688B631EB207D300F2D015 /* pieStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 64688B5F1EB207D300F2D015 /* pieStyle.css */; };
 		646BF08E1E6E8B4200621FE2 /* HubspotManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */; };
 		646BF0911E6EE64800621FE2 /* HubspotRequestedObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BF0901E6EE64800621FE2 /* HubspotRequestedObjects.swift */; };
 		646E2AC11E7C070C0010E4BE /* Date + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646E2AC01E7C070C0010E4BE /* Date + Extension.swift */; };
@@ -159,11 +162,6 @@
 		A2C9ABDA1E2F5BD600623659 /* positiveBar.html in Resources */ = {isa = PBXBuildFile; fileRef = A2C9ABD91E2F5BD600623659 /* positiveBar.html */; };
 		A2C9ABDC1E2F5BFE00623659 /* positiveBar.css in Resources */ = {isa = PBXBuildFile; fileRef = A2C9ABDB1E2F5BFE00623659 /* positiveBar.css */; };
 		A2C9ABDE1E2F5C4100623659 /* positiveBar.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9ABDD1E2F5C4100623659 /* positiveBar.js */; };
-		A2C9ABE01E2F91B800623659 /* accounting.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9ABDF1E2F91B800623659 /* accounting.min.js */; };
-		A2C9FD231E13E1C500433D43 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD211E13E1C500433D43 /* index.html */; };
-		A2C9FD261E13E1CD00433D43 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD251E13E1CD00433D43 /* style.css */; };
-		A2C9FD291E13E1D400433D43 /* Rd3.v3.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */; };
-		A2C9FD2A1E13E1D400433D43 /* round.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9FD281E13E1D400433D43 /* round.js */; };
 		A2DA8E631E56D6AE00D302C7 /* EditAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DA8E621E56D6AE00D302C7 /* EditAlert.swift */; };
 		A2DA8E651E56D6C100D302C7 /* EditReminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DA8E641E56D6C100D302C7 /* EditReminder.swift */; };
 		A2E8F9FB1E3B1AB800046870 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E8F9FA1E3B1AB800046870 /* LaunchViewController.swift */; };
@@ -249,10 +247,13 @@
 		645D1C531E6444CE004574C8 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		645DB20C1E76A405000BEFD4 /* HubspotHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotHelpers.swift; sourceTree = "<group>"; };
 		64637DA41E9F9C8C00F33A1C /* Sequence + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence + Extension.swift"; sourceTree = "<group>"; };
-		646B6E511EB0D75C00B85F42 /* d3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = d3.js; sourceTree = "<group>"; };
-		646B6E521EB0D75C00B85F42 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
-		646B6E531EB0D75C00B85F42 /* lines.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = lines.js; sourceTree = "<group>"; };
-		646B6E541EB0D75C00B85F42 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
+		64688B541EB1D73200F2D015 /* d3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = d3.js; sourceTree = "<group>"; };
+		64688B551EB1D73200F2D015 /* lines.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = lines.html; sourceTree = "<group>"; };
+		64688B561EB1D73200F2D015 /* lines.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = lines.js; sourceTree = "<group>"; };
+		64688B571EB1D73200F2D015 /* lineStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = lineStyle.css; sourceTree = "<group>"; };
+		64688B5D1EB207D300F2D015 /* pie.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = pie.html; sourceTree = "<group>"; };
+		64688B5E1EB207D300F2D015 /* pie.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = pie.js; sourceTree = "<group>"; };
+		64688B5F1EB207D300F2D015 /* pieStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = pieStyle.css; sourceTree = "<group>"; };
 		646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotManager.swift; sourceTree = "<group>"; };
 		646BF08F1E6ECD9500621FE2 /* CoreKPI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CoreKPI.entitlements; sourceTree = "<group>"; };
 		646BF0901E6EE64800621FE2 /* HubspotRequestedObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotRequestedObjects.swift; sourceTree = "<group>"; };
@@ -387,11 +388,6 @@
 		A2C9ABD91E2F5BD600623659 /* positiveBar.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = positiveBar.html; path = Graphics/PositiveBar/positiveBar.html; sourceTree = "<group>"; };
 		A2C9ABDB1E2F5BFE00623659 /* positiveBar.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = positiveBar.css; path = Graphics/PositiveBar/positiveBar.css; sourceTree = "<group>"; };
 		A2C9ABDD1E2F5C4100623659 /* positiveBar.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = positiveBar.js; path = Graphics/PositiveBar/positiveBar.js; sourceTree = "<group>"; };
-		A2C9ABDF1E2F91B800623659 /* accounting.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = accounting.min.js; path = "Graphics/Круговой/js/accounting.min.js"; sourceTree = "<group>"; };
-		A2C9FD211E13E1C500433D43 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = "Graphics/Круговой/index.html"; sourceTree = "<group>"; };
-		A2C9FD251E13E1CD00433D43 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = style.css; path = "Graphics/Круговой/css/style.css"; sourceTree = "<group>"; };
-		A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Rd3.v3.min.js; path = "Graphics/Круговой/js/Rd3.v3.min.js"; sourceTree = "<group>"; };
-		A2C9FD281E13E1D400433D43 /* round.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = round.js; path = "Graphics/Круговой/js/round.js"; sourceTree = "<group>"; };
 		A2DA8E621E56D6AE00D302C7 /* EditAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditAlert.swift; path = Services/EditAlert.swift; sourceTree = "<group>"; };
 		A2DA8E641E56D6C100D302C7 /* EditReminder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditReminder.swift; path = Services/EditReminder.swift; sourceTree = "<group>"; };
 		A2E8F9FA1E3B1AB800046870 /* LaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LaunchViewController.swift; path = "CoreKPI/ViewControllers/Sign In:Up/LaunchViewController.swift"; sourceTree = "<group>"; };
@@ -467,10 +463,10 @@
 		646B6E461EB0CE8000B85F42 /* LinearChart */ = {
 			isa = PBXGroup;
 			children = (
-				646B6E511EB0D75C00B85F42 /* d3.js */,
-				646B6E521EB0D75C00B85F42 /* index.html */,
-				646B6E531EB0D75C00B85F42 /* lines.js */,
-				646B6E541EB0D75C00B85F42 /* style.css */,
+				64688B541EB1D73200F2D015 /* d3.js */,
+				64688B551EB1D73200F2D015 /* lines.html */,
+				64688B561EB1D73200F2D015 /* lines.js */,
+				64688B571EB1D73200F2D015 /* lineStyle.css */,
 			);
 			path = LinearChart;
 			sourceTree = "<group>";
@@ -722,29 +718,11 @@
 		A292F5C51E13ACFE009F9F48 /* Pie */ = {
 			isa = PBXGroup;
 			children = (
-				A2C9FD211E13E1C500433D43 /* index.html */,
-				A292F5CD1E13AD92009F9F48 /* css */,
-				A292F5CA1E13AD82009F9F48 /* js */,
+				64688B5D1EB207D300F2D015 /* pie.html */,
+				64688B5E1EB207D300F2D015 /* pie.js */,
+				64688B5F1EB207D300F2D015 /* pieStyle.css */,
 			);
 			name = Pie;
-			sourceTree = "<group>";
-		};
-		A292F5CA1E13AD82009F9F48 /* js */ = {
-			isa = PBXGroup;
-			children = (
-				A2C9FD271E13E1D400433D43 /* Rd3.v3.min.js */,
-				A2C9FD281E13E1D400433D43 /* round.js */,
-				A2C9ABDF1E2F91B800623659 /* accounting.min.js */,
-			);
-			name = js;
-			sourceTree = "<group>";
-		};
-		A292F5CD1E13AD92009F9F48 /* css */ = {
-			isa = PBXGroup;
-			children = (
-				A2C9FD251E13E1CD00433D43 /* style.css */,
-			);
-			name = css;
 			sourceTree = "<group>";
 		};
 		A297F5BD1E08234C00F85963 /* ViewControllers */ = {
@@ -1087,14 +1065,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A2C9ABE01E2F91B800623659 /* accounting.min.js in Resources */,
 				A2EFE2DB1E2E454A00BA2956 /* funnel.css in Resources */,
 				A2EFE2D21E2E3FAA00BA2956 /* bar.html in Resources */,
 				A27820731E001503009F83DB /* LaunchScreen.storyboard in Resources */,
 				A26BEEAF1E3F886500C2D2AC /* stackArea.css in Resources */,
 				645616461E67029B00643340 /* UserInfoTableViewCell.xib in Resources */,
-				A2C9FD291E13E1D400433D43 /* Rd3.v3.min.js in Resources */,
-				A2C9FD261E13E1CD00433D43 /* style.css in Resources */,
+				64688B621EB207D300F2D015 /* pie.js in Resources */,
 				A2C9ABDE1E2F5C4100623659 /* positiveBar.js in Resources */,
 				A2EFE2D91E2E446900BA2956 /* funnel.html in Resources */,
 				A2EFE2D41E2E3FE200BA2956 /* bar.js in Resources */,
@@ -1102,20 +1078,20 @@
 				A2C9ABDA1E2F5BD600623659 /* positiveBar.html in Resources */,
 				A2C9ABDC1E2F5BFE00623659 /* positiveBar.css in Resources */,
 				64EE4DFA1E55B6DC0007926F /* PinCodeView.xib in Resources */,
-				646B6E561EB0D75C00B85F42 /* index.html in Resources */,
+				64688B591EB1D73200F2D015 /* lines.html in Resources */,
 				A26BEEAA1E3F70C800C2D2AC /* funnel.js in Resources */,
-				646B6E581EB0D75C00B85F42 /* style.css in Resources */,
+				64688B5B1EB1D73200F2D015 /* lineStyle.css in Resources */,
 				A2B720981E2E4AFD00471E91 /* d3-funnel.js in Resources */,
 				A2279D7A1E14DE1700669EB0 /* points.html in Resources */,
-				A2C9FD2A1E13E1D400433D43 /* round.js in Resources */,
-				646B6E571EB0D75C00B85F42 /* lines.js in Resources */,
-				646B6E551EB0D75C00B85F42 /* d3.js in Resources */,
+				64688B5A1EB1D73200F2D015 /* lines.js in Resources */,
+				64688B581EB1D73200F2D015 /* d3.js in Resources */,
 				A2EFE2D61E2E400500BA2956 /* bar.css in Resources */,
 				A27820701E001503009F83DB /* Assets.xcassets in Resources */,
 				A26BEEAC1E3F86F900C2D2AC /* stackArea.html in Resources */,
 				A2EFE2DF1E2E494200BA2956 /* jquery.min.js in Resources */,
+				64688B611EB207D300F2D015 /* pie.html in Resources */,
 				A2EFE2E11E2E4A1300BA2956 /* d3V442.min.js in Resources */,
-				A2C9FD231E13E1C500433D43 /* index.html in Resources */,
+				64688B631EB207D300F2D015 /* pieStyle.css in Resources */,
 				A278206B1E001503009F83DB /* Main.storyboard in Resources */,
 				A26BEEB11E3F8AD400C2D2AC /* stackArea.js in Resources */,
 				A2279D801E14DE2A00669EB0 /* points.css in Resources */,

@@ -138,7 +138,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row == 0
+        if indexPath == IndexPath(row: 0, section: 0)
         {
             let cell = tableView.dequeueReusableCell(withIdentifier: "UserInfoCell") as! UserViewTableViewCell
             
@@ -189,7 +189,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             }
         } else {
             switch indexPath.row {
-            case 0:
+            case 1:
                 cell.headerCellLabel.text = "Phone"
                 if model.team[index].phoneNumber == nil {
                     cell.dataCellLabel.text = "No Phone Number"
@@ -198,13 +198,14 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                     cell.dataCellLabel.text = model.team[index].phoneNumber
                     cell.dataCellLabel.textColor = UIColor.black
                 }
-            case 1:
+            case 2:
                 cell.headerCellLabel.text = "E-mail"
                 cell.dataCellLabel.text = model.team[index].username!
                 
             case 3:
                 cell.headerCellLabel.text = "Security"
                 cell.securitySwitch.isHidden = false
+                cell.dataCellLabel.text = "Pin code lock"
                 cell.securitySwitch.isOn = stateMachine.usersPin == nil ? false : true
                 securityCellIndexPath = indexPath
                 
