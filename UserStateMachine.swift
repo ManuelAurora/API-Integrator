@@ -34,7 +34,9 @@ class UserStateMachine
     
     //Open instance properties section
     let model = ModelCoreKPI.modelShared
+    let networkManager = NetworkingManager.shared
     var userStateInfo = UserStateInfo()
+    
     var usersPin: [String]? {
         let pin = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCode) as? [String]
         return pin

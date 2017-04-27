@@ -12,36 +12,61 @@ class LaunchViewController: UIViewController {
     
     let userStateMachine = UserStateMachine.shared
     
+    private var tapGesture: UITapGestureRecognizer? {
+        didSet {
+            guard tapGesture != nil else { return }
+            view.addGestureRecognizer(tapGesture!)
+        }
+    }
+    
     lazy var appDelegate: AppDelegate = {
         return UIApplication.shared.delegate as! AppDelegate
     }()
     
     lazy var mainTabBar: MainTabBarViewController = {
-        let mtbvc = self.storyboard?.instantiateViewController(withIdentifier: .mainTabBarController) as! MainTabBarViewController
+        let mtbvc = self.storyboard?.instantiateViewController(
+            withIdentifier: .mainTabBarController) as! MainTabBarViewController
         mtbvc.appDelegate = self.appDelegate
         mtbvc.model       = self.userStateMachine.model
         return mtbvc
     }()
     
     lazy var signInUpViewController: SignInUpViewController = {
-        let siuvc = self.storyboard?.instantiateViewController(withIdentifier: .signInUpViewController) as! SignInUpViewController
+        let siuvc = self.storyboard?.instantiateViewController(
+            withIdentifier: .signInUpViewController) as! SignInUpViewController
         siuvc.launchController       = self
         siuvc.model                  = self.userStateMachine.model        
         return siuvc
     }()
     
     lazy var signInViewController: SignInViewController = {
-        let sivc = self.storyboard?.instantiateViewController(withIdentifier: .signInViewController) as! SignInViewController
+        let sivc = self.storyboard?.instantiateViewController(
+            withIdentifier: .signInViewController) as! SignInViewController
         return sivc
     }()
     
     lazy var registerViewController: RegisterViewController = {
-        let regVC = self.storyboard?.instantiateViewController(withIdentifier: .registerViewController) as! RegisterViewController
+        let regVC = self.storyboard?.instantiateViewController(
+            withIdentifier: .registerViewController) as! RegisterViewController
         return regVC
     }()
     
+    @objc private func showSignInVCIfInternetOffline() {
+        
+        let networkManager =  UserStateMachine.shared.networkManager
+        
+        if !networkManager.isInternetAvailable()
+        {
+            showAlert(title: "Error occured",
+                      errorMessage: "Please, check your internet connection")
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tapGesture = UITapGestureRecognizer(target: self,
+                                         action: #selector(showSignInVCIfInternetOffline))
         
         appDelegate.launchViewController = self
         

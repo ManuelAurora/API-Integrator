@@ -21,6 +21,7 @@ extension UIViewController
     }
         
     func dismissKeyboard() {
+        
         view.endEditing(true)
     }
     
@@ -37,7 +38,7 @@ extension UIViewController
         
         UserStateMachine.shared.toggleAppFetchingData()
         
-        UIViewController.spinner = OvalShapeLayer(point: point, color: color)        
+        UIViewController.spinner = OvalShapeLayer(point: point, color: color)
         navigationController!.view.layer.addSublayer(UIViewController.spinner!)
     }
     

@@ -30,6 +30,7 @@
 		64688B611EB207D300F2D015 /* pie.html in Resources */ = {isa = PBXBuildFile; fileRef = 64688B5D1EB207D300F2D015 /* pie.html */; };
 		64688B621EB207D300F2D015 /* pie.js in Resources */ = {isa = PBXBuildFile; fileRef = 64688B5E1EB207D300F2D015 /* pie.js */; };
 		64688B631EB207D300F2D015 /* pieStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 64688B5F1EB207D300F2D015 /* pieStyle.css */; };
+		64688B651EB22E8200F2D015 /*  NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64688B641EB22E8200F2D015 /*  NetworkingManager.swift */; };
 		646BF08E1E6E8B4200621FE2 /* HubspotManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */; };
 		646BF0911E6EE64800621FE2 /* HubspotRequestedObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BF0901E6EE64800621FE2 /* HubspotRequestedObjects.swift */; };
 		646E2AC11E7C070C0010E4BE /* Date + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646E2AC01E7C070C0010E4BE /* Date + Extension.swift */; };
@@ -254,6 +255,7 @@
 		64688B5D1EB207D300F2D015 /* pie.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = pie.html; sourceTree = "<group>"; };
 		64688B5E1EB207D300F2D015 /* pie.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = pie.js; sourceTree = "<group>"; };
 		64688B5F1EB207D300F2D015 /* pieStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = pieStyle.css; sourceTree = "<group>"; };
+		64688B641EB22E8200F2D015 /*  NetworkingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = " NetworkingManager.swift"; sourceTree = "<group>"; };
 		646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotManager.swift; sourceTree = "<group>"; };
 		646BF08F1E6ECD9500621FE2 /* CoreKPI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CoreKPI.entitlements; sourceTree = "<group>"; };
 		646BF0901E6EE64800621FE2 /* HubspotRequestedObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotRequestedObjects.swift; sourceTree = "<group>"; };
@@ -672,6 +674,7 @@
 				A27820741E001503009F83DB /* Info.plist */,
 				64A32B941E5B3B85008438DA /* BridgingHeader.h */,
 				6492B9AA1E93DFB800BD8492 /* HubspotSalesFunnelMakerProtocol.swift */,
+				64688B641EB22E8200F2D015 /*  NetworkingManager.swift */,
 			);
 			name = SupportingFiles;
 			sourceTree = "<group>";
@@ -1149,6 +1152,7 @@
 				A2263B101E3B8174005C812D /* GetFAQ.swift in Sources */,
 				A2A940CB1E1E70740088C7F1 /* UINavigationBurExtension.swift in Sources */,
 				A20B6BD01E31F5EC00FAF86A /* IntegratedKPI.swift in Sources */,
+				64688B651EB22E8200F2D015 /*  NetworkingManager.swift in Sources */,
 				641F74661E5B0F4200672534 /* WebViewController.swift in Sources */,
 				A25F658D1E52F5D500AD30F5 /* NumberChartViewController.swift in Sources */,
 				A2ACBD3B1E0D11AA0079EF3D /* AlertsListTableViewController.swift in Sources */,
