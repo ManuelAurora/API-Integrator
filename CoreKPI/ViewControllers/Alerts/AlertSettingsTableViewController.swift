@@ -195,18 +195,24 @@ class AlertSettingsTableViewController: UITableViewController {
             return dataSource == nil ? kpiDataArr.count : 1
             
         case 1:
-            switch typeOfDigit {
+            switch typeOfDigit
+            {
             case .Alert:
                 return 3
+                
             case .Reminder:
-                if timeInterval == AlertTimeInterval.Daily {
+                if timeInterval == AlertTimeInterval.Daily
+                {
                     return datePickerIsVisible ? 4 : 3
-                } else {
+                }
+                else
+                {
                     return datePickerIsVisible ? 5 : 4
                 }
             }
         case 2:
             return 1
+            
         default:
             return 0
         }
@@ -283,15 +289,38 @@ class AlertSettingsTableViewController: UITableViewController {
                     break
                 }
             case .Reminder:
-                if timeInterval == AlertTimeInterval.Daily   {
-                    switch indexPath.row {
+                if timeInterval == AlertTimeInterval.Daily
+                {
+                    switch indexPath.row
+                    {
                     case 0:
                         cell.headerCellLabel.text = "Time interval"
                         cell.descriptionCellLabel.text = timeInterval.rawValue
                         cell.descriptionCellLabel.isHidden = false
+                        
                     case 1:
                         cell.headerCellLabel.text  = "Time zone"
-                        cell.descriptionCellLabel.text = timeZone
+                        
+                        if let tz = timeZone
+                        {
+                            cell.descriptionCellLabel.text = tz
+                        }
+                        else
+                        {
+                            let reminder = model.reminders.filter {
+                                Int($0.sourceID) == dataSource
+                            }
+                            
+                            guard reminder.count > 0 else {
+                                cell.descriptionCellLabel.text = ""
+                                break
+                            }
+                            
+                            let tz = reminder[0].timeZone!
+                            let tzTitle = timezoneTitleFrom(hoursFromGMT: tz)
+                            cell.descriptionCellLabel.text = tzTitle.rawValue
+                        }
+                        
                         cell.descriptionCellLabel.isHidden = false
                         
                     case 2:

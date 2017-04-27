@@ -41,6 +41,9 @@ class GetReminders: Request {
                         for i in 0..<reminders.count {
                             if let reminder = reminders[i] as? NSDictionary {
                                 let newReminder = Reminder(context: context)
+                                let timezone = reminder["timezone"] as! String
+                                let title = timezoneTitleFrom(hoursFromGMT: timezone).rawValue
+                                newReminder.timeZone = title
                                 newReminder.reminderID = reminder["id"] as! Int64
                                 newReminder.sourceID = reminder["kpi_id"] as! Int64
                                 newReminder.timeInterval = reminder["type"] as? String
@@ -49,11 +52,6 @@ class GetReminders: Request {
                                 let dateFormatter = DateFormatter()
                                 dateFormatter.dateFormat = "HH:mm:ss"
                                 newReminder.deliveryTime = dateFormatter.date(from: timeString) as NSDate?
-                                let timeZoneNumber = reminder["timezone"] as! String
-                                let seconds = Int(timeZoneNumber)!*3600
-                                let timeZone = TimeZone(secondsFromGMT: seconds)
-                            
-                                newReminder.timeZone = timeZone?.identifier
                                 if let notifications = reminder["methods"] as? NSArray, notifications.count>0 {
                                     
                                     newReminder.emailNotificationIsActive = false
