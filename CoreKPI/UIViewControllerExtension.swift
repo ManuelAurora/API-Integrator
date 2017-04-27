@@ -15,10 +15,11 @@ extension UIViewController
     @nonobjc static var spinner: OvalShapeLayer?
     
     func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
     }
-    
+        
     func dismissKeyboard() {
         view.endEditing(true)
     }
@@ -36,8 +37,7 @@ extension UIViewController
         
         UserStateMachine.shared.toggleAppFetchingData()
         
-        UIViewController.spinner = OvalShapeLayer(point: point, color: color)
-        //UIViewController.spinner?.frame.origin.y -= 80 //Temporary hardcoded
+        UIViewController.spinner = OvalShapeLayer(point: point, color: color)        
         navigationController!.view.layer.addSublayer(UIViewController.spinner!)
     }
     

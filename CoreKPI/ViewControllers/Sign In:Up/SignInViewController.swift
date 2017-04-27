@@ -14,6 +14,13 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     let stateMachine = UserStateMachine.shared
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
+    private var cancelTap: UITapGestureRecognizer? {
+        didSet {
+            guard let tap = cancelTap else { return }
+            view.addGestureRecognizer(tap)
+        }
+    }
+    
     @IBOutlet weak var passwordTextField: BottomBorderTextField!
     @IBOutlet weak var emailTextField: BottomBorderTextField!
     @IBOutlet weak var signInButton: UIButton!
@@ -82,10 +89,34 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         {
             passwordTextField.resignFirstResponder()
             emailTextField.resignFirstResponder()
+            cancelAllNetwokingAndAnimateonOnTap(true)
             loginRequest()
         }
         else { showAlert(title: "Error occured", errorMessage: "Incorrect email and/or password") }
     }
+    
+    @objc private func cancelSelector() {
+        
+        removeAllAlamofireNetworking()
+        UserStateMachine.shared.setTryingToLogin(false)
+        toggleSignInAnimation()
+        cancelAllNetwokingAndAnimateonOnTap(false)
+    }
+    
+    func cancelAllNetwokingAndAnimateonOnTap(_ isOn: Bool) {
+        
+        if isOn
+        {
+            cancelTap = nil
+            cancelTap = UITapGestureRecognizer(target: self,
+                                               action: #selector(cancelSelector))
+        }
+        else if let gesture = cancelTap
+        {
+            view.removeGestureRecognizer(gesture)
+        }
+    }
+
     
     private func configure(buttons: [UIButton]) {
         
@@ -167,7 +198,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         if tryingToLogin
         {
             var point = enterByKeyButton.center
-            point.y += 85
+            point.y += 90
             
             addWaitingSpinner(at: point, color: OurColors.blue)
         }
@@ -192,6 +223,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         nc.addObserver(forName: .userLoggedIn, object: nil, queue: nil) {
             [weak self] _ in
             self?.toggleSignInAnimation()
+            self?.cancelAllNetwokingAndAnimateonOnTap(false)
         }
     }    
 }
