@@ -94,11 +94,12 @@ class WebViewChartViewController: UIViewController
             let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
             
-            let endOfJS = "pie((\(width)), \(height), data_pie);"
+            let title = "var title = 'Title Pie';"
+           // let endOfJS = "pie((\(width)), \(height), data_pie);"
             let topOfJS2 = generateDataForJS()
             let htmlString: String = html! + "<style>" + css! + "</style>" +
                 "<script>" + "</script><script>" + js1! +
-                "</script><script>" + topOfJS2 + js2! + endOfJS + "</script>"
+                "</script><script>" + title + topOfJS2 + js2! + "</script>"
                       
             webView.loadHTMLString(htmlString, baseURL: nil)
             
@@ -364,6 +365,7 @@ class WebViewChartViewController: UIViewController
                     dataForJS += index == lastArrayIndex ? "]] ;" : "], ["
                 }
             }
+            else { dataForJS += "]];" }
             
             return dataForJS
             

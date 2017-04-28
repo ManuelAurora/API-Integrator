@@ -27,10 +27,10 @@
 		64688B591EB1D73200F2D015 /* lines.html in Resources */ = {isa = PBXBuildFile; fileRef = 64688B551EB1D73200F2D015 /* lines.html */; };
 		64688B5A1EB1D73200F2D015 /* lines.js in Resources */ = {isa = PBXBuildFile; fileRef = 64688B561EB1D73200F2D015 /* lines.js */; };
 		64688B5B1EB1D73200F2D015 /* lineStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 64688B571EB1D73200F2D015 /* lineStyle.css */; };
-		64688B611EB207D300F2D015 /* pie.html in Resources */ = {isa = PBXBuildFile; fileRef = 64688B5D1EB207D300F2D015 /* pie.html */; };
-		64688B621EB207D300F2D015 /* pie.js in Resources */ = {isa = PBXBuildFile; fileRef = 64688B5E1EB207D300F2D015 /* pie.js */; };
-		64688B631EB207D300F2D015 /* pieStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 64688B5F1EB207D300F2D015 /* pieStyle.css */; };
 		64688B651EB22E8200F2D015 /*  NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64688B641EB22E8200F2D015 /*  NetworkingManager.swift */; };
+		64688B691EB2353000F2D015 /* pie.html in Resources */ = {isa = PBXBuildFile; fileRef = 64688B661EB2353000F2D015 /* pie.html */; };
+		64688B6A1EB2353000F2D015 /* pie.js in Resources */ = {isa = PBXBuildFile; fileRef = 64688B671EB2353000F2D015 /* pie.js */; };
+		64688B6B1EB2353000F2D015 /* pieStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 64688B681EB2353000F2D015 /* pieStyle.css */; };
 		646BF08E1E6E8B4200621FE2 /* HubspotManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */; };
 		646BF0911E6EE64800621FE2 /* HubspotRequestedObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BF0901E6EE64800621FE2 /* HubspotRequestedObjects.swift */; };
 		646E2AC11E7C070C0010E4BE /* Date + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646E2AC01E7C070C0010E4BE /* Date + Extension.swift */; };
@@ -252,10 +252,10 @@
 		64688B551EB1D73200F2D015 /* lines.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = lines.html; sourceTree = "<group>"; };
 		64688B561EB1D73200F2D015 /* lines.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = lines.js; sourceTree = "<group>"; };
 		64688B571EB1D73200F2D015 /* lineStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = lineStyle.css; sourceTree = "<group>"; };
-		64688B5D1EB207D300F2D015 /* pie.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = pie.html; sourceTree = "<group>"; };
-		64688B5E1EB207D300F2D015 /* pie.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = pie.js; sourceTree = "<group>"; };
-		64688B5F1EB207D300F2D015 /* pieStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = pieStyle.css; sourceTree = "<group>"; };
 		64688B641EB22E8200F2D015 /*  NetworkingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = " NetworkingManager.swift"; sourceTree = "<group>"; };
+		64688B661EB2353000F2D015 /* pie.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = pie.html; sourceTree = "<group>"; };
+		64688B671EB2353000F2D015 /* pie.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = pie.js; sourceTree = "<group>"; };
+		64688B681EB2353000F2D015 /* pieStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = pieStyle.css; sourceTree = "<group>"; };
 		646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotManager.swift; sourceTree = "<group>"; };
 		646BF08F1E6ECD9500621FE2 /* CoreKPI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CoreKPI.entitlements; sourceTree = "<group>"; };
 		646BF0901E6EE64800621FE2 /* HubspotRequestedObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotRequestedObjects.swift; sourceTree = "<group>"; };
@@ -721,9 +721,9 @@
 		A292F5C51E13ACFE009F9F48 /* Pie */ = {
 			isa = PBXGroup;
 			children = (
-				64688B5D1EB207D300F2D015 /* pie.html */,
-				64688B5E1EB207D300F2D015 /* pie.js */,
-				64688B5F1EB207D300F2D015 /* pieStyle.css */,
+				64688B661EB2353000F2D015 /* pie.html */,
+				64688B671EB2353000F2D015 /* pie.js */,
+				64688B681EB2353000F2D015 /* pieStyle.css */,
 			);
 			name = Pie;
 			sourceTree = "<group>";
@@ -1072,9 +1072,10 @@
 				A2EFE2D21E2E3FAA00BA2956 /* bar.html in Resources */,
 				A27820731E001503009F83DB /* LaunchScreen.storyboard in Resources */,
 				A26BEEAF1E3F886500C2D2AC /* stackArea.css in Resources */,
+				64688B6A1EB2353000F2D015 /* pie.js in Resources */,
 				645616461E67029B00643340 /* UserInfoTableViewCell.xib in Resources */,
-				64688B621EB207D300F2D015 /* pie.js in Resources */,
 				A2C9ABDE1E2F5C4100623659 /* positiveBar.js in Resources */,
+				64688B6B1EB2353000F2D015 /* pieStyle.css in Resources */,
 				A2EFE2D91E2E446900BA2956 /* funnel.html in Resources */,
 				A2EFE2D41E2E3FE200BA2956 /* bar.js in Resources */,
 				A2279D7E1E14DE2100669EB0 /* points.js in Resources */,
@@ -1090,11 +1091,10 @@
 				64688B581EB1D73200F2D015 /* d3.js in Resources */,
 				A2EFE2D61E2E400500BA2956 /* bar.css in Resources */,
 				A27820701E001503009F83DB /* Assets.xcassets in Resources */,
+				64688B691EB2353000F2D015 /* pie.html in Resources */,
 				A26BEEAC1E3F86F900C2D2AC /* stackArea.html in Resources */,
 				A2EFE2DF1E2E494200BA2956 /* jquery.min.js in Resources */,
-				64688B611EB207D300F2D015 /* pie.html in Resources */,
 				A2EFE2E11E2E4A1300BA2956 /* d3V442.min.js in Resources */,
-				64688B631EB207D300F2D015 /* pieStyle.css in Resources */,
 				A278206B1E001503009F83DB /* Main.storyboard in Resources */,
 				A26BEEB11E3F8AD400C2D2AC /* stackArea.js in Resources */,
 				A2279D801E14DE2A00669EB0 /* points.css in Resources */,

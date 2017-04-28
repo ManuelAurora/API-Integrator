@@ -8,16 +8,18 @@
 
 import Foundation
 import UIKit //Just for appDelegate usage
+import CoreData
 
 struct UserStateInfo
 {
-    var loggedIn       = false
-    var didEnterBG     = false
-    var usesPinCode    = false
-    var haveLocalToken = false
-    var wasLoaded      = false
-    var isFetchingData   = false
-    var tryingToLogIn  = false
+    var loggedIn        = false
+    var didEnterBG      = false
+    var usesPinCode     = false
+    var haveLocalToken  = false
+    var wasLoaded       = false
+    var isFetchingData  = false
+    var tryingToLogIn   = false
+    var invitationsLeft = 0
 }
 
 class UserStateMachine
@@ -155,13 +157,24 @@ class UserStateMachine
         }
     }
     
+    private func getNumberOfInvitations() {
+        
+        let request = GetNumberOfInvations(model: model)
+        request.getNumberOfInvations(success: { value in
+            self.userStateInfo.invitationsLeft = value
+        }, failure: { _ in
+            self.userStateInfo.invitationsLeft = 0
+        })
+    }
+
+    
     private func userLoggedIn() {
         
         pinCodeAttempts = usersPin != nil ? PinLockConfiguration.attempts : 0
         userStateInfo.loggedIn = true       
         userStateInfo.haveLocalToken = true
         setTryingToLogin(false)
-        
+        getNumberOfInvitations()
         notificationCenter.post(name: .userLoggedIn, object: nil)
     }
     
@@ -174,23 +187,11 @@ class UserStateMachine
         userStateInfo.usesPinCode    = false
         
         let mainTab    = appDelegate.launchViewController.mainTabBar
-        let teamListVC = mainTab.teamListController
         let dashboard  = mainTab.dashboardViewController
+        let fetchReq   = NSFetchRequest<ExternalKPI>(entityName: "ExternalKPI")
+        let extKPIs    = try? context.fetch(fetchReq)
         
-//        teamListVC.tableView.visibleCells.forEach { cell in
-//            guard let c = cell as? MemberListTableViewCell else { return }
-//            c.aditionalBackground.layer.borderWidth = 0
-//            c.aditionalBackground.layer.borderColor = UIColor.white.cgColor
-//        }
-        
-        let hsObject = HubSpotManager.sharedInstance.hubspotKPIManagedObject
-        
-        if let extKpi = hsObject.externalKPI,
-            let kpis = extKpi.allObjects as? [ExternalKPI]
-        {
-            kpis.forEach { context.delete($0) }
-        }
-        
+        extKPIs?.forEach { context.delete($0) }
         model.team.forEach { context.delete($0) }
         model.kpis.removeAll()
         model.team.removeAll()

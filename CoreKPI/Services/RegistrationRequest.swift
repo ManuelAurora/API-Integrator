@@ -12,13 +12,13 @@ class RegistrationRequest: Request {
     
     func registrationRequest(email: String, password: String, firstname: String, lastname: String, position: String, photo: String?, success: @escaping () -> (), failure: @escaping failure) {
         
-        var data: [String : Any]!
+        let data = ["username":   email,
+                    "password":   password,
+                    "first_name": firstname,
+                    "last_name" : lastname,
+                    "position":   position,
+                    "photo":      photo ?? ""]
         
-        if photo == nil {
-            data = ["username" : email, "password" : password, "first_name" : firstname, "last_name" : lastname, "position" : position, "photo" : ""]
-        } else {
-            data = ["username" : email, "password" : password, "first_name" : firstname, "last_name" : lastname, "position" : position, "photo" : photo!]
-        }
         
         self.getJson(category: "/auth/createAccount", data: data,
                      success: { json in

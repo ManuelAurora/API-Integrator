@@ -15,12 +15,23 @@ class MemberListTableViewController: UITableViewController {
     var indexPath: IndexPath!
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     
-    @IBOutlet weak var addButton: UIBarButtonItem!
+    @IBOutlet var addButton: UIBarButtonItem!
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         tableView.reloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //Admin permission check!
+        if model.profile?.typeOfAccount != TypeOfAccount.Admin
+        {            
+            self.navigationItem.rightBarButtonItem = nil
+        }
+        else { self.navigationItem.rightBarButtonItem = addButton }
     }
     
     override func viewDidLoad() {
@@ -32,11 +43,6 @@ class MemberListTableViewController: UITableViewController {
         refreshControl?.backgroundColor = UIColor.clear
         refreshControl?.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
         tableView.addSubview(refreshControl!)
-        
-        //Admin permission check!
-        if model.profile?.typeOfAccount != TypeOfAccount.Admin {
-            self.navigationItem.rightBarButtonItem = nil
-        }
         
         let nc = NotificationCenter.default
         nc.addObserver(forName: .profilePhotoDownloaded, object:nil, queue:nil, using:catchNotification)
@@ -180,15 +186,22 @@ class MemberListTableViewController: UITableViewController {
     func loadTeamListFromServer() {
         
         let request = GetMemberList(model: model)
-        request.getMemberList(success: { team in
-            for profile in self.model.team {
-                self.context.delete(profile)
-            }
+        
+        request.getMemberList(success: {
+            team in
+            self.model.team.forEach { self.context.delete($0) }
             self.model.team.removeAll()
-            self.model.team = team
+            self.model.team = team.sorted { member in
+                let memberId  = Int(member.0.userID)
+                let profileId = self.model.profile?.userId
+                
+                return memberId == profileId
+            }
+            
             do {
                 try self.context.save()
-            } catch {
+            }
+            catch {
                 print(error)
                 return
             }

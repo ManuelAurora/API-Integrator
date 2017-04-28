@@ -10,11 +10,6 @@
 */
 @import "//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
 @import url("https://fonts.googleapis.com/css?family=Exo+2:300,400,700&subset=cyrillic");
-
-* {
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-}
-
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -145,6 +140,9 @@ a, button, input {
   .lt-ie9 .page {
     min-width: 1200px; }
 
+* {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
+
 html {
   font-size: 70px; }
   @media (min-width: 768px) and (max-width: 991px) {
@@ -181,6 +179,12 @@ h1, .heading-1 {
 h2, .heading-2 {
   font-size: 32px;
   line-height: 40px; }
+
+.title {
+  background-color: #2062f2;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 2px; }
 
 p a:hover, .list a:hover, .contact-info a:hover {
   text-decoration: underline; }
@@ -699,10 +703,12 @@ svg {
 
 .legend-pie {
   background-color: #fff;
-  height: 200px;
+  max-height: 200px;
+  overflow-y: scroll;
   padding: 20px;
   padding-left: 50px;
-  padding-right: 50px; }
+  padding-right: 50px;
+    padding-bottom: 40px;}
   .legend-pie__row {
     display: -webkit-box;
     display: -webkit-flex;

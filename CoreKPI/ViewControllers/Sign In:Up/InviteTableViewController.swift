@@ -15,11 +15,15 @@ class InviteTableViewController: UITableViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var numberOfInvationsLAbel: UILabel!
     
+    private var invitationsLeft: Int {
+        return UserStateMachine.shared.userStateInfo.invitationsLeft
+    }
+    
     var stateMachine = UserStateMachine.shared
     var model: ModelCoreKPI!
     var invitePerson: Profile!
     var typeOfAccount = TypeOfAccount.Manager
-    var numberOfInvations = 0
+    
     var email: String?
     var password: String?
     
@@ -28,11 +32,15 @@ class InviteTableViewController: UITableViewController {
         tapInviteButton()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        numberOfInvationsLAbel.text = "\(invitationsLeft) invitations left"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-               
-        getNumberOfInvations()
-        numberOfInvationsLAbel.text = "\(numberOfInvations) invitations left"
+     
         typeOfAccountLabel.text = typeOfAccount.rawValue
         
         let controllers = navigationController!.viewControllers
@@ -54,7 +62,7 @@ class InviteTableViewController: UITableViewController {
     //MARK: - Invite button did taped
     func tapInviteButton() {
         
-        if numberOfInvations < 1 {
+        if invitationsLeft < 1 {
             showAlert(title: "Error", errorMessage: "You haven't more invitations!")
             return
         }
@@ -106,8 +114,7 @@ class InviteTableViewController: UITableViewController {
             
             self.showAlert(title: "Congratulation!", errorMessage: "You send invitation to \(self.emailTextField.text!)")
             self.emailTextField.text = ""
-            self.numberOfInvations = number
-            self.numberOfInvationsLAbel.text = "\(self.numberOfInvations) invitations left"
+            self.numberOfInvationsLAbel.text = "\(self.invitationsLeft) invitations left"
             self.typeOfAccount = .Manager
             self.typeOfAccountLabel.text = self.typeOfAccount.rawValue
             self.tableView.reloadData()
@@ -128,18 +135,6 @@ class InviteTableViewController: UITableViewController {
             destinationViewController.typeOfAccount = self.typeOfAccount
             destinationViewController.InviteVC = self
         }
-    }
-    
-    //MARK: - get number of invations from server
-    private func getNumberOfInvations() {
-        
-        let request = GetNumberOfInvations(model: model)
-        request.getNumberOfInvations(success: { number in
-            self.numberOfInvations = number
-            self.numberOfInvationsLAbel.text = "\(self.numberOfInvations) invitations left"
-        }, failure: { error in
-            self.showAlert(title: "Sorry!", errorMessage: error)
-        })
     }
     
     //MARK: - buying subscribe
