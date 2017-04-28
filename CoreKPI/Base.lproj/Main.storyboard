@@ -373,22 +373,22 @@
         <scene sceneID="3wq-Dt-CCT">
             <objects>
                 <tableViewController storyboardIdentifier="QuestionDetailTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="EOp-lL-sxK" customClass="QuestionDetailTableViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="e2K-l8-otI">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="e2K-l8-otI">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
-                            <tableViewSection headerTitle="Question" id="z6c-Wr-aMp">
+                            <tableViewSection id="z6c-Wr-aMp">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="250" id="R4p-Eg-Rt8">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="250"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="336" id="R4p-Eg-Rt8">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="336"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="R4p-Eg-Rt8" id="p7C-Xv-ct2">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="250"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="336"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Vxn-6H-e39">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="249.5"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="Vxn-6H-e39">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="335.5"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -405,33 +405,6 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Answer" id="UBL-oq-ACA">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="125" id="c2s-T1-hL7">
-                                        <rect key="frame" x="0.0" y="362" width="375" height="125"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="c2s-T1-hL7" id="vNS-RD-TeE">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="124"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="jTF-UC-5a5">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="124.5"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="jTF-UC-5a5" secondAttribute="bottom" id="47y-Q5-9BR"/>
-                                                <constraint firstItem="jTF-UC-5a5" firstAttribute="top" secondItem="vNS-RD-TeE" secondAttribute="top" id="bBa-ik-gVO"/>
-                                                <constraint firstAttribute="trailing" secondItem="jTF-UC-5a5" secondAttribute="trailing" id="oLR-BM-Clp"/>
-                                                <constraint firstItem="jTF-UC-5a5" firstAttribute="leading" secondItem="vNS-RD-TeE" secondAttribute="leading" id="prO-4y-QKu"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="EOp-lL-sxK" id="gAu-dC-6Jt"/>
@@ -439,7 +412,6 @@
                         </connections>
                     </tableView>
                     <connections>
-                        <outlet property="answerTextView" destination="jTF-UC-5a5" id="46s-a6-XDk"/>
                         <outlet property="questionTextView" destination="Vxn-6H-e39" id="bf6-jn-djX"/>
                     </connections>
                 </tableViewController>
@@ -3062,41 +3034,39 @@ The main advantage of a computer audio player is that you can play your audio CD
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EMM-pn-h9b">
-                                <rect key="frame" x="16" y="72" width="343" height="282"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Woq-Fi-TXA">
+                                <rect key="frame" x="16" y="98" width="343" height="510"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="282" id="BE9-Kz-f39"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <inset key="scrollIndicatorInsets" minX="0.0" minY="-10" maxX="0.0" maxY="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="keyPath">
-                                        <integer key="value" value="6"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                             </textView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.85798357869999997" green="0.85220155460000002" blue="0.88219895290000006" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="EMM-pn-h9b" firstAttribute="leading" secondItem="QTe-tT-lpj" secondAttribute="leadingMargin" id="B8c-JG-xnX"/>
-                            <constraint firstItem="EMM-pn-h9b" firstAttribute="top" secondItem="9oE-CY-DdZ" secondAttribute="bottom" constant="8" id="kJQ-hc-vv0"/>
-                            <constraint firstItem="EMM-pn-h9b" firstAttribute="trailing" secondItem="QTe-tT-lpj" secondAttribute="trailingMargin" id="srn-vZ-XtW"/>
+                            <constraint firstItem="Woq-Fi-TXA" firstAttribute="leading" secondItem="QTe-tT-lpj" secondAttribute="leadingMargin" id="00g-cB-dTA"/>
+                            <constraint firstItem="Woq-Fi-TXA" firstAttribute="top" secondItem="9oE-CY-DdZ" secondAttribute="bottom" constant="34" id="Czf-wX-rky"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Woq-Fi-TXA" secondAttribute="trailing" id="QX2-uN-bCt"/>
+                            <constraint firstItem="KIO-9h-cS8" firstAttribute="top" secondItem="Woq-Fi-TXA" secondAttribute="bottom" constant="10" id="gSW-GV-Cne"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="2SD-qt-a3F">
-                        <barButtonItem key="rightBarButtonItem" title="Send" style="done" id="h7J-a4-qI0"/>
+                        <barButtonItem key="rightBarButtonItem" title="Send" style="done" id="h7J-a4-qI0">
+                            <connections>
+                                <action selector="send" destination="OSb-gk-DFe" id="9eA-WR-nAi"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="sendButton" destination="h7J-a4-qI0" id="SwW-bj-m6R"/>
-                        <outlet property="textView" destination="EMM-pn-h9b" id="Xym-Bp-lMk"/>
+                        <outlet property="textView" destination="Woq-Fi-TXA" id="VeQ-ul-fJZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eqk-Io-EcM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4132" y="2481"/>
+            <point key="canvasLocation" x="4132" y="2480.5097451274364"/>
         </scene>
         <!--Dashboards-->
         <scene sceneID="gXF-o8-ZoP">

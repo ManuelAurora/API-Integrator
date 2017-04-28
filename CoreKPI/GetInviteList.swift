@@ -1,29 +1,23 @@
 //
-//  RegistrationRequest.swift
+//  getInviteList.swift
 //  CoreKPI
 //
-//  Created by Семен on 24.01.17.
+//  Created by Manuel Aurora on 28.04.17.
 //  Copyright © 2017 SmiChrisSoft. All rights reserved.
 //
 
 import Foundation
 
-class RegistrationRequest: Request {
+class GetInviteList: Request {
     
-    func registrationRequest(email: String, password: String, firstname: String, lastname: String, position: String, photo: String?, success: @escaping () -> (), failure: @escaping failure) {
+    func inviteRequest(email: String, success: @escaping () -> (), failure: @escaping failure) {
         
-        let data: [String: Any] = [
-            "username":   email,
-            "password":   password,
-            "first_name": firstname,
-            "last_name" : lastname,
-            "position":   position,
-            "photo":      photo ?? "",
-            "team_id": 0]
+        let data = [
+            "email":   email,
+            ]
         
-        self.getJson(category: "/auth/createAccount", data: data,
+        self.getJson(category: "/auth/getInviteList", data: data,
                      success: { json in
-                        
                         guard let success = json["success"] as? Int, success == 1 else {
                             if let errorMessage = json["message"] as? String
                             {
@@ -31,15 +25,6 @@ class RegistrationRequest: Request {
                             }
                             return
                         }
-                        
-                        self.parsingJson(username:  email,
-                                         firstname: firstname,
-                                         lastname:  lastname,
-                                         position:  position,
-                                         photo:     photo,
-                                         email:     email,
-                                         password:  password,
-                                         json:      json)
         },
                      failure: { (error) in
                         failure(error)

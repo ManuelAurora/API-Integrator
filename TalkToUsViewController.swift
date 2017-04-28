@@ -8,9 +8,12 @@
 
 import UIKit
 
-class TalkToUsViewController: UITableViewController {
-
-    let rows = 5
+class TalkToUsViewController: UITableViewController
+{
+    
+    private let userId = ModelCoreKPI.modelShared.profile.userId
+    
+    var questions = [QuestionAnswer]()
     
     private lazy var addQuestionButton: UIBarButtonItem = {
         let selector = #selector(addNewQuestion)
@@ -32,14 +35,41 @@ class TalkToUsViewController: UITableViewController {
         
         let vc = storyboard?.instantiateViewController(withIdentifier:
             .integrationRequestVC) as! SendNewIntegrationViewController
+        vc.title = "New Question"
+        vc.messageType = .support
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func ui(block: Bool) {
         
-        navigationController?.pushViewController(vc, animated: true)        
+        if block
+        {
+            let center = navigationController!.view.center
+            addWaitingSpinner(at: center, color: OurColors.cyan)
+        }
+        else     { removeWaitingSpinner() }
+        tableView.isUserInteractionEnabled = !block
+        navigationItem.rightBarButtonItem?.isEnabled = !block
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        title = "Question"
+        
+        ui(block: true)
+        
+        let req = MessagesRequestManager(model: ModelCoreKPI.modelShared)
+        
+        req.getMessagesOf(type: .support, success: { result in
+            self.ui(block: false)
+            self.questions = result.filter { $0.userId == self.userId }
+            self.tableView.reloadData()
+            
+        }) { error in
+            self.ui(block: false)
+            print(error)
+        }
+        
+        title = "Questions"
         registerNibs()
     }
     
@@ -62,19 +92,27 @@ class TalkToUsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
         
-        return rows
+        return questions.count
     }
     
     override func tableView(_ tableView: UITableView,
                    heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 240
+        return 100
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        ui(block: false)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let answer = questions[indexPath.row].answer
         let cell = tableView.dequeueReusableCell(withIdentifier: "TalkToUsCell",
                                                  for: indexPath) as! TalkToUsTableViewCell
-        
+        cell.questionLabel.text = " " + questions[indexPath.row].question
+        cell.answerLabel.text   = answer == "" ? "There is no answer yet" : " Reply: " + answer
         return cell
     }
     
@@ -83,7 +121,7 @@ class TalkToUsViewController: UITableViewController {
         
         let detailVC = storyboard?.instantiateViewController(withIdentifier:
             .questionDetailTableVC) as! QuestionDetailTableViewController
-        
+        detailVC.message = questions[indexPath.row]
         navigationController?.pushViewController(detailVC, animated: true)
         
         tableView.deselectRow(at: indexPath, animated: true)

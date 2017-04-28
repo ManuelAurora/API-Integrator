@@ -111,7 +111,6 @@ class InviteTableViewController: UITableViewController {
             self.addButton.isEnabled = true
             self.removeWaitingSpinner()
             self.navigationItem.setHidesBackButton(false, animated: true)
-            
             self.showAlert(title: "Congratulation!", errorMessage: "You send invitation to \(self.emailTextField.text!)")
             self.emailTextField.text = ""
             self.numberOfInvationsLAbel.text = "\(self.invitationsLeft) invitations left"

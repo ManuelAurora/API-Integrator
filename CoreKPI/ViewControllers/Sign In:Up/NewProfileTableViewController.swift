@@ -133,6 +133,17 @@ class NewProfileTableViewController: UITableViewController {
     
     func registrationRequest() {
         
+        let request = GetInviteList(model: ModelCoreKPI.modelShared)
+        
+        request.inviteRequest(email: email, success: { 
+            print("asdas")
+        }) { error in
+            print(error)
+        }        
+    }
+    
+    private func register() {
+        
         let registrationRequest = RegistrationRequest()
         registrationRequest.registrationRequest(email: email,
                                                 password: password,

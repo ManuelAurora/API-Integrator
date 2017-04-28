@@ -17,8 +17,12 @@ class TalkToUsTableViewCell: UITableViewCell
     
     func prepareCellCosmetics() {
     
-        backgroundColor             = .clear
-        backView.layer.cornerRadius = 6        
+        backgroundColor = .clear
+        questionLabel.clipsToBounds      = true
+        answerLabel.clipsToBounds        = true
+        backView.layer.cornerRadius      = 6
+        questionLabel.layer.cornerRadius = 6
+        answerLabel.layer.cornerRadius   = 6 
     }
     
 }

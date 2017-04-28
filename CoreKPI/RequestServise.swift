@@ -97,6 +97,7 @@ class Request
                                 "inacceptable symbols")
                         }
                     }
+                    else { failure("Server error") }
                     
                 default:
                     print("Request error")

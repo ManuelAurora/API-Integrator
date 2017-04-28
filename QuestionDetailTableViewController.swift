@@ -11,20 +11,26 @@ import UIKit
 class QuestionDetailTableViewController: UITableViewController
 {
     @IBOutlet weak var questionTextView: UITextView!
-    @IBOutlet weak var answerTextView:   UITextView!
+    var message: QuestionAnswer!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        questionTextView.text = " " + message.question + "\n \n" + " " + message.answer
+       
+    }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         questionTextView.scrollRangeToVisible(NSMakeRange(0, 0))
-        answerTextView.scrollRangeToVisible(NSMakeRange(0, 0))
     }
         
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        let tabBarHeight: CGFloat = 17
-        let height = (view.bounds.height / 3) - tabBarHeight
+        let tabBarHeight: CGFloat = 50
+        let height = view.bounds.height - tabBarHeight
         
         return height
     }

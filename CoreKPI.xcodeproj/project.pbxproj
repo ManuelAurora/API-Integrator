@@ -46,6 +46,8 @@
 		648E9A6B1EB3395000632887 /* TalkToUsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 648E9A691EB3395000632887 /* TalkToUsTableViewCell.xib */; };
 		648E9A6D1EB33F1C00632887 /* TalkToUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648E9A6C1EB33F1C00632887 /* TalkToUsViewController.swift */; };
 		648E9A6F1EB3606800632887 /* QuestionDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648E9A6E1EB3606800632887 /* QuestionDetailTableViewController.swift */; };
+		648E9A711EB37C1700632887 /* GetInviteList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648E9A701EB37C1700632887 /* GetInviteList.swift */; };
+		648E9A731EB3822500632887 /* MessagesRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648E9A721EB3822500632887 /* MessagesRequestManager.swift */; };
 		6492B9A61E93CB2700BD8492 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6492B9A41E93CB2700BD8492 /* GradientView.swift */; };
 		6492B9A71E93CB2700BD8492 /* TransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6492B9A51E93CB2700BD8492 /* TransitionAnimator.swift */; };
 		6492B9A91E93D39400BD8492 /* HubspotChoosePipelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6492B9A81E93D39400BD8492 /* HubspotChoosePipelineViewController.swift */; };
@@ -276,6 +278,8 @@
 		648E9A691EB3395000632887 /* TalkToUsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TalkToUsTableViewCell.xib; sourceTree = "<group>"; };
 		648E9A6C1EB33F1C00632887 /* TalkToUsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TalkToUsViewController.swift; sourceTree = "<group>"; };
 		648E9A6E1EB3606800632887 /* QuestionDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionDetailTableViewController.swift; sourceTree = "<group>"; };
+		648E9A701EB37C1700632887 /* GetInviteList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetInviteList.swift; sourceTree = "<group>"; };
+		648E9A721EB3822500632887 /* MessagesRequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesRequestManager.swift; sourceTree = "<group>"; };
 		6492B9A41E93CB2700BD8492 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		6492B9A51E93CB2700BD8492 /* TransitionAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionAnimator.swift; sourceTree = "<group>"; };
 		6492B9A81E93D39400BD8492 /* HubspotChoosePipelineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotChoosePipelineViewController.swift; sourceTree = "<group>"; };
@@ -539,6 +543,8 @@
 				A2F77E011E3B199400BB8318 /* RecoveryPassword.swift */,
 				A2F77E021E3B199400BB8318 /* RegistrationRequest.swift */,
 				A2F77DFE1E3B199400BB8318 /* GetNumberOfInvations.swift */,
+				648E9A701EB37C1700632887 /* GetInviteList.swift */,
+				648E9A721EB3822500632887 /* MessagesRequestManager.swift */,
 				A2F77E031E3B199400BB8318 /* SendInvation.swift */,
 				A2F77DFC1E3B199400BB8318 /* GetMemberList.swift */,
 				A2F77DF81E3B199400BB8318 /* ChangeProfile.swift */,
@@ -1192,10 +1198,12 @@
 				645D1C541E6444CE004574C8 /* Helpers.swift in Sources */,
 				A2A7D5151E41B661008779A0 /* GetAlerts.swift in Sources */,
 				A2DA8E651E56D6C100D302C7 /* EditReminder.swift in Sources */,
+				648E9A711EB37C1700632887 /* GetInviteList.swift in Sources */,
 				6492B9AB1E93DFB800BD8492 /* HubspotSalesFunnelMakerProtocol.swift in Sources */,
 				A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */,
 				A297F5B91E08234500F85963 /* AboutTableViewController.swift in Sources */,
 				64936AF31E543DC00059D80A /* PinCodePlaceholderView.swift in Sources */,
+				648E9A731EB3822500632887 /* MessagesRequestManager.swift in Sources */,
 				A2E8F9FF1E3B32D700046870 /* DeleteKPI.swift in Sources */,
 				A261D9201E12A81000638C56 /* SuggestedKPIDescriptionTableViewController.swift in Sources */,
 				6492B9A71E93CB2700BD8492 /* TransitionAnimator.swift in Sources */,

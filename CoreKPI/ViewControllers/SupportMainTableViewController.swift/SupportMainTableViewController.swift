@@ -40,5 +40,12 @@ class SupportMainTableViewController: UITableViewController {
         return 4
     }
     
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if let vc = segue.destination as? SendNewIntegrationViewController
+        {
+            vc.title = "New Request"
+            vc.messageType = .request
+        }
+    }
 }
