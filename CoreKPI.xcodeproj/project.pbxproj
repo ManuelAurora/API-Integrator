@@ -41,7 +41,11 @@
 		647CFCA11E8519C700F71632 /* ReportDataManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647CFCA01E8519C700F71632 /* ReportDataManipulator.swift */; };
 		647CFCA31E854BD600F71632 /* IntegratedServicesDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647CFCA21E854BD600F71632 /* IntegratedServicesDataManager.swift */; };
 		647F46DD1E89377900641F42 /* OvalShapeLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647F46DC1E89377900641F42 /* OvalShapeLayer.swift */; };
-		648115F11EAA45930090B24B /* TalkToUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648115F01EAA45930090B24B /* TalkToUsViewController.swift */; };
+		648115F11EAA45930090B24B /* SendNewIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648115F01EAA45930090B24B /* SendNewIntegrationViewController.swift */; };
+		648E9A6A1EB3395000632887 /* TalkToUsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648E9A681EB3395000632887 /* TalkToUsTableViewCell.swift */; };
+		648E9A6B1EB3395000632887 /* TalkToUsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 648E9A691EB3395000632887 /* TalkToUsTableViewCell.xib */; };
+		648E9A6D1EB33F1C00632887 /* TalkToUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648E9A6C1EB33F1C00632887 /* TalkToUsViewController.swift */; };
+		648E9A6F1EB3606800632887 /* QuestionDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648E9A6E1EB3606800632887 /* QuestionDetailTableViewController.swift */; };
 		6492B9A61E93CB2700BD8492 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6492B9A41E93CB2700BD8492 /* GradientView.swift */; };
 		6492B9A71E93CB2700BD8492 /* TransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6492B9A51E93CB2700BD8492 /* TransitionAnimator.swift */; };
 		6492B9A91E93D39400BD8492 /* HubspotChoosePipelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6492B9A81E93D39400BD8492 /* HubspotChoosePipelineViewController.swift */; };
@@ -267,7 +271,11 @@
 		647CFCA01E8519C700F71632 /* ReportDataManipulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportDataManipulator.swift; path = ../ReportDataManipulator.swift; sourceTree = "<group>"; };
 		647CFCA21E854BD600F71632 /* IntegratedServicesDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegratedServicesDataManager.swift; sourceTree = "<group>"; };
 		647F46DC1E89377900641F42 /* OvalShapeLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OvalShapeLayer.swift; sourceTree = "<group>"; };
-		648115F01EAA45930090B24B /* TalkToUsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TalkToUsViewController.swift; sourceTree = "<group>"; };
+		648115F01EAA45930090B24B /* SendNewIntegrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendNewIntegrationViewController.swift; sourceTree = "<group>"; };
+		648E9A681EB3395000632887 /* TalkToUsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TalkToUsTableViewCell.swift; sourceTree = "<group>"; };
+		648E9A691EB3395000632887 /* TalkToUsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TalkToUsTableViewCell.xib; sourceTree = "<group>"; };
+		648E9A6C1EB33F1C00632887 /* TalkToUsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TalkToUsViewController.swift; sourceTree = "<group>"; };
+		648E9A6E1EB3606800632887 /* QuestionDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionDetailTableViewController.swift; sourceTree = "<group>"; };
 		6492B9A41E93CB2700BD8492 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		6492B9A51E93CB2700BD8492 /* TransitionAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionAnimator.swift; sourceTree = "<group>"; };
 		6492B9A81E93D39400BD8492 /* HubspotChoosePipelineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotChoosePipelineViewController.swift; sourceTree = "<group>"; };
@@ -762,10 +770,12 @@
 			isa = PBXGroup;
 			children = (
 				A2263B0D1E3B7684005C812D /* SupportNavigationViewController.swift */,
-				648115F01EAA45930090B24B /* TalkToUsViewController.swift */,
+				648115F01EAA45930090B24B /* SendNewIntegrationViewController.swift */,
+				648E9A6C1EB33F1C00632887 /* TalkToUsViewController.swift */,
 				A297F5B81E08234500F85963 /* SupportMainTableViewController.swift */,
 				A297F5B51E08234500F85963 /* AboutTableViewController.swift */,
 				A297F5B71E08234500F85963 /* faqTableViewController.swift */,
+				648E9A6E1EB3606800632887 /* QuestionDetailTableViewController.swift */,
 				A297F5B61E08234500F85963 /* faqDetailViewController.swift */,
 			);
 			name = Support;
@@ -851,6 +861,8 @@
 			isa = PBXGroup;
 			children = (
 				A297F5D51E08244700F85963 /* AnswerFaqTableViewCell.swift */,
+				648E9A681EB3395000632887 /* TalkToUsTableViewCell.swift */,
+				648E9A691EB3395000632887 /* TalkToUsTableViewCell.xib */,
 				A297F5D61E08244700F85963 /* faqListTableViewCell.swift */,
 			);
 			name = Support;
@@ -1096,6 +1108,7 @@
 				A2EFE2DF1E2E494200BA2956 /* jquery.min.js in Resources */,
 				A2EFE2E11E2E4A1300BA2956 /* d3V442.min.js in Resources */,
 				A278206B1E001503009F83DB /* Main.storyboard in Resources */,
+				648E9A6B1EB3395000632887 /* TalkToUsTableViewCell.xib in Resources */,
 				A26BEEB11E3F8AD400C2D2AC /* stackArea.js in Resources */,
 				A2279D801E14DE2A00669EB0 /* points.css in Resources */,
 			);
@@ -1175,6 +1188,7 @@
 				A2A7D5111E41B0E5008779A0 /* CellsCreator.swift in Sources */,
 				A2F77E071E3B199400BB8318 /* ChangeProfile.swift in Sources */,
 				A2EFE2C61E2DF0A500BA2956 /* ChartsPageViewController.swift in Sources */,
+				648E9A6A1EB3395000632887 /* TalkToUsTableViewCell.swift in Sources */,
 				645D1C541E6444CE004574C8 /* Helpers.swift in Sources */,
 				A2A7D5151E41B661008779A0 /* GetAlerts.swift in Sources */,
 				A2DA8E651E56D6C100D302C7 /* EditReminder.swift in Sources */,
@@ -1220,6 +1234,7 @@
 				A261D9181E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift in Sources */,
 				64936AF21E543DC00059D80A /* PinCodeButton.swift in Sources */,
 				645759261E67FB7D006FB5F9 /* ExternaKPI + Extension.swift in Sources */,
+				648E9A6D1EB33F1C00632887 /* TalkToUsViewController.swift in Sources */,
 				645759241E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift in Sources */,
 				A2F77E081E3B199400BB8318 /* ChangeUserRights.swift in Sources */,
 				A297F5E11E08248000F85963 /* TypeAccountTableViewCell.swift in Sources */,
@@ -1228,7 +1243,7 @@
 				A2F77E061E3B199400BB8318 /* ChangeNickname.swift in Sources */,
 				A297F5B31E08233A00F85963 /* MemberEditViewController.swift in Sources */,
 				64EE4DF81E55ADD80007926F /* PinCodeVCPresenter.swift in Sources */,
-				648115F11EAA45930090B24B /* TalkToUsViewController.swift in Sources */,
+				648115F11EAA45930090B24B /* SendNewIntegrationViewController.swift in Sources */,
 				A23E79471E5AE83900EEBABE /* UIColorExtention.swift in Sources */,
 				A2FB1AA21E252C110045824A /* KPIDescriptionTableViewCell.swift in Sources */,
 				A274DC0F1E0825DF008CBF36 /* InviteTableViewController.swift in Sources */,
@@ -1243,6 +1258,7 @@
 				A2DA8E631E56D6AE00D302C7 /* EditAlert.swift in Sources */,
 				A2FB98A41E25FE6900A856E8 /* KPISettingInputTableViewCell.swift in Sources */,
 				647C76AB1E9CFB3D00D48900 /* SalesForceKPI + Extension.swift in Sources */,
+				648E9A6F1EB3606800632887 /* QuestionDetailTableViewController.swift in Sources */,
 				647F46DD1E89377900641F42 /* OvalShapeLayer.swift in Sources */,
 				A2279D841E14EBF200669EB0 /* AlertsNavigationViewController.swift in Sources */,
 				A22302C51E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift in Sources */,

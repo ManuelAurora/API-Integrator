@@ -162,7 +162,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hp6-wk-0gB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4132" y="2858"/>
+            <point key="canvasLocation" x="3342" y="2839"/>
         </scene>
         <!--Support Main Table View Controller-->
         <scene sceneID="AuB-IY-raI">
@@ -207,7 +207,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="OSb-gk-DFe" kind="show" id="b7M-Dv-TzG"/>
+                                            <segue destination="Eww-gT-w4D" kind="show" id="tym-On-bOG"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SupportCell" rowHeight="70" id="sJ4-V1-4Ju">
@@ -337,6 +337,115 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G0q-1k-oXU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3342" y="2112"/>
+        </scene>
+        <!--Talk To Us View Controller-->
+        <scene sceneID="rv6-Vx-ZdR">
+            <objects>
+                <tableViewController id="Eww-gT-w4D" customClass="TalkToUsViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="zzk-fl-vdx">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="ErU-lx-XQv" customClass="TalkToUsTableViewCell" customModule="CoreKPI" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ErU-lx-XQv" id="nqr-mP-Z83">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Eww-gT-w4D" id="Fmp-6w-9lJ"/>
+                            <outlet property="delegate" destination="Eww-gT-w4D" id="7R7-gU-y7r"/>
+                        </connections>
+                    </tableView>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Mc-um-L6R" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4132" y="1827"/>
+        </scene>
+        <!--Question Detail Table View Controller-->
+        <scene sceneID="3wq-Dt-CCT">
+            <objects>
+                <tableViewController storyboardIdentifier="QuestionDetailTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="EOp-lL-sxK" customClass="QuestionDetailTableViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="e2K-l8-otI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection headerTitle="Question" id="z6c-Wr-aMp">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="250" id="R4p-Eg-Rt8">
+                                        <rect key="frame" x="0.0" y="56" width="375" height="250"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="R4p-Eg-Rt8" id="p7C-Xv-ct2">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="250"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Vxn-6H-e39">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="249.5"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="Vxn-6H-e39" secondAttribute="trailing" id="3Rp-eO-UpS"/>
+                                                <constraint firstItem="Vxn-6H-e39" firstAttribute="top" secondItem="p7C-Xv-ct2" secondAttribute="top" id="43o-7w-1nZ"/>
+                                                <constraint firstAttribute="bottom" secondItem="Vxn-6H-e39" secondAttribute="bottom" id="P8c-g5-xDa"/>
+                                                <constraint firstItem="Vxn-6H-e39" firstAttribute="leading" secondItem="p7C-Xv-ct2" secondAttribute="leading" id="zOE-q9-1SE"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Answer" id="UBL-oq-ACA">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="125" id="c2s-T1-hL7">
+                                        <rect key="frame" x="0.0" y="362" width="375" height="125"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="c2s-T1-hL7" id="vNS-RD-TeE">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="124"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="jTF-UC-5a5">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="124.5"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="jTF-UC-5a5" secondAttribute="bottom" id="47y-Q5-9BR"/>
+                                                <constraint firstItem="jTF-UC-5a5" firstAttribute="top" secondItem="vNS-RD-TeE" secondAttribute="top" id="bBa-ik-gVO"/>
+                                                <constraint firstAttribute="trailing" secondItem="jTF-UC-5a5" secondAttribute="trailing" id="oLR-BM-Clp"/>
+                                                <constraint firstItem="jTF-UC-5a5" firstAttribute="leading" secondItem="vNS-RD-TeE" secondAttribute="leading" id="prO-4y-QKu"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="EOp-lL-sxK" id="gAu-dC-6Jt"/>
+                            <outlet property="delegate" destination="EOp-lL-sxK" id="Nao-4C-d1H"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="answerTextView" destination="jTF-UC-5a5" id="46s-a6-XDk"/>
+                        <outlet property="questionTextView" destination="Vxn-6H-e39" id="bf6-jn-djX"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="weJ-KG-IKS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4896.8000000000002" y="1824.737631184408"/>
         </scene>
         <!--Faq Table View Controller-->
         <scene sceneID="1t5-6d-HbG">
@@ -670,7 +779,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                         </attributedString>
                     </refreshControl>
                     <connections>
-                        <outlet property="addButton" destination="aSe-45-aDd" id="uN8-nv-sSK"/>
+                        <outlet property="addButton" destination="aSe-45-aDd" id="1CV-RU-6t5"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LPL-Xb-JWa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2941,10 +3050,10 @@ The main advantage of a computer audio player is that you can play your audio CD
             </objects>
             <point key="canvasLocation" x="4989.6000000000004" y="-1612.4437781109445"/>
         </scene>
-        <!--Talk To Us View Controller-->
+        <!--Send New Integration View Controller-->
         <scene sceneID="rVb-78-VeX">
             <objects>
-                <viewController id="OSb-gk-DFe" customClass="TalkToUsViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SendNewIntegrationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="OSb-gk-DFe" customClass="SendNewIntegrationViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9oE-CY-DdZ"/>
                         <viewControllerLayoutGuide type="bottom" id="KIO-9h-cS8"/>
@@ -2981,13 +3090,13 @@ The main advantage of a computer audio player is that you can play your audio CD
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="sendButton" destination="h7J-a4-qI0" id="4jD-rc-I94"/>
-                        <outlet property="textView" destination="EMM-pn-h9b" id="hRh-Me-Nst"/>
+                        <outlet property="sendButton" destination="h7J-a4-qI0" id="SwW-bj-m6R"/>
+                        <outlet property="textView" destination="EMM-pn-h9b" id="Xym-Bp-lMk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eqk-Io-EcM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4132" y="2111.6941529235382"/>
+            <point key="canvasLocation" x="4132" y="2481"/>
         </scene>
         <!--Dashboards-->
         <scene sceneID="gXF-o8-ZoP">
@@ -4668,7 +4777,6 @@ Deliveries</string>
         <image name="teamsIcons1" width="25" height="26"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="b7M-Dv-TzG"/>
         <segue reference="hOe-3T-3Gf"/>
     </inferredMetricsTieBreakers>
 </document>

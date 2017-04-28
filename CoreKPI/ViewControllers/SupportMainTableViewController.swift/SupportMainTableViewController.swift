@@ -12,8 +12,14 @@ class SupportMainTableViewController: UITableViewController {
 
     var model: ModelCoreKPI!    
     var stateMachine = UserStateMachine.shared
+    
     private var isRequestForNewIntegration = false
     
+    @IBAction func didTapLogoutButton(_ sender: UIBarButtonItem) {
+        
+        stateMachine.logOut()
+    }
+      
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,27 +40,5 @@ class SupportMainTableViewController: UITableViewController {
         return 4
     }
     
-    @IBAction func didTapLogoutButton(_ sender: UIBarButtonItem) {
-        
-       stateMachine.logOut()
-    }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 1
-        {
-            isRequestForNewIntegration = true
-        }
-        else
-        {
-            isRequestForNewIntegration = false 
-        }
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if let vc = segue.destination as? TalkToUsViewController
-        {
-            vc.isRequestForNewIntegration = isRequestForNewIntegration
-        }
-    }
 }
