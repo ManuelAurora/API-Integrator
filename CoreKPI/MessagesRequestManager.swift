@@ -30,20 +30,18 @@ class MessagesRequestManager: Request {
             "message": message,
             "type": type.rawValue
             ]
-        
-        //sendMessage(message, message_type) - отправляет сообщение. Type: Support, Request
-        //getMessages(type, [limit, offset]) - возвращает список сообщений. Direction: From - от юзера, To - от админа.
-
+      
         self.getJson(category: "/chat/sendMessage", data: data,
                      success: { json in
-                        guard let success = json["success"] as? Int, success == 1 else {
+                        guard let suc = json["success"] as? Int, suc == 1 else {
                             if let errorMessage = json["message"] as? String
                             {
                                 failure(errorMessage)
                             }
                             return
                         }
-                        self.parsingJson(json: json)
+                        _ = self.parsingJson(json: json)
+                        success()
         },
                      failure: { (error) in
                         failure(error)
@@ -79,28 +77,33 @@ class MessagesRequestManager: Request {
         
         var result = [QuestionAnswer]()
         
-        if let successKey = json["success"] as? Int {
-            if successKey == 1 {
-                if let messages = json["data"] as? [[String: Any]]
-                {
-                    
-                    messages.forEach {
-                        let direction = $0["direction"] as! String
-                        var question = ""
-                        var answer   = ""
-                        let text = $0["message"] as! String
-                        let id   = $0["id"] as! Int64
-                        let userId = $0["user_id"] as! Int64
-                        if direction == "To" { question = text }
-                        else { answer = text }
-                        
-                        let message = QuestionAnswer(question: question,
-                                                     answer: answer,
-                                                     id: Int(id),
-                                                     userId: Int(userId))
-                        result.append(message)
+        if let successKey = json["success"] as? Int,
+            successKey == 1,
+            let messages = json["data"] as? [[jsonDict]]
+        {
+            var conversation = QuestionAnswer(question: "",
+                                              answer: "",
+                                              id: 0,
+                                              userId: 0)
+            
+            messages.forEach { messagesChain in
+                messagesChain.forEach {
+                    let direction = $0["direction"] as! String
+                    let text      = $0["message"] as! String
+                    let id        = $0["id"] as! Int64
+                    let userId    = $0["user_id"] as! Int64
+                    if direction == "To"
+                    {
+                        conversation.question = text
                     }
+                    else { conversation.answer = " Reply: " + text }
+                    
+                    conversation.id = Int(id)
+                    conversation.userId = Int(userId)
                 }
+                result.append(conversation)
+                conversation.question = ""
+                conversation.answer   = ""
             }
         }
         return result

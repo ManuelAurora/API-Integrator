@@ -135,7 +135,8 @@ class NewProfileTableViewController: UITableViewController {
         
         let request = GetInviteList(model: ModelCoreKPI.modelShared)
         
-        request.inviteRequest(email: email, success: { 
+        request.inviteRequest(email: email, success: {
+            
             print("asdas")
         }) { error in
             print(error)

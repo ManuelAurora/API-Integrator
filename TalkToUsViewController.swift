@@ -57,6 +57,13 @@ class TalkToUsViewController: UITableViewController
         
         ui(block: true)
         
+        title = "Questions"
+        registerNibs()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         let req = MessagesRequestManager(model: ModelCoreKPI.modelShared)
         
         req.getMessagesOf(type: .support, success: { result in
@@ -68,14 +75,7 @@ class TalkToUsViewController: UITableViewController
             self.ui(block: false)
             print(error)
         }
-        
-        title = "Questions"
-        registerNibs()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
+
         navigationItem.rightBarButtonItem = addQuestionButton
         view.backgroundColor = OurColors.gray
     }
@@ -103,6 +103,7 @@ class TalkToUsViewController: UITableViewController
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        removeAllAlamofireNetworking()
         ui(block: false)
     }
     
@@ -112,7 +113,14 @@ class TalkToUsViewController: UITableViewController
         let cell = tableView.dequeueReusableCell(withIdentifier: "TalkToUsCell",
                                                  for: indexPath) as! TalkToUsTableViewCell
         cell.questionLabel.text = " " + questions[indexPath.row].question
-        cell.answerLabel.text   = answer == "" ? "There is no answer yet" : " Reply: " + answer
+        
+        if answer == ""
+        {
+            cell.answerLabel.text = "There is no answer yet"
+            cell.answerLabel.textColor = .gray
+        }
+        else { cell.answerLabel.text = answer }
+        
         return cell
     }
     

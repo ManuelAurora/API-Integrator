@@ -25,20 +25,14 @@ class GetInviteList: Request {
                             }
                             return
                         }
+                        self.parsingJson(json: json)
         },
                      failure: { (error) in
                         failure(error)
         })
     }
     
-    func parsingJson(username: String,
-                     firstname: String,
-                     lastname: String,
-                     position: String,
-                     photo: String?,
-                     email: String,
-                     password: String,
-                     json: NSDictionary) {
+    func parsingJson(json: NSDictionary) {
         
         var userId: Int
         var token: String
@@ -47,23 +41,10 @@ class GetInviteList: Request {
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
                 if let dataKey = json["data"] as? NSDictionary {
-                    userId = dataKey["user_id"] as! Int
-                    token = dataKey["token"] as! String
-                    let mode = dataKey["mode"] as! Int
-                    typeOfAccount = (mode == 0) ? .Manager : .Admin
-                    let profile = Profile(userId: userId, userName: username, firstName: firstname, lastName: lastname, position: position, photo: photo, phone: nil, nickname: nil, typeOfAccount: typeOfAccount)
-                    
-                    ModelCoreKPI.modelShared.signedInUpWith(token: token, profile: profile)
-                    UserStateMachine.shared.logInWith(email: email, password: password)
-                    
-                } else {
-                    print("Json data is broken")
+                    print("Json file is broken!")
                 }
-            } else {
-                self.errorMessage = json["message"] as? String
             }
-        } else {
-            print("Json file is broken!")
         }
     }
 }
+
