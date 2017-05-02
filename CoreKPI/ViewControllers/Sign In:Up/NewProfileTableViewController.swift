@@ -97,8 +97,8 @@ class NewProfileTableViewController: UITableViewController {
         {
             toggleInterface(enabled: false)
             
-            firstName = firstNameTextField.text
-            lastName  = lastNameTextField.text
+            firstName = firstNameTextField.text!.trimmingCharacters(in: .whitespaces)
+            lastName  = lastNameTextField.text!.trimmingCharacters(in: .whitespaces)
             position  = positionTextField.text
             registrationRequest()
         }

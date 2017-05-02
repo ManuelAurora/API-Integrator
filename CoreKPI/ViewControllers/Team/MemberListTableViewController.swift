@@ -20,12 +20,21 @@ class MemberListTableViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        refreshControl?.endRefreshing()
+        refreshControl?.removeFromSuperview()
+        
         tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        refreshControl = UIRefreshControl()
+        refreshControl?.backgroundColor = UIColor.clear
+        refreshControl?.addTarget(self, action: #selector(self.refresh),
+                                  for: UIControlEvents.valueChanged)
+        
+        tableView.addSubview(refreshControl!)
         //Admin permission check!
         if model.profile?.typeOfAccount != TypeOfAccount.Admin
         {            
@@ -38,11 +47,6 @@ class MemberListTableViewController: UITableViewController {
         super.viewDidLoad()
         
         title = "Team List"
-        
-        refreshControl = UIRefreshControl()
-        refreshControl?.backgroundColor = UIColor.clear
-        refreshControl?.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
-        tableView.addSubview(refreshControl!)
         
         let nc = NotificationCenter.default
         nc.addObserver(forName: .profilePhotoDownloaded, object:nil, queue:nil, using:catchNotification)
@@ -63,15 +67,17 @@ class MemberListTableViewController: UITableViewController {
         return model.team.count
     }
     
-    private func thisIsMyAccount(_ index: Int) -> Bool {
+    private func thisIsMyAccount(_ index: Int) -> Bool? {
         
-          return Int(model.team[index].userID) == model.profile?.userId
+        guard model.team.count > 0 else { return nil }
+        
+        return Int(model.team[index].userID) == model.profile?.userId
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MemberListCell", for: indexPath) as! MemberListTableViewCell
         
-        if thisIsMyAccount(indexPath.row)
+        if thisIsMyAccount(indexPath.row)!
         {
             cell.aditionalBackground.layer.borderWidth = 2
             cell.aditionalBackground.layer.borderColor = OurColors.cyan.cgColor
@@ -151,6 +157,7 @@ class MemberListTableViewController: UITableViewController {
     func deleteUser(userID: Int64) {
         let request = DeleteUser(model: model)
         request.deleteUser(withID: Int(userID), success: {
+            self.loadTeamListFromServer()
         return
         }, failure: { error in
             print(error)
@@ -184,6 +191,8 @@ class MemberListTableViewController: UITableViewController {
     
     //MARK: - load team list from server
     func loadTeamListFromServer() {
+        
+        UserStateMachine.shared.getNumberOfInvitations()
         
         let request = GetMemberList(model: model)
         

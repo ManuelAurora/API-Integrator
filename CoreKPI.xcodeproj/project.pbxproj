@@ -34,6 +34,7 @@
 		646BF08E1E6E8B4200621FE2 /* HubspotManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */; };
 		646BF0911E6EE64800621FE2 /* HubspotRequestedObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BF0901E6EE64800621FE2 /* HubspotRequestedObjects.swift */; };
 		646E2AC11E7C070C0010E4BE /* Date + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646E2AC01E7C070C0010E4BE /* Date + Extension.swift */; };
+		64797E9C1EB8CB7A00AE7D7F /* SegueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64797E9B1EB8CB7A00AE7D7F /* SegueManager.swift */; };
 		647B588F1E65AA2F001C968B /* QuickBookHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B588E1E65AA2F001C968B /* QuickBookHelpers.swift */; };
 		647B58911E65BA89001C968B /* QuickBookRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B58901E65BA89001C968B /* QuickBookRequestHandler.swift */; };
 		647C76AB1E9CFB3D00D48900 /* SalesForceKPI + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647C76AA1E9CFB3D00D48900 /* SalesForceKPI + Extension.swift */; };
@@ -266,6 +267,7 @@
 		646BF08F1E6ECD9500621FE2 /* CoreKPI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CoreKPI.entitlements; sourceTree = "<group>"; };
 		646BF0901E6EE64800621FE2 /* HubspotRequestedObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotRequestedObjects.swift; sourceTree = "<group>"; };
 		646E2AC01E7C070C0010E4BE /* Date + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date + Extension.swift"; sourceTree = "<group>"; };
+		64797E9B1EB8CB7A00AE7D7F /* SegueManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueManager.swift; sourceTree = "<group>"; };
 		647B588E1E65AA2F001C968B /* QuickBookHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBookHelpers.swift; sourceTree = "<group>"; };
 		647B58901E65BA89001C968B /* QuickBookRequestHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBookRequestHandler.swift; sourceTree = "<group>"; };
 		647C76AA1E9CFB3D00D48900 /* SalesForceKPI + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SalesForceKPI + Extension.swift"; sourceTree = "<group>"; };
@@ -529,6 +531,7 @@
 				A25F658E1E530CEA00AD30F5 /* UIViewControllerExtension.swift */,
 				64A32B911E5B394B008438DA /* String + Extension.swift */,
 				64E08EBE1E5C3D4B00FE1F8E /* Dictionary + Extension.swift */,
+				64797E9B1EB8CB7A00AE7D7F /* SegueManager.swift */,
 				646E2AC01E7C070C0010E4BE /* Date + Extension.swift */,
 				64637DA41E9F9C8C00F33A1C /* Sequence + Extension.swift */,
 			);
@@ -1242,6 +1245,7 @@
 				A261D9181E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift in Sources */,
 				64936AF21E543DC00059D80A /* PinCodeButton.swift in Sources */,
 				645759261E67FB7D006FB5F9 /* ExternaKPI + Extension.swift in Sources */,
+				64797E9C1EB8CB7A00AE7D7F /* SegueManager.swift in Sources */,
 				648E9A6D1EB33F1C00632887 /* TalkToUsViewController.swift in Sources */,
 				645759241E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift in Sources */,
 				A2F77E081E3B199400BB8318 /* ChangeUserRights.swift in Sources */,

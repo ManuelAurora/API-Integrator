@@ -327,6 +327,8 @@ class ChartsPageViewController:
                         self?.formData()
                         self?.removeWaitingSpinner()
                         self?.tableViewChartVC.reloadTableView()
+                        self?.webViewChartOneVC.refreshView()
+                        self?.webViewChartTwoVC.refreshView()
         }
     }
    

@@ -227,7 +227,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         if model.profile?.typeOfAccount != TypeOfAccount.Admin {
             if model.profile?.userId != Int(model.team[index].userID) {
                 let vc = storyboard?.instantiateViewController(withIdentifier: "ChangeName") as! ChageNameTableViewController
-                
+                vc.model = model
                 vc.index = index
                 vc.memberInfoVC = self
                 self.navigationController?.show(vc, sender: nil)

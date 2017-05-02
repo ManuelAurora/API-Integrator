@@ -9,7 +9,8 @@
 import UIKit
 import Alamofire
 
-class RecoveryPasswordViewController: UIViewController {
+class RecoveryPasswordViewController: UIViewController
+{
     
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var emailTextField: UITextField!
@@ -46,16 +47,36 @@ class RecoveryPasswordViewController: UIViewController {
     
     func recoveryPassword(email: String) {
         
-        let recoveryPasswod = RecoveryPassword()
-        recoveryPasswod.recoveryPassword(email: email,
-                                         success: {
-                                            self.toggleUserInterface(enabled: true)
-            self.dismiss(animated: true, completion: nil)
+        let pop: ()->() = {
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+        let request = RecoveryPassword()
+        
+        request.recoveryPassword(email: email,
+                                 success: {
+                                    self.toggleUserInterface(enabled: true)
+                                    let alert = UIAlertController(title: "Success",
+                                                                  message: nil,
+                                                                  preferredStyle: .alert)
+                                    
+                                    let okAction = UIAlertAction(title: "Ok",
+                                                                 style: .default,
+                                                                 handler: { _ in
+                                                                    pop()
+                                    })
+                                    
+                                    alert.addAction(okAction)
+                                    
+                                    self.present(alert,
+                                                 animated: true,
+                                                 completion: nil)
+                                    
         },
-                                         failure: { error in
-                                            self.toggleUserInterface(enabled: true)
-                                            self.showAlert(title: "Error occured",
-                                                           errorMessage: error)
+                                 failure: { error in
+                                    self.toggleUserInterface(enabled: true)
+                                    self.showAlert(title: "Error occured",
+                                                   errorMessage: error)
         })
     }
     

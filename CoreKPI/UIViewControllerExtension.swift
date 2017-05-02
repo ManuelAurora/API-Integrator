@@ -38,7 +38,11 @@ extension UIViewController
         
         UserStateMachine.shared.toggleAppFetchingData()
         
-        UIViewController.spinner = OvalShapeLayer(point: point, color: color)
+        let xValue = view.bounds.width / 2
+        let yValue = view.bounds.height * 0.8
+        let p = CGPoint(x: xValue, y: yValue)
+        
+        UIViewController.spinner = OvalShapeLayer(point: p, color: color)
         navigationController!.view.layer.addSublayer(UIViewController.spinner!)
     }
     

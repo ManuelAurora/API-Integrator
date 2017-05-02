@@ -54,8 +54,8 @@ class GetInviteList: Request {
         {
             data.forEach { team in
                 let id = team["inviter_team_id"] as! Int
-                let name = team["first_name"] as! String
-                let lastName = team["last_name"] as! String
+                let name = team["first_name"] as? String ?? "\(id)"
+                let lastName = team["last_name"] as? String ?? ""
                 
                 let inviteTeam = InviteTeam(id: id,
                                       name: name,

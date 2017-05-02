@@ -157,7 +157,7 @@ class UserStateMachine
         }
     }
     
-    private func getNumberOfInvitations() {
+    func getNumberOfInvitations() {
         
         let request = GetNumberOfInvations(model: model)
         request.getNumberOfInvations(success: { value in
@@ -176,6 +176,9 @@ class UserStateMachine
         setTryingToLogin(false)
         getNumberOfInvitations()
         notificationCenter.post(name: .userLoggedIn, object: nil)
+        
+        let tvc = appDelegate.launchViewController.mainTabBar.teamListController
+        tvc.loadTeamListFromServer()
     }
     
     private func userLoggedOut() {
@@ -186,10 +189,17 @@ class UserStateMachine
         userStateInfo.haveLocalToken = false
         userStateInfo.usesPinCode    = false
         
+        let regVc      = appDelegate.launchViewController.registerViewController
         let mainTab    = appDelegate.launchViewController.mainTabBar
         let dashboard  = mainTab.dashboardViewController
+        let teamVc     = mainTab.teamListController
+        let alertVc    = mainTab.alertsViewController
         let fetchReq   = NSFetchRequest<ExternalKPI>(entityName: "ExternalKPI")
         let extKPIs    = try? context.fetch(fetchReq)
+        
+        regVc.emailTextField?.text = ""
+        regVc.passwordTextField?.text = ""
+        regVc.repeatPasswordTextField?.text = ""
         
         extKPIs?.forEach { context.delete($0) }
         model.team.forEach { context.delete($0) }
@@ -197,6 +207,8 @@ class UserStateMachine
         model.team.removeAll()
         dashboard.arrayOfKPI.removeAll()
         dashboard.tableView.reloadData()
+        teamVc.tableView.reloadData()
+        alertVc.tableView.reloadData()
         
         try? context.save()
         
@@ -253,6 +265,6 @@ class UserStateMachine
     }
     
     @objc private func modelDidChanged() {
-        
+        getNumberOfInvitations()
     }
 }

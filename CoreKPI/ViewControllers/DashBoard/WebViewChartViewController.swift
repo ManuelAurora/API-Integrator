@@ -94,7 +94,7 @@ class WebViewChartViewController: UIViewController
             let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
             
-            let title = "var title = 'Title Pie';"
+            let title = "var title = 'Pie Chart';"
            // let endOfJS = "pie((\(width)), \(height), data_pie);"
             let topOfJS2 = generateDataForJS()
             let htmlString: String = html! + "<style>" + css! + "</style>" +
