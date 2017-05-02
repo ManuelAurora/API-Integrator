@@ -111,6 +111,7 @@ class NewProfileTableViewController: UITableViewController {
     private func toggleInterface(enabled: Bool) {
         
         navigationItem.rightBarButtonItem?.isEnabled   = enabled
+        navigationItem.hidesBackButton                 = !enabled
         firstNameTextField.isUserInteractionEnabled    = enabled
         lastNameTextField.isUserInteractionEnabled     = enabled
         positionTextField.isUserInteractionEnabled     = enabled
@@ -120,7 +121,7 @@ class NewProfileTableViewController: UITableViewController {
         {
             var pos = positionTextField.center
             
-            pos.y = view.bounds.height -  view.bounds.height / 3
+            pos.y = view.bounds.height -  view.bounds.height / 4
             
             addWaitingSpinner(at: pos, color: OurColors.blue)
             
@@ -135,15 +136,49 @@ class NewProfileTableViewController: UITableViewController {
         
         let request = GetInviteList(model: ModelCoreKPI.modelShared)
         
-        request.inviteRequest(email: email, success: {
+        request.inviteRequest(email: email, success: { teams in
+          
+            if teams.count > 0
+            {
+                let alert = UIAlertController(title: "Select your team",
+                                              message: nil,
+                                              preferredStyle: .alert)
+                
+                teams.forEach { team in
+                    let button = UIAlertAction(title: team.teamName(),
+                                               style: .default,
+                                               handler: { _ in
+                                                let id = team.id
+                                                self.register(inTeam: id)
+                    })
+                    alert.addAction(button)
+                }
+                
+                let myTeam = UIAlertAction(title: "Make My Team",
+                                           style: .default, handler: { _ in
+                                            self.register(inTeam: 0)
+                })
+                
+                let cancelAction = UIAlertAction(title: "Cancel",
+                                                 style: .cancel,
+                                                 handler: { _ in
+                    self.toggleInterface(enabled: true)
+                    print("Cancelled")
+                })
+                
+                alert.addAction(cancelAction)
+                alert.addAction(myTeam)
+                self.present(alert, animated: true, completion: nil)
+            }
+            else { self.register(inTeam: 0) }            
             
-            print("asdas")
         }) { error in
             print(error)
+            self.toggleInterface(enabled: true)
         }        
     }
     
-    private func register() {
+    private func register(inTeam id: Int) {
         
         let registrationRequest = RegistrationRequest()
         registrationRequest.registrationRequest(email: email,
@@ -152,6 +187,7 @@ class NewProfileTableViewController: UITableViewController {
                                                 lastname: lastName,
                                                 position: position,
                                                 photo: profileImageBase64String,
+                                                teamId: id,
                                                 success: { _ in
                                                     self.segueToVC()
                                                     self.removeWaitingSpinner()

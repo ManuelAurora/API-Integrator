@@ -10,7 +10,14 @@ import Foundation
 
 class RegistrationRequest: Request {
     
-    func registrationRequest(email: String, password: String, firstname: String, lastname: String, position: String, photo: String?, success: @escaping () -> (), failure: @escaping failure) {
+    func registrationRequest(email: String,
+                             password: String,
+                             firstname: String,
+                             lastname: String,
+                             position: String,
+                             photo: String?,
+                             teamId: Int,
+                             success: @escaping () -> (), failure: @escaping failure) {
         
         let data: [String: Any] = [
             "username":   email,
@@ -19,7 +26,7 @@ class RegistrationRequest: Request {
             "last_name" : lastname,
             "position":   position,
             "photo":      photo ?? "",
-            "team_id": 0]
+            "team_id": teamId]
         
         self.getJson(category: "/auth/createAccount", data: data,
                      success: { json in

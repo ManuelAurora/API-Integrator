@@ -8,9 +8,21 @@
 
 import Foundation
 
+struct InviteTeam
+{
+    let id: Int
+    let name: String
+    let lastName: String
+    
+    func teamName() -> String {
+        
+        return name + " " + lastName
+    }
+}
+
 class GetInviteList: Request {
     
-    func inviteRequest(email: String, success: @escaping () -> (), failure: @escaping failure) {
+    func inviteRequest(email: String, success: @escaping ([InviteTeam]) -> (), failure: @escaping failure) {
         
         let data = [
             "email":   email,
@@ -18,33 +30,40 @@ class GetInviteList: Request {
         
         self.getJson(category: "/auth/getInviteList", data: data,
                      success: { json in
-                        guard let success = json["success"] as? Int, success == 1 else {
+                        guard let suc = json["success"] as? Int, suc == 1 else {
                             if let errorMessage = json["message"] as? String
                             {
                                 failure(errorMessage)
                             }
                             return
                         }
-                        self.parsingJson(json: json)
+                        success(self.parsingJson(json: json))
         },
                      failure: { (error) in
                         failure(error)
         })
     }
     
-    func parsingJson(json: NSDictionary) {
+    func parsingJson(json: NSDictionary) -> [InviteTeam] {
         
-        var userId: Int
-        var token: String
-        var typeOfAccount: TypeOfAccount!
+        var result = [InviteTeam]()
         
-        if let successKey = json["success"] as? Int {
-            if successKey == 1 {
-                if let dataKey = json["data"] as? NSDictionary {
-                    print("Json file is broken!")
-                }
+        if let successKey = json["success"] as? Int,
+             successKey == 1,
+                 let data = json["data"] as? [jsonDict]
+        {
+            data.forEach { team in
+                let id = team["inviter_team_id"] as! Int
+                let name = team["first_name"] as! String
+                let lastName = team["last_name"] as! String
+                
+                let inviteTeam = InviteTeam(id: id,
+                                      name: name,
+                                      lastName: lastName)
+                result.append(inviteTeam)
             }
         }
+        return result
     }
 }
 
