@@ -4564,7 +4564,7 @@ Deliveries</string>
                                     <outlet property="delegate" destination="3B6-vE-Icu" id="FKW-3q-kK1"/>
                                 </connections>
                             </tableView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="You can find you API signature &gt; https://www.paypal.com/?cmd=_profile-api-signature" translatesAutoresizingMaskIntoConstraints="NO" id="oix-KB-Tax">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="You can find your API signature &gt; https://www.paypal.com/?cmd=_profile-api-signature" translatesAutoresizingMaskIntoConstraints="NO" id="oix-KB-Tax">
                                 <rect key="frame" x="10" y="445" width="355" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>

@@ -10,27 +10,63 @@ import UIKit
 
 extension UIImageView {
     
+    private func getImageAt(path: String) -> UIImage? {
+        
+       return UIImage(contentsOfFile: path)
+    }
+    
+    
+    private func localPathFor(url: URL) -> URL {
+        
+        let path = FileManager.default.urls(for: .documentDirectory,
+                                            in: .userDomainMask).first!
+        return path.appendingPathComponent(url.lastPathComponent)
+    }
+    
     func downloadedFrom(url: URL, contentMode mode: UIViewContentMode = .scaleAspectFill) {
         contentMode = mode
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-            guard
-                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                let data = data, error == nil,
-                let image = UIImage(data: data)
-                else { return }
-            DispatchQueue.main.async() { () -> Void in
+        
+        let localPath = self.localPathFor(url: url)
+        let fileManager = FileManager.default
+        
+        guard !fileManager.fileExists(atPath: localPath.path) else {
+            if let image = getImageAt(path: localPath.path)
+            {
                 self.image = image
-                
-                let userInfo: [String: Any] = ["UIImageViewTag": self.tag,
-                                               "photo": image]
-                
-                NotificationCenter.default.post(name: .profilePhotoDownloaded,
-                                                object: nil,
-                                                userInfo: userInfo)
-                
             }
-            }.resume()
+            return
+        }
+        
+        URLSession.shared.downloadTask(with: url) {
+            (location, response, error) in
+            
+            guard let httpURLResponse = response as? HTTPURLResponse,
+                httpURLResponse.statusCode == 200,
+                error == nil,
+                let location = location
+                else { return }
+
+            do {
+                try fileManager.copyItem(at: location, to: localPath)
+            }
+            catch let error {
+                print(error.localizedDescription)
+            }
+            
+            DispatchQueue.main.async() { () -> Void in
+                
+                if let image = self.getImageAt(path: localPath.path)
+                {
+                    self.image = image
+                    let userInfo: [String: Any] = ["UIImageViewTag": self.tag,
+                                                   "photo": image]
+                    
+                    NotificationCenter.default.post(name: .profilePhotoDownloaded,
+                                                    object: nil,
+                                                    userInfo: userInfo)
+                }
+            }
+        }.resume()
     }
     
     func downloadedFrom(link: String, contentMode mode: UIViewContentMode = .scaleAspectFill) {
