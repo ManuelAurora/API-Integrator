@@ -278,6 +278,7 @@ class AlertSettingsTableViewController: UITableViewController {
                         let formatedStr: String = formatter.string(from: NSNumber(value: threshold!))!
                         cell.descriptionCellLabel.text = formatedStr
                         cell.descriptionCellLabel.isHidden = false
+                        cell.descriptionCellLabel.textAlignment = .right
                     }
                 case 2:
                     cell.headerCellLabel.text = "Delivery time"

@@ -29,6 +29,12 @@ class SendNewIntegrationViewController: UIViewController {
         }        
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        textView.contentInset = UIEdgeInsetsMake(-50, 0, 0, 0)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
      
