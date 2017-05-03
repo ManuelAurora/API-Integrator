@@ -2677,7 +2677,7 @@ The main advantage of a computer audio player is that you can play your audio CD
         <!--Main Tab Bar View Controller-->
         <scene sceneID="Jdd-xf-e1a">
             <objects>
-                <tabBarController storyboardIdentifier="TabBarVC" automaticallyAdjustsScrollViewInsets="NO" id="udg-mv-H6B" customClass="MainTabBarViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarVC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="udg-mv-H6B" customClass="MainTabBarViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="ocB-t4-Au0">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>

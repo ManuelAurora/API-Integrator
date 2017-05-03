@@ -40,29 +40,12 @@ class TalkToUsViewController: UITableViewController
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    private func ui(block: Bool) {
+    @objc private func refresh() {
         
-        if block
-        {
-            let center = navigationController!.view.center
-            addWaitingSpinner(at: center, color: OurColors.cyan)
-        }
-        else     { removeWaitingSpinner() }
-        tableView.isUserInteractionEnabled = !block
-        navigationItem.rightBarButtonItem?.isEnabled = !block
+        requestConversations()
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        ui(block: true)
-        
-        title = "Questions"
-        registerNibs()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    private func requestConversations() {
         
         let req = MessagesRequestManager(model: ModelCoreKPI.modelShared)
         
@@ -70,12 +53,48 @@ class TalkToUsViewController: UITableViewController
             self.ui(block: false)
             self.questions = result.filter { $0.userId == self.userId }
             self.tableView.reloadData()
-            
+            self.refreshControl?.endRefreshing()
         }) { error in
             self.ui(block: false)
+            self.refreshControl?.endRefreshing()
             print(error)
         }
-
+    }
+    
+    private func ui(block: Bool) {
+        
+        if block
+        {
+            let center = navigationController!.view.center
+            addWaitingSpinner(at: center, color: OurColors.cyan)
+        }
+        else
+        {
+            removeWaitingSpinner()
+        }
+        
+        tableView.isUserInteractionEnabled = !block
+        navigationItem.rightBarButtonItem?.isEnabled = !block
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self,
+                                  action: #selector(self.refresh),
+                                  for: UIControlEvents.valueChanged)
+        refreshControl?.backgroundColor = UIColor.clear
+        
+        title = "Questions"
+        registerNibs()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+       
+        ui(block: true)
+        requestConversations()
         navigationItem.rightBarButtonItem = addQuestionButton
         view.backgroundColor = OurColors.gray
     }

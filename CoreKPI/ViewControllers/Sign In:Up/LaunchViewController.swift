@@ -24,8 +24,6 @@ class LaunchViewController: UIViewController {
     }()
     
     lazy var mainTabBar: MainTabBarViewController = {
-        
-        SegueManager.mainTabBarVC.getRef()
         let mtbvc = self.storyboard?.instantiateViewController(
             withIdentifier: .mainTabBarController) as! MainTabBarViewController
         mtbvc.appDelegate = self.appDelegate
