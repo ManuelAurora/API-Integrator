@@ -81,6 +81,7 @@ class InviteTableViewController: UITableViewController {
         alertController.addAction(UIAlertAction(title: "Send", style: .default, handler:{
             (action: UIAlertAction!) -> Void in
             
+            self.emailTextField.resignFirstResponder()
             self.addButton.isEnabled = false
             self.addWaitingSpinner(at: self.view.center, color: OurColors.cyan)
             self.navigationItem.setHidesBackButton(true, animated: true)
@@ -111,8 +112,9 @@ class InviteTableViewController: UITableViewController {
             self.addButton.isEnabled = true
             self.removeWaitingSpinner()
             self.navigationItem.setHidesBackButton(false, animated: true)
-            self.showAlert(title: "Congratulation!", errorMessage: "You send invitation to \(self.emailTextField.text!)")
+            self.showAlert(title: "Congratulations!", errorMessage: "You sent invitation to \(self.emailTextField.text!)")
             self.emailTextField.text = ""
+            self.emailTextField.becomeFirstResponder()
             self.numberOfInvationsLAbel.text = "\(self.invitationsLeft) invitations left"
             self.typeOfAccount = .Manager
             self.typeOfAccountLabel.text = self.typeOfAccount.rawValue

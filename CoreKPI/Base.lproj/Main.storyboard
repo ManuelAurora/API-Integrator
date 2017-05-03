@@ -1592,7 +1592,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                                     <rect key="frame" x="16" y="0.0" width="343" height="43"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" spellCheckingType="yes" returnKeyType="next"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="h5D-QC-RUp" id="DFp-f9-ydH"/>
                                                     </connections>
@@ -1617,7 +1617,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                                     <rect key="frame" x="16" y="0.0" width="343" height="43"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" spellCheckingType="yes" returnKeyType="next"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="h5D-QC-RUp" id="rom-Ls-h6T"/>
                                                     </connections>

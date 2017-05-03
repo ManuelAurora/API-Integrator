@@ -34,13 +34,13 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        hideKeyboardWhenTappedAround()
         subscribeNotifications()
     }
      
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        hideKeyboardWhenTappedAround()
         clearTextFields()
         navigationItem.setHidesBackButton(true, animated: false)
         navigationController?.isNavigationBarHidden = false 

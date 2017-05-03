@@ -283,7 +283,7 @@ class HubSpotManager
             let revenue = showClosedAndWonDeals()
             
             deals.forEach { deal in
-                let wonDeal = revenue.filter { $0.dealId == deal.dealId }
+                let wonDeals = revenue.filter { $0.dealId == deal.dealId }
                 var resultTuple = (leftValue: "",
                                    centralValue: "0",
                                    rightValue: "0")
@@ -293,9 +293,9 @@ class HubSpotManager
                     resultTuple.leftValue = "\(date)"
                 }
                 
-                if wonDeal.count > 0
+                if let wonDeal = wonDeals.first
                 {
-                    let wonAmount  = wonDeal[0].amount ?? 0
+                    let wonAmount  = wonDeal.amount ?? 0
                     resultTuple.centralValue = "\(wonAmount)"
                 }
                 

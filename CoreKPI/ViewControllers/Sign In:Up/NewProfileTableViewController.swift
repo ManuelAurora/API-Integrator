@@ -99,7 +99,7 @@ class NewProfileTableViewController: UITableViewController {
             
             firstName = firstNameTextField.text!.trimmingCharacters(in: .whitespaces)
             lastName  = lastNameTextField.text!.trimmingCharacters(in: .whitespaces)
-            position  = positionTextField.text
+            position  = positionTextField.text!.trimmingCharacters(in: .whitespaces)
             registrationRequest()
         }
         else {
