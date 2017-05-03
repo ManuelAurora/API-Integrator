@@ -223,6 +223,10 @@ class AlertSettingsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AlertSettingCell",
                                                  for: indexPath) as! AlertSettingTableViewCell
         
+        let segmentCell = tableView.dequeueReusableCell(withIdentifier: "AlertTypeSwitcherCell",
+                                                        for: indexPath) as! AlertTypeSwitcherTableViewCell
+        segmentCell.delegate = self
+        
         switch indexPath.section
         {
         case 0:
@@ -242,14 +246,7 @@ class AlertSettingsTableViewController: UITableViewController {
                 
                 if dataSource != nil
                 {
-                    kpiName = (model.kpis.filter {
-                        $0.id == dataSource!})[0].createdKPI!.KPI
-                        
-                    navigationItem.title = "Reminder"
-                    cell.accessoryType = .disclosureIndicator
-                    cell.descriptionCellLabel.isHidden = false                   
-                    cell.descriptionCellLabel.text = kpiName
-                    cell.headerCellLabel.isHidden = true
+                    return segmentCell
                 }
                 else
                 {
@@ -268,6 +265,7 @@ class AlertSettingsTableViewController: UITableViewController {
                 case 0:
                     cell.headerCellLabel.text = "Condition"
                     cell.descriptionCellLabel.text = condition.rawValue
+                    cell.descriptionCellLabel.isHidden = false 
                     
                 case 1:
                     cell.headerCellLabel.text = "Threshold"
@@ -279,12 +277,14 @@ class AlertSettingsTableViewController: UITableViewController {
                         formatter.maximumFractionDigits = 10
                         let formatedStr: String = formatter.string(from: NSNumber(value: threshold!))!
                         cell.descriptionCellLabel.text = formatedStr
+                        cell.descriptionCellLabel.isHidden = false
                     }
                 case 2:
                     cell.headerCellLabel.text = "Delivery time"
                     cell.descriptionCellLabel.text = deliveryAt
                     cell.accessoryType = .disclosureIndicator
                     cell.descriptionCellLabel.textAlignment = .right
+                    cell.descriptionCellLabel.isHidden = false
                 default:
                     break
                 }
@@ -455,14 +455,13 @@ class AlertSettingsTableViewController: UITableViewController {
             {
                 if dataSource != nil
                 {
-                    typeOfSetting = Setting.DataSource
-                    settingsArray = dataSourceArray
-                    showSelectSettingVC()
+                    tableView.deselectRow(at: indexPath, animated: false)
                 }
                 else
                 {
                     typeOfSetting = .none
                     dataSource = kpiDataArr[indexPath.row].dataId
+                    title = "Alert"
                     animateTableViewRealoadData()
                     tableView.reloadData()
                 }
@@ -1152,6 +1151,13 @@ extension AlertSettingsTableViewController: updateSettingsDelegate {
     }
     
     func updateStringValue(string: String?) {
+    }
+    
+    func setAlert(type: TypeOfDigit) {
+        
+        title = type.rawValue
+        typeOfDigit = type
+        tableView.reloadData()
     }
 }
 

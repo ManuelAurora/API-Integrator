@@ -23,23 +23,10 @@ class AlertSelectSettingTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if selectSetting.isEmpty {
-            let alertVC = UIAlertController(title: "Sorry!", message: "No Data for select", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) -> Void in
-                _ = self.navigationController?.popViewController(animated: true)
-            }
-            ))
-            present(alertVC, animated: true, completion: nil)
-        }
-        let nc = NotificationCenter.default
-        nc.addObserver(forName: .modelDidChanged, object:nil, queue:nil, using:catchNotification)
+        
         tableView.tableFooterView = UIView(frame: .zero)
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
+       
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -126,14 +113,19 @@ class AlertSelectSettingTableViewController: UITableViewController {
             if inputSettingCells {
                 let formatter = NumberFormatter()
                 formatter.numberStyle = .decimal
-                if textFieldInputData != nil    {
-                    if let double: Double = formatter.number(from: textFieldInputData!) as Double? {
-                        delegate.updateDoubleValue(number: double)
-                    } else {
-                        let alertVC = UIAlertController(title: "Error", message: "Data is incorrect", preferredStyle: .alert)
-                        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                        present(alertVC, animated: true, completion: nil)
-                    }
+                
+                if let inputData = textFieldInputData?.replacingOccurrences(of: "\u{00A0}", with: "")
+                    .replacingOccurrences(of: ".", with: ","),
+                    let doubleValue = formatter.number(from: inputData)
+                {
+                    
+                    delegate.updateDoubleValue(number: doubleValue.doubleValue)
+                }
+                else
+                {
+                    let alertVC = UIAlertController(title: "Error", message: "Data is incorrect", preferredStyle: .alert)
+                    alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    present(alertVC, animated: true, completion: nil)
                 }
             }
             delegate.updateSettingsArray(array: selectSetting)
@@ -268,12 +260,12 @@ extension AlertSelectSettingTableViewController: UITextFieldDelegate {
         
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
+        formatter.decimalSeparator = "."
+        formatter.groupingSeparator = nil
         
         // Replace any formatting commas
-        let newStringNumber = stringNumber.replacingOccurrences(of: ",", with: "")
-        
-        let doubleFromString = Double(newStringNumber)
-        
+        let newStringNumber = stringNumber.replacingOccurrences(of: "\u{00A0}", with: "")
+        let doubleFromString = Double(newStringNumber.replacingOccurrences(of: ",", with: ""))
         let finalString = formatter.string(from: NSNumber(value: doubleFromString!))
         return finalString!
     }

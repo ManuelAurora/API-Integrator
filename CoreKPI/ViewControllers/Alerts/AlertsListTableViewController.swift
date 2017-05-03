@@ -9,8 +9,8 @@
 import UIKit
 
 enum TypeOfDigit: String {
-    case Alert
-    case Reminder
+    case Alert = "Alert"
+    case Reminder = "Reminder"
 }
 
 enum Setting: String {
@@ -229,6 +229,7 @@ class AlertsListTableViewController: UITableViewController {
             destinationVC.model = model
             destinationVC.AlertListVC = self
             destinationVC.creationMode = .createNew
+            destinationVC.typeOfDigit = .Alert
         }
         if segue.identifier == "ReminderView" {
             if let indexPath = tableView.indexPathForSelectedRow {

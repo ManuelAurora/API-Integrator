@@ -43,6 +43,7 @@
 		647CFCA31E854BD600F71632 /* IntegratedServicesDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647CFCA21E854BD600F71632 /* IntegratedServicesDataManager.swift */; };
 		647F46DD1E89377900641F42 /* OvalShapeLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647F46DC1E89377900641F42 /* OvalShapeLayer.swift */; };
 		648115F11EAA45930090B24B /* SendNewIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648115F01EAA45930090B24B /* SendNewIntegrationViewController.swift */; };
+		648603BD1EB9B49600E2FD34 /* AlertTypeSwitcherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648603BC1EB9B49600E2FD34 /* AlertTypeSwitcherTableViewCell.swift */; };
 		648E9A6A1EB3395000632887 /* TalkToUsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648E9A681EB3395000632887 /* TalkToUsTableViewCell.swift */; };
 		648E9A6B1EB3395000632887 /* TalkToUsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 648E9A691EB3395000632887 /* TalkToUsTableViewCell.xib */; };
 		648E9A6D1EB33F1C00632887 /* TalkToUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648E9A6C1EB33F1C00632887 /* TalkToUsViewController.swift */; };
@@ -276,6 +277,7 @@
 		647CFCA21E854BD600F71632 /* IntegratedServicesDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegratedServicesDataManager.swift; sourceTree = "<group>"; };
 		647F46DC1E89377900641F42 /* OvalShapeLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OvalShapeLayer.swift; sourceTree = "<group>"; };
 		648115F01EAA45930090B24B /* SendNewIntegrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendNewIntegrationViewController.swift; sourceTree = "<group>"; };
+		648603BC1EB9B49600E2FD34 /* AlertTypeSwitcherTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertTypeSwitcherTableViewCell.swift; sourceTree = "<group>"; };
 		648E9A681EB3395000632887 /* TalkToUsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TalkToUsTableViewCell.swift; sourceTree = "<group>"; };
 		648E9A691EB3395000632887 /* TalkToUsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TalkToUsTableViewCell.xib; sourceTree = "<group>"; };
 		648E9A6C1EB33F1C00632887 /* TalkToUsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TalkToUsViewController.swift; sourceTree = "<group>"; };
@@ -900,6 +902,7 @@
 				A2ACBD3E1E0D12280079EF3D /* AlertsListTableViewCell.swift */,
 				A2A215501E124AB800EEBCA2 /* AlertSettingTableViewCell.swift */,
 				A22302C41E1FDB1B00C9D0B4 /* AlertInputSettingTableViewCell.swift */,
+				648603BC1EB9B49600E2FD34 /* AlertTypeSwitcherTableViewCell.swift */,
 			);
 			name = Alerts;
 			sourceTree = "<group>";
@@ -1177,6 +1180,7 @@
 				64688B651EB22E8200F2D015 /*  NetworkingManager.swift in Sources */,
 				641F74661E5B0F4200672534 /* WebViewController.swift in Sources */,
 				A25F658D1E52F5D500AD30F5 /* NumberChartViewController.swift in Sources */,
+				648603BD1EB9B49600E2FD34 /* AlertTypeSwitcherTableViewCell.swift in Sources */,
 				A2ACBD3B1E0D11AA0079EF3D /* AlertsListTableViewController.swift in Sources */,
 				A20440BB1E5483E300D540F8 /* GetReminders.swift in Sources */,
 				A297F5D11E08241900F85963 /* MemberInfoTableViewCell.swift in Sources */,
