@@ -35,6 +35,14 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         notificationCenter.removeObserver(self)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let member = model.team[index]
+        memberProfilePhotoImage.getPhotoFor(member: member)
+        reloadTableView()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -274,14 +282,6 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         navigationController?.hideTransparentNavigationBar()
     }
     
-    func updateProfilePhoto() {
-        if (model.team[index].photo != nil) {
-            memberProfilePhotoImage.downloadedFrom(link: model.team[index].photoLink!)
-        } else {
-            memberProfilePhotoImage.image = #imageLiteral(resourceName: "defaultProfile")
-        }
-    }
-    
     func changeSecuritySettings() {        
         
         if stateMachine.usersPin == nil
@@ -319,25 +319,22 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     
     private func updateMemberInfo() {
         
-        if let memberNickname = model.team[index].nickname
+        let member = model.team[index]
+        
+        if let memberNickname = member.nickname
         {
             memberProfileNameLabel.text = memberNickname
         }
         else
         {
-            if let name = model.team[index].firstName, let lastName = model.team[index].lastName
+            if let name = member.firstName, let lastName = member.lastName
             {
                 memberProfileNameLabel.text = "\(name) \(lastName)"
             }
         }
         
-        memberProfilePositionLabel.text = model.team[index].position
-        
-        if model.team[index].photo != nil {
-            memberProfilePhotoImage.image = UIImage(data: model.team[index].photo as! Data)
-        } else {
-            updateProfilePhoto()
-        }
+        memberProfilePositionLabel.text = member.position
+        memberProfilePhotoImage.getPhotoFor(member: member)
     }
 }
 

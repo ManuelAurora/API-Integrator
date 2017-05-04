@@ -23,8 +23,22 @@ extension UIImageView {
         return path.appendingPathComponent(url.lastPathComponent)
     }
     
-    func downloadedFrom(url: URL, contentMode mode: UIViewContentMode = .scaleAspectFill) {
-        contentMode = mode
+    private func setDefaultImageAtMainThread() {
+        
+        DispatchQueue.main.async {
+            self.image = #imageLiteral(resourceName: "defaultProfile")
+        }
+    }
+    
+    func getPhotoFor(member: Team,
+                     contentMode: UIViewContentMode = .scaleAspectFill) {
+        
+        self.contentMode = contentMode
+        
+        guard let link = member.photoLink, let url = URL(string: link) else {
+            setDefaultImageAtMainThread()
+            return
+        }
         
         let localPath = self.localPathFor(url: url)
         let fileManager = FileManager.default
@@ -44,35 +58,27 @@ extension UIImageView {
                 httpURLResponse.statusCode == 200,
                 error == nil,
                 let location = location
-                else { return }
-
+                else {
+                   self.setDefaultImageAtMainThread()
+                    return
+            }
             do {
                 try fileManager.copyItem(at: location, to: localPath)
+                try fileManager.removeItem(at: location)
             }
             catch let error {
                 print(error.localizedDescription)
+                self.setDefaultImageAtMainThread()
             }
             
-            DispatchQueue.main.async() { () -> Void in
-                
+            DispatchQueue.main.async  {
                 if let image = self.getImageAt(path: localPath.path)
                 {
                     self.image = image
-                    let userInfo: [String: Any] = ["UIImageViewTag": self.tag,
-                                                   "photo": image]
-                    
-                    NotificationCenter.default.post(name: .profilePhotoDownloaded,
-                                                    object: nil,
-                                                    userInfo: userInfo)
                 }
             }
         }.resume()
-    }
-    
-    func downloadedFrom(link: String, contentMode mode: UIViewContentMode = .scaleAspectFill) {
-        guard let url = URL(string: link) else { return }
-        downloadedFrom(url: url, contentMode: mode)
-    }
+    } 
 }
 
 extension UIImage {

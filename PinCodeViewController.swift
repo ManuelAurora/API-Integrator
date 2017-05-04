@@ -166,7 +166,7 @@ class PinCodeViewController: UIViewController
                 if presentingViewController?.presentedViewController == self
                 {
                     let navController = self.presentingViewController as! UINavigationController
-                    let presentingVC = navController.viewControllers[0] as! SignInViewController
+                    let presentingVC = navController.topViewController as! SignInViewController
                     
                     presentingVC.model = self.model
                     

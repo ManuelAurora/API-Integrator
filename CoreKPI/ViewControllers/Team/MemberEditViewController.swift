@@ -34,15 +34,22 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         super.viewDidLoad()
         
         title = "Edit Member"
+        let member = model.team[index]
+        self.memberNameTextField.text = "\(member.firstName!) \(member.lastName!)"
+        self.memberPositionTextField.text = member.position
         
-        self.memberNameTextField.text = "\(model.team[index].firstName!) \(model.team[index].lastName!)"
-        self.memberPositionTextField.text = model.team[index].position
+       memberProfilePhotoImage.getPhotoFor(member: member)
         
-        if let photoData = model.team[index].photo {
-            memberProfilePhotoImage.image = UIImage(data: photoData as Data)
-        }
-        
-        self.newProfile = Profile(userId: Int(model.team[index].userID), userName: model.team[index].username!, firstName: model.team[index].firstName!, lastName: model.team[index].lastName!, position: model.team[index].position, photo: model.team[index].photoLink, phone: model.team[index].phoneNumber, nickname: model.team[index].nickname, typeOfAccount: model.team[index].isAdmin ? .Admin : .Manager)
+        newProfile = Profile(userId: Int(model.team[index].userID),
+                             userName: model.team[index].username!,
+                             firstName: model.team[index].firstName!,
+                             lastName: model.team[index].lastName!,
+                             position: model.team[index].position,
+                             photo: model.team[index].photoLink,
+                             phone: model.team[index].phoneNumber,
+                             nickname: model.team[index].nickname,
+                             typeOfAccount: model.team[index].isAdmin ?
+                                .Admin : .Manager)
         
         tableView.tableFooterView = UIView(frame: .zero)
         self.navigationController?.hideTransparentNavigationBar()
@@ -286,7 +293,8 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         
         let request = ChangeProfile(model: model)
         
-        request.changeProfile(userID: Int(model.team[index].userID) , params: params, success: { link in
+        request.changeProfile(userID: Int(model.team[index].userID) ,
+                              params: params, success: { link in
             self.updateProfile(photoLink: link)
             let nc = NotificationCenter.default
             nc.post(name: .modelDidChanged,
@@ -325,10 +333,9 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         model.team[index].setValue(newProfile.position, forKey: "position")
         
         if newProfile.photo != nil && newProfile.photo != model.team[index].photoLink {
-            //self.model.team[index].setValue(profilePhotoData, forKey: "photo")
-            self.model.team[index].photo = profilePhotoData as NSData!
-            if photoLink != nil {
-                //self.model.team[index].setValue(photoLink, forKey: "photoLink")
+            
+            if photoLink != nil
+            {                
                 self.model.team[index].photoLink = photoLink!
             }
         }

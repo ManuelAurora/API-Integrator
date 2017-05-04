@@ -49,9 +49,8 @@ class MemberListTableViewController: UITableViewController {
         title = "Team List"
         
         let nc = NotificationCenter.default
-        nc.addObserver(forName: .profilePhotoDownloaded, object:nil, queue:nil, using:catchNotification)
+       
         nc.addObserver(forName: .modelDidChanged, object:nil, queue:nil, using:catchNotification)
-
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
         tableView.tableFooterView = UIView(frame: .zero)
@@ -74,8 +73,11 @@ class MemberListTableViewController: UITableViewController {
         return Int(model.team[index].userID) == model.profile?.userId
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MemberListCell", for: indexPath) as! MemberListTableViewCell
+    override func tableView(_ tableView: UITableView,
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MemberListCell",
+                                                 for: indexPath) as! MemberListTableViewCell
         
         if thisIsMyAccount(indexPath.row)!
         {
@@ -88,26 +90,17 @@ class MemberListTableViewController: UITableViewController {
             cell.aditionalBackground.layer.borderColor = UIColor.white.cgColor
         }
         
-        if let memberNickname = model.team[indexPath.row].nickname {
+        let member = model.team[indexPath.row]
+        
+        if let memberNickname = member.nickname {
             cell.userNameLabel.text = memberNickname
         } else {
-            cell.userNameLabel.text = "\(model.team[indexPath.row].firstName!) \(model.team[indexPath.row].lastName!)"
+            cell.userNameLabel.text = "\(member.firstName!) \(member.lastName!)"
         }
         
-        cell.userPosition.text = model.team[indexPath.row].position
+        cell.userPosition.text = member.position
+        cell.userProfilePhotoImage.getPhotoFor(member: member)
         
-        if let photo = model.team[indexPath.row].photo
-        {
-            cell.userProfilePhotoImage.image = UIImage(data: photo as Data)
-        }
-        
-        if (model.team[indexPath.row].photoLink != nil) {
-            //load photo from server
-            cell.userProfilePhotoImage?.downloadedFrom(link: model.team[indexPath.row].photoLink!)
-            cell.userProfilePhotoImage.tag = indexPath.row
-        } else {
-            cell.userProfilePhotoImage.image = #imageLiteral(resourceName: "defaultProfile")
-        }
         return cell
     }
     
@@ -232,25 +225,8 @@ class MemberListTableViewController: UITableViewController {
     //MARK: - CatchNotification
     func catchNotification(notification:Notification) -> Void {
         
-        if notification.name == .profilePhotoDownloaded {
-            guard let userInfo = notification.userInfo,
-                let tag = userInfo["UIImageViewTag"] as? Int,
-                let image = userInfo["photo"] as? UIImage,
-                model.team.count > 0
-                else {
-                    print("No userInfo with Picture found in notification")
-                    return
-            }
-            model.team[tag].setValue(UIImagePNGRepresentation(image), forKey: "photo")
-            do {
-                try context.save()
-            } catch {
-                print(error)
-                return
-            }
-        }
         if notification.name == .modelDidChanged {
-            tableView?.reloadData()
+            loadTeamListFromServer()            
         }
     }
 }
