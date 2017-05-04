@@ -17,7 +17,7 @@ class ChangeProfile: Request {
         self.getJson(category: "/account/changeProfile", data: data,
                      success: { json in
                         if self.parsingJson(json: json) != nil, let link = self.parsingJson(json: json) {
-                            success(link == "nil" ? nil : "http://192.168.0.118:8888/avatars/" + link)
+                            success(link == "nil" ? nil : self.avatarsLink + link)
                         } else {
                             failure(self.errorMessage ?? "Wrong data from server")
                         }

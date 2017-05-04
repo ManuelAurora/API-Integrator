@@ -10,9 +10,9 @@ import UIKit
 import MessageUI
 import PhoneNumberKit
 
-class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-    var memberProfilePhotoImage = UIImageView()
+class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource
+{
+    var profilePhoto: UIImage!
     var memberProfileNameLabel = UILabel()
     var memberProfilePositionLabel = UILabel()
     var notificationCenter = NotificationCenter.default
@@ -34,13 +34,11 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     deinit {
         notificationCenter.removeObserver(self)
     }
-    
+  
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let member = model.team[index]
-        memberProfilePhotoImage.getPhotoFor(member: member)
-        reloadTableView()
+        tableView.reloadData()
     }
     
     override func viewDidLoad() {
@@ -150,9 +148,9 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         {
             let cell = tableView.dequeueReusableCell(withIdentifier: "UserInfoCell") as! UserViewTableViewCell
             
+            cell.memberProfilePhotoImage.image = profilePhoto
             cell.delegate = self
-            cell.memberProfileNameLabel.text = memberProfileNameLabel.text
-            cell.memberProfilePhotoImage.image = memberProfilePhotoImage.image
+            cell.memberProfileNameLabel.text     = memberProfileNameLabel.text
             cell.memberProfilePositionLabel.text = memberProfilePositionLabel.text
                         
             return cell
@@ -296,18 +294,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
-    @objc private func reloadTableView() {
-        
-        tableView?.reloadData()
-        updateMemberInfo()
-    }
-    
     private func subscribeNotifications() {
-        
-        notificationCenter.addObserver(self,
-                                               selector: #selector(MemberInfoViewController.reloadTableView),
-                                               name: .modelDidChanged,
-                                               object: nil)
         
         //Subscribed for security switcher
         notificationCenter.addObserver(self,
@@ -334,7 +321,6 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         
         memberProfilePositionLabel.text = member.position
-        memberProfilePhotoImage.getPhotoFor(member: member)
     }
 }
 

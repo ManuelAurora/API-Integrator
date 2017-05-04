@@ -38,7 +38,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         self.memberNameTextField.text = "\(member.firstName!) \(member.lastName!)"
         self.memberPositionTextField.text = member.position
         
-       memberProfilePhotoImage.getPhotoFor(member: member)
+        memberProfilePhotoImage.image = memberInfoVC.profilePhoto
         
         newProfile = Profile(userId: Int(model.team[index].userID),
                              userName: model.team[index].username!,
@@ -55,21 +55,27 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         self.navigationController?.hideTransparentNavigationBar()
     }
     
-    private func animateChanging() {
+    private func ui(block: Bool) {
         
-        if let cells = tableView.visibleCells as? [MemberEditTableViewCell]
+        if block
         {
-            _ = cells.map { $0.textFieldOfCell.resignFirstResponder()  }
+            if let cells = tableView.visibleCells as? [MemberEditTableViewCell]
+            {
+                _ = cells.map { $0.textFieldOfCell.resignFirstResponder()  }
+            }
+            
+            let yValue = view.bounds.height * 70 / 100
+            let point = CGPoint(x: view.center.x, y: yValue)
+            
+            addWaitingSpinner(at: point, color: OurColors.cyan)
+            memberNameTextField.resignFirstResponder()
+            memberPositionTextField.resignFirstResponder()
         }
+        else     { removeWaitingSpinner() }
         
-        let yValue = view.bounds.height * 70 / 100
-        let point = CGPoint(x: view.center.x, y: yValue)
-        
-        addWaitingSpinner(at: point, color: OurColors.blue)
-        
-        saveButton.isEnabled = false
-        memberNameTextField.resignFirstResponder()
-        memberPositionTextField.resignFirstResponder()
+        tableView.isUserInteractionEnabled = !block
+        navigationItem.rightBarButtonItem?.isEnabled = !block
+        navigationItem.setHidesBackButton(block, animated: true)
     }
     
     //MARK: - TableViewDatasource methods
@@ -157,8 +163,6 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         
         if checkInputValue()
         {
-            animateChanging()
-            
             if newProfile.typeOfAccount == .Admin && model.team[index].isAdmin == false || newProfile.typeOfAccount == .Manager && model.team[index].isAdmin == true {
                 changeUserRights(typeOfAccount: newProfile.typeOfAccount, success: {
                     
@@ -293,15 +297,23 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         
         let request = ChangeProfile(model: model)
         
-        request.changeProfile(userID: Int(model.team[index].userID) ,
+        ui(block: true)
+        
+        request.changeProfile(userID: Int(model.team[index].userID),
                               params: params, success: { link in
-            self.updateProfile(photoLink: link)
-            let nc = NotificationCenter.default
-            nc.post(name: .modelDidChanged,
-                    object: nil,
-                    userInfo:nil)
-            _ = self.navigationController?.popViewController(animated: true)
+                                self.updateProfile(photoLink: link)
+                                
+                                let member = self.model.team[self.index]
+                                
+                                member.getPhoto { photo in
+                                    DispatchQueue.main.async {
+                                        self.ui(block: false)
+                                        self.memberInfoVC.profilePhoto = photo
+                                        _ = self.navigationController?.popViewController(animated: true)
+                                    }
+                                }
         }, failure: { error in
+            self.ui(block: false)
             self.showAlert(title: "Error", errorMessage: error)
         })
     }
@@ -310,12 +322,15 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         
         let request = ChangeUserRights(model: model)
         
+        ui(block: true)
+        
         request.changeUserRights(userID: Int(model.team[index].userID), typeOfAccount: typeOfAccount,
                                  success: {
                                     print("TypeOfAccount was changed")
                                     success()
         },
                                  failure: { error in
+                                    self.ui(block: false)
                                     self.showAlert(title: "Error", errorMessage: error)
         })
     }
@@ -323,20 +338,22 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     func updateProfile(photoLink: String?) {
         
         let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
+        let teamMember = model.team[index]
         
-        model.team[index].setValue(newProfile.userName, forKey: "username")
-        model.team[index].setValue(newProfile.firstName, forKey: "firstName")
-        model.team[index].setValue(newProfile.lastName, forKey: "lastName")
-        model.team[index].setValue(newProfile.nickname, forKey: "nickname")
-        model.team[index].setValue(newProfile.typeOfAccount == .Admin ? true : false, forKey: "isAdmin")
-        model.team[index].setValue(newProfile.phone, forKey: "phoneNumber")
-        model.team[index].setValue(newProfile.position, forKey: "position")
+        teamMember.setValue(newProfile.userName, forKey: "username")
+        teamMember.setValue(newProfile.firstName, forKey: "firstName")
+        teamMember.setValue(newProfile.lastName, forKey: "lastName")
+        teamMember.setValue(newProfile.nickname, forKey: "nickname")
+        teamMember.setValue(newProfile.typeOfAccount == .Admin ? true : false, forKey: "isAdmin")
+        teamMember.setValue(newProfile.phone, forKey: "phoneNumber")
+        teamMember.setValue(newProfile.position, forKey: "position")
         
-        if newProfile.photo != nil && newProfile.photo != model.team[index].photoLink {
+        if newProfile.photo != nil && newProfile.photo != teamMember.photoLink {
             
             if photoLink != nil
-            {                
-                self.model.team[index].photoLink = photoLink!
+            {
+               teamMember.photo = nil
+               teamMember.photoLink = photoLink!
             }
         }
         

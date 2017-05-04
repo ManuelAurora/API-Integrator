@@ -29,6 +29,7 @@ class MemberListTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        tableView.reloadData()
         refreshControl = UIRefreshControl()
         refreshControl?.backgroundColor = UIColor.clear
         refreshControl?.addTarget(self, action: #selector(self.refresh),
@@ -92,14 +93,19 @@ class MemberListTableViewController: UITableViewController {
         
         let member = model.team[indexPath.row]
         
-        if let memberNickname = member.nickname {
+        if let memberNickname = member.nickname, memberNickname != "" {
             cell.userNameLabel.text = memberNickname
         } else {
             cell.userNameLabel.text = "\(member.firstName!) \(member.lastName!)"
         }
         
         cell.userPosition.text = member.position
-        cell.userProfilePhotoImage.getPhotoFor(member: member)
+        
+        member.getPhoto { photo in
+            DispatchQueue.main.async {
+                cell.userProfilePhotoImage.image = photo
+            }
+        }
         
         return cell
     }
@@ -171,8 +177,10 @@ class MemberListTableViewController: UITableViewController {
         if segue.identifier == "MemberInfo" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let destinationController = segue.destination as! MemberInfoViewController
+                let profileCell = tableView.cellForRow(at: indexPath) as! MemberListTableViewCell
+                destinationController.profilePhoto = profileCell.userProfilePhotoImage.image
                 destinationController.index = indexPath.row
-                destinationController.model = model
+                destinationController.model = model                
                 destinationController.memberListVC = self
             }
         }
@@ -191,8 +199,6 @@ class MemberListTableViewController: UITableViewController {
         
         request.getMemberList(success: {
             team in
-            self.model.team.forEach { self.context.delete($0) }
-            self.model.team.removeAll()
             self.model.team = team.sorted { member in
                 let memberId  = Int(member.0.userID)
                 let profileId = self.model.profile?.userId
