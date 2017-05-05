@@ -68,6 +68,14 @@ class HubSpotManager
         }
     }
     
+    var hubspotExternal: [ExternalKPI] {
+        
+        let result = hubspotKPIManagedObject.externalKPI?.map { kpi in
+            return kpi as! ExternalKPI
+        }
+       return result!
+    }
+    
     lazy var oauthSwift: OAuth2Swift = {
         
         let urlString = "https://app.hubspot.com/oauth/authorize"
@@ -166,26 +174,49 @@ class HubSpotManager
                           method: HTTPMethod.post,
                           parameters: [:],
                           encoding: URLEncoding.default,
-                          headers: nil).responseJSON { response in
+                          headers: nil).responseJSON
+            {
+                response in
+                if let json = response.value as? jsonDict,
+                    let token = json["access_token"] as? String,
+                    let refToken = json["refresh_token"] as? String,
+                    let expired = json["expires_in"] as? Double {
+                    
+                    let hubSpotMO = self.hubspotKPIManagedObject
+                    let validTill = Date(timeInterval: expired,
+                                         since: Date())
+                    
+                    hubSpotMO.oauthToken     = token
+                    hubSpotMO.refreshToken   = refToken
+                    hubSpotMO.validationDate = validTill as NSDate
+                    
+                    try? self.managedContext.save()
+                    
+                    GetExternalServices().getData(success: { services in
+                        
+                        self.hubspotExternal.forEach { kpi in
+                            let semenKPI = KPI(kpiID: -2,
+                                               typeOfKPI: .IntegratedKPI,
+                                               integratedKPI: kpi,
+                                               createdKPI: nil,
+                                               imageBacgroundColour: nil)
+                            let addRequest = AddKPI()
+                            addRequest.type = services.filter { $0.name == "HubSpot" }.first!.id
                             
-                            if let json = response.value as? jsonDict,
-                                let token = json["access_token"] as? String,
-                                let refToken = json["refresh_token"] as? String,
-                                let expired = json["expires_in"] as? Double
-                            {
-                                let kpi = self.hubspotKPIManagedObject
-                                let validTill = Date(timeInterval: expired,
-                                                     since: Date())
-                                
-                                kpi.oauthToken     = token
-                                kpi.refreshToken   = refToken
-                                kpi.validationDate = validTill as NSDate
-                                
-                                try? self.managedContext.save()
-                                
-                                self.nc.post(name: .hubspotTokenRecieved,
-                                             object: nil)
-                            }
+                            addRequest.addKPI(kpi: semenKPI, success: { result in
+                                print("Added new Internal KPI on server")
+                            }, failure: { error in
+                                print(error)
+                            })
+                        }
+                        
+                    }, failure: { error in
+                        print(error)
+                    })
+                    
+                    self.nc.post(name: .hubspotTokenRecieved,
+                                 object: nil)
+                }
         }
         
     }
@@ -262,7 +293,7 @@ class HubSpotManager
         extKPI.hsPipelineID = pipelineID
         extKPI.serviceName = serviceName
         extKPI.hubspotKPI = hubspotKPIManagedObject
-        
+                        
         do {
             try managedContext.save()
             

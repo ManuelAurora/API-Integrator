@@ -258,6 +258,7 @@ class KPIsListTableViewController: UITableViewController {
             self.model.kpis = kpi
             self.arrayOfKPI = kpi
             self.loadExternal()
+            self.loadIntegratedKpis()
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
             //self.loadReports()
@@ -269,6 +270,15 @@ class KPIsListTableViewController: UITableViewController {
             self.showAlert(title: "Sorry!", errorMessage: error)
             self.tableView.reloadData()
         })
+    }
+    
+    private func loadIntegratedKpis() {
+        
+        GetIntegratedKPIs().getKPIsFromServer(success: { kpis in
+            print(kpis)
+        }) { error in
+            print(error)
+        }
     }
     
     func loadExternal() {

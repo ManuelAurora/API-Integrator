@@ -330,8 +330,7 @@ extension ExternalKPIViewController: HubspotSalesFunnelMakerProtocol
         }
         
         choosenKPI.forEach { kpi in
-            pipelines.forEach { pipe in
-                
+            pipelines.forEach { pipe in                
                 hubSpotManager.createNewEntityFor(service: selectedService,
                                                   kpiName: kpi.SettingName,
                                                   pipelineID: pipe.pipelineId)

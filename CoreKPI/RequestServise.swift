@@ -25,7 +25,7 @@ class Request
     var userID: Int!
     var token: String!
     
-    init(userId: Int, token: String) {
+    init(userId: Int, token: String? = nil) {
         self.userID = userId
         self.token = token
     }
@@ -35,7 +35,12 @@ class Request
         self.userID = model.profile?.userId
     }
     
-    init(){}
+    init(){
+        let model = ModelCoreKPI.modelShared
+        
+        self.token = model.token
+        self.userID = model.profile?.userId
+    }
     
     typealias success = (_ json: NSDictionary) -> ()
     typealias failure = (_ error: String) -> ()

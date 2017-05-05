@@ -8,17 +8,24 @@
 
 import Foundation
 
-class AddKPI: Request {
+class AddKPI: Request
+{
+    var type: Int = 0
     
     func addKPI(kpi: KPI, success: @escaping (_ KPIid: Int) -> (), failure: @escaping failure) {
         
         var data: [String : Any] = [:]
+        var category = ""
+       
         
         switch kpi.typeOfKPI
         {
         case .createdKPI:
+            category = "/kpi/addKPI"
+            
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "HH:mm:ss"
+            
             let deadlineTime = dateFormatter.string(from: (kpi.createdKPI?.deadlineTime)!)
             
             let abbreviaion = kpi.createdKPI?.timeZone.components(separatedBy: "(")[1].replacingOccurrences(of: ")", with: "")
@@ -50,11 +57,47 @@ class AddKPI: Request {
             ]
             
         case .IntegratedKPI:
-            break
-            //TODO: Add external KPI
+            
+            category = "/kpi/addIntegratedKPI"
+            
+            let extKPI = kpi.integratedKPI
+            var token: String?
+            var refreshToken: String?
+            var ttl: Int?
+            
+            iterateEnum(IntegratedServices.self).forEach {
+                if $0.rawValue == extKPI?.serviceName
+                {
+                    var date: NSDate?
+                    
+                    switch $0.rawValue
+                    {
+                    case IntegratedServices.GoogleAnalytics.rawValue:
+                        date = extKPI?.googleAnalyticsKPI?.oAuthTokenExpiresAt
+                        token = extKPI?.googleAnalyticsKPI?.oAuthToken
+                        refreshToken = extKPI?.googleAnalyticsKPI?.oAuthRefreshToken
+                        ttl = getSecondsFrom(date: date)                       
+                        
+                    case IntegratedServices.HubSpotCRM.rawValue:
+                        date = extKPI?.hubspotKPI?.validationDate
+                        token = extKPI?.hubspotKPI?.oauthToken
+                        refreshToken = extKPI?.hubspotKPI?.refreshToken
+                        ttl = getSecondsFrom(date: date)
+                        
+                    default: break
+                    }
+                }
+            }
+            
+            data = ["token": token ?? "",
+                    "refresh_token": refreshToken ?? "",
+                    "ttl": ttl ?? 0,
+                    "token_type": type 
+            ]
+            
         }
         
-        self.getJson(category: "/kpi/addKPI", data: data,
+        self.getJson(category: category, data: data,
                      success: { json in
                         if let id = self.parsingJson(json: json) {
                             success(id)
@@ -66,6 +109,21 @@ class AddKPI: Request {
                         failure(error)
         }
         )
+    }
+    
+    private func getSecondsFrom(date: NSDate?) -> Int {
+        
+        let calendar = Calendar.current
+        
+        let currentDate = Date()
+        
+        guard let ttlDate = date else { return 0 }
+        
+        let components = calendar.dateComponents([.second],
+                                              from: currentDate,
+                                              to: ttlDate as Date)
+        
+        return components.second!
     }
     
     func parsingJson(json: NSDictionary) -> Int? {
