@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import CoreData
 //MARK: - Enums for setting
 enum Source: String {
     case none = ""
@@ -272,21 +272,26 @@ class KPIsListTableViewController: UITableViewController {
     }
     
     func loadExternal() {
-        let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
+        
         do {
-            let external = try context.fetch(ExternalKPI.fetchRequest())
+            let request = NSFetchRequest<ExternalKPI>(entityName: "ExternalKPI")
+            let userID = Int64(model.profile.userId)
+            let predicate = NSPredicate(format: "userID == \(userID)",
+                argumentArray: nil)
+            request.predicate = predicate
             
-            for kpi in external
-            {
-                let kpi = KPI(kpiID: 0,
-                              typeOfKPI: .IntegratedKPI,
-                              integratedKPI: (kpi as! ExternalKPI),
-                              createdKPI: nil,
-                              imageBacgroundColour: UIColor(hex: "D8F7D7".hex!))
-                kpi.KPIViewOne = .Numbers
-                arrayOfKPI.append(kpi)
+            _ = try context.fetch(request)
+                .forEach { extKPI in
+                    let kpi = KPI(kpiID: 0,
+                                  typeOfKPI: .IntegratedKPI,
+                                  integratedKPI: extKPI,
+                                  createdKPI: nil,
+                                  imageBacgroundColour: UIColor(hex: "D8F7D7".hex!))
+                    kpi.KPIViewOne = .Numbers
+                    arrayOfKPI.append(kpi)
             }
-        } catch {
+        }
+        catch {
             print("Fetching failed")
         }
     }

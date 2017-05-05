@@ -35,6 +35,14 @@ class ReportAndViewKPITableViewController: UITableViewController {
     
     fileprivate var oldName = ""
     fileprivate var oldDesc = ""
+    fileprivate var isCancelButtonActive = false
+    
+    lazy var cancelButton: UIBarButtonItem? = {
+        let b = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel,
+                                target: self,
+                                action: #selector(self.prepareAlertController))
+        return b
+    }()
     
     //MARK: - Report property
     var report: Double?
@@ -267,6 +275,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
             }
             KPIOneViewArray.removeAll()
             KPIOneViewArray = newKPIOneViewArray
+            if newValue == nil { checkInputValues() }
         }
     }
     var KPIOneViewArray: [(SettingName: String, value: Bool)] = [(TypeOfKPIView.Numbers.rawValue, true), (TypeOfKPIView.Graph.rawValue, false)]
@@ -319,6 +328,10 @@ class ReportAndViewKPITableViewController: UITableViewController {
             }
             KPITwoViewArray.removeAll()
             KPITwoViewArray = newKPITwoViewArray
+            if newValue == nil
+            {
+                checkInputValues()
+            }
         }
     }
     var KPITwoViewArray: [(SettingName: String, value: Bool)] = [(TypeOfKPIView.Numbers.rawValue, false), (TypeOfKPIView.Graph.rawValue, true)]
@@ -396,9 +409,39 @@ class ReportAndViewKPITableViewController: UITableViewController {
         tableView.tableFooterView = UIView(frame: .zero)
         updateKPIInfo()
     }
+   
+    private func setCancelButton() {
+        guard isCancelButtonActive == false else { return }
+        
+        navigationItem.setHidesBackButton(true, animated: true)
+        navigationItem.leftBarButtonItem = cancelButton
+        
+        isCancelButtonActive = true
+    }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    @objc private func prepareAlertController() {
+        
+        let alertController = UIAlertController(title: "Do you want to cancel?",
+                                                message: "All entered data will be lost",
+                                                preferredStyle: .actionSheet)
+        
+        let yesAction = UIAlertAction(title: "Yes, I'am sure",
+                                      style: .default) { _ in
+                                        self.ui(block: false)
+                                        self.removeAllAlamofireNetworking()
+                                        self.navigationController?.popViewController(animated: true)
+        }
+        
+        let noAction = UIAlertAction(title: "No, I change my mind",
+                                     style: .cancel) { _ in
+                                        self.dismiss(animated: true,
+                                                     completion: nil)
+        }
+        
+        alertController.addAction(yesAction)
+        alertController.addAction(noAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     //MARK: - Check input values
@@ -411,11 +454,22 @@ class ReportAndViewKPITableViewController: UITableViewController {
     }
     
     func dataIsEntered() -> Bool {
-
-            if department == .none || kpiName == nil || executant == nil || (timeInterval == AlertTimeInterval.Weekly && weeklyInterval == WeeklyInterval.none) || (timeInterval == AlertTimeInterval.Monthly && mounthlyInterval == nil) || timeZone == nil || deadlineTime == nil {
+        
+            if department == .none ||
+                KPIOneView == nil ||
+                KPITwoView == nil ||
+                kpiName == nil ||
+                executant == nil ||
+                (timeInterval == AlertTimeInterval.Weekly && weeklyInterval == WeeklyInterval.none) ||
+                (timeInterval == AlertTimeInterval.Monthly && mounthlyInterval == nil)
+                || timeZone == nil
+                || deadlineTime == nil {
+                
                 return false
             }
-
+        
+        setCancelButton()
+        
         return true
     }
     
@@ -882,8 +936,9 @@ extension ReportAndViewKPITableViewController: updateSettingsDelegate {
         default:
             break
         }
-        tableView.reloadData()
+        tableView.reloadData()  
         checkInputValues()
+        
     }
    
     func updateDoubleValue(number: Double?) {

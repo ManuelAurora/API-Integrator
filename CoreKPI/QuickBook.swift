@@ -429,6 +429,7 @@ class QuickBookDataManager
         }
         
         extKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+        extKPI.userID = Int64(ModelCoreKPI.modelShared.profile.userId)
         
         switch type
         {

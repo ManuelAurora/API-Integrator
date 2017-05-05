@@ -257,6 +257,7 @@ class HubSpotManager
         let serviceName = service.rawValue        
         let extKPI = ExternalKPI()
         
+        extKPI.userID = Int64(ModelCoreKPI.modelShared.profile.userId)
         extKPI.kpiName = kpiName
         extKPI.hsPipelineID = pipelineID
         extKPI.serviceName = serviceName

@@ -1260,6 +1260,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                     externalKPI.googleAnalyticsKPI = googleKPI
                     externalKPI.payPalKPI = payPalKPI
                     externalKPI.saleForceKPI = salesForceKPI
+                    externalKPI.userID = Int64(model.profile.userId)
                     
                     do {
                         try self.context.save()

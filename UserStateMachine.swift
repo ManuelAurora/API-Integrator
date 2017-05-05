@@ -194,14 +194,10 @@ class UserStateMachine
         let dashboard  = mainTab.dashboardViewController
         let teamVc     = mainTab.teamListController
         let alertVc    = mainTab.alertsViewController
-        let fetchReq   = NSFetchRequest<ExternalKPI>(entityName: "ExternalKPI")
-        let extKPIs    = try? context.fetch(fetchReq)
         
         regVc.emailTextField?.text = ""
         regVc.passwordTextField?.text = ""
-        regVc.repeatPasswordTextField?.text = ""
-        
-        extKPIs?.forEach { context.delete($0) }
+        regVc.repeatPasswordTextField?.text = ""        
         model.team.forEach { context.delete($0) }
         model.kpis.removeAll()
         model.team.removeAll()
@@ -265,6 +261,7 @@ class UserStateMachine
     }
     
     @objc private func modelDidChanged() {
+        
         getNumberOfInvitations()
     }
 }
