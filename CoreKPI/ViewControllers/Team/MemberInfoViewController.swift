@@ -126,12 +126,21 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if model.profile?.typeOfAccount == TypeOfAccount.Admin && thisIsMyAccount()
+        let userType = model.profile?.typeOfAccount
+        
+        if userType == .Admin && thisIsMyAccount()
         {
             return 5
             
         }
-        else { return 4 }
+        else if userType == .Admin && !thisIsMyAccount()
+        {
+            return 4
+        }
+        else
+        {
+            return 3
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

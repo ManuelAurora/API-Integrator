@@ -201,6 +201,8 @@ class UserStateMachine
         model.team.forEach { context.delete($0) }
         model.kpis.removeAll()
         model.team.removeAll()
+        model.profile = nil
+        model.token = nil
         dashboard.arrayOfKPI.removeAll()
         dashboard.tableView.reloadData()
         teamVc.tableView.reloadData()

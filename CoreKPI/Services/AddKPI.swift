@@ -64,11 +64,12 @@ class AddKPI: Request
             var token: String?
             var refreshToken: String?
             var ttl: Int?
+            var date: NSDate?
             
             iterateEnum(IntegratedServices.self).forEach {
                 if $0.rawValue == extKPI?.serviceName
                 {
-                    var date: NSDate?
+                    
                     
                     switch $0.rawValue
                     {
@@ -76,25 +77,31 @@ class AddKPI: Request
                         date = extKPI?.googleAnalyticsKPI?.oAuthTokenExpiresAt
                         token = extKPI?.googleAnalyticsKPI?.oAuthToken
                         refreshToken = extKPI?.googleAnalyticsKPI?.oAuthRefreshToken
-                        ttl = getSecondsFrom(date: date)                       
                         
-                    case IntegratedServices.HubSpotCRM.rawValue:
+                    case IntegratedServices.HubSpotCRM.rawValue,
+                         IntegratedServices.HubSpotMarketing.rawValue:
                         date = extKPI?.hubspotKPI?.validationDate
                         token = extKPI?.hubspotKPI?.oauthToken
                         refreshToken = extKPI?.hubspotKPI?.refreshToken
-                        ttl = getSecondsFrom(date: date)
+                       
+                        
+                    case IntegratedServices.Quickbooks.rawValue:
+                        token = extKPI?.quickbooksKPI?.oAuthToken
+                        refreshToken = extKPI?.quickbooksKPI?.oAuthRefreshToken
+                        date = extKPI?.quickbooksKPI?.oAuthTokenExpiresAt
                         
                     default: break
                     }
                 }
             }
             
+            ttl = getSecondsFrom(date: date)
+            
             data = ["token": token ?? "",
                     "refresh_token": refreshToken ?? "",
                     "ttl": ttl ?? 0,
-                    "token_type": type 
+                    "token_type": "\(type)"
             ]
-            
         }
         
         self.getJson(category: category, data: data,
@@ -142,5 +149,4 @@ class AddKPI: Request
         }
         return nil
     }
-    
 }
