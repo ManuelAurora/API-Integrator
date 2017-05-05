@@ -10,7 +10,7 @@ import Foundation
 
 class AddKPI: Request
 {
-    var type: Int = 0
+    var type: String = ""
     
     func addKPI(kpi: KPI, success: @escaping (_ KPIid: Int) -> (), failure: @escaping failure) {
         
@@ -100,7 +100,7 @@ class AddKPI: Request
             data = ["token": token ?? "",
                     "refresh_token": refreshToken ?? "",
                     "ttl": ttl ?? 0,
-                    "token_type": "\(type)"
+                    "token_type": type
             ]
         }
         

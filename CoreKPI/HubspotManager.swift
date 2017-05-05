@@ -201,7 +201,7 @@ class HubSpotManager
                                                createdKPI: nil,
                                                imageBacgroundColour: nil)
                             let addRequest = AddKPI()
-                            addRequest.type = services.filter { $0.name == "HubSpot" }.first!.id
+                            addRequest.type = services.filter { $0.name == "HubSpot" }.first!.name
                             
                             addRequest.addKPI(kpi: semenKPI, success: { result in
                                 print("Added new Internal KPI on server")
