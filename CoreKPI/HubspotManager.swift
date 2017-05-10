@@ -55,12 +55,15 @@ class HubSpotManager
     var ownersArray: [HSOwner] = []
     var companiesArray: [HSCompany] = []
     var pipelinesArray: [HSPipeline] = []    
-   
+    let model = ModelCoreKPI.modelShared
     var merged: Bool = false //This variable prevents multiple didSet from pipelinesArray
+    var choosenHubspotKpis = [HubSpotCRMKPIs]()
     
     var hubspotKPIManagedObject: HubspotKPI {
         do {
             let fetchHubspotKPI = NSFetchRequest<HubspotKPI>(entityName: "HubspotKPI")
+            //let predicate = NSPredicate(format: "userID == \(model.profile.userId)", argumentArray: nil)
+            //fetchHubspotKPI.predicate = predicate
             let result = try? managedContext.fetch(fetchHubspotKPI)
             let hskpi = (result == nil) || result!.isEmpty ? HubspotKPI() : result![0]
             
@@ -192,33 +195,72 @@ class HubSpotManager
                     
                     try? self.managedContext.save()
                     
-                    GetExternalServices().getData(success: { services in
-                        
-                        self.hubspotExternal.forEach { kpi in
-                            let semenKPI = KPI(kpiID: -2,
-                                               typeOfKPI: .IntegratedKPI,
-                                               integratedKPI: kpi,
-                                               createdKPI: nil,
-                                               imageBacgroundColour: nil)
-                            let addRequest = AddKPI()
-                            addRequest.type = services.filter { $0.name == "HubSpot" }.first!.name
-                            
-                            addRequest.addKPI(kpi: semenKPI, success: { result in
-                                print("Added new Internal KPI on server")
-                            }, failure: { error in
-                                print(error)
-                            })
-                        }
-                        
+                    let addRequest = AddKPI()
+                    let semenKPI = KPI(kpiID: -2,
+                                       typeOfKPI: .IntegratedKPI,
+                                       integratedKPI: self.hubspotExternal[0],
+                                       createdKPI: nil,
+                                       imageBacgroundColour: nil)
+                    
+                    addRequest.type = IntegratedServicesServerID.hubspotCRM.rawValue
+                    addRequest.kpiIDs = self.choosenHubspotKpis.map { ext in
+                       self.getIdFor(kpi: ext)
+                    }
+                    
+                    addRequest.addKPI(kpi: semenKPI, success: { result in
+                        print("Added new Internal KPI on server")
                     }, failure: { error in
                         print(error)
                     })
+                    
+                    
+//                    GetExternalServices().getData(success: { services in
+//
+//                        self.hubspotExternal.forEach { kpi in
+//                            let semenKPI = KPI(kpiID: -2,
+//                                               typeOfKPI: .IntegratedKPI,
+//                                               integratedKPI: kpi,
+//                                               createdKPI: nil,
+//                                               imageBacgroundColour: nil)
+//                            let addRequest = AddKPI()                            
+//                            let hubspotKPI = HubSpotCRMKPIs(rawValue: kpi.kpiName!)!
+//                            
+//                            addRequest.type = IntegratedServicesServerID.hubspotCRM.rawValue
+//                            addRequest.kpiID = self.getIdFor(kpi: hubspotKPI)
+//                            
+//                            addRequest.addKPI(kpi: semenKPI, success: { result in
+//                                print("Added new Internal KPI on server")
+//                            }, failure: { error in
+//                                print(error)
+//                            })
+//                        }
+//                        
+//                    }, failure: { error in
+//                        print(error)
+//                    })
                     
                     self.nc.post(name: .hubspotTokenRecieved,
                                  object: nil)
                 }
         }
         
+    }
+    
+    private func getIdFor(kpi: HubSpotCRMKPIs) -> Int {
+
+        switch kpi
+        {
+        case .DealsRevenue: return 32
+        case .SalesPerformance: return 33
+        case .SalesFunnel: return 34
+        case .DealsClosedWonAndLost: return 35
+        case .SalesLeaderboard: return 36
+        case .DealRevenueLeaderboard: return 37
+        case .ClosedDealsLeaderboard: return 38
+        case .DealStageFunnel: return 39
+        case .TopWonDeals: return 40
+        case .RevenueByCompany: return 41
+        }
     }
     
     @objc func getAccessToken(_ notification: Notification) {

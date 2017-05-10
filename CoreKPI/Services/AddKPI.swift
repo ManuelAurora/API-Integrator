@@ -10,13 +10,13 @@ import Foundation
 
 class AddKPI: Request
 {
-    var type: String = ""
+    var type: Int = 0
+    var kpiIDs = [Int]()
     
     func addKPI(kpi: KPI, success: @escaping (_ KPIid: Int) -> (), failure: @escaping failure) {
         
         var data: [String : Any] = [:]
         var category = ""
-       
         
         switch kpi.typeOfKPI
         {
@@ -69,8 +69,6 @@ class AddKPI: Request
             iterateEnum(IntegratedServices.self).forEach {
                 if $0.rawValue == extKPI?.serviceName
                 {
-                    
-                    
                     switch $0.rawValue
                     {
                     case IntegratedServices.GoogleAnalytics.rawValue:
@@ -83,12 +81,16 @@ class AddKPI: Request
                         date = extKPI?.hubspotKPI?.validationDate
                         token = extKPI?.hubspotKPI?.oauthToken
                         refreshToken = extKPI?.hubspotKPI?.refreshToken
-                       
-                        
+                                               
                     case IntegratedServices.Quickbooks.rawValue:
                         token = extKPI?.quickbooksKPI?.oAuthToken
                         refreshToken = extKPI?.quickbooksKPI?.oAuthRefreshToken
                         date = extKPI?.quickbooksKPI?.oAuthTokenExpiresAt
+                        
+                    case IntegratedServices.SalesForce.rawValue:
+                        token = extKPI?.saleForceKPI?.oAuthToken
+                        refreshToken = extKPI?.saleForceKPI?.oAuthRefreshToken
+                        date = extKPI?.saleForceKPI?.oAuthTokenExpiresAt
                         
                     default: break
                     }
@@ -100,10 +102,11 @@ class AddKPI: Request
             data = ["token": token ?? "",
                     "refresh_token": refreshToken ?? "",
                     "ttl": ttl ?? 0,
-                    "token_type": type
+                    "token_type": type,
+                    "items": kpiIDs
             ]
         }
-        
+        //token, token_type, refresh_token, ttl, items[ kpi_id_1, kpi_id_2….]
         self.getJson(category: category, data: data,
                      success: { json in
                         if let id = self.parsingJson(json: json) {

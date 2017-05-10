@@ -38,6 +38,7 @@
 		646F03511EC338BC00364210 /* lines.html in Resources */ = {isa = PBXBuildFile; fileRef = 646F034E1EC338BC00364210 /* lines.html */; };
 		646F03521EC338BC00364210 /* lines.js in Resources */ = {isa = PBXBuildFile; fileRef = 646F034F1EC338BC00364210 /* lines.js */; };
 		646F03531EC338BC00364210 /* lineStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 646F03501EC338BC00364210 /* lineStyle.css */; };
+		646F03551EC36FBE00364210 /* DeleteIntegratedKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646F03541EC36FBE00364210 /* DeleteIntegratedKPI.swift */; };
 		646F78B51EBCA1E700042738 /* GetIntegratedKPIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646F78B41EBCA1E700042738 /* GetIntegratedKPIs.swift */; };
 		646F78B71EBCA9D900042738 /* GetExternalServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646F78B61EBCA9D900042738 /* GetExternalServices.swift */; };
 		64797E9C1EB8CB7A00AE7D7F /* SegueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64797E9B1EB8CB7A00AE7D7F /* SegueManager.swift */; };
@@ -275,6 +276,7 @@
 		646F034E1EC338BC00364210 /* lines.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = lines.html; sourceTree = "<group>"; };
 		646F034F1EC338BC00364210 /* lines.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = lines.js; sourceTree = "<group>"; };
 		646F03501EC338BC00364210 /* lineStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = lineStyle.css; sourceTree = "<group>"; };
+		646F03541EC36FBE00364210 /* DeleteIntegratedKPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteIntegratedKPI.swift; sourceTree = "<group>"; };
 		646F78B41EBCA1E700042738 /* GetIntegratedKPIs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetIntegratedKPIs.swift; sourceTree = "<group>"; };
 		646F78B61EBCA9D900042738 /* GetExternalServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetExternalServices.swift; sourceTree = "<group>"; };
 		64797E9B1EB8CB7A00AE7D7F /* SegueManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueManager.swift; sourceTree = "<group>"; };
@@ -569,6 +571,7 @@
 				646F78B61EBCA9D900042738 /* GetExternalServices.swift */,
 				A2E8F9FC1E3B223500046870 /* EditKPI.swift */,
 				A2E8F9FE1E3B32D700046870 /* DeleteKPI.swift */,
+				646F03541EC36FBE00364210 /* DeleteIntegratedKPI.swift */,
 				A26A40531E3B40D700108E5B /* AddReport.swift */,
 				A26A40551E3B424B00108E5B /* GetReports.swift */,
 				A2263B0F1E3B8174005C812D /* GetFAQ.swift */,
@@ -1195,6 +1198,7 @@
 				A2A7D5111E41B0E5008779A0 /* CellsCreator.swift in Sources */,
 				A2F77E071E3B199400BB8318 /* ChangeProfile.swift in Sources */,
 				A2EFE2C61E2DF0A500BA2956 /* ChartsPageViewController.swift in Sources */,
+				646F03551EC36FBE00364210 /* DeleteIntegratedKPI.swift in Sources */,
 				648E9A6A1EB3395000632887 /* TalkToUsTableViewCell.swift in Sources */,
 				645D1C541E6444CE004574C8 /* Helpers.swift in Sources */,
 				A2A7D5151E41B661008779A0 /* GetAlerts.swift in Sources */,

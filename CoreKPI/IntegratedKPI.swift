@@ -9,10 +9,20 @@
 import Foundation
 
 //MARK: - Enums
+enum IntegratedServicesServerID: Int
+{
+    case salesforceCRM = 1
+    case quickbooks
+    case googleAnalytics
+    case hubspotCRM
+    case hubspotMarketing
+    case paypal 
+}
+
 enum IntegratedServices: String {
     case none = "Choose Service"
     case SalesForce
-    case Quickbooks
+    case Quickbooks 
     case GoogleAnalytics
     case HubSpotCRM
     case HubSpotMarketing

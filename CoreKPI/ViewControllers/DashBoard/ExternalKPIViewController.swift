@@ -100,6 +100,10 @@ class ExternalKPIViewController: OAuthViewController {
                 
                 selectedHSKPIs = serviceKPI.filter { $0.value == true }
                 
+                hubSpotManager.choosenHubspotKpis = selectedHSKPIs.map {
+                   HubSpotCRMKPIs(rawValue: $0.SettingName)!
+                }
+                
                 selectedHSKPIs.forEach {
                     if $0.SettingName != HubSpotCRMKPIs.SalesFunnel.rawValue &&
                         $0.SettingName != HubSpotCRMKPIs.DealStageFunnel.rawValue

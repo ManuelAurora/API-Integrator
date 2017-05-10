@@ -183,15 +183,26 @@ class KPIsListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView,
                             editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
-        let deleteAction =  UITableViewRowAction(style: .default,
-                                                 title: "Delete",
-                                                 handler: {
-            (action, indexPath) -> Void in
-            
-            if self.arrayOfKPI[indexPath.row].typeOfKPI == .IntegratedKPI {
-                self.context.delete(self.arrayOfKPI[indexPath.row].integratedKPI)
-                (UIApplication.shared .delegate as! AppDelegate).saveContext()
-            } else {
+        let deleteAction =  UITableViewRowAction(
+            style: .default,
+            title: "Delete",
+            handler: {
+                
+                (action, indexPath) -> Void in
+                let kpiToDelete = self.arrayOfKPI[indexPath.row]
+                
+                if kpiToDelete.typeOfKPI == .IntegratedKPI
+                {
+                    let id = Int(kpiToDelete.integratedKPI.serverID)
+                    
+                    DeleteIntegratedKPI().deleteKPI(kpiID: id , success: {
+                        print("DEBUG: SUCCESSFULLY DELETED")
+                        self.context.delete(self.arrayOfKPI[indexPath.row].integratedKPI)
+                        (UIApplication.shared .delegate as! AppDelegate).saveContext()
+                    }, failure: { (error) in
+                        print(error)
+                    })
+                } else {
                 self.deleteKPI(kpiID: self.model.kpis[indexPath.row].id)
                 self.model.kpis.remove(at: indexPath.row)
             }
@@ -263,8 +274,8 @@ class KPIsListTableViewController: UITableViewController {
         request.getKPIsFromServer(success: { kpi in
             self.model.kpis = kpi
             self.arrayOfKPI = kpi
-            self.loadExternal()
             self.loadIntegratedKpis()
+            self.loadExternal()
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
             //self.loadReports()
@@ -304,6 +315,7 @@ class KPIsListTableViewController: UITableViewController {
                                   createdKPI: nil,
                                   imageBacgroundColour: UIColor(hex: "D8F7D7".hex!))
                     kpi.KPIViewOne = .Numbers
+                    
                     arrayOfKPI.append(kpi)
             }
         }
@@ -415,7 +427,7 @@ extension KPIsListTableViewController: KPIListButtonCellDelegate {
         destinatioVC.model = model
         destinatioVC.navigationItem.rightBarButtonItem = nil
         
-        let photo = model.profile.photo
+        let member = model.team.filter { $0.userID == Int64(model.profile.userId) }
         let createdKPI = arrayOfKPI[sender.tag].createdKPI
         let executantId = createdKPI?.executant
         for i in 0..<model.team.count {
@@ -431,8 +443,24 @@ extension KPIsListTableViewController: KPIListButtonCellDelegate {
     
     func deleteDidTaped(sender: UIButton) {
         let indexPath = IndexPath(item: sender.tag, section: 1)
+      
+        let kpiToDelete = model.kpis[indexPath.row]
         
-        deleteKPI(kpiID: model.kpis[indexPath.row].id)
+        if let _ = kpiToDelete.createdKPI
+        {
+            deleteKPI(kpiID: kpiToDelete.id)
+        }
+        else
+        {
+            let id = Int(kpiToDelete.integratedKPI.serverID)
+            
+            DeleteIntegratedKPI().deleteKPI(kpiID: id , success: {
+                print("DEBUG: SUCCESSFULLY DELETED")
+            }, failure: { (error) in
+                print(error)
+            })
+        }
+        
         model.kpis.remove(at: indexPath.row)
         arrayOfKPI.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .fade)

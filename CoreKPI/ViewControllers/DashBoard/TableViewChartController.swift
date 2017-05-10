@@ -78,6 +78,8 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
                 cell.rightLabel.textColor = UIColor(red: 140/255, green: 140/255, blue: 140/255, alpha: 1.0)
                 cell.centralLabel.isHidden = true
                 let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
                 dateFormatter.dateStyle = .short
                 cell.leftLabel.text = dateFormatter.string(from: reportArray[indexPath.row - 1].0)
                 let numberFormatter = NumberFormatter()

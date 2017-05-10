@@ -21,7 +21,10 @@ typealias urlStringWithMethod = (
 typealias success = () -> ()
 
 class QuickBookDataManager
-{    
+{
+    
+    var choosenKpis = [Int]()
+    
     lazy var sessionManager: SessionManager =  {
         let sm = SessionManager()
         sm.adapter = self.oauthswift.requestAdapter
@@ -247,9 +250,47 @@ class QuickBookDataManager
             case .IncomeProfitKPIs:
                 createNewEntityForArrayOf(type: .incomeProfitKPIs, urlString: request.urlString)
             }
+            
+            choosenKpis.append(getIdFor(kpi: request.kpiName!))
         }
+        let external = ExternalKPI()
+        
+        let addRequest = AddKPI()
+        let semenKPI = KPI(kpiID: -2,
+                           typeOfKPI: .IntegratedKPI,
+                           integratedKPI: external ,
+                           createdKPI: nil,
+                           imageBacgroundColour: nil)
+        
+        addRequest.type = IntegratedServicesServerID.quickbooks.rawValue
+        addRequest.kpiIDs = choosenKpis
+        
+        addRequest.addKPI(kpi: semenKPI, success: { result in
+            print("Added new Internal KPI on server")
+        }, failure: { error in
+            print(error)
+        })
+
         
         kpiRequestsToSave.removeAll()
+    }
+    
+    private func getIdFor(kpi: QiuckBooksKPIs) -> Int {
+      
+        switch kpi
+        {
+        case .Balance: return 9
+        case .BalanceByBankAccounts: return 10
+        case .IncomeProfitKPIs: return 11
+        case .Invoices: return 12
+        case .NetIncome: return 8
+        case .NonPaidInvoices: return 13
+        case .OpenInvoicesByCustomers: return 16
+        case .OverdueCustomers: return 17
+        case .PaidExpenses: return 18
+        case .PaidInvoices: return 14
+        case .PaidInvoicesByCustomers: return 15
+        }
     }
     
     func formListOfRequests(from array: [(SettingName: String, value: Bool)]) {
