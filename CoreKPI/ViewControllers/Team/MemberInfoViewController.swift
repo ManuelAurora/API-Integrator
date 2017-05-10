@@ -55,7 +55,6 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         
         tableView.register(nib, forCellReuseIdentifier: "UserInfoCell")
         tableView.allowsSelection = false
-        securityButton.isHidden = true
         myKPIsButton.isHidden = true
         responsibleForButton.isHidden = true
         
@@ -130,12 +129,12 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         
         if userType == .Admin && thisIsMyAccount()
         {
-            return 5
+            return 6
             
         }
         else if userType == .Admin && !thisIsMyAccount()
         {
-            return 4
+            return 5
         }
         else
         {
@@ -185,17 +184,40 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                     cell.dataCellLabel.textColor = UIColor.black
                 }
                 
-            case 3:
-                
+            case 3:                
                 cell.headerCellLabel.text = "E-mail"
                 cell.dataCellLabel.text = model.team[index].username ?? ""
                 
             case 4:
-                cell.headerCellLabel.text = "Security"
-                cell.securitySwitch.isHidden = false
-                cell.dataCellLabel.text = "Pin code lock"
-                cell.securitySwitch.isOn = stateMachine.usersPin == nil ? false : true
-                securityCellIndexPath = indexPath
+                if thisIsMyAccount()
+                {
+                    cell.headerCellLabel.text = "Security"
+                    cell.securitySwitch.isHidden = false
+                    cell.dataCellLabel.text = "Pin code lock"
+                    cell.securitySwitch.isOn = stateMachine.usersPin == nil ? false : true
+                    securityCellIndexPath = indexPath
+                }
+                else
+                {
+                    if thisIsMyAccount()
+                    {
+                        cell.configureLastCellFor(button: myKPIsButton)
+                    }
+                    else
+                    {
+                        cell.configureLastCellFor(button: responsibleForButton)
+                    }
+                }
+                
+            case 5:
+                if thisIsMyAccount()
+                {
+                    cell.configureLastCellFor(button: myKPIsButton)
+                }
+                else
+                {
+                    cell.configureLastCellFor(button: responsibleForButton)
+                }
                 
             default:
                 cell.headerCellLabel.text = ""
@@ -317,7 +339,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         
         let member = model.team[index]
         
-        if let memberNickname = member.nickname
+        if let memberNickname = member.nickname, memberNickname != ""
         {
             memberProfileNameLabel.text = memberNickname
         }

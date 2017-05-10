@@ -1,38 +1,17 @@
 "use strict";
 
 // // Данные для чарта
-// const dataIn = [
-//     [
-//         {date: new Date(1492189252000), rate: 26.4},
-//         {date: new Date(1492189252000), rate: 29.2},
-//         {date: new Date(1492189252000), rate: 26.4},
-//         {date: new Date(1492189252000), rate: 26.45},
-//         {date: new Date(1492189252000), rate: 26.3},
-//         {date: new Date(1492189252000), rate: 26.87},
-//         {date: new Date(1492189252000), rate: 26.52}
-//     ],
-//     [
-//         {date: new Date(1492189252000), rate: 28.2},
-//         {date: new Date(1492189252000), rate: 28.3},
-//         {date: new Date(1492189252000), rate: 29.46},
-//         {date: new Date(1492189252000), rate: 27.95},
-//         {date: new Date(1492189252000), rate: 27.90},
-//         {date: new Date(1492189252000), rate: 27.9},
-//         {date: new Date(1492189252000), rate: 28.5}
-//     ]
-// ]
-//
-//var title = 'СЮДА НАЗВАНИЕ ЕЕЕЕЕЕ';
-var lineChartWidth = document.body.clientWidth;
-var lineChartHeight = document.body.clientHeight * 0.7;
-var margin = { top: 50, right: 30, bottom: 30, left: 30 };
 
-var width = void 0,
-    height = void 0,
-    svg_wraper = void 0,
-    svg = void 0;
+function draw(data) {
+    // const title = 'СЮДА НАЗВАНИЕ ЕЕЕЕЕЕ';
+    var lineChartWidth = document.body.clientWidth;
+    var lineChartHeight = document.body.clientHeight;
+    var margin = { top: 50, right: 30, bottom: 30, left: 30 };
+    var width = void 0,
+        height = void 0,
+        svg_wraper = void 0,
+        svg = void 0;
 
-function startParams() {
     width = lineChartWidth - (margin.left + margin.right);
     height = lineChartHeight - (margin.top + margin.bottom);
 
@@ -41,17 +20,38 @@ function startParams() {
     svg = d3.select("#chart-linechart").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("class", "chart__cnt").attr("transform", "translate(" + 50 + "," + margin.top + ")");
 
     // добавляем заголовок
-    svg.append("text").attr("x", 0).attr("y", -15).attr("text-anchor", "start").attr("fill", "#ffffff").style("font-size", "22px").text(title);
-}
+    svg.append("text").attr("x", 0).attr("y", -15).attr("text-anchor", "start").attr("fill", "#ffffff").style("font-size", "22px");
+    // .text(title);
 
-function lineChart(w, h, data) {
+    // lineChart(data);
+
+    var format = d3.time.format.multi([[".%L", function (d) {
+        return d.getMilliseconds();
+    }], [":%S", function (d) {
+        return d.getSeconds();
+    }], ["%I:%M", function (d) {
+        return d.getMinutes();
+    }], ["%I %p", function (d) {
+        return d.getHours();
+    }], ["%a %d", function (d) {
+        return d.getDay() && d.getDate() != 1;
+    }], ["%b %d", function (d) {
+        return d.getDate() != 1;
+    }], ["%B", function (d) {
+        return d.getMonth();
+    }], ["%Y", function () {
+        return true;
+    }]]);
+
+    var w = lineChartWidth;
+    var h = lineChartHeight;
 
     var maxValue = d3.max([d3.max(data[data.length - 1], function (d) {
         return d.rate;
     })]);
 
     var minValue = d3.min([d3.min(data[0], function (d) {
-        return d.rate;
+        return 1;
     })]);
 
     // функция интерполяции значений на ось Х
@@ -66,9 +66,9 @@ function lineChart(w, h, data) {
 
     var xAxis = d3.svg.axis().scale(scaleX)
     // .orient("bottom")
-    .tickFormat(d3.format('000'));
+    // .tickFormat(d3.format('000'));
     // .tickFormat(d3.time.format('%e.%m'));
-    // .tickFormat(d3.time.format("%m-%d"));
+    .tickFormat(d3.time.format('%d %b'));
 
     var yAxis = d3.svg.axis().scale(scaleY).orient('left');
 
@@ -143,10 +143,5 @@ function lineChart(w, h, data) {
     }
 }
 
-function main(w, h, data) {
-    startParams();
-    lineChart(w, h, data);
-}
-
-main(lineChartWidth, lineChartHeight, dataIn);
+draw(dataIn);
 //# sourceMappingURL=d3v3.js.map

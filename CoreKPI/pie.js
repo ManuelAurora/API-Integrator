@@ -20,37 +20,88 @@
 //    rate: 20
 //}];
 
-function pie(data) {
-    var colToHex = function colToHex(c) {
-        var color = c < 75 ? c + 75 : c;
-        var hex = color.toString(16);
-        return hex.length == 1 ? "0" + hex : hex;
-    };
+function draw(data) {
+    // const colToHex = (c) => {
+    //     let color = (c < 75) ? c + 75 : c
+    //     let hex = color.toString(16);
+    //     return hex.length == 1 ? "0" + hex : hex;
+    // }
 
-    var rgbToHex = function rgbToHex(r, g, b) {
-        return "#" + colToHex(r) + colToHex(g) + colToHex(b);
-    };
+    // const rgbToHex = (r,g,b) => {
+    //     return "#" + colToHex(r) + colToHex(g) + colToHex(b);
+    // }
 
-    var generateColor = function generateColor() {
-        return rgbToHex(Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255));
-    };
+    // const generateColor = () => {
+    //     return rgbToHex(
+    //         Math.floor(Math.random() * 255),
+    //         Math.floor(Math.random() * 255),
+    //         Math.floor(Math.random() * 255));
+    // }
+    function generateColor(i) {
+        switch (i) {
+            case 0:
+                return '#1f77b4';
+            case 1:
+                return '#aec7e8';
+            case 2:
+                return '#ff7f0e';
+            case 3:
+                return '#ffbb78';
+            case 4:
+                return '#2ca02c';
+            case 5:
+                return '#98df8a';
+            case 6:
+                return '#c5b0d5';
+            case 7:
+                return '#1f77b4';
+            case 8:
+                return '#aec7e8';
+            case 9:
+                return '#ff7f0e';
+            case 10:
+                return '#ffbb78';
+            case 11:
+                return '#2ca02c';
+            case 12:
+                return '#98df8a';
+            case 13:
+                return '#c5b0d5';
+            case 14:
+                return '#1f77b4';
+            case 15:
+                return '#aec7e8';
+            case 16:
+                return '#ff7f0e';
+            case 17:
+                return '#ffbb78';
+            case 18:
+                return '#2ca02c';
+            case 19:
+                return '#98df8a';
+            case 20:
+                return '#c5b0d5';
+            default:
+                return '#9edae5';
+        }
+    }
 
-    data.forEach(function (element) {
-        element.color = generateColor();
+    data.forEach(function (element, i) {
+        element.color = generateColor(i);
     });
 
     var margin = 10;
     var width = document.body.clientWidth - 10;;
     var height = document.body.clientHeight;
-    var radius = Math.min(width - margin, height - margin) * 0.6;
+    var radius = Math.min(width - margin, height - margin) * 0.99;
     var outerRadius = radius - margin;
     var innerRadius = 0;
     var container = document.querySelector('.chart-wrapper_pie');
     var parent = document.createElement('div');
-    //var title = 'Title Pie';
+    // let title = 'Title Pie';
 
     parent.className = 'legend-pie';
-    document.querySelector('.title').textContent = title;
+    // document.querySelector('.title').textContent = title;
 
     data.forEach(function (element, i) {
         var template = document.createElement('div');
@@ -71,18 +122,21 @@ function pie(data) {
     // .attr('style',
     //     'width:'+(width)+'px;'+
     //     'height:'+(height)+'px')
-    .style('width', '100%').style('height', '70vh').style('margin', 'auto')
+    .style('width', '100%').style('height', '60vh').style('margin', 'auto')
     // .style('margin-right', 'auto')
     .style('position', 'relative');
 
     //svg
-    var svg = d3.select('#chart-pie').attr('class', 'axis chart chart-pie').attr('width', '100%').attr('height', '55vh').append('g').attr('class', 'pie-centroid').attr('style', 'transform: translateX(' + width / 2 + 'px)translateY(' + height * 0.7 + 'px)');
+    var svg = d3.select('#chart-pie').attr('class', 'axis chart chart-pie').attr('width', '100%').attr('height', '120%').append('g').attr('class', 'pie-centroid').attr('style', 'transform: translateX(' + width / 2 + 'px)translateY(' + height * 1.1 + 'px)');
 
     var tooltip_pie = d3.select('.tooltip.tooltip-pie');
 
-    tooltip_pie.append('div', '').attr('class', 'tooltip-pie__title').text('Gross Revenue');
-    tooltip_pie.append('div', '').attr('class', 'tooltip-pie__value').text('testValue');
-    tooltip_pie.append('div', '').attr('class', 'tooltip-pie__status');
+    // tooltip_pie.append('div', '')
+    //     .attr('class', 'tooltip-pie__title');
+    // .text('Gross Revenue');
+    tooltip_pie.append('div', '').attr('class', 'tooltip-pie__value').text('testValue').style('text-align', 'center');
+    // tooltip_pie.append('div', '')
+    //     .attr('class', 'tooltip-pie__status');
 
     var tooltip_pie__value = document.querySelector('.chart-wrapper_pie .tooltip-pie__value');
 
@@ -118,10 +172,10 @@ function pie(data) {
             //     return (arc.centroid(d)[1]) + height / 2 - (document.querySelector('.tooltip.tooltip-pie').offsetHeight) - 20 + 'px';
             // });
             tooltip_pie.style('left', function () {
-                return arc.centroid(d)[0] + width / 2 - 65 + 'px';
+                return arc.centroid(d)[0] + width / 2 - 55 + 'px';
             });
             tooltip_pie.style('top', function () {
-                return arc.centroid(d)[1] + height - 80 + 'px';
+                return arc.centroid(d)[1] + height - 50 + 'px';
             });
             tooltip_pie.style('opacity', 1);
 
@@ -137,5 +191,5 @@ function pie(data) {
     }).style('fill', '#pie-filter');
 }
 
-pie(data_pie);
+draw(data_pie);
 //# sourceMappingURL=pie.js.map

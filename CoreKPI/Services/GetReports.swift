@@ -10,9 +10,34 @@ import Foundation
 
 class GetReports: Request {
     
-    func getReportForKPI(withID kpiID: Int, success: @escaping ([(date: Date, number: Double)]) -> (), failure: @escaping failure) {
+    func getReportForKPI(withID kpiID: Int,
+                         period: AlertTimeInterval,
+                         success: @escaping ([(date: Date, number: Double)]) -> (),
+                         failure: @escaping failure) {
         
-        let data: [String : Any] = ["kpi_id" : kpiID]
+        var data: [String : Any] = ["kpi_id" : kpiID]
+        let calendar = Calendar.current
+        var startDate: Date!
+        var endDate: Date!
+        let formatter = DateFormatter()
+        let date      = Date()
+        let year = calendar.component(.year, from: date)
+        
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss" //2017-04-01 09:21:03
+        
+        if period == .Daily
+        {
+            startDate = date.beginningOfMonth!
+            endDate   = date.endOfMonth!
+        }
+        else
+        {
+            startDate = formatter.date(from: "\(year)-01-01 05:00:00")
+            endDate   = formatter.date(from: "\(year)-12-31 23:59:59")
+        }        
+        
+        data["start_date"] = formatter.string(from: startDate)
+        data["end_date"]   = formatter.string(from: endDate)
         
         self.getJson(category: "/kpi/getKPIDetails", data: data,
                      success: { json in

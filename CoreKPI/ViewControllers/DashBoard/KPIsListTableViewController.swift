@@ -97,6 +97,12 @@ class KPIsListTableViewController: UITableViewController {
         return arrayOfKPI.count
     }
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        
+        guard model.profile.typeOfAccount == .Admin else { return false }
+        return true
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "KPIListCell", for: indexPath) as! KPIListTableViewCell
@@ -312,8 +318,8 @@ class KPIsListTableViewController: UITableViewController {
         kpi.createdKPI?.number.removeAll()
         
         let request = GetReports(model: model)
-        
-        request.getReportForKPI(withID: kpi.id, success: { reports in
+        let interval = kpi.createdKPI?.timeInterval
+        request.getReportForKPI(withID: kpi.id, period: interval!, success: { reports in
             kpi.createdKPI?.number = request.filterReports(kpi: kpi, reports: reports)
             self.nc.post(name: .reportDataForKpiRecieved, object: nil)
             self.tableView.reloadData()
@@ -408,6 +414,8 @@ extension KPIsListTableViewController: KPIListButtonCellDelegate {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: .memberViewController) as! MemberInfoViewController
         destinatioVC.model = model
         destinatioVC.navigationItem.rightBarButtonItem = nil
+        
+        let photo = model.profile.photo
         let createdKPI = arrayOfKPI[sender.tag].createdKPI
         let executantId = createdKPI?.executant
         for i in 0..<model.team.count {

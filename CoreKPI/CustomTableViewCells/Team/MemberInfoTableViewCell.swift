@@ -29,5 +29,30 @@ class MemberInfoTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func configureLastCellFor(button: UIButton) {
+        
+        addSubview(button)
+        
+        headerCellLabel.text = ""
+        securitySwitch.isHidden = true
+        dataCellLabel.text = ""
+        
+        let constrX = NSLayoutConstraint(
+            item: button,
+            attribute: .centerX,
+            relatedBy: .equal,
+            toItem: self, attribute: .centerX,
+            multiplier: 1, constant: 0)
+        
+        let constrY = NSLayoutConstraint(
+            item: button,
+            attribute: .centerY,
+            relatedBy: .equal,
+            toItem: self, attribute: .centerY,
+            multiplier: 1, constant: 0)
+        
+        addConstraints([constrX, constrY])
+    }
 
 }

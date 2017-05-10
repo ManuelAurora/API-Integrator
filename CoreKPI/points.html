@@ -7,15 +7,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="icon" href="images/favicon.ico" type="image/x-icon">
 		<title>Главная</title>
-		<div class="chart-wrapper chart-wrapper_pie">
-			<svg class="chart chart-pie" id="chart-pie"></svg>
-			<div class="tooltip tooltip-pie"></div>
-		</div>
 	</head>
 	<body>
 		<div class="page">
-			<!--include 01_header/_header-->
-			<!--include 02_main/_main-index-->
+			<div class="chart-wrapper chart-wrapper_points">
+				<svg class="chart-points" id="chart-points"></svg>
+				<div class="tooltip"></div>
+			</div>
 			<!--include 03_footer/_footer-->
 		</div>
 	</body>
@@ -24,4 +22,4 @@
 <link href="style.css" rel="stylesheet">
 <!-- JS-->
 <script type="text/javascript" src="d3.js"></script>
-<script type="text/javascript" src="pie.js"></script>
+<script type="text/javascript" src="points.js"></script>

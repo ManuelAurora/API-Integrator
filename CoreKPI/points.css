@@ -102,6 +102,9 @@ a, button, input {
 * {
   outline: none; }
 
+* {
+  background: rgba(0, 0, 0, 0.04); }
+
 /*
 * @section      Grid module
 * @description  This section use grid
@@ -140,9 +143,6 @@ a, button, input {
   .lt-ie9 .page {
     min-width: 1200px; }
 
-* {
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
-
 html {
   font-size: 70px; }
   @media (min-width: 768px) and (max-width: 991px) {
@@ -162,7 +162,11 @@ body {
   line-height: 20px;
   -webkit-text-size-adjust: none;
   color: #333333;
-  background-color: #fff; }
+  background: #ffffff;
+  height: 100vh; }
+
+* {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
 
 /*========================================================
                       Typography
@@ -179,12 +183,6 @@ h1, .heading-1 {
 h2, .heading-2 {
   font-size: 32px;
   line-height: 40px; }
-
-.title {
-  background-color: #2062f2;
-  color: #fff;
-  text-align: center;
-  letter-spacing: 2px; }
 
 p a:hover, .list a:hover, .contact-info a:hover {
   text-decoration: underline; }
@@ -340,6 +338,8 @@ a {
   justify-content: center; }
   .chart-wrapper.chart-wrapper_positive-bar svg {
     background: #2062f2; }
+  .chart-wrapper.chart-wrapper_positive-bar * {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
   .chart-wrapper.chart-wrapper_positive-bar .bar--positive {
     fill: steelblue; }
   .chart-wrapper.chart-wrapper_positive-bar .bar--negative {
@@ -361,6 +361,9 @@ a {
 */
 .chart-wrapper.chart-wrapper_negative-bar svg {
   background: #2062f2; }
+
+.chart-wrapper.chart-wrapper_negative-bar * {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
 
 .chart-wrapper.chart-wrapper_negative-bar .bar--positive {
   fill: steelblue; }
@@ -387,6 +390,9 @@ a {
 */
 .chart-wrapper.chart-wrapper_points svg {
   background: #2062f2; }
+
+.chart-wrapper.chart-wrapper_points * {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
 
 .chart-wrapper.chart-wrapper_points .axis path, .chart-wrapper.chart-wrapper_points .axis line {
   fill: none;
@@ -435,7 +441,7 @@ a {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  text-align: right;
+  text-align: center;
   color: #ffffff;
   font-size: 14px;
   line-height: 36px; }
@@ -446,6 +452,9 @@ a {
 */
 .chart-wrapper.chart-wrapper_stackArea svg {
   background: #2062f2; }
+
+.chart-wrapper.chart-wrapper_stackArea * {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
 
 .chart-wrapper.chart-wrapper_stackArea .axis path, .chart-wrapper.chart-wrapper_stackArea .axis line {
   fill: none;
@@ -470,10 +479,13 @@ a {
 * @components   D3 styles
 * Pie
 */
-svg {
+.chart-wrapper.chart-wrapper_pie * {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
+
+.chart-wrapper.chart-wrapper_pie svg {
   background: #2062f2; }
 
-.chart-title {
+.chart-wrapper.chart-wrapper_pie .chart-title {
   position: absolute;
   top: 1.2em;
   left: 50%;
@@ -483,14 +495,14 @@ svg {
   transform: translateX(-50%);
   color: #ffffff; }
 
-.tooltip {
+.chart-wrapper.chart-wrapper_pie .tooltip {
   position: absolute;
   opacity: 0;
   top: 0;
   left: 0;
   -webkit-transition: 0.4s ease all;
   transition: 0.4s ease all; }
-  .tooltip:before {
+  .chart-wrapper.chart-wrapper_pie .tooltip:before {
     position: absolute;
     content: '';
     top: 100%;
@@ -501,7 +513,7 @@ svg {
     -ms-transform: translateX(-50%);
     transform: translateX(-50%); }
 
-.tooltip-pie {
+.chart-wrapper.chart-wrapper_pie .tooltip-pie {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -511,10 +523,10 @@ svg {
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+  -ms-flex-align: start;
+  align-items: flex-start;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
@@ -523,19 +535,20 @@ svg {
   color: #fff;
   -webkit-border-radius: 5px;
   border-radius: 5px;
-  min-width: 7em;
+  padding: 0 0.5em 0 1.5em;
+  min-width: 10em;
   height: 4em; }
-  .tooltip-pie__title {
+  .chart-wrapper.chart-wrapper_pie .tooltip-pie__title {
     margin: 0;
     font-size: 1em;
     font-weight: 700; }
-  .tooltip-pie__value {
+  .chart-wrapper.chart-wrapper_pie .tooltip-pie__value {
     font-size: 1.6em;
-    display: block;
+    display: inline;
     position: relative; }
-  .tooltip-pie__status {
+  .chart-wrapper.chart-wrapper_pie .tooltip-pie__status {
     position: absolute;
-    top: 37%;
+    top: 55%;
     left: 7px;
     display: block;
     border: 5px solid transparent;
@@ -560,6 +573,8 @@ svg {
 	*/ }
   .chart-wrapper.chart-wrapper_linechart svg {
     background: #2062f2; }
+  .chart-wrapper.chart-wrapper_linechart * {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
   .chart-wrapper.chart-wrapper_linechart .axis path, .chart-wrapper.chart-wrapper_linechart .axis line {
     fill: none;
     stroke: #3872f2; }
@@ -645,12 +660,8 @@ svg {
   padding: 10px 0;
   background: #2062f2; }
   .funnel > * {
-    width: -webkit-calc(
- 100% -
- ( 10px + 10px ));
-    width: calc(
- 100% -
- ( 10px + 10px )); }
+    width: -webkit-calc( 100% - ( 10px + 10px ));
+    width: calc( 100% - ( 10px + 10px )); }
   .funnel__cnt {
     display: -webkit-box;
     display: -webkit-flex;
@@ -702,12 +713,10 @@ svg {
 
 .legend-pie {
   background-color: #fff;
-  max-height: 200px;
-  overflow-y: scroll;
+  height: 200px;
   padding: 20px;
   padding-left: 50px;
-  padding-right: 50px; 
-}
+  padding-right: 50px; }
   .legend-pie__row {
     display: -webkit-box;
     display: -webkit-flex;

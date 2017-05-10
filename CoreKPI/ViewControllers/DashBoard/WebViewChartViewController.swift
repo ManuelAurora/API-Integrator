@@ -47,7 +47,7 @@ class WebViewChartViewController: UIViewController
     //data for charts
     var rawDataArray: resultArray = []
     var pieChartData: [(number: String, rate: String)] = []
-    var pointChartData: [(country: String, life: String, population: String, gdp: String, color: String, kids: String, median_age: String)] = []
+    var pointChartData: [(value: String, date: String)] = []
     var lineChartData: [[InfoBox]] = []
     var barChartData: [(value: String, val: String)] = []
     var funnelChartData: [(name: String, value: String)] = []
@@ -61,7 +61,7 @@ class WebViewChartViewController: UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        webView.scrollView.isScrollEnabled = true
+        webView.scrollView.isScrollEnabled = false 
         webView.scrollView.bounces = false
         webView.backgroundColor = UIColor.white
         webView.frame = view.bounds
@@ -114,7 +114,7 @@ class WebViewChartViewController: UIViewController
             let js1 = try? String(contentsOfFile: jsFile1!, encoding: String.Encoding.utf8)
             let js2 = try? String(contentsOfFile: jsFile2!, encoding: String.Encoding.utf8)
             
-            let topOfJS = "var margin = {top: 50, right: 30, bottom: 30, left: 30}; var width = \(width) - margin.left - margin.right; var height = \(height) - margin.top - margin.bottom;" + generateDataForJS()
+            let topOfJS = generateDataForJS()
             
             webView.loadHTMLString( html! + "<style>" + css! + "</style>" + "<script>" + js1! + "</script><script>" + topOfJS + js2! + "</script>", baseURL: nil)
             
@@ -270,28 +270,24 @@ class WebViewChartViewController: UIViewController
                 let dateStr = $0.leftValue
                 let date    = formatter.date(from: dateStr)!
                 let day     = calendar.component(.day, from: date)
-                
-                return ("Algeria",
-                        $0.rightValue,
-                        "35468208",
-                        "6300",
-                        "blue",
-                        "\(day)",
-                        "50")
+                let month   = calendar.component(.month, from: date)
+                let year    = calendar.component(.year, from: date)
+                         
+                return (value: $0.rightValue, date: "\(year), \(month), \(day)")
             }
             
             header = "This is PointChart"
            
-            var dataForJS = "var label = '\(header)'; var pointJson = ["
+            var dataForJS = "var data_point = ["
             
             for (index,item) in pointChartData.enumerated() {
                 if index > 0 {
                     dataForJS += ","
                 }
-                let pointData = "{'country':'\(item.country)','life':\(item.life),'population':\(item.population),'gdp':\(item.gdp),'color':'\(item.color)','kids': \(item.kids),'median_age': \(item.median_age)}"
+                let pointData = "{value:\(item.value), date: new Date(\(item.date))}"
                 dataForJS += pointData
             }
-            dataForJS += "]"
+            dataForJS += "];"
             return dataForJS
             
         case .LineChart:
@@ -356,9 +352,9 @@ class WebViewChartViewController: UIViewController
                         let calendar = Calendar.current
                         let day = calendar.component(.day, from: date)
                         let mon = calendar.component(.month, from: date)
-                        let monStr = mon > 9 ? "\(mon)" : "0\(mon)"
-                        let dayStr = day > 9 ? "\(day)" : "0\(day)"
-                        let lineData = "{date:\"\(dayStr).\(monStr)\", rate: \(item.netValue)}"
+                        let yea = calendar.component(.year, from: date)
+                     
+                        let lineData = "{date: new Date(\(yea),\(mon-1), \(day)), rate: \(item.netValue)}"
                         dataForJS += lineData
                     }
                     
