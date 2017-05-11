@@ -295,7 +295,7 @@ class KPIsListTableViewController: UITableViewController
         })
     }
     
-    private func removeAllKpis() {
+    func removeAllKpis() {
         
         arrayOfKPI.forEach { kpi in
         
@@ -426,7 +426,7 @@ extension KPIsListTableViewController: updateKPIListDelegate {
     
     func updateKPIList() {
         
-        loadKPIsFromServer()
+        removeAllKpis()
     }
 }
 

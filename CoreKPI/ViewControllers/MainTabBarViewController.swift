@@ -74,7 +74,7 @@ class MainTabBarViewController: UITabBarController {
         teamListController.model      = model
         supportMainTableVC.model      = model
         
-        dashboardViewController.loadKPIsFromServer()
+        dashboardViewController.removeAllKpis()
         teamListController.loadTeamListFromServer()
         alertsViewController.loadAlerts()
     }
