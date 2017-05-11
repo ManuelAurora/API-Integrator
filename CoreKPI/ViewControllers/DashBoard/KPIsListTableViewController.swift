@@ -297,12 +297,10 @@ class KPIsListTableViewController: UITableViewController
     
     func removeAllKpis() {
         
-        arrayOfKPI.forEach { kpi in
-        
-            if let extKpi = kpi.integratedKPI
-            {
-                self.context.delete(extKpi)
-            }
+        let request = NSFetchRequest<ExternalKPI>(entityName: "ExternalKPI")
+        if let result  = try? context.fetch(request)
+        {
+            result.forEach { context.delete($0) }
         }
         
         do {
