@@ -246,8 +246,41 @@ extension ExternalKPIViewController {
                 navigationController.popToRootViewController(animated: true)
             }
             
-            self.quickBookDataManager.formListOfRequests(from: self.selectedQBKPIs)
-            self.quickBookDataManager.fetchDataFromIntuit(isCreation: true)           
+            //self.quickBookDataManager.formListOfRequests(from: self.selectedQBKPIs)
+            //self.quickBookDataManager.fetchDataFromIntuit(isCreation: true)
+            
+            let externalKPI = ExternalKPI()
+            let addRequest = AddKPI()
+            let qbEntity = self.quickBookDataManager.quickbooksKPIManagedObject
+            var kpiIDs = [Int]()
+                
+            self.selectedQBKPIs.forEach { kpi in
+                if let qbkpi = QiuckBooksKPIs(rawValue: kpi.SettingName)
+                {
+                    let idForKpi = self.quickBookDataManager.getIdFor(kpi: qbkpi)
+                    kpiIDs.append(idForKpi)
+                }
+            }
+            
+            externalKPI.kpiName = "SemenKPI"
+            externalKPI.quickbooksKPI = qbEntity
+            externalKPI.serviceName = IntegratedServices.Quickbooks.rawValue
+            addRequest.type = IntegratedServicesServerID.quickbooks.rawValue
+            
+            let semenKPI = KPI(kpiID: -2,
+                               typeOfKPI: .IntegratedKPI,
+                               integratedKPI: externalKPI,
+                               createdKPI: nil,
+                               imageBacgroundColour: nil)
+                        
+            addRequest.kpiIDs = kpiIDs
+            addRequest.addKPI(kpi: semenKPI, success: { result in
+                print("Added new Internal KPI on server")
+                NotificationCenter.default.post(name: .addedNewExtKpiOnServer,
+                                                object: nil)
+            }, failure: { error in
+                print(error)
+            })            
         }
         
         if internalWebViewController.parent == nil {

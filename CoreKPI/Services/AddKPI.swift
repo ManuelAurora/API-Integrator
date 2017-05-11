@@ -84,8 +84,10 @@ class AddKPI: Request
                                                
                     case IntegratedServices.Quickbooks.rawValue:
                         token = extKPI?.quickbooksKPI?.oAuthToken
-                        refreshToken = extKPI?.quickbooksKPI?.oAuthRefreshToken
-                        date = extKPI?.quickbooksKPI?.oAuthTokenExpiresAt
+                        refreshToken = "NoToken"
+                        date = Calendar.current.date(byAdding: .month,
+                                                     value: 5,
+                                                     to: Date()) as NSDate!
                         
                     case IntegratedServices.SalesForce.rawValue:
                         token = extKPI?.saleForceKPI?.oAuthToken

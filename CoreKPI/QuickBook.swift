@@ -31,6 +31,16 @@ class QuickBookDataManager
         return sm
     }()
     
+    var quickbooksKPIManagedObject: QuickbooksKPI {
+        do {
+            let fetchQBKPI = NSFetchRequest<QuickbooksKPI>(entityName: "QuickbooksKPI")
+            let result = try? managedContext.fetch(fetchQBKPI)
+            let qbkpi = (result == nil) || result!.isEmpty ? QuickbooksKPI() : result![0]
+            
+            return qbkpi
+        }
+    }
+    
     enum ResultArrayType {
         case netIncome
         case balance
@@ -239,7 +249,7 @@ class QuickBookDataManager
         kpiRequestsToSave.removeAll()
     }
     
-    private func getIdFor(kpi: QiuckBooksKPIs) -> Int {
+    func getIdFor(kpi: QiuckBooksKPIs) -> Int {
       
         switch kpi
         {
@@ -397,7 +407,7 @@ class QuickBookDataManager
             oauthswift.client.credential.oauthRefreshToken = kpi.oAuthRefreshToken!
         }
     }
-    
+       
     func fetchDataFromIntuit(isCreation: Bool) {
         
         clearAllData()
@@ -414,7 +424,7 @@ class QuickBookDataManager
             handler.getData()
         }
         
-        if isCreation { saveNewEntities() }
+        //if isCreation { saveNewEntities() }
         listOfRequests.removeAll()
     }
     

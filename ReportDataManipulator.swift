@@ -50,7 +50,9 @@ class ReportDataManipulator
             case .PaidInvoicesByCustomers: method = QBPaidInvoicesByCustomers(with: [:])
             }
             
-            quickBooksDataManager.listOfRequests.append((kpi.integratedKPI.requestJsonString!, method, kpiName: kpiValue))
+            quickBooksDataManager.formListOfRequests(from: [(SettingName: kpiName,
+                                                             value: true)])            
+            
             createDataFromRequestWith(qBMethod: method)
             
         case .PayPal:

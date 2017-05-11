@@ -44,6 +44,7 @@
 		64797E9C1EB8CB7A00AE7D7F /* SegueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64797E9B1EB8CB7A00AE7D7F /* SegueManager.swift */; };
 		647B588F1E65AA2F001C968B /* QuickBookHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B588E1E65AA2F001C968B /* QuickBookHelpers.swift */; };
 		647B58911E65BA89001C968B /* QuickBookRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B58901E65BA89001C968B /* QuickBookRequestHandler.swift */; };
+		647C4C881EC48F7500941348 /* CoreKPI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 647C4C861EC48F7500941348 /* CoreKPI.xcdatamodeld */; };
 		647C76AB1E9CFB3D00D48900 /* SalesForceKPI + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647C76AA1E9CFB3D00D48900 /* SalesForceKPI + Extension.swift */; };
 		647C76AD1E9D160500D48900 /* SalesForceHelperObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647C76AC1E9D160500D48900 /* SalesForceHelperObjects.swift */; };
 		647CFCA11E8519C700F71632 /* ReportDataManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647CFCA01E8519C700F71632 /* ReportDataManipulator.swift */; };
@@ -125,7 +126,6 @@
 		A274DC111E082617008CBF36 /* MemberListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A274DC101E082617008CBF36 /* MemberListTableViewController.swift */; };
 		A27820661E001503009F83DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27820651E001503009F83DB /* AppDelegate.swift */; };
 		A278206B1E001503009F83DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A27820691E001503009F83DB /* Main.storyboard */; };
-		A278206E1E001503009F83DB /* CoreKPI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A278206C1E001503009F83DB /* CoreKPI.xcdatamodeld */; };
 		A27820701E001503009F83DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A278206F1E001503009F83DB /* Assets.xcassets */; };
 		A27820731E001503009F83DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A27820711E001503009F83DB /* LaunchScreen.storyboard */; };
 		A278207E1E001503009F83DB /* CoreKPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A278207D1E001503009F83DB /* CoreKPITests.swift */; };
@@ -282,6 +282,7 @@
 		64797E9B1EB8CB7A00AE7D7F /* SegueManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueManager.swift; sourceTree = "<group>"; };
 		647B588E1E65AA2F001C968B /* QuickBookHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBookHelpers.swift; sourceTree = "<group>"; };
 		647B58901E65BA89001C968B /* QuickBookRequestHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBookRequestHandler.swift; sourceTree = "<group>"; };
+		647C4C871EC48F7500941348 /* CoreKPI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreKPI.xcdatamodel; sourceTree = "<group>"; };
 		647C76AA1E9CFB3D00D48900 /* SalesForceKPI + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SalesForceKPI + Extension.swift"; sourceTree = "<group>"; };
 		647C76AC1E9D160500D48900 /* SalesForceHelperObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SalesForceHelperObjects.swift; sourceTree = "<group>"; };
 		647CFCA01E8519C700F71632 /* ReportDataManipulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportDataManipulator.swift; path = ../ReportDataManipulator.swift; sourceTree = "<group>"; };
@@ -360,7 +361,6 @@
 		A27820621E001503009F83DB /* CoreKPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreKPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A27820651E001503009F83DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A278206A1E001503009F83DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		A278206D1E001503009F83DB /* CoreKPI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreKPI.xcdatamodel; sourceTree = "<group>"; };
 		A278206F1E001503009F83DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A27820721E001503009F83DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A27820741E001503009F83DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -684,7 +684,7 @@
 		A27820991E001568009F83DB /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				A278206C1E001503009F83DB /* CoreKPI.xcdatamodeld */,
+				647C4C861EC48F7500941348 /* CoreKPI.xcdatamodeld */,
 				645759231E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift */,
 				645759251E67FB7D006FB5F9 /* ExternaKPI + Extension.swift */,
 				647C76AA1E9CFB3D00D48900 /* SalesForceKPI + Extension.swift */,
@@ -1160,6 +1160,7 @@
 				6458649D1E80FCC50077399B /* UserStateMachine.swift in Sources */,
 				A2ACBD3F1E0D12280079EF3D /* AlertsListTableViewCell.swift in Sources */,
 				A20B6BD21E31F62800FAF86A /* User's KPI.swift in Sources */,
+				647C4C881EC48F7500941348 /* CoreKPI.xcdatamodeld in Sources */,
 				A297F5BB1E08234500F85963 /* faqTableViewController.swift in Sources */,
 				A297F5BA1E08234500F85963 /* faqDetailViewController.swift in Sources */,
 				644B4C701E926B6000F55F1F /* HubspotKPI + Extension.swift in Sources */,
@@ -1232,7 +1233,6 @@
 				A297F5CA1E0823D400F85963 /* RegisterViewController.swift in Sources */,
 				A27820971E001530009F83DB /* RequestServise.swift in Sources */,
 				64A32B921E5B394B008438DA /* String + Extension.swift in Sources */,
-				A278206E1E001503009F83DB /* CoreKPI.xcdatamodeld in Sources */,
 				A297F5D81E08244800F85963 /* faqListTableViewCell.swift in Sources */,
 				A26408F21E22394F0034EEC2 /* ReportAndViewKPITableViewController.swift in Sources */,
 				A297F5CC1E0823D400F85963 /* SignInViewController.swift in Sources */,
@@ -1581,12 +1581,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		A278206C1E001503009F83DB /* CoreKPI.xcdatamodeld */ = {
+		647C4C861EC48F7500941348 /* CoreKPI.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				A278206D1E001503009F83DB /* CoreKPI.xcdatamodel */,
+				647C4C871EC48F7500941348 /* CoreKPI.xcdatamodel */,
 			);
-			currentVersion = A278206D1E001503009F83DB /* CoreKPI.xcdatamodel */;
+			currentVersion = 647C4C871EC48F7500941348 /* CoreKPI.xcdatamodel */;
 			path = CoreKPI.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

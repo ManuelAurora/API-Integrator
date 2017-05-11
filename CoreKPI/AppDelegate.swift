@@ -176,6 +176,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 extension AppDelegate {
     
     func applicationHandle(url: URL) {
+        
         if (url.host == "oauth-callback")
         {
             OAuthSwift.handle(url: url)
@@ -193,6 +194,10 @@ extension AppDelegate {
                                                 object: nil,
                                                 userInfo: ["apiCode": code])
             }
+        }
+        else
+        {
+            OAuthSwift.handle(url: url)
         }
     }
     
