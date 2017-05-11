@@ -57,8 +57,8 @@ class HubSpotManager
     var pipelinesArray: [HSPipeline] = []    
     let model = ModelCoreKPI.modelShared
     var merged: Bool = false //This variable prevents multiple didSet from pipelinesArray
-    var choosenHubspotKpis = [HubSpotCRMKPIs]()
-    
+    var choosenCrmKpis = [HubSpotCRMKPIs]()
+    var choosenMarketKpis = [HubSpotMarketingKPIs]()
     var hubspotKPIManagedObject: HubspotKPI {
         do {
             let fetchHubspotKPI = NSFetchRequest<HubspotKPI>(entityName: "HubspotKPI")
@@ -193,26 +193,50 @@ class HubSpotManager
                     hubSpotMO.refreshToken   = refToken
                     hubSpotMO.validationDate = validTill as NSDate
                     
-                    try? self.managedContext.save()
+                    try? self.managedContext.save()                    
                     
                     let addRequest = AddKPI()
+                    
+                    let externalKPI = ExternalKPI(context: self.managedContext)
+                    externalKPI.hubspotKPI = hubSpotMO
+                    
+                    var kpiIds = [Int]()
+                    
+                    if self.choosenCrmKpis.count > 0
+                    {
+                        externalKPI.serviceName = IntegratedServices.HubSpotCRM.rawValue
+                        addRequest.type = IntegratedServicesServerID.hubspotCRM.rawValue
+                        kpiIds = self.choosenCrmKpis.map { ext in
+                            self.getCRMIdFor(kpi: ext)
+                        }
+                    }
+                    else
+                    {
+                        externalKPI.serviceName = IntegratedServices.HubSpotMarketing.rawValue
+                        addRequest.type = IntegratedServicesServerID.hubspotMarketing.rawValue
+                        kpiIds = self.choosenMarketKpis.map { ext in
+                            self.getMarketingIdFor(kpi: ext)
+                        }
+                        
+                    }
+                    
+                    externalKPI.kpiName = "SemenKPI"
+                    
                     let semenKPI = KPI(kpiID: -2,
                                        typeOfKPI: .IntegratedKPI,
-                                       integratedKPI: self.hubspotExternal[0],
+                                       integratedKPI: externalKPI,
                                        createdKPI: nil,
                                        imageBacgroundColour: nil)
                     
-                    addRequest.type = IntegratedServicesServerID.hubspotCRM.rawValue
-                    addRequest.kpiIDs = self.choosenHubspotKpis.map { ext in
-                       self.getIdFor(kpi: ext)
-                    }
                     
+                    addRequest.kpiIDs = kpiIds
                     addRequest.addKPI(kpi: semenKPI, success: { result in
                         print("Added new Internal KPI on server")
+                        NotificationCenter.default.post(name: .addedNewExtKpiOnServer,
+                                                        object: nil)
                     }, failure: { error in
                         print(error)
                     })
-                    
                     
 //                    GetExternalServices().getData(success: { services in
 //
@@ -237,7 +261,7 @@ class HubSpotManager
 //                        
 //                    }, failure: { error in
 //                        print(error)
-//                    })
+                    //                    })
                     
                     self.nc.post(name: .hubspotTokenRecieved,
                                  object: nil)
@@ -246,8 +270,8 @@ class HubSpotManager
         
     }
     
-    private func getIdFor(kpi: HubSpotCRMKPIs) -> Int {
-
+    func getCRMIdFor(kpi: HubSpotCRMKPIs) -> Int {
+        
         switch kpi
         {
         case .DealsRevenue: return 32
@@ -260,6 +284,23 @@ class HubSpotManager
         case .DealStageFunnel: return 39
         case .TopWonDeals: return 40
         case .RevenueByCompany: return 41
+        }
+    }
+    
+    func getMarketingIdFor(kpi: HubSpotMarketingKPIs) -> Int {
+        
+        switch kpi
+        {
+        case .BloggingPerformance: return 45
+        case .ContactsByReferrals: return 50
+        case .ContactsVisitsBySource: return 48
+        case .EmailPerformance: return 46
+        case .LandingPagePerformance: return 44
+        case .MarketingFunnel: return 43
+        case .MarketingPerformance: return 47
+        case .TopBlogPostByPageviews: return 51
+        case .VisitsBySource: return 49
+        case .VisitsContacts: return 42
         }
     }
     

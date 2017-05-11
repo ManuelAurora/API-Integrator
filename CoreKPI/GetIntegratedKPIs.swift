@@ -35,7 +35,8 @@ class GetIntegratedKPIs: Request {
                                           refToken: String?,
                                           ttl: Int?,
                                           upDateStr: String,
-                                          kpiId: Int) {
+                                          kpiId: Int,
+                                          titleId: Int) {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.persistentContainer.viewContext
@@ -163,7 +164,7 @@ class GetIntegratedKPIs: Request {
         }
         
         externalKpi.userID = Int64(userId)
-        externalKpi.kpiName = getKpiNameFrom(id: kpiId)
+        externalKpi.kpiName = getKpiNameFrom(id: titleId)
         externalKpi.serverID = Int64(kpiId)
         
         do {
@@ -176,10 +177,13 @@ class GetIntegratedKPIs: Request {
     
     func parsingJson(json: NSDictionary) -> [KPI]? {
         
-        if let successKey = json["success"] as? Int {
-            if successKey == 1 {
-                if let dataKey = json["data"] as? [jsonDict] {
-                                   
+        if let successKey = json["success"] as? Int
+        {
+            if successKey == 1
+            {
+                let kpis = [KPI]()
+                if let dataKey = json["data"] as? [jsonDict]
+                {
                     dataKey.forEach { kpiData in
                         
                         let kpiId = kpiData["int_kpi_id"] as! Int
@@ -189,7 +193,7 @@ class GetIntegratedKPIs: Request {
                         let refTok = kpiData["refresh_token"] as? String
                         let userId = kpiData["user_id"] as! Int
                         let lastUpd = kpiData["last_update_date"] as? String
-                        //let title = kpi["title"] as? String
+                        let titleID = kpiData["title"] as! Int
                         let service = IntegratedServicesServerID(rawValue: serviceId)!
                         
                         createEntitiesForService(service,
@@ -198,8 +202,11 @@ class GetIntegratedKPIs: Request {
                                                  refToken: refTok,
                                                  ttl: ttl,
                                                  upDateStr: lastUpd ?? "",
-                                                 kpiId: kpiId)
+                                                 kpiId: kpiId,
+                                                 titleId: titleID)
+                        
                     }
+                    return kpis
                 }
             }
         }

@@ -13,7 +13,7 @@ class AddKPI: Request
     var type: Int = 0
     var kpiIDs = [Int]()
     
-    func addKPI(kpi: KPI, success: @escaping (_ KPIid: Int) -> (), failure: @escaping failure) {
+    func addKPI(kpi: KPI, success: @escaping (_ KPIid: [Int]) -> (), failure: @escaping failure) {
         
         var data: [String : Any] = [:]
         var category = ""
@@ -136,13 +136,12 @@ class AddKPI: Request
         return components.second!
     }
     
-    func parsingJson(json: NSDictionary) -> Int? {
+    func parsingJson(json: NSDictionary) -> [Int]? {
         
         if let successKey = json["success"] as? Int {
             if successKey == 1 {
-                if let data = json["data"] as? NSDictionary {
-                    let id = data["id"] as! Int
-                    return id
+                if let data = json["data"] as? [Int] {
+                    return data
                 }
             } else {
                 self.errorMessage = json["message"] as? String

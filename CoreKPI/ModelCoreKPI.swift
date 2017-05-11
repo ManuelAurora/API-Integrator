@@ -143,7 +143,7 @@ class KPI {
         self.typeOfKPI = typeOfKPI
         self.integratedKPI = integratedKPI
         self.createdKPI = createdKPI
-        self.imageBacgroundColour = imageBacgroundColour ?? UIColor.clear
+        self.imageBacgroundColour = imageBacgroundColour ?? UIColor.clear        
     }
     
 }

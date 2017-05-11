@@ -100,19 +100,17 @@ class ExternalKPIViewController: OAuthViewController {
                 
                 selectedHSKPIs = serviceKPI.filter { $0.value == true }
                 
-                hubSpotManager.choosenHubspotKpis = selectedHSKPIs.map {
-                   HubSpotCRMKPIs(rawValue: $0.SettingName)!
-                }
-                
                 selectedHSKPIs.forEach {
-                    if $0.SettingName != HubSpotCRMKPIs.SalesFunnel.rawValue &&
-                        $0.SettingName != HubSpotCRMKPIs.DealStageFunnel.rawValue
+                    if let crmKpi = HubSpotCRMKPIs(rawValue: $0.SettingName)
                     {
-                        hubSpotManager.createNewEntityFor(service: selectedService,
-                                                          kpiName: $0.SettingName)
+                        return hubSpotManager.choosenCrmKpis.append(crmKpi)
+                    }
+                    if let markKpi = HubSpotMarketingKPIs(rawValue: $0.SettingName)
+                    {
+                        return hubSpotManager.choosenMarketKpis.append(markKpi)
                     }
                 }
-                
+
             default: break
             }
             doAuthService()
@@ -335,9 +333,9 @@ extension ExternalKPIViewController: HubspotSalesFunnelMakerProtocol
         
         choosenKPI.forEach { kpi in
             pipelines.forEach { pipe in                
-                hubSpotManager.createNewEntityFor(service: selectedService,
-                                                  kpiName: kpi.SettingName,
-                                                  pipelineID: pipe.pipelineId)
+//                hubSpotManager.createNewEntityFor(service: selectedService,
+//                                                  kpiName: kpi.SettingName,
+//                                                  pipelineID: pipe.pipelineId)
             }
         }
     }

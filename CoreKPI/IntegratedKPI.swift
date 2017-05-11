@@ -80,6 +80,7 @@ enum HubSpotCRMKPIs: String {
     case DealStageFunnel = "Deal Stage Funnel"
     case TopWonDeals = "Top Won Deals"
     case RevenueByCompany = "Revenue by Company"
+    
 }
 
 enum HubSpotMarketingKPIs: String {

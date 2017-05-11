@@ -1357,7 +1357,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
             let request = AddKPI(model: model)
             
             request.addKPI(kpi: kpi, success: { id in
-                kpi.id = id
+                kpi.id = id[0]
                 self.delegate = self.KPIListVC
                 self.delegate.addNewKPI(kpi: kpi)
                 self.ui(block: false)

@@ -29,6 +29,7 @@ extension Notification.Name
     static let hubspotCodeRecieved           = Notification.Name("HubspotCodeRecieved")
     static let hubspotTokenRecieved          = Notification.Name("HubspotTokenRecieved")
     static let reportDataForKpiRecieved      = Notification.Name("ReportDataForKpiRecieved")
+    static let addedNewExtKpiOnServer        = Notification.Name("addedNewExternalKpiOnServer")
 }
 
 extension UIStoryboard
@@ -56,7 +57,7 @@ extension UIStoryboard
         case choosePipelineVC       = "hubspotPipelineController"
         case alertSettingsTableVC   = "AddAlert"
         case questionDetailTableVC  = "QuestionDetailTableViewController"
-        case integrationRequestVC   = "SendNewIntegrationViewController"
+        case integrationRequestVC   = "SendNewIntegrationViewController"        
     }
     
     func instantiateViewController(withIdentifier: StoryboardIDs) -> UIViewController {

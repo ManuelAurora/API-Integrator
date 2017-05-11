@@ -15,8 +15,8 @@ enum Source: String {
     case Integrated
 }
 
-class KPIsListTableViewController: UITableViewController {
-    
+class KPIsListTableViewController: UITableViewController
+{    
     var model: ModelCoreKPI!
     var arrayOfKPI: [KPI] = []
     var isFilteredForUser = false 
@@ -38,7 +38,13 @@ class KPIsListTableViewController: UITableViewController {
         nc.addObserver(forName: .newExternalKPIadded,
                        object: nil,
                        queue: nil,
-                       using: catchNotification)        
+                       using: catchNotification)
+        
+        nc.addObserver(forName: .addedNewExtKpiOnServer, object: nil, queue: nil) {
+            notification in
+            
+            self.removeAllKpis()
+        }
        
         self.navigationController?.navigationBar.titleTextAttributes = attrs
         tableView.tableFooterView = UIView(frame: .zero)
@@ -187,7 +193,6 @@ class KPIsListTableViewController: UITableViewController {
             style: .default,
             title: "Delete",
             handler: {
-                
                 (action, indexPath) -> Void in
                 let kpiToDelete = self.arrayOfKPI[indexPath.row]
                 
@@ -199,18 +204,20 @@ class KPIsListTableViewController: UITableViewController {
                         print("DEBUG: SUCCESSFULLY DELETED")
                         self.context.delete(self.arrayOfKPI[indexPath.row].integratedKPI)
                         (UIApplication.shared .delegate as! AppDelegate).saveContext()
+                        self.arrayOfKPI.remove(at: indexPath.row)
+                        tableView.deleteRows(at: [indexPath], with: .fade)
                     }, failure: { (error) in
                         print(error)
                     })
-                } else {
-                self.deleteKPI(kpiID: self.model.kpis[indexPath.row].id)
-                self.model.kpis.remove(at: indexPath.row)
-            }
-            
-            self.arrayOfKPI.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }
-        )
+                }
+                else
+                {
+                    self.deleteKPI(kpiID: self.model.kpis[indexPath.row].id)
+                    self.model.kpis.remove(at: indexPath.row)
+                    self.arrayOfKPI.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                }
+        })
         
         if model.profile?.typeOfAccount == TypeOfAccount.Admin {
             return [deleteAction]
@@ -264,22 +271,21 @@ class KPIsListTableViewController: UITableViewController {
     //MARK: -  Pull to refresh method
     func refresh(sender:AnyObject)
     {
-        loadKPIsFromServer()
+        removeAllKpis()
     }
     
     //MARK: - Load KPIs from server methods
     //MARK: Load all KPIs
-    func loadKPIsFromServer(){
+    func loadKPIsFromServer() {        
+       
         let request = GetKPIs(model: model)
         request.getKPIsFromServer(success: { kpi in
             self.model.kpis = kpi
             self.arrayOfKPI = kpi
             self.loadIntegratedKpis()
-            self.loadExternal()
-            self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
             //self.loadReports()
-            NotificationCenter.default.post(name: .modelDidChanged, object: nil)
+            //NotificationCenter.default.post(name: .modelDidChanged, object: nil)
             
         }, failure: { error in
             print(error)
@@ -289,10 +295,32 @@ class KPIsListTableViewController: UITableViewController {
         })
     }
     
+    private func removeAllKpis() {
+        
+        arrayOfKPI.forEach { kpi in
+        
+            if let extKpi = kpi.integratedKPI
+            {
+                self.context.delete(extKpi)
+            }
+        }
+        
+        do {
+            try context.save()
+            arrayOfKPI.removeAll()
+            tableView.reloadData()
+            loadKPIsFromServer()
+        }
+        catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
     private func loadIntegratedKpis() {
         
         GetIntegratedKPIs().getKPIsFromServer(success: { kpis in
             print(kpis)
+            self.loadExternal()
         }) { error in
             print(error)
         }
@@ -318,6 +346,7 @@ class KPIsListTableViewController: UITableViewController {
                     
                     arrayOfKPI.append(kpi)
             }
+            tableView.reloadData()
         }
         catch {
             print("Fetching failed")
