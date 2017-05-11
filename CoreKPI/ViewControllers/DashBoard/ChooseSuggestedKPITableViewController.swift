@@ -1224,15 +1224,45 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         switch source {
         case .Integrated:
             var arrayOfKPI: [(SettingName: String, value: Bool)] = []
-            //var googleKPI: GoogleKPI?
-            //var saleForceKPI: SalesForceKPI?
+            var idsForServer = [Int]()
+            let sfManager = SalesforceRequestManager.shared
+            let externalKPI = ExternalKPI(context: context)
             
-            switch integrated {
+            switch integrated
+            {
             case .SalesForce:
                 arrayOfKPI = saleForceKPIArray
-//                saleForceKPI = SalesForceKPI(context: context)
-//                saleForceKPI?.oAuthToken = oauthToken
-//                saleForceKPI?.oAuthRefreshToken = oauthRefreshToken
+                
+                arrayOfKPI.forEach { kpi in
+                    guard kpi.value else { return }
+                    
+                    if let sfKpi = SalesForceKPIs(rawValue: kpi.SettingName)
+                    {
+                        let id =  sfManager.getServerIdFor(kpi: sfKpi)
+                        idsForServer.append(id)
+                    }
+                }
+                
+                let sfEntity = sfManager.fetchSalesForceKPIEntity()
+                externalKPI.saleForceKPI = sfEntity!
+                externalKPI.serviceName = IntegratedServices.SalesForce.rawValue
+                externalKPI.kpiName = "SemenKPI"
+                
+                let semenKPI = KPI(kpiID: -1, typeOfKPI: .IntegratedKPI,
+                                   integratedKPI: externalKPI,
+                                   createdKPI: nil,
+                                   imageBacgroundColour: nil)
+                let addKpi = AddKPI()
+                addKpi.type = IntegratedServicesServerID.salesforceCRM.rawValue
+                addKpi.kpiIDs = idsForServer
+                
+                addKpi.addKPI(kpi: semenKPI, success: { ids in
+                    print("DEBUG: SALESFORCE KPIS ADDED ON SERV")
+                    NotificationCenter.default.post(name: .addedNewExtKpiOnServer, object: nil)
+                }, failure: { error in
+                    print(error)
+                })
+                
             case .Quickbooks:
                 arrayOfKPI = quickBooksKPIArray
             case .GoogleAnalytics:
@@ -1250,31 +1280,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                 arrayOfKPI = hubSpotMarketingKPIArray
             default:
                 break
-            }
-            
-            for extKpi in arrayOfKPI {
-                if extKpi.value {
-                    let externalKPI = ExternalKPI(context: context)
-                    externalKPI.serviceName = integrated.rawValue
-                    externalKPI.kpiName = extKpi.SettingName
-                    externalKPI.googleAnalyticsKPI = googleKPI
-                    externalKPI.payPalKPI = payPalKPI
-                    externalKPI.saleForceKPI = salesForceKPI
-                    externalKPI.userID = Int64(model.profile.userId)
-                    
-                    do {
-                        try self.context.save()
-                    } catch {
-                        print(error)
-                        return
-                    }
-                    
-                    kpi = KPI(kpiID: -1, typeOfKPI: .IntegratedKPI, integratedKPI: externalKPI, createdKPI: nil, imageBacgroundColour: UIColor(hex: "D8F7D7".hex!))
-                    
-                    self.delegate = self.KPIListVC
-                    self.delegate.addNewKPI(kpi: kpi)
-                    
-                }
             }
             
             let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController

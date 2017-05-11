@@ -117,11 +117,25 @@ class SalesforceRequestManager
     private var instanceURL: String!
     private var idURL:       String!
     
+    func getServerIdFor(kpi: SalesForceKPIs) -> Int {
+        
+        switch kpi
+        {
+        case .RevenueNewLeads:          return 1
+        case .KeyMetrics:               return 2
+        case .ConvertedLeads:           return 3
+        case .OpenOpportunitiesByStage: return 4
+        case .TopSalesRep:              return 5
+        case .NewLeadsByIndustry:       return 6
+        case .CampaignROI:              return 7
+        }
+    }
+    
     ///  This helper method will return SaleforceKPI which contains token,
     ///  refreshToken and url info.
     ///
     /// - Returns: SalesForceKPI instance
-    private func fetchSalesForceKPIEntity() -> SalesForceKPI? {
+    func fetchSalesForceKPIEntity() -> SalesForceKPI? {
         
         do {
             let request = NSFetchRequest<SalesForceKPI>(entityName: "SalesForceKPI")

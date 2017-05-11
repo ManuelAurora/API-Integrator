@@ -92,7 +92,9 @@ class AddKPI: Request
                     case IntegratedServices.SalesForce.rawValue:
                         token = extKPI?.saleForceKPI?.oAuthToken
                         refreshToken = extKPI?.saleForceKPI?.oAuthRefreshToken
-                        date = extKPI?.saleForceKPI?.oAuthTokenExpiresAt
+                        date = Calendar.current.date(byAdding: .hour,
+                                                     value: 5,
+                                                     to: Date()) as NSDate!
                         
                     default: break
                     }
