@@ -215,44 +215,9 @@ class QuickBookDataManager
         
         for request in kpiRequestsToSave
         {
-            switch request.kpiName!
-            {
-            case .Invoices:
-                createNewEntityForArrayOf(type: .invoices, urlString: request.urlString)
-                
-            case .NetIncome:
-                createNewEntityForArrayOf(type: .netIncome, urlString: request.urlString)
-                
-            case .PaidInvoices:
-                createNewEntityForArrayOf(type: .paidInvoicesPercent, urlString: request.urlString)
-                
-            case .NonPaidInvoices:
-                createNewEntityForArrayOf(type: .nonPaidInvoicesPercent, urlString: request.urlString)
-                
-            case .OpenInvoicesByCustomers:
-                createNewEntityForArrayOf(type: .openInvoicesByCustomers, urlString: request.urlString)
-                
-            case .OverdueCustomers:
-                createNewEntityForArrayOf(type: .overdueCustomers, urlString: request.urlString)
-                
-            case .PaidExpenses:
-                createNewEntityForArrayOf(type: .expencesByVendorSummary, urlString: request.urlString)
-                
-            case .Balance:
-                createNewEntityForArrayOf(type: .balance, urlString: request.urlString)
-              
-            case .BalanceByBankAccounts:
-                createNewEntityForArrayOf(type: .accountList, urlString: request.urlString)
-                
-            case .PaidInvoicesByCustomers:
-                createNewEntityForArrayOf(type: .paidInvoicesByCustomer, urlString: request.urlString)
-                
-            case .IncomeProfitKPIs:
-                createNewEntityForArrayOf(type: .incomeProfitKPIs, urlString: request.urlString)
-            }
-            
             choosenKpis.append(getIdFor(kpi: request.kpiName!))
         }
+        
         let external = ExternalKPI()
         
         let addRequest = AddKPI()
@@ -270,7 +235,6 @@ class QuickBookDataManager
         }, failure: { error in
             print(error)
         })
-
         
         kpiRequestsToSave.removeAll()
     }
