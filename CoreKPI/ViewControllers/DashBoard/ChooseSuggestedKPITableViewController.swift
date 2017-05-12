@@ -1307,7 +1307,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         return idsForServer
     }
     
-    private func checkIsTtlValid(_ : IntegratedServices,
+    private func checkIsTtlValid(_ kpis: [Int], _: IntegratedServices,
                                  completion: @escaping ()->())  {
         
         switch integrated
@@ -1321,7 +1321,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                 
                 if ttl < 0
                 {
-                    IntegratedServices.GoogleAnalytics.updateToken {
+                    IntegratedServices.GoogleAnalytics.updateTokenFor(kpiID: kpis[0]) {
                         completion()
                     }
                 }
@@ -1348,10 +1348,10 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         switch source
         {
         case .Integrated:
-            checkIsTtlValid(integrated) {
-                let service      = self.integrated
-                let idsForServer = self.getIdsForSelectedKpis(service)
-                
+            let service      = integrated
+            let idsForServer = getIdsForSelectedKpis(service)
+            
+            checkIsTtlValid(idsForServer, service) {
                 self.addOnServerSelectedKpis(idsForServer, service: service)
                 
                 let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
