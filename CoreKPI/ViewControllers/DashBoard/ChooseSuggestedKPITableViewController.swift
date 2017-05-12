@@ -1265,13 +1265,40 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                 
             case .Quickbooks:
                 arrayOfKPI = quickBooksKPIArray
+                
             case .GoogleAnalytics:
                 arrayOfKPI = googleAnalyticsKPIArray
-//                googleKPI = GoogleKPI(context: context)
-//                googleKPI?.oAuthToken = oauthToken
-//                googleKPI?.oAuthRefreshToken = oauthRefreshToken
-//                googleKPI?.oAuthTokenExpiresAt = oauthTokenExpiresAt! as NSDate
-//                googleKPI?.viewID = viewID
+                
+                arrayOfKPI.forEach { kpi in
+                    guard kpi.value else { return }
+                    
+                    if let gaKpi = GoogleAnalyticsKPIs(rawValue: kpi.SettingName)
+                    {
+                        let id =  GoogleAnalytics.getServerIdFor(kpi: gaKpi)
+                        idsForServer.append(id)
+                    }
+                }
+                
+                let gaEntity = GoogleAnalytics.googleAnalyticsEntity
+                externalKPI.googleAnalyticsKPI = gaEntity
+                externalKPI.serviceName = IntegratedServices.GoogleAnalytics.rawValue
+                externalKPI.kpiName = "SemenKPI"
+                
+                let semenKPI = KPI(kpiID: -1, typeOfKPI: .IntegratedKPI,
+                                   integratedKPI: externalKPI,
+                                   createdKPI: nil,
+                                   imageBacgroundColour: nil)
+                let addKpi = AddKPI()
+                addKpi.type = IntegratedServicesServerID.googleAnalytics.rawValue
+                addKpi.kpiIDs = idsForServer
+                
+                addKpi.addKPI(kpi: semenKPI, success: { ids in
+                    print("DEBUG: GOOGLE ANALYTICS KPIS ADDED ON SERV")
+                    NotificationCenter.default.post(name: .addedNewExtKpiOnServer, object: nil)
+                }, failure: { error in
+                    print(error)
+                })
+           
             case .PayPal:
                 arrayOfKPI = payPalKPIArray
             case .HubSpotCRM:

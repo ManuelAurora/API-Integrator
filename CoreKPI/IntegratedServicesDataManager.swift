@@ -21,6 +21,8 @@ class IntegratedServicesDataManager
             
         case .GoogleAnalytics:
             getGoogleAnalyticsData(success: { report in
+                guard report.data?.rowCount != nil else { return }
+                
                 switch (GoogleAnalyticsKPIs(rawValue: self.kpi.integratedKPI.kpiName!))! {
                 case .UsersSessions:
                     for i in 0..<(report.data?.rowCount)! {

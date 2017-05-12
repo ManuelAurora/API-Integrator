@@ -7,8 +7,45 @@
 //
 
 import Foundation
+import CoreData
+import UIKit
 
 class GoogleAnalytics: ExternalRequest {
+    
+    class var googleAnalyticsEntity: GoogleKPI {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context     = appDelegate.persistentContainer.viewContext
+        let request     = NSFetchRequest<GoogleKPI>(entityName: "GoogleKPI")
+        
+        if let result  = try? context.fetch(request), let entity = result.first
+        {
+            return entity
+        }
+        else
+        {
+            return GoogleKPI()
+        }
+    }
+    
+    class func getServerIdFor(kpi: GoogleAnalyticsKPIs) -> Int {
+        
+        switch kpi
+        {
+        case .UsersSessions: return 19
+        case .AudienceOverview: return 20
+        case .GoalOverview: return 21
+        case .TopPagesByPageviews: return 22
+        case .TopSourcesBySessions: return 23
+        case .TopOrganicKeywordsBySession: return 24
+        case .TopChannelsBySessions: return 25
+        case .RevenueTransactions: return 26
+        case .EcommerceOverview: return 27
+        case .RevenueByLandingPage: return 28
+        case .RevenueByChannels: return 29
+        case .TopKeywordsByRevenue: return 30
+        case .TopSourcesByRevenue: return 31
+        }
+    }
     
     func getViewID(success: @escaping (_ viewsArray: [(viewID: String, webSiteUri: String)]) -> (), failure: @escaping failure ) {
         
