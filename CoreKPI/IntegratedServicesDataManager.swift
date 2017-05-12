@@ -21,7 +21,13 @@ class IntegratedServicesDataManager
             
         case .GoogleAnalytics:
             getGoogleAnalyticsData(success: { report in
-                guard report.data?.rowCount != nil else { return }
+                guard report.data?.rowCount != nil else {
+                    dataForPresent.append((leftValue: "",
+                                           centralValue: "There is no data",
+                                           rightValue: ""))
+                    success(dataForPresent)
+                    return
+                }
                 
                 switch (GoogleAnalyticsKPIs(rawValue: self.kpi.integratedKPI.kpiName!))! {
                 case .UsersSessions:

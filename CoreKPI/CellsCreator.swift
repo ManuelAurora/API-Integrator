@@ -426,7 +426,16 @@ extension ReportAndViewKPITableViewController {
                         case 1:
                             cell.descriptionOfCell.isHidden = false
                             cell.selectionStyle = .default
-                            cell.accessoryType = .disclosureIndicator
+                            
+                            if isInteractive
+                            {
+                                cell.accessoryType = .disclosureIndicator
+                            }
+                            else
+                            {
+                                cell.accessoryType = .none
+                            }
+                            
                             if KPIOneView == .Numbers && KPITwoView == .Graph {
                                 switch indexPath.row {
                                 case 0:

@@ -381,11 +381,15 @@ class ReportAndViewKPITableViewController: UITableViewController {
     
     var datePickerIsVisible = false
     var dataPickerIsVisible = false
+    var isInteractive: Bool {
+        return model.profile.typeOfAccount == .Admin ? true : false
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.isScrollEnabled = true
+        tableView.isScrollEnabled = false
+        tableView.isUserInteractionEnabled = isInteractive
         navigationItem.rightBarButtonItem?.isEnabled = false
         
         switch buttonDidTaped

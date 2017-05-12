@@ -31,6 +31,12 @@ class UserStateMachine
         return UIApplication.shared.delegate as! AppDelegate
     }()
     
+    var context: NSManagedObjectContext {
+        return appDelegate.persistentContainer.viewContext
+    }
+    
+    var preloadedPhotos = [Int64: UIImage]()
+    
     //Class-static section
     static let shared = UserStateMachine()
     
@@ -166,7 +172,13 @@ class UserStateMachine
             self.userStateInfo.invitationsLeft = 0
         })
     }
-
+    
+    func updateTeamPhotoAlbum() {
+        
+        model.team.forEach { member in
+            preloadedPhotos[member.userID] = #imageLiteral(resourceName: "defaultProfile")      
+        }
+    }
     
     private func userLoggedIn() {
         
@@ -183,7 +195,7 @@ class UserStateMachine
     
     private func userLoggedOut() {
         
-        let context = appDelegate.persistentContainer.viewContext
+        updateTeamPhotoAlbum()
         
         userStateInfo.loggedIn       = false
         userStateInfo.haveLocalToken = false

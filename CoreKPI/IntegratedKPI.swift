@@ -31,8 +31,8 @@ enum IntegratedServices: String {
 
 enum SalesForceKPIs: String {
     case RevenueNewLeads = "Revenue/new leads"
-    case KeyMetrics = "Key metrics"
-    case ConvertedLeads = "Converted Leads"
+    case KeyMetrics = "Key Metrics"
+    case ConvertedLeads = "Converted leads"
     case OpenOpportunitiesByStage = "Open opportunities by Stage"
     case TopSalesRep = "Top Sales Rep"
     case NewLeadsByIndustry = "New leads by industry"

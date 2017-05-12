@@ -11,7 +11,7 @@ import UIKit
 class MemberListTableViewController: UITableViewController {
     
     var model: ModelCoreKPI!
-    
+    let stateMachine = UserStateMachine.shared
     var indexPath: IndexPath!
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -99,12 +99,16 @@ class MemberListTableViewController: UITableViewController {
             cell.userNameLabel.text = "\(member.firstName!) \(member.lastName!)"
         }
         
+        let id = member.userID
+        
         cell.userPosition.text = member.position
+        cell.userProfilePhotoImage.image = stateMachine.preloadedPhotos[id] ?? #imageLiteral(resourceName: "defaultProfile")
         
         member.getPhoto { photo in
             DispatchQueue.main.async {
                 cell.userProfilePhotoImage.image = photo
             }
+            self.stateMachine.preloadedPhotos[id] = photo
         }
         
         return cell
@@ -193,18 +197,22 @@ class MemberListTableViewController: UITableViewController {
     //MARK: - load team list from server
     func loadTeamListFromServer() {
         
-        UserStateMachine.shared.getNumberOfInvitations()
-        
+        let stateMachine = UserStateMachine.shared
         let request = GetMemberList(model: model)
         
+        stateMachine.getNumberOfInvitations()
+        
         request.getMemberList(success: {
-            team in
+            team in            
             self.model.team = team.sorted { member in
                 let memberId  = Int(member.0.userID)
                 let profileId = self.model.profile?.userId
                 
                 return memberId == profileId
             }
+            
+            self.tableView.reloadData()
+            self.refreshControl?.endRefreshing()
             
             do {
                 try self.context.save()
@@ -213,9 +221,6 @@ class MemberListTableViewController: UITableViewController {
                 print(error)
                 return
             }
-                        
-            self.tableView.reloadData()
-            self.refreshControl?.endRefreshing()
             
         }, failure: { error in
             self.refreshControl?.endRefreshing()

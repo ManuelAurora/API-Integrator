@@ -45,7 +45,7 @@ extension Team
                     if let imgData = NSData(contentsOf: location)
                     {
                         team.photo = imgData
-                        
+                        print("Photo downloaded #")
                         do {
                             try context.save()
                         }
