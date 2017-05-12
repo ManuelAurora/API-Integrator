@@ -176,11 +176,20 @@ extension ReportAndViewKPITableViewController {
                         case 0:
                             cell.headerOfCell.text = kpiName
                         case 1:
-                            cell.headerOfCell.text = kpiDescription ?? "No description"
-                            cell.headerOfCell.numberOfLines = 0
-                            if kpiDescription == nil {
+                            var description = "No Description"
+                            
+                            if let descr = kpiDescription, descr != ""
+                            {
+                                description = descr
+                            }
+                            else
+                            {
                                 cell.headerOfCell.textColor = UIColor.lightGray
                             }
+                            
+                            cell.headerOfCell.text = description
+                            cell.headerOfCell.numberOfLines = 0
+                          
                         case 2:
                             cell.headerOfCell.text = department.rawValue + " Department"
                         default:

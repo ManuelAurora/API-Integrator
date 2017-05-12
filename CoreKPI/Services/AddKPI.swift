@@ -142,12 +142,18 @@ class AddKPI: Request
     
     func parsingJson(json: NSDictionary) -> [Int]? {
         
-        if let successKey = json["success"] as? Int {
-            if successKey == 1 {
-                if let data = json["data"] as? [Int] {
-                    return data
-                }
-            } else {
+        if let successKey = json["success"] as? Int, successKey == 1
+        {
+            if let data = json["data"] as? [Int]
+            {
+                return data
+            }
+            else if let data = json["data"] as? [String: Int], let id = data["id"]
+            {
+                return [id]
+            }
+            else
+            {
                 self.errorMessage = json["message"] as? String
             }
         } else {
