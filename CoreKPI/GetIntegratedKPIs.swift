@@ -217,7 +217,6 @@ class GetIntegratedKPIs: Request {
                                                  upDateStr: lastUpd ?? "",
                                                  kpiId: kpiId,
                                                  titleId: titleID)
-                        
                     }
                     return kpis
                 }

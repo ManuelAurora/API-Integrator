@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 import UIKit
 
-class GoogleAnalytics: ExternalRequest {
+class GAnalytics: ExternalRequest {
     
     class var googleAnalyticsEntity: GoogleKPI {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate

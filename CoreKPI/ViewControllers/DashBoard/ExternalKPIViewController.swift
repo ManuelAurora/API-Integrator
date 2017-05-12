@@ -321,7 +321,7 @@ extension ExternalKPIViewController {
     
     //MARK: - get ViewID for google analytics
     func selectViewID(googleKPI: GoogleKPI) {
-        let request = GoogleAnalytics(oauthToken: googleKPI.oAuthToken!, oauthRefreshToken: googleKPI.oAuthRefreshToken!, oauthTokenExpiresAt: googleKPI.oAuthTokenExpiresAt! as Date)
+        let request = GAnalytics(oauthToken: googleKPI.oAuthToken!, oauthRefreshToken: googleKPI.oAuthRefreshToken!, oauthTokenExpiresAt: googleKPI.oAuthTokenExpiresAt! as Date)
         request.getViewID(success: { viewIDArray in
             let alertVC = UIAlertController(title: "Select source", message: "Please!", preferredStyle: .actionSheet)
             for viewID in viewIDArray {

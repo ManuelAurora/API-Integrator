@@ -206,7 +206,7 @@ class IntegratedServicesDataManager
     func getGoogleAnalyticsData(success: @escaping (_ report: Report) -> ()) {
         
         let external = kpi.integratedKPI
-        let request = GoogleAnalytics(oauthToken: (external?.googleAnalyticsKPI?.oAuthToken)!, oauthRefreshToken: (external?.googleAnalyticsKPI?.oAuthRefreshToken)!, oauthTokenExpiresAt: (external?.googleAnalyticsKPI?.oAuthTokenExpiresAt)! as Date)
+        let request = GAnalytics(oauthToken: (external?.googleAnalyticsKPI?.oAuthToken)!, oauthRefreshToken: (external?.googleAnalyticsKPI?.oAuthRefreshToken)!, oauthTokenExpiresAt: (external?.googleAnalyticsKPI?.oAuthTokenExpiresAt)! as Date)
         let param = ReportRequest()
         param.viewId = (external?.googleAnalyticsKPI?.viewID)!
         

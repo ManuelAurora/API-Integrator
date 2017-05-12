@@ -19,7 +19,8 @@ enum IntegratedServicesServerID: Int
     case paypal 
 }
 
-enum IntegratedServices: String {
+enum IntegratedServices: String
+{
     case none = "Choose Service"
     case SalesForce
     case Quickbooks 
@@ -27,6 +28,28 @@ enum IntegratedServices: String {
     case HubSpotCRM
     case HubSpotMarketing
     case PayPal
+    
+    func updateToken(_ success: @escaping ()->()) {
+        
+        switch self
+        {
+        case .GoogleAnalytics:
+            let ga = GAnalytics()
+            ga.updateAccessToken(servise: self, success: { token in
+                
+                GAnalytics.googleAnalyticsEntity.oAuthToken = token
+                try? UserStateMachine.shared.context.save()
+                success()
+                
+            }, failure: { (error) in
+                print(error)
+            })
+        default: break
+        }
+        
+        
+    }
+    
 }
 
 enum SalesForceKPIs: String {

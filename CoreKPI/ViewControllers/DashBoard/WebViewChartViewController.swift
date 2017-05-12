@@ -347,15 +347,18 @@ class WebViewChartViewController: UIViewController
                     for (index, item) in arrayOfData.enumerated()
                     {
                         if index > 0 { dataForJS += "," }
-                        let stamp = Double(item.timestamp)!
-                        let date = Date(timeIntervalSince1970: stamp)
-                        let calendar = Calendar.current
-                        let day = calendar.component(.day, from: date)
-                        let mon = calendar.component(.month, from: date)
-                        let yea = calendar.component(.year, from: date)
-                     
-                        let lineData = "{date: new Date(\(yea),\(mon-1), \(day)), rate: \(item.netValue)}"
-                        dataForJS += lineData
+                        if let stamp = Double(item.timestamp)
+                        {
+                            let date = Date(timeIntervalSince1970: stamp)
+                            let calendar = Calendar.current
+                            let day = calendar.component(.day, from: date)
+                            let mon = calendar.component(.month, from: date)
+                            let yea = calendar.component(.year, from: date)
+                            
+                            let lineData = "{date: new Date(\(yea),\(mon-1), \(day)), rate: \(item.netValue)}"
+                            
+                            dataForJS += lineData
+                        }
                     }
                     
                     dataForJS += index == lastArrayIndex ? "]] ;" : "], ["

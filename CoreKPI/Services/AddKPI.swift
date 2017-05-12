@@ -112,7 +112,7 @@ class AddKPI: Request
                 }
             }
             
-            ttl = getSecondsFrom(date: date)
+            ttl = AddKPI.getSecondsFrom(date: date)
             
             data = ["token": token ?? "",
                     "refresh_token": refreshToken ?? "",
@@ -136,7 +136,7 @@ class AddKPI: Request
         )
     }
     
-    private func getSecondsFrom(date: NSDate?) -> Int {
+    class func getSecondsFrom(date: NSDate?) -> Int {
         
         let calendar = Calendar.current
         

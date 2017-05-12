@@ -24,6 +24,7 @@
 		645DB20D1E76A405000BEFD4 /* HubspotHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645DB20C1E76A405000BEFD4 /* HubspotHelpers.swift */; };
 		64637DA51E9F9C8C00F33A1C /* Sequence + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64637DA41E9F9C8C00F33A1C /* Sequence + Extension.swift */; };
 		64688B651EB22E8200F2D015 /*  NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64688B641EB22E8200F2D015 /*  NetworkingManager.swift */; };
+		646B28231EC5D2F1002F0624 /* UpdateIntegratedToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646B28221EC5D2F1002F0624 /* UpdateIntegratedToken.swift */; };
 		646BBA231EBB208D00F72CFF /* Team + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BBA221EBB208D00F72CFF /* Team + Extension.swift */; };
 		646BF08E1E6E8B4200621FE2 /* HubspotManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */; };
 		646BF0911E6EE64800621FE2 /* HubspotRequestedObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BF0901E6EE64800621FE2 /* HubspotRequestedObjects.swift */; };
@@ -261,6 +262,7 @@
 		645DB20C1E76A405000BEFD4 /* HubspotHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotHelpers.swift; sourceTree = "<group>"; };
 		64637DA41E9F9C8C00F33A1C /* Sequence + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence + Extension.swift"; sourceTree = "<group>"; };
 		64688B641EB22E8200F2D015 /*  NetworkingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = " NetworkingManager.swift"; sourceTree = "<group>"; };
+		646B28221EC5D2F1002F0624 /* UpdateIntegratedToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateIntegratedToken.swift; sourceTree = "<group>"; };
 		646BBA221EBB208D00F72CFF /* Team + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Team + Extension.swift"; sourceTree = "<group>"; };
 		646BF08D1E6E8B4200621FE2 /* HubspotManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubspotManager.swift; sourceTree = "<group>"; };
 		646BF08F1E6ECD9500621FE2 /* CoreKPI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CoreKPI.entitlements; sourceTree = "<group>"; };
@@ -558,6 +560,7 @@
 				A2F77E021E3B199400BB8318 /* RegistrationRequest.swift */,
 				A2F77DFE1E3B199400BB8318 /* GetNumberOfInvations.swift */,
 				648E9A701EB37C1700632887 /* GetInviteList.swift */,
+				646B28221EC5D2F1002F0624 /* UpdateIntegratedToken.swift */,
 				648E9A721EB3822500632887 /* MessagesRequestManager.swift */,
 				A2F77E031E3B199400BB8318 /* SendInvation.swift */,
 				A2F77DFC1E3B199400BB8318 /* GetMemberList.swift */,
@@ -1164,6 +1167,7 @@
 				A297F5BB1E08234500F85963 /* faqTableViewController.swift in Sources */,
 				A297F5BA1E08234500F85963 /* faqDetailViewController.swift in Sources */,
 				644B4C701E926B6000F55F1F /* HubspotKPI + Extension.swift in Sources */,
+				646B28231EC5D2F1002F0624 /* UpdateIntegratedToken.swift in Sources */,
 				A24A840E1E4898EF00440151 /* GoogleAnalyticsRequestDataCreator.swift in Sources */,
 				646E2AC11E7C070C0010E4BE /* Date + Extension.swift in Sources */,
 				6413AFBF1E94CF6E00CC2ABB /* PipelineTableViewCell.swift in Sources */,

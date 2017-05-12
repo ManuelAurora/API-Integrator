@@ -1224,7 +1224,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         switch service
         {
         case .GoogleAnalytics:
-            let gaEntity = GoogleAnalytics.googleAnalyticsEntity
+            let gaEntity = GAnalytics.googleAnalyticsEntity
             
             externalKPI.googleAnalyticsKPI = gaEntity
             externalKPI.serviceName = IntegratedServices.GoogleAnalytics.rawValue
@@ -1285,7 +1285,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                 
                 if let gaKpi = GoogleAnalyticsKPIs(rawValue: kpi.SettingName)
                 {
-                    let id =  GoogleAnalytics.getServerIdFor(kpi: gaKpi)
+                    let id =  GAnalytics.getServerIdFor(kpi: gaKpi)
                     idsForServer.append(id)
                 }
             }
@@ -1307,6 +1307,35 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         return idsForServer
     }
     
+    private func checkIsTtlValid(_ : IntegratedServices,
+                                 completion: @escaping ()->())  {
+        
+        switch integrated
+        {
+        case .GoogleAnalytics:
+            let entity = GAnalytics.googleAnalyticsEntity
+            
+            if let expDate = entity.oAuthTokenExpiresAt
+            {
+                let ttl = AddKPI.getSecondsFrom(date: expDate)
+                
+                if ttl < 0
+                {
+                    IntegratedServices.GoogleAnalytics.updateToken {
+                        completion()
+                    }
+                }
+                else
+                {
+                    completion()
+                }
+            }
+            
+        default: completion(); break
+        }
+        
+    }
+    
     //MARK: - Save KPI
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
         
@@ -1319,12 +1348,15 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         switch source
         {
         case .Integrated:
-            
-            let idsForServer = getIdsForSelectedKpis(integrated)
-            addOnServerSelectedKpis(idsForServer, service: integrated)
-            
-            let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
-            _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
+            checkIsTtlValid(integrated) {
+                let service      = self.integrated
+                let idsForServer = self.getIdsForSelectedKpis(service)
+                
+                self.addOnServerSelectedKpis(idsForServer, service: service)
+                
+                let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
+                _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
+            }
             
         case .User:
             var executantProfile: Int!
