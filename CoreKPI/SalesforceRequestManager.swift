@@ -166,8 +166,8 @@ class SalesforceRequestManager
         {
             request.oauthToken = kpi.oAuthToken!
             request.oauthRefreshToken = kpi.oAuthRefreshToken!
-            request.updateAccessToken(servise: .SalesForce, success: { token in
-                kpi.oAuthToken = token
+            request.updateAccessToken(servise: .SalesForce, success: { tokenInfo in
+                kpi.oAuthToken = tokenInfo.token
                 try? self.managedContext.save()
                 success()
             }) { error in

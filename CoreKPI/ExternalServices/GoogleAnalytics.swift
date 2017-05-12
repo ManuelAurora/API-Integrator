@@ -75,11 +75,11 @@ class GAnalytics: ExternalRequest {
         }, failure: { error in
             if error == "401" {
                 //update token
-                self.updateAccessToken(servise: .GoogleAnalytics, success: {token in
-                    self.oauthToken = token
+                self.updateAccessToken(servise: .GoogleAnalytics, success: {tokenInfo in
+                    self.oauthToken = tokenInfo.token
                     //get analytics with new oauth token
                     self.analyticsRequest(param: param, success: { report in
-                        success(report, token)
+                        success(report, tokenInfo.token)
                     }, failure: {error in
                         failure(error)
                     }

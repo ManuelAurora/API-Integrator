@@ -61,7 +61,7 @@ class ExternalRequest {
         }
     }
     
-    func updateAccessToken(servise: IntegratedServices, success: @escaping (_ accessToken: String) -> (), failure: @escaping failure) {
+    func updateAccessToken(servise: IntegratedServices, success: @escaping (_ tokenInfo: (token: String, ttl: Int)) -> (), failure: @escaping failure) {
         var clientID = ""
         var clientSecret = ""
         var accessTokenURL = ""
@@ -89,8 +89,9 @@ class ExternalRequest {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
                     if let jsonDictionary = json {
-                        if let token = jsonDictionary["access_token"] as? String {
-                            success(token)
+                        if let token = jsonDictionary["access_token"] as? String,
+                            let ttl = jsonDictionary["expires_in"] as? Int {
+                            success((token: token, ttl: ttl))
                         } else {
                             failure("Error refreshing!")
                         }

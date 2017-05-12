@@ -253,8 +253,19 @@ class WebViewChartViewController: UIViewController
                     item.leftValue = dateString
                 }
                 
-                let pieData = "{name: '\(item.leftValue)', rate: \(item.rightValue)}"
+                var name = item.leftValue
+                var rate = item.rightValue
+                
+                if name == "" && rate == ""
+                {
+                    name = item.centralValue
+                    rate = "0"
+                }
+                
+                let pieData = "{name: '\(name)', rate: \(rate)}"
+                
                 dataForJS += pieData
+                
             }
             dataForJS += "];"
             
@@ -347,6 +358,7 @@ class WebViewChartViewController: UIViewController
                     for (index, item) in arrayOfData.enumerated()
                     {
                         if index > 0 { dataForJS += "," }
+                        
                         if let stamp = Double(item.timestamp)
                         {
                             let date = Date(timeIntervalSince1970: stamp)
@@ -357,6 +369,11 @@ class WebViewChartViewController: UIViewController
                             
                             let lineData = "{date: new Date(\(yea),\(mon-1), \(day)), rate: \(item.netValue)}"
                             
+                            dataForJS += lineData
+                        }
+                        else
+                        {
+                            let lineData = "{date: new Date(), rate: 0}"
                             dataForJS += lineData
                         }
                     }

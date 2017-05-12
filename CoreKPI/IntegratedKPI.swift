@@ -29,21 +29,32 @@ enum IntegratedServices: String
     case HubSpotMarketing
     case PayPal
     
-    func updateToken(_ success: @escaping ()->()) {
+    func updateTokenFor(kpiID: Int, success: @escaping ()->()) {
         
         switch self
         {
         case .GoogleAnalytics:
             let ga = GAnalytics()
-            ga.updateAccessToken(servise: self, success: { token in
+            ga.updateAccessToken(servise: self, success: { tokenInfo in
+                let gaEntity = GAnalytics.googleAnalyticsEntity
+                let calendar = Calendar.current
+                let ttlDate = calendar.date(byAdding: .second,
+                                            value: tokenInfo.ttl, to: Date())
                 
-                GAnalytics.googleAnalyticsEntity.oAuthToken = token
-                try? UserStateMachine.shared.context.save()
-                success()
+                GAnalytics.googleAnalyticsEntity.oAuthToken = tokenInfo.token
+                GAnalytics.googleAnalyticsEntity.oAuthTokenExpiresAt = ttlDate! as NSDate
                 
-            }, failure: { (error) in
-                print(error)
-            })
+                UpdateIntegratedToken().update(token: tokenInfo.token,
+                                               refreshToken: gaEntity.oAuthRefreshToken ?? "Semen",
+                                               kpiId: kpiID,
+                                               ttl: tokenInfo.ttl,
+                                               success: {
+                                                try? UserStateMachine.shared.context.save()
+                                                success()
+                }, failure: { error in print(error) })
+                
+            }, failure: { (error) in print(error) })
+            
         default: break
         }
         
