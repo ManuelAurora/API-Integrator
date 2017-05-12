@@ -204,6 +204,17 @@ public func getKpiNameFrom(id: Int) -> String {
     case 49:  return  "Visits by Source"
     case 50:  return  "Contacts by Referrals"
     case 51:  return  "Top Blog Post by pageviews"
+    case 52:  return "Balance"
+    case 53: return "Net Sales/Total Sales"
+    case 54: return "KPIS"
+    case 55: return "Average Revenue sale"
+    case 56: return "Average Revenue sale by period"
+    case 57: return "Top countries by Sales"
+    case 58: return "Top products"
+    case 59: return "Transactions by Status"
+    case 60: return "Pending by Type"
+    case 61: return "Recent Expenses"
+
     default: return "Error"
         
     }

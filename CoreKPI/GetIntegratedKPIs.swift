@@ -160,7 +160,20 @@ class GetIntegratedKPIs: Request {
             externalKpi.kpiName = ""
         
         case .paypal:
-            print("PAYPAL")
+            let ppEntity = PayPal.payPalEntity
+            
+            if let decyphered = token?.components(separatedBy: " "), decyphered.count == 2
+            {
+                ppEntity.apiUsername = decyphered[0]
+                ppEntity.apiPassword = decyphered[1]
+            }
+            
+            ppEntity.profileName = "Semen"
+            ppEntity.apiSignature = refToken
+            
+            externalKpi.serviceName = IntegratedServices.PayPal.rawValue
+            externalKpi.payPalKPI = ppEntity
+            externalKpi.kpiName = ""
         }
         
         externalKpi.userID = Int64(userId)

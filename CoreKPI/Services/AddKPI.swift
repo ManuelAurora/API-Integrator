@@ -96,6 +96,17 @@ class AddKPI: Request
                                                      value: 5,
                                                      to: Date()) as NSDate!
                         
+                    case IntegratedServices.PayPal.rawValue:
+                        let apiUserName = extKPI?.payPalKPI?.apiUsername ?? ""
+                        let apiPassword = extKPI?.payPalKPI?.apiPassword ?? ""
+                        let apiSignature = extKPI?.payPalKPI?.apiSignature ?? ""
+                        
+                        token = "\(apiUserName) \(apiPassword)"
+                        refreshToken = apiSignature
+                        date = Calendar.current.date(byAdding: .month,
+                                                     value: 5,
+                                                     to: Date()) as NSDate!
+                        
                     default: break
                     }
                 }

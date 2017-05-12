@@ -9,22 +9,57 @@
 import Foundation
 import Alamofire
 import AEXML
+import CoreData
+import UIKit
 
 typealias payPalData = (payer: String, netAmount: String, amount: String, date: String)
 
 class PayPal: ExternalRequest {
-    
+    //Token = Name Pass
+    //RefToken = Signature
     var apiUsername = ""
     var apiPassword = ""
     var apiSignature = ""
     let appID = "APP-80W284485P519543T"
     let payPalUri = "https://api-3t.sandbox.paypal.com/2.0/"
     
+    class var payPalEntity: PayPalKPI {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context     = appDelegate.persistentContainer.viewContext
+        let request     = NSFetchRequest<PayPalKPI>(entityName: "PayPalKPI")
+        
+        if let result  = try? context.fetch(request), let entity = result.first
+        {
+            return entity
+        }
+        else
+        {
+            return PayPalKPI()
+        }
+    }
+    
     init(apiUsername: String, apiPassword: String, apiSignature: String) {
         self.apiUsername = apiUsername
         self.apiPassword = apiPassword
         self.apiSignature = apiSignature
         super.init()
+    }
+    
+    class func getServerIdFor(kpi: PayPalKPIs) -> Int {
+        
+        switch kpi
+        {
+        case .Balance: return 52
+        case .NetSalesTotalSales: return 53
+        case .KPIS: return 54
+        case .AverageRevenueSale: return 55
+        case .AverageRevenueSaleByPeriod: return 56
+        case .TopCountriesBySales: return 57
+        case .TopProducts: return 58
+        case .TransactionsByStatus: return 59
+        case .PendingByType: return 60
+        case .RecentExpenses: return 61
+        }
     }
     
     //MARK: - GetAccountInfo for checkig input API credentials

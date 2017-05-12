@@ -58,6 +58,8 @@ class PayPalAuthViewController: UIViewController {
     
     func prepareForUnwind() {
         let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
+        
+        
         let payPalKPI = PayPalKPI(context: context)
         
         payPalKPI.profileName = profileName

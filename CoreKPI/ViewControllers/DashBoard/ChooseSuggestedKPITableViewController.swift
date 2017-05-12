@@ -25,6 +25,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
 {
     var model: ModelCoreKPI!
     var kpi: KPI!
+    let sfManager = SalesforceRequestManager.shared
     
     weak var KPIListVC: KPIsListTableViewController!
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
@@ -1212,6 +1213,100 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         return true
     }
     
+    private func addOnServerSelectedKpis(_ ids: [Int], service: IntegratedServices) {
+        
+        let externalKPI = ExternalKPI(context: context)
+        let addKpi      = AddKPI()
+        
+        addKpi.kpiIDs = ids
+        externalKPI.kpiName = "SemenKPI"
+        
+        switch service
+        {
+        case .GoogleAnalytics:
+            let gaEntity = GoogleAnalytics.googleAnalyticsEntity
+            
+            externalKPI.googleAnalyticsKPI = gaEntity
+            externalKPI.serviceName = IntegratedServices.GoogleAnalytics.rawValue
+            addKpi.type = IntegratedServicesServerID.googleAnalytics.rawValue
+            
+        case .SalesForce:
+            let sfEntity  = sfManager.fetchSalesForceKPIEntity()
+            
+            externalKPI.saleForceKPI = sfEntity!
+            externalKPI.serviceName = IntegratedServices.SalesForce.rawValue
+            addKpi.type = IntegratedServicesServerID.salesforceCRM.rawValue
+            
+        case .PayPal:
+            guard let payEntity = payPalKPI else { return }
+            
+            externalKPI.payPalKPI = payEntity
+            externalKPI.serviceName = IntegratedServices.PayPal.rawValue
+            addKpi.type = IntegratedServicesServerID.paypal.rawValue
+            
+        default: break
+        }
+        
+        let semenKPI = KPI(kpiID: -1, typeOfKPI: .IntegratedKPI,
+                           integratedKPI: externalKPI,
+                           createdKPI: nil,
+                           imageBacgroundColour: nil)
+        
+        
+        addKpi.addKPI(kpi: semenKPI, success: { ids in
+            print("DEBUG: KPIS ADDED ON SERV")
+            NotificationCenter.default.post(name: .addedNewExtKpiOnServer, object: nil)
+        }, failure: { error in
+            print(error)
+        })
+
+    }
+    
+    private func getIdsForSelectedKpis(_ service: IntegratedServices) -> [Int] {
+        
+        var idsForServer = [Int]()
+        
+        switch service
+        {
+        case .SalesForce:
+            saleForceKPIArray.forEach { kpi in
+                guard kpi.value else { return }
+                
+                if let sfKpi = SalesForceKPIs(rawValue: kpi.SettingName)
+                {
+                    let id =  sfManager.getServerIdFor(kpi: sfKpi)
+                    idsForServer.append(id)
+                }
+            }
+
+        case .GoogleAnalytics:
+            googleAnalyticsKPIArray.forEach { kpi in
+                guard kpi.value else { return }
+                
+                if let gaKpi = GoogleAnalyticsKPIs(rawValue: kpi.SettingName)
+                {
+                    let id =  GoogleAnalytics.getServerIdFor(kpi: gaKpi)
+                    idsForServer.append(id)
+                }
+            }
+            
+        case .PayPal:
+            payPalKPIArray.forEach { kpi in
+                guard kpi.value else { return }
+                
+                if let payKpi = PayPalKPIs(rawValue: kpi.SettingName)
+                {
+                    let id =  PayPal.getServerIdFor(kpi: payKpi)
+                    idsForServer.append(id)
+                }
+            }
+            
+        default: break
+        }
+        
+        return idsForServer
+    }
+    
     //MARK: - Save KPI
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
         
@@ -1221,93 +1316,12 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         
         var kpi: KPI!
         
-        switch source {
+        switch source
+        {
         case .Integrated:
-            var arrayOfKPI: [(SettingName: String, value: Bool)] = []
-            var idsForServer = [Int]()
-            let sfManager = SalesforceRequestManager.shared
-            let externalKPI = ExternalKPI(context: context)
             
-            switch integrated
-            {
-            case .SalesForce:
-                arrayOfKPI = saleForceKPIArray
-                
-                arrayOfKPI.forEach { kpi in
-                    guard kpi.value else { return }
-                    
-                    if let sfKpi = SalesForceKPIs(rawValue: kpi.SettingName)
-                    {
-                        let id =  sfManager.getServerIdFor(kpi: sfKpi)
-                        idsForServer.append(id)
-                    }
-                }
-                
-                let sfEntity = sfManager.fetchSalesForceKPIEntity()
-                externalKPI.saleForceKPI = sfEntity!
-                externalKPI.serviceName = IntegratedServices.SalesForce.rawValue
-                externalKPI.kpiName = "SemenKPI"
-                
-                let semenKPI = KPI(kpiID: -1, typeOfKPI: .IntegratedKPI,
-                                   integratedKPI: externalKPI,
-                                   createdKPI: nil,
-                                   imageBacgroundColour: nil)
-                let addKpi = AddKPI()
-                addKpi.type = IntegratedServicesServerID.salesforceCRM.rawValue
-                addKpi.kpiIDs = idsForServer
-                
-                addKpi.addKPI(kpi: semenKPI, success: { ids in
-                    print("DEBUG: SALESFORCE KPIS ADDED ON SERV")
-                    NotificationCenter.default.post(name: .addedNewExtKpiOnServer, object: nil)
-                }, failure: { error in
-                    print(error)
-                })
-                
-            case .Quickbooks:
-                arrayOfKPI = quickBooksKPIArray
-                
-            case .GoogleAnalytics:
-                arrayOfKPI = googleAnalyticsKPIArray
-                
-                arrayOfKPI.forEach { kpi in
-                    guard kpi.value else { return }
-                    
-                    if let gaKpi = GoogleAnalyticsKPIs(rawValue: kpi.SettingName)
-                    {
-                        let id =  GoogleAnalytics.getServerIdFor(kpi: gaKpi)
-                        idsForServer.append(id)
-                    }
-                }
-                
-                let gaEntity = GoogleAnalytics.googleAnalyticsEntity
-                externalKPI.googleAnalyticsKPI = gaEntity
-                externalKPI.serviceName = IntegratedServices.GoogleAnalytics.rawValue
-                externalKPI.kpiName = "SemenKPI"
-                
-                let semenKPI = KPI(kpiID: -1, typeOfKPI: .IntegratedKPI,
-                                   integratedKPI: externalKPI,
-                                   createdKPI: nil,
-                                   imageBacgroundColour: nil)
-                let addKpi = AddKPI()
-                addKpi.type = IntegratedServicesServerID.googleAnalytics.rawValue
-                addKpi.kpiIDs = idsForServer
-                
-                addKpi.addKPI(kpi: semenKPI, success: { ids in
-                    print("DEBUG: GOOGLE ANALYTICS KPIS ADDED ON SERV")
-                    NotificationCenter.default.post(name: .addedNewExtKpiOnServer, object: nil)
-                }, failure: { error in
-                    print(error)
-                })
-           
-            case .PayPal:
-                arrayOfKPI = payPalKPIArray
-            case .HubSpotCRM:
-                arrayOfKPI = hubSpotCRMKPIArray
-            case .HubSpotMarketing:
-                arrayOfKPI = hubSpotMarketingKPIArray
-            default:
-                break
-            }
+            let idsForServer = getIdsForSelectedKpis(integrated)
+            addOnServerSelectedKpis(idsForServer, service: integrated)
             
             let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
             _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
