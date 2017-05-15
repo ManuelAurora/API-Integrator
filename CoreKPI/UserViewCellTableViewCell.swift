@@ -13,7 +13,7 @@ class UserViewTableViewCell: UITableViewCell
     weak var delegate: MemberInfoViewController!
     
     @IBOutlet weak var memberProfilePositionLabel: UILabel!
-    @IBOutlet weak var memberProfilePhotoImage: UIImageView!
+    @IBOutlet weak var memberProfilePhotoImage: CachedImageView!
     @IBOutlet weak var memberProfileNameLabel: UILabel!    
     @IBOutlet var buttons: [UIButton]!
     

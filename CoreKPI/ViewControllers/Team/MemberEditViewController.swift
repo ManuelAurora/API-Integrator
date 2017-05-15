@@ -19,7 +19,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     weak var memberInfoVC: MemberInfoViewController!
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var memberProfilePhotoImage: UIImageView!
+    @IBOutlet weak var memberProfilePhotoImage: CachedImageView!
     @IBOutlet weak var memberNameTextField: BottomBorderTextField!
     @IBOutlet weak var memberPositionTextField: BottomBorderTextField!
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -38,7 +38,10 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         self.memberNameTextField.text = "\(member.firstName!) \(member.lastName!)"
         self.memberPositionTextField.text = member.position
         
-        memberProfilePhotoImage.image = memberInfoVC.profilePhoto
+        if let link = member.photoLink
+        {
+            memberProfilePhotoImage.loadImage(from: link )
+        }
         
         newProfile = Profile(userId: Int(model.team[index].userID),
                              userName: model.team[index].username!,
@@ -300,17 +303,12 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         ui(block: true)
         
         request.changeProfile(userID: Int(model.team[index].userID),
-                              params: params, success: { link in
+                              params: params,
+                              success: { link in
                                 self.updateProfile(photoLink: link)
-                                
-                                let member = self.model.team[self.index]
-                                
-                                member.getPhoto { photo in
-                                    DispatchQueue.main.async {
-                                        self.ui(block: false)
-                                        self.memberInfoVC.profilePhoto = photo
-                                        _ = self.navigationController?.popViewController(animated: true)
-                                    }
+                                self.memberProfilePhotoImage.loadImage(from: link!) {
+                                    self.ui(block: false)
+                                    _ = self.navigationController?.popViewController(animated: true)
                                 }
         }, failure: { error in
             self.ui(block: false)
@@ -348,13 +346,9 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         teamMember.setValue(newProfile.phone, forKey: "phoneNumber")
         teamMember.setValue(newProfile.position, forKey: "position")
         
-        if newProfile.photo != nil && newProfile.photo != teamMember.photoLink {
-            
-            if photoLink != nil
-            {
-               teamMember.photo = nil
-               teamMember.photoLink = photoLink!
-            }
+        if photoLink != nil
+        {            
+            teamMember.photoLink = photoLink!
         }
         
         do {

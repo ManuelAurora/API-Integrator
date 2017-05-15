@@ -11,8 +11,7 @@ import MessageUI
 import PhoneNumberKit
 
 class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource
-{
-    var profilePhoto: UIImage!
+{   
     var memberProfileNameLabel = UILabel()
     var memberProfilePositionLabel = UILabel()
     var notificationCenter = NotificationCenter.default
@@ -85,8 +84,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         super.viewDidLayoutSubviews()
         
         let cell = tableView.visibleCells[0] as! UserViewTableViewCell
-                
-        makeRoundCorners(for: cell.memberProfilePhotoImage)
+        
         _ = cell.buttons.map { makeRoundCorners(for: $0) }
     }
     
@@ -156,7 +154,13 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         {
             let cell = tableView.dequeueReusableCell(withIdentifier: "UserInfoCell") as! UserViewTableViewCell
             
-            cell.memberProfilePhotoImage.image = profilePhoto
+            let member = model.team[index]
+            
+            if let urlString = member.photoLink
+            {
+                cell.memberProfilePhotoImage.loadImage(from: urlString)
+            }
+            
             cell.delegate = self
             cell.memberProfileNameLabel.text     = memberProfileNameLabel.text
             cell.memberProfilePositionLabel.text = memberProfilePositionLabel.text

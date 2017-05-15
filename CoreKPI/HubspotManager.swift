@@ -198,7 +198,7 @@ class HubSpotManager
                     let addRequest = AddKPI()
                     
                     let externalKPI = ExternalKPI(context: self.managedContext)
-                    externalKPI.hubspotKPI = hubSpotMO
+                    externalKPI.hubspotKPI = hubSpotMO                    
                     
                     var kpiIds = [Int]()
                     
@@ -237,32 +237,7 @@ class HubSpotManager
                     }, failure: { error in
                         print(error)
                     })
-                    
-//                    GetExternalServices().getData(success: { services in
-//
-//                        self.hubspotExternal.forEach { kpi in
-//                            let semenKPI = KPI(kpiID: -2,
-//                                               typeOfKPI: .IntegratedKPI,
-//                                               integratedKPI: kpi,
-//                                               createdKPI: nil,
-//                                               imageBacgroundColour: nil)
-//                            let addRequest = AddKPI()                            
-//                            let hubspotKPI = HubSpotCRMKPIs(rawValue: kpi.kpiName!)!
-//                            
-//                            addRequest.type = IntegratedServicesServerID.hubspotCRM.rawValue
-//                            addRequest.kpiID = self.getIdFor(kpi: hubspotKPI)
-//                            
-//                            addRequest.addKPI(kpi: semenKPI, success: { result in
-//                                print("Added new Internal KPI on server")
-//                            }, failure: { error in
-//                                print(error)
-//                            })
-//                        }
-//                        
-//                    }, failure: { error in
-//                        print(error)
-                    //                    })
-                    
+                                        
                     self.nc.post(name: .hubspotTokenRecieved,
                                  object: nil)
                 }

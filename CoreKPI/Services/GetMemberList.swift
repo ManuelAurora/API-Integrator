@@ -36,7 +36,7 @@ class GetMemberList: Request
     private func fill(team: Team, with userData: jsonDict) {
         
         let phoneNumberKit = PhoneNumberKit()
-        let photoServer = avatarsLink
+        let photoServer = Request.avatarsLink
         let position = userData["position"] as? String
         let teamId = userData["user_id"] as! Int64
         let mode = userData["mode"] as! Int

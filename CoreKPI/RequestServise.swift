@@ -20,7 +20,7 @@ class Request
     //let serverIp = "http://dashmob.smichrissoft.com:8888"
     //debug!
     let serverIp = "https://corekpi.gtwenty.com"
-    let avatarsLink = "https://corekpi.gtwenty.com/uploads/avatars/"
+    static let avatarsLink = "https://corekpi.gtwenty.com/uploads/avatars/"
     
     var userID: Int!
     var token: String!

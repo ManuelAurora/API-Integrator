@@ -10,8 +10,7 @@ import UIKit
 
 class MemberListTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var userProfilePhotoImage: UIImageView!
-    
+    @IBOutlet weak var userProfilePhotoImage: CachedImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var aditionalBackground: UIView!
     @IBOutlet weak var userPosition: UILabel!
@@ -21,6 +20,7 @@ class MemberListTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         contentView.backgroundColor = OurColors.gray
+    
      }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

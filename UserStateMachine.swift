@@ -34,9 +34,7 @@ class UserStateMachine
     var context: NSManagedObjectContext {
         return appDelegate.persistentContainer.viewContext
     }
-    
-    var preloadedPhotos = [Int64: UIImage]()
-    
+     
     //Class-static section
     static let shared = UserStateMachine()
     
@@ -173,13 +171,6 @@ class UserStateMachine
         })
     }
     
-    func updateTeamPhotoAlbum() {
-        
-        model.team.forEach { member in
-            preloadedPhotos[member.userID] = #imageLiteral(resourceName: "defaultProfile")      
-        }
-    }
-    
     private func userLoggedIn() {
         
         pinCodeAttempts = usersPin != nil ? PinLockConfiguration.attempts : 0
@@ -195,8 +186,6 @@ class UserStateMachine
     
     private func userLoggedOut() {
         
-        updateTeamPhotoAlbum()
-        
         userStateInfo.loggedIn       = false
         userStateInfo.haveLocalToken = false
         userStateInfo.usesPinCode    = false
@@ -209,7 +198,16 @@ class UserStateMachine
         
         regVc.emailTextField?.text = ""
         regVc.passwordTextField?.text = ""
-        regVc.repeatPasswordTextField?.text = ""        
+        regVc.repeatPasswordTextField?.text = ""
+        
+        model.team.forEach { member in
+            if let key = member.photoLink as NSString?,
+                let cachedItem = CachedImageView.imageCache.object(forKey: key)
+            {
+                cachedItem.discardContentIfPossible()
+            }
+        }
+        
         model.team.forEach { context.delete($0) }
         model.kpis.removeAll()
         model.team.removeAll()

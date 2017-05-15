@@ -99,17 +99,12 @@ class MemberListTableViewController: UITableViewController {
             cell.userNameLabel.text = "\(member.firstName!) \(member.lastName!)"
         }
         
-        let id = member.userID
+        if let imgUrlString = member.photoLink
+        {
+            cell.userProfilePhotoImage.loadImage(from: imgUrlString)
+        }
         
         cell.userPosition.text = member.position
-        cell.userProfilePhotoImage.image = stateMachine.preloadedPhotos[id] ?? #imageLiteral(resourceName: "defaultProfile")
-        
-        member.getPhoto { photo in
-            DispatchQueue.main.async {
-                cell.userProfilePhotoImage.image = photo
-            }
-            self.stateMachine.preloadedPhotos[id] = photo
-        }
         
         return cell
     }
@@ -181,8 +176,7 @@ class MemberListTableViewController: UITableViewController {
         if segue.identifier == "MemberInfo" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let destinationController = segue.destination as! MemberInfoViewController
-                let profileCell = tableView.cellForRow(at: indexPath) as! MemberListTableViewCell
-                destinationController.profilePhoto = profileCell.userProfilePhotoImage.image
+                let profileCell = tableView.cellForRow(at: indexPath) as! MemberListTableViewCell                
                 destinationController.index = indexPath.row
                 destinationController.model = model                
                 destinationController.memberListVC = self
