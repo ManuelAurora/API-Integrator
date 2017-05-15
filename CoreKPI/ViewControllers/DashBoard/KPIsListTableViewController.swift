@@ -24,6 +24,16 @@ class KPIsListTableViewController: UITableViewController
     let nc = NotificationCenter.default
     var rightBarButton: UIBarButtonItem!
     
+    @IBAction func showSelectServicesScreen() {
+        
+        let servStoryboard = UIStoryboard(name: "Services", bundle: nil)
+        let identifier = "ServiceSelectionCollectionViewController"
+        let controller = servStoryboard.instantiateViewController(withIdentifier: identifier) as! ServiceSelectionCollectionViewController
+        
+        navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -282,7 +292,7 @@ class KPIsListTableViewController: UITableViewController
         request.getKPIsFromServer(success: { kpi in
             self.model.kpis = kpi
             self.arrayOfKPI = kpi
-            self.loadIntegratedKpis()
+            self.tableView.reloadData()//self.loadIntegratedKpis()
             self.refreshControl?.endRefreshing()
             //self.loadReports()
             //NotificationCenter.default.post(name: .modelDidChanged, object: nil)

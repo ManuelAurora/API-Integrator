@@ -109,6 +109,7 @@ class KPI {
             return currentDayValue >= previousDayValue ? .Increases : .Decreases
             
         case .IntegratedKPI:
+            
             let service = IntegratedServices(rawValue: integratedKPI.serviceName!) //integratedKPI?.service
             switch service! {
             case .none:

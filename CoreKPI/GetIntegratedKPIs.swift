@@ -164,12 +164,12 @@ class GetIntegratedKPIs: Request {
             
             if let decyphered = token?.components(separatedBy: " "), decyphered.count == 2
             {
-                ppEntity.apiUsername = decyphered[0]
-                ppEntity.apiPassword = decyphered[1]
+                ppEntity?.apiUsername = decyphered[0]
+                ppEntity?.apiPassword = decyphered[1]
             }
             
-            ppEntity.profileName = "Semen"
-            ppEntity.apiSignature = refToken
+            ppEntity?.profileName = "Semen"
+            ppEntity?.apiSignature = refToken
             
             externalKpi.serviceName = IntegratedServices.PayPal.rawValue
             externalKpi.payPalKPI = ppEntity

@@ -50,6 +50,9 @@
 		647C76AD1E9D160500D48900 /* SalesForceHelperObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647C76AC1E9D160500D48900 /* SalesForceHelperObjects.swift */; };
 		647CFCA11E8519C700F71632 /* ReportDataManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647CFCA01E8519C700F71632 /* ReportDataManipulator.swift */; };
 		647CFCA31E854BD600F71632 /* IntegratedServicesDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647CFCA21E854BD600F71632 /* IntegratedServicesDataManager.swift */; };
+		647E722F1EC9CC6300D8B4EB /* ServiceSelectionCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E722D1EC9CC6300D8B4EB /* ServiceSelectionCollectionViewController.swift */; };
+		647E72321EC9D9AF00D8B4EB /* Services.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 647E72311EC9D9AF00D8B4EB /* Services.storyboard */; };
+		647E72341EC9F34500D8B4EB /* UIView + Anchors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E72331EC9F34500D8B4EB /* UIView + Anchors.swift */; };
 		647F46DD1E89377900641F42 /* OvalShapeLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647F46DC1E89377900641F42 /* OvalShapeLayer.swift */; };
 		648115F11EAA45930090B24B /* SendNewIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648115F01EAA45930090B24B /* SendNewIntegrationViewController.swift */; };
 		648603BD1EB9B49600E2FD34 /* AlertTypeSwitcherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648603BC1EB9B49600E2FD34 /* AlertTypeSwitcherTableViewCell.swift */; };
@@ -289,6 +292,9 @@
 		647C76AC1E9D160500D48900 /* SalesForceHelperObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SalesForceHelperObjects.swift; sourceTree = "<group>"; };
 		647CFCA01E8519C700F71632 /* ReportDataManipulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportDataManipulator.swift; path = ../ReportDataManipulator.swift; sourceTree = "<group>"; };
 		647CFCA21E854BD600F71632 /* IntegratedServicesDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegratedServicesDataManager.swift; sourceTree = "<group>"; };
+		647E722D1EC9CC6300D8B4EB /* ServiceSelectionCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceSelectionCollectionViewController.swift; sourceTree = "<group>"; };
+		647E72311EC9D9AF00D8B4EB /* Services.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Services.storyboard; sourceTree = "<group>"; };
+		647E72331EC9F34500D8B4EB /* UIView + Anchors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView + Anchors.swift"; sourceTree = "<group>"; };
 		647F46DC1E89377900641F42 /* OvalShapeLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OvalShapeLayer.swift; sourceTree = "<group>"; };
 		648115F01EAA45930090B24B /* SendNewIntegrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendNewIntegrationViewController.swift; sourceTree = "<group>"; };
 		648603BC1EB9B49600E2FD34 /* AlertTypeSwitcherTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertTypeSwitcherTableViewCell.swift; sourceTree = "<group>"; };
@@ -539,6 +545,7 @@
 			children = (
 				A2425CB31E1CE8EE00DFDF91 /* UIImageExtension.swift */,
 				A23E79461E5AE83900EEBABE /* UIColorExtention.swift */,
+				647E72331EC9F34500D8B4EB /* UIView + Anchors.swift */,
 				A2A940CA1E1E70740088C7F1 /* UINavigationBurExtension.swift */,
 				A25F658E1E530CEA00AD30F5 /* UIViewControllerExtension.swift */,
 				64A32B911E5B394B008438DA /* String + Extension.swift */,
@@ -718,6 +725,7 @@
 				A27820711E001503009F83DB /* LaunchScreen.storyboard */,
 				645616451E67029B00643340 /* UserInfoTableViewCell.xib */,
 				A27820691E001503009F83DB /* Main.storyboard */,
+				647E72311EC9D9AF00D8B4EB /* Services.storyboard */,
 			);
 			name = StoryBoards;
 			sourceTree = "<group>";
@@ -822,6 +830,7 @@
 		A297F5C11E0823AD00F85963 /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
+				647E722D1EC9CC6300D8B4EB /* ServiceSelectionCollectionViewController.swift */,
 				A2279D851E14EC3B00669EB0 /* DashboardsNavigationViewController.swift */,
 				A2ACBD401E0D1DFA0079EF3D /* KPIsListTableViewController.swift */,
 				A261D9171E12854D00638C56 /* ChooseSuggestedKPITableViewController.swift */,
@@ -1092,6 +1101,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2EFE2DB1E2E454A00BA2956 /* funnel.css in Resources */,
+				647E72321EC9D9AF00D8B4EB /* Services.storyboard in Resources */,
 				A2EFE2D21E2E3FAA00BA2956 /* bar.html in Resources */,
 				A27820731E001503009F83DB /* LaunchScreen.storyboard in Resources */,
 				A26BEEAF1E3F886500C2D2AC /* stackArea.css in Resources */,
@@ -1170,6 +1180,7 @@
 				646B28231EC5D2F1002F0624 /* UpdateIntegratedToken.swift in Sources */,
 				A24A840E1E4898EF00440151 /* GoogleAnalyticsRequestDataCreator.swift in Sources */,
 				646E2AC11E7C070C0010E4BE /* Date + Extension.swift in Sources */,
+				647E722F1EC9CC6300D8B4EB /* ServiceSelectionCollectionViewController.swift in Sources */,
 				6413AFBF1E94CF6E00CC2ABB /* PipelineTableViewCell.swift in Sources */,
 				A26408F41E2239910034EEC2 /* ReportAndViewTableViewCell.swift in Sources */,
 				A22302C31E1F96B900C9D0B4 /* ReminderViewTableViewController.swift in Sources */,
@@ -1180,6 +1191,7 @@
 				A2A940CB1E1E70740088C7F1 /* UINavigationBurExtension.swift in Sources */,
 				A20B6BD01E31F5EC00FAF86A /* IntegratedKPI.swift in Sources */,
 				64688B651EB22E8200F2D015 /*  NetworkingManager.swift in Sources */,
+				647E72341EC9F34500D8B4EB /* UIView + Anchors.swift in Sources */,
 				641F74661E5B0F4200672534 /* WebViewController.swift in Sources */,
 				A25F658D1E52F5D500AD30F5 /* NumberChartViewController.swift in Sources */,
 				648603BD1EB9B49600E2FD34 /* AlertTypeSwitcherTableViewCell.swift in Sources */,

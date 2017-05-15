@@ -92,6 +92,7 @@ struct OurColors
     static let cyan = UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)
     static let gray = UIColor(red: 241/255, green: 241/255, blue: 241/255, alpha: 1.0)
     static let blue = UIColor(red: 0/255, green: 185/255, blue: 230/255, alpha: 1.0)
+    static let lightBlue = UIColor(red: 178/255, green: 234/255, blue: 242/255, alpha: 1.0)
 }
 
 public func validate(email: String? = nil, password: String? = nil) -> Bool {

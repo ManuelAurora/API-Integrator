@@ -769,7 +769,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 <rect key="frame" x="16" y="574" width="343" height="34"/>
                                 <subviews>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-cu-qgk">
-                                        <rect key="frame" x="0.0" y="0.0" width="101" height="34"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="34"/>
                                         <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <state key="normal" title="Security">
@@ -786,7 +786,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                         </connections>
                                     </button>
                                     <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PCg-CY-yE3">
-                                        <rect key="frame" x="122" y="0.0" width="100" height="34"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="34"/>
                                         <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="Jfd-U1-M3y"/>
@@ -806,7 +806,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                         </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsv-ER-n9H">
-                                        <rect key="frame" x="243" y="0.0" width="100" height="34"/>
+                                        <rect key="frame" x="343" y="0.0" width="0.0" height="34"/>
                                         <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="AxD-cE-ITD"/>
@@ -3281,7 +3281,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                     <navigationItem key="navigationItem" title="My KPIs" id="oQT-9r-ilM">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="54y-pu-HVR">
                             <connections>
-                                <segue destination="KdU-HZ-aWu" kind="show" identifier="AddKPI" id="xwc-gh-XR4"/>
+                                <action selector="showSelectServicesScreen" destination="Unc-k5-vIr" id="x3i-SV-gzB"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

@@ -1,7 +1,6 @@
 import UIKit
 import Foundation
 
-@IBDesignable
 class BottomBorderTextField: UITextField {
     
     // MARK: - Configuration
