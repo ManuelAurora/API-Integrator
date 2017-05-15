@@ -59,6 +59,7 @@ class CachedImageView: UIImageView
     open static let imageCache = NSCache<NSString, DiscardableImageCacheItem>()
     private var emptyImage = #imageLiteral(resourceName: "defaultProfile")
     private var urlStringForChecking: String?
+    private let nc = NotificationCenter.default
     
     init(cornerRadius: Int = 0) {
         super.init(frame: .zero)
@@ -68,15 +69,31 @@ class CachedImageView: UIImageView
         clipsToBounds = true
     }
     
+    deinit {
+        nc.removeObserver(self)
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
+        subscribeToNotifications()
         let cornerRadius = frame.height / 2
         layer.cornerRadius = CGFloat(cornerRadius)
         contentMode = .scaleAspectFill
         clipsToBounds = true
     }
  
+    private func subscribeToNotifications() {
+       
+        nc.addObserver(self,
+                       selector: #selector(self.removeImage),
+                       name: .userLoggedOut, object: nil)
+    }
+    
+    @objc private func removeImage() {
+        image = emptyImage
+    }
+    
     func loadImage(from urlString: String, completion: (()->())? = nil) {
         
         urlStringForChecking = urlString

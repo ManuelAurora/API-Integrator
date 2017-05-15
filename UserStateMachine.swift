@@ -200,14 +200,6 @@ class UserStateMachine
         regVc.passwordTextField?.text = ""
         regVc.repeatPasswordTextField?.text = ""
         
-        model.team.forEach { member in
-            if let key = member.photoLink as NSString?,
-                let cachedItem = CachedImageView.imageCache.object(forKey: key)
-            {
-                cachedItem.discardContentIfPossible()
-            }
-        }
-        
         model.team.forEach { context.delete($0) }
         model.kpis.removeAll()
         model.team.removeAll()
