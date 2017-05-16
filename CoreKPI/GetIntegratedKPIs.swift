@@ -36,11 +36,12 @@ class GetIntegratedKPIs: Request {
                                           ttl: Int?,
                                           upDateStr: String,
                                           kpiId: Int,
-                                          titleId: Int) {
+                                          titleId: Int,
+                                          options: [String]?) {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.persistentContainer.viewContext
-        let dateFormatter = DateFormatter()        
+        let dateFormatter = DateFormatter()
         let externalKpi = ExternalKPI(context: managedContext)
         
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss" //2017-01-27 08:19:00
@@ -55,17 +56,17 @@ class GetIntegratedKPIs: Request {
         switch servId
         {
         case .hubspotMarketing:
-             let request = NSFetchRequest<HubspotKPI>(entityName: "HubspotKPI")
-             var hsKpi: HubspotKPI!
-             
-             if let result = try? managedContext.fetch(request), let hKpi = result.first
-             {
+            let request = NSFetchRequest<HubspotKPI>(entityName: "HubspotKPI")
+            var hsKpi: HubspotKPI!
+            
+            if let result = try? managedContext.fetch(request), let hKpi = result.first
+            {
                 hsKpi = hKpi
-             }
-             else
-             {
+            }
+            else
+            {
                 hsKpi = HubspotKPI(context: managedContext)
-             }
+            }
             
             hsKpi.oauthToken = token
             hsKpi.refreshToken = refToken
@@ -92,10 +93,15 @@ class GetIntegratedKPIs: Request {
             hsKpi.oauthToken = token
             hsKpi.refreshToken = refToken
             hsKpi.validationDate = date as NSDate
+            
             externalKpi.serviceName = IntegratedServices.HubSpotCRM.rawValue
             externalKpi.hubspotKPI = hsKpi
             externalKpi.kpiName = ""
-            //extKpi.hsPipelineID
+            
+            if let pipelines = options, let pipeId = pipelines.first
+            {
+                externalKpi.hsPipelineID = pipeId
+            }
             
         case .quickbooks:
             let request = NSFetchRequest<QuickbooksKPI>(entityName: "QuickbooksKPI")
@@ -114,6 +120,12 @@ class GetIntegratedKPIs: Request {
             qbKpi.oAuthToken = token
             qbKpi.oAuthRefreshToken = refToken
             qbKpi.oAuthTokenExpiresAt = date as NSDate
+            
+            if options?.count == 2
+            {
+                qbKpi.realmId = options?[0]
+                qbKpi.oAuthTokenSecret = options?[1]
+            }
             
             externalKpi.serviceName = IntegratedServices.Quickbooks.rawValue
             externalKpi.quickbooksKPI = qbKpi
@@ -158,7 +170,7 @@ class GetIntegratedKPIs: Request {
             externalKpi.serviceName = IntegratedServices.SalesForce.rawValue
             externalKpi.saleForceKPI = sfKPI
             externalKpi.kpiName = ""
-        
+            
         case .paypal:
             let ppEntity = PayPal.payPalEntity
             
@@ -185,7 +197,7 @@ class GetIntegratedKPIs: Request {
         }
         catch let error {
             print(error.localizedDescription)
-        }        
+        }
     }
     
     func parsingJson(json: NSDictionary) -> [KPI]? {
@@ -207,6 +219,7 @@ class GetIntegratedKPIs: Request {
                         let userId = kpiData["user_id"] as! Int
                         let lastUpd = kpiData["last_update_date"] as? String
                         let titleID = kpiData["title"] as! Int
+                        let options = kpiData["options"] as? [String]
                         let service = IntegratedServicesServerID(rawValue: serviceId)!
                         
                         createEntitiesForService(service,
@@ -216,7 +229,8 @@ class GetIntegratedKPIs: Request {
                                                  ttl: ttl,
                                                  upDateStr: lastUpd ?? "",
                                                  kpiId: kpiId,
-                                                 titleId: titleID)
+                                                 titleId: titleID,
+                                                 options: options)
                     }
                     return kpis
                 }

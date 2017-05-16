@@ -50,9 +50,11 @@ class ReportDataManipulator
             case .PaidInvoicesByCustomers: method = QBPaidInvoicesByCustomers(with: [:])
             }
             
-            quickBooksDataManager.formListOfRequests(from: [(SettingName: kpiName,
-                                                             value: true)])            
+            let realmId = kpi.integratedKPI.quickbooksKPI?.realmId
             
+            quickBooksDataManager.companyID = realmId!
+            quickBooksDataManager.formListOfRequests(from: [(SettingName: kpiName,
+                                                             value: true)])
             createDataFromRequestWith(qBMethod: method)
             
         case .PayPal:

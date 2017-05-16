@@ -48,7 +48,7 @@ class HubSpotManager
     static let sharedInstance = HubSpotManager()
     
     let managedContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
+    let addRequest = AddKPI()
     var dealsArray: [HSDeal] = []
     var pagesArray: [HSPage] = []
     var contactsArray: [HSContact] = []    
@@ -193,9 +193,7 @@ class HubSpotManager
                     hubSpotMO.refreshToken   = refToken
                     hubSpotMO.validationDate = validTill as NSDate
                     
-                    try? self.managedContext.save()                    
-                    
-                    let addRequest = AddKPI()
+                    try? self.managedContext.save()
                     
                     let externalKPI = ExternalKPI(context: self.managedContext)
                     externalKPI.hubspotKPI = hubSpotMO                    
@@ -205,7 +203,7 @@ class HubSpotManager
                     if self.choosenCrmKpis.count > 0
                     {
                         externalKPI.serviceName = IntegratedServices.HubSpotCRM.rawValue
-                        addRequest.type = IntegratedServicesServerID.hubspotCRM.rawValue
+                        self.addRequest.type = IntegratedServicesServerID.hubspotCRM.rawValue
                         kpiIds = self.choosenCrmKpis.map { ext in
                             self.getCRMIdFor(kpi: ext)
                         }
@@ -213,7 +211,7 @@ class HubSpotManager
                     else
                     {
                         externalKPI.serviceName = IntegratedServices.HubSpotMarketing.rawValue
-                        addRequest.type = IntegratedServicesServerID.hubspotMarketing.rawValue
+                        self.addRequest.type = IntegratedServicesServerID.hubspotMarketing.rawValue
                         kpiIds = self.choosenMarketKpis.map { ext in
                             self.getMarketingIdFor(kpi: ext)
                         }
@@ -229,15 +227,10 @@ class HubSpotManager
                                        imageBacgroundColour: nil)
                     
                     
-                    addRequest.kpiIDs = kpiIds
-                    addRequest.addKPI(kpi: semenKPI, success: { result in
-                        print("Added new Internal KPI on server")
-                        NotificationCenter.default.post(name: .addedNewExtKpiOnServer,
-                                                        object: nil)
-                    }, failure: { error in
-                        print(error)
-                    })
-                                        
+                    self.addRequest.kpiIDs = kpiIds
+                    self.addRequest.kpi = semenKPI
+                    self.choosenCrmKpis.removeAll()
+                    self.choosenMarketKpis.removeAll()
                     self.nc.post(name: .hubspotTokenRecieved,
                                  object: nil)
                 }

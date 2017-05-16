@@ -292,7 +292,7 @@ class KPIsListTableViewController: UITableViewController
         request.getKPIsFromServer(success: { kpi in
             self.model.kpis = kpi
             self.arrayOfKPI = kpi
-            self.tableView.reloadData()//self.loadIntegratedKpis()
+            self.loadIntegratedKpis()
             self.refreshControl?.endRefreshing()
             //self.loadReports()
             //NotificationCenter.default.post(name: .modelDidChanged, object: nil)
@@ -331,6 +331,7 @@ class KPIsListTableViewController: UITableViewController
             self.loadExternal()
         }) { error in
             print(error)
+            self.tableView.reloadData()
         }
     }
     

@@ -12,9 +12,11 @@ class AddKPI: Request
 {
     var type: Int = 0
     var kpiIDs = [Int]()
+    var kpi: KPI!
+    var pipelineIds = [String]()
     
-    func addKPI(kpi: KPI, success: @escaping (_ KPIid: [Int]) -> (), failure: @escaping failure) {
-        
+    func addKPI(success: @escaping (_ KPIid: [Int]) -> (), failure: @escaping failure) {
+                
         var data: [String : Any] = [:]
         var category = ""
         
@@ -61,6 +63,7 @@ class AddKPI: Request
             category = "/kpi/addIntegratedKPI"
             
             let extKPI = kpi.integratedKPI
+            var items: [jsonDict] = []
             var token: String?
             var refreshToken: String?
             var ttl: Int?
@@ -76,13 +79,55 @@ class AddKPI: Request
                         token = extKPI?.googleAnalyticsKPI?.oAuthToken
                         refreshToken = extKPI?.googleAnalyticsKPI?.oAuthRefreshToken
                         
+                        var options = [String]()
+                        
+                        kpiIDs.forEach { id in
+                            if let siteUrl = extKPI?.googleAnalyticsKPI?.siteURL,
+                                let viewID = extKPI?.googleAnalyticsKPI?.viewID
+                            {
+                                options.append(siteUrl)
+                                options.append(viewID)
+                                
+                                items.append(["kpi_id": id,
+                                              "kpi_options": options
+                                    ])
+                            }
+                        }
+                        
                     case IntegratedServices.HubSpotCRM.rawValue,
                          IntegratedServices.HubSpotMarketing.rawValue:
                         date = extKPI?.hubspotKPI?.validationDate
                         token = extKPI?.hubspotKPI?.oauthToken
                         refreshToken = extKPI?.hubspotKPI?.refreshToken
+                        
+                        kpiIDs.forEach { id in
+                            var item: jsonDict = ["kpi_id": id,
+                                                  "kpi_options":[]
+                            ]
+                            
+                            if id == 34 || id == 39
+                            {
+                                pipelineIds.forEach {
+                                    item["kpi_id"] = id
+                                    item["kpi_options"] = [$0]
+                                    items.append(item)
+                                }
+                                return
+                            }
+                            
+                            items.append(item)
+                        }
                                                
                     case IntegratedServices.Quickbooks.rawValue:
+                        let realmId = extKPI?.quickbooksKPI?.realmId!
+                        let tSecret = extKPI?.quickbooksKPI?.oAuthTokenSecret!
+                        
+                        kpiIDs.forEach { id in
+                            items.append(["kpi_id": id,
+                                          "kpi_options": [realmId, tSecret]
+                                ])
+                        }
+                        
                         token = extKPI?.quickbooksKPI?.oAuthToken
                         refreshToken = "NoToken"
                         date = Calendar.current.date(byAdding: .month,
@@ -96,11 +141,29 @@ class AddKPI: Request
                                                      value: 5,
                                                      to: Date()) as NSDate!
                         
+                        kpiIDs.forEach { id in
+                            var options = [String]()
+                            
+                            if let instUrl = kpi.integratedKPI.saleForceKPI?.instance_url
+                            {
+                                options.append(instUrl)
+                            }
+                            
+                            items.append(["kpi_id": id,
+                                          "kpi_options": options
+                                ])
+                        }
+                        
                     case IntegratedServices.PayPal.rawValue:
                         let apiUserName = extKPI?.payPalKPI?.apiUsername ?? ""
                         let apiPassword = extKPI?.payPalKPI?.apiPassword ?? ""
                         let apiSignature = extKPI?.payPalKPI?.apiSignature ?? ""
                         
+                        kpiIDs.forEach { id in
+                            items.append(["kpi_id": id,
+                                          "kpi_options": []
+                                ])
+                        }
                         token = "\(apiUserName) \(apiPassword)"
                         refreshToken = apiSignature
                         date = Calendar.current.date(byAdding: .month,
@@ -118,10 +181,10 @@ class AddKPI: Request
                     "refresh_token": refreshToken ?? "",
                     "ttl": ttl ?? 0,
                     "token_type": type,
-                    "items": kpiIDs
+                    "items": items
             ]
         }
-        //token, token_type, refresh_token, ttl, items[ kpi_id_1, kpi_id_2….]
+        
         self.getJson(category: category, data: data,
                      success: { json in
                         if let id = self.parsingJson(json: json) {

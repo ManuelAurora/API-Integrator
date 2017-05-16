@@ -21,8 +21,7 @@ typealias urlStringWithMethod = (
 typealias success = () -> ()
 
 class QuickBookDataManager
-{
-    
+{    
     var choosenKpis = [Int]()
     
     lazy var sessionManager: SessionManager =  {
@@ -31,14 +30,9 @@ class QuickBookDataManager
         return sm
     }()
     
-    var quickbooksKPIManagedObject: QuickbooksKPI {
-        do {
+    var quickbooksKPIManagedObjects: [QuickbooksKPI]? {
             let fetchQBKPI = NSFetchRequest<QuickbooksKPI>(entityName: "QuickbooksKPI")
-            let result = try? managedContext.fetch(fetchQBKPI)
-            let qbkpi = (result == nil) || result!.isEmpty ? QuickbooksKPI() : result![0]
-            
-            return qbkpi
-        }
+            return try? managedContext.fetch(fetchQBKPI)
     }
     
     enum ResultArrayType {
@@ -104,7 +98,7 @@ class QuickBookDataManager
     var queryMethod: QuickBookMethod?
     var companyID: String {
         set {
-            return serviceParameters[.companyId] = companyID
+            serviceParameters[.companyId] = newValue
         }
         get {
             return serviceParameters[.companyId]!
@@ -180,10 +174,8 @@ class QuickBookDataManager
         
     private func formUrlPath(method: QuickBookMethod) -> String {
         
-        let companyId = serviceParameters[AuthenticationParameterKeys.companyId]!
-        
         let fullUrlPath = self.urlBase +
-            companyId +
+            companyID +
             method.methodName.rawValue + "?" +
             method.queryParameters.stringFromHttpParameters()
 
@@ -239,8 +231,8 @@ class QuickBookDataManager
         
         addRequest.type = IntegratedServicesServerID.quickbooks.rawValue
         addRequest.kpiIDs = choosenKpis
-        
-        addRequest.addKPI(kpi: semenKPI, success: { result in
+        addRequest.kpi = semenKPI
+        addRequest.addKPI(success: { result in
             print("Added new Internal KPI on server")
         }, failure: { error in
             print(error)
@@ -525,7 +517,7 @@ class QuickBookDataManager
     func doOAuthQuickbooks(_ success: @escaping success) {
         
         let callbackUrlString = serviceParameters[.callbackUrl]
-        let infoFetch = NSFetchRequest<QuickbooksKPI>(entityName: "QuickbooksKPI")
+        let qbEntity = NSFetchRequest<QuickbooksKPI>(entityName: "QuickbooksKPI")
 
         guard let callBackUrl = callbackUrlString else { print("DEBUG: Callback URL not found!"); return }
         
@@ -537,7 +529,7 @@ class QuickBookDataManager
             withCallbackURL: callBackUrl,
             success: { credential, response, parameters in
                 do {
-                    let quickbooksKPIInfo = try self.managedContext.fetch(infoFetch)
+                    let quickbooksKPIInfo = try self.managedContext.fetch(qbEntity)
                     
                     if let currentCompanyId = self.serviceParameters[.companyId]
                     {
@@ -545,7 +537,7 @@ class QuickBookDataManager
                         
                         if filteredArray.count > 0
                         {
-                            let kpi = filteredArray[0]
+                            let kpi = filteredArray[0]                           
                             kpi.oAuthToken = credential.oauthToken
                             kpi.oAuthTokenSecret = credential.oauthTokenSecret
                             kpi.oAuthRefreshToken = credential.oauthRefreshToken

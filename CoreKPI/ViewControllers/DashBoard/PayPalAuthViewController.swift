@@ -13,6 +13,7 @@ class PayPalAuthViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var activateButton: UIBarButtonItem!
     
+    weak var extVC: ExternalKPIViewController!
     var ChooseSuggestedKPIVC: ChooseSuggestedKPITableViewController!
     var selectedService: IntegratedServices!
     var serviceKPI: [(SettingName: String, value: Bool)]!
@@ -67,15 +68,7 @@ class PayPalAuthViewController: UIViewController {
         payPalKPI.apiPassword = apiPassword
         payPalKPI.apiSignature = apiSignature
         
-        var settingDelegate: updateSettingsDelegate!
-        ChooseSuggestedKPIVC.integrated = selectedService
-        settingDelegate = ChooseSuggestedKPIVC
-        settingDelegate.updateSettingsArray(array: serviceKPI)
-        
-        let externalCredentialsDelegate: UpdateExternalKPICredentialsDelegate = ChooseSuggestedKPIVC
-        externalCredentialsDelegate.updateCredentials(googleAnalyticsObject: nil, payPalObject: payPalKPI, salesForceObject: nil)
-        let stackVC = navigationController?.viewControllers
-        _ = navigationController?.popToViewController((stackVC?[(stackVC?.count)! - 4])!, animated: true)
+        extVC.saveOauth2Data(googleAnalyticsObject: nil, payPalObject: payPalKPI, salesForceObject: nil)
     }
 
     func checkInputValues() -> Bool {

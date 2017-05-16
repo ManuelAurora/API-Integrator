@@ -24,6 +24,7 @@ class ExternalKPIViewController: OAuthViewController {
         return HubSpotManager.sharedInstance
     }
     
+    let sfManager = SalesforceRequestManager.shared
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     lazy var managedContext: NSManagedObjectContext = {
@@ -46,7 +47,7 @@ class ExternalKPIViewController: OAuthViewController {
     }()    
     
     weak var ChoseSuggestedVC: ChooseSuggestedKPITableViewController!
-    var selectedService: IntegratedServices!
+    var selectedService: IntegratedServices = .none
     var serviceKPI: [(SettingName: String, value: Bool)]!
     var tokenDelegate: UpdateExternalKPICredentialsDelegate!
     var settingDelegate: updateSettingsDelegate!
@@ -83,7 +84,7 @@ class ExternalKPIViewController: OAuthViewController {
             }
         }
         if !kpiNotSelected {
-            switch (selectedService)! {
+            switch (selectedService) {
             case .Quickbooks:
                 selectedQBKPIs = serviceKPI.filter { $0.value == true }
                 
@@ -157,13 +158,21 @@ class ExternalKPIViewController: OAuthViewController {
     
     @objc private func choosePipelines() {
         
-        ui(block: false)
         let salesFunnel = HubSpotCRMKPIs.SalesFunnel.rawValue
         let dealStageFunnel = HubSpotCRMKPIs.DealStageFunnel.rawValue
+        
         guard (selectedHSKPIs.filter { $0.SettingName == salesFunnel }).count > 0 ||
-              (selectedHSKPIs.filter { $0.SettingName == dealStageFunnel}).count > 0
+            (selectedHSKPIs.filter { $0.SettingName == dealStageFunnel}).count > 0
             else {
-                navigationController?.popToRootViewController(animated: true)
+                hubSpotManager.addRequest.addKPI(success: { result in
+                    print("Added new Internal KPI on server")
+                    self.navigationController?.popToRootViewController(animated: true)
+                    NotificationCenter.default.post(name: .addedNewExtKpiOnServer,
+                                                    object: nil)
+                }, failure: { error in
+                    print(error)
+                })
+                
                 return
         }
         
@@ -209,7 +218,7 @@ extension ExternalKPIViewController {
     // MARK: - do authentification
     func doAuthService() {
         
-        switch selectedService! {
+        switch selectedService {
         case .SalesForce:
             doOAuthSalesforce()
         case .Quickbooks:
@@ -245,13 +254,10 @@ extension ExternalKPIViewController {
             {                
                 navigationController.popToRootViewController(animated: true)
             }
-            
-            //self.quickBookDataManager.formListOfRequests(from: self.selectedQBKPIs)
-            //self.quickBookDataManager.fetchDataFromIntuit(isCreation: true)
-            
+                    
             let externalKPI = ExternalKPI()
             let addRequest = AddKPI()
-            let qbEntity = self.quickBookDataManager.quickbooksKPIManagedObject
+            let qbEntities = self.quickBookDataManager.quickbooksKPIManagedObjects
             var kpiIDs = [Int]()
                 
             self.selectedQBKPIs.forEach { kpi in
@@ -263,7 +269,9 @@ extension ExternalKPIViewController {
             }
             
             externalKPI.kpiName = "SemenKPI"
-            externalKPI.quickbooksKPI = qbEntity
+            externalKPI.quickbooksKPI = qbEntities?.filter({
+                $0.realmId == self.quickBookDataManager.serviceParameters[.companyId]
+            }).first
             externalKPI.serviceName = IntegratedServices.Quickbooks.rawValue
             addRequest.type = IntegratedServicesServerID.quickbooks.rawValue
             
@@ -274,7 +282,8 @@ extension ExternalKPIViewController {
                                imageBacgroundColour: nil)
                         
             addRequest.kpiIDs = kpiIDs
-            addRequest.addKPI(kpi: semenKPI, success: { result in
+            addRequest.kpi = semenKPI
+            addRequest.addKPI(success: { result in
                 print("Added new Internal KPI on server")
                 NotificationCenter.default.post(name: .addedNewExtKpiOnServer,
                                                 object: nil)
@@ -309,7 +318,7 @@ extension ExternalKPIViewController {
     // MARK: PayPal
     func doOAuthPayPal(){
         let payPalAuthVC = storyboard?.instantiateViewController(withIdentifier: .payPalAuthVC) as! PayPalAuthViewController
-        payPalAuthVC.ChooseSuggestedKPIVC = ChoseSuggestedVC
+        payPalAuthVC.extVC = self 
         payPalAuthVC.serviceKPI = serviceKPI
         payPalAuthVC.selectedService = selectedService
         show(payPalAuthVC, sender: nil)
@@ -344,14 +353,141 @@ extension ExternalKPIViewController {
     
     //MARK: save Oauth2.0 credentials data
     func saveOauth2Data(googleAnalyticsObject: GoogleKPI?, payPalObject: PayPalKPI?, salesForceObject: SalesForceKPI?) {
-    
-        ChoseSuggestedVC.integrated = selectedService
-        settingDelegate = ChoseSuggestedVC
-        settingDelegate.updateSettingsArray(array: serviceKPI)
-        tokenDelegate = ChoseSuggestedVC
-        tokenDelegate.updateCredentials(googleAnalyticsObject: googleAnalyticsObject, payPalObject: payPalObject, salesForceObject: salesForceObject)
+
+        let idsForServer = getIdsForSelectedKpis(selectedService)
+        
+        checkIsTtlValid(idsForServer, selectedService) {
+            self.addOnServerSelectedKpis(idsForServer, service: self.selectedService)
+            
+            let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
+            _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
+        }
+        
         let stackVC = navigationController?.viewControllers
         _ = navigationController?.popToViewController((stackVC?[(stackVC?.count)! - 3])!, animated: true)
+    }
+    
+    private func getIdsForSelectedKpis(_ service: IntegratedServices) -> [Int] {
+        
+        var idsForServer = [Int]()
+        
+        switch service
+        {
+        case .SalesForce:
+            serviceKPI.forEach { kpi in
+                guard kpi.value else { return }
+                
+                if let sfKpi = SalesForceKPIs(rawValue: kpi.SettingName)
+                {
+                    let id =  sfManager.getServerIdFor(kpi: sfKpi)
+                    idsForServer.append(id)
+                }
+            }
+            
+        case .GoogleAnalytics:
+            serviceKPI.forEach { kpi in
+                guard kpi.value else { return }
+                
+                if let gaKpi = GoogleAnalyticsKPIs(rawValue: kpi.SettingName)
+                {
+                    let id =  GAnalytics.getServerIdFor(kpi: gaKpi)
+                    idsForServer.append(id)
+                }
+            }
+            
+        case .PayPal:
+            serviceKPI.forEach { kpi in
+                guard kpi.value else { return }
+                
+                if let payKpi = PayPalKPIs(rawValue: kpi.SettingName)
+                {
+                    let id =  PayPal.getServerIdFor(kpi: payKpi)
+                    idsForServer.append(id)
+                }
+            }
+            
+        default: break
+        }
+        
+        return idsForServer
+    }
+    
+    private func addOnServerSelectedKpis(_ ids: [Int], service: IntegratedServices) {
+        
+        let externalKPI = ExternalKPI(context: context)
+        let addKpi      = AddKPI()
+        
+        addKpi.kpiIDs = ids
+        externalKPI.kpiName = "SemenKPI"
+        
+        switch service
+        {
+        case .GoogleAnalytics:
+            let gaEntity = GAnalytics.googleAnalyticsEntity
+            
+            externalKPI.googleAnalyticsKPI = gaEntity
+            externalKPI.serviceName = IntegratedServices.GoogleAnalytics.rawValue
+            addKpi.type = IntegratedServicesServerID.googleAnalytics.rawValue
+            
+        case .SalesForce:
+            let sfEntity  = sfManager.fetchSalesForceKPIEntity()
+            
+            externalKPI.saleForceKPI = sfEntity!
+            externalKPI.serviceName = IntegratedServices.SalesForce.rawValue
+            addKpi.type = IntegratedServicesServerID.salesforceCRM.rawValue
+            
+        case .PayPal:
+            
+            guard let payEntity = PayPal.payPalEntity else { return }
+            
+            externalKPI.payPalKPI = payEntity
+            externalKPI.serviceName = IntegratedServices.PayPal.rawValue
+            addKpi.type = IntegratedServicesServerID.paypal.rawValue
+            
+        default: break
+        }
+        
+        let semenKPI = KPI(kpiID: -1, typeOfKPI: .IntegratedKPI,
+                           integratedKPI: externalKPI,
+                           createdKPI: nil,
+                           imageBacgroundColour: nil)
+        
+        addKpi.kpi = semenKPI
+        addKpi.addKPI(success: { ids in
+            print("DEBUG: KPIS ADDED ON SERV")
+            NotificationCenter.default.post(name: .addedNewExtKpiOnServer, object: nil)
+        }, failure: { error in
+            print(error)
+        })
+        
+    }
+    
+    private func checkIsTtlValid(_ kpis: [Int], _: IntegratedServices,
+                                 completion: @escaping ()->())  {
+       
+        switch selectedService
+        {
+        case .GoogleAnalytics:
+            let entity = GAnalytics.googleAnalyticsEntity
+            
+            if let expDate = entity.oAuthTokenExpiresAt
+            {
+                let ttl = AddKPI.getSecondsFrom(date: expDate)
+                
+                if ttl < 0
+                {
+                    IntegratedServices.GoogleAnalytics.updateTokenFor(kpiID: kpis[0]) {
+                        completion()
+                    }
+                }
+                else
+                {
+                    completion()
+                }
+            }
+            
+        default: completion(); break
+        }
     }
 }
 
@@ -361,16 +497,33 @@ extension ExternalKPIViewController: HubspotSalesFunnelMakerProtocol
         
         let choosenKPI = serviceKPI.filter {
             ($0.SettingName == HubSpotCRMKPIs.SalesFunnel.rawValue && $0.value == true) ||
-            ($0.SettingName == HubSpotCRMKPIs.DealStageFunnel.rawValue && $0.value == true)
+                ($0.SettingName == HubSpotCRMKPIs.DealStageFunnel.rawValue && $0.value == true)
         }
         
         choosenKPI.forEach { kpi in
-            pipelines.forEach { pipe in                
-//                hubSpotManager.createNewEntityFor(service: selectedService,
-//                                                  kpiName: kpi.SettingName,
-//                                                  pipelineID: pipe.pipelineId)
+            if let crmKpi = HubSpotCRMKPIs(rawValue: kpi.SettingName)
+            {
+                let kpiId = hubSpotManager.getCRMIdFor(kpi: crmKpi)
+                
+                if !hubSpotManager.addRequest.kpiIDs.contains(kpiId)
+                {
+                    hubSpotManager.addRequest.kpiIDs.append(kpiId)
+                }
             }
         }
+        
+        pipelines.forEach { pipe in
+            hubSpotManager.addRequest.pipelineIds.append(pipe.pipelineId)
+        }
+                
+        hubSpotManager.addRequest.addKPI(success: { result in
+            print("Added new Internal KPI on server")
+            self.navigationController?.popToRootViewController(animated: true)
+            NotificationCenter.default.post(name: .addedNewExtKpiOnServer,
+                                            object: nil)
+        }, failure: { error in
+            print(error)
+        })
     }
 }
 

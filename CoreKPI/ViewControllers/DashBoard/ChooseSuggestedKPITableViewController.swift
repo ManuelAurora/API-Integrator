@@ -1236,8 +1236,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                            createdKPI: nil,
                            imageBacgroundColour: nil)
         
-        
-        addKpi.addKPI(kpi: semenKPI, success: { ids in
+        addKpi.kpi = semenKPI
+        addKpi.addKPI(success: { ids in
             print("DEBUG: KPIS ADDED ON SERV")
             NotificationCenter.default.post(name: .addedNewExtKpiOnServer, object: nil)
         }, failure: { error in
@@ -1417,8 +1417,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                 TypeOfChart(rawValue: secondChartName)! : nil
             
             let request = AddKPI(model: model)
-            
-            request.addKPI(kpi: kpi, success: { id in
+            request.kpi = kpi
+            request.addKPI(success: { id in
                 let kpiListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
                 kpi.id = id[0]
                 self.delegate = kpiListVC
