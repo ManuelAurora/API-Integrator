@@ -178,7 +178,7 @@ extension ReportAndViewKPITableViewController {
                         case 1:
                             var description = "No Description"
                             
-                            if let descr = kpiDescription, descr != ""
+                            if let descr = kpiDescription, descr != "", descr != " "
                             {
                                 description = descr
                             }

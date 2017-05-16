@@ -388,7 +388,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.isScrollEnabled = false
+        tableView.isScrollEnabled = true
         tableView.isUserInteractionEnabled = isInteractive
         navigationItem.rightBarButtonItem?.isEnabled = false
         

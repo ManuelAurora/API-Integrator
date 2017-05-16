@@ -3888,7 +3888,7 @@ The main advantage of a computer audio player is that you can play your audio CD
         <!--New KPI-->
         <scene sceneID="kpp-aF-FyE">
             <objects>
-                <tableViewController id="KdU-HZ-aWu" customClass="ChooseSuggestedKPITableViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ChooseSuggestedKpi" useStoryboardIdentifierAsRestorationIdentifier="YES" id="KdU-HZ-aWu" customClass="ChooseSuggestedKPITableViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="46" sectionFooterHeight="28" id="aqi-nN-AWz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

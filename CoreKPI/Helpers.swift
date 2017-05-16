@@ -57,7 +57,8 @@ extension UIStoryboard
         case choosePipelineVC       = "hubspotPipelineController"
         case alertSettingsTableVC   = "AddAlert"
         case questionDetailTableVC  = "QuestionDetailTableViewController"
-        case integrationRequestVC   = "SendNewIntegrationViewController"        
+        case integrationRequestVC   = "SendNewIntegrationViewController"
+        case createNewCustomKpi     = "ChooseSuggestedKpi"
     }
     
     func instantiateViewController(withIdentifier: StoryboardIDs) -> UIViewController {
