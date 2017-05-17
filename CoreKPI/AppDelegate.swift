@@ -43,16 +43,80 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if !accepted {
                 print("Notification access denied.")
             }
+            application.registerForRemoteNotifications()
         }
         
-        let later = UNNotificationAction(identifier: "remindLater", title: "Remind me later", options: [])
-        let addReport = UNNotificationAction(identifier: "addReport", title: "Add report", options: [.foreground])
-        let category = UNNotificationCategory(identifier: "myCategory", actions: [addReport, later], intentIdentifiers: [], options: [])
+        UNUserNotificationCenter.current().delegate = self
+//        
+//        let later = UNNotificationAction(identifier: "remindLater", title: "Remind me later", options: [])
+//        let addReport = UNNotificationAction(identifier: "addReport", title: "Add report", options: [.foreground])
+//        let category = UNNotificationCategory(identifier: "myCategory", actions: [addReport, later], intentIdentifiers: [], options: [])
+//        UNUserNotificationCenter.current().setNotificationCategories([category])
+        
+        //scheduleLocalNotification()
+        
+        let viewAction = UNNotificationAction(identifier: "View_ID",
+                                              title: "View",
+                                              options: .foreground)
+        
+        let category = UNNotificationCategory(identifier: "Alert_Category",
+                                              actions: [viewAction],
+                                              intentIdentifiers: ["INTENT"],
+                                              options: [])
+        
         UNUserNotificationCenter.current().setNotificationCategories([category])
-                
+        
+        if let launchOptions = launchOptions?[.remoteNotification] as? [String: AnyObject]
+        {
+            let aps = launchOptions["aps"] as? jsonDict
+        }
+        
         return true
     }
     
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
+        var tokenString = ""
+        
+        deviceToken.withUnsafeBytes { (bytes: UnsafePointer<CChar>) -> Void in
+            
+            for i in 0..<deviceToken.count
+            {
+                tokenString += String(format: "%02.2hhx", arguments: [bytes[i]])
+            }
+        }
+        
+        print(tokenString)
+    }
+    
+    func application(_ application: UIApplication,
+                     didReceiveRemoteNotification userInfo: [AnyHashable : Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+        
+        
+    }
+    
+    private func scheduleLocalNotification() {
+        
+        let notificationContent = UNMutableNotificationContent()
+        
+        notificationContent.title = "This is title"
+        notificationContent.subtitle = "The subtitle"
+        notificationContent.body = "The Body. Movin"
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        let notifRequest = UNNotificationRequest(identifier: "cocoacasts_local_notification",
+                                                 content: notificationContent,
+                                                 trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(notifRequest) { error in
+            guard error == nil else {
+                print("Unable to Add Notification Request (\(error!), \(error!.localizedDescription))")
+                return
+            }
+        }
+    }
     
     func scheduleNotification(at date: Date, title: String, message: String) {
         
@@ -80,6 +144,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        completionHandler([.alert])
+    }
+    
+ 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
