@@ -241,7 +241,6 @@ class AlertsListTableViewController: UITableViewController {
             }
         }
     }
-    
 }
 
 //MARK: - AlertButtonCellDelegate method

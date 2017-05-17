@@ -27,7 +27,13 @@ class EditAlert: Request {
         let timeZoneNumber  = timeZone?.replacingOccurrences(of: "GMT", with: "")
         
         
-        let data: [String : Any] = ["kpi_id" : alert.sourceID, "methods" : notificationArray, "condition" : alert.condition!, "condition_value" : alert.threshold, "days" : alert.onlyWorkHours ? 1 : 0, "timezone" : timeZoneNumber!]
+        let data: [String : Any] = ["kpi_id" : alert.sourceID,
+                                    "alert_id": alert.alertID,
+                                    "methods" : notificationArray,
+                                    "condition" : alert.condition!,
+                                    "condition_value" : alert.threshold,
+                                    "days" : alert.onlyWorkHours ? 1 : 0,
+                                    "timezone" : timeZoneNumber!]
         
         self.getJson(category: "/alerts/editAlert", data: data,
                      success: { json in

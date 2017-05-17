@@ -31,9 +31,17 @@ class AddAlert: Request {
         
         self.getJson(category: "/alerts/addAlert", data: data,
                      success: { json in
-                        if self.parsingJson(json: json) {
+                        if self.parsingJson(json: json)
+                        {
+                            if let dt = json["data"] as? jsonDict,
+                                let alertId = dt["alert_id"] as? Int64
+                            {
+                                alert.alertID = alertId
+                            }
                             success()
-                        } else {
+                        }
+                        else
+                        {
                             failure(self.errorMessage ?? "Wrong data from server")
                         }
         },

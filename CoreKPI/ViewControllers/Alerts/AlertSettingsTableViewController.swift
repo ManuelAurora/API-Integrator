@@ -44,7 +44,7 @@ class AlertSettingsTableViewController: UITableViewController {
     //MARK: Reminders
     var timeInterval = AlertTimeInterval.Daily
     var timeIntervalArray: [(SettingName: String, value: Bool)] = []
-    var creationMode: СreationMode!
+    var creationMode: СreationMode = .createNew
     var deliveryDay: String?
     var deliveryDayOfWeekArray: [(SettingName: String, value: Bool)] = []
     var deliveryDayOfMounthArray: [(SettingName: String, value: Bool)] = []
@@ -244,7 +244,7 @@ class AlertSettingsTableViewController: UITableViewController {
             {
                 var kpiName = ""
                 
-                if dataSource != nil
+                if dataSource != nil && creationMode == .createNew
                 {
                     return segmentCell
                 }

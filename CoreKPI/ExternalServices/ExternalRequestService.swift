@@ -14,7 +14,7 @@ import CoreData
 class ExternalRequest {
     
     var errorMessage: String?
-    let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext   
+    let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     var oauthToken: String
     var oauthRefreshToken: String
     var oauthTokenExpiresAt: Date
@@ -87,21 +87,27 @@ class ExternalRequest {
         
         request(accessTokenURL, method: .post, parameters: params, headers: headers).responseJSON { response in
             if let data = response.data {
-                
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
-                    if let jsonDictionary = json {
-                        if let token = jsonDictionary["access_token"] as? String,
-                            let ttl = jsonDictionary["expires_in"] as? Int {
+                    if let jsonDictionary = json,
+                        let token = jsonDictionary["access_token"] as? String
+                    {
+                        if let ttl = jsonDictionary["expires_in"] as? Int
+                        {
                             success((token: token, ttl: ttl))
-                        } else {
-                            failure("Error refreshing!")
                         }
-                    } else {
-                        failure("")
+                        else if let ttlString = jsonDictionary["issued_at"] as? String,
+                            let ttl = Int(ttlString)
+                        {
+                            success((token: token, ttl: ttl))
+                        }
                     }
-                    
-                } catch {
+                    else
+                    {
+                        failure("Error refreshing!")
+                    }
+                }
+                catch {
                     guard response.result.isSuccess else {
                         let error = response.result.error
                         if let error = error, (error as NSError).code != NSURLErrorCancelled {
@@ -125,19 +131,19 @@ class ExternalRequest {
             }, failure: { error in
                 failure(error)
             })
-                  
+            
         case .SalesForce:
             doOAuthSalesforce(viewController: viewController, success: { saleForceKPI in
                 success((nil, nil, saleForceKPI))
             }, failure: {error in
                 failure(error)
             })
-//        case .PayPal:
-//            doOAuthPayPal(viewController: viewController, success: { credential in
-//                success(credential)
-//            }, failure: {error in
-//                failure(error)
-//            })
+            //        case .PayPal:
+            //            doOAuthPayPal(viewController: viewController, success: { credential in
+            //                success(credential)
+            //            }, failure: {error in
+            //                failure(error)
+        //            })
         default:
             break
         }
@@ -161,7 +167,7 @@ class ExternalRequest {
                 googleKPI.oAuthToken = credential.oauthToken
                 googleKPI.oAuthRefreshToken = credential.oauthRefreshToken
                 googleKPI.oAuthTokenExpiresAt = credential.oauthTokenExpiresAt
-                 as NSDate?
+                    as NSDate?
                 success(googleKPI)
         },
             failure: { error in
@@ -169,26 +175,26 @@ class ExternalRequest {
         })
     }
     
-//    private func doOAuthPayPal(viewController: UIViewController, success: @escaping (_ credential: OAuthSwiftCredential) -> (), failure: @escaping failure) {
-//        let oauthswift = OAuth2Swift(
-//            consumerKey:    "AdA0F4asoYIoJoGK1Mat3i0apr1bdYeeRiZ6ktSgPrNmAMIQBO_TZtn_U80H7KwPdmd72CJhUTY5LYJH",
-//            consumerSecret: "EBA8OIWD2WLj7Z0hytEiKl3F3PbdKGrYe-kqGOl-YY25R3M05H6RCfoPhXauYy7_nQUjsQ_Pss7LNBgI",
-//            authorizeUrl:   "https://www.sandbox.paypal.com/signin/authorize",
-//            accessTokenUrl: "https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice",
-//            responseType:   "code"
-//        )
-//        oauthswift.authorizeURLHandler = SafariURLHandler(viewController: viewController, oauthSwift: oauthswift)
-//        let state = generateState(withLength: 20)
-//        
-//        let _ = oauthswift.authorize(
-//            withCallbackURL: URL(string: "https://appauth.demo-app.io:/oauth2redirect")!, scope: "", state: state,
-//            success: { credential, response, parameters in
-//                success(credential)
-//        },
-//            failure: { error in
-//                failure(error.description)
-//        })
-//    }
+    //    private func doOAuthPayPal(viewController: UIViewController, success: @escaping (_ credential: OAuthSwiftCredential) -> (), failure: @escaping failure) {
+    //        let oauthswift = OAuth2Swift(
+    //            consumerKey:    "AdA0F4asoYIoJoGK1Mat3i0apr1bdYeeRiZ6ktSgPrNmAMIQBO_TZtn_U80H7KwPdmd72CJhUTY5LYJH",
+    //            consumerSecret: "EBA8OIWD2WLj7Z0hytEiKl3F3PbdKGrYe-kqGOl-YY25R3M05H6RCfoPhXauYy7_nQUjsQ_Pss7LNBgI",
+    //            authorizeUrl:   "https://www.sandbox.paypal.com/signin/authorize",
+    //            accessTokenUrl: "https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice",
+    //            responseType:   "code"
+    //        )
+    //        oauthswift.authorizeURLHandler = SafariURLHandler(viewController: viewController, oauthSwift: oauthswift)
+    //        let state = generateState(withLength: 20)
+    //
+    //        let _ = oauthswift.authorize(
+    //            withCallbackURL: URL(string: "https://appauth.demo-app.io:/oauth2redirect")!, scope: "", state: state,
+    //            success: { credential, response, parameters in
+    //                success(credential)
+    //        },
+    //            failure: { error in
+    //                failure(error.description)
+    //        })
+    //    }
     
     private func doOAuthSalesforce(viewController: UIViewController, success: @escaping (_ saleForceKPI: SalesForceKPI) -> (), failure: @escaping failure) {
         let oauthswift = OAuth2Swift(
@@ -207,7 +213,7 @@ class ExternalRequest {
                 let salesForceKPI: SalesForceKPI!
                 let fetchRequest = NSFetchRequest<SalesForceKPI>(entityName: "SalesForceKPI")
                 let result       = try? self.context.fetch(fetchRequest)
-                    
+                
                 if let result = result, result.count > 0
                 {
                     salesForceKPI = result[0]
@@ -216,7 +222,7 @@ class ExternalRequest {
                 {
                     salesForceKPI = SalesForceKPI(context: self.context)
                 }
-                                
+                
                 if let data = response?.data {
                     
                     do {
@@ -238,5 +244,5 @@ class ExternalRequest {
                 failure(error.description)
         })
     }
-
+    
 }

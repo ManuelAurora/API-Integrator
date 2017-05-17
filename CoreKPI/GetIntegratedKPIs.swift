@@ -171,6 +171,11 @@ class GetIntegratedKPIs: Request {
                 sfKPI = SalesForceKPI(context: managedContext)
             }
             
+            if let options = options, options.count > 0
+            {
+                sfKPI.instance_url = options[0]
+            }
+            
             sfKPI.oAuthToken = token
             sfKPI.oAuthRefreshToken = refToken
             sfKPI.oAuthTokenExpiresAt = date as NSDate
