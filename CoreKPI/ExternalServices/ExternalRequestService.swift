@@ -81,6 +81,8 @@ class ExternalRequest {
             break
         }
         
+        
+        
         let params = ["refresh_token" : oauthRefreshToken, "client_id" : clientID, "client_secret" : clientSecret, "grant_type" : grantType]
         
         request(accessTokenURL, method: .post, parameters: params, headers: headers).responseJSON { response in

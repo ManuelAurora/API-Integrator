@@ -23,7 +23,7 @@ class PayPal: ExternalRequest {
     let appID = "APP-80W284485P519543T"
     let payPalUri = "https://api-3t.sandbox.paypal.com/2.0/"
     
-    class var payPalEntity: PayPalKPI? {
+    class var payPalEntity: PayPalKPI {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context     = appDelegate.persistentContainer.viewContext
         let request     = NSFetchRequest<PayPalKPI>(entityName: "PayPalKPI")
@@ -34,7 +34,7 @@ class PayPal: ExternalRequest {
         }
         else
         {
-            return nil
+            return PayPalKPI(context: context)
         }
     }
     

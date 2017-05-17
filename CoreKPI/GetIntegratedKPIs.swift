@@ -147,6 +147,13 @@ class GetIntegratedKPIs: Request {
             gaKpi.oAuthToken = token
             gaKpi.oAuthRefreshToken = refToken
             gaKpi.oAuthTokenExpiresAt = date as NSDate
+            
+            if let options = options, options.count == 2
+            {
+                gaKpi.siteURL = options[0]
+                gaKpi.viewID  = options[1]
+            }
+            
             externalKpi.serviceName = IntegratedServices.GoogleAnalytics.rawValue
             externalKpi.googleAnalyticsKPI = gaKpi
             externalKpi.kpiName = ""
@@ -172,16 +179,18 @@ class GetIntegratedKPIs: Request {
             externalKpi.kpiName = ""
             
         case .paypal:
+            guard let decyphered = token?.components(separatedBy: " "),
+                decyphered.count == 2, let refToken = refToken else { return }
+            
+            let apiUsername = decyphered[0]
+            let apiPassword = decyphered[1]
+            
             let ppEntity = PayPal.payPalEntity
             
-            if let decyphered = token?.components(separatedBy: " "), decyphered.count == 2
-            {
-                ppEntity?.apiUsername = decyphered[0]
-                ppEntity?.apiPassword = decyphered[1]
-            }
-            
-            ppEntity?.profileName = "Semen"
-            ppEntity?.apiSignature = refToken
+            ppEntity.profileName = "Semen"
+            ppEntity.apiSignature = refToken
+            ppEntity.apiUsername = apiUsername
+            ppEntity.apiPassword = apiPassword
             
             externalKpi.serviceName = IntegratedServices.PayPal.rawValue
             externalKpi.payPalKPI = ppEntity

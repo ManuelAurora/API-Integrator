@@ -437,9 +437,7 @@ extension ExternalKPIViewController {
             addKpi.type = IntegratedServicesServerID.salesforceCRM.rawValue
             
         case .PayPal:
-            
-            guard let payEntity = PayPal.payPalEntity else { return }
-            
+            let payEntity = PayPal.payPalEntity            
             externalKPI.payPalKPI = payEntity
             externalKPI.serviceName = IntegratedServices.PayPal.rawValue
             addKpi.type = IntegratedServicesServerID.paypal.rawValue
@@ -469,13 +467,12 @@ extension ExternalKPIViewController {
         {
         case .GoogleAnalytics:
             let entity = GAnalytics.googleAnalyticsEntity
-            
             if let expDate = entity.oAuthTokenExpiresAt
             {
                 let ttl = AddKPI.getSecondsFrom(date: expDate)
                 
                 if ttl < 0
-                {
+                {                    
                     IntegratedServices.GoogleAnalytics.updateTokenFor(kpiID: kpis[0]) {
                         completion()
                     }

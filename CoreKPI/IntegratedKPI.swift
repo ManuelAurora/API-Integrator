@@ -29,12 +29,23 @@ enum IntegratedServices: String
     case HubSpotMarketing
     case PayPal
     
-    func updateTokenFor(kpiID: Int, success: @escaping ()->()) {
+    func updateTokenFor(kpiID: Int,
+                        gaEntity: GoogleKPI? = nil,
+                        success: @escaping ()->()) {
         
         switch self
         {
         case .GoogleAnalytics:
-            let ga = GAnalytics()
+            
+            guard let gaEntity = gaEntity,
+                let token = gaEntity.oAuthToken,
+                let refToken = gaEntity.oAuthRefreshToken,
+                let expires = gaEntity.oAuthTokenExpiresAt else { return }
+            
+            let ga = GAnalytics(oauthToken: token,
+                                oauthRefreshToken: refToken,
+                                oauthTokenExpiresAt: expires as Date)
+            
             ga.updateAccessToken(servise: self, success: { tokenInfo in
                 let gaEntity = GAnalytics.googleAnalyticsEntity
                 let calendar = Calendar.current
