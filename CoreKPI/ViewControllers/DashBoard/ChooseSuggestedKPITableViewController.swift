@@ -536,7 +536,32 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                     return DescriptionCell
                 case 5:
                     SuggestedCell.headerOfCell.text = "Executant"
-                    SuggestedCell.descriptionOfCell.text = self.executant ?? ""
+                    
+                    if UserStateMachine.shared.isAdmin
+                    {
+                        SuggestedCell.descriptionOfCell.text = self.executant ?? ""
+                        SuggestedCell.rightConstraint.constant = 0
+                    }
+                    else
+                    {
+                        let profileID = model.profile.userId
+                        let user = model.team.filter { team in
+                            return team.userID == Int64(profileID)
+                        }
+                        
+                        if let currentUser = user.first,
+                            let name = currentUser.firstName,
+                            let lastName = currentUser.lastName
+                        {
+                            let fullName = name + " " + lastName
+                            executantArray.append((SettingName: fullName,
+                                                   value: true))
+                            SuggestedCell.descriptionOfCell.text = fullName
+                            SuggestedCell.accessoryType = .none
+                            SuggestedCell.rightConstraint.constant = 16
+                        }
+                    }
+                    
                 case 6:
                     SuggestedCell.headerOfCell.text = "Time Interval"
                     SuggestedCell.descriptionOfCell.text = timeInterval.rawValue
@@ -602,7 +627,30 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                         
                     case 5:
                         SuggestedCell.headerOfCell.text = "Executant"
-                        SuggestedCell.descriptionOfCell.text = self.executant ?? ""
+                        
+                        if UserStateMachine.shared.isAdmin
+                        {
+                            SuggestedCell.descriptionOfCell.text = self.executant ?? ""
+                        }
+                        else
+                        {
+                            let profileID = model.profile.userId
+                            let user = model.team.filter { team in
+                                return team.userID == Int64(profileID)
+                            }
+                            
+                            if let currentUser = user.first,
+                                let name = currentUser.firstName,
+                                let lastName = currentUser.lastName
+                            {
+                                let fullName = name + " " + lastName
+                                executantArray.append((SettingName: fullName,
+                                                       value: true))
+                                SuggestedCell.descriptionOfCell.text = fullName
+                                SuggestedCell.accessoryType = .none
+                                SuggestedCell.rightConstraint.constant = 16
+                            }
+                        }
                         
                     case 6:
                         SuggestedCell.headerOfCell.text = "Time Interval"
@@ -702,7 +750,30 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                         
                     case 5:
                         SuggestedCell.headerOfCell.text = "Executant"
-                        SuggestedCell.descriptionOfCell.text = self.executant ?? ""
+                        
+                        if UserStateMachine.shared.isAdmin
+                        {
+                            SuggestedCell.descriptionOfCell.text = self.executant ?? ""
+                        }
+                        else
+                        {
+                            let profileID = model.profile.userId
+                            let user = model.team.filter { team in
+                                return team.userID == Int64(profileID)
+                            }
+                            
+                            if let currentUser = user.first,
+                                let name = currentUser.firstName,
+                                let lastName = currentUser.lastName
+                            {
+                                let fullName = name + " " + lastName
+                                executantArray.append((SettingName: fullName,
+                                                       value: true))
+                                SuggestedCell.descriptionOfCell.text = fullName
+                                SuggestedCell.accessoryType = .none
+                                SuggestedCell.rightConstraint.constant = 16
+                            }
+                        }
                         
                     case 6:
                         SuggestedCell.headerOfCell.text = "Time Interval"
@@ -910,9 +981,12 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                     showSelectSettingVC()
                     
                 case 5:
-                    typeOfSetting = .Executant
-                    settingArray = executantArray
-                    showSelectSettingVC()
+                    if UserStateMachine.shared.isAdmin
+                    {
+                        typeOfSetting = .Executant
+                        settingArray = executantArray
+                        showSelectSettingVC()
+                    }
                     
                 case 6:
                     typeOfSetting = .TimeInterval

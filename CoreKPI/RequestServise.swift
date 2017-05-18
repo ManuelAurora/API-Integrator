@@ -66,7 +66,6 @@ class Request
                 switch statusCode
                 {
                 case 200..<300, 400..<500:
-                     
                     if let data = response.data,
                         let json = try? JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary,
                         let jsonDictionary = json

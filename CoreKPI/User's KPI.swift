@@ -22,6 +22,15 @@ struct CreatedKPI {
     var deadlineTime: Date    
     var number: [(date: Date, number: Double)]
     mutating func addReport(date: Date, report: Double) {
-        number.append((date, report))
+        
+        let calendar   = Calendar.current
+        let currentDay = calendar.component(.day, from: Date())
+        let reportDay  = calendar.component(.day, from: date)
+        
+        if currentDay == reportDay
+        {
+            if number.count > 0 { number.remove(at: 0) }
+            number.insert((date, report), at: 0)
+        }
     }
 }

@@ -3993,6 +3993,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 <connections>
                                     <outlet property="descriptionOfCell" destination="ZK2-9P-i9g" id="Mef-zM-fp1"/>
                                     <outlet property="headerOfCell" destination="Kh7-UV-XMO" id="7eJ-gN-0Lr"/>
+                                    <outlet property="rightConstraint" destination="SMe-5D-mdH" id="qr5-4E-j2i"/>
                                     <outlet property="trailingToRightConstraint" destination="SMe-5D-mdH" id="x5I-BI-Hqy"/>
                                 </connections>
                             </tableViewCell>

@@ -1067,7 +1067,7 @@
 				TargetAttributes = {
 					A27820611E001503009F83DB = {
 						CreatedOnToolsVersion = 8.2;
-						DevelopmentTeam = 2FNB386G38;
+						DevelopmentTeam = 6Q3UMRK9A6;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -1480,7 +1480,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CoreKPI/CoreKPI.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2FNB386G38;
+				DEVELOPMENT_TEAM = 6Q3UMRK9A6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1488,7 +1488,7 @@
 				INFOPLIST_FILE = CoreKPI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Smichrissoft.CoreKPI;
+				PRODUCT_BUNDLE_IDENTIFIER = com.CoreKPI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = CoreKPI/BridgingHeader.h;
 				SWIFT_VERSION = 3.0;
@@ -1502,7 +1502,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CoreKPI/CoreKPI.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2FNB386G38;
+				DEVELOPMENT_TEAM = 6Q3UMRK9A6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1510,7 +1510,7 @@
 				INFOPLIST_FILE = CoreKPI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Smichrissoft.CoreKPI;
+				PRODUCT_BUNDLE_IDENTIFIER = com.CoreKPI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = CoreKPI/BridgingHeader.h;
 				SWIFT_VERSION = 3.0;

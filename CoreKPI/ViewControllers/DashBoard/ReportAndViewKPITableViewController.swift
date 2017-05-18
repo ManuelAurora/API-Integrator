@@ -382,7 +382,11 @@ class ReportAndViewKPITableViewController: UITableViewController {
     var datePickerIsVisible = false
     var dataPickerIsVisible = false
     var isInteractive: Bool {
-        return model.profile.typeOfAccount == .Admin ? true : false
+        if model.profile.typeOfAccount == .Admin || buttonDidTaped == .Report
+        {
+            return true
+        }        
+        return false
     }
     
     override func viewDidLoad() {

@@ -171,7 +171,7 @@ class HubSpotManager
         }
     }
     
-    private func requestToken(with url: URL) {
+    private func requestToken(with url: URL, completion: (()->())? = nil) {
         
         Alamofire.request(url,
                           method: HTTPMethod.post,
@@ -233,6 +233,7 @@ class HubSpotManager
                     self.choosenMarketKpis.removeAll()
                     self.nc.post(name: .hubspotTokenRecieved,
                                  object: nil)
+                    completion?()
                 }
         }
         
@@ -290,7 +291,7 @@ class HubSpotManager
         requestToken(with: url)
     }
     
-    private func refreshToken(_ completion: ()->()) {
+    private func refreshToken(_ completion: @escaping ()->()) {
         
         var parameters = getTokenParameters
         
@@ -301,10 +302,10 @@ class HubSpotManager
                                        parameters: parameters)
         let url = URL(string: urlString)!
         
-        requestToken(with: url)
+        requestToken(with: url) { completion() }
     }
     
-    private func checkNeedsToRefreshToken(_ completion: ()->()) {
+    private func checkNeedsToRefreshToken(_ completion: @escaping ()->()) {
         
         let kpi = hubspotKPIManagedObject
         let currDate = Date()
@@ -323,7 +324,7 @@ class HubSpotManager
     func connect() {
         
         checkNeedsToRefreshToken { 
-            getDataFromHubSpot([.pages,
+            self.getDataFromHubSpot([.pages,
                                 .companies,
                                 .owners,
                                 .deals,

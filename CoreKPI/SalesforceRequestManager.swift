@@ -38,9 +38,9 @@ enum URLParameterKey: String
     case query      = "q"
 }
 
-enum URLHeaderKey: String
+enum URLHeaderKey
 {
-    case oauthToken = "Authorization"
+    static let oauthToken = "Authorization"
 }
 
 enum SFQueryType: String
@@ -70,7 +70,7 @@ class SalesforceRequestManager
     
     private let managedContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    private struct APIMethods
+    private enum APIMethods
     {
         static let tooling             = "/services/data/v39.0/tooling"
         static let eclair              = "/services/data/v39.0/eclair"
@@ -185,7 +185,7 @@ class SalesforceRequestManager
             if let sfEntity = self.fetchSalesForceKPIEntity()
             {
                 self.instanceURL = sfEntity.instance_url
-                self.urlHeaders[URLHeaderKey.oauthToken.rawValue] = "Bearer " + sfEntity.oAuthToken!
+                self.urlHeaders[URLHeaderKey.oauthToken] = "Bearer " + sfEntity.oAuthToken!
                 if let s = success { s() }
             }
         }

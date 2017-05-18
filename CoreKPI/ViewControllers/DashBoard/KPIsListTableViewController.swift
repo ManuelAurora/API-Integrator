@@ -23,6 +23,7 @@ class KPIsListTableViewController: UITableViewController
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     let nc = NotificationCenter.default
     var rightBarButton: UIBarButtonItem!
+    let stateMachine = UserStateMachine.shared
     
     @IBAction func showSelectServicesScreen() {
         
@@ -33,13 +34,12 @@ class KPIsListTableViewController: UITableViewController
         navigationController?.pushViewController(controller, animated: true)
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         rightBarButton = navigationItem.rightBarButtonItem
         
-        if model.profile?.typeOfAccount != TypeOfAccount.Admin {
+        if stateMachine.isAdmin {
             self.navigationItem.rightBarButtonItem = nil
         }
         
@@ -115,8 +115,14 @@ class KPIsListTableViewController: UITableViewController
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         
-        guard model.profile.typeOfAccount == .Admin else { return false }
-        return true
+        let kpiToDelete = arrayOfKPI[indexPath.row]
+        
+        if stateMachine.isAdmin || kpiToDelete.integratedKPI != nil
+        {
+            return true
+        }
+        
+        return false
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -229,30 +235,20 @@ class KPIsListTableViewController: UITableViewController
                 }
         })
         
-        if model.profile?.typeOfAccount == TypeOfAccount.Admin {
-            return [deleteAction]
-        } else {
-            return []
-        }
+        return [deleteAction]        
     }
     
     //MARK: show/hide buttons on KPI cards
     private func hideButtonsOnKPICard(cell: KPIListTableViewCell, kpi: KPI) {
         
-        switch kpi.typeOfKPI {
+        switch kpi.typeOfKPI
+        {
         case .createdKPI:
-            cell.reportButton.isHidden = false
-            cell.editButton.isHidden = false
-            
-            if model.profile?.typeOfAccount == TypeOfAccount.Admin &&
-                model.profile?.userId != kpi.createdKPI?.executant
-            {
-                cell.reportButton.isHidden = true
-                cell.editButton.isHidden = false
-            }
-            
-            cell.KPIListNumber.isHidden = false
+            cell.reportButton.isHidden   = stateMachine.isAdmin && !isThisKpiByMe(kpi)
+            cell.editButton.isHidden     = !stateMachine.isAdmin
+            cell.KPIListNumber.isHidden  = false
             cell.ManagedByStack.isHidden = false
+            
         case .IntegratedKPI:
             cell.reportButton.isHidden = true
             cell.editButton.isHidden = true
@@ -360,6 +356,10 @@ class KPIsListTableViewController: UITableViewController
         catch {
             print("Fetching failed")
         }
+    }
+    
+    private func isThisKpiByMe(_ kpi: KPI) -> Bool{
+        return kpi.createdKPI?.executant == model.profile.userId
     }
     
     //MARK: Load reports

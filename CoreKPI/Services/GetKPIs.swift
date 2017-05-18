@@ -65,8 +65,7 @@ class GetKPIs: Request {
                         var deadlineTime: Date
                         var number: [(Date, Double)]
                         var imageBacgroundColour: UIColor
-                        var deadlineDay: Int
-                        
+                        var deadlineDay: Int                        
                         
                         if dataKey.count > 0, let kpiData = dataKey[kpi] as? NSDictionary {
                             

@@ -43,6 +43,10 @@ class UserStateMachine
     let networkManager = NetworkingManager.shared
     var userStateInfo = UserStateInfo()
     
+    var isAdmin: Bool {
+        return model.profile?.typeOfAccount == TypeOfAccount.Admin
+    }
+    
     var usersPin: [String]? {
         let pin = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCode) as? [String]
         return pin
