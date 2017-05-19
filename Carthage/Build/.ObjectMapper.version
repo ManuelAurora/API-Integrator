@@ -1,27 +1,27 @@
 {
-  "commitish" : "2.2.5",
+  "commitish" : "2.2.6",
   "iOS" : [
     {
-      "hash" : "f5feb14d7da940dee8c58969c707e851e423d7a29ba9643ef37b812e33ee651e",
+      "hash" : "ac9c4fc93f0a7ffd816d6194a568136e18b98fbda81a3e0c6ba88fb2f913274d",
       "name" : "ObjectMapper"
     }
   ],
-  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
+  "xcodeVersion" : "Xcode 8.3.1\nBuild version 8E1000a",
   "watchOS" : [
     {
-      "hash" : "c888e898d3903782d6a24da4983890888091b56840191f0501d43b3267eb49f9",
+      "hash" : "46a22a52f5b2bf5083aa9d8331e05938b2f4fde150ea885d8b07d7380567e2b8",
       "name" : "ObjectMapper"
     }
   ],
   "tvOS" : [
     {
-      "hash" : "0847261c31ef3c6b27b700f22abd72d7920391da3f886fba072a1bb7be7e6e1f",
+      "hash" : "fe5769b7a6d40c1f7fa5e1174dd46487595b7161f0dc7506edc1a7ce67ae7d72",
       "name" : "ObjectMapper"
     }
   ],
   "Mac" : [
     {
-      "hash" : "c99006eb7eb19f1bbb416ecb9a891866172074ca25140a59445b9fb40480e413",
+      "hash" : "76dfa61f9f5afa396bc5a7e338b430f22329f292075d468a21dd15e86338aa29",
       "name" : "ObjectMapper"
     }
   ]

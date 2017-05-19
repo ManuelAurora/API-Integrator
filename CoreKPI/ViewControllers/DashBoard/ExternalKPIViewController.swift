@@ -87,6 +87,7 @@ class ExternalKPIViewController: OAuthViewController {
             switch (selectedService) {
             case .Quickbooks:
                 selectedQBKPIs = serviceKPI.filter { $0.value == true }
+                ui(block: true, useSpinner: false)
                 
             case .HubSpotCRM, .HubSpotMarketing:
                 if internalWebViewController.parent == nil
@@ -121,15 +122,15 @@ class ExternalKPIViewController: OAuthViewController {
         }
     }
     
-    private func ui(block: Bool) {
+    private func ui(block: Bool, useSpinner: Bool = false) {
         
         if block
         {
             view.layoutIfNeeded()
             let center = view.center
-            addWaitingSpinner(at: center, color: OurColors.cyan)
+            if useSpinner { addWaitingSpinner(at: center, color: OurColors.cyan) }
         }
-        else     { removeWaitingSpinner() }
+        else if useSpinner { removeWaitingSpinner() }
         
         doneButton.isEnabled = !block
         navigationItem.setHidesBackButton(block, animated: true)
@@ -248,8 +249,8 @@ extension ExternalKPIViewController {
     
     //MARK: QuickBooks
     func doOAuthQuickbooks() {
+        
         quickBookDataManager.doOAuthQuickbooks {
-            
             if let navigationController = self.navigationController
             {                
                 navigationController.popToRootViewController(animated: true)

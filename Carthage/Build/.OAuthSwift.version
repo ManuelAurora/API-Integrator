@@ -2,26 +2,26 @@
   "commitish" : "1.1.1",
   "iOS" : [
     {
-      "hash" : "47028e3cd29457046e12b47cb84e84a0cb84eedf42414eddce1e96acacdb88d1",
+      "hash" : "5d046e1a30fb7b5862182a81d18cc1875072aea4fb47fc53b3729a2229e6af93",
       "name" : "OAuthSwift"
     }
   ],
-  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
+  "xcodeVersion" : "Xcode 8.3.1\nBuild version 8E1000a",
   "watchOS" : [
     {
-      "hash" : "245e7df87c8553f09f75659a4b50b23466bb6725d1b52c2cdfe2b2fff00d9d02",
+      "hash" : "30124ea9c238104c2e82467d80a7cec780b95b45ab6ba36f59c0a18b1207c454",
       "name" : "OAuthSwift"
     }
   ],
   "tvOS" : [
     {
-      "hash" : "50716e472529d25e67d817acd8f8bce001348d52392b46b8b235518b25da6e8d",
+      "hash" : "2b620217dfdced60ba3d0787805c8f7ceb172052139e4dab89900cde5162c257",
       "name" : "OAuthSwift"
     }
   ],
   "Mac" : [
     {
-      "hash" : "026aed9e267ac20ee96364bb916460fe418e94caf9556944edd692f1b5c4068e",
+      "hash" : "a7ea05e9ee4a931286fc46ad360cb402ea1755f21c314516e05828386cd72820",
       "name" : "OAuthSwift"
     }
   ]

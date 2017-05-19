@@ -27,6 +27,7 @@ class QuickBookDataManager
     lazy var sessionManager: SessionManager =  {
         let sm = SessionManager()
         sm.adapter = self.oauthswift.requestAdapter
+
         return sm
     }()
     

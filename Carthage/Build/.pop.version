@@ -2,23 +2,23 @@
   "commitish" : "1.0.9",
   "iOS" : [
     {
-      "hash" : "b2552ea18f158925cb958aed877963f7023783c72c61d8c5024a76c4faac9f03",
+      "hash" : "b8f82b33fbcf0e3c6e925b1552257a6b7a3b679eb92230c78bead09e9f20a997",
       "name" : "pop"
     }
   ],
-  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
+  "xcodeVersion" : "Xcode 8.3.1\nBuild version 8E1000a",
   "watchOS" : [
 
   ],
   "tvOS" : [
     {
-      "hash" : "131103a4ab8138c734ac2cf6f32a2c939cfa13b13a99e2541f4be79a4093db57",
+      "hash" : "3946754e0f498a0168834319fb96743c3af9c2f5e9123ba0430474146e76a389",
       "name" : "pop"
     }
   ],
   "Mac" : [
     {
-      "hash" : "d51ce5a2f98a63a8e716ec48032259262f2d14c15dfd0630b6692cb0effc7a5d",
+      "hash" : "21bd4617dbf033c9306050fa8da45c6b24d0280874838f5880a32d4ddf9dbe4c",
       "name" : "pop"
     }
   ]

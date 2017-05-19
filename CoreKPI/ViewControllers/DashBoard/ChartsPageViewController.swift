@@ -8,7 +8,6 @@
 
 import UIKit
 import OAuthSwift
-import OAuthSwiftAlamofire
 import Alamofire
 
 class ChartsPageViewController:

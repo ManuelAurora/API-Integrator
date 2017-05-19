@@ -2,26 +2,26 @@
   "commitish" : "4.1.0",
   "iOS" : [
     {
-      "hash" : "c526f62c9d19049c5320cde486452f9de3bd74fcaa6e1f7b3e3182f4299d499e",
+      "hash" : "99a41d0c81d5cb7449b3d3a8730d1efbc80b8b03cde908fed95386756ed882fb",
       "name" : "AEXML"
     }
   ],
-  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
+  "xcodeVersion" : "Xcode 8.3.1\nBuild version 8E1000a",
   "watchOS" : [
     {
-      "hash" : "1b1ffcb62cb1e2a053398a642fd30e0eb82d5487a188d4285489c9c12932d2a9",
+      "hash" : "3878a81b9efcb0456709bc08394aefc980db4acbf8354a44923ac187262045f2",
       "name" : "AEXML"
     }
   ],
   "tvOS" : [
     {
-      "hash" : "e82d81f51f9d47748f553a1a2f8277dd3b5cd99ba9d11fc03d67e554bee6bba6",
+      "hash" : "7e1b0699eff3629cdca3663468edcb146c84f638864ecc4dc1423e3ad30bc0ce",
       "name" : "AEXML"
     }
   ],
   "Mac" : [
     {
-      "hash" : "bdde13456700e13fa8230fd0fca9f4e9aae493eaed38bb2fa01fd9a49fc3c4eb",
+      "hash" : "f57dc0b8f21f13262018f223d725e608fd5f0e32f499a43e1a4808233e93d593",
       "name" : "AEXML"
     }
   ]

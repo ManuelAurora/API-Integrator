@@ -2,23 +2,23 @@
   "commitish" : "0.1.0",
   "iOS" : [
     {
-      "hash" : "d8a9f5b05657f69b115c60af9653913f69f71584ea236a455e64a83fb902bd75",
+      "hash" : "5fdf686933a6c3e6d6e33419c24ca681b99da8ac3d314be2aaa6457b6346956f",
       "name" : "OAuthSwiftAlamofire"
     }
   ],
-  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
+  "xcodeVersion" : "Xcode 8.3.1\nBuild version 8E1000a",
   "watchOS" : [
 
   ],
   "tvOS" : [
     {
-      "hash" : "20476990ff14a4b3eb0b682ae6dc5b6f8b4ff682b40c3726ed8cc790c463fcb9",
+      "hash" : "772f02681526872ec5861daaece26db0a5df5edbb096660a0190b72c2839e18f",
       "name" : "OAuthSwiftAlamofire"
     }
   ],
   "Mac" : [
     {
-      "hash" : "727e7ecd4543878e942e78986999ee12ae3b50953923b8b8bca0d9860658edb2",
+      "hash" : "5c08a01a7f783e316dd298b30fdd16c72e8ea7846a10738cf918e755225387a5",
       "name" : "OAuthSwiftAlamofire"
     }
   ]
