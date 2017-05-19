@@ -37,6 +37,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        updateMemberInfo()
         tableView.reloadData()
     }
     

@@ -306,7 +306,9 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                               params: params,
                               success: { link in
                                 self.updateProfile(photoLink: link)
-                                self.memberProfilePhotoImage.loadImage(from: link!) {
+                                self.memberProfilePhotoImage.loadImage(from: link) {
+                                    //self.memberInfoVC?.memberProfileNameLabel.text = self.memberNameTextField.text
+                                    //self.memberInfoVC?.memberProfilePositionLabel.text = self.memberPositionTextField.text                                   
                                     self.ui(block: false)
                                     _ = self.navigationController?.popViewController(animated: true)
                                 }

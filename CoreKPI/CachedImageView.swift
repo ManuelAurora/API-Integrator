@@ -94,10 +94,14 @@ class CachedImageView: UIImageView
         image = emptyImage
     }
     
-    func loadImage(from urlString: String, completion: (()->())? = nil) {
+    func loadImage(from urlString: String?, completion: (()->())? = nil) {
         
         urlStringForChecking = urlString
-        let urlKey = urlString as NSString
+        
+        guard let urlKey = urlString as NSString? else {
+            completion?()
+            return
+        }
         
         if let cachedItem = CachedImageView.imageCache.object(forKey: urlKey)
         {
@@ -106,7 +110,7 @@ class CachedImageView: UIImageView
             return
         }
         
-        guard urlString != Request.avatarsLink, let url = URL(string: urlString) else {
+        guard let urlString = urlString, urlString != Request.avatarsLink, let url = URL(string: urlString) else {
             image = emptyImage
             return
         }
