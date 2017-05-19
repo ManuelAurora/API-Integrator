@@ -37,6 +37,13 @@ class ReportAndViewKPITableViewController: UITableViewController {
     fileprivate var oldDesc = ""
     fileprivate var isCancelButtonActive = false
     
+    private var cancelTap: UITapGestureRecognizer? {
+        didSet {
+            guard let tap = cancelTap else { return }
+            view.addGestureRecognizer(tap)
+        }
+    }
+    
     lazy var cancelButton: UIBarButtonItem? = {
         let b = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel,
                                 target: self,
@@ -389,6 +396,28 @@ class ReportAndViewKPITableViewController: UITableViewController {
         return false
     }
     
+    @objc private func cancelSelector() {
+        
+        removeAllAlamofireNetworking()
+        cancelAllNetwokingAndAnimateonOnTap(false)
+        tableView.reloadData()
+        ui(block: false)
+    }
+    
+    private func cancelAllNetwokingAndAnimateonOnTap(_ isOn: Bool) {
+        
+        if isOn
+        {
+            cancelTap = nil
+            cancelTap = UITapGestureRecognizer(target: self,
+                                               action: #selector(cancelSelector))
+        }
+        else if let gesture = cancelTap
+        {
+            view.removeGestureRecognizer(gesture)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -717,6 +746,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
         navigationItem.leftBarButtonItem?.isEnabled  = !block
         navigationItem.rightBarButtonItem?.isEnabled = !block
         tableView.isUserInteractionEnabled           = !block
+        cancelAllNetwokingAndAnimateonOnTap(block)
     }
     
     func saveReport() {

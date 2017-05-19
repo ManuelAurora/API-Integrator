@@ -18,7 +18,7 @@ class AddReportTableViewController: UITableViewController {
     let maxNumberOfCharacter = 15
     
     var formatter: NumberFormatter!
-    
+        
     weak var ReportAndViewVC: ReportAndViewKPITableViewController!
     var delegate: updateSettingsDelegate!
     

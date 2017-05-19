@@ -18,11 +18,40 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
     
     weak var memberInfoVC: MemberInfoViewController!
     
+    private var cancelTap: UITapGestureRecognizer? {
+        didSet {
+            guard let tap = cancelTap else { return }
+            view.addGestureRecognizer(tap)
+        }
+    }
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var memberProfilePhotoImage: CachedImageView!
     @IBOutlet weak var memberNameTextField: BottomBorderTextField!
     @IBOutlet weak var memberPositionTextField: BottomBorderTextField!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    
+    @objc private func cancelSelector() {
+        
+        removeAllAlamofireNetworking()
+        cancelAllNetwokingAndAnimateonOnTap(false)
+        tableView.reloadData()
+        ui(block: false)
+    }
+    
+    private func cancelAllNetwokingAndAnimateonOnTap(_ isOn: Bool) {
+        
+        if isOn
+        {
+            cancelTap = nil
+            cancelTap = UITapGestureRecognizer(target: self,
+                                               action: #selector(cancelSelector))
+        }
+        else if let gesture = cancelTap
+        {
+            view.removeGestureRecognizer(gesture)
+        }
+    }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -79,6 +108,8 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         tableView.isUserInteractionEnabled = !block
         navigationItem.rightBarButtonItem?.isEnabled = !block
         navigationItem.setHidesBackButton(block, animated: true)
+        
+        cancelAllNetwokingAndAnimateonOnTap(block)
     }
     
     //MARK: - TableViewDatasource methods
@@ -307,8 +338,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                               success: { link in
                                 self.updateProfile(photoLink: link)
                                 self.memberProfilePhotoImage.loadImage(from: link) {
-                                    //self.memberInfoVC?.memberProfileNameLabel.text = self.memberNameTextField.text
-                                    //self.memberInfoVC?.memberProfilePositionLabel.text = self.memberPositionTextField.text                                   
+                                                                   
                                     self.ui(block: false)
                                     _ = self.navigationController?.popViewController(animated: true)
                                 }
