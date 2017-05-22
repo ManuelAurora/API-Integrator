@@ -47,16 +47,14 @@ class GetAlerts: Request {
                             newAlert.onlyWorkHours = days == 0 ? false : true
                             newAlert.alertID = alert["id"] as! Int64
                             
-                         //newAlert.timezone = timezoneTitleFrom(hoursFromGMT: <#T##String#>)
-                            
                             if let typeOfNotifications = alert["methods"] as? NSArray, typeOfNotifications.count > 0 {
                                 
                                 newAlert.emailNotificationIsActive = false
                                 newAlert.smsNotificationIsAcive = false
                                 newAlert.pushNotificationIsActive = false
                                 
-                                for notification in 0..<typeOfNotifications.count {
-                                    
+                                for notification in 0..<typeOfNotifications.count
+                                {
                                     switch typeOfNotifications[notification] as! String {
                                     case "E-mail":
                                         newAlert.emailNotificationIsActive = true

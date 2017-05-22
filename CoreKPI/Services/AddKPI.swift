@@ -195,8 +195,7 @@ class AddKPI: Request
         },
                      failure: { (error) in
                         failure(error)
-        }
-        )
+        })
     }
     
     class func getSecondsFrom(date: NSDate?) -> Int {

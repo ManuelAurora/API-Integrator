@@ -172,7 +172,7 @@ class WebViewChartViewController: UIViewController
         case .PositiveBar:
             let htmlFile = Bundle.main.path(forResource:"positiveBar", ofType: "html")
             let cssFile = Bundle.main.path(forResource:"positiveBar", ofType: "css")
-            let jsFile1 = Bundle.main.path(forResource:"Rd3.v3.min", ofType: "js")
+            let jsFile1 = Bundle.main.path(forResource:"d3", ofType: "js")
             let jsFile2 = Bundle.main.path(forResource:"positiveBar", ofType: "js")
             
             let html = try? String(contentsOfFile: htmlFile!, encoding: String.Encoding.utf8)
@@ -430,7 +430,7 @@ class WebViewChartViewController: UIViewController
                  positiveBarData.append(($0.leftValue, $0.rightValue))                
             }
 
-            header = "This is PositiveBar))";
+            header = "";
             
             var dataForJS = "var label = '\(header)'; var data = ["
             for (index,item) in positiveBarData.enumerated() {

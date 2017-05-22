@@ -850,32 +850,12 @@ class ReportAndViewKPITableViewController: UITableViewController {
             ui(block: true)
             
             let request = EditKPI(model: model)
+            
             request.editKPI(kpi: self.model.kpis[kpiIndex], success: {
                 self.ui(block: false)
                 self.prepareToMove()
             }, failure: { error in
                 self.ui(block: false)
-                
-                //Uncomment this if you want to cancel changes
-                //                if error.contains("Name")
-                //                {
-                //                    self.kpiName = self.oldName
-                //                }
-                //                else if error.contains("Description")
-                //                {
-                //                    self.kpiDescription = self.oldDesc
-                //                }
-                
-                //let row       = error.contains("Name") ? 0 : 1
-                //let header    = error.contains("Name") ? self.oldName : self.oldDesc
-                //                let indexPath = IndexPath(row: row, section: 1)
-                //                let cell      = self.tableView.cellForRow(at: indexPath)
-                //
-                //                guard let repCell = cell as? ReportAndViewTableViewCell else {
-                //                    return
-                //                }                
-                // repCell.headerOfCell.text = header
-                
                 self.showAlert(title: "Error Occured",errorMessage: error)
             })
             
