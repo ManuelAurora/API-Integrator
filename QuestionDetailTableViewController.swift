@@ -16,8 +16,7 @@ class QuestionDetailTableViewController: UITableViewController
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        questionTextView.text = " " + message.question + "\n \n" + " " + message.answer
-       
+        questionTextView.text = "     " + message.question + "\n \n" + "    " + message.answer       
     }
     
     override func viewWillLayoutSubviews() {

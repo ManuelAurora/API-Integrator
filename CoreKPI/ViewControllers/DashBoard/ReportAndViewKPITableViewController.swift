@@ -40,7 +40,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
     private var cancelTap: UITapGestureRecognizer? {
         didSet {
             guard let tap = cancelTap else { return }
-            view.addGestureRecognizer(tap)
+            tableView.addGestureRecognizer(tap)
         }
     }
     
@@ -62,6 +62,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
             return TypeOfAccount.Manager
         }
     }
+    
     //colour
     var colour: Colour {
         get {
@@ -396,7 +397,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
         return false
     }
     
-    @objc private func cancelSelector() {
+    @objc private func cancelSelector(_ recognizer: UIGestureRecognizer) {
         
         removeAllAlamofireNetworking()
         cancelAllNetwokingAndAnimateonOnTap(false)
@@ -411,10 +412,11 @@ class ReportAndViewKPITableViewController: UITableViewController {
             cancelTap = nil
             cancelTap = UITapGestureRecognizer(target: self,
                                                action: #selector(cancelSelector))
+            cancelTap?.cancelsTouchesInView = true
         }
         else if let gesture = cancelTap
         {
-            view.removeGestureRecognizer(gesture)
+            tableView.removeGestureRecognizer(gesture)
         }
     }
     
@@ -424,6 +426,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
         tableView.isScrollEnabled = true
         tableView.isUserInteractionEnabled = isInteractive
         navigationItem.rightBarButtonItem?.isEnabled = false
+        tableView.canCancelContentTouches = false
         
         switch buttonDidTaped
         {
@@ -599,7 +602,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return cellForIndexPath(indexPath: indexPath)
     }
-    
+ 
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         switch buttonDidTaped {
         case .Report:
@@ -741,11 +744,9 @@ class ReportAndViewKPITableViewController: UITableViewController {
         
         if block { addWaitingSpinner(at: point, color: OurColors.cyan) }
         else     { removeWaitingSpinner() }
-        
-        navigationItem.setHidesBackButton(block, animated: true)
+            
         navigationItem.leftBarButtonItem?.isEnabled  = !block
         navigationItem.rightBarButtonItem?.isEnabled = !block
-        tableView.isUserInteractionEnabled           = !block
         cancelAllNetwokingAndAnimateonOnTap(block)
     }
     

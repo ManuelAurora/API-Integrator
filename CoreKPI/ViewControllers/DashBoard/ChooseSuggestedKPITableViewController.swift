@@ -250,7 +250,14 @@ class ChooseSuggestedKPITableViewController: UITableViewController
     
     var datePickerIsVisible = false
     var dataPickerIsVisible = false
-       
+    
+    private var cancelTap: UITapGestureRecognizer? {
+        didSet {
+            guard let tap = cancelTap else { return }
+            tableView.addGestureRecognizer(tap)
+        }
+    }
+    
     @objc private func tappedCancelButton() {
         
         prepareAlertController()
@@ -294,6 +301,29 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         }
         for hubSpotCrmKPI in iterateEnum(HubSpotCRMKPIs.self) {
             hubSpotCRMKPIArray.append((hubSpotCrmKPI.rawValue, false))
+        }
+    }
+    
+    @objc private func cancelSelector(_ recognizer: UIGestureRecognizer) {
+        
+        removeAllAlamofireNetworking()
+        cancelAllNetwokingAndAnimateonOnTap(false)
+        tableView.reloadData()
+        ui(block: false)
+    }
+    
+    private func cancelAllNetwokingAndAnimateonOnTap(_ isOn: Bool) {
+        
+        if isOn
+        {
+            cancelTap = nil
+            cancelTap = UITapGestureRecognizer(target: self,
+                                               action: #selector(cancelSelector))
+            cancelTap?.cancelsTouchesInView = true
+        }
+        else if let gesture = cancelTap
+        {
+            tableView.removeGestureRecognizer(gesture)
         }
     }
     
@@ -1243,8 +1273,9 @@ class ChooseSuggestedKPITableViewController: UITableViewController
             addWaitingSpinner(at: center, color: OurColors.cyan)
         }
         else     { removeWaitingSpinner() }
-        tableView.isUserInteractionEnabled = !block
+        navigationItem.leftBarButtonItem?.isEnabled = !block
         navigationItem.rightBarButtonItem?.isEnabled = !block
+        cancelAllNetwokingAndAnimateonOnTap(block)
     }
     
     func dataIsEntered() -> Bool {

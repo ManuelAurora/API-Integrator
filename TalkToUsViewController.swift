@@ -131,7 +131,7 @@ class TalkToUsViewController: UITableViewController
         let answer = questions[indexPath.row].answer
         let cell = tableView.dequeueReusableCell(withIdentifier: "TalkToUsCell",
                                                  for: indexPath) as! TalkToUsTableViewCell
-        cell.questionLabel.text = " " + questions[indexPath.row].question
+        cell.questionLabel.text = "    " + questions[indexPath.row].question
         
         if answer == ""
         {

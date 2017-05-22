@@ -12,6 +12,14 @@ class SendNewIntegrationViewController: UIViewController {
 
     var messageType: MessageType!
     
+    private var cancelTap: UITapGestureRecognizer? {
+        didSet {
+            guard let tap = cancelTap else { return }
+            view.addGestureRecognizer(tap)
+            textView.addGestureRecognizer(tap)
+        }
+    }
+    
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var sendButton: UIBarButtonItem!
     
@@ -27,6 +35,28 @@ class SendNewIntegrationViewController: UIViewController {
             self.textView.becomeFirstResponder()
            self.showAlert(title: "Error Occured", errorMessage: error)
         }        
+    }
+    
+    @objc private func cancelSelector() {
+        
+        removeAllAlamofireNetworking()
+        cancelAllNetwokingAndAnimateonOnTap(false)      
+        ui(block: false)
+    }
+    
+    private func cancelAllNetwokingAndAnimateonOnTap(_ isOn: Bool) {
+        
+        if isOn
+        {
+            cancelTap = nil
+            cancelTap = UITapGestureRecognizer(target: self,
+                                               action: #selector(cancelSelector))
+        }
+        else if let gesture = cancelTap
+        {
+            view.removeGestureRecognizer(gesture)
+            textView.removeGestureRecognizer(gesture)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,8 +83,8 @@ class SendNewIntegrationViewController: UIViewController {
         navigationItem.setHidesBackButton(block, animated: true)
         navigationItem.leftBarButtonItem?.isEnabled  = !block
         navigationItem.rightBarButtonItem?.isEnabled = !block
-        textView.isUserInteractionEnabled = !block
         textView.resignFirstResponder()
+        cancelAllNetwokingAndAnimateonOnTap(block)
     }
 
 }

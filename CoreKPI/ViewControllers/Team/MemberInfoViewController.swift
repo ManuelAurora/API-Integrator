@@ -302,6 +302,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         vc.model = model
         vc.loadUsersKPI(userID: Int(model.team[index].userID))
         vc.navigationItem.setRightBarButton(newButton, animated: true)
+        vc.isFilteredForUser = true
         vc.refreshControl = nil
         self.navigationController?.show(vc, sender: nil)
     }

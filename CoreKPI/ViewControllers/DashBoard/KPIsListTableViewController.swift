@@ -78,6 +78,8 @@ class KPIsListTableViewController: UITableViewController
             present(onboardingVC, animated: true, completion: nil)
             saveData()
         }
+        
+        tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -245,7 +247,7 @@ class KPIsListTableViewController: UITableViewController
         {
         case .createdKPI:
             cell.reportButton.isHidden   = stateMachine.isAdmin && !isThisKpiByMe(kpi)
-            cell.editButton.isHidden     = !stateMachine.isAdmin
+            cell.editButton.isHidden     = !stateMachine.isAdmin || isFilteredForUser
             cell.KPIListNumber.isHidden  = false
             cell.ManagedByStack.isHidden = false
             
@@ -378,21 +380,20 @@ class KPIsListTableViewController: UITableViewController
     
     //MARK: Load User's KPI
     func loadUsersKPI(userID: Int) {
+                
+        navigationItem.title = "Responsibility"
         
-        let request = GetKPIs(model: model)
-        request.getUserKPI(userID: userID, success: { kpi in
-            self.arrayOfKPI = kpi
-            self.tableView.reloadData()
-            self.refreshControl?.endRefreshing()
-            if self.arrayOfKPI.isEmpty {
-                self.showAlert(title: "Sorry", errorMessage: "No KPI!")
+        arrayOfKPI = model.kpis.filter { kpi in
+            if let created = kpi.createdKPI
+            {
+                return created.executant == userID
             }
-        }, failure: { error in
-            print(error)
-            self.refreshControl?.endRefreshing()
-            self.showAlert(title: "Sorry!", errorMessage: error)
-            self.tableView.reloadData()
-        })
+            else if let integrated = kpi.integratedKPI
+            {
+                return integrated.userID == Int64(userID)
+            }
+            return false
+        }
     }
     
     //MARK: - CatchNotification
