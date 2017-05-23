@@ -80,7 +80,8 @@ class GAnalytics: ExternalRequest {
         analyticsRequest(param: param, success: {report in
             success(report, nil)
         }, failure: { error in
-            if error == "401" {
+            if error == "401"
+            {
                 //update token
                 self.updateAccessToken(servise: .GoogleAnalytics, success: {tokenInfo in
                     self.oauthToken = tokenInfo.token
@@ -89,17 +90,13 @@ class GAnalytics: ExternalRequest {
                         success(report, tokenInfo.token)
                     }, failure: {error in
                         failure(error)
-                    }
-                    )
+                    })
                 }, failure: { error in
                     failure(error)
-                }
-                )
-            } else {
-                failure(error)
+                })
             }
-        }
-        )
+            else { failure(error) }
+        })
     }
     
     private func analyticsRequest(param: ReportRequest, success: @escaping (_ report: Report) -> (), failure: @escaping failure) {

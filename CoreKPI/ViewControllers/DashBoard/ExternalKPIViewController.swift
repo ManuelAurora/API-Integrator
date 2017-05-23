@@ -360,16 +360,12 @@ extension ExternalKPIViewController {
         let source = googleAnalyticsObject?.siteURL
         
         checkIsTtlValid(idsForServer, selectedService, source: source) {
-        self.addOnServerSelectedKpis(idsForServer,
-                                     service: self.selectedService,
-                                     source: googleAnalyticsObject)
-        
-        let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
-        _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
+            self.addOnServerSelectedKpis(idsForServer,
+                                         service: self.selectedService,
+                                         source: googleAnalyticsObject)
+            
+           self.navigationController?.popToRootViewController(animated: true)
         }
-        
-        let stackVC = navigationController?.viewControllers
-        _ = navigationController?.popToViewController((stackVC?[(stackVC?.count)! - 3])!, animated: true)
     }
     
     private func getIdsForSelectedKpis(_ service: IntegratedServices) -> [Int] {

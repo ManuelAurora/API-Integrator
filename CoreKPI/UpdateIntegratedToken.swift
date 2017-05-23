@@ -38,7 +38,9 @@ class UpdateIntegratedToken: Request {
                         success(self.parsingJson(json: json))
         },
                      failure: { (error) in
-                        failure(error)
+                        //TODO: Kill that thing 
+                        success()
+                        //failure(error)
         })
     }
     
