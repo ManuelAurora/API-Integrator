@@ -130,11 +130,13 @@ class KPIsListTableViewController: UITableViewController
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "KPIListCell", for: indexPath) as! KPIListTableViewCell
+        let kpi = arrayOfKPI[indexPath.row]
         cell.KPIListVC  = self
         cell.editButton.tag = indexPath.row
         cell.reportButton.tag = indexPath.row
         cell.memberNameButton.tag = indexPath.row
         cell.deleteButton.tag = indexPath.row
+        cell.showOptionsValue(for: kpi)
         
         if let imageString = arrayOfKPI[indexPath.row].image {
             cell.KPIListCellImageView.isHidden = false
@@ -147,7 +149,7 @@ class KPIsListTableViewController: UITableViewController
         
         hideButtonsOnKPICard(cell: cell, kpi: arrayOfKPI[indexPath.row])
         
-        switch arrayOfKPI[indexPath.row].typeOfKPI {
+        switch kpi.typeOfKPI {
         case .IntegratedKPI:
             
             cell.KPIListNumber.isHidden = true
