@@ -331,30 +331,7 @@ class HubSpotManager
                                 .contacts,
                                 .dealPipelines])
         }
-    }
-    
-    func createNewEntityFor(service: IntegratedServices,
-                            kpiName: String,
-                            pipelineID: String? = nil) {
-        
-        let serviceName = service.rawValue        
-        let extKPI = ExternalKPI()
-        
-        extKPI.userID = Int64(ModelCoreKPI.modelShared.profile.userId)
-        extKPI.kpiName = kpiName
-        extKPI.hsPipelineID = pipelineID
-        extKPI.serviceName = serviceName
-        extKPI.hubspotKPI = hubspotKPIManagedObject
-                        
-        do {
-            try managedContext.save()
-            
-            NotificationCenter.default.post(Notification(name: .newExternalKPIadded))
-        }
-        catch let error {
-            print(error.localizedDescription)
-        }
-    }
+    }    
         
     func getDataForReport(kpi: HubSpotCRMKPIs, pipelineId: String? = nil) -> resultArray {
         

@@ -100,6 +100,13 @@ class GetIntegratedKPIs: Request {
             
             if let pipelines = options, let pipeId = pipelines.first
             {
+                let pipeArray = HubSpotManager.sharedInstance.pipelinesArray
+                
+                if let pipe = (pipeArray.filter { $0.pipelineId == pipeId }).first
+                {
+                    externalKpi.hsPipelineLabel = pipe.label
+                }
+                
                 externalKpi.hsPipelineID = pipeId
             }
             

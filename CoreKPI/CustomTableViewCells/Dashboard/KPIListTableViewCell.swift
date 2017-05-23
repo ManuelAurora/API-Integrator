@@ -62,7 +62,14 @@ class KPIListTableViewCell: UITableViewCell {
         
         if let pipelineId = kpi.integratedKPI.hsPipelineID
         {
-            labelText = pipelineId
+            if let pipeLabel = kpi.integratedKPI.hsPipelineLabel
+            {
+                labelText = pipeLabel
+            }
+            else
+            {
+                labelText = pipelineId
+            }
         }
         else if let gaSiteUrl = kpi.integratedKPI.googleAnalyticsKPI?.siteURL
         {
@@ -106,5 +113,4 @@ class KPIListTableViewCell: UITableViewCell {
         default: break
         }
     }
-
 }

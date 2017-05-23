@@ -185,6 +185,8 @@ class AddKPI: Request
             ]
         }
         
+        pipelineIds.removeAll()
+        
         self.getJson(category: category, data: data,
                      success: { json in
                         if let id = self.parsingJson(json: json) {
