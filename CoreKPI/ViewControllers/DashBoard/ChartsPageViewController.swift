@@ -501,7 +501,10 @@ extension ChartsPageViewController {
             request.oAuthAutorisation(servise: IntegratedServices(rawValue: external.serviceName!)!, viewController: self, success: { objects in
                 switch IntegratedServices(rawValue: external.serviceName!)! {
                 case .GoogleAnalytics:
-                    external.googleAnalyticsKPI = objects.googleAnalyticsObject
+                    let siteURL = objects.googleAnalyticsObject?.siteURL
+                    let entity = GAnalytics.googleAnalyticsEntity(for: siteURL)
+                    external.googleAnalyticsKPI = entity
+                    
                 case .SalesForce:
                     external.saleForceKPI = objects.salesForceObject
                 default:

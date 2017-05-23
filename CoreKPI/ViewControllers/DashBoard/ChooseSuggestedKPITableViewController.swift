@@ -1302,54 +1302,54 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         return true
     }
     
-    private func addOnServerSelectedKpis(_ ids: [Int], service: IntegratedServices) {
-        
-        let externalKPI = ExternalKPI(context: context)
-        let addKpi      = AddKPI()
-        
-        addKpi.kpiIDs = ids
-        externalKPI.kpiName = "SemenKPI"
-        
-        switch service
-        {
-        case .GoogleAnalytics:
-            let gaEntity = GAnalytics.googleAnalyticsEntity
-            
-            externalKPI.googleAnalyticsKPI = gaEntity
-            externalKPI.serviceName = IntegratedServices.GoogleAnalytics.rawValue
-            addKpi.type = IntegratedServicesServerID.googleAnalytics.rawValue
-            
-        case .SalesForce:
-            let sfEntity  = sfManager.fetchSalesForceKPIEntity()
-            
-            externalKPI.saleForceKPI = sfEntity!
-            externalKPI.serviceName = IntegratedServices.SalesForce.rawValue
-            addKpi.type = IntegratedServicesServerID.salesforceCRM.rawValue
-            
-        case .PayPal:
-            guard let payEntity = payPalKPI else { return }
-            
-            externalKPI.payPalKPI = payEntity
-            externalKPI.serviceName = IntegratedServices.PayPal.rawValue
-            addKpi.type = IntegratedServicesServerID.paypal.rawValue
-            
-        default: break
-        }
-        
-        let semenKPI = KPI(kpiID: -1, typeOfKPI: .IntegratedKPI,
-                           integratedKPI: externalKPI,
-                           createdKPI: nil,
-                           imageBacgroundColour: nil)
-        
-        addKpi.kpi = semenKPI
-        addKpi.addKPI(success: { ids in
-            print("DEBUG: KPIS ADDED ON SERV")
-            NotificationCenter.default.post(name: .addedNewExtKpiOnServer, object: nil)
-        }, failure: { error in
-            print(error)
-        })
-
-    }
+//    private func addOnServerSelectedKpis(_ ids: [Int], service: IntegratedServices) {
+//        
+//        let externalKPI = ExternalKPI(context: context)
+//        let addKpi      = AddKPI()
+//        
+//        addKpi.kpiIDs = ids
+//        externalKPI.kpiName = "SemenKPI"
+//        
+//        switch service
+//        {
+//        case .GoogleAnalytics:
+//            let gaEntity = GAnalytics.googleAnalyticsEntity
+//            
+//            externalKPI.googleAnalyticsKPI = gaEntity
+//            externalKPI.serviceName = IntegratedServices.GoogleAnalytics.rawValue
+//            addKpi.type = IntegratedServicesServerID.googleAnalytics.rawValue
+//            
+//        case .SalesForce:
+//            let sfEntity  = sfManager.fetchSalesForceKPIEntity()
+//            
+//            externalKPI.saleForceKPI = sfEntity!
+//            externalKPI.serviceName = IntegratedServices.SalesForce.rawValue
+//            addKpi.type = IntegratedServicesServerID.salesforceCRM.rawValue
+//            
+//        case .PayPal:
+//            guard let payEntity = payPalKPI else { return }
+//            
+//            externalKPI.payPalKPI = payEntity
+//            externalKPI.serviceName = IntegratedServices.PayPal.rawValue
+//            addKpi.type = IntegratedServicesServerID.paypal.rawValue
+//            
+//        default: break
+//        }
+//        
+//        let semenKPI = KPI(kpiID: -1, typeOfKPI: .IntegratedKPI,
+//                           integratedKPI: externalKPI,
+//                           createdKPI: nil,
+//                           imageBacgroundColour: nil)
+//        
+//        addKpi.kpi = semenKPI
+//        addKpi.addKPI(success: { ids in
+//            print("DEBUG: KPIS ADDED ON SERV")
+//            NotificationCenter.default.post(name: .addedNewExtKpiOnServer, object: nil)
+//        }, failure: { error in
+//            print(error)
+//        })
+//
+//    }
     
     private func getIdsForSelectedKpis(_ service: IntegratedServices) -> [Int] {
         
@@ -1398,146 +1398,146 @@ class ChooseSuggestedKPITableViewController: UITableViewController
     
     private func checkIsTtlValid(_ kpis: [Int], _: IntegratedServices,
                                  completion: @escaping ()->())  {
-        
-        switch integrated
-        {
-        case .GoogleAnalytics:
-            let entity = GAnalytics.googleAnalyticsEntity
-            
-            if let expDate = entity.oAuthTokenExpiresAt
-            {
-                let ttl = AddKPI.getSecondsFrom(date: expDate)
-                
-                if ttl < 0
-                {
-                    IntegratedServices.GoogleAnalytics.updateTokenFor(kpiID: kpis[0]) {
-                        completion()
-                    }
-                }
-                else
-                {
-                    completion()
-                }
-            }
-            
-        default: completion(); break
-        }
-        
+       
+//        switch integrated
+//        {
+//        case .GoogleAnalytics:
+//            let entity = GAnalytics.googleAnalyticsEntity
+//            
+//            if let expDate = entity.oAuthTokenExpiresAt
+//            {
+//                let ttl = AddKPI.getSecondsFrom(date: expDate)
+//                
+//                if ttl < 0
+//                {
+//                    IntegratedServices.GoogleAnalytics.updateTokenFor(kpiID: kpis[0]) {
+//                        completion()
+//                    }
+//                }
+//                else
+//                {
+//                    completion()
+//                }
+//            }
+//            
+//        default: completion(); break
+//        }
+//        
     }
     
     //MARK: - Save KPI
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
-        
-        if !dataIsEntered() {
-            return
-        }
-        
-        var kpi: KPI!
-        
-        switch source
-        {
-        case .Integrated:
-            let service      = integrated
-            let idsForServer = getIdsForSelectedKpis(service)
-            
-            checkIsTtlValid(idsForServer, service) {
-                self.addOnServerSelectedKpis(idsForServer, service: service)
-                
-                let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
-                _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
-            }
-            
-        case .User:
-            var executantProfile: Int!
-            
-            ui(block: true)
-            
-            for profile in model.team {
-                if executant?.components(separatedBy: " ")[0] == profile.firstName && executant?.components(separatedBy: " ")[1] == profile.lastName {
-                    executantProfile = Int(profile.userID)
-                }
-            }
-            
-            var deadlineDay = 1
-            switch timeInterval {
-            case .Daily:
-                deadlineDay = 1
-            case .Weekly:
-                switch weeklyInterval {
-                case .Monday:
-                    deadlineDay = 1
-                case .Tuesday:
-                    deadlineDay = 2
-                case .Wednesday:
-                    deadlineDay = 3
-                case .Thursday:
-                    deadlineDay = 4
-                case .Friday:
-                    deadlineDay = 5
-                case .Saturday:
-                    deadlineDay = 6
-                case .Sunday:
-                    deadlineDay = 7
-                case .none:
-                    break
-                }
-            case .Monthly:
-                if let day = mounthlyInterval {
-                    deadlineDay = day
-                }
-            }
-            
-            let userKPI = CreatedKPI(source: .User,
-                                     department: department,
-                                     KPI: kpiName!,
-                                     descriptionOfKPI: kpiDescription,
-                                     executant: executantProfile,
-                                     timeInterval: timeInterval,
-                                     deadlineDay: deadlineDay,
-                                     timeZone: timeZone!,
-                                     deadlineTime: deadline!,
-                                     number: [])
-            
-            var imageBacgroundColour: UIColor = .clear
-            
-            colourArray.forEach { color in
-                guard color.value == true, let color = Colour(rawValue: color.SettingName),
-                    let exactColor = colourDictionary[color]  else { return }
-                
-                imageBacgroundColour = exactColor
-            }
-
-            kpi = KPI(kpiID: 0,
-                      typeOfKPI: .createdKPI,
-                      integratedKPI: nil,
-                      createdKPI: userKPI,
-                      imageBacgroundColour: imageBacgroundColour)
-            
-            kpi.KPIViewOne  = firstChartType!
-            kpi.KPIViewTwo  = secondChartType!
-            kpi.KPIChartOne = firstChartName != "Table" ?
-                TypeOfChart(rawValue: firstChartName)! : nil
-            
-            kpi.KPIChartTwo = secondChartName != "Table" ?
-                TypeOfChart(rawValue: secondChartName)! : nil
-            
-            let request = AddKPI(model: model)
-            request.kpi = kpi
-            request.addKPI(success: { id in
-                let kpiListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
-                kpi.id = id[0]
-                self.delegate = kpiListVC
-                self.delegate.addNewKPI(kpi: kpi)
-                self.ui(block: false)
-                kpiListVC.removeAllKpis()
-                _ = self.navigationController?.popToViewController(kpiListVC, animated: true)
-            }, failure: { error in
-                self.ui(block: false)
-                self.showAlert(title: "Error occured", errorMessage: error)
-            })
-        default:
-            break
-        }
+//        
+//        if !dataIsEntered() {
+//            return
+//        }
+//        
+//        var kpi: KPI!
+//        
+//        switch source
+//        {
+//        case .Integrated:
+//            let service      = integrated
+//            let idsForServer = getIdsForSelectedKpis(service)
+//            
+//            checkIsTtlValid(idsForServer, service) {
+//               // self.addOnServerSelectedKpis(idsForServer, service: service)
+//                
+//               // let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
+//               // _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
+//            }
+//            
+//        case .User:
+//            var executantProfile: Int!
+//            
+//            ui(block: true)
+//            
+//            for profile in model.team {
+//                if executant?.components(separatedBy: " ")[0] == profile.firstName && executant?.components(separatedBy: " ")[1] == profile.lastName {
+//                    executantProfile = Int(profile.userID)
+//                }
+//            }
+//            
+//            var deadlineDay = 1
+//            switch timeInterval {
+//            case .Daily:
+//                deadlineDay = 1
+//            case .Weekly:
+//                switch weeklyInterval {
+//                case .Monday:
+//                    deadlineDay = 1
+//                case .Tuesday:
+//                    deadlineDay = 2
+//                case .Wednesday:
+//                    deadlineDay = 3
+//                case .Thursday:
+//                    deadlineDay = 4
+//                case .Friday:
+//                    deadlineDay = 5
+//                case .Saturday:
+//                    deadlineDay = 6
+//                case .Sunday:
+//                    deadlineDay = 7
+//                case .none:
+//                    break
+//                }
+//            case .Monthly:
+//                if let day = mounthlyInterval {
+//                    deadlineDay = day
+//                }
+//            }
+//            
+//            let userKPI = CreatedKPI(source: .User,
+//                                     department: department,
+//                                     KPI: kpiName!,
+//                                     descriptionOfKPI: kpiDescription,
+//                                     executant: executantProfile,
+//                                     timeInterval: timeInterval,
+//                                     deadlineDay: deadlineDay,
+//                                     timeZone: timeZone!,
+//                                     deadlineTime: deadline!,
+//                                     number: [])
+//            
+//            var imageBacgroundColour: UIColor = .clear
+//            
+//            colourArray.forEach { color in
+//                guard color.value == true, let color = Colour(rawValue: color.SettingName),
+//                    let exactColor = colourDictionary[color]  else { return }
+//                
+//                imageBacgroundColour = exactColor
+//            }
+//
+//            kpi = KPI(kpiID: 0,
+//                      typeOfKPI: .createdKPI,
+//                      integratedKPI: nil,
+//                      createdKPI: userKPI,
+//                      imageBacgroundColour: imageBacgroundColour)
+//            
+//            kpi.KPIViewOne  = firstChartType!
+//            kpi.KPIViewTwo  = secondChartType!
+//            kpi.KPIChartOne = firstChartName != "Table" ?
+//                TypeOfChart(rawValue: firstChartName)! : nil
+//            
+//            kpi.KPIChartTwo = secondChartName != "Table" ?
+//                TypeOfChart(rawValue: secondChartName)! : nil
+//            
+//            let request = AddKPI(model: model)
+//            request.kpi = kpi
+//            request.addKPI(success: { id in
+//                let kpiListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
+//                kpi.id = id[0]
+//                self.delegate = kpiListVC
+//                self.delegate.addNewKPI(kpi: kpi)
+//                self.ui(block: false)
+//                kpiListVC.removeAllKpis()
+//                _ = self.navigationController?.popToViewController(kpiListVC, animated: true)
+//            }, failure: { error in
+//                self.ui(block: false)
+//                self.showAlert(title: "Error occured", errorMessage: error)
+//            })
+//        default:
+//            break
+//        }
     }
     
     //MARK: - Show KPISelectSettingTableViewController method

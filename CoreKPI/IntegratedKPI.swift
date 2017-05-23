@@ -47,13 +47,12 @@ enum IntegratedServices: String
                                 oauthTokenExpiresAt: expires as Date)
             
             ga.updateAccessToken(servise: self, success: { tokenInfo in
-                let gaEntity = GAnalytics.googleAnalyticsEntity
                 let calendar = Calendar.current
                 let ttlDate = calendar.date(byAdding: .second,
                                             value: tokenInfo.ttl, to: Date())
                 
-                GAnalytics.googleAnalyticsEntity.oAuthToken = tokenInfo.token
-                GAnalytics.googleAnalyticsEntity.oAuthTokenExpiresAt = ttlDate! as NSDate
+                gaEntity.oAuthToken = tokenInfo.token
+                gaEntity.oAuthTokenExpiresAt = ttlDate! as NSDate
                 
                 UpdateIntegratedToken().update(token: tokenInfo.token,
                                                refreshToken: gaEntity.oAuthRefreshToken ?? "Semen",

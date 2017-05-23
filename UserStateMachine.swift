@@ -91,7 +91,7 @@ class UserStateMachine
             self.getDataFromCoreData()
             self.userLoggedIn()
         }, failure: { error in
-            if error == "" { //TODO: Токен невалидный
+            if error == "" { 
                 self.getDataFromCoreData()
                 self.logOut()
             } else {

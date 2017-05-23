@@ -196,7 +196,7 @@ class IntegratedServicesDataManager
             }
         case .SalesForce:
             break
-        //TODO: Add request
+        
         default:
             break
         }
@@ -220,9 +220,10 @@ class IntegratedServicesDataManager
         let sevenDaysAgo = dateFormatter.string(from: Date(timeIntervalSinceNow: -(7*24*3600)))
         let mounthAgo = dateFormatter.string(from: Date(timeIntervalSinceNow: -(30*24*3600)))
         
-        switch (GoogleAnalyticsKPIs(rawValue: (external?.kpiName)!))! {
+        switch (GoogleAnalyticsKPIs(rawValue: (external?.kpiName)!))!
+        {
         case .UsersSessions:
-            ranges.append(ReportRequest.DateRange(startDate: "2017-02-14", endDate: "2017-02-21"))
+            ranges.append(ReportRequest.DateRange(startDate: mounthAgo, endDate: curentDate))
             metrics.append(ReportRequest.Metric(expression: "ga:7dayUsers/ga:sessions", formattingType: .FLOAT))
             dimentions.append(ReportRequest.Dimension(name: "ga:day"))
         case .AudienceOverview:

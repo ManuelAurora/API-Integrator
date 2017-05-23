@@ -139,18 +139,9 @@ class GetIntegratedKPIs: Request {
             externalKpi.kpiName = ""
             
         case .googleAnalytics:
-            let request = NSFetchRequest<GoogleKPI>(entityName: "GoogleKPI")
-            var gaKpi: GoogleKPI!
-            
-            if let result = try? managedContext.fetch(request), let qqKpi = result.first
-            {
-                gaKpi = qqKpi
-            }
-            else
-            {
-                gaKpi = GoogleKPI(context: managedContext)
-            }
-            
+            let siteUrl = options?.first
+            let gaKpi   = GAnalytics.googleAnalyticsEntity(for: siteUrl)
+                
             gaKpi.oAuthToken = token
             gaKpi.oAuthRefreshToken = refToken
             gaKpi.oAuthTokenExpiresAt = date as NSDate

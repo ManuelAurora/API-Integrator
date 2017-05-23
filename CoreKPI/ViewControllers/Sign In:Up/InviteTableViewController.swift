@@ -141,7 +141,7 @@ class InviteTableViewController: UITableViewController {
     //MARK: - buying subscribe
     private func getNewSubscribe() {
         print("Add buying in ")
-        //TODO: add byuing InviteTableViewController
+        
     }
     
 }

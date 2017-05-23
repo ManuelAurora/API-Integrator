@@ -330,16 +330,17 @@ extension ExternalKPIViewController {
     }
     
     //MARK: - get ViewID for google analytics
-    func selectViewID(googleKPI: GoogleKPI) {
-        let request = GAnalytics(oauthToken: googleKPI.oAuthToken!, oauthRefreshToken: googleKPI.oAuthRefreshToken!, oauthTokenExpiresAt: googleKPI.oAuthTokenExpiresAt! as Date)
+    func selectViewID(googleKPI: GACredentialsInfo) {
+        
+        var googleKPI = googleKPI
+        let request = GAnalytics(oauthToken: googleKPI.token!,
+                                 oauthRefreshToken: googleKPI.refreshToken!,
+                                 oauthTokenExpiresAt: googleKPI.expiresAt! as Date)
+        
         request.getViewID(success: { viewIDArray in
             let alertVC = UIAlertController(title: "Select source", message: "Please!", preferredStyle: .actionSheet)
             for viewID in viewIDArray {
                 alertVC.addAction(UIAlertAction(title: viewID.webSiteUri, style: .default, handler: { (UIAlertAction) in
-                    //let googleKPI = GoogleKPI(context: self.context)
-                    //googleKPI.oAuthToken = credential.oauthToken
-                    //googleKPI.oAuthRefreshToken = credential.oauthRefreshToken
-                    //googleKPI.oAuthTokenExpiresAt = credential.oauthTokenExpiresAt as NSDate?
                     googleKPI.viewID = viewID.viewID
                     googleKPI.siteURL = viewID.webSiteUri
                     self.saveOauth2Data(googleAnalyticsObject: googleKPI, payPalObject: nil, salesForceObject: nil)
@@ -353,15 +354,18 @@ extension ExternalKPIViewController {
     }
     
     //MARK: save Oauth2.0 credentials data
-    func saveOauth2Data(googleAnalyticsObject: GoogleKPI?, payPalObject: PayPalKPI?, salesForceObject: SalesForceKPI?) {
+    func saveOauth2Data(googleAnalyticsObject: GACredentialsInfo?, payPalObject: PayPalKPI?, salesForceObject: SalesForceKPI?) {
 
         let idsForServer = getIdsForSelectedKpis(selectedService)
+        let source = googleAnalyticsObject?.siteURL
         
-        checkIsTtlValid(idsForServer, selectedService) {
-            self.addOnServerSelectedKpis(idsForServer, service: self.selectedService)
-            
-            let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
-            _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
+        checkIsTtlValid(idsForServer, selectedService, source: source) {
+        self.addOnServerSelectedKpis(idsForServer,
+                                     service: self.selectedService,
+                                     source: googleAnalyticsObject)
+        
+        let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
+        _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
         }
         
         let stackVC = navigationController?.viewControllers
@@ -413,7 +417,9 @@ extension ExternalKPIViewController {
         return idsForServer
     }
     
-    private func addOnServerSelectedKpis(_ ids: [Int], service: IntegratedServices) {
+    private func addOnServerSelectedKpis(_ ids: [Int],
+                                         service: IntegratedServices,
+                                         source: GACredentialsInfo? = nil) {
         
         let externalKPI = ExternalKPI(context: context)
         let addKpi      = AddKPI()
@@ -424,12 +430,22 @@ extension ExternalKPIViewController {
         switch service
         {
         case .GoogleAnalytics:
-            let gaEntity = GAnalytics.googleAnalyticsEntity
+            let gaEntity = GAnalytics.googleAnalyticsEntity(for: source?.siteURL)
+            
+            gaEntity.oAuthToken        = source?.token
+            gaEntity.oAuthRefreshToken = source?.refreshToken
+            gaEntity.siteURL           = source?.siteURL
+            gaEntity.viewID            = source?.viewID
+            
+            if let date = source?.expiresAt as NSDate?
+            {
+                gaEntity.oAuthTokenExpiresAt = date
+            }
             
             externalKPI.googleAnalyticsKPI = gaEntity
             externalKPI.serviceName = IntegratedServices.GoogleAnalytics.rawValue
             addKpi.type = IntegratedServicesServerID.googleAnalytics.rawValue
-            
+                        
         case .SalesForce:
             let sfEntity  = sfManager.fetchSalesForceKPIEntity()
             
@@ -462,19 +478,23 @@ extension ExternalKPIViewController {
     }
     
     private func checkIsTtlValid(_ kpis: [Int], _: IntegratedServices,
+                                 source: String?,
                                  completion: @escaping ()->())  {
        
         switch selectedService
         {
         case .GoogleAnalytics:
-            let entity = GAnalytics.googleAnalyticsEntity
+            let entity = GAnalytics.googleAnalyticsEntity(for: source)
+            
             if let expDate = entity.oAuthTokenExpiresAt
             {
                 let ttl = AddKPI.getSecondsFrom(date: expDate)
                 
                 if ttl < 0
-                {                    
-                    IntegratedServices.GoogleAnalytics.updateTokenFor(kpiID: kpis[0]) {
+                {
+                    let ga = IntegratedServices.GoogleAnalytics
+                    
+                    ga.updateTokenFor(kpiID: kpis[0], gaEntity: entity) {
                         completion()
                     }
                 }

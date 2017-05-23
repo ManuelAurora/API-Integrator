@@ -12,10 +12,17 @@ import UIKit
 
 class GAnalytics: ExternalRequest {
     
-    class var googleAnalyticsEntity: GoogleKPI {
+    class func googleAnalyticsEntity(for siteUrl: String?) -> GoogleKPI {
+        
+        guard let siteUrl = siteUrl else { return GoogleKPI() }
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context     = appDelegate.persistentContainer.viewContext
         let request     = NSFetchRequest<GoogleKPI>(entityName: "GoogleKPI")
+        
+        let predicate = NSPredicate(format: "siteURL = %@", siteUrl)
+        
+        request.predicate = predicate
         
         if let result  = try? context.fetch(request), let entity = result.first
         {
@@ -23,7 +30,7 @@ class GAnalytics: ExternalRequest {
         }
         else
         {
-            return GoogleKPI()
+            return GoogleKPI(context: context)
         }
     }
     
