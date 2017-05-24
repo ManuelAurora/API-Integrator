@@ -499,6 +499,8 @@ extension ExternalKPIViewController {
                     completion()
                 }
             }
+            else { completion() }
+            
             
         default: completion(); break
         }

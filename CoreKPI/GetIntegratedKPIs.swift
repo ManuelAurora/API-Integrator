@@ -1,4 +1,4 @@
-//
+          //
 //  GetIntegratedKPIs.swift
 //  CoreKPI
 //
@@ -13,7 +13,7 @@ import CoreData
 class GetIntegratedKPIs: Request {
     
     func getKPIsFromServer(success: @escaping (_ arrayOfKPI: [KPI]) -> (), failure: @escaping failure) {
-        
+         
         let data: [String : Any] = [:]
         
         self.getJson(category: "/kpi/getIntegratedKPIList", data: data,
@@ -145,13 +145,14 @@ class GetIntegratedKPIs: Request {
             gaKpi.oAuthToken = token
             gaKpi.oAuthRefreshToken = refToken
             gaKpi.oAuthTokenExpiresAt = date as NSDate
-            
+           
+            //TODO: TEST FOR 2 OPTIONS
             if let options = options, options.count == 2
             {
                 gaKpi.siteURL = options[0]
                 gaKpi.viewID  = options[1]
             }
-            
+        
             externalKpi.serviceName = IntegratedServices.GoogleAnalytics.rawValue
             externalKpi.googleAnalyticsKPI = gaKpi
             externalKpi.kpiName = ""

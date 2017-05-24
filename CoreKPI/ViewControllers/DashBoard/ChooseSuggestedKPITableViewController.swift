@@ -1427,117 +1427,117 @@ class ChooseSuggestedKPITableViewController: UITableViewController
     
     //MARK: - Save KPI
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
-//        
-//        if !dataIsEntered() {
-//            return
-//        }
-//        
-//        var kpi: KPI!
-//        
-//        switch source
-//        {
-//        case .Integrated:
-//            let service      = integrated
-//            let idsForServer = getIdsForSelectedKpis(service)
-//            
-//            checkIsTtlValid(idsForServer, service) {
-//               // self.addOnServerSelectedKpis(idsForServer, service: service)
-//                
-//               // let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
-//               // _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
-//            }
-//            
-//        case .User:
-//            var executantProfile: Int!
-//            
-//            ui(block: true)
-//            
-//            for profile in model.team {
-//                if executant?.components(separatedBy: " ")[0] == profile.firstName && executant?.components(separatedBy: " ")[1] == profile.lastName {
-//                    executantProfile = Int(profile.userID)
-//                }
-//            }
-//            
-//            var deadlineDay = 1
-//            switch timeInterval {
-//            case .Daily:
-//                deadlineDay = 1
-//            case .Weekly:
-//                switch weeklyInterval {
-//                case .Monday:
-//                    deadlineDay = 1
-//                case .Tuesday:
-//                    deadlineDay = 2
-//                case .Wednesday:
-//                    deadlineDay = 3
-//                case .Thursday:
-//                    deadlineDay = 4
-//                case .Friday:
-//                    deadlineDay = 5
-//                case .Saturday:
-//                    deadlineDay = 6
-//                case .Sunday:
-//                    deadlineDay = 7
-//                case .none:
-//                    break
-//                }
-//            case .Monthly:
-//                if let day = mounthlyInterval {
-//                    deadlineDay = day
-//                }
-//            }
-//            
-//            let userKPI = CreatedKPI(source: .User,
-//                                     department: department,
-//                                     KPI: kpiName!,
-//                                     descriptionOfKPI: kpiDescription,
-//                                     executant: executantProfile,
-//                                     timeInterval: timeInterval,
-//                                     deadlineDay: deadlineDay,
-//                                     timeZone: timeZone!,
-//                                     deadlineTime: deadline!,
-//                                     number: [])
-//            
-//            var imageBacgroundColour: UIColor = .clear
-//            
-//            colourArray.forEach { color in
-//                guard color.value == true, let color = Colour(rawValue: color.SettingName),
-//                    let exactColor = colourDictionary[color]  else { return }
-//                
-//                imageBacgroundColour = exactColor
-//            }
-//
-//            kpi = KPI(kpiID: 0,
-//                      typeOfKPI: .createdKPI,
-//                      integratedKPI: nil,
-//                      createdKPI: userKPI,
-//                      imageBacgroundColour: imageBacgroundColour)
-//            
-//            kpi.KPIViewOne  = firstChartType!
-//            kpi.KPIViewTwo  = secondChartType!
-//            kpi.KPIChartOne = firstChartName != "Table" ?
-//                TypeOfChart(rawValue: firstChartName)! : nil
-//            
-//            kpi.KPIChartTwo = secondChartName != "Table" ?
-//                TypeOfChart(rawValue: secondChartName)! : nil
-//            
-//            let request = AddKPI(model: model)
-//            request.kpi = kpi
-//            request.addKPI(success: { id in
-//                let kpiListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
-//                kpi.id = id[0]
-//                self.delegate = kpiListVC
-//                self.delegate.addNewKPI(kpi: kpi)
-//                self.ui(block: false)
-//                kpiListVC.removeAllKpis()
-//                _ = self.navigationController?.popToViewController(kpiListVC, animated: true)
-//            }, failure: { error in
-//                self.ui(block: false)
-//                self.showAlert(title: "Error occured", errorMessage: error)
-//            })
-//        default:
-//            break
-//        }
+        
+        if !dataIsEntered() {
+            return
+        }
+        
+        var kpi: KPI!
+        
+        switch source
+        {
+        case .Integrated:
+            let service      = integrated
+            let idsForServer = getIdsForSelectedKpis(service)
+            
+            checkIsTtlValid(idsForServer, service) {
+               // self.addOnServerSelectedKpis(idsForServer, service: service)
+                
+               // let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
+               // _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
+            }
+            
+        case .User:
+            var executantProfile: Int!
+            
+            ui(block: true)
+            
+            for profile in model.team {
+                if executant?.components(separatedBy: " ")[0] == profile.firstName && executant?.components(separatedBy: " ")[1] == profile.lastName {
+                    executantProfile = Int(profile.userID)
+                }
+            }
+            
+            var deadlineDay = 1
+            switch timeInterval {
+            case .Daily:
+                deadlineDay = 1
+            case .Weekly:
+                switch weeklyInterval {
+                case .Monday:
+                    deadlineDay = 1
+                case .Tuesday:
+                    deadlineDay = 2
+                case .Wednesday:
+                    deadlineDay = 3
+                case .Thursday:
+                    deadlineDay = 4
+                case .Friday:
+                    deadlineDay = 5
+                case .Saturday:
+                    deadlineDay = 6
+                case .Sunday:
+                    deadlineDay = 7
+                case .none:
+                    break
+                }
+            case .Monthly:
+                if let day = mounthlyInterval {
+                    deadlineDay = day
+                }
+            }
+            
+            let userKPI = CreatedKPI(source: .User,
+                                     department: department,
+                                     KPI: kpiName!,
+                                     descriptionOfKPI: kpiDescription,
+                                     executant: executantProfile,
+                                     timeInterval: timeInterval,
+                                     deadlineDay: deadlineDay,
+                                     timeZone: timeZone!,
+                                     deadlineTime: deadline!,
+                                     number: [])
+            
+            var imageBacgroundColour: UIColor = .clear
+            
+            colourArray.forEach { color in
+                guard color.value == true, let color = Colour(rawValue: color.SettingName),
+                    let exactColor = colourDictionary[color]  else { return }
+                
+                imageBacgroundColour = exactColor
+            }
+
+            kpi = KPI(kpiID: 0,
+                      typeOfKPI: .createdKPI,
+                      integratedKPI: nil,
+                      createdKPI: userKPI,
+                      imageBacgroundColour: imageBacgroundColour)
+            
+            kpi.KPIViewOne  = firstChartType!
+            kpi.KPIViewTwo  = secondChartType!
+            kpi.KPIChartOne = firstChartName != "Table" ?
+                TypeOfChart(rawValue: firstChartName)! : nil
+            
+            kpi.KPIChartTwo = secondChartName != "Table" ?
+                TypeOfChart(rawValue: secondChartName)! : nil
+            
+            let request = AddKPI(model: model)
+            request.kpi = kpi
+            request.addKPI(success: { id in
+                let kpiListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
+                kpi.id = id[0]
+                self.delegate = kpiListVC
+                self.delegate.addNewKPI(kpi: kpi)
+                self.ui(block: false)
+                kpiListVC.removeAllKpis()
+                _ = self.navigationController?.popToViewController(kpiListVC, animated: true)
+            }, failure: { error in
+                self.ui(block: false)
+                self.showAlert(title: "Error occured", errorMessage: error)
+            })
+        default:
+            break
+        }
     }
     
     //MARK: - Show KPISelectSettingTableViewController method

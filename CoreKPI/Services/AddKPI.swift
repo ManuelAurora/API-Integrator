@@ -79,12 +79,11 @@ class AddKPI: Request
                         token = extKPI?.googleAnalyticsKPI?.oAuthToken
                         refreshToken = extKPI?.googleAnalyticsKPI?.oAuthRefreshToken
                         
-                        var options = [String]()
-                        
                         kpiIDs.forEach { id in
                             if let siteUrl = extKPI?.googleAnalyticsKPI?.siteURL,
                                 let viewID = extKPI?.googleAnalyticsKPI?.viewID
                             {
+                                var options = [String]()
                                 options.append(siteUrl)
                                 options.append(viewID)
                                 

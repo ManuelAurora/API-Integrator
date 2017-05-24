@@ -197,7 +197,8 @@ class MemberListTableViewController: UITableViewController {
         stateMachine.getNumberOfInvitations()
         
         request.getMemberList(success: {
-            team in            
+            team in
+            UserStateMachine.shared.updateProfile()
             self.model.team = team.sorted { member in
                 let memberId  = Int(member.0.userID)
                 let profileId = self.model.profile?.userId

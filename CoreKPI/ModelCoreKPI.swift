@@ -101,7 +101,7 @@ class KPI {
         {
         case .createdKPI:
             guard let numbers = createdKPI?.number, numbers.count >= 2 else {
-                return nil
+                return .Increases
             }
             let currentDayValue  = numbers[0].number
             let previousDayValue = numbers[1].number

@@ -63,13 +63,15 @@ class QuickBookRequestHandler
                 
                 for row in rows2
                 {
-                    let summary = row["Summary"] as! [String: Any]
-                    let colDataSum = summary["ColData"] as! [[String: Any]]
-                    let kpiSummary = colDataSum[1] as! [String: String]
-                    //let kpiTitle = colDataSum[0] as! [String: String]
-                    
+                    if let summary = row["Summary"] as? [String: Any],
+                        let colDataSum = summary["ColData"] as? [[String: Any]],
+                        let kpiSummary = colDataSum[1] as? [String: String]
+                    {
+                        //let kpiTitle = colDataSum[0] as! [String: String]
+                        
+                        kpiInfo.kpiValue = kpiSummary["value"]!
+                    }
                     kpiInfo.kpiName = QiuckBooksKPIs.Balance.rawValue
-                    kpiInfo.kpiValue = kpiSummary["value"]!
                 }
                 
                 let result = (kpiInfo.kpiName,"",kpiInfo.kpiValue)

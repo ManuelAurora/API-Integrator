@@ -57,12 +57,12 @@ class QuickBookDataManager
         return managedContext
     }()
     
-    private let urlBase = "https://sandbox-quickbooks.api.intuit.com/v3/company/"
+    private let urlBase = "https://quickbooks.api.intuit.com/v3/company/"
     
     lazy var oauthswift: OAuth1Swift = {
         let oauthswift = OAuth1Swift(
-            consumerKey:    "qyprdLYMArOQwomSilhpS7v9Ge8kke",
-            consumerSecret: "ogPRVftZXLA1A03QyWNyJBax1qOOphuVJVP121np",
+            consumerKey:    "qyprdzqpTChNK3KI8Tgd033a9OaTok",
+            consumerSecret: "5LPsMnCweP7SvGqQLkDqzwKlqVyq8z1GPlRLridZ",
             requestTokenUrl: "https://oauth.intuit.com/oauth/v1/get_request_token",
             authorizeUrl:    "https://appcenter.intuit.com/Connect/Begin",
             accessTokenUrl:  "https://oauth.intuit.com/oauth/v1/get_access_token"
@@ -140,11 +140,11 @@ class QuickBookDataManager
     
     class func shared() -> QuickBookDataManager {
         
-        struct Singelton
+        enum Singelton
         {
             static let manager = QuickBookDataManager()
         }
-        
+       
         return Singelton.manager
     }
     
@@ -154,7 +154,7 @@ class QuickBookDataManager
     }
     
     func dataFor(kpi: QiuckBooksKPIs) -> resultArray {
-        
+    
         switch kpi
         {
         case .Balance: return balanceSheet

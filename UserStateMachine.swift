@@ -112,6 +112,19 @@ class UserStateMachine
         userStateInfo.tryingToLogIn = state
     }
     
+    //Updates profile info when needed.
+    func updateProfile() {
+        
+        if let myProfile = (model.team.filter
+        {
+            $0.userID == Int64(model.profile.userId)
+        })
+        .first {
+            let typeOfAccount: TypeOfAccount = myProfile.isAdmin ? .Admin : .Manager
+            model.profile.typeOfAccount = typeOfAccount
+        }
+    }
+    
     func logInWith(email: String, password: String) {        
         
         setTryingToLogin(true)
