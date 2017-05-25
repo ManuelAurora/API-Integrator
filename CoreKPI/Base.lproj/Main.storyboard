@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="yjb-8Z-cjo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="yjb-8Z-cjo">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -769,7 +769,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                 <rect key="frame" x="16" y="574" width="343" height="34"/>
                                 <subviews>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-cu-qgk">
-                                        <rect key="frame" x="0.0" y="0.0" width="101" height="34"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="34"/>
                                         <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <state key="normal" title="Security">
@@ -786,7 +786,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                         </connections>
                                     </button>
                                     <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PCg-CY-yE3">
-                                        <rect key="frame" x="122" y="0.0" width="100" height="34"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="34"/>
                                         <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="Jfd-U1-M3y"/>
@@ -806,7 +806,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                         </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsv-ER-n9H">
-                                        <rect key="frame" x="243" y="0.0" width="100" height="34"/>
+                                        <rect key="frame" x="343" y="0.0" width="0.0" height="34"/>
                                         <color key="backgroundColor" red="0.0" green="0.73725490196078436" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="AxD-cE-ITD"/>
@@ -2687,7 +2687,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="i7V-Gn-dB9" customClass="SupportNavigationViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" tag="4" title="Support" image="supportIcons1" id="0wG-gG-Qpc"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="vMh-4t-DDu">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="vMh-4t-DDu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2705,7 +2705,7 @@ The main advantage of a computer audio player is that you can play your audio CD
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hDU-VL-yhS" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="FFr-NB-xN3">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="FFr-NB-xN3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -3087,7 +3087,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Bhs-bF-RAh" customClass="DashboardsNavigationViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" tag="1" title="Dashboards" image="dashboardsIcons1" id="eOK-bf-t3j"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="CF1-TA-ymt">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="CF1-TA-ymt">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -4699,7 +4699,7 @@ Deliveries</string>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xZh-Bo-02q" customClass="AlertsNavigationViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" tag="2" title="Alerts" image="alertsIcosn1" id="9JT-5k-vyB"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="grx-jU-Qsa">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="grx-jU-Qsa">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -4720,7 +4720,7 @@ Deliveries</string>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="GQJ-wM-I9x">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="GQJ-wM-I9x">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -4761,6 +4761,6 @@ Deliveries</string>
         <image name="teamsIcons1" width="25" height="26"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="hOe-3T-3Gf"/>
+        <segue reference="DdY-vZ-46a"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -9,11 +9,6 @@
 import UIKit
 import CoreData
 //MARK: - Enums for setting
-enum Source: String {
-    case none = ""
-    case User
-    case Integrated
-}
 
 class KPIsListTableViewController: UITableViewController
 {    

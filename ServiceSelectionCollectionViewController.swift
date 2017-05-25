@@ -53,6 +53,10 @@ class ServiceSelectionCollectionViewController: UICollectionViewController,
         }
         else
         {
+            if indexPath.row > 1
+            {
+                cell.grayOut()
+            }
             cell.setImageFor(service: selectedService)
         }
         
@@ -111,12 +115,19 @@ class ServiceSelectionCollectionViewController: UICollectionViewController,
         {
             let customKpiVc = storyboard.instantiateViewController(
                 withIdentifier: .createNewCustomKpi) as! ChooseSuggestedKPITableViewController
-            customKpiVc.model = ModelCoreKPI.modelShared
-            customKpiVc.source = .User
+            customKpiVc.model = ModelCoreKPI.modelShared           
             navigationController?.pushViewController(customKpiVc, animated: true)
         }
         else
         {
+            let cell = collectionView.cellForItem(at: indexPath) as! ServiceCell
+            
+            if cell.isDisabled
+            {
+                cell.animate()
+                return
+            }
+                
             let service = datasource.kpiSources[indexPath.row].service
             let externalKPIVC = storyboard.instantiateViewController(
                 withIdentifier: .externalKPIVC) as! ExternalKPIViewController

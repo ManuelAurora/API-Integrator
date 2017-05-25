@@ -18,10 +18,22 @@ class ServiceCell: UICollectionViewCell
         setupView()
     }
     
+    private(set) var isDisabled: Bool = false
+    
     private let titleLabel: UILabel = {
         let title = "Custom KPI"
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 25)
+        label.textAlignment = .center
+        label.text = title
+        return label
+    }()
+    
+    private let comingSoonLabel: UILabel = {
+        let title = "Coming Soon"
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.textColor = .white
         label.textAlignment = .center
         label.text = title
         return label
@@ -33,6 +45,30 @@ class ServiceCell: UICollectionViewCell
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
         backgroundColor = OurColors.lightBlue
+    }
+    
+    func grayOut() {
+        
+        let grayedOutLayer = CALayer()
+        grayedOutLayer.frame = bounds
+        grayedOutLayer.backgroundColor = UIColor.black.cgColor
+        grayedOutLayer.opacity = 0.49
+        isDisabled = true
+        
+        layer.addSublayer(grayedOutLayer)
+        
+        addSubview(comingSoonLabel)
+        
+        comingSoonLabel.anchor(topAnchor,
+                               left: leftAnchor,
+                               bottom: nil,
+                               right: rightAnchor,
+                               topConstant: 6,
+                               leftConstant: 2,
+                               bottomConstant: 0,
+                               rightConstant: 2,
+                               widthConstant: 0,
+                               heightConstant: 20)        
     }
     
     func showCustomKPICell() {
@@ -65,5 +101,19 @@ class ServiceCell: UICollectionViewCell
         case .SalesForce:       imageView.image = #imageLiteral(resourceName: "SaleForce")
         default: break
         }
+    }
+    
+    func animate() {
+        
+        frame.origin.x += 3
+      
+        UIView.animate(withDuration: 0.6,
+                       delay: 0,
+                       usingSpringWithDamping: 0.2,
+                       initialSpringVelocity: 300,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.frame.origin.x -= 3
+        }, completion: nil)
     }
 }

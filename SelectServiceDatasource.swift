@@ -25,8 +25,7 @@ class SelectServiceDatasource
         let hmService = KPISource(service: .HubSpotMarketing)
         let ppService = KPISource(service: .PayPal)
         
-        return [sfService, qbService, gaService, hcService, hmService, ppService]
-        
+        return [ppService, gaService, qbService, hcService, hmService, sfService]
     }()
 
     func getKpisFor(service: IntegratedServices) -> [semenSettingsTuple] {

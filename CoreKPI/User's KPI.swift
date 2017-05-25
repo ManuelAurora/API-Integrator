@@ -10,8 +10,8 @@ import Foundation
 
 //MARK: - Structs for KPIs
 
-struct CreatedKPI {
-    var source: Source
+struct CreatedKPI
+{    
     var department: Departments
     var KPI: String
     var descriptionOfKPI: String?

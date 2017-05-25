@@ -56,10 +56,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController
     
     var delegate: updateKPIListDelegate!
     var center = CGPoint.zero
-    var source = Source.none
-    var sourceArray: [(SettingName: String, value: Bool)] = [
-        (Source.User.rawValue, false),
-        (Source.Integrated.rawValue, false)]
     var isColorSet = false
     
     //MARK: - integarted services
@@ -77,10 +73,10 @@ class ChooseSuggestedKPITableViewController: UITableViewController
     var hubspotMarketingKPIs: [HubSpotMarketingKPIs] = []
     var hubSpotMarketingKPIArray: [(SettingName: String, value: Bool)] = []
     
-//    var oauthToken: String?
-//    var oauthRefreshToken: String?
-//    var oauthTokenExpiresAt: Date?
-//    var viewID: String?
+    //    var oauthToken: String?
+    //    var oauthRefreshToken: String?
+    //    var oauthTokenExpiresAt: Date?
+    //    var viewID: String?
     
     var googleKPI: GoogleKPI?
     var payPalKPI: PayPalKPI?
@@ -155,14 +151,13 @@ class ChooseSuggestedKPITableViewController: UITableViewController
             var newWeeklyArray: [(SettingName: String, value: Bool)] = []
             for interval in weeklyArray {
                 if interval.SettingName == newValue.rawValue {
-                   newWeeklyArray.append((interval.SettingName, true))
+                    newWeeklyArray.append((interval.SettingName, true))
                 } else {
                     newWeeklyArray.append((interval.SettingName, false))
                 }
             }
             weeklyArray = newWeeklyArray
         }
-
     }
     
     var colourArray: [(SettingName: String, value: Bool)] = [
@@ -222,7 +217,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
             }
             mounthlyIntervalArray = newMounthlyIntervalArray
         }
-
+        
     }
     var mounthlyIntervalArray: [(SettingName: String, value: Bool)] = []
     
@@ -241,15 +236,15 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         (TypeOfChart.PieChart.rawValue, false),
         (TypeOfChart.PointChart.rawValue, false),
         (TypeOfChart.LineChart.rawValue, false)
-        ]
+    ]
     
     var deadline: Date?
     
     var typeOfSetting = TypeOfSetting.none
     var settingArray: [(SettingName: String, value: Bool)] = []
     
-    var datePickerIsVisible = false
-    var dataPickerIsVisible = false
+    var isDatePickerVisible     = false
+    var isDeadlinePickerVisible = false
     
     private var cancelTap: UITapGestureRecognizer? {
         didSet {
@@ -266,7 +261,17 @@ class ChooseSuggestedKPITableViewController: UITableViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         title = "New KPI"
+        title = "New KPI"
+        
+        let selector = #selector(self.tappedCancelButton)
+        let cancelB  = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                       target: self,
+                                       action: selector)
+        
+        navigationItem.setHidesBackButton(true, animated: false)
+        navigationItem.setLeftBarButton(cancelB, animated: false)
+        
+        title = "New KPI"
         navigationItem.hidesBackButton = true
         tableView.isScrollEnabled = true
         center = view.center
@@ -277,13 +282,22 @@ class ChooseSuggestedKPITableViewController: UITableViewController
     }
     
     override func viewWillAppear(_ animated: Bool) {
-       
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
         checkInputValues()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        isDatePickerVisible = false
+        isDeadlinePickerVisible = false
     }
     
     //MARK: - Create arrays for external services KPI
     func createExternalServicesArrays() {
-               
+        
         for saleforceKPI in iterateEnum(SalesForceKPIs.self) {
             saleForceKPIArray.append((saleforceKPI.rawValue, false))
         }
@@ -439,514 +453,249 @@ class ChooseSuggestedKPITableViewController: UITableViewController
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        switch source
+        return 14
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if indexPath.row == 13
         {
-        case .none:
-            return 1
+            return isDeadlinePickerVisible ? 216 : 0
+        }
+        
+        if indexPath.row == 7
+        {
+            return timeInterval != .Daily ? 44 : 0
+        }
+        
+        if indexPath.row == 4
+        {
+            guard let text = kpiDescription else { return 44 }
             
-        case .User:            
+            let size = CGSize(width: view.frame.width - 60, height: 1000)
+            let attrs = [NSFontAttributeName: UIFont.systemFont(ofSize: 15)]
+            let estimatedSize = NSString(string: text).boundingRect(with: size,
+                                                                    options: .usesLineFragmentOrigin,
+                                                                    attributes: attrs,
+                                                                    context: nil)
+            return estimatedSize.height + 33
+        }
+        
+        if indexPath.row == 8
+        {
             switch timeInterval
             {
-            case .Daily:
-                return datePickerIsVisible ? 12 : 11
+            case .Daily, .Weekly:
+                return 0
                 
-            case .Weekly, .Monthly:
-                var cells = 12
-                
-                if dataPickerIsVisible { cells += 1 }
-                if datePickerIsVisible { cells += 1 }
-                
-                return cells
-                
+            case .Monthly:
+                return  isDatePickerVisible ? 216 : 0
             }
-            
-        case .Integrated:
-            var numberOfKPIs = 0
-            var arrayOfKPIs: [(SettingName: String, value: Bool)] = []
-            
-            switch integrated {
-            case .none:
-                return 1
-            case .SalesForce:
-                arrayOfKPIs = saleForceKPIArray
-            case .Quickbooks:
-                arrayOfKPIs = quickBooksKPIArray
-            case .GoogleAnalytics:
-                arrayOfKPIs = googleAnalyticsKPIArray
-            case .HubSpotCRM:
-                arrayOfKPIs = hubSpotCRMKPIArray
-            case .PayPal:
-                arrayOfKPIs = payPalKPIArray
-            case .HubSpotMarketing:
-                arrayOfKPIs = hubSpotMarketingKPIArray
-            }
-            for value in arrayOfKPIs {
-                if value.value == true {
-                    numberOfKPIs += 1
-                }
-            }
-            return 2 + numberOfKPIs
         }
+        return UITableViewAutomaticDimension
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
-        let colourCell = tableView.dequeueReusableCell(withIdentifier: "SelectColourCell", for: indexPath) as! KPIColourTableViewCell
-       // colourCell.colourView.isHidden = !isColorSet
-        
-        colourCell.layoutIfNeeded()
-        colourCell.layoutSubviews()
-        colourCell.headerOfCell.text = "Colour"
-        colourCell.descriptionOfCell.text = colour.rawValue
-        for color in colourDictionary {
-            if color.key == colour {
-                colourCell.colourView.backgroundColor = color.value
-                colourCell.prepareForReuse()
+        switch indexPath.row
+        {
+        case 0:
+            let colourCell = tableView.dequeueReusableCell(withIdentifier: "SelectColourCell",
+                                                           for: indexPath) as! KPIColourTableViewCell
+            colourCell.layoutIfNeeded()
+            colourCell.layoutSubviews()
+            colourCell.headerOfCell.text = "Colour"
+            colourCell.descriptionOfCell.text = colour.rawValue
+            
+            for color in colourDictionary {
+                if color.key == colour {
+                    colourCell.colourView.backgroundColor = color.value
+                    colourCell.prepareForReuse()
+                }
             }
-        }
-        
-        switch source {
-        case .none:
-            title = "Source"
+            return colourCell
             
-            SuggestedCell.descriptionOfCell.text = source.rawValue
-            SuggestedCell.accessoryType = .none
+        case 1:
+            let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
+            SuggestedCell.accessoryType = .disclosureIndicator
+            SuggestedCell.trailingToRightConstraint.constant = 0
+            SuggestedCell.headerOfCell.text = "Department"
+            SuggestedCell.descriptionOfCell.text = department.rawValue
+            SuggestedCell.prepareForReuse()
+            return SuggestedCell
             
-            if indexPath.row == 0
+        case 2:
+            let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
+            SuggestedCell.accessoryType = .disclosureIndicator
+            SuggestedCell.trailingToRightConstraint.constant = 0
+            SuggestedCell.headerOfCell.text = "Suggested KPI"
+            SuggestedCell.descriptionOfCell.text = self.kpiName ?? "(Optional)"
+            SuggestedCell.prepareForReuse()
+            return SuggestedCell
+            
+        case 3:
+            let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
+            SuggestedCell.accessoryType = .disclosureIndicator
+            SuggestedCell.trailingToRightConstraint.constant = 0
+            SuggestedCell.headerOfCell.text = "KPI Name"
+            SuggestedCell.descriptionOfCell.text = self.kpiName ?? ""
+            SuggestedCell.prepareForReuse()
+            return SuggestedCell
+            
+        case 4:
+            let DescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell", for: indexPath) as! KPIDescriptionTableViewCell
+            DescriptionCell.headerOfCellLabel.text = "KPI Note"
+            DescriptionCell.descriptionOfCellLabel.text = self.kpiDescription == nil ? "Add note (Optional)" : ""
+            
+            if self.kpiDescription == nil {
+                DescriptionCell.kpiInfoTextLabel.isHidden = true
+            } else {
+                DescriptionCell.kpiInfoTextLabel.isHidden = false
+                DescriptionCell.kpiInfoTextLabel.text = self.kpiDescription
+            }
+            
+            DescriptionCell.prepareForReuse()
+            return DescriptionCell
+            
+        case 5:
+            let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
+            SuggestedCell.accessoryType = .disclosureIndicator
+            SuggestedCell.trailingToRightConstraint.constant = 0
+            SuggestedCell.headerOfCell.text = "Executant"
+            
+            if UserStateMachine.shared.isAdmin
             {
-                SuggestedCell.headerOfCell.text = "User"
+                SuggestedCell.descriptionOfCell.text = self.executant ?? ""
+                SuggestedCell.rightConstraint.constant = 0
             }
             else
             {
-                SuggestedCell.headerOfCell.text = "Integrated"
+                let profileID = model.profile.userId
+                let user = model.team.filter { team in
+                    return team.userID == Int64(profileID)
+                }
+                
+                if let currentUser = user.first,
+                    let name = currentUser.firstName,
+                    let lastName = currentUser.lastName
+                {
+                    let fullName = name + " " + lastName
+                    executantArray.append((SettingName: fullName,
+                                           value: true))
+                    SuggestedCell.descriptionOfCell.text = fullName
+                    SuggestedCell.accessoryType = .none
+                    SuggestedCell.rightConstraint.constant = 16
+                }
             }
+            SuggestedCell.prepareForReuse()
+            return SuggestedCell
             
-        case .User:
-            title = "New KPI"
-            
-            let selector = #selector(self.tappedCancelButton)
-            let cancelB  = UIBarButtonItem(barButtonSystemItem: .cancel,
-                                           target: self,
-                                           action: selector)
-            
-            navigationItem.setHidesBackButton(true, animated: false)
-            navigationItem.setLeftBarButton(cancelB, animated: false)
+        case 6:
+            let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
             SuggestedCell.accessoryType = .disclosureIndicator
             SuggestedCell.trailingToRightConstraint.constant = 0
+            SuggestedCell.headerOfCell.text = "Time Interval"
+            SuggestedCell.descriptionOfCell.text = timeInterval.rawValue
+            SuggestedCell.prepareForReuse()
+            return SuggestedCell
             
-            switch timeInterval
-            {
-            case .Daily:
-                switch indexPath.row
-                {
-                case 0:
-                    return colourCell
-             
-                case 1:
-                    SuggestedCell.headerOfCell.text = "Department"
-                    SuggestedCell.descriptionOfCell.text = department.rawValue
-                case 2:
-                    SuggestedCell.headerOfCell.text = "Suggested KPI"
-                    SuggestedCell.descriptionOfCell.text = self.kpiName ?? "(Optional)"
-                case 3:
-                    SuggestedCell.headerOfCell.text = "KPI Name"
-                    SuggestedCell.descriptionOfCell.text = self.kpiName ?? ""
-                case 4:
-                    let DescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell", for: indexPath) as! KPIDescriptionTableViewCell
-                    DescriptionCell.headerOfCellLabel.text = "KPI Note"
-                    DescriptionCell.descriptionOfCellLabel.text = self.kpiDescription == nil ? "Add note (Optional)" : ""
-                    if self.kpiDescription == nil {
-                        DescriptionCell.kpiInfoTextLabel.isHidden = true
-                    } else {
-                        DescriptionCell.kpiInfoTextLabel.isHidden = false
-                        DescriptionCell.kpiInfoTextLabel.text = self.kpiDescription
-                    }
-                    DescriptionCell.prepareForReuse()
-                    return DescriptionCell
-                case 5:
-                    SuggestedCell.headerOfCell.text = "Executant"
-                    
-                    if UserStateMachine.shared.isAdmin
-                    {
-                        SuggestedCell.descriptionOfCell.text = self.executant ?? ""
-                        SuggestedCell.rightConstraint.constant = 0
-                    }
-                    else
-                    {
-                        let profileID = model.profile.userId
-                        let user = model.team.filter { team in
-                            return team.userID == Int64(profileID)
-                        }
-                        
-                        if let currentUser = user.first,
-                            let name = currentUser.firstName,
-                            let lastName = currentUser.lastName
-                        {
-                            let fullName = name + " " + lastName
-                            executantArray.append((SettingName: fullName,
-                                                   value: true))
-                            SuggestedCell.descriptionOfCell.text = fullName
-                            SuggestedCell.accessoryType = .none
-                            SuggestedCell.rightConstraint.constant = 16
-                        }
-                    }
-                    
-                case 6:
-                    SuggestedCell.headerOfCell.text = "Time Interval"
-                    SuggestedCell.descriptionOfCell.text = timeInterval.rawValue
-                case 7:
-                    SuggestedCell.headerOfCell.text = "Time Zone"
-                    SuggestedCell.descriptionOfCell.text = timeZone ?? ""
-                    
-                case 8:
-                    SuggestedCell.headerOfCell.text = "KPI's 1 st view"
-                    SuggestedCell.descriptionOfCell.text = firstChartName
-                    
-                case 9:
-                    SuggestedCell.headerOfCell.text = "KPI's 2 st view"
-                    SuggestedCell.descriptionOfCell.text = secondChartName
-                    
-                case 10:
-                    SuggestedCell.headerOfCell.text = "Deadline"
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.timeStyle = .short
-                    if deadline == nil {
-                        SuggestedCell.descriptionOfCell.text = ""
-                    } else {
-                        SuggestedCell.descriptionOfCell.text = dateFormatter.string(for: deadline)
-                    }
-                    
-                case 11:
-                    let datePickerCell = tableView.dequeueReusableCell(withIdentifier: "DatePickerCell", for: indexPath)  as! DatePickerTableViewCell
-                    datePickerCell.datePicker.setDate(deadline ?? Date(), animated: true)
-                    datePickerCell.addKPIVC = self
-                    return datePickerCell
-                default:
-                    break
-                }
-                
-            case .Weekly, .Monthly:
-                
-                if dataPickerIsVisible
-                {
-                    switch indexPath.row
-                    {
-                    case 0:
-                        return colourCell
-                    
-                    case 1:
-                        SuggestedCell.headerOfCell.text = "Department"
-                        SuggestedCell.descriptionOfCell.text = department.rawValue
-                        
-                    case 2:
-                        SuggestedCell.headerOfCell.text = "Suggested KPI"
-                        SuggestedCell.descriptionOfCell.text = "(Optional)"
-                        
-                    case 3:
-                        SuggestedCell.headerOfCell.text = "KPI Name"
-                        SuggestedCell.descriptionOfCell.text = self.kpiName ?? ""
-                        
-                    case 4:
-                        let DescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell", for: indexPath) as! KPIDescriptionTableViewCell
-                        DescriptionCell.headerOfCellLabel.text = "KPI Note"
-                        DescriptionCell.descriptionOfCellLabel.text = self.kpiDescription == nil ? "Add note (Optional)" : ""
-                        DescriptionCell.kpiInfoTextLabel.text = self.kpiDescription ?? ""
-                        DescriptionCell.prepareForReuse()
-                        return DescriptionCell
-                        
-                    case 5:
-                        SuggestedCell.headerOfCell.text = "Executant"
-                        
-                        if UserStateMachine.shared.isAdmin
-                        {
-                            SuggestedCell.descriptionOfCell.text = self.executant ?? ""
-                        }
-                        else
-                        {
-                            let profileID = model.profile.userId
-                            let user = model.team.filter { team in
-                                return team.userID == Int64(profileID)
-                            }
-                            
-                            if let currentUser = user.first,
-                                let name = currentUser.firstName,
-                                let lastName = currentUser.lastName
-                            {
-                                let fullName = name + " " + lastName
-                                executantArray.append((SettingName: fullName,
-                                                       value: true))
-                                SuggestedCell.descriptionOfCell.text = fullName
-                                SuggestedCell.accessoryType = .none
-                                SuggestedCell.rightConstraint.constant = 16
-                            }
-                        }
-                        
-                    case 6:
-                        SuggestedCell.headerOfCell.text = "Time Interval"
-                        SuggestedCell.descriptionOfCell.text = timeInterval.rawValue
-                        
-                    case 7:
-                        SuggestedCell.headerOfCell.text = "Day"
-                        var text = ""
-                        switch timeInterval {
-                        case .Weekly:
-                            text = self.weeklyInterval.rawValue
-                        case .Monthly:
-                            if self.mounthlyInterval != nil && self.mounthlyInterval! > 28 {
-                                text = "\(self.mounthlyInterval!) or last day"
-                            } else if self.mounthlyInterval != nil{
-                                text = "\(self.mounthlyInterval!)"
-                            } else {
-                                text = ""
-                            }
-                        default:
-                            break
-                        }
-                        SuggestedCell.descriptionOfCell.text = text
-                        
-                    case 8:
-                        let dataPickerCell = tableView.dequeueReusableCell(withIdentifier: "DataPickerCell", for: indexPath)  as! DataPickerTableViewCell
-                        dataPickerCell.dataPicker.reloadAllComponents()
-                        switch timeInterval {
-                        case .Daily:
-                            break
-                        case .Weekly:
-                            if weeklyInterval == .none {
-                                dataPickerCell.dataPicker.selectRow(0, inComponent: 0, animated: false)
-                            }
-                        case .Monthly:
-                            if mounthlyInterval == nil {
-                                dataPickerCell.dataPicker.selectRow(0, inComponent: 0, animated: false)
-                            }
-                        }
-                        dataPickerCell.dataPicker.selectedRow(inComponent: 0)
-                        return dataPickerCell
-                        
-                    case 9:
-                        SuggestedCell.headerOfCell.text = "Time Zone"
-                        SuggestedCell.descriptionOfCell.text = timeZone ?? ""
-                        
-                    case 10:
-                        SuggestedCell.headerOfCell.text = "KPI's 1 st view"
-                        SuggestedCell.descriptionOfCell.text = firstChartName
-                        
-                    case 11:
-                        SuggestedCell.headerOfCell.text = "KPI's 2 st view"
-                        SuggestedCell.descriptionOfCell.text = secondChartName
-                        
-                    case 12:
-                        SuggestedCell.headerOfCell.text = "Deadline"
-                        let dateFormatter = DateFormatter()
-                        dateFormatter.timeStyle = .short
-                        if deadline == nil {
-                            SuggestedCell.descriptionOfCell.text = ""
-                        } else {
-                            SuggestedCell.descriptionOfCell.text = dateFormatter.string(for: deadline)
-                        }
-                        
-                    case 13:
-                        let datePickerCell = tableView.dequeueReusableCell(withIdentifier: "DatePickerCell", for: indexPath) as! DatePickerTableViewCell
-                        datePickerCell.addKPIVC = self
-                        return datePickerCell
-                    default:
-                        break
-                    }
+        case 7:
+            let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
+            SuggestedCell.accessoryType = .disclosureIndicator
+            SuggestedCell.trailingToRightConstraint.constant = 0
+            SuggestedCell.headerOfCell.text = "Day"
+            var text = ""
+            switch timeInterval {
+            case .Weekly:
+                text = self.weeklyInterval.rawValue
+            case .Monthly:
+                if self.mounthlyInterval != nil && self.mounthlyInterval! > 28 {
+                    text = "\(self.mounthlyInterval!) or last day"
+                } else if self.mounthlyInterval != nil{
+                    text = "\(self.mounthlyInterval!)"
                 } else {
-                    switch indexPath.row
-                    {
-                    case 0:
-                        return colourCell
-                        
-                    case 1:
-                        SuggestedCell.headerOfCell.text = "Department"
-                        SuggestedCell.descriptionOfCell.text = department.rawValue
-                        
-                    case 2:
-                        SuggestedCell.headerOfCell.text = "Suggested KPI"
-                        SuggestedCell.descriptionOfCell.text = "(Optional)"
-                        
-                    case 3:
-                        SuggestedCell.headerOfCell.text = "KPI Name"
-                        SuggestedCell.descriptionOfCell.text = self.kpiName ?? ""
-                        
-                    case 4:
-                        let DescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell", for: indexPath) as! KPIDescriptionTableViewCell
-                        DescriptionCell.headerOfCellLabel.text = "KPI Note"
-                        DescriptionCell.descriptionOfCellLabel.text = self.kpiDescription == nil ? "Add note (Optional)" : ""
-                        DescriptionCell.kpiInfoTextLabel.text = self.kpiDescription ?? ""
-                        DescriptionCell.prepareForReuse()
-                        return DescriptionCell
-                        
-                    case 5:
-                        SuggestedCell.headerOfCell.text = "Executant"
-                        
-                        if UserStateMachine.shared.isAdmin
-                        {
-                            SuggestedCell.descriptionOfCell.text = self.executant ?? ""
-                        }
-                        else
-                        {
-                            let profileID = model.profile.userId
-                            let user = model.team.filter { team in
-                                return team.userID == Int64(profileID)
-                            }
-                            
-                            if let currentUser = user.first,
-                                let name = currentUser.firstName,
-                                let lastName = currentUser.lastName
-                            {
-                                let fullName = name + " " + lastName
-                                executantArray.append((SettingName: fullName,
-                                                       value: true))
-                                SuggestedCell.descriptionOfCell.text = fullName
-                                SuggestedCell.accessoryType = .none
-                                SuggestedCell.rightConstraint.constant = 16
-                            }
-                        }
-                        
-                    case 6:
-                        SuggestedCell.headerOfCell.text = "Time Interval"
-                        SuggestedCell.descriptionOfCell.text = timeInterval.rawValue
-                        
-                    case 7:
-                        SuggestedCell.headerOfCell.text = "Day"
-                        var text = ""
-                        switch timeInterval {
-                        case .Weekly:
-                            text = self.weeklyInterval.rawValue
-                        case .Monthly:
-                            if self.mounthlyInterval != nil && self.mounthlyInterval! > 28 {
-                                text = "\(self.mounthlyInterval!) or last day"
-                            } else if self.mounthlyInterval != nil{
-                                text = "\(self.mounthlyInterval!)"
-                            } else {
-                                text = "Add day"
-                            }
-                        default:
-                            break
-                        }
-                        SuggestedCell.descriptionOfCell.text = text
-                        
-                    case 8:
-                        SuggestedCell.headerOfCell.text = "Time Zone"
-                        SuggestedCell.descriptionOfCell.text = timeZone ?? ""
-                        
-                    case 9:
-                        SuggestedCell.headerOfCell.text = "KPI's 1 st view"
-                        SuggestedCell.descriptionOfCell.text = firstChartName
-                        
-                    case 10:
-                        SuggestedCell.headerOfCell.text = "KPI's 2 st view"
-                        SuggestedCell.descriptionOfCell.text = secondChartName
-                        
-                    case 11:
-                        SuggestedCell.headerOfCell.text = "Deadline"
-                        let dateFormatter = DateFormatter()
-                        dateFormatter.timeStyle = .short
-                        if deadline == nil {
-                            SuggestedCell.descriptionOfCell.text = ""
-                        } else {
-                            SuggestedCell.descriptionOfCell.text = dateFormatter.string(for: deadline)
-                        }
-                        
-                    case 12:
-                        let datePickerCell = tableView.dequeueReusableCell(withIdentifier: "DatePickerCell", for: indexPath) as! DatePickerTableViewCell
-                        datePickerCell.addKPIVC = self
-                        return datePickerCell
-                    default:
-                        break
-                    }
+                    text = ""
                 }
-            }
-            
-        case .Integrated:
-            navigationItem.leftBarButtonItem = nil
-            navigationItem.setHidesBackButton(false, animated: false)
-            
-            switch indexPath.row {
-            case 0:
-                SuggestedCell.headerOfCell.text = "Service"
-                SuggestedCell.descriptionOfCell.text = integrated.rawValue
-                SuggestedCell.accessoryType = .disclosureIndicator
-                
             default:
-                SuggestedCell.headerOfCell.text = "KPI \(indexPath.row - 1)"
-                SuggestedCell.accessoryType = .none
-                SuggestedCell.selectionStyle = .none
-                SuggestedCell.trailingToRightConstraint.constant = 16.0
-                switch integrated {
-                case .SalesForce:
-                    SuggestedCell.descriptionOfCell.text = saleForceKPIs[indexPath.row - 2].rawValue
-                case .Quickbooks:
-                    SuggestedCell.descriptionOfCell.text = quickBooksKPIs[indexPath.row - 2].rawValue
-                case .GoogleAnalytics:
-                    SuggestedCell.descriptionOfCell.text = googleAnalyticsKPIs[indexPath.row - 2].rawValue
-                case .HubSpotCRM:
-                    SuggestedCell.descriptionOfCell.text = hubspotCRMKPIs[indexPath.row - 2].rawValue
-                case .PayPal:
-                    SuggestedCell.descriptionOfCell.text = paypalKPIs[indexPath.row - 2].rawValue
-                case .HubSpotMarketing:
-                    SuggestedCell.descriptionOfCell.text = hubspotMarketingKPIs[indexPath.row - 2].rawValue
-                default:
-                    break
-                }
+                break
             }
-        }
-        SuggestedCell.prepareForReuse()
-        return SuggestedCell
-    }
-    
-    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        
-        switch source
-        {
-        case .none:
-            break
+            SuggestedCell.descriptionOfCell.text = text
+            SuggestedCell.prepareForReuse()
+            return SuggestedCell
             
-        case .User:
-            var newIndexPath = IndexPath()
+        case 8:
+            let dataPickerCell = tableView.dequeueReusableCell(withIdentifier: "DataPickerCell", for: indexPath)  as! DataPickerTableViewCell
+            dataPickerCell.dataPicker.reloadAllComponents()
             
-            switch timeInterval
-            {
+            switch timeInterval {
             case .Daily:
-                switch indexPath.row {
-                case 8,9:
-                    return indexPath
-                default:
-                    newIndexPath = IndexPath(item: 9, section: 0)
+                break
+            case .Weekly:
+                if weeklyInterval == .none {
+                    dataPickerCell.dataPicker.selectRow(0, inComponent: 0, animated: false)
                 }
-                
-            case .Weekly, .Monthly:
-                if dataPickerIsVisible {
-                    switch indexPath.row {
-                    case 7,8:
-                        return indexPath
-                    default:
-                        newIndexPath = IndexPath(item: 8, section: 0)
-                    }
-                } else {
-                    switch indexPath.row {
-                    case 9,10:
-                        return indexPath
-                    default:
-                        newIndexPath = IndexPath(item: 10, section: 0)
-                    }
+            case .Monthly:
+                if mounthlyInterval == nil {
+                    dataPickerCell.dataPicker.selectRow(0, inComponent: 0, animated: false)
                 }
             }
+            dataPickerCell.dataPicker.selectedRow(inComponent: 0)
+            return dataPickerCell
             
-            if dataPickerIsVisible {
-                dataPickerIsVisible = false
-                tableView.deleteRows(at: [newIndexPath], with: .top)
-                if indexPath.row > 7 {
-                    newIndexPath = IndexPath(item: indexPath.row - 1, section: 0)
-                    return newIndexPath
-                }
+        case 9:
+            let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
+            SuggestedCell.accessoryType = .disclosureIndicator
+            SuggestedCell.trailingToRightConstraint.constant = 0
+            SuggestedCell.headerOfCell.text = "Time Zone"
+            SuggestedCell.descriptionOfCell.text = timeZone ?? ""
+            SuggestedCell.prepareForReuse()
+            return SuggestedCell
+            
+        case 10:
+            let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
+            SuggestedCell.accessoryType = .disclosureIndicator
+            SuggestedCell.trailingToRightConstraint.constant = 0
+            SuggestedCell.headerOfCell.text = "KPI's 1 st view"
+            SuggestedCell.descriptionOfCell.text = firstChartName
+            SuggestedCell.prepareForReuse()
+            return SuggestedCell
+            
+        case 11:
+            let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
+            SuggestedCell.accessoryType = .disclosureIndicator
+            SuggestedCell.trailingToRightConstraint.constant = 0
+            SuggestedCell.headerOfCell.text = "KPI's 2 st view"
+            SuggestedCell.descriptionOfCell.text = secondChartName
+            SuggestedCell.prepareForReuse()
+            return SuggestedCell
+            
+        case 12:
+            let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
+            SuggestedCell.accessoryType = .disclosureIndicator
+            SuggestedCell.trailingToRightConstraint.constant = 0
+            SuggestedCell.headerOfCell.text = "Deadline"
+            let dateFormatter = DateFormatter()
+            dateFormatter.timeStyle = .short
+            if deadline == nil {
+                SuggestedCell.descriptionOfCell.text = ""
+            } else {
+                SuggestedCell.descriptionOfCell.text = dateFormatter.string(for: deadline)
             }
-        case .Integrated:
+            SuggestedCell.prepareForReuse()
+            return SuggestedCell
+            
+        case 13:
+            let datePickerCell = tableView.dequeueReusableCell(withIdentifier: "DatePickerCell", for: indexPath)  as! DatePickerTableViewCell
+            datePickerCell.datePicker.setDate(deadline ?? Date(), animated: true)
+            datePickerCell.addKPIVC = self
+            datePickerCell.datePicker.isHidden = !isDeadlinePickerVisible
+            return datePickerCell
+            
+        default:
             break
         }
-        return indexPath
+        
+        return UITableViewCell()
     }
     
     private func animateTableViewRealoadData() {
@@ -966,254 +715,79 @@ class ChooseSuggestedKPITableViewController: UITableViewController
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        switch source
+        switch indexPath.row
         {
-        case .none:
-            animateTableViewRealoadData()
+        case 0:
+            typeOfSetting = .Colour
+            settingArray = colourArray
+            showSelectSettingVC()
             
-            source = indexPath.row == 0 ? .User : .Integrated
-            tableView.reloadData()
-            tableView.isUserInteractionEnabled = true
-            tableView.isScrollEnabled = true
+        case 1:
+            typeOfSetting = .Departament
+            settingArray = departmentArray
+            showSelectSettingVC()
             
-        case .User:
-            switch timeInterval
-            {
-            case .Daily:
-                switch indexPath.row
-                {
-                case 0:
-                    typeOfSetting = .Colour
-                    settingArray = colourArray
-                    showSelectSettingVC()
-                    
-                case 1:
-                    typeOfSetting = .Departament
-                    settingArray = departmentArray
-                    showSelectSettingVC()
-                    
-                case 2:
-                    if department == .none {
-                        showAlert(title: "Error", errorMessage: "First select a department please")
-                        tableView.deselectRow(at: indexPath, animated: true)
-                    } else {
-                        typeOfSetting = .SuggestedKPI
-                        settingArray = kpiArray
-                        showSelectSettingVC()
-                    }
-                    
-                case 3:
-                    typeOfSetting = .KPIName
-                    showSelectSettingVC()
-                    
-                case 4:
-                    typeOfSetting = .KPINote
-                    showSelectSettingVC()
-                    
-                case 5:
-                    if UserStateMachine.shared.isAdmin
-                    {
-                        typeOfSetting = .Executant
-                        settingArray = executantArray
-                        showSelectSettingVC()
-                    }
-                    
-                case 6:
-                    typeOfSetting = .TimeInterval
-                    settingArray = timeIntervalArray
-                    showSelectSettingVC()
-                    
-                case 7:
-                    typeOfSetting = .TimeZone
-                    settingArray = timeZoneArray
-                    showSelectSettingVC()
-                    
-                case 8:
-                    typeOfSetting = .firstChart
-                    settingArray = typeOfVisualizationArray
-                    showSelectSettingVC()
-
-                case 9:
-                    typeOfSetting = .secondChart
-                    settingArray = typeOfVisualizationArray
-                    showSelectSettingVC()
-                    
-                case 10:
-                    showDatePicker(row: indexPath.row)
-                    
-                default:
-                    break
-                }
+        case 2:
+            if department == .none {
+                showAlert(title: "Error", errorMessage: "First select a department please")
                 tableView.deselectRow(at: indexPath, animated: true)
-                
-            case .Weekly, .Monthly:
-                if dataPickerIsVisible
-                {
-                    switch indexPath.row
-                    {
-                    case 0:
-                        typeOfSetting = .Colour
-                        settingArray = colourArray
-                        showSelectSettingVC()
-                        
-                    case 1:
-                        typeOfSetting = .Departament
-                        settingArray = departmentArray
-                        showSelectSettingVC()
-                        
-                    case 2:
-                        if department == .none {
-                            showAlert(title: "Error", errorMessage: "First select a department please")
-                            tableView.deselectRow(at: indexPath, animated: true)
-                        } else {
-                            typeOfSetting = .SuggestedKPI
-                            settingArray = kpiArray
-                            showSelectSettingVC()
-                        }
-                        
-                    case 3:
-                        typeOfSetting = .KPIName
-                        showSelectSettingVC()
-                        
-                    case 4:
-                        typeOfSetting = .KPINote
-                        showSelectSettingVC()
-                        
-                    case 5:
-                        typeOfSetting = .Executant
-                        settingArray = executantArray
-                        showSelectSettingVC()
-                        
-                    case 6:
-                        typeOfSetting = .TimeInterval
-                        settingArray = timeIntervalArray
-                        showSelectSettingVC()
-                        
-                    case 7:
-                        tableView.deselectRow(at: indexPath, animated: true)
-                        dataPickerIsVisible = false
-                        let index = IndexPath(item: 8, section: 0)
-                        tableView.deleteRows(at: [index], with: .fade)
-                        switch timeInterval {
-                        case .Daily:
-                            break
-                        case .Weekly:
-                            if weeklyInterval == .none {
-                                weeklyInterval = .Monday
-                            }
-                        case .Monthly:
-                            if mounthlyInterval == nil {
-                                mounthlyInterval = 1
-                            }
-                        }
-                        tableView.reloadRows(at: [indexPath], with: .automatic)
-                        
-                    case 8:
-                        typeOfSetting = .TimeZone
-                        settingArray = timeZoneArray
-                        showSelectSettingVC()
-                        
-                    case 9:
-                        typeOfSetting = .firstChart
-                        settingArray = typeOfVisualizationArray
-                        showSelectSettingVC()
-                        
-                    case 10:
-                        typeOfSetting = .secondChart
-                        settingArray = typeOfVisualizationArray
-                        showSelectSettingVC()
-
-                    case 11:
-                        showDatePicker(row: indexPath.row)
-                        tableView.deselectRow(at: indexPath, animated: true)
-                        
-                    default:
-                        break
-                    }
-                } else {
-                    switch indexPath.row {
-                    case 0:
-                        typeOfSetting = .Colour
-                        settingArray = colourArray
-                        showSelectSettingVC()
-                        
-                    case 1:
-                        typeOfSetting = .Departament
-                        settingArray = departmentArray
-                        showSelectSettingVC()
-                        
-                    case 2:
-                        if department == .none {
-                            showAlert(title: "Error", errorMessage: "First select a department please")
-                            tableView.deselectRow(at: indexPath, animated: true)
-                        } else {
-                            typeOfSetting = .SuggestedKPI
-                            settingArray = kpiArray
-                            showSelectSettingVC()
-                        }
-                        
-                    case 3:
-                        typeOfSetting = .KPIName
-                        showSelectSettingVC()
-                        
-                    case 4:
-                        typeOfSetting = .KPINote
-                        showSelectSettingVC()
-                        
-                    case 5:
-                        typeOfSetting = .Executant
-                        settingArray = executantArray
-                        showSelectSettingVC()
-                        
-                    case 6:
-                        typeOfSetting = .TimeInterval
-                        settingArray = timeIntervalArray
-                        showSelectSettingVC()
-                        
-                    case 7:
-                        tableView.deselectRow(at: indexPath, animated: true)
-                        dataPickerIsVisible = true
-                        let index = IndexPath(item: 9, section: 0)
-                        tableView.insertRows(at: [index], with: .fade)
-                        tableView.scrollToRow(at: index, at: .bottom, animated: true)
-                        
-                    case 8:
-                        typeOfSetting = .TimeZone
-                        settingArray = timeZoneArray
-                        showSelectSettingVC()
-                        
-                    case 9:
-                        typeOfSetting = .firstChart
-                        settingArray = typeOfVisualizationArray
-                        showSelectSettingVC()
-                        
-                    case 10:
-                        typeOfSetting = .secondChart
-                        settingArray = typeOfVisualizationArray
-                        showSelectSettingVC()
-
-                    case 11:
-                        showDatePicker(row: indexPath.row)
-                        tableView.deselectRow(at: indexPath, animated: true)
-                        
-                    default:
-                        break
-                    }
-                }
+            } else {
+                typeOfSetting = .SuggestedKPI
+                settingArray = kpiArray
+                showSelectSettingVC()
             }
-        case .Integrated:
-            createExternalServicesArrays()
             
-            switch indexPath.row
+        case 3:
+            typeOfSetting = .KPIName
+            showSelectSettingVC()
+            
+        case 4:
+            typeOfSetting = .KPINote
+            showSelectSettingVC()
+            
+        case 5:
+            if UserStateMachine.shared.isAdmin
             {
-            case 0:
-                typeOfSetting = .Service
-                showIntegratedServicesVC()
-                tableView.deselectRow(at: indexPath, animated: true)
-                
-            default:
-                break
+                typeOfSetting = .Executant
+                settingArray = executantArray
+                showSelectSettingVC()
             }
+            
+        case 6:
+            typeOfSetting = .TimeInterval
+            settingArray = timeIntervalArray
+            showSelectSettingVC()
+            
+        case 7:
+            if timeInterval == .Monthly
+            {
+                showDatePicker()
+                return
+            }
+            
+            typeOfSetting = .WeeklyInterval
+            settingArray = weeklyArray
+            showSelectSettingVC()
+            
+        case 9:
+            typeOfSetting = .TimeZone
+            settingArray = timeZoneArray
+            showSelectSettingVC()
+            
+        case 10:
+            typeOfSetting = .firstChart
+            settingArray = typeOfVisualizationArray
+            showSelectSettingVC()
+            
+        case 11:
+            typeOfSetting = .secondChart
+            settingArray = typeOfVisualizationArray
+            showSelectSettingVC()
+            
+        case 12:
+            showDeadlinePicker()
+            
+        default: break
         }
     }
     
@@ -1227,33 +801,37 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         header.textLabel?.textColor = UIColor.lightGray
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
-    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
     //MARK: - Date Picker
-    
-    func showDatePicker (row: Int) {
-        datePickerIsVisible = !datePickerIsVisible
+    func showDeadlinePicker() {
         
-        let indexPath = IndexPath(item: row + 1, section: 0)
+        isDeadlinePickerVisible = !isDeadlinePickerVisible
         
-        if datePickerIsVisible {
-            tableView.insertRows(at: [indexPath], with: .top)
+        let indexPath = IndexPath(row: 13, section: 0)
+        
+        tableView.beginUpdates()
+        tableView.reloadRows(at: [indexPath], with: .fade)
+        tableView.endUpdates()
+        
+        if isDeadlinePickerVisible
+        {
             tableView.scrollToNearestSelectedRow(at: .top, animated: true)
-        } else {
-            tableView.deleteRows(at: [indexPath], with: .top)
-            tableView.deselectRow(at: IndexPath(item: row, section: 0), animated: true)
-            if deadline == nil {
-                deadline = Date()
-                tableView.reloadRows(at: [IndexPath(item: row, section: 0)], with: .none)
-            }
-            checkInputValues()
         }
+        else { tableView.reloadData() }
+    }
+    
+    func showDatePicker() {
+        
+        isDatePickerVisible = !isDatePickerVisible
+        
+        let indexPath = IndexPath(row: 8, section: 0)
+        
+        tableView.reloadRows(at: [indexPath], with: .fade)
+        
+        if isDatePickerVisible
+        {
+            tableView.scrollToNearestSelectedRow(at: .top, animated: true)
+        }
+        else { tableView.reloadData() }
     }
     
     //MARK: - Check input values
@@ -1266,7 +844,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
     }
     
     private func ui(block: Bool) {
-      
+        
         if block
         {
             center = navigationController!.view.center
@@ -1279,77 +857,20 @@ class ChooseSuggestedKPITableViewController: UITableViewController
     }
     
     func dataIsEntered() -> Bool {
-        switch source {
-        case .Integrated:
-            if source == .none || (source == .Integrated && integrated == .none) {
-                return false
-            }
-        case .User:
-            if department == .none ||
-                kpiName == nil ||
-                executant == nil ||
-                (timeInterval == AlertTimeInterval.Weekly && weeklyInterval == WeeklyInterval.none) ||
-                (timeInterval == AlertTimeInterval.Monthly && mounthlyInterval == nil) ||
-                timeZone == nil ||
-                deadline == nil ||
-                firstChartName == "" ||
-                secondChartName == "" {
-                return false
-            }
-        default:
+        
+        if department == .none ||
+            kpiName == nil ||
+            executant == nil ||
+            (timeInterval == AlertTimeInterval.Weekly && weeklyInterval == WeeklyInterval.none) ||
+            (timeInterval == AlertTimeInterval.Monthly && mounthlyInterval == nil) ||
+            timeZone == nil ||
+            deadline == nil ||
+            firstChartName == "" ||
+            secondChartName == "" {
             return false
         }
         return true
     }
-    
-//    private func addOnServerSelectedKpis(_ ids: [Int], service: IntegratedServices) {
-//        
-//        let externalKPI = ExternalKPI(context: context)
-//        let addKpi      = AddKPI()
-//        
-//        addKpi.kpiIDs = ids
-//        externalKPI.kpiName = "SemenKPI"
-//        
-//        switch service
-//        {
-//        case .GoogleAnalytics:
-//            let gaEntity = GAnalytics.googleAnalyticsEntity
-//            
-//            externalKPI.googleAnalyticsKPI = gaEntity
-//            externalKPI.serviceName = IntegratedServices.GoogleAnalytics.rawValue
-//            addKpi.type = IntegratedServicesServerID.googleAnalytics.rawValue
-//            
-//        case .SalesForce:
-//            let sfEntity  = sfManager.fetchSalesForceKPIEntity()
-//            
-//            externalKPI.saleForceKPI = sfEntity!
-//            externalKPI.serviceName = IntegratedServices.SalesForce.rawValue
-//            addKpi.type = IntegratedServicesServerID.salesforceCRM.rawValue
-//            
-//        case .PayPal:
-//            guard let payEntity = payPalKPI else { return }
-//            
-//            externalKPI.payPalKPI = payEntity
-//            externalKPI.serviceName = IntegratedServices.PayPal.rawValue
-//            addKpi.type = IntegratedServicesServerID.paypal.rawValue
-//            
-//        default: break
-//        }
-//        
-//        let semenKPI = KPI(kpiID: -1, typeOfKPI: .IntegratedKPI,
-//                           integratedKPI: externalKPI,
-//                           createdKPI: nil,
-//                           imageBacgroundColour: nil)
-//        
-//        addKpi.kpi = semenKPI
-//        addKpi.addKPI(success: { ids in
-//            print("DEBUG: KPIS ADDED ON SERV")
-//            NotificationCenter.default.post(name: .addedNewExtKpiOnServer, object: nil)
-//        }, failure: { error in
-//            print(error)
-//        })
-//
-//    }
     
     private func getIdsForSelectedKpis(_ service: IntegratedServices) -> [Int] {
         
@@ -1367,7 +888,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                     idsForServer.append(id)
                 }
             }
-
+            
         case .GoogleAnalytics:
             googleAnalyticsKPIArray.forEach { kpi in
                 guard kpi.value else { return }
@@ -1396,35 +917,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         return idsForServer
     }
     
-    private func checkIsTtlValid(_ kpis: [Int], _: IntegratedServices,
-                                 completion: @escaping ()->())  {
-       
-//        switch integrated
-//        {
-//        case .GoogleAnalytics:
-//            let entity = GAnalytics.googleAnalyticsEntity
-//            
-//            if let expDate = entity.oAuthTokenExpiresAt
-//            {
-//                let ttl = AddKPI.getSecondsFrom(date: expDate)
-//                
-//                if ttl < 0
-//                {
-//                    IntegratedServices.GoogleAnalytics.updateTokenFor(kpiID: kpis[0]) {
-//                        completion()
-//                    }
-//                }
-//                else
-//                {
-//                    completion()
-//                }
-//            }
-//            
-//        default: completion(); break
-//        }
-//        
-    }
-    
     //MARK: - Save KPI
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
         
@@ -1433,117 +925,100 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         }
         
         var kpi: KPI!
+        var executantProfile: Int!
         
-        switch source
-        {
-        case .Integrated:
-            let service      = integrated
-            let idsForServer = getIdsForSelectedKpis(service)
-            
-            checkIsTtlValid(idsForServer, service) {
-               // self.addOnServerSelectedKpis(idsForServer, service: service)
-                
-               // let KPIListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
-               // _ = self.navigationController?.popToViewController(KPIListVC, animated: true)
+        ui(block: true)
+        
+        for profile in model.team {
+            if executant?.components(separatedBy: " ")[0] == profile.firstName && executant?.components(separatedBy: " ")[1] == profile.lastName {
+                executantProfile = Int(profile.userID)
             }
-            
-        case .User:
-            var executantProfile: Int!
-            
-            ui(block: true)
-            
-            for profile in model.team {
-                if executant?.components(separatedBy: " ")[0] == profile.firstName && executant?.components(separatedBy: " ")[1] == profile.lastName {
-                    executantProfile = Int(profile.userID)
-                }
-            }
-            
-            var deadlineDay = 1
-            switch timeInterval {
-            case .Daily:
-                deadlineDay = 1
-            case .Weekly:
-                switch weeklyInterval {
-                case .Monday:
-                    deadlineDay = 1
-                case .Tuesday:
-                    deadlineDay = 2
-                case .Wednesday:
-                    deadlineDay = 3
-                case .Thursday:
-                    deadlineDay = 4
-                case .Friday:
-                    deadlineDay = 5
-                case .Saturday:
-                    deadlineDay = 6
-                case .Sunday:
-                    deadlineDay = 7
-                case .none:
-                    break
-                }
-            case .Monthly:
-                if let day = mounthlyInterval {
-                    deadlineDay = day
-                }
-            }
-            
-            let userKPI = CreatedKPI(source: .User,
-                                     department: department,
-                                     KPI: kpiName!,
-                                     descriptionOfKPI: kpiDescription,
-                                     executant: executantProfile,
-                                     timeInterval: timeInterval,
-                                     deadlineDay: deadlineDay,
-                                     timeZone: timeZone!,
-                                     deadlineTime: deadline!,
-                                     number: [])
-            
-            var imageBacgroundColour: UIColor = .clear
-            
-            colourArray.forEach { color in
-                guard color.value == true, let color = Colour(rawValue: color.SettingName),
-                    let exactColor = colourDictionary[color]  else { return }
-                
-                imageBacgroundColour = exactColor
-            }
-
-            kpi = KPI(kpiID: 0,
-                      typeOfKPI: .createdKPI,
-                      integratedKPI: nil,
-                      createdKPI: userKPI,
-                      imageBacgroundColour: imageBacgroundColour)
-            
-            kpi.KPIViewOne  = firstChartType!
-            kpi.KPIViewTwo  = secondChartType!
-            kpi.KPIChartOne = firstChartName != "Table" ?
-                TypeOfChart(rawValue: firstChartName)! : nil
-            
-            kpi.KPIChartTwo = secondChartName != "Table" ?
-                TypeOfChart(rawValue: secondChartName)! : nil
-            
-            let request = AddKPI(model: model)
-            request.kpi = kpi
-            request.addKPI(success: { id in
-                let kpiListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
-                kpi.id = id[0]
-                self.delegate = kpiListVC
-                self.delegate.addNewKPI(kpi: kpi)
-                self.ui(block: false)
-                kpiListVC.removeAllKpis()
-                _ = self.navigationController?.popToViewController(kpiListVC, animated: true)
-            }, failure: { error in
-                self.ui(block: false)
-                self.showAlert(title: "Error occured", errorMessage: error)
-            })
-        default:
-            break
         }
+        
+        var deadlineDay = 1
+        switch timeInterval {
+        case .Daily:
+            deadlineDay = 1
+        case .Weekly:
+            switch weeklyInterval {
+            case .Monday:
+                deadlineDay = 1
+            case .Tuesday:
+                deadlineDay = 2
+            case .Wednesday:
+                deadlineDay = 3
+            case .Thursday:
+                deadlineDay = 4
+            case .Friday:
+                deadlineDay = 5
+            case .Saturday:
+                deadlineDay = 6
+            case .Sunday:
+                deadlineDay = 7
+            case .none:
+                break
+            }
+        case .Monthly:
+            if let day = mounthlyInterval {
+                deadlineDay = day
+            }
+        }
+        
+        let userKPI = CreatedKPI(
+            department: department,
+            KPI: kpiName!,
+            descriptionOfKPI: kpiDescription,
+            executant: executantProfile,
+            timeInterval: timeInterval,
+            deadlineDay: deadlineDay,
+            timeZone: timeZone!,
+            deadlineTime: deadline!,
+            number: [])
+        
+        var imageBacgroundColour: UIColor = .clear
+        
+        colourArray.forEach { color in
+            guard color.value == true, let color = Colour(rawValue: color.SettingName),
+                let exactColor = colourDictionary[color]  else { return }
+            
+            imageBacgroundColour = exactColor
+        }
+        
+        kpi = KPI(kpiID: 0,
+                  typeOfKPI: .createdKPI,
+                  integratedKPI: nil,
+                  createdKPI: userKPI,
+                  imageBacgroundColour: imageBacgroundColour)
+        
+        kpi.KPIViewOne  = firstChartType!
+        kpi.KPIViewTwo  = secondChartType!
+        kpi.KPIChartOne = firstChartName != "Table" ?
+            TypeOfChart(rawValue: firstChartName)! : nil
+        
+        kpi.KPIChartTwo = secondChartName != "Table" ?
+            TypeOfChart(rawValue: secondChartName)! : nil
+        
+        let request = AddKPI(model: model)
+        request.kpi = kpi
+        request.addKPI(success: { id in
+            let kpiListVC = self.navigationController?.viewControllers[0] as! KPIsListTableViewController
+            kpi.id = id[0]
+            self.delegate = kpiListVC
+            self.delegate.addNewKPI(kpi: kpi)
+            self.ui(block: false)
+            kpiListVC.removeAllKpis()
+            _ = self.navigationController?.popToViewController(kpiListVC, animated: true)
+        }, failure: { error in
+            self.ui(block: false)
+            self.showAlert(title: "Error occured", errorMessage: error)
+        })
+        
     }
     
     //MARK: - Show KPISelectSettingTableViewController method
     func showSelectSettingVC() {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "SelectSettingForKPI") as! KPISelectSettingTableViewController
-        destinatioVC.ChoseSuggestedVC = self        
+        destinatioVC.ChoseSuggestedVC = self
         destinatioVC.selectSetting = settingArray
         destinatioVC.segueWithSelecting = true
         
@@ -1605,12 +1080,12 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate
 {
     
     private func checkArrayContainsValues(_ array: [semenSettingsTuple]) ->
-                                                          semenSettingsTuple? {
-        
-        let filteredArray = array.filter { $0.value == true }
-        guard filteredArray.count > 0 else { return nil  }
-        
-        return filteredArray[0]
+        semenSettingsTuple? {
+            
+            let filteredArray = array.filter { $0.value == true }
+            guard filteredArray.count > 0 else { return nil  }
+            
+            return filteredArray[0]
     }
     
     func updateSettingsArray(array: [semenSettingsTuple]) {
@@ -1665,81 +1140,13 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate
                 secondChartName = ""
             }
             
-        case .Source:
-            self.sourceArray = array
-            for source in array {
-                if source.value == true {
-                    self.source = Source(rawValue: source.SettingName)!
-                }
-            }
-            if source == .User {
-                self.tableView.isScrollEnabled = true
-                title = ""
-                
-            } else {
-                self.tableView.isScrollEnabled = false
-                createExternalServicesArrays()
-            }
-        case .Service:
-            switch integrated {
-            case .SalesForce:
-                self.saleForceKPIArray = array
-                self.saleForceKPIs.removeAll()
-                for kpi in array{
-                    if kpi.value == true {
-                        saleForceKPIs.append(SalesForceKPIs(rawValue: kpi.SettingName)!)
-                    }
-                }
-            case .Quickbooks:
-                self.quickBooksKPIArray = array
-                self.quickBooksKPIs.removeAll()
-                for kpi in array{
-                    if kpi.value == true {
-                        quickBooksKPIs.append(QiuckBooksKPIs(rawValue: kpi.SettingName)!)
-                    }
-                }
-            case .GoogleAnalytics:
-                self.googleAnalyticsKPIArray = array
-                self.googleAnalyticsKPIs.removeAll()
-                for kpi in array{
-                    if kpi.value == true {
-                        googleAnalyticsKPIs.append(GoogleAnalyticsKPIs(rawValue: kpi.SettingName)!)
-                    }
-                }
-            case .HubSpotCRM:
-                self.hubSpotCRMKPIArray = array
-                self.hubspotCRMKPIs.removeAll()
-                for kpi in array{
-                    if kpi.value == true {
-                        hubspotCRMKPIs.append(HubSpotCRMKPIs(rawValue: kpi.SettingName)!)
-                    }
-                }
-            case .PayPal:
-                self.payPalKPIArray = array
-                self.paypalKPIs.removeAll()
-                for kpi in array{
-                    if kpi.value == true {
-                        paypalKPIs.append(PayPalKPIs(rawValue: kpi.SettingName)!)
-                    }
-                }
-            case .HubSpotMarketing:
-                self.hubSpotMarketingKPIArray = array
-                self.hubspotMarketingKPIs.removeAll()
-                for kpi in array{
-                    if kpi.value == true {
-                        hubspotMarketingKPIs.append(HubSpotMarketingKPIs(rawValue: kpi.SettingName)!)
-                    }
-                }
-            default:
-                break
-            }
-            self.tableView.isScrollEnabled = true
         case .Departament:
             let oldDepartmentValue = self.department
             self.departmentArray = array
             if oldDepartmentValue != self.department {
                 self.updateKPIArray()
             }
+            
         case .SuggestedKPI:
             self.kpiArray = array
             //update kpi name
@@ -1753,10 +1160,11 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate
             if !kpiNameDidChanged {
                 self.kpiName = nil
             }
-        
+            
             //upadate kpi description
-            let buildInKPI = BuildInKPI(department: self.department)
+            let buildInKPI = BuildInKPI(department: department)
             var dictionary: [String: String]!
+            
             switch department {
             case .none:
                 self.kpiDescription = nil
@@ -1771,13 +1179,15 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate
             case .Staff:
                 dictionary = buildInKPI.staffDictionary
             }
-            if self.kpiName != nil {
-                self.kpiDescription = dictionary[self.kpiName!]
+            if kpiName != nil {
+                kpiDescription = dictionary[kpiName!]
             } else {
-                self.kpiDescription = nil
+                kpiDescription = nil
             }
+            
         case .Executant:
             self.executantArray = array
+            
         case .TimeInterval:
             let oldTimeIntervalValue = self.timeInterval
             self.timeIntervalArray = array
@@ -1799,11 +1209,15 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate
             }
         case .MounthlyInterval:
             self.mounthlyIntervalArray = array
+            
         case .WeeklyInterval:
             self.weeklyArray = array
+            
         case .TimeZone:
             self.timeZoneArray = array
+            
         default:
+            tableView.reloadData()
             return
         }
         
@@ -1813,13 +1227,14 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate
     }
     
     func updateStringValue(string: String?) {
+        
         switch typeOfSetting {
-            
         case .KPIName:
             self.kpiName = string
         case .KPINote:
             self.kpiDescription = string
         default:
+            tableView.reloadData()
             return
         }
         tableView.reloadData()
@@ -1831,7 +1246,7 @@ extension ChooseSuggestedKPITableViewController: updateSettingsDelegate
 extension ChooseSuggestedKPITableViewController: UpdateTimeDelegate {
     
     func updateTime(newTime time: Date) {
-        if datePickerIsVisible {
+        if isDeadlinePickerVisible {
             deadline = time
             let rowNumber = tableView.numberOfRows(inSection: 0) - 2
             let indexPath = IndexPath(item: rowNumber, section: 0)
@@ -1850,14 +1265,6 @@ extension ChooseSuggestedKPITableViewController: UpdateExternalKPICredentialsDel
         salesForceKPI = salesForceObject
     }
 }
-//extension ChooseSuggestedKPITableViewController: UpdateExternalTokensDelegate {
-//    func updateTokens(oauthToken: String, oauthRefreshToken: String, oauthTokenExpiresAt: Date?, viewID: String?) {
-//        self.oauthToken = oauthToken
-//        self.oauthRefreshToken = oauthRefreshToken
-//        self.oauthTokenExpiresAt = oauthTokenExpiresAt
-//        self.viewID = viewID
-//    }
-//}
 
 //MARK: - UIPickerViewDataSource and UIPickerViewDelegate methods
 extension ChooseSuggestedKPITableViewController: UIPickerViewDataSource,UIPickerViewDelegate {
@@ -1891,22 +1298,17 @@ extension ChooseSuggestedKPITableViewController: UIPickerViewDataSource,UIPicker
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-            switch timeInterval {
-            case .Daily:
-                break
-            case .Weekly:
-               weeklyInterval =  WeeklyInterval(rawValue: weeklyArray[row].SettingName)!
-            case .Monthly:
-                mounthlyInterval =  Int(mounthlyIntervalArray[row].SettingName)
-            }
+       
+        switch timeInterval {
+        case .Daily:
+            break
+        case .Weekly:
+            weeklyInterval =  WeeklyInterval(rawValue: weeklyArray[row].SettingName)!
+        case .Monthly:
+            mounthlyInterval =  Int(mounthlyIntervalArray[row].SettingName)
+        }
         let indexPath = IndexPath(item: 7, section: 0)
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
 }
-
-//extension ChooseSuggestedKPITableViewController: UpdatePayPalAPICredentialsDelegate {
-//    func updatePayPalCredentials(payPalObject: PayPalKPI) {
-//        payPalKPI = payPalObject
-//    }
-//}

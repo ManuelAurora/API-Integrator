@@ -818,7 +818,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
                     }
                     let executantProfile: Int! = executant
                     //FIXME: WTF IS THIS
-                    let newKpi = CreatedKPI(source: .User,
+                    let newKpi = CreatedKPI(
                                             department: self.department,
                                             KPI: self.kpiName!,
                                             descriptionOfKPI: self.kpiDescription,

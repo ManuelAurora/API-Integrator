@@ -519,13 +519,16 @@ extension ReportAndViewKPITableViewController {
                 break
             }
         case .Edit:
-            switch model.kpis[kpiIndex].typeOfKPI {
+            switch model.kpis[kpiIndex].typeOfKPI
+            {
             case .IntegratedKPI: break
             //Warning!
             case .createdKPI:
-                switch typeOfAccount {
+                switch typeOfAccount
+                {
                 case .Admin:
-                    switch indexPath.section {
+                    switch indexPath.section
+                    {
                     case 0:
                         typeOfSetting = .Colour
                         settingArray = self.colourArray
@@ -546,9 +549,11 @@ extension ReportAndViewKPITableViewController {
                             break
                         }
                     case 2:
-                        switch timeInterval {
+                        switch timeInterval
+                        {
                         case .Daily:
-                            switch indexPath.row {
+                            switch indexPath.row
+                            {
                             case 0:
                                 typeOfSetting = .Executant
                                 settingArray = executantArray
@@ -567,9 +572,12 @@ extension ReportAndViewKPITableViewController {
                             default:
                                 break
                             }
+                            
                         case .Weekly, .Monthly:
-                            if dataPickerIsVisible {
-                                switch indexPath.row {
+                            if dataPickerIsVisible
+                            {
+                                switch indexPath.row
+                                {
                                 case 0:
                                     typeOfSetting = .Executant
                                     settingArray = executantArray
@@ -591,8 +599,11 @@ extension ReportAndViewKPITableViewController {
                                 default:
                                     break
                                 }
-                            } else {
-                                switch indexPath.row {
+                            }
+                            else
+                            {
+                                switch indexPath.row
+                                {
                                 case 0:
                                     typeOfSetting = .Executant
                                     settingArray = executantArray
@@ -616,6 +627,7 @@ extension ReportAndViewKPITableViewController {
                                 }
                             }
                         }
+                        
                     case 3:
                         switch indexPath.row
                         {
@@ -637,10 +649,13 @@ extension ReportAndViewKPITableViewController {
                         break
                     }
                 case .Manager:
-                    switch indexPath.section {
+                    switch indexPath.section
+                    {
                     case 1:
-                        if KPIOneView == .Numbers && KPITwoView == .Graph {
-                            switch indexPath.row {
+                        if KPIOneView == .Numbers && KPITwoView == .Graph
+                        {
+                            switch indexPath.row
+                            {
                             case 0:
                                 typeOfSetting = .KPIViewOne
                                 settingArray = KPIOneViewArray
@@ -657,8 +672,11 @@ extension ReportAndViewKPITableViewController {
                                 break
                             }
                         }
-                        if KPIOneView == .Graph && KPITwoView == .Numbers {
-                            switch indexPath.row {
+                        
+                        if KPIOneView == .Graph && KPITwoView == .Numbers
+                        {
+                            switch indexPath.row
+                            {
                             case 0:
                                 typeOfSetting = .KPIViewOne
                                 settingArray = KPIOneViewArray
@@ -675,8 +693,11 @@ extension ReportAndViewKPITableViewController {
                                 break
                             }
                         }
-                        if KPIOneView == .Graph && KPITwoView == .Graph {
-                            switch indexPath.row {
+                        
+                        if KPIOneView == .Graph && KPITwoView == .Graph
+                        {
+                            switch indexPath.row
+                            {
                             case 0:
                                 typeOfSetting = .KPIViewOne
                                 settingArray = KPIOneViewArray

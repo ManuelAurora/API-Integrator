@@ -201,6 +201,7 @@ extension ExternalKPIViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         cell.textLabel?.text = serviceKPI[indexPath.row].SettingName
         cell.accessoryType = serviceKPI[indexPath.row].value ? .checkmark : .none
+                
         return cell
     }
 }

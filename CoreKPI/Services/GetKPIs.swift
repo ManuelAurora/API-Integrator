@@ -54,8 +54,7 @@ class GetKPIs: Request {
                     var kpi = 0
                     while KPIListEndParsing == false {
                         var id = 0
-                        let typeOfKPI = TypeOfKPI.createdKPI
-                        let source = Source.User
+                        let typeOfKPI = TypeOfKPI.createdKPI                        
                         var department: String
                         var kpi_name: String
                         var descriptionOfKPI: String?
@@ -107,7 +106,7 @@ class GetKPIs: Request {
                                     number.append((Date() - 190000, preSub))
                                 }
                                 
-                                let createdKPI = CreatedKPI(source: source, department: Departments(rawValue: department) ?? Departments.none , KPI: kpi_name, descriptionOfKPI: descriptionOfKPI, executant: executant, timeInterval: AlertTimeInterval(rawValue: timeInterval)!,deadlineDay: deadlineDay, timeZone: timeZone, deadlineTime: deadlineTime, number: number)
+                                let createdKPI = CreatedKPI(department: Departments(rawValue: department) ?? Departments.none , KPI: kpi_name, descriptionOfKPI: descriptionOfKPI, executant: executant, timeInterval: AlertTimeInterval(rawValue: timeInterval)!,deadlineDay: deadlineDay, timeZone: timeZone, deadlineTime: deadlineTime, number: number)
                                 let kpi = KPI(kpiID: id, typeOfKPI: typeOfKPI, integratedKPI: nil, createdKPI: createdKPI, imageBacgroundColour: imageBacgroundColour)
                                 
                                 let kpiViewOne = kpiData["view1"] as? String
