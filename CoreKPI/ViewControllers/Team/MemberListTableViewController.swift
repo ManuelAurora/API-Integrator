@@ -159,7 +159,7 @@ class MemberListTableViewController: UITableViewController {
         return
         }, failure: { error in
             print(error)
-            self.showAlert(title: "Sorry", errorMessage: error)
+            self.showAlert(title: "Error Occured", errorMessage: error)
         self.loadTeamListFromServer()
         }
         )
@@ -219,7 +219,7 @@ class MemberListTableViewController: UITableViewController {
             
         }, failure: { error in
             self.refreshControl?.endRefreshing()
-            self.showAlert(title: "Teamlist loading error", errorMessage: error)
+            self.showAlert(title: "Error Occured", errorMessage: error)
             self.tableView.reloadData()
         }
         )

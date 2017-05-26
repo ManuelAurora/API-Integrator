@@ -30,6 +30,7 @@ extension Notification.Name
     static let hubspotTokenRecieved          = Notification.Name("HubspotTokenRecieved")
     static let reportDataForKpiRecieved      = Notification.Name("ReportDataForKpiRecieved")
     static let addedNewExtKpiOnServer        = Notification.Name("addedNewExternalKpiOnServer")
+    static let internetConnectionLost        = Notification.Name("internetConnectionLost")
 }
 
 extension UIStoryboard

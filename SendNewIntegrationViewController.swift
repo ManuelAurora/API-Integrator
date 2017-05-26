@@ -33,8 +33,8 @@ class SendNewIntegrationViewController: UIViewController {
         }) { error in
             self.ui(block: false)
             self.textView.becomeFirstResponder()
-           self.showAlert(title: "Error Occured", errorMessage: error)
-        }        
+            self.showAlert(title: "Error Occured", errorMessage: error)
+        }
     }
     
     @objc private func cancelSelector() {

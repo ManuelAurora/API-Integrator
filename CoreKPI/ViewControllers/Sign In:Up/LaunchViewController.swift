@@ -60,6 +60,8 @@ class LaunchViewController: UIViewController {
             showAlert(title: "Error occured",
                       errorMessage: "Please, check your internet connection")
         }
+        
+        presentStartVC()        
     }
     
     override func viewDidLoad() {

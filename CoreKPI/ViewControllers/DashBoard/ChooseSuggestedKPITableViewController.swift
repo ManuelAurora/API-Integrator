@@ -408,9 +408,9 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         },
                         failure: { (error) in
                             print(error)
-                            self.showAlert(title: "Sorry!", errorMessage: error)
-        }
-        )
+                            self.showAlert(title: "Error Occured",
+                                           errorMessage: error)
+        })
     }
     
     func parsingJson(json: NSDictionary) {

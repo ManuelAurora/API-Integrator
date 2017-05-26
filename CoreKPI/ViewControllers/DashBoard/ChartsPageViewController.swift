@@ -128,6 +128,8 @@ class ChartsPageViewController:
     // MARK:- Other Methods
     @objc private func handleRefresh() {
         
+        guard !refreshControl.isRefreshing else { return }
+        
         tableViewChartVC.dataArray.removeAll()
         tableViewChartVC.reportArray.removeAll()
         webViewChartOneVC.lineChartData.removeAll()
@@ -313,23 +315,33 @@ class ChartsPageViewController:
         nCenter.addObserver(forName: .errorDownloadingFile,
                             object: nil,
                             queue: nil) {
-            [weak self] _ in
-            self?.removeWaitingSpinner()
-            self?.refreshControl.endRefreshing()
+                                [weak self] _ in
+                                self?.removeWaitingSpinner()
+                                self?.refreshControl.endRefreshing()
+        }
+        
+        nCenter.addObserver(forName: .internetConnectionLost,
+                            object: nil,
+                            queue: nil) {
+                                [weak self] _ in
+                                self?.removeWaitingSpinner()
+                                self?.refreshControl.endRefreshing()
+                                self?.showAlert(title: "Error Occured",
+                                                errorMessage: "Please, check your internet connection")
         }
         
         nCenter.addObserver(forName: .reportDataForKpiRecieved,
-                       object: nil,
-                       queue: nil) {
-                        [weak self] _ in
-                        self?.formData()
-                        self?.removeWaitingSpinner()
-                        self?.tableViewChartVC.reloadTableView()
-                        self?.webViewChartOneVC.refreshView()
-                        self?.webViewChartTwoVC.refreshView()
+                            object: nil,
+                            queue: nil) {
+                                [weak self] _ in
+                                self?.formData()
+                                self?.removeWaitingSpinner()
+                                self?.tableViewChartVC.reloadTableView()
+                                self?.webViewChartOneVC.refreshView()
+                                self?.webViewChartTwoVC.refreshView()
         }
     }
-   
+    
     @objc private func prepareDataForReportFromSalesForce() {
         
         removeWaitingSpinner()
@@ -494,7 +506,7 @@ extension ChartsPageViewController {
     
     //MARK: - Autorisation again method
     func autorisationAgain(external: ExternalKPI) {
-        let alertVC = UIAlertController(title: "Sorry", message: "You should autorisation again", preferredStyle: .alert)
+        let alertVC = UIAlertController(title: "Error Occured", message: "You should autorize again", preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: { (UIAlertAction) in
             let request = ExternalRequest()
             request.oAuthAutorisation(servise: IntegratedServices(rawValue: external.serviceName!)!, viewController: self, success: { objects in
@@ -510,7 +522,7 @@ extension ChartsPageViewController {
                     break
                 }
             }, failure: { error in
-                self.showAlert(title: "Sorry", errorMessage: error)
+                self.showAlert(title: "Error Occured", errorMessage: error)
             })
         }))
     }

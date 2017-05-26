@@ -189,7 +189,6 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         }))
         actionViewController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(actionViewController, animated: true, completion: nil)
-        
     }
     
     //MARK: - tap Save button
@@ -303,7 +302,6 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                 catch {
                     print("Generic parser error")
                 }
-                
             }
         }
         if newProfile.userName != model.team[index].username {
@@ -344,7 +342,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                                 }
         }, failure: { error in
             self.ui(block: false)
-            self.showAlert(title: "Error", errorMessage: error)
+            self.showAlert(title: "Error Occured", errorMessage: error)
         })
     }
     

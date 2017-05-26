@@ -686,7 +686,7 @@ class AlertSettingsTableViewController: UITableViewController {
                     self.navigationController!.popViewController(animated: true)
                 }, failure: { error in
                     self.removeWaitingSpinner()
-                    self.showAlert(title: "Sorry", message: error)
+                    self.showAlert(title: "Error Occured", message: error)
                 }
                 )
             }
@@ -758,7 +758,7 @@ class AlertSettingsTableViewController: UITableViewController {
                     self.navigationController?.popViewController(animated: true)
                 }, failure: {error in
                     self.removeWaitingSpinner()
-                    self.showAlert(title: "Sorry", message: error)
+                    self.showAlert(title: "Error Occured", message: error)
                 })
             }
         }
@@ -802,7 +802,7 @@ class AlertSettingsTableViewController: UITableViewController {
             }, failure: {error in
                 self.savaButton.isEnabled = true
                 self.removeWaitingSpinner()
-                self.showAlert(title: "Sorry", message: error)
+                self.showAlert(title: "Error Occured", message: error)
             })
         case .Reminder:
             switch timeInterval {
@@ -866,7 +866,7 @@ class AlertSettingsTableViewController: UITableViewController {
             }, failure: {error in
                 self.removeWaitingSpinner()
                 self.savaButton.isEnabled = true 
-                self.showAlert(title: "Sorry", message: error)
+                self.showAlert(title: "Error Occured", message: error)
             }
             )
 

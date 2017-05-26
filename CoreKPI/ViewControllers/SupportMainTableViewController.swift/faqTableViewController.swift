@@ -42,6 +42,7 @@ class faqTableViewController: UITableViewController {
             self.tableView.reloadData()
             self.saveFAQ()
         }, failure: { error in
+            self.showAlert(title: "Error Occured", errorMessage: error)
             print(error)
         }
         )

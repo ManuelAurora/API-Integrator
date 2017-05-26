@@ -101,6 +101,8 @@ extension AboutTableViewController: MFMailComposeViewControllerDelegate {
             
             present(mail, animated: true)
         } else {
+            showAlert(title: "Error Occured",
+                      errorMessage: "Please, check your internet connection")
             print("Email error")
         }
     }

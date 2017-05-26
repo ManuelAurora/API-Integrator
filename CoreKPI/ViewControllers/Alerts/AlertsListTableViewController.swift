@@ -55,8 +55,20 @@ class AlertsListTableViewController: UITableViewController {
     var model: ModelCoreKPI!
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        refreshControl = UIRefreshControl()
+        refreshControl?.backgroundColor = UIColor.clear
+        refreshControl?.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
+        tableView.addSubview(refreshControl!)
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        refreshControl?.endRefreshing()
+        refreshControl?.removeFromSuperview()
         
         tableView.reloadData()
     }
@@ -72,11 +84,6 @@ class AlertsListTableViewController: UITableViewController {
                        selector: #selector(AlertsListTableViewController.catchNotification(notification:)),
                        name: .modelDidChanged,
                        object: nil)
-        
-        refreshControl = UIRefreshControl()
-        refreshControl?.backgroundColor = UIColor.clear
-        refreshControl?.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
-        tableView.addSubview(refreshControl!)
         
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.backgroundColor = UIColor(red: 241/255, green: 241/255, blue: 241/255, alpha: 1.0)
@@ -135,7 +142,7 @@ class AlertsListTableViewController: UITableViewController {
             
             self.refreshControl?.endRefreshing()
         }, failure: { error in
-            self.showAlert(title: "Sorry", message: error)
+            self.showAlert(title: "Error Occured", message: error)
             self.refreshControl?.endRefreshing()
         }
         )
@@ -163,7 +170,7 @@ class AlertsListTableViewController: UITableViewController {
             
             self.refreshControl?.endRefreshing()
         }, failure: { error in
-            self.showAlert(title: "Sorry", message: error)
+            self.showAlert(title: "Error Occured", message: error)
             self.refreshControl?.endRefreshing()
         }
         )
@@ -258,7 +265,7 @@ extension AlertsListTableViewController
             tableView.deleteRows(at: [indexPath], with: .top)
             request.deleteReminder(reminderID: reminderId, success: {
             }, failure: { error in
-                self.showAlert(title: "Sorry", message: error)
+                self.showAlert(title: "Error Occured", message: error)
                 self.loadReminders()
             })
             
@@ -270,7 +277,7 @@ extension AlertsListTableViewController
                 self.model.alerts.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .top)
             }, failure: { error in
-                self.showAlert(title: "Sorry", message: error)
+                self.showAlert(title: "Error Occured", message: error)
                 self.loadAlerts()
             }
             )

@@ -118,7 +118,8 @@ class ExternalKPIViewController: OAuthViewController {
             doAuthService()
             
         } else {
-            showAlert(title: "Sorry!", errorMessage: "First you should select one or more KPI")
+            showAlert(title: "Error Occured!",
+                      errorMessage: "You should select at least one KPI.")
         }
     }
     
@@ -244,7 +245,7 @@ extension ExternalKPIViewController {
         request.oAuthAutorisation(servise: .SalesForce, viewController: self, success: { saleForceKPI in
             self.saveOauth2Data(googleAnalyticsObject: nil, payPalObject: nil, salesForceObject: saleForceKPI.salesForceObject)
         }, failure: { error in
-            self.showAlert(title: "Sorry!", errorMessage: error)
+            self.showAlert(title: "Error Occured!", errorMessage: error)
         })
     }
     
@@ -313,7 +314,7 @@ extension ExternalKPIViewController {
             self.selectViewID(googleKPI: objects.googleAnalyticsObject!)
         
         }, failure: { error in
-            self.showAlert(title: "Sorry", errorMessage: error)
+            self.showAlert(title: "Error Occured", errorMessage: error)
         })
     }
     
@@ -350,7 +351,7 @@ extension ExternalKPIViewController {
             alertVC.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             self.present(alertVC, animated: true, completion: nil)
         }, failure: { error in
-        self.showAlert(title: "Sorry", errorMessage: error)
+        self.showAlert(title: "Error Occured", errorMessage: error)
         })
     }
     

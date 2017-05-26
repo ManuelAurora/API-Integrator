@@ -767,7 +767,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
             isRequestHandled = true
             self.ui(block: false)
             print(error)
-            self.showAlert(title: "Sorry",errorMessage: error)
+            self.showAlert(title: "Error Occured",errorMessage: error)
         })
     }
     

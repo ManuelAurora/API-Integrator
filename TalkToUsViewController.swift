@@ -59,7 +59,7 @@ class TalkToUsViewController: UITableViewController
         }) { error in
             self.ui(block: false)
             self.refreshControl?.endRefreshing()
-            print(error)
+            self.showAlert(title: "Error Occured", errorMessage: error)
         }
     }
     

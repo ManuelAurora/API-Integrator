@@ -17,6 +17,17 @@ class Request
 {
     var errorMessage: String?
     
+    private let notificationCenter = NotificationCenter.default
+    
+    private lazy var sessionManager: SessionManager = {
+        let config = URLSessionConfiguration.default
+        
+        config.timeoutIntervalForRequest = 15
+        config.timeoutIntervalForResource = 15
+        
+        return Alamofire.SessionManager(configuration: config)
+    }()
+    
     //let serverIp = "http://dashmob.smichrissoft.com:8888"
     //debug!
     let serverIp = "https://corekpi.gtwenty.com"
@@ -52,14 +63,14 @@ class Request
         
         let tokenLocal = token ?? ""
         var params: [String : Any]!
-               
+        
         if userID == nil {
             params = ["user_id" : "", "token" : tokenLocal, "data" : data]
         } else {
-            params = ["user_id" : userID, "token" : tokenLocal, "data" : data]            
+            params = ["user_id" : userID, "token" : tokenLocal, "data" : data]
         }
         
-        request(http, method: .post, parameters: params, encoding: JSONEncoding.default).responseJSON { response in
+        sessionManager.request(http, method: .post, parameters: params, encoding: JSONEncoding.default).responseJSON { response in
             
             if let statusCode = response.response?.statusCode
             {
@@ -78,15 +89,15 @@ class Request
                     print(response.result.value ?? "Server error")
                     
                     if let res = response.result.value as? [String: Any],
-                    let message = res["message"] as? String
-                    {                        
+                        let message = res["message"] as? String
+                    {
                         if message.contains("Incorrect string value")
                         {
                             var reason = ""
                             
                             if message.contains("desc")
                             {
-                               reason = "Description"
+                                reason = "Description"
                             }
                             else if message.contains("name")
                             {
@@ -112,11 +123,17 @@ class Request
                 if let error = error {
                     let requestError = error.localizedDescription
                     
-                    switch (error as NSError).code {
+                    switch (error as NSError).code
+                    {
                     case NSURLErrorNotConnectedToInternet:
+                        self.notificationCenter.post(name: .internetConnectionLost,
+                                                     object: nil)
                         failure(requestError)
+                        
                     default:
-                        print(requestError)
+                        self.notificationCenter.post(name: .internetConnectionLost,
+                                                     object: nil)
+                        failure(error.localizedDescription)
                     }
                 }
                 return

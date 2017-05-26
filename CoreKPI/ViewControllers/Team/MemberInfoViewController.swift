@@ -115,11 +115,13 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             if UIApplication.shared.canOpenURL(url!) {
                 UIApplication.shared.open(url!, options: [:], completionHandler: nil)
             } else {
-                let alertController = UIAlertController(title: "Sorry", message: "Can not call!", preferredStyle: .alert)
+                let alertController = UIAlertController(title: "Error Occured",
+                                                        message: "Unable to call now",
+                                                        preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 present(alertController, animated: true, completion: nil)
             }
-        }        
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

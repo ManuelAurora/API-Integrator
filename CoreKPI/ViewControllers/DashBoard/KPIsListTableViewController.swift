@@ -59,6 +59,9 @@ class KPIsListTableViewController: UITableViewController
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        refreshControl?.endRefreshing()
+        refreshControl?.removeFromSuperview()
+        
         tableView.reloadData()
     }
     
@@ -79,6 +82,11 @@ class KPIsListTableViewController: UITableViewController
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        refreshControl = UIRefreshControl()
+        
+        refreshControl?.backgroundColor = UIColor.clear
+        tableView.addSubview(refreshControl!)
         
         refreshControl?.addTarget(self,
                                   action: #selector(self.refresh),
@@ -268,7 +276,7 @@ class KPIsListTableViewController: UITableViewController
             print("KPI with id \(kpiID) was deleted")
         }, failure: { error in
             print(error)
-            self.showAlert(title: "Sorry", errorMessage: error)
+            self.showAlert(title: "Error Occured", errorMessage: error)
             self.loadKPIsFromServer()
         })
     }
@@ -295,7 +303,7 @@ class KPIsListTableViewController: UITableViewController
         }, failure: { error in
             print(error)
             self.refreshControl?.endRefreshing()
-            self.showAlert(title: "Sorry!", errorMessage: error)
+            self.showAlert(title: "Error Occured", errorMessage: error)
             self.tableView.reloadData()
         })
     }
@@ -372,7 +380,9 @@ class KPIsListTableViewController: UITableViewController
             kpi.createdKPI?.number = request.filterReports(kpi: kpi, reports: reports)
             self.nc.post(name: .reportDataForKpiRecieved, object: nil)
             self.tableView.reloadData()
-        }, failure: { error in })
+        }, failure: { error in
+            self.nc.post(name: .internetConnectionLost, object: nil)        
+        })
     }
     
     //MARK: Load User's KPI

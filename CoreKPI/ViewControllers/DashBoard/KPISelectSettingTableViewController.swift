@@ -49,7 +49,8 @@ class KPISelectSettingTableViewController: UITableViewController {
         tableView.alwaysBounceVertical = rowsWithInfoAccesory ? true : false
         
         if selectSetting.isEmpty {
-            let alertVC = UIAlertController(title: "Sorry!", message: "No Data for select",
+            let alertVC = UIAlertController(title: "Error Occured",
+                                            message: "No Data for select",
                                             preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: {
                 (action: UIAlertAction!) -> Void in
