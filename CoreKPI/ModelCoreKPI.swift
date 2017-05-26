@@ -137,9 +137,9 @@ class KPI {
     
     init(kpiID: Int,
          typeOfKPI: TypeOfKPI,
-         integratedKPI: ExternalKPI?,
-         createdKPI: CreatedKPI?,
-         imageBacgroundColour: UIColor?) {
+         integratedKPI: ExternalKPI? = nil,
+         createdKPI: CreatedKPI? = nil,
+         imageBacgroundColour: UIColor? = nil) {
         self.id = kpiID
         self.typeOfKPI = typeOfKPI
         self.integratedKPI = integratedKPI

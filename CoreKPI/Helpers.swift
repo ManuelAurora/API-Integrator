@@ -60,6 +60,8 @@ extension UIStoryboard
         case questionDetailTableVC  = "QuestionDetailTableViewController"
         case integrationRequestVC   = "SendNewIntegrationViewController"
         case createNewCustomKpi     = "ChooseSuggestedKpi"
+        case launchViewController   = "LaunchViewController"
+        case teamListViewController = "MemberListTableViewController"
     }
     
     func instantiateViewController(withIdentifier: StoryboardIDs) -> UIViewController {

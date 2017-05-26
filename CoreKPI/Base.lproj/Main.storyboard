@@ -645,7 +645,7 @@ The main advantage of a computer audio player is that you can play your audio CD
         <!--Member List Table View Controller-->
         <scene sceneID="PRf-Ct-NuB">
             <objects>
-                <tableViewController id="P5u-Mi-26l" customClass="MemberListTableViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="MemberListTableViewController" id="P5u-Mi-26l" customClass="MemberListTableViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="69" sectionHeaderHeight="28" sectionFooterHeight="28" id="867-JN-rS7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1265,7 +1265,7 @@ The main advantage of a computer audio player is that you can play your audio CD
         <!--Launch View Controller-->
         <scene sceneID="rK9-0M-Goh">
             <objects>
-                <viewController id="yjb-8Z-cjo" customClass="LaunchViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LaunchViewController" id="yjb-8Z-cjo" customClass="LaunchViewController" customModule="CoreKPI" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="OCl-8a-NhE"/>
                         <viewControllerLayoutGuide type="bottom" id="cII-1s-5Rt"/>

@@ -176,7 +176,7 @@ class MemberListTableViewController: UITableViewController {
         if segue.identifier == "MemberInfo" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let destinationController = segue.destination as! MemberInfoViewController
-                let profileCell = tableView.cellForRow(at: indexPath) as! MemberListTableViewCell                
+                let profileCell = tableView.cellForRow(at: indexPath) as! MemberListTableViewCell
                 destinationController.index = indexPath.row
                 destinationController.model = model                
                 destinationController.memberListVC = self

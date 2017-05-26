@@ -464,6 +464,8 @@ extension KPIsListTableViewController: KPIListButtonCellDelegate {
         
         let stack = self.navigationController?.viewControllers
         
+        //This shitty code returns you back to the Member Info ViewController
+        //If you tapped on username button in myKPIS/Responsible For Controller
         if (stack?.count)! > 1, stack?[(stack?.count)! - 2] is MemberInfoViewController {
             _ = self.navigationController?.popViewController(animated: true)
             return
@@ -473,7 +475,6 @@ extension KPIsListTableViewController: KPIListButtonCellDelegate {
         destinatioVC.model = model
         destinatioVC.navigationItem.rightBarButtonItem = nil
         
-        let member = model.team.filter { $0.userID == Int64(model.profile.userId) }
         let createdKPI = arrayOfKPI[sender.tag].createdKPI
         let executantId = createdKPI?.executant
         for i in 0..<model.team.count {
