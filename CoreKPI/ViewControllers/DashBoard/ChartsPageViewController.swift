@@ -76,9 +76,8 @@ class ChartsPageViewController:
         if kpi.createdKPI != nil
         {
             addWaitingSpinner(at: view.center, color: OurColors.cyan)
-        }        
+        }
         
-        formData()
         subscribeToNotifications()
         setInitialViewControllers()
         

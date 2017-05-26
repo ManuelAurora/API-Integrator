@@ -196,8 +196,8 @@ class KPIsListTableViewController: UITableViewController
         
         let destinationVC = storyboard?.instantiateViewController(withIdentifier:
             .chartsViewController) as! ChartsPageViewController
-        
         destinationVC.kpi = arrayOfKPI[indexPath.row]
+        
         navigationController?.pushViewController(destinationVC, animated: true)
     }
         
@@ -243,7 +243,7 @@ class KPIsListTableViewController: UITableViewController
         switch kpi.typeOfKPI
         {
         case .createdKPI:
-            cell.reportButton.isHidden   = stateMachine.isAdmin && !isThisKpiByMe(kpi)
+            cell.reportButton.isHidden   = isFilteredForUser || stateMachine.isAdmin && !isThisKpiByMe(kpi)
             cell.editButton.isHidden     = !stateMachine.isAdmin || isFilteredForUser
             cell.KPIListNumber.isHidden  = false
             cell.ManagedByStack.isHidden = false
@@ -364,11 +364,11 @@ class KPIsListTableViewController: UITableViewController
     //MARK: Load reports
     func loadReportsFor(kpi: KPI) {
         
-        kpi.createdKPI?.number.removeAll()
-        
         let request = GetReports(model: model)
         let interval = kpi.createdKPI?.timeInterval
+        
         request.getReportForKPI(withID: kpi.id, period: interval!, success: { reports in
+            kpi.createdKPI?.number.removeAll()
             kpi.createdKPI?.number = request.filterReports(kpi: kpi, reports: reports)
             self.nc.post(name: .reportDataForKpiRecieved, object: nil)
             self.tableView.reloadData()

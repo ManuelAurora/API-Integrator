@@ -740,14 +740,15 @@ class ReportAndViewKPITableViewController: UITableViewController {
     
     private func ui(block: Bool) {
         
-        let point = navigationController!.view.center
+        cancelAllNetwokingAndAnimateonOnTap(block)
+        
+        guard let point = navigationController?.view.center else { return }
         
         if block { addWaitingSpinner(at: point, color: OurColors.cyan) }
         else     { removeWaitingSpinner() }
             
         navigationItem.leftBarButtonItem?.isEnabled  = !block
-        navigationItem.rightBarButtonItem?.isEnabled = !block
-        cancelAllNetwokingAndAnimateonOnTap(block)
+        navigationItem.rightBarButtonItem?.isEnabled = !block        
     }
     
     func saveReport() {
@@ -767,18 +768,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
             self.ui(block: false)
             print(error)
             self.showAlert(title: "Sorry",errorMessage: error)
-        })        
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            guard !isRequestHandled else { return }
-            let message = "Please, check your internet connection"
-            weak var weakSelf = self
-            
-            weakSelf?.navigationItem.rightBarButtonItem?.isEnabled = true            
-            weakSelf?.ui(block: false)
-            weakSelf?.showAlert(title: "Error occured", errorMessage: message)
-            weakSelf?.removeAllAlamofireNetworking()
-        }
+        })
     }
     
     @IBAction func tapRightBarButton(_ sender: UIBarButtonItem) {

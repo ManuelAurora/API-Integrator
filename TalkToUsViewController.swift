@@ -33,6 +33,8 @@ class TalkToUsViewController: UITableViewController
     
     @objc private func addNewQuestion() {
         
+        addQuestionButton.isEnabled = false
+        
         let vc = storyboard?.instantiateViewController(withIdentifier:
             .integrationRequestVC) as! SendNewIntegrationViewController
         vc.title = "New Question"
