@@ -809,7 +809,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
                     let executantProfile: Int! = executant
                     //FIXME: WTF IS THIS
                     let newKpi = CreatedKPI(
-                                            department: self.department,
+                                            prelastValue: nil, department: self.department,
                                             KPI: self.kpiName!,
                                             descriptionOfKPI: self.kpiDescription,
                                             executant: executantProfile,

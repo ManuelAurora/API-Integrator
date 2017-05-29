@@ -199,7 +199,7 @@ struct QBProfitAndLoss: QuickBookMethod
     }
 }
 
-struct QuickbooksConstants
+enum QuickbooksConstants
 {
     static let lenghtOfRealmId = 15
 }

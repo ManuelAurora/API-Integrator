@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		640E16DD1ECEDA97001C1BC5 /* OAuthSwiftAlamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 640E16DB1ECEDA74001C1BC5 /* OAuthSwiftAlamofire.framework */; };
 		6413AFBF1E94CF6E00CC2ABB /* PipelineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6413AFBE1E94CF6E00CC2ABB /* PipelineTableViewCell.swift */; };
 		641F74641E5AE27B00672534 /* QuickBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F74631E5AE27B00672534 /* QuickBook.swift */; };
 		641F74661E5B0F4200672534 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F74651E5B0F4200672534 /* WebViewController.swift */; };
@@ -48,6 +47,7 @@
 		64797E9C1EB8CB7A00AE7D7F /* SegueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64797E9B1EB8CB7A00AE7D7F /* SegueManager.swift */; };
 		647B588F1E65AA2F001C968B /* QuickBookHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B588E1E65AA2F001C968B /* QuickBookHelpers.swift */; };
 		647B58911E65BA89001C968B /* QuickBookRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B58901E65BA89001C968B /* QuickBookRequestHandler.swift */; };
+		647BD1C81EDC07100006AB98 /* OAuthSwiftAlamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 640E16DB1ECEDA74001C1BC5 /* OAuthSwiftAlamofire.framework */; };
 		647C4C881EC48F7500941348 /* CoreKPI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 647C4C861EC48F7500941348 /* CoreKPI.xcdatamodeld */; };
 		647C76AB1E9CFB3D00D48900 /* SalesForceKPI + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647C76AA1E9CFB3D00D48900 /* SalesForceKPI + Extension.swift */; };
 		647C76AD1E9D160500D48900 /* SalesForceHelperObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647C76AC1E9D160500D48900 /* SalesForceHelperObjects.swift */; };
@@ -443,8 +443,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				647860D71ED85421001163EC /* pop.framework in Frameworks */,
+				647BD1C81EDC07100006AB98 /* OAuthSwiftAlamofire.framework in Frameworks */,
 				A25CA8531E4B21D8008B6331 /* ObjectMapper.framework in Frameworks */,
-				640E16DD1ECEDA97001C1BC5 /* OAuthSwiftAlamofire.framework in Frameworks */,
 				A2C6A5F41E6D7CBF005475B6 /* AEXML.framework in Frameworks */,
 				A24A84031E486DD400440151 /* OAuthSwift.framework in Frameworks */,
 				A2066D431E4DE25A00DCBA84 /* PhoneNumberKit.framework in Frameworks */,

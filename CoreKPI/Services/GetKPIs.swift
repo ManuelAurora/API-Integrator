@@ -94,6 +94,9 @@ class GetKPIs: Request {
                                 deadlineDay = kpiData["delivery_day"] as! Int
                                 number = []
                                 
+                                var createdKPI = CreatedKPI(prelastValue: nil, department: Departments(rawValue: department) ?? Departments.none , KPI: kpi_name, descriptionOfKPI: descriptionOfKPI, executant: executant, timeInterval: AlertTimeInterval(rawValue: timeInterval)!,deadlineDay: deadlineDay, timeZone: timeZone, deadlineTime: deadlineTime, number: number)
+                                let kpi = KPI(kpiID: id, typeOfKPI: typeOfKPI, integratedKPI: nil, createdKPI: createdKPI, imageBacgroundColour: imageBacgroundColour)
+                                
                                 if let lastSubStr = kpiData["last_submit"] as? String,
                                     let lastSub = Double(lastSubStr)
                                 {
@@ -102,12 +105,10 @@ class GetKPIs: Request {
                                 
                                 if let preSubStr = kpiData["prelast_submit"] as? String,
                                     let preSub = Double(preSubStr)
-                                {                                    
+                                {
+                                    createdKPI.prelastValue = preSub
                                     number.append((Date() - 190000, preSub))
                                 }
-                                
-                                let createdKPI = CreatedKPI(department: Departments(rawValue: department) ?? Departments.none , KPI: kpi_name, descriptionOfKPI: descriptionOfKPI, executant: executant, timeInterval: AlertTimeInterval(rawValue: timeInterval)!,deadlineDay: deadlineDay, timeZone: timeZone, deadlineTime: deadlineTime, number: number)
-                                let kpi = KPI(kpiID: id, typeOfKPI: typeOfKPI, integratedKPI: nil, createdKPI: createdKPI, imageBacgroundColour: imageBacgroundColour)
                                 
                                 let kpiViewOne = kpiData["view1"] as? String
                                 let kpiViewTwo = kpiData["view2"] as? String

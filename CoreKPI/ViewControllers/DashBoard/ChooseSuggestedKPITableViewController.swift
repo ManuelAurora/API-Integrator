@@ -965,6 +965,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         }
         
         let userKPI = CreatedKPI(
+            prelastValue: nil,
             department: department,
             KPI: kpiName!,
             descriptionOfKPI: kpiDescription,

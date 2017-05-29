@@ -89,7 +89,7 @@ class Profile {
 }
 
 //KPI
-class KPI {
+class KPI {    
     
     var typeOfKPI: TypeOfKPI
     var integratedKPI: ExternalKPI!
@@ -103,10 +103,16 @@ class KPI {
             guard let numbers = createdKPI?.number, numbers.count >= 2 else {
                 return .Increases
             }
-            let currentDayValue  = numbers[0].number
-            let previousDayValue = numbers[1].number
             
-            return currentDayValue >= previousDayValue ? .Increases : .Decreases
+            if let prelastReport = createdKPI?.prelastValue, prelastReport > 0
+            {
+                let currentValue  = numbers[0].number
+                let previousValue = numbers[1].number
+                
+                return currentValue >= previousValue ? .Increases : .Decreases
+            }
+            
+            return .Increases
             
         case .IntegratedKPI:
             

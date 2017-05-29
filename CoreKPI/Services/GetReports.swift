@@ -8,6 +8,15 @@
 
 import Foundation
 
+enum ReportPeriod
+{
+    case daily
+    case weekly
+    case monthly
+}
+
+typealias reportTuple = (date: Date, number: Double)
+
 class GetReports: Request {
     
     func getReportForKPI(withID kpiID: Int,
@@ -97,111 +106,100 @@ class GetReports: Request {
         return nil
     }
     
-    func filterReports(kpi: KPI, reports: [(date: Date, number: Double)]) -> [(date: Date, number: Double)] {
+    func filterReports(kpi: KPI, reports: [reportTuple]) -> [reportTuple] {
         
-        let reports = reports.reversed()
-        
-        var filteredReports: [(date: Date, number: Double)] = []
-        
-        for report in reports {
-            if filteredReports.count == 0 {
-                let dateOfReport = deadlineDetector(kpi: kpi, report: report)
-                let valueOfReport = report.number
-                filteredReports.append((dateOfReport, valueOfReport))
-            } else {
-                let dateOfReport = deadlineDetector(kpi: kpi, report: report)
-                let valueOfReport = report.number
-                if filteredReports.last?.date == dateOfReport {
-                    filteredReports.removeLast()
-                    filteredReports.append((dateOfReport, valueOfReport))
-                } else {
-                    filteredReports.append((dateOfReport, valueOfReport))
-                }
-            }
+        let reports = reports.reversed().map { r -> reportTuple in
+            let report = reportTuple(date: r.date, number: r.number)
+            return report
         }
-        return filteredReports.reversed()
+        
+        var filteredReports: [reportTuple] = []
+        
+        switch kpi.createdKPI!.timeInterval
+        {
+        case .Daily:   filteredReports.append(contentsOf: reports)
+        case .Weekly:  filteredReports.append(contentsOf: weeklyFiltered(reports: reports))
+        case .Monthly: filteredReports.append(contentsOf: weeklyFiltered(reports: reports))
+        }
+        
+        return filteredReports
     }
     
-    private func deadlineDetector(kpi: KPI, report: (date: Date, number: Double)) -> Date {
+    private func montlyFiltered(reports: [reportTuple]) -> [reportTuple] {
         
-        let deadlineInterval = kpi.createdKPI?.timeInterval
-        let deadlineDay = kpi.createdKPI?.deadlineDay
-        let deadlineTime = kpi.createdKPI?.deadlineTime
+        var resultReport = [reportTuple]()
+        let startOfCurrentMonth = Date().beginningOfMonth
+        let endOfCurrentMonth   = Date().endOfMonth
+        
+        return resultReport
+    }
+    
+    private func weeklyFiltered(reports: [reportTuple]) -> [reportTuple] {
+        
+        var resultReport = [reportTuple]()
         
         let calendar = Calendar.current
-        var deadlineTimeComponent = calendar.dateComponents([.hour, .minute, .second], from: deadlineTime!)
-        let reportDayComponent = calendar.dateComponents([.year, .month, .day], from: report.date)
+        let weeksToCalculate = 5
+        let currentDate = Date()
+        let weekComponents = calendar.dateComponents([.weekOfYear,.yearForWeekOfYear],
+                                                     from: currentDate)
+        let currentWeek = calendar.date(from: weekComponents)
         
-        deadlineTimeComponent.setValue(reportDayComponent.year, for: .year)
-        deadlineTimeComponent.setValue(reportDayComponent.month, for: .month)
-        deadlineTimeComponent.setValue(reportDayComponent.day, for: .day)
+        guard let startOfCurrentWeek = currentWeek else { return resultReport }
         
-        var deadlineDate = calendar.date(from: deadlineTimeComponent)
-        
-        
-        switch deadlineInterval! {
-        case .Daily:
-            if report.date > deadlineDate! {
-                deadlineDate = calendar.date(byAdding: .day, value: 1, to: deadlineDate!)!
-            }
-        case .Weekly:
+        for weekCounter in 0..<weeksToCalculate
+        {
+            let weekStart = calendar.date(byAdding: .weekOfYear,
+                                          value: -weekCounter,
+                                          to: startOfCurrentWeek)!
             
-            guard var dayOfWeek = deadlineDay else {print("Error day of week");break}
+            let weekEnd = calendar.date(byAdding: .weekOfYear,
+                                        value: 1,
+                                        to: weekStart)!
             
-            switch dayOfWeek {
-            case 7:
-                dayOfWeek = 1
-            default:
-                dayOfWeek += 1
-            }
+            var intermediateResult = [reportTuple]()
             
-            var deadlineDateComponents = calendar.dateComponents([.weekday, .year, .month, .day, .hour, .minute, .second], from: deadlineDate!)
-    
-            while deadlineDateComponents.weekday != dayOfWeek {
-                deadlineDate = calendar.date(byAdding: .weekday, value: 1, to: deadlineDate!)
-                deadlineDateComponents = calendar.dateComponents([.weekday, .year, .month, .day, .hour, .minute, .second], from: deadlineDate!)
-            }
+            intermediateResult.append(contentsOf: reports.filter {
+                $0.date >= weekStart && $0.date <= weekEnd
+            })
             
-            if report.date > deadlineDate! && calendar.isDate(report.date, inSameDayAs: deadlineDate!) {
-                deadlineDate = calendar.date(byAdding: .weekOfYear, value: 1, to: deadlineDate!)!
-            }
+            guard intermediateResult.count > 0 else { continue }
             
-        case .Monthly:
-            
-            let lastDay = deadlineDate?.endOfMonth
-            let lastDayComponent = calendar.dateComponents([.day], from: lastDay!)
-            
-            var deadlineDayForCurrentMounth = 0
-            
-            if lastDayComponent.day! < deadlineDay! {
-                deadlineDayForCurrentMounth = lastDayComponent.day!
-            } else {
-                deadlineDayForCurrentMounth = deadlineDay!
-            }
-            
-            var deadlineDateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: deadlineDate!)
-            
-            while deadlineDateComponents.day != deadlineDayForCurrentMounth {
-                deadlineDate = calendar.date(byAdding: .day, value: 1, to: deadlineDate!)
-                deadlineDateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: deadlineDate!)
-            }
-            
-            if report.date > deadlineDate! && calendar.isDate(report.date, inSameDayAs: deadlineDate!) {
-                deadlineDate = calendar.date(byAdding: .month, value: 1, to: deadlineDate!)!
-                var newDeadlineDateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: deadlineDate!)
-                
-                let lastDayOfNewMounth = deadlineDate?.endOfMonth
-                let newLastDayOfMount = calendar.dateComponents([.day], from: lastDayOfNewMounth!)
-                
-                if newDeadlineDateComponents.day! < deadlineDay! && newLastDayOfMount.day! >= deadlineDay! {
-                    newDeadlineDateComponents.day = deadlineDay
-                    deadlineDate = calendar.date(from: newDeadlineDateComponents)
+            let maximumWeekReportValue = intermediateResult.reduce(0) {
+                (result, tuple) -> Double in
+                if tuple.number > result
+                {
+                    return tuple.number
                 }
+                return result
             }
             
+            let maximumWeekReport = intermediateResult.filter {
+                $0.number == maximumWeekReportValue
+            }.first
+            
+            if let result = maximumWeekReport { resultReport.append(result) }
         }
-        
-        return deadlineDate!
+        return resultReport
     }
-    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
