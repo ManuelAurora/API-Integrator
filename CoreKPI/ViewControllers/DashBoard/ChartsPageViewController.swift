@@ -77,6 +77,10 @@ class ChartsPageViewController:
         {
             addWaitingSpinner(at: view.center, color: OurColors.cyan)
         }
+        else
+        {
+            formData()
+        }
         
         subscribeToNotifications()
         setInitialViewControllers()
@@ -128,7 +132,7 @@ class ChartsPageViewController:
     // MARK:- Other Methods
     @objc private func handleRefresh() {
         
-        guard !refreshControl.isRefreshing else { return }
+        guard refreshControl.isRefreshing else { return }
         
         tableViewChartVC.dataArray.removeAll()
         tableViewChartVC.reportArray.removeAll()

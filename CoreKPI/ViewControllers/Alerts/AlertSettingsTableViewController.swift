@@ -91,7 +91,10 @@ class AlertSettingsTableViewController: UITableViewController {
     var deliveryAtArray: [(SettingName: String, value: Bool)] = [("At work hours", true),("AllTime", false)]
     
     var typeOfNotification: [TypeOfNotification] = []
-    var typeOfNotificationArray: [(SettingName: String, value: Bool)] = [(TypeOfNotification.Email.rawValue, false), (TypeOfNotification.SMS.rawValue, false), (TypeOfNotification.Push.rawValue, false)]
+    var typeOfNotificationArray: [(SettingName: String, value: Bool)] = [
+        (TypeOfNotification.Email.rawValue, false)/*,
+        (TypeOfNotification.SMS.rawValue, false),
+        (TypeOfNotification.Push.rawValue, false)*/]
     
     
     override func viewWillDisappear(_ animated: Bool) {

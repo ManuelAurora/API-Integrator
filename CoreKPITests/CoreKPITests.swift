@@ -20,8 +20,8 @@ class CoreKPITests: XCTestCase {
     var memberList: MemberListTableViewController! = nil
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var managedContext: NSManagedObjectContext! = nil
-    let model = ModelCoreKPI.modelShared
-    var state = UserStateMachine.shared.userStateInfo
+    let model = UserStateMachine.shared.model
+    var stateMachine = UserStateMachine.shared
     
     override func setUp() {
         super.setUp()
@@ -29,10 +29,8 @@ class CoreKPITests: XCTestCase {
         managedContext = appDelegate.persistentContainer.viewContext
         fillModel()
         storyboard = UIStoryboard(name: "Main", bundle: nil)
-        launchVC   = storyboard.instantiateViewController(
-            withIdentifier: .launchViewController) as! LaunchViewController
-        regVc = self.storyboard?.instantiateViewController(
-            withIdentifier: .registerViewController) as! RegisterViewController
+        launchVC   = appDelegate.launchViewController
+        regVc = appDelegate.launchViewController.registerViewController
         launchVC.mainTabBar.model = model 
         memberList = storyboard.instantiateViewController(
             withIdentifier: .teamListViewController) as! MemberListTableViewController
@@ -54,15 +52,16 @@ class CoreKPITests: XCTestCase {
     
     private func fillModel() {
       
-        state.loggedIn       = true
-        state.haveLocalToken = true
-        state.usesPinCode    = true
+        stateMachine.userStateInfo.loggedIn       = true
+        stateMachine.userStateInfo.haveLocalToken = true
+        stateMachine.userStateInfo.usesPinCode    = true
         model.team = [Team(context: managedContext), Team(context: managedContext)]
         model.kpis = [KPI(kpiID: 1, typeOfKPI: .createdKPI),
                       KPI(kpiID: 1, typeOfKPI: .createdKPI)]
         model.profile = Profile(userID: 22)
         model.token = "TokenForSmiServer"
-  
+        
+        model.alerts = [Alert(), Alert()]
     }
     
     func testCoreDataModels() {
@@ -87,15 +86,14 @@ class CoreKPITests: XCTestCase {
         regVc.emailTextField!.text          = "test@gmail.com"
         regVc.passwordTextField!.text       = "123456"
         regVc.repeatPasswordTextField!.text = "155626"
-            
-        appDelegate.launchViewController.mainTabBar.model = model       
+        
         appDelegate.launchViewController.mainTabBar.teamListController.model = model
-      
+        appDelegate.launchViewController.mainTabBar.alertsViewController.model = model
         supportVC.stateMachine.logOut()       
         
-        if state.loggedIn == false &&
-            state.haveLocalToken == false &&
-            state.usesPinCode == false &&
+        if stateMachine.userStateInfo.loggedIn == false &&
+            stateMachine.userStateInfo.haveLocalToken == false &&
+            stateMachine.userStateInfo.usesPinCode == false &&
             regVc.emailTextField?.text == "" &&
             regVc.passwordTextField?.text == "" &&
             regVc.repeatPasswordTextField?.text == "" &&
@@ -114,6 +112,4 @@ class CoreKPITests: XCTestCase {
         
         XCTAssertNotNil(kpiList.model, "Model cannot be nil in this place")
     }
-    
-    
 }
