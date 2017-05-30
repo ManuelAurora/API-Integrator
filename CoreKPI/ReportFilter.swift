@@ -63,9 +63,6 @@ enum ReportFilter
     
     private func weeklyReportsWith(reportDay: Int) -> [reportTuple] {
         
-        let reports = ReportFilter.reports
-        var resultReport = [reportTuple]()
-        
         let weeksToCalculate = 5
         let currentDate = Date()
         var weekComponents = calendar.dateComponents([.weekOfYear,.yearForWeekOfYear],
@@ -75,69 +72,53 @@ enum ReportFilter
         weekComponents.minute = 59
         weekComponents.second = 59
         
-        let currentWeek = calendar.date(from: weekComponents)
+        let currentWeek = calendar.date(from: weekComponents)!
         
-        guard let startOfCurrentWeek = currentWeek else { return resultReport }
-        
-        for weekCounter in 0..<weeksToCalculate
-        {
-            let prevReportDay = calendar.date(byAdding: .weekOfYear,
-                                              value: -weekCounter,
-                                              to: startOfCurrentWeek)!
-            
-            let nextReportDay = calendar.date(byAdding: .weekOfYear,
-                                                value: 1,
-                                                to: prevReportDay)!
-            
-            let weeklyReport = reports.filter {
-                $0.date >= prevReportDay && $0.date <= nextReportDay
-            }
-            
-            guard weeklyReport.count > 0 else { continue }
-            
-            resultReport.append(contentsOf: getValueFrom(reports: weeklyReport))
-        }
-        return resultReport
+        return reportDataFrom(currentWeek,
+                              periodCounter: weeksToCalculate,
+                              periodComponent: .weekOfMonth)
     }
     
     private func monthlyReportsWith(reportDay: Int) -> [reportTuple] {
         
-        var resultReport        = [reportTuple]()
         let startOfCurrentMonth = Date().beginningOfMonth!
-        let monthsToCalculate    = 12
+        let monthsToCalculate   = 12
         
-        for monthCounter in 0..<monthsToCalculate
-        {
-            let monthStart = calendar.date(byAdding: .month,
-                                           value: -monthCounter,
-                                           to: startOfCurrentMonth)!
-            
-            let monthEnd = calendar.date(byAdding: .month,
-                                         value: 1,
-                                         to: monthStart)!
-            
-            let monthlyReport = ReportFilter.reports.filter {
-                $0.date >= monthStart && $0.date <= monthEnd
-            }
-            
-            guard monthlyReport.count > 0 else { continue }
-            
-            resultReport.append(contentsOf: getValueFrom(reports: monthlyReport))
-        }
-        return resultReport
+        return reportDataFrom(startOfCurrentMonth,
+                              periodCounter: monthsToCalculate,
+                              periodComponent: .month)
     }
     
-    private func getValueFrom(reports: [reportTuple]) -> [reportTuple] {
+    private func reportDataFrom(_ startDate: Date,
+                                periodCounter: Int,
+                                periodComponent: Calendar.Component) -> [reportTuple] {
         
         var resultReport = [reportTuple]()
         
-        let sortedReports = reports.sorted { $0.date > $1.date }
-        
-        if let resultValue = sortedReports.first
+        for counter in 0..<periodCounter
         {
-            resultReport.append(resultValue)
+            let prevReportDate = calendar.date(byAdding: periodComponent,
+                                              value: -counter,
+                                              to: startDate)!
+            
+            let nextReportDate = calendar.date(byAdding: periodComponent,
+                                              value: 1,
+                                              to: prevReportDate)!
+            
+            let filteredForPeriod = ReportFilter.reports.filter {
+                $0.date >= prevReportDate && $0.date <= nextReportDate
+            }
+            
+            guard filteredForPeriod.count > 0 else { continue }
+            
+            let sortedReports = filteredForPeriod.sorted { $0.date > $1.date }
+            
+            if let resultValue = sortedReports.first
+            {
+                resultReport.append(resultValue)
+            }
         }
-        
         return resultReport
     }
 }
+   
