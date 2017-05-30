@@ -702,7 +702,7 @@ class AlertSettingsTableViewController: UITableViewController {
                 reminder.timeInterval = timeInterval.rawValue
                 
                 switch timeInterval {
-                case .Daily:
+                case .Daily, .lastThirtyDays:
                     reminder.deliveryDay = 1
                 case .Weekly:
                     var numberOfDay: Int64 = 0
@@ -809,7 +809,7 @@ class AlertSettingsTableViewController: UITableViewController {
             })
         case .Reminder:
             switch timeInterval {
-            case .Daily:
+            case .Daily, .lastThirtyDays:
                 model.reminders[indexOfDigit].setValue(1, forKey: "deliveryDay")
             case .Weekly:
                 var numberOfDay: Int64 = 0

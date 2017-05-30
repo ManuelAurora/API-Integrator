@@ -36,7 +36,18 @@ class EditKPI: Request {
             }
         }
         
-        let data: [String : Any] = ["kpi_id" : kpi.id ,"name" : (kpi.createdKPI?.KPI)!, "description" : kpi.createdKPI?.descriptionOfKPI ?? "", "department" : (kpi.createdKPI?.department.rawValue)!, "responsible_id" : (kpi.createdKPI?.executant)!, "interval" : (kpi.createdKPI?.timeInterval.rawValue)!, "deadline" : deadlineTime, "delivery_day" : kpi.createdKPI?.deadlineDay ?? 1, "view1" : viewOne, "view2" : viewTwo, "color" : kpi.imageBacgroundColour.getHexString(), "timezone" : timeZoneHoursFromGMT]
+        let data: [String : Any] = ["kpi_id": kpi.id,
+                                    "name": (kpi.createdKPI?.KPI)!,
+                                    "description": kpi.createdKPI?.descriptionOfKPI ?? "",
+                                    "department": (kpi.createdKPI?.department.rawValue)!,
+                                    "responsible_id": (kpi.createdKPI?.executant)!,
+                                    "interval": (kpi.createdKPI?.timeInterval.periodNameForServer)!,
+                                    "deadline": deadlineTime,
+                                    "delivery_day": kpi.createdKPI?.deadlineDay ?? 1,
+                                    "view1": viewOne,
+                                    "view2": viewTwo,
+                                    "color": kpi.imageBacgroundColour.getHexString(),
+                                    "timezone": timeZoneHoursFromGMT]
         
         self.getJson(category: "/kpi/updateKPI", data: data,
                      success: { json in

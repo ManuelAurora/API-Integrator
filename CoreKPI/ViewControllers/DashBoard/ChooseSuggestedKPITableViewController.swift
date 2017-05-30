@@ -136,7 +136,10 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         return AlertTimeInterval.Daily
     }
     
-    var timeIntervalArray: [(SettingName: String, value: Bool)] = [(AlertTimeInterval.Daily.rawValue, true), (AlertTimeInterval.Weekly.rawValue, false), (AlertTimeInterval.Monthly.rawValue, false)]
+    var timeIntervalArray: [(SettingName: String, value: Bool)] = [(AlertTimeInterval.Daily.rawValue, true),
+                                                                   (AlertTimeInterval.Weekly.rawValue, false),
+                                                                   (AlertTimeInterval.Monthly.rawValue, false),
+                                                                   (AlertTimeInterval.lastThirtyDays.prettyPrinted, false)]
     
     var weeklyInterval: WeeklyInterval {
         get {
@@ -485,7 +488,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         {
             switch timeInterval
             {
-            case .Daily, .Weekly:
+            case .Daily, .Weekly, .lastThirtyDays:
                 return 0
                 
             case .Monthly:
@@ -628,7 +631,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
             dataPickerCell.dataPicker.reloadAllComponents()
             
             switch timeInterval {
-            case .Daily:
+            case .Daily, .lastThirtyDays:
                 break
             case .Weekly:
                 if weeklyInterval == .none {
@@ -937,7 +940,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         
         var deadlineDay = 1
         switch timeInterval {
-        case .Daily:
+        case .Daily, .lastThirtyDays:
             deadlineDay = 1
         case .Weekly:
             switch weeklyInterval {
@@ -1277,7 +1280,7 @@ extension ChooseSuggestedKPITableViewController: UIPickerViewDataSource,UIPicker
     }
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch timeInterval {
-        case .Daily:
+        case .Daily, .lastThirtyDays:
             return 0
         case .Weekly:
             return weeklyArray.count
@@ -1289,7 +1292,7 @@ extension ChooseSuggestedKPITableViewController: UIPickerViewDataSource,UIPicker
     //MARK: Delegates
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch timeInterval {
-        case .Daily:
+        case .Daily, .lastThirtyDays:
             return ""
         case .Weekly:
             return weeklyArray[row].SettingName
@@ -1301,7 +1304,7 @@ extension ChooseSuggestedKPITableViewController: UIPickerViewDataSource,UIPicker
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
        
         switch timeInterval {
-        case .Daily:
+        case .Daily, .lastThirtyDays:
             break
         case .Weekly:
             weeklyInterval =  WeeklyInterval(rawValue: weeklyArray[row].SettingName)!

@@ -13,6 +13,7 @@ enum ReportFilter
     case monthly(Int)
     case daily
     case weekly(Int)
+    case lastThirtyDays
     
     private static var reports = [reportTuple]()
     
@@ -28,13 +29,26 @@ enum ReportFilter
         
         switch self
         {
-        case .daily: return filterReportsByDays()
-        case .weekly(let weekday): return weeklyReportsWith(reportDay: weekday)
-        case .monthly(let day): return monthlyReportsWith(reportDay: day)
+        case .daily:               return dailyOrderedReport()
+        case .weekly(let weekday): return weeklyReportWith(reportDay: weekday)
+        case .monthly(let day):    return monthlyReportWith(reportDay: day)
+        case .lastThirtyDays:      return lastThirtyDaysReport()
         }
     }
     
-    private func filterReportsByDays() -> [reportTuple] {
+    private func lastThirtyDaysReport() -> [reportTuple] {
+        
+        let startPeriod = Date()
+        let endPeriod   = calendar.date(byAdding: .day,
+                                        value: -30,
+                                        to: startPeriod)!
+        
+        return dailyOrderedReport().filter {
+            $0.date <= startPeriod && $0.date >= endPeriod
+        }
+    }
+    
+    private func dailyOrderedReport() -> [reportTuple] {
         
         var filteredResult = [reportTuple]()
         
@@ -61,32 +75,41 @@ enum ReportFilter
         return filteredResult
     }
     
-    private func weeklyReportsWith(reportDay: Int) -> [reportTuple] {
+    private func weeklyReportWith(reportDay: Int) -> [reportTuple] {
         
         let weeksToCalculate = 5
-        let currentDate = Date()
-        var weekComponents = calendar.dateComponents([.weekOfYear,.yearForWeekOfYear],
-                                                     from: currentDate)
-        weekComponents.weekday = reportDay + 1 // + Monday
-        weekComponents.hour = 23
-        weekComponents.minute = 59
-        weekComponents.second = 59
-        
-        let currentWeek = calendar.date(from: weekComponents)!
+        let currentWeek      = startDateFrom(components: [.weekOfYear,.yearForWeekOfYear],
+                                             reportDay: reportDay)
         
         return reportDataFrom(currentWeek,
                               periodCounter: weeksToCalculate,
                               periodComponent: .weekOfMonth)
     }
     
-    private func monthlyReportsWith(reportDay: Int) -> [reportTuple] {
+    private func monthlyReportWith(reportDay: Int) -> [reportTuple] {
         
-        let startOfCurrentMonth = Date().beginningOfMonth!
         let monthsToCalculate   = 12
-        
+        let startOfCurrentMonth = startDateFrom(components: [.month,.year],
+                                                reportDay: reportDay)
+
         return reportDataFrom(startOfCurrentMonth,
                               periodCounter: monthsToCalculate,
                               periodComponent: .month)
+    }
+    
+    private func startDateFrom(components: Set<Calendar.Component>, reportDay: Int) -> Date {
+        
+        var dateComponents = calendar.dateComponents(components,
+                                                     from: Date())
+        
+        let isWeekday = components.contains(.weekOfYear) // + Monday
+        
+        dateComponents.weekday = isWeekday ? reportDay + 1 : reportDay
+        dateComponents.hour    = 23
+        dateComponents.minute  = 59
+        dateComponents.second  = 59
+        
+        return calendar.date(from: dateComponents)!
     }
     
     private func reportDataFrom(_ startDate: Date,

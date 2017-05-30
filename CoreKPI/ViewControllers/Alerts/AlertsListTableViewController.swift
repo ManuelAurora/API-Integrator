@@ -30,6 +30,23 @@ enum AlertTimeInterval: String {
     case Daily
     case Weekly
     case Monthly
+    case lastThirtyDays
+    
+    var prettyPrinted: String {
+        switch self
+        {
+        case .Daily,.Monthly,.Weekly: return rawValue
+        case .lastThirtyDays: return "Last 30 Days"
+        }
+    }
+    
+    var periodNameForServer: String {
+        switch self
+        {
+        case .Daily,.Monthly,.Weekly: return rawValue
+        case .lastThirtyDays: return "Daily"
+        }
+    }
 }
 
 enum Condition: String {

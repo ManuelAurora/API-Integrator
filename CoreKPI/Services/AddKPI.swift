@@ -43,13 +43,13 @@ class AddKPI: Request
             
             guard let createdKPI = kpi.createdKPI else {
                 fatalError("Created KPI is not createdKPI")
-            }
-            
+            }          
+                        
             data = ["name":           createdKPI.KPI,
                     "description":    createdKPI.descriptionOfKPI ?? "",
                     "department":     createdKPI.department.rawValue,
                     "responsible_id": createdKPI.executant,
-                    "interval":       createdKPI.timeInterval.rawValue,
+                    "interval":       createdKPI.timeInterval.periodNameForServer,
                     "delivery_day":   createdKPI.deadlineDay,
                     "deadline":       deadlineTime,
                     "timezone":       timeZoneHoursFromGMT,

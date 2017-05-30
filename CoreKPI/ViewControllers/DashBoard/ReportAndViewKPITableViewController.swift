@@ -155,7 +155,14 @@ class ReportAndViewKPITableViewController: UITableViewController {
         get {
             for interval in timeIntervalArray {
                 if interval.value == true {
-                    return AlertTimeInterval(rawValue: interval.SettingName)!
+                    if let interval = AlertTimeInterval(rawValue: interval.SettingName)
+                    {
+                        return interval
+                    }
+                    else
+                    {
+                        return .lastThirtyDays
+                    }
                 }
             }
             return AlertTimeInterval.Daily
@@ -174,7 +181,10 @@ class ReportAndViewKPITableViewController: UITableViewController {
         }
         
     }
-    var timeIntervalArray: [(SettingName: String, value: Bool)] = [(AlertTimeInterval.Daily.rawValue, true), (AlertTimeInterval.Weekly.rawValue, false), (AlertTimeInterval.Monthly.rawValue, false)]
+    var timeIntervalArray: [(SettingName: String, value: Bool)] = [(AlertTimeInterval.Daily.rawValue, true),
+                                                                   (AlertTimeInterval.Weekly.rawValue, false),
+                                                                   (AlertTimeInterval.Monthly.rawValue, false),
+                                                                   (AlertTimeInterval.lastThirtyDays.prettyPrinted, false)]
     //WeeklyInterval
     var weeklyInterval: WeeklyInterval {
         get {
@@ -495,16 +505,14 @@ class ReportAndViewKPITableViewController: UITableViewController {
     
     func dataIsEntered() -> Bool {
         
-            if department == .none ||
-                KPIOneView == nil ||
-                KPITwoView == nil ||
-                kpiName == nil ||
-                executant == nil ||
-                (timeInterval == AlertTimeInterval.Weekly && weeklyInterval == WeeklyInterval.none) ||
-                (timeInterval == AlertTimeInterval.Monthly && mounthlyInterval == nil)
-                || timeZone == nil
-                || deadlineTime == nil {
-                
+            if department    == .none ||
+                KPIOneView   == nil ||
+                KPITwoView   == nil ||
+                kpiName      == nil ||
+                executant    == nil ||
+                timeInterval == .none ||
+                timeZone     == nil ||
+                deadlineTime == nil {
                 return false
             }
         
@@ -535,7 +543,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
             timeInterval = (createdKPI?.timeInterval)!
             //Delivery day
             switch timeInterval {
-            case .Daily:
+            case .Daily, .lastThirtyDays:
                 break
             case .Weekly:
                 switch (createdKPI?.deadlineDay)! {
@@ -620,7 +628,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
                     case 2:
                         var newIndexPath = IndexPath()
                         switch timeInterval {
-                        case .Daily:
+                        case .Daily, .lastThirtyDays:
                             switch indexPath.row {
                             case 3,4:
                                 return indexPath
@@ -782,7 +790,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
                 case .Admin:
                     var deadlineDay = 0
                     switch timeInterval {
-                    case .Daily:
+                    case .Daily, .lastThirtyDays:
                         deadlineDay = 1
                     case .Weekly:
                         switch weeklyInterval {
@@ -969,7 +977,7 @@ extension ReportAndViewKPITableViewController: UpdateTimeDelegate {
             deadlineTime = time
             var indexPath = IndexPath()
             switch timeInterval {
-            case .Daily:
+            case .Daily, .lastThirtyDays:
                 indexPath = IndexPath(item: 3, section: 2)
             case .Weekly, .Monthly:
                 indexPath = IndexPath(item: 4, section: 2)

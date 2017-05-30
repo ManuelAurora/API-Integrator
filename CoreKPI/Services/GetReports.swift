@@ -121,6 +121,7 @@ class GetReports: Request {
         case .Daily:   return ReportFilter.daily.filter(reports)
         case .Weekly:  return ReportFilter.weekly(reportDay!).filter(reports)
         case .Monthly: return ReportFilter.monthly(dayOfMonth!).filter(reports)
+        case .lastThirtyDays: return ReportFilter.lastThirtyDays.filter(reports)
         }
     }    
 }
