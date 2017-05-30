@@ -108,80 +108,21 @@ class GetReports: Request {
     
     func filterReports(kpi: KPI, reports: [reportTuple]) -> [reportTuple] {
         
-        let reports = reports.reversed().map { r -> reportTuple in
+        let reports = reports.map { r -> reportTuple in
             let report = reportTuple(date: r.date, number: r.number)
             return report
         }
-        
-        var filteredReports: [reportTuple] = []
+                
+        let reportDay = kpi.createdKPI?.deadlineDay
+        let dayOfMonth = kpi.createdKPI?.deadlineDay
         
         switch kpi.createdKPI!.timeInterval
         {
-        case .Daily:   filteredReports.append(contentsOf: reports)
-        case .Weekly:  filteredReports.append(contentsOf: weeklyFiltered(reports: reports))
-        case .Monthly: filteredReports.append(contentsOf: weeklyFiltered(reports: reports))
+        case .Daily:   return ReportFilter.daily.filter(reports)
+        case .Weekly:  return ReportFilter.weekly(reportDay!).filter(reports)
+        case .Monthly: return ReportFilter.monthly(dayOfMonth!).filter(reports)
         }
-        
-        return filteredReports
-    }
-    
-    private func montlyFiltered(reports: [reportTuple]) -> [reportTuple] {
-        
-        var resultReport = [reportTuple]()
-        let startOfCurrentMonth = Date().beginningOfMonth
-        let endOfCurrentMonth   = Date().endOfMonth
-        
-        return resultReport
-    }
-    
-    private func weeklyFiltered(reports: [reportTuple]) -> [reportTuple] {
-        
-        var resultReport = [reportTuple]()
-        
-        let calendar = Calendar.current
-        let weeksToCalculate = 5
-        let currentDate = Date()
-        let weekComponents = calendar.dateComponents([.weekOfYear,.yearForWeekOfYear],
-                                                     from: currentDate)
-        let currentWeek = calendar.date(from: weekComponents)
-        
-        guard let startOfCurrentWeek = currentWeek else { return resultReport }
-        
-        for weekCounter in 0..<weeksToCalculate
-        {
-            let weekStart = calendar.date(byAdding: .weekOfYear,
-                                          value: -weekCounter,
-                                          to: startOfCurrentWeek)!
-            
-            let weekEnd = calendar.date(byAdding: .weekOfYear,
-                                        value: 1,
-                                        to: weekStart)!
-            
-            var intermediateResult = [reportTuple]()
-            
-            intermediateResult.append(contentsOf: reports.filter {
-                $0.date >= weekStart && $0.date <= weekEnd
-            })
-            
-            guard intermediateResult.count > 0 else { continue }
-            
-            let maximumWeekReportValue = intermediateResult.reduce(0) {
-                (result, tuple) -> Double in
-                if tuple.number > result
-                {
-                    return tuple.number
-                }
-                return result
-            }
-            
-            let maximumWeekReport = intermediateResult.filter {
-                $0.number == maximumWeekReportValue
-            }.first
-            
-            if let result = maximumWeekReport { resultReport.append(result) }
-        }
-        return resultReport
-    }
+    }    
 }
 
 
