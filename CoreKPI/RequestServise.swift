@@ -22,8 +22,8 @@ class Request
     private lazy var sessionManager: SessionManager = {
         let config = URLSessionConfiguration.default
         
-        config.timeoutIntervalForRequest = 15
-        config.timeoutIntervalForResource = 15
+        config.timeoutIntervalForRequest = 45
+        config.timeoutIntervalForResource = 45
         
         return Alamofire.SessionManager(configuration: config)
     }()

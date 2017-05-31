@@ -61,14 +61,21 @@ class LaunchViewController: UIViewController {
                       errorMessage: "Please, check your internet connection")
         }
         
-        presentStartVC()        
+        presentStartVC()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let kpiLst = GetExternalServices(model: ModelCoreKPI.modelShared)
+        kpiLst.getData(success: { (result: [Service]) in
+            print(result)
+        }) { (err) in
+            print(err)
+        }
+        
         tapGesture = UITapGestureRecognizer(target: self,
-                                         action: #selector(showSignInVCIfInternetOffline))
+                                            action: #selector(showSignInVCIfInternetOffline))
         
         appDelegate.launchViewController = self
         

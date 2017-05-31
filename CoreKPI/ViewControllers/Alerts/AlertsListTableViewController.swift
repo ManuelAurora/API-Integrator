@@ -30,22 +30,13 @@ enum AlertTimeInterval: String {
     case Daily
     case Weekly
     case Monthly
-    case lastThirtyDays
-    
+      
     var prettyPrinted: String {
-        switch self
-        {
-        case .Daily,.Monthly,.Weekly: return rawValue
-        case .lastThirtyDays: return "Last 30 Days"
-        }
+        return rawValue
     }
     
     var periodNameForServer: String {
-        switch self
-        {
-        case .Daily,.Monthly,.Weekly: return rawValue
-        case .lastThirtyDays: return "Daily"
-        }
+        return rawValue
     }
 }
 
@@ -75,6 +66,7 @@ class AlertsListTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        tableView.contentOffset = CGPoint(x: 0, y: 0 - self.tableView.contentInset.top)
         refreshControl = UIRefreshControl()
         refreshControl?.backgroundColor = UIColor.clear
         refreshControl?.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
@@ -93,6 +85,7 @@ class AlertsListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.showsVerticalScrollIndicator = true 
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0)]
         
         let nc = NotificationCenter.default

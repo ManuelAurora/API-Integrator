@@ -139,7 +139,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
     var timeIntervalArray: [(SettingName: String, value: Bool)] = [(AlertTimeInterval.Daily.rawValue, true),
                                                                    (AlertTimeInterval.Weekly.rawValue, false),
                                                                    (AlertTimeInterval.Monthly.rawValue, false),
-                                                                   (AlertTimeInterval.lastThirtyDays.prettyPrinted, false)]
+                                                                   ("Last 30 Days", false)]
     
     var weeklyInterval: WeeklyInterval {
         get {
@@ -488,7 +488,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         {
             switch timeInterval
             {
-            case .Daily, .Weekly, .lastThirtyDays:
+            case .Daily, .Weekly:
                 return 0
                 
             case .Monthly:
@@ -521,7 +521,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         case 1:
             let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
             SuggestedCell.accessoryType = .disclosureIndicator
-            SuggestedCell.trailingToRightConstraint.constant = 0
+           // SuggestedCell.trailingToRightConstraint.constant = 0
             SuggestedCell.headerOfCell.text = "Department"
             SuggestedCell.descriptionOfCell.text = department.rawValue
             SuggestedCell.prepareForReuse()
@@ -530,7 +530,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         case 2:
             let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
             SuggestedCell.accessoryType = .disclosureIndicator
-            SuggestedCell.trailingToRightConstraint.constant = 0
+           // SuggestedCell.trailingToRightConstraint.constant = 0
             SuggestedCell.headerOfCell.text = "Suggested KPI"
             SuggestedCell.descriptionOfCell.text = self.kpiName ?? "(Optional)"
             SuggestedCell.prepareForReuse()
@@ -539,7 +539,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         case 3:
             let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
             SuggestedCell.accessoryType = .disclosureIndicator
-            SuggestedCell.trailingToRightConstraint.constant = 0
+           // SuggestedCell.trailingToRightConstraint.constant = 0
             SuggestedCell.headerOfCell.text = "KPI Name"
             SuggestedCell.descriptionOfCell.text = self.kpiName ?? ""
             SuggestedCell.prepareForReuse()
@@ -563,7 +563,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         case 5:
             let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
             SuggestedCell.accessoryType = .disclosureIndicator
-            SuggestedCell.trailingToRightConstraint.constant = 0
+            //SuggestedCell.trailingToRightConstraint.constant = 0
             SuggestedCell.headerOfCell.text = "Executant"
             
             if UserStateMachine.shared.isAdmin
@@ -588,6 +588,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                     SuggestedCell.descriptionOfCell.text = fullName
                     SuggestedCell.accessoryType = .none
                     SuggestedCell.rightConstraint.constant = 16
+                    SuggestedCell.trailingToRightConstraint.constant = 16
                 }
             }
             SuggestedCell.prepareForReuse()
@@ -596,7 +597,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         case 6:
             let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
             SuggestedCell.accessoryType = .disclosureIndicator
-            SuggestedCell.trailingToRightConstraint.constant = 0
+           // SuggestedCell.trailingToRightConstraint.constant = 0
             SuggestedCell.headerOfCell.text = "Time Interval"
             SuggestedCell.descriptionOfCell.text = timeInterval.rawValue
             SuggestedCell.prepareForReuse()
@@ -605,7 +606,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         case 7:
             let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
             SuggestedCell.accessoryType = .disclosureIndicator
-            SuggestedCell.trailingToRightConstraint.constant = 0
+           // SuggestedCell.trailingToRightConstraint.constant = 0
             SuggestedCell.headerOfCell.text = "Day"
             var text = ""
             switch timeInterval {
@@ -631,7 +632,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
             dataPickerCell.dataPicker.reloadAllComponents()
             
             switch timeInterval {
-            case .Daily, .lastThirtyDays:
+            case .Daily:
                 break
             case .Weekly:
                 if weeklyInterval == .none {
@@ -648,7 +649,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         case 9:
             let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
             SuggestedCell.accessoryType = .disclosureIndicator
-            SuggestedCell.trailingToRightConstraint.constant = 0
+           //SuggestedCell.trailingToRightConstraint.constant = 0
             SuggestedCell.headerOfCell.text = "Time Zone"
             SuggestedCell.descriptionOfCell.text = timeZone ?? ""
             SuggestedCell.prepareForReuse()
@@ -657,7 +658,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         case 10:
             let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
             SuggestedCell.accessoryType = .disclosureIndicator
-            SuggestedCell.trailingToRightConstraint.constant = 0
+           // SuggestedCell.trailingToRightConstraint.constant = 0
             SuggestedCell.headerOfCell.text = "KPI's 1 st view"
             SuggestedCell.descriptionOfCell.text = firstChartName
             SuggestedCell.prepareForReuse()
@@ -666,7 +667,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         case 11:
             let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
             SuggestedCell.accessoryType = .disclosureIndicator
-            SuggestedCell.trailingToRightConstraint.constant = 0
+          //  SuggestedCell.trailingToRightConstraint.constant = 0
             SuggestedCell.headerOfCell.text = "KPI's 2 st view"
             SuggestedCell.descriptionOfCell.text = secondChartName
             SuggestedCell.prepareForReuse()
@@ -675,7 +676,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         case 12:
             let SuggestedCell = tableView.dequeueReusableCell(withIdentifier: "SuggestedKPICell", for: indexPath) as! DashboardSetingTableViewCell
             SuggestedCell.accessoryType = .disclosureIndicator
-            SuggestedCell.trailingToRightConstraint.constant = 0
+         //   SuggestedCell.trailingToRightConstraint.constant = 0
             SuggestedCell.headerOfCell.text = "Deadline"
             let dateFormatter = DateFormatter()
             dateFormatter.timeStyle = .short
@@ -754,6 +755,10 @@ class ChooseSuggestedKPITableViewController: UITableViewController
                 typeOfSetting = .Executant
                 settingArray = executantArray
                 showSelectSettingVC()
+            }
+            else
+            {
+                tableView.deselectRow(at: indexPath, animated: true)
             }
             
         case 6:
@@ -940,7 +945,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         
         var deadlineDay = 1
         switch timeInterval {
-        case .Daily, .lastThirtyDays:
+        case .Daily:
             deadlineDay = 1
         case .Weekly:
             switch weeklyInterval {
@@ -1280,7 +1285,7 @@ extension ChooseSuggestedKPITableViewController: UIPickerViewDataSource,UIPicker
     }
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch timeInterval {
-        case .Daily, .lastThirtyDays:
+        case .Daily:
             return 0
         case .Weekly:
             return weeklyArray.count
@@ -1292,7 +1297,7 @@ extension ChooseSuggestedKPITableViewController: UIPickerViewDataSource,UIPicker
     //MARK: Delegates
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch timeInterval {
-        case .Daily, .lastThirtyDays:
+        case .Daily:
             return ""
         case .Weekly:
             return weeklyArray[row].SettingName
@@ -1304,7 +1309,7 @@ extension ChooseSuggestedKPITableViewController: UIPickerViewDataSource,UIPicker
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
        
         switch timeInterval {
-        case .Daily, .lastThirtyDays:
+        case .Daily:
             break
         case .Weekly:
             weeklyInterval =  WeeklyInterval(rawValue: weeklyArray[row].SettingName)!

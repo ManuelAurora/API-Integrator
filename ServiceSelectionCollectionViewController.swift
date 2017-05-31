@@ -53,7 +53,7 @@ class ServiceSelectionCollectionViewController: UICollectionViewController,
         }
         else
         {
-            if indexPath.row > 1
+            if indexPath.row > 0
             {
                 cell.grayOut()
             }

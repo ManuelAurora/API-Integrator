@@ -15,7 +15,14 @@ class ExternalKPIViewController: OAuthViewController {
     
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
-           
+    
+    private var cancelTap: UITapGestureRecognizer? {
+        didSet {
+            guard let tap = cancelTap else { return }
+            view.addGestureRecognizer(tap)
+        }
+    }
+    
     var quickBookDataManager: QuickBookDataManager {
         return QuickBookDataManager.shared()
     }
@@ -123,7 +130,22 @@ class ExternalKPIViewController: OAuthViewController {
         }
     }
     
-    private func ui(block: Bool, useSpinner: Bool = false) {
+    @objc fileprivate func cancelSelector() {
+        
+        removeAllAlamofireNetworking()
+        ui(block: false, useSpinner: true)
+    }
+    
+    fileprivate func ui(block: Bool, useSpinner: Bool = false) {
+        
+        if block
+        {
+            cancelTap = UITapGestureRecognizer(target: self, action: #selector(cancelSelector))
+        }
+        else
+        {
+            cancelTap = nil
+        }
         
         if block
         {
@@ -133,6 +155,7 @@ class ExternalKPIViewController: OAuthViewController {
         }
         else if useSpinner { removeWaitingSpinner() }
         
+        tableView.isUserInteractionEnabled = false
         doneButton.isEnabled = !block
         navigationItem.setHidesBackButton(block, animated: true)
         tableView.isUserInteractionEnabled = !block
@@ -312,7 +335,6 @@ extension ExternalKPIViewController {
         let request = ExternalRequest()
         request.oAuthAutorisation(servise: .GoogleAnalytics, viewController: self, success: { objects in
             self.selectViewID(googleKPI: objects.googleAnalyticsObject!)
-        
         }, failure: { error in
             self.showAlert(title: "Error Occured", errorMessage: error)
         })
@@ -333,16 +355,18 @@ extension ExternalKPIViewController {
     
     //MARK: - get ViewID for google analytics
     func selectViewID(googleKPI: GACredentialsInfo) {
-        
+        ui(block: true, useSpinner: true)
         var googleKPI = googleKPI
         let request = GAnalytics(oauthToken: googleKPI.token!,
                                  oauthRefreshToken: googleKPI.refreshToken!,
                                  oauthTokenExpiresAt: googleKPI.expiresAt! as Date)
         
         request.getViewID(success: { viewIDArray in
+            self.ui(block: false, useSpinner: true)
             let alertVC = UIAlertController(title: "Select source", message: "Please!", preferredStyle: .actionSheet)
             for viewID in viewIDArray {
                 alertVC.addAction(UIAlertAction(title: viewID.webSiteUri, style: .default, handler: { (UIAlertAction) in
+                    self.ui(block: true, useSpinner: true)
                     googleKPI.viewID = viewID.viewID
                     googleKPI.siteURL = viewID.webSiteUri
                     self.saveOauth2Data(googleAnalyticsObject: googleKPI, payPalObject: nil, salesForceObject: nil)
@@ -351,17 +375,19 @@ extension ExternalKPIViewController {
             alertVC.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             self.present(alertVC, animated: true, completion: nil)
         }, failure: { error in
-        self.showAlert(title: "Error Occured", errorMessage: error)
+            self.ui(block: false, useSpinner: true)
+            self.showAlert(title: "Error Occured", errorMessage: error)
         })
     }
     
     //MARK: save Oauth2.0 credentials data
     func saveOauth2Data(googleAnalyticsObject: GACredentialsInfo?, payPalObject: PayPalKPI?, salesForceObject: SalesForceKPI?) {
-
+        
         let idsForServer = getIdsForSelectedKpis(selectedService)
         let source = googleAnalyticsObject?.siteURL
         
         checkIsTtlValid(idsForServer, selectedService, source: source) {
+            self.ui(block: false, useSpinner: true)
             self.addOnServerSelectedKpis(idsForServer,
                                          service: self.selectedService,
                                          source: googleAnalyticsObject)
@@ -467,9 +493,11 @@ extension ExternalKPIViewController {
         
         addKpi.kpi = semenKPI
         addKpi.addKPI(success: { ids in
+            self.ui(block: false, useSpinner: true)
             print("DEBUG: KPIS ADDED ON SERV")
             NotificationCenter.default.post(name: .addedNewExtKpiOnServer, object: nil)
         }, failure: { error in
+            self.ui(block: false, useSpinner: true)
             print(error)
         })
         

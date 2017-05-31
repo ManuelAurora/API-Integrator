@@ -18,7 +18,7 @@ extension Date
     }
     
     var beginningOfMonth: Date? {
-        let startOfDay = calendar.startOfDay(for: self)
+        let startOfDay = calendar.startOfDay(for: self)    
         let components = calendar.dateComponents([.year, .month], from: startOfDay)
         let startOfMonth = calendar.date(from: components)
         
@@ -29,7 +29,7 @@ extension Date
         
         if let date = beginningOfMonth, let range = calendar.range(of: .day, in: .month, for: date)
         {
-            return calendar.date(byAdding: DateComponents(day: range.upperBound - 2), to: date)
+            return calendar.date(byAdding: DateComponents(day: range.upperBound - 1), to: date)
         }
         else { return nil }
     }

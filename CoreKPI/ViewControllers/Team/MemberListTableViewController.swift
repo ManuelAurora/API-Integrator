@@ -30,6 +30,7 @@ class MemberListTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         tableView.reloadData()
+        tableView.contentOffset = CGPoint(x: 0, y: 0 - self.tableView.contentInset.top)
         refreshControl = UIRefreshControl()
         refreshControl?.backgroundColor = UIColor.clear
         refreshControl?.addTarget(self, action: #selector(self.refresh),
@@ -47,6 +48,8 @@ class MemberListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.showsVerticalScrollIndicator = true
+        tableView.isScrollEnabled = true 
         title = "Team List"
         
         let nc = NotificationCenter.default

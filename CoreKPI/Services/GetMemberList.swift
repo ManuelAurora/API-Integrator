@@ -81,51 +81,35 @@ class GetMemberList: Request
         }
         
         let fetchRequest = NSFetchRequest<Team>(entityName: "Team")
+        let result = try? context.fetch(fetchRequest)
+        
+        result?.forEach {
+            context.delete($0)
+        }
         
         if let teamMembers = json["data"] as? [jsonDict]
         {
-            if let teamArray = try? context.fetch(fetchRequest), teamArray.count > 0
-            {
-                teamArray.forEach { team in
-                    let member = teamMembers.filter {
-                        let id = $0["user_id"] as! Int64
-                        return team.userID == id
-                        }.first
-                    
-                    if let userData = member
-                    {
-                        fill(team: team, with: userData)
-                    }
-                    else
-                    {
-                        context.delete(team)
-                    }
-                }
-            }
-            else
-            {
-                teamMembers.forEach { userData in
-                    
-                    let entDescr = NSEntityDescription.entity(forEntityName: "Team",
-                                                              in: context)!
-                    
-                    let team = Team(entity: entDescr, insertInto: context)
-                    
-                    fill(team: team, with: userData)
-                }
-            }
-            
-            do {
-                try context.save()
-                return try context.fetch(fetchRequest)
-            }
-            catch let error {
-                print(error.localizedDescription)
-                return nil
+            teamMembers.forEach { userData in
+                
+                let entDescr = NSEntityDescription.entity(forEntityName: "Team",
+                                                          in: context)!
+                
+                let team = Team(entity: entDescr, insertInto: context)
+                
+                fill(team: team, with: userData)
             }
         }
-        return nil 
+        
+        do {
+            try context.save()
+            return try context.fetch(fetchRequest)
+        }
+        catch let error {
+            print(error.localizedDescription)
+            return nil
+        }
     }
-    
 }
+
+
 

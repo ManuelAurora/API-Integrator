@@ -2867,17 +2867,17 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="P23-3A-Qn4">
+                                        <stackView opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="P23-3A-Qn4">
                                             <rect key="frame" x="24" y="11" width="316" height="20.5"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select a data source" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mhu-97-TMA">
-                                                    <rect key="frame" x="0.0" y="0.0" width="156.5" height="20.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="186" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My shop sales" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rk1-JF-u4n">
-                                                    <rect key="frame" x="206.5" y="0.0" width="109.5" height="20.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="254" verticalHuggingPriority="254" horizontalCompressionResistancePriority="745" verticalCompressionResistancePriority="748" text="My shop sales" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rk1-JF-u4n">
+                                                    <rect key="frame" x="186" y="0.0" width="130" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.5607843137254902" green="0.55686274509803924" blue="0.58039215686274503" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -3938,6 +3938,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         </stackView>
                                     </subviews>
                                     <constraints>
@@ -3960,41 +3961,36 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Interval" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kh7-UV-XMO">
-                                            <rect key="frame" x="24" y="11" width="150" height="21"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="Yed-iF-a6X"/>
-                                                <constraint firstAttribute="height" constant="21" id="wXi-5j-Rit"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Choose" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZK2-9P-i9g">
-                                            <rect key="frame" x="194" y="11" width="148" height="21"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="21" id="3ws-xQ-Gxa"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" red="0.5607843137254902" green="0.55686274509803924" blue="0.58039215686274503" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gGQ-ML-GfU">
+                                            <rect key="frame" x="25" y="8" width="309" height="27.5"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Interval" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kh7-UV-XMO">
+                                                    <rect key="frame" x="0.0" y="0.0" width="98.5" height="27.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Choose" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZK2-9P-i9g">
+                                                    <rect key="frame" x="98.5" y="0.0" width="210.5" height="27.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.5607843137254902" green="0.55686274509803924" blue="0.58039215686274503" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="ZK2-9P-i9g" firstAttribute="centerY" secondItem="xmN-0v-RZl" secondAttribute="centerY" id="Bja-V6-jMa"/>
-                                        <constraint firstAttribute="trailing" secondItem="ZK2-9P-i9g" secondAttribute="trailing" id="SMe-5D-mdH"/>
-                                        <constraint firstItem="Kh7-UV-XMO" firstAttribute="centerY" secondItem="xmN-0v-RZl" secondAttribute="centerY" id="bMk-mm-LBv"/>
-                                        <constraint firstItem="ZK2-9P-i9g" firstAttribute="leading" secondItem="Kh7-UV-XMO" secondAttribute="trailing" constant="40" id="dYh-y6-yFw">
-                                            <variation key="heightClass=regular-widthClass=compact" constant="20"/>
-                                        </constraint>
-                                        <constraint firstItem="Kh7-UV-XMO" firstAttribute="leading" secondItem="xmN-0v-RZl" secondAttribute="leadingMargin" constant="16" id="eu8-Sr-GWl"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="gGQ-ML-GfU" secondAttribute="bottom" id="Ph0-LJ-E1D"/>
+                                        <constraint firstItem="gGQ-ML-GfU" firstAttribute="top" secondItem="xmN-0v-RZl" secondAttribute="topMargin" id="XBj-SC-2Ig"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="gGQ-ML-GfU" secondAttribute="trailing" id="tLK-JJ-CTb"/>
+                                        <constraint firstItem="gGQ-ML-GfU" firstAttribute="leading" secondItem="xmN-0v-RZl" secondAttribute="leading" constant="25" id="wO7-SK-16H"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="descriptionOfCell" destination="ZK2-9P-i9g" id="Mef-zM-fp1"/>
                                     <outlet property="headerOfCell" destination="Kh7-UV-XMO" id="7eJ-gN-0Lr"/>
-                                    <outlet property="rightConstraint" destination="SMe-5D-mdH" id="qr5-4E-j2i"/>
-                                    <outlet property="trailingToRightConstraint" destination="SMe-5D-mdH" id="x5I-BI-Hqy"/>
+                                    <outlet property="rightConstraint" destination="tLK-JJ-CTb" id="Lmz-NI-Uis"/>
+                                    <outlet property="trailingToRightConstraint" destination="tLK-JJ-CTb" id="ef0-P7-DJa"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DescriptionCell" rowHeight="160" id="jqA-uG-Gw2" customClass="KPIDescriptionTableViewCell" customModule="CoreKPI" customModuleProvider="target">

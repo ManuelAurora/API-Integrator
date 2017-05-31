@@ -405,21 +405,24 @@ class AlertSettingsTableViewController: UITableViewController {
             
         case 2:
             cell.headerCellLabel.text = "Type of notification"
-            switch self.typeOfNotification.count {
-            case 0:
-                cell.descriptionCellLabel.isHidden = true
-            case 1:
-                cell.descriptionCellLabel.isHidden = false
-                cell.descriptionCellLabel.text = self.typeOfNotification[0].rawValue
-            case 2:
-                cell.descriptionCellLabel.isHidden = false
-                cell.descriptionCellLabel.text = "2 selected"
-            case 3:
-                cell.descriptionCellLabel.isHidden = false
-                cell.descriptionCellLabel.text = "3 selected"
-            default:
-                break
-            }
+            cell.descriptionCellLabel.isHidden = false
+            cell.descriptionCellLabel.text = "Email"
+            cell.accessoryType = .none
+//            switch self.typeOfNotification.count {
+//            case 0:
+//                cell.descriptionCellLabel.isHidden = true
+//            case 1:
+//                cell.descriptionCellLabel.isHidden = false
+//                cell.descriptionCellLabel.text = self.typeOfNotification[0].rawValue
+//            case 2:
+//                cell.descriptionCellLabel.isHidden = false
+//                cell.descriptionCellLabel.text = "2 selected"
+//            case 3:
+//                cell.descriptionCellLabel.isHidden = false
+//                cell.descriptionCellLabel.text = "3 selected"
+//            default:
+//                break
+//            }
         default:
             break
         }
@@ -549,9 +552,11 @@ class AlertSettingsTableViewController: UITableViewController {
                 }
             }
         case 2:
-            self.typeOfSetting = Setting.TypeOfNotification
-            self.settingsArray = self.typeOfNotificationArray
-            self.showSelectSettingVC()
+            tableView.deselectRow(at: indexPath, animated: true)
+            break
+            //self.typeOfSetting = Setting.TypeOfNotification
+            //self.settingsArray = self.typeOfNotificationArray
+            //self.showSelectSettingVC()
         default:
             break
         }
@@ -625,11 +630,11 @@ class AlertSettingsTableViewController: UITableViewController {
     func checkInputValues() -> Bool {
         switch typeOfDigit {
         case .Alert:
-            if threshold == nil || typeOfNotification.isEmpty {
+            if threshold == nil {
                 return false
             }
         case .Reminder:
-            if timeZone == nil || deliveryTime == nil || typeOfNotification.isEmpty || (deliveryDay == nil && timeInterval != .Daily) {
+            if timeZone == nil || deliveryTime == nil || (deliveryDay == nil && timeInterval != .Daily) {
                 return false
             }
         }
@@ -660,22 +665,22 @@ class AlertSettingsTableViewController: UITableViewController {
                 alert.condition = condition.rawValue
                 alert.threshold = threshold!
                 
-                alert.emailNotificationIsActive = false
-                alert.smsNotificationIsAcive = false
-                alert.pushNotificationIsActive = false
-                
-                for notification in typeOfNotification {
-                    switch notification {
-                    case .Email:
-                        alert.emailNotificationIsActive = true
-                    case .SMS:
-                        alert.smsNotificationIsAcive = true
-                    case .Push:
-                        alert.pushNotificationIsActive = true
-                    default:
-                        break
-                    }
-                }
+                alert.emailNotificationIsActive = true
+//                alert.smsNotificationIsAcive = false
+//                alert.pushNotificationIsActive = false
+//                
+//                for notification in typeOfNotification {
+//                    switch notification {
+//                    case .Email:
+//                        alert.emailNotificationIsActive = true
+//                    case .SMS:
+//                        alert.smsNotificationIsAcive = true
+//                    case .Push:
+//                        alert.pushNotificationIsActive = true
+//                    default:
+//                        break
+//                    }
+                //}
                 
                 //Send data to server
                 let request = AddAlert(model: model)
@@ -702,7 +707,7 @@ class AlertSettingsTableViewController: UITableViewController {
                 reminder.timeInterval = timeInterval.rawValue
                 
                 switch timeInterval {
-                case .Daily, .lastThirtyDays:
+                case .Daily:
                     reminder.deliveryDay = 1
                 case .Weekly:
                     var numberOfDay: Int64 = 0
@@ -809,7 +814,7 @@ class AlertSettingsTableViewController: UITableViewController {
             })
         case .Reminder:
             switch timeInterval {
-            case .Daily, .lastThirtyDays:
+            case .Daily:
                 model.reminders[indexOfDigit].setValue(1, forKey: "deliveryDay")
             case .Weekly:
                 var numberOfDay: Int64 = 0
@@ -838,7 +843,12 @@ class AlertSettingsTableViewController: UITableViewController {
             
             model.reminders[indexOfDigit].setValue(timeZone, forKey: "timeZone")
             model.reminders[indexOfDigit].setValue(timeInterval.rawValue, forKey: "timeInterval")
-            model.reminders[indexOfDigit].setValue(Int64(deliveryDay!)!, forKey: "deliveryDay")
+            
+            if let deliveryDayString = deliveryDay, let deliveryDayInt = Int64(deliveryDayString)
+            {
+                model.reminders[indexOfDigit].setValue(deliveryDayInt, forKey: "deliveryDay")
+            }
+            
             model.reminders[indexOfDigit].setValue(deliveryTime, forKey: "deliveryTime")
             
             model.reminders[indexOfDigit].setValue(false, forKey: "emailNotificationIsActive")
@@ -1158,9 +1168,10 @@ extension AlertSettingsTableViewController: updateSettingsDelegate {
     }
     
     func setAlert(type: TypeOfDigit) {
-        
+                
         title = type.rawValue
         typeOfDigit = type
+        savaButton.isEnabled = checkInputValues()
         tableView.reloadData()
     }
 }

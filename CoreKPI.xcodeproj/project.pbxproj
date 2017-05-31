@@ -43,6 +43,7 @@
 		646F78B71EBCA9D900042738 /* GetExternalServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646F78B61EBCA9D900042738 /* GetExternalServices.swift */; };
 		6475B3871ECADFDF00983B3A /* SelectServiceCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6475B3861ECADFDF00983B3A /* SelectServiceCollectionCell.swift */; };
 		6475B38C1ECAE7EB00983B3A /* SelectServiceDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6475B38B1ECAE7EB00983B3A /* SelectServiceDatasource.swift */; };
+		647660171EDEC7C7004B139F /* UITableView + ContentInset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647660161EDEC7C7004B139F /* UITableView + ContentInset.swift */; };
 		647860D71ED85421001163EC /* pop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6496D62F1E8A498D002591EA /* pop.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		647860DA1ED854C8001163EC /* pop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6496D62F1E8A498D002591EA /* pop.framework */; };
 		64797E9C1EB8CB7A00AE7D7F /* SegueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64797E9B1EB8CB7A00AE7D7F /* SegueManager.swift */; };
@@ -268,6 +269,7 @@
 		646F78B61EBCA9D900042738 /* GetExternalServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetExternalServices.swift; sourceTree = "<group>"; };
 		6475B3861ECADFDF00983B3A /* SelectServiceCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectServiceCollectionCell.swift; sourceTree = "<group>"; };
 		6475B38B1ECAE7EB00983B3A /* SelectServiceDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectServiceDatasource.swift; sourceTree = "<group>"; };
+		647660161EDEC7C7004B139F /* UITableView + ContentInset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView + ContentInset.swift"; sourceTree = "<group>"; };
 		64797E9B1EB8CB7A00AE7D7F /* SegueManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueManager.swift; sourceTree = "<group>"; };
 		647B588E1E65AA2F001C968B /* QuickBookHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBookHelpers.swift; sourceTree = "<group>"; };
 		647B58901E65BA89001C968B /* QuickBookRequestHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBookRequestHandler.swift; sourceTree = "<group>"; };
@@ -567,6 +569,7 @@
 				A23E79461E5AE83900EEBABE /* UIColorExtention.swift */,
 				647E72331EC9F34500D8B4EB /* UIView + Anchors.swift */,
 				A2A940CA1E1E70740088C7F1 /* UINavigationBurExtension.swift */,
+				647660161EDEC7C7004B139F /* UITableView + ContentInset.swift */,
 				A25F658E1E530CEA00AD30F5 /* UIViewControllerExtension.swift */,
 				64A32B911E5B394B008438DA /* String + Extension.swift */,
 				64E08EBE1E5C3D4B00FE1F8E /* Dictionary + Extension.swift */,
@@ -1214,6 +1217,7 @@
 				A2EFE2C81E2DF0E300BA2956 /* TableViewChartController.swift in Sources */,
 				A20340931E110D1C00208EAB /* NewNameViewController.swift in Sources */,
 				641F74641E5AE27B00672534 /* QuickBook.swift in Sources */,
+				647660171EDEC7C7004B139F /* UITableView + ContentInset.swift in Sources */,
 				A2279D821E14E86400669EB0 /* TeamListNavigationViewController.swift in Sources */,
 				A274DC111E082617008CBF36 /* MemberListTableViewController.swift in Sources */,
 				A2C6A5F71E6D9C33005475B6 /* PayPalAuthViewController.swift in Sources */,

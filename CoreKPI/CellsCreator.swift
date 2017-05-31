@@ -15,7 +15,7 @@ extension ReportAndViewKPITableViewController {
     func numberOfSections() -> Int {
         switch buttonDidTaped {
         case .Report:
-            return 2
+            return 1
         case .Edit:
             switch model.kpis[kpiIndex].typeOfKPI {
             case .IntegratedKPI:
@@ -39,7 +39,7 @@ extension ReportAndViewKPITableViewController {
             case 0:
                 return 5
             case 1:
-                return 1
+                return 0
             default:
                 return 0
             }
@@ -57,7 +57,7 @@ extension ReportAndViewKPITableViewController {
                         return 3
                     case 2:
                         switch self.timeInterval {
-                        case .Daily, .lastThirtyDays:
+                        case .Daily:
                             return datePickerIsVisible ? 5 : 4
                         case .Weekly, .Monthly:
                             if dataPickerIsVisible {
@@ -197,7 +197,7 @@ extension ReportAndViewKPITableViewController {
                         }
                     case 2:
                         switch timeInterval {
-                        case .Daily, .lastThirtyDays:
+                        case .Daily:
                             switch indexPath.row {
                             case 0:
                                 cell.headerOfCell.text = "Executant"
@@ -259,7 +259,7 @@ extension ReportAndViewKPITableViewController {
                                     dataPickerCell.dataPicker.reloadAllComponents()
                                     dataPickerCell.dataPicker.selectRow(0, inComponent: 0, animated: false)
                                     switch timeInterval {
-                                    case .Daily, .lastThirtyDays:
+                                    case .Daily:
                                         break
                                     case .Weekly:
                                         if weeklyInterval == .none {
@@ -551,7 +551,7 @@ extension ReportAndViewKPITableViewController {
                     case 2:
                         switch timeInterval
                         {
-                        case .Daily, .lastThirtyDays:
+                        case .Daily:
                             switch indexPath.row
                             {
                             case 0:
@@ -754,7 +754,7 @@ extension ReportAndViewKPITableViewController {
             tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
         } else {
             switch timeInterval {
-            case .Daily, .lastThirtyDays:
+            case .Daily:
                 break
             case .Weekly:
                 if weeklyInterval == WeeklyInterval.none {
@@ -782,7 +782,7 @@ extension ReportAndViewKPITableViewController: UIPickerViewDataSource,UIPickerVi
     }
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch timeInterval {
-        case .Daily, .lastThirtyDays:
+        case .Daily:
             return 0
         case .Weekly:
             return weeklyArray.count
@@ -794,7 +794,7 @@ extension ReportAndViewKPITableViewController: UIPickerViewDataSource,UIPickerVi
     //MARK: Delegates
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch timeInterval {
-        case .Daily, .lastThirtyDays:
+        case .Daily:
             return ""
         case .Weekly:
             return weeklyArray[row].SettingName
@@ -805,7 +805,7 @@ extension ReportAndViewKPITableViewController: UIPickerViewDataSource,UIPickerVi
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch timeInterval {
-        case .Daily, .lastThirtyDays:
+        case .Daily:
             break
         case .Weekly:
             weeklyInterval =  WeeklyInterval(rawValue: weeklyArray[row].SettingName)!

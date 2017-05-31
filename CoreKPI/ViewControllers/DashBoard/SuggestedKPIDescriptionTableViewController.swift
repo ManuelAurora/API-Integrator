@@ -12,6 +12,7 @@ class SuggestedKPIDescriptionTableViewController: UITableViewController {
     
     var delegate: updateSettingsDelegate!
     weak var ChoseSuggestedVC: ChooseSuggestedKPITableViewController!
+    weak var kpiSelectVC: KPISelectSettingTableViewController!
     var numberOfKPI: Int!
     
     var department = Departments.none
@@ -20,7 +21,7 @@ class SuggestedKPIDescriptionTableViewController: UITableViewController {
     var kpiArray: [String] = []
     var kpiDescriptionArray: [String] = []
     
-     var selectSetting: [(SettingName: String, value: Bool)]!
+    var selectSetting: [(SettingName: String, value: Bool)]!
     
     @IBOutlet weak var kpiDescriptionTextView: UITextView!
     @IBOutlet weak var kpiNameLabel: UILabel!
@@ -107,10 +108,9 @@ class SuggestedKPIDescriptionTableViewController: UITableViewController {
     }
     
     @IBAction func tapSelectButton(_ sender: UIBarButtonItem) {
+        kpiSelectVC.selectSetting = selectSetting
         delegate = ChoseSuggestedVC
         delegate.updateSettingsArray(array: selectSetting)
-        let vc = self.navigationController?.viewControllers[1] as! ChooseSuggestedKPITableViewController
-        _ = self.navigationController?.popToViewController(vc, animated: true)
+        navigationController?.popToViewController(ChoseSuggestedVC, animated: true)
     }
-    
 }

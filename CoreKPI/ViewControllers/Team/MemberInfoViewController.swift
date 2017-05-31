@@ -139,7 +139,7 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         else
         {
-            return 3
+            return 4
         }
     }
     
@@ -247,11 +247,14 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                 cell.dataCellLabel.text = model.team[index].username!
                 
             case 3:
-                cell.headerCellLabel.text = "Security"
-                cell.securitySwitch.isHidden = false
-                cell.dataCellLabel.text = "Pin code lock"
-                cell.securitySwitch.isOn = stateMachine.usersPin == nil ? false : true
-                securityCellIndexPath = indexPath
+                if thisIsMyAccount()
+                {
+                    cell.headerCellLabel.text = "Security"
+                    cell.securitySwitch.isHidden = false
+                    cell.dataCellLabel.text = "Pin code lock"
+                    cell.securitySwitch.isOn = stateMachine.usersPin == nil ? false : true
+                    securityCellIndexPath = indexPath
+                }
                 
             default:
                 cell.headerCellLabel.text = ""

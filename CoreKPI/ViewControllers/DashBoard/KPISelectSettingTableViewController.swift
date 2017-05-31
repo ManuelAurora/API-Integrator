@@ -89,6 +89,7 @@ class KPISelectSettingTableViewController: UITableViewController {
         let destinatioVC = storyboard?.instantiateViewController(withIdentifier: .listOfSuggestedKPIVC) as! SuggestedKPIDescriptionTableViewController
         destinatioVC.numberOfKPI = indexPath.row
         destinatioVC.ChoseSuggestedVC = ChoseSuggestedVC
+        destinatioVC.kpiSelectVC = self
         destinatioVC.department = department
         destinatioVC.selectSetting = selectSetting
         navigationController?.pushViewController(destinatioVC, animated: true)

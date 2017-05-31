@@ -17,7 +17,6 @@ struct Service
 
 class GetExternalServices: Request
 {
-    
     func getData(success: @escaping (_ services: [Service]) -> (), failure: @escaping failure) {
         
         let data: [String : Any] = [:]
@@ -32,8 +31,7 @@ class GetExternalServices: Request
         },
             failure: { (error) in
                 failure(error)
-        }
-        )
+        })
     }
     
     func parsingJson(json: NSDictionary) -> [Service]? {

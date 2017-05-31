@@ -84,9 +84,9 @@ class ReminderViewTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReminderViewCell", for: indexPath)
         
-        switch indexPath.section {
-        case 0:
-            
+        switch indexPath.section
+        {
+        case 0:            
             switch typeOfDigit {
             case .Alert:
                 switch indexPath.row {

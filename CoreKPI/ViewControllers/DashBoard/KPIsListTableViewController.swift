@@ -32,6 +32,8 @@ class KPIsListTableViewController: UITableViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.showsVerticalScrollIndicator = true 
+        
         rightBarButton = navigationItem.rightBarButtonItem
         
         if stateMachine.isAdmin {
@@ -284,6 +286,7 @@ class KPIsListTableViewController: UITableViewController
     //MARK: -  Pull to refresh method
     func refresh(sender:AnyObject)
     {
+        tableView.contentOffset = CGPoint(x: 0, y: 0 - self.tableView.contentInset.top)
         removeAllKpis()
     }
     

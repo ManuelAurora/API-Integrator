@@ -158,11 +158,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
                     if let interval = AlertTimeInterval(rawValue: interval.SettingName)
                     {
                         return interval
-                    }
-                    else
-                    {
-                        return .lastThirtyDays
-                    }
+                    }                   
                 }
             }
             return AlertTimeInterval.Daily
@@ -184,7 +180,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
     var timeIntervalArray: [(SettingName: String, value: Bool)] = [(AlertTimeInterval.Daily.rawValue, true),
                                                                    (AlertTimeInterval.Weekly.rawValue, false),
                                                                    (AlertTimeInterval.Monthly.rawValue, false),
-                                                                   (AlertTimeInterval.lastThirtyDays.prettyPrinted, false)]
+                                                                   ("Last 30 Days", false)]
     //WeeklyInterval
     var weeklyInterval: WeeklyInterval {
         get {
@@ -430,6 +426,14 @@ class ReportAndViewKPITableViewController: UITableViewController {
         }
     }
     
+    @objc private func selector() {
+    let destinationVC = self.storyboard?.instantiateViewController(withIdentifier: "AddReport") as! AddReportTableViewController
+    destinationVC.report = self.report
+    destinationVC.ReportAndViewVC = self
+    self.navigationController?.pushViewController(destinationVC, animated: true)
+    
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -443,6 +447,11 @@ class ReportAndViewKPITableViewController: UITableViewController {
         case .Report:
             navigationItem.rightBarButtonItem = nil
             navigationItem.title = "Report KPI"
+            let button = UIBarButtonItem(barButtonSystemItem: .add,
+                                         target: self,
+                                         action: #selector(self.selector))
+            
+            navigationItem.rightBarButtonItem = button
             
         case .Edit:
             navigationItem.rightBarButtonItem?.title = "Save"
@@ -543,7 +552,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
             timeInterval = (createdKPI?.timeInterval)!
             //Delivery day
             switch timeInterval {
-            case .Daily, .lastThirtyDays:
+            case .Daily:
                 break
             case .Weekly:
                 switch (createdKPI?.deadlineDay)! {
@@ -628,7 +637,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
                     case 2:
                         var newIndexPath = IndexPath()
                         switch timeInterval {
-                        case .Daily, .lastThirtyDays:
+                        case .Daily:
                             switch indexPath.row {
                             case 3,4:
                                 return indexPath
@@ -790,7 +799,7 @@ class ReportAndViewKPITableViewController: UITableViewController {
                 case .Admin:
                     var deadlineDay = 0
                     switch timeInterval {
-                    case .Daily, .lastThirtyDays:
+                    case .Daily:
                         deadlineDay = 1
                     case .Weekly:
                         switch weeklyInterval {
@@ -977,7 +986,7 @@ extension ReportAndViewKPITableViewController: UpdateTimeDelegate {
             deadlineTime = time
             var indexPath = IndexPath()
             switch timeInterval {
-            case .Daily, .lastThirtyDays:
+            case .Daily:
                 indexPath = IndexPath(item: 3, section: 2)
             case .Weekly, .Monthly:
                 indexPath = IndexPath(item: 4, section: 2)

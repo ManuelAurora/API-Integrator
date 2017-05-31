@@ -112,7 +112,17 @@ class KPI {
                 return currentValue >= previousValue ? .Increases : .Decreases
             }
             
-            return .Increases
+            let interval = createdKPI!.timeInterval
+            var period: Calendar.Component!
+            
+            switch interval
+            {
+            case .Daily: period = .day
+            case .Weekly: period = .weekOfYear
+            case .Monthly: period = .month
+            }
+            
+          return getImageFor(interval: interval, period: period)
             
         case .IntegratedKPI:
             
@@ -150,7 +160,28 @@ class KPI {
         self.typeOfKPI = typeOfKPI
         self.integratedKPI = integratedKPI
         self.createdKPI = createdKPI
-        self.imageBacgroundColour = imageBacgroundColour ?? UIColor.clear        
+        self.imageBacgroundColour = imageBacgroundColour ?? UIColor.clear
     }
     
+    private func getImageFor(interval: AlertTimeInterval,
+                             period: Calendar.Component) -> ImageForKPIList {
+        
+        guard let numbers = createdKPI?.number, numbers.count >= 2 else {
+            return .Increases
+        }
+        
+        let lastReport = numbers.first!
+        
+        return lastReport.number >= createdKPI!.prelastValue! ? .Increases : .Decreases        
+    }
 }
+
+
+
+
+
+
+
+
+
+

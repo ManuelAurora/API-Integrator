@@ -19,7 +19,13 @@ class SupportMainTableViewController: UITableViewController {
         
         stateMachine.logOut()
     }
-      
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.contentOffset = CGPoint(x: 0, y: 0 - self.tableView.contentInset.top)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

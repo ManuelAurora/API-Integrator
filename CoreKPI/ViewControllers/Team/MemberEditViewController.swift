@@ -166,6 +166,7 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
                 cellMemberEdit.textFieldOfCell.keyboardType = .emailAddress
                 cellMemberEdit.textFieldOfCell.tag = indexPath.row + 2
                 cellMemberEdit.prepareForReuse()
+                cellMemberEdit.isUserInteractionEnabled = false 
                 return cellMemberEdit
             default:
                 break
