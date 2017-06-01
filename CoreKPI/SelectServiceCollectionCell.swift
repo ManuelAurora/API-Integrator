@@ -8,8 +8,53 @@
 
 import UIKit
 
-class ServiceCell: UICollectionViewCell
+protocol CellViewModel
 {
+    associatedtype CellType: UIView
+    func setup(cell: CellType)
+}
+
+struct CustomCellViewModel: CellViewModel
+{
+   
+}
+
+extension CustomCellViewModel
+{
+    func setup(cell: ServiceCell) {
+        cell.showCustomKPICell()
+    }
+}
+
+struct IntegratedCellViewModel: CellViewModel
+{
+    let service: IntegratedServices
+    let isActive: Bool
+    
+    var image: UIImage {
+        switch service
+        {
+        case .Quickbooks:       return #imageLiteral(resourceName: "QuickBooks")
+        case .GoogleAnalytics:  return #imageLiteral(resourceName: "GoogleAnalytics")
+        case .HubSpotCRM:       return #imageLiteral(resourceName: "HubSpotCRM")
+        case .HubSpotMarketing: return #imageLiteral(resourceName: "HubSpotMarketing")
+        case .PayPal:           return #imageLiteral(resourceName: "PayPal")
+        case .SalesForce:       return #imageLiteral(resourceName: "SaleForce")
+        case .none: return UIImage()
+        }
+    }
+}
+
+extension IntegratedCellViewModel
+{
+    func setup(cell: ServiceCell) {
+        cell.imageView.image = image
+        if !isActive { cell.grayOut() }
+    }
+}
+
+class ServiceCell: UICollectionViewCell
+{  
     @IBOutlet weak var imageView: UIImageView!
     
     override func didMoveToSuperview() {
@@ -130,18 +175,9 @@ class ServiceCell: UICollectionViewCell
                           heightConstant: self.frame.height / 2)
     }
     
-    func setImageFor(service: IntegratedServices) {
+    func set(image: UIImage) {
         
-        switch service
-        {
-        case .Quickbooks:       imageView.image = #imageLiteral(resourceName: "QuickBooks")
-        case .GoogleAnalytics:  imageView.image = #imageLiteral(resourceName: "GoogleAnalytics")
-        case .HubSpotCRM:       imageView.image = #imageLiteral(resourceName: "HubSpotCRM")
-        case .HubSpotMarketing: imageView.image = #imageLiteral(resourceName: "HubSpotMarketing")
-        case .PayPal:           imageView.image = #imageLiteral(resourceName: "PayPal")
-        case .SalesForce:       imageView.image = #imageLiteral(resourceName: "SaleForce")
-        default: break
-        }
+        imageView.image = image        
     }
     
     func animate() {

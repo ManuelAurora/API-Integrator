@@ -14,9 +14,9 @@ import UIKit
 
 typealias payPalData = (payer: String, netAmount: String, amount: String, date: String)
 
-class PayPal: ExternalRequest {
-    //Token = Name Pass
-    //RefToken = Signature
+class PayPal: ExternalRequest
+{
+    static let serverId = 6
     var apiUsername = ""
     var apiPassword = ""
     var apiSignature = ""

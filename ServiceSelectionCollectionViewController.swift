@@ -11,9 +11,12 @@ import UIKit
 class ServiceSelectionCollectionViewController: UICollectionViewController,
     UICollectionViewDelegateFlowLayout
 {
-    private let datasource = SelectServiceDatasource()
     private let viewModel  = ServiceSelectionViewModel()
     private let nc         = NotificationCenter.default
+    
+    private var datasource: SelectServiceDatasource {
+        return viewModel.datasource
+    }
     
     deinit {
         nc.removeObserver(self)
@@ -30,63 +33,56 @@ class ServiceSelectionCollectionViewController: UICollectionViewController,
     
     private func subscribeNotifications() {
         
-        nc.addObserver(forName: .integratedServicesListLoaded, object: nil, queue: nil) {
-            (notification) in
-            
-            self.collectionView?.reloadSections(IndexSet(integer: 1))
+        nc.addObserver(forName: .integratedServicesListLoaded,
+                       object: nil,
+                       queue: nil) { _ in
+                        self.collectionView?.reloadSections(IndexSet(integer: 1))
         }
     }
     
     // MARK: UICollectionViewDataSource
-
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         
-        return 2
+        return viewModel.getNumberOfSections()
     }
 
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
         
-        if section == 0
-        {
-            return 1
-        }
-        else
-        {
-            return datasource.kpiSources.count
-        }
+        return viewModel.getNumberOfCellsIn(section: section)
     }
         
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let selectedService = datasource.kpiSources[indexPath.row].service
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ServiceCell",
-                                                      for: indexPath) as! ServiceCell
+        let sectionType = viewModel.datasource.sections[indexPath.section]
         
-        if indexPath.section == 0
+        switch sectionType
         {
-            cell.showCustomKPICell()
-        }
-        else
-        {
-            if indexPath.row > 0
-            {
-                cell.grayOut()
-            }
-            cell.setImageFor(service: selectedService)
+        case .custom:
+            let cellViewModel = CustomCellViewModel()
+            return dequeueReusableCell(with: cellViewModel, for: indexPath)
             
-            if !cell.isDisabled && !viewModel.isIntegratedServicesPrepared()
-            {
-                cell.animateWaitingForServer()
-            }
-            else if !cell.isDisabled
-            {
-                cell.removeGrayLayer()
-            }
+        case .integrated:
+            let isActive = indexPath.row == 0
+            let selectedService = datasource.kpiSources[indexPath.row].service
+            let cellViewModel = IntegratedCellViewModel(service: selectedService, isActive: isActive)
+            return dequeueReusableCell(with: cellViewModel, for: indexPath)
         }
         
-        return cell
+      
+//            
+//            if !cell.isDisabled && !viewModel.isIntegratedServicesPrepared()
+//            {
+//                cell.animateWaitingForServer()
+//            }
+//            else if !cell.isDisabled
+//            {
+//                cell.removeGrayLayer()
+//            }
+//        }
+      
+
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -133,7 +129,8 @@ class ServiceSelectionCollectionViewController: UICollectionViewController,
     }
     
     // MARK: UICollectionViewDelegate
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    override func collectionView(_ collectionView: UICollectionView,
+                                 didSelectItemAt indexPath: IndexPath) {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
@@ -153,7 +150,7 @@ class ServiceSelectionCollectionViewController: UICollectionViewController,
                 cell.animate()
                 return
             }
-                
+            
             let service = datasource.kpiSources[indexPath.row].service
             let externalKPIVC = storyboard.instantiateViewController(
                 withIdentifier: .externalKPIVC) as! ExternalKPIViewController
@@ -161,5 +158,25 @@ class ServiceSelectionCollectionViewController: UICollectionViewController,
             externalKPIVC.serviceKPI = datasource.getKpisFor(service: service)
             navigationController?.pushViewController(externalKPIVC, animated: true)
         }
+    }
+}
+
+extension UICollectionViewController
+{
+    func dequeueReusableCell<T: CellViewModel>(with viewModel: T,
+                             for indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let identifier = String(describing: T.CellType.self)
+        
+        let cell = collectionView!.dequeueReusableCell(withReuseIdentifier: identifier,
+                                                       for: indexPath)
+        
+        if let cell = cell as? T.CellType
+        {
+            viewModel.setup(cell: cell)
+        }
+        else { assertionFailure() }
+        
+        return cell
     }
 }

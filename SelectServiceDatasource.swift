@@ -8,15 +8,24 @@
 
 import Foundation
 
-private let cellId = "ServiceCell"
-
 struct KPISource
 {
     let service: IntegratedServices
 }
 
+extension SelectServiceDatasource
+{
+    enum SectionType
+    {
+        case custom
+        case integrated
+    }
+}
+
 class SelectServiceDatasource
 {
+    let sections: [SectionType] = [.custom, .integrated]
+    
     let kpiSources: [KPISource] = {
         let sfService = KPISource(service: .SalesForce)
         let qbService = KPISource(service: .Quickbooks)
@@ -32,40 +41,20 @@ class SelectServiceDatasource
         
         var kpiArray = [semenSettingsTuple]()
         
+        let services = ModelCoreKPI.modelShared.integratedServices
+
         switch service
         {
-        case .SalesForce:
-            for saleforceKPI in iterateEnum(SalesForceKPIs.self) {
-                kpiArray.append((saleforceKPI.rawValue, false))
-            }
-            
-        case .Quickbooks:
-            for quickbookKPI in iterateEnum(QiuckBooksKPIs.self) {
-                kpiArray.append((quickbookKPI.rawValue, false))
-            }
-            
-        case .GoogleAnalytics:
-            for googleAnalyticsKPI in iterateEnum(GoogleAnalyticsKPIs.self) {
-                kpiArray.append((googleAnalyticsKPI.rawValue, false))
-            }
-            
-        case .HubSpotCRM:
-            for hubSpotCrmKPI in iterateEnum(HubSpotCRMKPIs.self) {
-                kpiArray.append((hubSpotCrmKPI.rawValue, false))
-            }
-            
-        case .HubSpotMarketing:
-            for hubSpotmarketingKPI in iterateEnum(HubSpotMarketingKPIs.self) {
-                kpiArray.append((hubSpotmarketingKPI.rawValue, false))
-            }
-            
+        case .SalesForce, .GoogleAnalytics, .Quickbooks, .HubSpotCRM, .HubSpotMarketing, .none:
+            break
+       
         case .PayPal:
-            for payPalKPI in iterateEnum(PayPalKPIs.self) {
-                kpiArray.append((payPalKPI.rawValue, false))
+            let payPal = services.filter { $0.id == PayPal.serverId }.first!
+            
+            payPal.kpis.forEach { kpi in
+                 kpiArray.append((kpi.title, false))
             }
-        default: break
         }
-        
         return kpiArray
     }
 }
