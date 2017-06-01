@@ -34,5 +34,4 @@ class ServiceSelectionViewModel
         
         return model.integratedServices.count > 0
     }    
-    
 }

@@ -65,24 +65,13 @@ class ServiceSelectionCollectionViewController: UICollectionViewController,
             
         case .integrated:
             let isActive = indexPath.row == 0
+            let isIntServicesPrepared = viewModel.isIntegratedServicesPrepared()
             let selectedService = datasource.kpiSources[indexPath.row].service
-            let cellViewModel = IntegratedCellViewModel(service: selectedService, isActive: isActive)
+            let cellViewModel = IntegratedCellViewModel(service: selectedService,
+                                                        isActive: isActive,
+                                                        intServicesPrepared: isIntServicesPrepared)
             return dequeueReusableCell(with: cellViewModel, for: indexPath)
-        }
-        
-      
-//            
-//            if !cell.isDisabled && !viewModel.isIntegratedServicesPrepared()
-//            {
-//                cell.animateWaitingForServer()
-//            }
-//            else if !cell.isDisabled
-//            {
-//                cell.removeGrayLayer()
-//            }
-//        }
-      
-
+        }  
     }
     
     func collectionView(_ collectionView: UICollectionView,

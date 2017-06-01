@@ -30,6 +30,7 @@ struct IntegratedCellViewModel: CellViewModel
 {
     let service: IntegratedServices
     let isActive: Bool
+    let intServicesPrepared: Bool 
     
     var image: UIImage {
         switch service
@@ -48,8 +49,17 @@ struct IntegratedCellViewModel: CellViewModel
 extension IntegratedCellViewModel
 {
     func setup(cell: ServiceCell) {
+        
         cell.imageView.image = image
         if !isActive { cell.grayOut() }
+        if isActive && !intServicesPrepared
+        {
+            cell.animateWaitingForServer()
+        }
+        else if isActive
+        {
+            cell.removeGrayLayer()
+        }
     }
 }
 
