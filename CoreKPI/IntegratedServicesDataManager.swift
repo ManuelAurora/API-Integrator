@@ -107,7 +107,8 @@ class IntegratedServicesDataManager
         case .PayPal:
             let external = kpi.integratedKPI
             let request = PayPal(apiUsername: (external?.payPalKPI?.apiUsername)!, apiPassword: (external?.payPalKPI?.apiPassword)!, apiSignature: (external?.payPalKPI?.apiSignature)!)
-            switch (PayPalKPIs(rawValue: (external?.kpiName)!))! {
+            switch (PayPalKPIs(rawValue: (external?.kpiName)!))!
+            {
             case .Balance:
                 request.getBalance(success: { balance in
                     dataForPresent.append(("Balance", "", balance))
@@ -115,16 +116,29 @@ class IntegratedServicesDataManager
                 }, failure: {error in
                     print(error)
                 })
-            case .NetSalesTotalSales:
+                
+            case .TotalSales:
                 request.getSales(success: {sales in
                     for sale in sales {
-                        dataForPresent.append((sale.payer , "\(sale.netAmount)&\(sale.amount)", sale.date))                        
+                        dataForPresent.append((sale.payer , "\(sale.amount)", sale.date))
                     }
                     
                     success(dataForPresent)
                 }, failure: {error in
                     print(error)
                 })
+                
+            case .NetSales:
+                request.getSales(success: {sales in
+                    for sale in sales {
+                        dataForPresent.append((sale.payer , "\(sale.netAmount)", sale.date))                        
+                    }
+                    
+                    success(dataForPresent)
+                }, failure: {error in
+                    print(error)
+                })
+                
             case .KPIS:
                 request.getKPIS(success: { kpis in
                     for kpi in kpis {

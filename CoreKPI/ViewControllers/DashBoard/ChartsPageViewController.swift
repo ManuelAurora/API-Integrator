@@ -216,7 +216,7 @@ class ChartsPageViewController:
                 switch kpiValue
                 {
                 case .TransactionsByStatus, .PendingByType: chart = .PieChart
-                case .NetSalesTotalSales: chart = .LineChart
+                case .NetSales, .TotalSales: chart = .LineChart
                 default: webViewChartTwoVC.isAllowed = false; break
                 }
                 

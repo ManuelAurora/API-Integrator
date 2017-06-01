@@ -428,11 +428,8 @@ extension ExternalKPIViewController {
             serviceKPI.forEach { kpi in
                 guard kpi.value else { return }
                 
-                if let payKpi = PayPalKPIs(rawValue: kpi.SettingName)
-                {
-                    let id =  PayPal.getServerIdFor(kpi: payKpi)
-                    idsForServer.append(id)
-                }
+                let id =  PayPal.getServerIdFor(kpiTitle: kpi.SettingName)
+                idsForServer.append(id)
             }
             
         default: break

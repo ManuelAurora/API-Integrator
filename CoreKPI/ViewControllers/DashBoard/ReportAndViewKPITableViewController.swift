@@ -771,17 +771,14 @@ class ReportAndViewKPITableViewController: UITableViewController {
     func saveReport() {
         
         let request = AddReport(model: model)
-        var isRequestHandled = false
         
         ui(block: true)
         request.addReportForKPI(withID: model.kpis[kpiIndex].id, report: report!, success: {
-            isRequestHandled = true
             self.ui(block: false)
             self.model.kpis[self.kpiIndex].createdKPI?.addReport(date: Date(),
                                                                  report: self.report!)
             self.prepareToMove()
         }, failure: { error in
-            isRequestHandled = true
             self.ui(block: false)
             print(error)
             self.showAlert(title: "Error Occured",errorMessage: error)

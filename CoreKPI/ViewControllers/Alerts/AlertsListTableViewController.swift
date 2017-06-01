@@ -95,11 +95,14 @@ class AlertsListTableViewController: UITableViewController {
                        name: .modelDidChanged,
                        object: nil)
         
+        nc.addObserver(forName: .integratedServicesListLoaded, object: nil, queue: nil) {
+            (notification) in
+            self.loadReminders()
+            self.loadAlerts()
+        }
+        
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.backgroundColor = UIColor(red: 241/255, green: 241/255, blue: 241/255, alpha: 1.0)
-        
-        loadReminders()
-        loadAlerts()
     }
         
     override func tableView(_ tableView: UITableView,
@@ -138,6 +141,7 @@ class AlertsListTableViewController: UITableViewController {
             for alert in self.model.alerts {
                 self.context.delete(alert)
             }
+            
             self.model.alerts.removeAll()
             self.model.alerts = alerts
             do {

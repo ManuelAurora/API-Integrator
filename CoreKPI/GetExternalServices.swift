@@ -13,6 +13,13 @@ struct Service
 {
     let name: String
     let id: Int
+    let kpis: [ServerKpiDesc]
+}
+
+struct ServerKpiDesc
+{
+    let id: Int
+    let title: String
 }
 
 class GetExternalServices: Request
@@ -39,11 +46,19 @@ class GetExternalServices: Request
         if let successKey = json["success"] as? Int,
             successKey == 1,
             let data = json["data"] as? jsonDict,
-            let services = data["list"] as? [jsonDict] {
-            
-            return services.map {
-                let service = Service(name: $0["name"] as! String,
-                                      id: $0["id"] as! Int)
+            let services = data["list"] as? [jsonDict]
+        {
+            return services.map { service in
+                let kpis = (service["items"] as! [jsonDict]).map { kpi -> ServerKpiDesc in
+                    let id = kpi["id"] as! Int
+                    let title = kpi["title"] as! String
+                    
+                    return ServerKpiDesc(id: id, title: title)
+                }
+                
+                let service = Service(name: service["name"] as! String,
+                                      id: service["id"] as! Int,
+                                      kpis: kpis)
                 return service
             }
         }

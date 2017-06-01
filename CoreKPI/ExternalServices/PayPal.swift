@@ -20,8 +20,13 @@ class PayPal: ExternalRequest {
     var apiUsername = ""
     var apiPassword = ""
     var apiSignature = ""
-    let appID = "APP-80W284485P519543T"
-    let payPalUri = "https://api-3t.sandbox.paypal.com/2.0/"
+    let appID = "APP-12102552X4490614R"
+    let payPalUri = "https://api-3t.paypal.com/2.0/"
+    
+    static let payPalKpis: [ServerKpiDesc] = {
+        let kpis = (ModelCoreKPI.modelShared.integratedServices.filter { $0.id == 6 }).first!.kpis
+        return kpis
+    }()
     
     class var payPalEntity: PayPalKPI {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -45,21 +50,9 @@ class PayPal: ExternalRequest {
         super.init()
     }
     
-    class func getServerIdFor(kpi: PayPalKPIs) -> Int {
+    class func getServerIdFor(kpiTitle: String) -> Int {
         
-        switch kpi
-        {
-        case .Balance: return 52
-        case .NetSalesTotalSales: return 53
-        case .KPIS: return 54
-        case .AverageRevenueSale: return 55
-        case .AverageRevenueSaleByPeriod: return 56
-        case .TopCountriesBySales: return 57
-        case .TopProducts: return 58
-        case .TransactionsByStatus: return 59
-        case .PendingByType: return 60
-        case .RecentExpenses: return 61
-        }
+        return payPalKpis.filter { $0.title == kpiTitle }.first!.id
     }
     
     //MARK: - GetAccountInfo for checkig input API credentials
@@ -95,10 +88,13 @@ class PayPal: ExternalRequest {
                 if let xmlString = response.result.value {
                     do {
                         let xmlDoc = try AEXMLDocument(xml: xmlString)
-                        if let balance = xmlDoc.root["SOAP-ENV:Body"]["GetBalanceResponse"]["Balance"].value {
+                        if let balance = xmlDoc.root["SOAP-ENV:Body"]["GetBalanceResponse"]["Balance"].value
+                        {
                             success(balance)
-                        } else {
-                            failure("Parsing balance error")
+                            
+                        }
+                        else {
+                            success("0")
                         }
                     } catch {
                         print("\(error)")
@@ -709,7 +705,7 @@ class PayPal: ExternalRequest {
             "pageSize" : 10
         ]
         
-        request("https://svcs.sandbox.paypal.com/Invoice/SearchInvoices", method: .post, parameters: params, encoding: URLEncoding.default, headers: headers).responseJSON { response in
+        request("https://svcs.paypal.com/Invoice/SearchInvoices", method: .post, parameters: params, encoding: URLEncoding.default, headers: headers).responseJSON { response in
             
             if let data = response.data {
                 do {

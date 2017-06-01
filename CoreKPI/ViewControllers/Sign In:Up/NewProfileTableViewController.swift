@@ -30,6 +30,13 @@ class NewProfileTableViewController: UITableViewController {
         print("DEBUG: NewProfileTableVC deinitialised")
     }
     
+    private var tapGesture: UITapGestureRecognizer? {
+        didSet {
+            guard tapGesture != nil else { return }
+            view.addGestureRecognizer(tapGesture!)
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -108,7 +115,9 @@ class NewProfileTableViewController: UITableViewController {
         }
     }
     
-    private func toggleInterface(enabled: Bool) {
+    @objc private func toggleInterface(enabled: Bool = true) {
+        
+        if enabled { tapGesture = nil }
         
         navigationItem.rightBarButtonItem?.isEnabled   = enabled
         navigationItem.hidesBackButton                 = !enabled
@@ -133,6 +142,9 @@ class NewProfileTableViewController: UITableViewController {
     }
     
     func registrationRequest() {
+        
+        tapGesture = UITapGestureRecognizer(target: self,
+                                            action: #selector(toggleInterface(enabled:)))
         
         let request = GetInviteList(model: ModelCoreKPI.modelShared)
         

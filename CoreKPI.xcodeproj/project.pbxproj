@@ -44,6 +44,7 @@
 		6475B3871ECADFDF00983B3A /* SelectServiceCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6475B3861ECADFDF00983B3A /* SelectServiceCollectionCell.swift */; };
 		6475B38C1ECAE7EB00983B3A /* SelectServiceDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6475B38B1ECAE7EB00983B3A /* SelectServiceDatasource.swift */; };
 		647660171EDEC7C7004B139F /* UITableView + ContentInset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647660161EDEC7C7004B139F /* UITableView + ContentInset.swift */; };
+		647660191EE01613004B139F /* ServiceSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647660181EE01613004B139F /* ServiceSelectionViewModel.swift */; };
 		647860D71ED85421001163EC /* pop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6496D62F1E8A498D002591EA /* pop.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		647860DA1ED854C8001163EC /* pop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6496D62F1E8A498D002591EA /* pop.framework */; };
 		64797E9C1EB8CB7A00AE7D7F /* SegueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64797E9B1EB8CB7A00AE7D7F /* SegueManager.swift */; };
@@ -270,6 +271,7 @@
 		6475B3861ECADFDF00983B3A /* SelectServiceCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectServiceCollectionCell.swift; sourceTree = "<group>"; };
 		6475B38B1ECAE7EB00983B3A /* SelectServiceDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectServiceDatasource.swift; sourceTree = "<group>"; };
 		647660161EDEC7C7004B139F /* UITableView + ContentInset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView + ContentInset.swift"; sourceTree = "<group>"; };
+		647660181EE01613004B139F /* ServiceSelectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceSelectionViewModel.swift; sourceTree = "<group>"; };
 		64797E9B1EB8CB7A00AE7D7F /* SegueManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueManager.swift; sourceTree = "<group>"; };
 		647B588E1E65AA2F001C968B /* QuickBookHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBookHelpers.swift; sourceTree = "<group>"; };
 		647B58901E65BA89001C968B /* QuickBookRequestHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBookRequestHandler.swift; sourceTree = "<group>"; };
@@ -533,6 +535,7 @@
 			isa = PBXGroup;
 			children = (
 				64AF39711ED6D70A00AAEE3A /* NewKPIControllerViewModel.swift */,
+				647660181EE01613004B139F /* ServiceSelectionViewModel.swift */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -1210,6 +1213,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				647660191EE01613004B139F /* ServiceSelectionViewModel.swift in Sources */,
 				A21EDDF71E23A709001DE74C /* KPIList.swift in Sources */,
 				A2C431771E558EA500AA2B7C /* DeleteAlert.swift in Sources */,
 				A28889911E4206DC00113220 /* AddAlert.swift in Sources */,
@@ -1543,7 +1547,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = CoreKPI/BridgingHeader.h;
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1566,7 +1570,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = CoreKPI/BridgingHeader.h;
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

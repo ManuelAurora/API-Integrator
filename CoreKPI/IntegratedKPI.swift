@@ -142,10 +142,11 @@ enum HubSpotMarketingKPIs: String {
 
 enum PayPalKPIs: String {
     case Balance
-    case NetSalesTotalSales = "Net Sales/Total Sales"
+    case NetSales = "Net Sales"
+    case TotalSales = "Total Sales"
     case KPIS
     case AverageRevenueSale = "Average Revenue sale"
-    case AverageRevenueSaleByPeriod = "Average Revenue sale by period"
+    case AverageRevenueSaleByPeriod = "Average Revenue sale by…"
     case TopCountriesBySales = "Top countries by Sales"
     case TopProducts = "Top products"
     case TransactionsByStatus = "Transactions by Status"

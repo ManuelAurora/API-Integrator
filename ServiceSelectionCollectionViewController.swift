@@ -12,13 +12,30 @@ class ServiceSelectionCollectionViewController: UICollectionViewController,
     UICollectionViewDelegateFlowLayout
 {
     private let datasource = SelectServiceDatasource()
-        
+    private let viewModel  = ServiceSelectionViewModel()
+    private let nc         = NotificationCenter.default
+    
+    deinit {
+        nc.removeObserver(self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        subscribeNotifications()
+        
         collectionView?.delegate = self
         title = "Select Source"
-    }    
+    }
+    
+    private func subscribeNotifications() {
+        
+        nc.addObserver(forName: .integratedServicesListLoaded, object: nil, queue: nil) {
+            (notification) in
+            
+            self.collectionView?.reloadSections(IndexSet(integer: 1))
+        }
+    }
     
     // MARK: UICollectionViewDataSource
 
@@ -39,7 +56,7 @@ class ServiceSelectionCollectionViewController: UICollectionViewController,
             return datasource.kpiSources.count
         }
     }
-    
+        
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
@@ -58,6 +75,15 @@ class ServiceSelectionCollectionViewController: UICollectionViewController,
                 cell.grayOut()
             }
             cell.setImageFor(service: selectedService)
+            
+            if !cell.isDisabled && !viewModel.isIntegratedServicesPrepared()
+            {
+                cell.animateWaitingForServer()
+            }
+            else if !cell.isDisabled
+            {
+                cell.removeGrayLayer()
+            }
         }
         
         return cell
@@ -122,7 +148,7 @@ class ServiceSelectionCollectionViewController: UICollectionViewController,
         {
             let cell = collectionView.cellForItem(at: indexPath) as! ServiceCell
             
-            if cell.isDisabled
+            if cell.isDisabled || !viewModel.isIntegratedServicesPrepared()
             {
                 cell.animate()
                 return

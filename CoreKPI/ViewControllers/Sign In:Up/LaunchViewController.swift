@@ -67,13 +67,6 @@ class LaunchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let kpiLst = GetExternalServices(model: ModelCoreKPI.modelShared)
-        kpiLst.getData(success: { (result: [Service]) in
-            print(result)
-        }) { (err) in
-            print(err)
-        }
-        
         tapGesture = UITapGestureRecognizer(target: self,
                                             action: #selector(showSignInVCIfInternetOffline))
         

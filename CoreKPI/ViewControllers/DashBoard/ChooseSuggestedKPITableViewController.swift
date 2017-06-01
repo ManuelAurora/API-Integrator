@@ -68,7 +68,6 @@ class ChooseSuggestedKPITableViewController: UITableViewController
     var googleAnalyticsKPIArray: [(SettingName: String, value: Bool)] = []
     var hubspotCRMKPIs: [HubSpotCRMKPIs] = []
     var hubSpotCRMKPIArray: [(SettingName: String, value: Bool)] = []
-    var paypalKPIs: [PayPalKPIs] = []
     var payPalKPIArray: [(SettingName: String, value: Bool)] = []
     var hubspotMarketingKPIs: [HubSpotMarketingKPIs] = []
     var hubSpotMarketingKPIArray: [(SettingName: String, value: Bool)] = []
@@ -313,8 +312,8 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         for hubSpotmarketingKPI in iterateEnum(HubSpotMarketingKPIs.self) {
             hubSpotMarketingKPIArray.append((hubSpotmarketingKPI.rawValue, false))
         }
-        for payPalKPI in iterateEnum(PayPalKPIs.self) {
-            payPalKPIArray.append((payPalKPI.rawValue, false))
+        PayPal.payPalKpis.forEach {
+            payPalKPIArray.append(($0.title, false))
         }
         for hubSpotCrmKPI in iterateEnum(HubSpotCRMKPIs.self) {
             hubSpotCRMKPIArray.append((hubSpotCrmKPI.rawValue, false))
@@ -879,52 +878,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController
         }
         return true
     }
-    
-    private func getIdsForSelectedKpis(_ service: IntegratedServices) -> [Int] {
-        
-        var idsForServer = [Int]()
-        
-        switch service
-        {
-        case .SalesForce:
-            saleForceKPIArray.forEach { kpi in
-                guard kpi.value else { return }
-                
-                if let sfKpi = SalesForceKPIs(rawValue: kpi.SettingName)
-                {
-                    let id =  sfManager.getServerIdFor(kpi: sfKpi)
-                    idsForServer.append(id)
-                }
-            }
-            
-        case .GoogleAnalytics:
-            googleAnalyticsKPIArray.forEach { kpi in
-                guard kpi.value else { return }
-                
-                if let gaKpi = GoogleAnalyticsKPIs(rawValue: kpi.SettingName)
-                {
-                    let id =  GAnalytics.getServerIdFor(kpi: gaKpi)
-                    idsForServer.append(id)
-                }
-            }
-            
-        case .PayPal:
-            payPalKPIArray.forEach { kpi in
-                guard kpi.value else { return }
-                
-                if let payKpi = PayPalKPIs(rawValue: kpi.SettingName)
-                {
-                    let id =  PayPal.getServerIdFor(kpi: payKpi)
-                    idsForServer.append(id)
-                }
-            }
-            
-        default: break
-        }
-        
-        return idsForServer
-    }
-    
+       
     //MARK: - Save KPI
     @IBAction func tapSaveButton(_ sender: UIBarButtonItem) {
         

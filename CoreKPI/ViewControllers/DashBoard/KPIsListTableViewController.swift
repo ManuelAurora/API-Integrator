@@ -49,13 +49,19 @@ class KPIsListTableViewController: UITableViewController
         
         nc.addObserver(forName: .addedNewExtKpiOnServer, object: nil, queue: nil) {
             notification in
-            
             self.removeAllKpis()
         }
-       
+        
+        nc.addObserver(forName: .integratedServicesListLoaded, object: nil, queue: nil) {
+            notification in
+            self.loadIntegratedKpis()
+        }
+        
         self.navigationController?.navigationBar.titleTextAttributes = attrs
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.backgroundColor = OurColors.gray
+        
+        model.getExternalServices()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -288,21 +294,19 @@ class KPIsListTableViewController: UITableViewController
     {
         tableView.contentOffset = CGPoint(x: 0, y: 0 - self.tableView.contentInset.top)
         removeAllKpis()
+        model.getExternalServices()
     }
     
     //MARK: - Load KPIs from server methods
     //MARK: Load all KPIs
     func loadKPIsFromServer() {        
-       
+        
         let request = GetKPIs(model: model)
         request.getKPIsFromServer(success: { kpi in
             self.model.kpis = kpi
             self.arrayOfKPI = kpi
-            self.loadIntegratedKpis()
             self.refreshControl?.endRefreshing()
-            //self.loadReports()
-            //NotificationCenter.default.post(name: .modelDidChanged, object: nil)
-            
+            self.tableView.reloadData()            
         }, failure: { error in
             print(error)
             self.refreshControl?.endRefreshing()

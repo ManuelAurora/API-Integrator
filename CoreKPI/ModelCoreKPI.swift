@@ -20,11 +20,19 @@ class ModelCoreKPI
     static var modelShared = ModelCoreKPI()
     var token: String!
     var profile: Profile!
-    
     var alerts: [Alert] = []
     var reminders: [Reminder] = []
     var kpis: [KPI] = []
     var team: [Team] = []
+    var integratedServices = [Service]() {
+        didSet {
+            if integratedServices.count > 0
+            {
+                NotificationCenter.default.post(name: .integratedServicesListLoaded,
+                                                object: nil)
+            }
+        }
+    }
     
     func signedInUpWith(token: String, profile: Profile) {
         
@@ -48,6 +56,17 @@ class ModelCoreKPI
             }
         }
         return UIColor.clear
+    }
+    
+    func getExternalServices() {
+        
+        let kpiLst = GetExternalServices(model: ModelCoreKPI.modelShared)
+        kpiLst.getData(success: {
+            (result: [Service]) in
+            ModelCoreKPI.modelShared.integratedServices = result
+        }) { (err) in
+            print(err)
+        }
     }
 }
 
