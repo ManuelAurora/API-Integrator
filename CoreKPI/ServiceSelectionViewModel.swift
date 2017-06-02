@@ -14,6 +14,10 @@ class ServiceSelectionViewModel
     let model = ModelCoreKPI.modelShared
     let datasource = SelectServiceDatasource()
     
+    func sectionTypeFor(indexPath: IndexPath) -> SelectServiceDatasource.SectionType {
+        return datasource.sections[indexPath.section]
+    }
+    
     func getNumberOfCellsIn(section: Int) -> Int {
         
         let sectionType = datasource.sections[section]

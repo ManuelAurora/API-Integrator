@@ -8,61 +8,6 @@
 
 import UIKit
 
-protocol CellViewModel
-{
-    associatedtype CellType: UIView
-    func setup(cell: CellType)
-}
-
-struct CustomCellViewModel: CellViewModel
-{
-   
-}
-
-extension CustomCellViewModel
-{
-    func setup(cell: ServiceCell) {
-        cell.showCustomKPICell()
-    }
-}
-
-struct IntegratedCellViewModel: CellViewModel
-{
-    let service: IntegratedServices
-    let isActive: Bool
-    let intServicesPrepared: Bool 
-    
-    var image: UIImage {
-        switch service
-        {
-        case .Quickbooks:       return #imageLiteral(resourceName: "QuickBooks")
-        case .GoogleAnalytics:  return #imageLiteral(resourceName: "GoogleAnalytics")
-        case .HubSpotCRM:       return #imageLiteral(resourceName: "HubSpotCRM")
-        case .HubSpotMarketing: return #imageLiteral(resourceName: "HubSpotMarketing")
-        case .PayPal:           return #imageLiteral(resourceName: "PayPal")
-        case .SalesForce:       return #imageLiteral(resourceName: "SaleForce")
-        case .none: return UIImage()
-        }
-    }
-}
-
-extension IntegratedCellViewModel
-{
-    func setup(cell: ServiceCell) {
-        
-        cell.imageView.image = image
-        if !isActive { cell.grayOut() }
-        if isActive && !intServicesPrepared
-        {
-            cell.animateWaitingForServer()
-        }
-        else if isActive
-        {
-            cell.removeGrayLayer()
-        }
-    }
-}
-
 class ServiceCell: UICollectionViewCell
 {  
     @IBOutlet weak var imageView: UIImageView!
@@ -204,3 +149,5 @@ class ServiceCell: UICollectionViewCell
         }, completion: nil)
     }
 }
+
+
