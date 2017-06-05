@@ -268,19 +268,15 @@ extension NewProfileTableViewController: UIImagePickerControllerDelegate, UINavi
 //MARK: - UITextFieldDelegate method
 extension NewProfileTableViewController: UITextFieldDelegate {
     
-    private func check(textfields: [UITextField]) -> Bool {
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
         
-        let maxCharacters = 30
-        var result = false
+        guard let text = textField.text else { return true }
         
-        textfields.forEach {
-            if let charsTotal = $0.text?.characters.count, charsTotal > 0 && charsTotal <= maxCharacters {
-                result = true
-            }
-            else { result = false }
-        }
+        let chars = text.characters.count + string.characters.count - range.length
         
-        return result
+        return chars <= 30
     }
     
     @objc fileprivate func userInputValid() -> Bool {
@@ -295,12 +291,15 @@ extension NewProfileTableViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
         if textField == firstNameTextField {
             lastNameTextField.becomeFirstResponder()
         }
+        
         if textField == lastNameTextField {
             positionTextField.becomeFirstResponder()
         }
+        
         if textField == positionTextField {
             firstNameTextField.resignFirstResponder()
             lastNameTextField.resignFirstResponder()

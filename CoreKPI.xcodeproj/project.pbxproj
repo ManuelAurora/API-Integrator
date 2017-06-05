@@ -13,6 +13,7 @@
 		643645021E9BC23F0074B9A6 /* SalesforceRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643645011E9BC23F0074B9A6 /* SalesforceRequestManager.swift */; };
 		644691CF1E55870900D964D5 /* PinCodeLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644691CE1E55870900D964D5 /* PinCodeLock.swift */; };
 		644B4C701E926B6000F55F1F /* HubspotKPI + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644B4C6F1E926B6000F55F1F /* HubspotKPI + Extension.swift */; };
+		644C76FB1EE5729D0098B583 /* TextFieldDelegate + CheckInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644C76FA1EE5729D0098B583 /* TextFieldDelegate + CheckInput.swift */; };
 		6453846F1EDD756C00CADE72 /* ReportFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6453846E1EDD756C00CADE72 /* ReportFilter.swift */; };
 		645616461E67029B00643340 /* UserInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 645616451E67029B00643340 /* UserInfoTableViewCell.xib */; };
 		645616481E67039800643340 /* UserViewCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645616471E67039800643340 /* UserViewCellTableViewCell.swift */; };
@@ -242,6 +243,7 @@
 		643645011E9BC23F0074B9A6 /* SalesforceRequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SalesforceRequestManager.swift; sourceTree = "<group>"; };
 		644691CE1E55870900D964D5 /* PinCodeLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeLock.swift; sourceTree = "<group>"; };
 		644B4C6F1E926B6000F55F1F /* HubspotKPI + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HubspotKPI + Extension.swift"; sourceTree = "<group>"; };
+		644C76FA1EE5729D0098B583 /* TextFieldDelegate + CheckInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TextFieldDelegate + CheckInput.swift"; sourceTree = "<group>"; };
 		6453846E1EDD756C00CADE72 /* ReportFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportFilter.swift; sourceTree = "<group>"; };
 		645616451E67029B00643340 /* UserInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserInfoTableViewCell.xib; sourceTree = "<group>"; };
 		645616471E67039800643340 /* UserViewCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewCellTableViewCell.swift; sourceTree = "<group>"; };
@@ -579,6 +581,7 @@
 				64797E9B1EB8CB7A00AE7D7F /* SegueManager.swift */,
 				646E2AC01E7C070C0010E4BE /* Date + Extension.swift */,
 				64637DA41E9F9C8C00F33A1C /* Sequence + Extension.swift */,
+				644C76FA1EE5729D0098B583 /* TextFieldDelegate + CheckInput.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -1334,6 +1337,7 @@
 				645759241E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift in Sources */,
 				A2F77E081E3B199400BB8318 /* ChangeUserRights.swift in Sources */,
 				A297F5E11E08248000F85963 /* TypeAccountTableViewCell.swift in Sources */,
+				644C76FB1EE5729D0098B583 /* TextFieldDelegate + CheckInput.swift in Sources */,
 				A2B7209A1E2E5F9900471E91 /* OnboardingPageViewController.swift in Sources */,
 				A258A70B1E20D47700FBFBDF /* KPISelectSettingTableViewController.swift in Sources */,
 				A2F77E061E3B199400BB8318 /* ChangeNickname.swift in Sources */,

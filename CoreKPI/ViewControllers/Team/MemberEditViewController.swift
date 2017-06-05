@@ -64,8 +64,13 @@ class MemberEditViewController: UIViewController, UITableViewDelegate, UITableVi
         
         title = "Edit Member"
         let member = model.team[index]
-        self.memberNameTextField.text = "\(member.firstName!) \(member.lastName!)"
-        self.memberPositionTextField.text = member.position
+        memberNameTextField.text = "\(member.firstName!) \(member.lastName!)"
+        memberPositionTextField.text = member.position
+        
+        memberNameTextField.addTarget(self, action: #selector(userInputValid),
+                                      for: .editingChanged)
+        memberPositionTextField.addTarget(self, action: #selector(userInputValid),
+                                          for: .editingChanged)
         
         if let link = member.photoLink
         {
@@ -462,6 +467,16 @@ extension MemberEditViewController: updateTypeOfAccountDelegate {
 //MARK: - UITextFieldDelegate method
 extension MemberEditViewController: UITextFieldDelegate {
     
+    @objc fileprivate func userInputValid() -> Bool {
+        
+        let isInputValid = check(textfields: [memberNameTextField,
+                                              memberPositionTextField])
+        
+        saveButton.isEnabled = isInputValid
+        
+        return isInputValid
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         let textFieldText: NSString = (textField.text ?? "") as NSString
@@ -489,8 +504,14 @@ extension MemberEditViewController: UITextFieldDelegate {
             newProfile.userName = txtAfterUpdate
             saveButton.isEnabled = checkInputValue() ? true : false
             return true
+            
         default:
             saveButton.isEnabled = checkInputValue() ? true : false
+            if let text = textField.text
+            {
+                let characters = text.characters.count + string.characters.count - range.length
+                return characters <= 30
+            }
             return true
         }
     }
