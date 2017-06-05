@@ -157,12 +157,14 @@ class AddKPI: Request
                         let apiUserName = extKPI?.payPalKPI?.apiUsername ?? ""
                         let apiPassword = extKPI?.payPalKPI?.apiPassword ?? ""
                         let apiSignature = extKPI?.payPalKPI?.apiSignature ?? ""
+                        let apiProfileName = extKPI?.payPalKPI?.profileName ?? ""
                         
                         kpiIDs.forEach { id in
                             items.append(["kpi_id": id,
-                                          "kpi_options": []
+                                          "kpi_options": [apiProfileName]
                                 ])
                         }
+                        
                         token = "\(apiUserName) \(apiPassword)"
                         refreshToken = apiSignature
                         date = Calendar.current.date(byAdding: .month,

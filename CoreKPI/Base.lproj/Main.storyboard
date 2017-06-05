@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="yjb-8Z-cjo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="yjb-8Z-cjo">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -668,27 +668,27 @@ The main advantage of a computer audio player is that you can play your audio CD
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </view>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultProfile" translatesAutoresizingMaskIntoConstraints="NO" id="idS-AA-UK8" customClass="CachedImageView" customModule="CoreKPI" customModuleProvider="target">
-                                            <rect key="frame" x="26" y="12" width="45" height="45"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="45" id="Weu-sI-QTS"/>
-                                                <constraint firstAttribute="width" constant="45" id="uiB-4f-sWZ"/>
-                                            </constraints>
-                                        </imageView>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="EIA-p7-H0j">
-                                            <rect key="frame" x="84" y="17" width="74" height="35"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="kX3-Ti-GaQ" userLabel="Profile stack">
+                                            <rect key="frame" x="26" y="12" width="323" height="45"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="Kw2-gg-nDA">
-                                                    <rect key="frame" x="0.0" y="0.0" width="74" height="35"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultProfile" translatesAutoresizingMaskIntoConstraints="NO" id="idS-AA-UK8" customClass="CachedImageView" customModule="CoreKPI" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="45" id="Weu-sI-QTS"/>
+                                                        <constraint firstAttribute="width" constant="45" id="uiB-4f-sWZ"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="Kw2-gg-nDA" userLabel="Name and Position">
+                                                    <rect key="frame" x="61" y="0.0" width="262" height="45"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jim Carrey" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3NN-5X-jTX">
-                                                            <rect key="frame" x="0.0" y="0.0" width="74" height="18"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="254" verticalHuggingPriority="251" text="Jim Carrey" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3NN-5X-jTX">
+                                                            <rect key="frame" x="0.0" y="0.0" width="74" height="28"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CEO" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="70u-Z8-GTV">
-                                                            <rect key="frame" x="0.0" y="19" width="27" height="16"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="CEO" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="70u-Z8-GTV">
+                                                            <rect key="frame" x="0.0" y="29" width="27" height="16"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" red="0.54901960780000003" green="0.54901960780000003" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -700,12 +700,12 @@ The main advantage of a computer audio player is that you can play your audio CD
                                     </subviews>
                                     <color key="backgroundColor" red="0.85798357869999997" green="0.85220155460000002" blue="0.88219895290000006" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="kX3-Ti-GaQ" secondAttribute="trailing" constant="26" id="0EM-Q2-opc"/>
                                         <constraint firstItem="mZH-rX-fx6" firstAttribute="top" secondItem="2Xq-kE-fRL" secondAttribute="top" constant="4" id="2Dv-TC-E12"/>
                                         <constraint firstAttribute="bottom" secondItem="mZH-rX-fx6" secondAttribute="bottom" constant="4" id="3fQ-Md-4zT"/>
-                                        <constraint firstItem="EIA-p7-H0j" firstAttribute="leading" secondItem="idS-AA-UK8" secondAttribute="trailing" constant="13" id="3ow-H0-R9Y"/>
-                                        <constraint firstItem="EIA-p7-H0j" firstAttribute="centerY" secondItem="2Xq-kE-fRL" secondAttribute="centerY" id="Mrz-Cd-3Wy"/>
-                                        <constraint firstItem="idS-AA-UK8" firstAttribute="leading" secondItem="2Xq-kE-fRL" secondAttribute="leading" constant="26" id="cco-wm-CfL"/>
-                                        <constraint firstItem="idS-AA-UK8" firstAttribute="centerY" secondItem="2Xq-kE-fRL" secondAttribute="centerY" id="eio-oi-nlT"/>
+                                        <constraint firstItem="kX3-Ti-GaQ" firstAttribute="top" secondItem="2Xq-kE-fRL" secondAttribute="top" constant="12" id="Qoq-gc-WDj"/>
+                                        <constraint firstAttribute="bottom" secondItem="kX3-Ti-GaQ" secondAttribute="bottom" constant="12" id="XYd-Di-elu"/>
+                                        <constraint firstItem="kX3-Ti-GaQ" firstAttribute="leading" secondItem="2Xq-kE-fRL" secondAttribute="leading" constant="26" id="ihb-qs-zfg"/>
                                         <constraint firstItem="mZH-rX-fx6" firstAttribute="leading" secondItem="2Xq-kE-fRL" secondAttribute="leading" constant="8" id="pKf-t9-dcU"/>
                                         <constraint firstAttribute="trailing" secondItem="mZH-rX-fx6" secondAttribute="trailing" constant="8" id="yjm-lM-yGq"/>
                                     </constraints>
@@ -1663,6 +1663,7 @@ The main advantage of a computer audio player is that you can play your audio CD
                         <outlet property="lastNameTextField" destination="DdY-6p-Stm" id="E2V-Fc-YLm"/>
                         <outlet property="positionTextField" destination="9A8-6b-qb6" id="y2N-xZ-wJX"/>
                         <outlet property="profilePhotoImageView" destination="ZcT-yj-4UW" id="4tw-rv-GEZ"/>
+                        <outlet property="saveButton" destination="FyC-cn-48n" id="fJe-5H-qQ0"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X5C-P2-uLG" userLabel="First Responder" sceneMemberID="firstResponder"/>

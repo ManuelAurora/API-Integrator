@@ -189,12 +189,26 @@ class GetIntegratedKPIs: Request {
             let apiUsername = decyphered[0]
             let apiPassword = decyphered[1]
             
-            let ppEntity = PayPal.payPalEntity
+            var ppEntity: PayPalKPI!
             
-            ppEntity.profileName = "Semen"
-            ppEntity.apiSignature = refToken
-            ppEntity.apiUsername = apiUsername
-            ppEntity.apiPassword = apiPassword
+            if let options = options
+            {
+                options.forEach { profileName in
+                    ppEntity = PayPal.payPalEntityFor(profile: profileName)
+                    ppEntity.profileName  = profileName
+                    ppEntity.apiSignature = refToken
+                    ppEntity.apiUsername  = apiUsername
+                    ppEntity.apiPassword  = apiPassword
+                }
+            }
+            else
+            {
+                ppEntity = PayPal.payPalEntityFor(profile: "No Name")
+                ppEntity.profileName = "No Name"
+                ppEntity.apiSignature = refToken
+                ppEntity.apiUsername  = apiUsername
+                ppEntity.apiPassword  = apiPassword
+            }                        
             
             externalKpi.serviceName = IntegratedServices.PayPal.rawValue
             externalKpi.payPalKPI = ppEntity

@@ -28,10 +28,17 @@ class PayPal: ExternalRequest
         return kpis
     }()
     
-    class var payPalEntity: PayPalKPI {
+    class func payPalEntityFor(profile: String?) -> PayPalKPI {
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context     = appDelegate.persistentContainer.viewContext
         let request     = NSFetchRequest<PayPalKPI>(entityName: "PayPalKPI")
+        var ppProfile   = "No Name"
+        
+        if let profile = profile { ppProfile = profile }
+        
+        let predicate   = NSPredicate(format: "profileName==%@", ppProfile)
+        request.predicate = predicate
         
         if let result  = try? context.fetch(request), let entity = result.first
         {

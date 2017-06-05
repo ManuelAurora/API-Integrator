@@ -61,7 +61,7 @@ class LoginRequest: Request {
                 }
             } else {
                 errorMessage = json["message"] as? String
-                print("Json error message: \(errorMessage)")
+                print("Json error message: \(errorMessage ?? "Unknown Error")")
             }
         } else {
             print("Json file is broken!")

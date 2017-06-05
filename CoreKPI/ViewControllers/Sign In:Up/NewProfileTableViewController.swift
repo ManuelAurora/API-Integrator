@@ -21,10 +21,16 @@ class NewProfileTableViewController: UITableViewController {
     var position: String!
     var profileImageBase64String: String?
     
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var positionTextField: UITextField!
-    @IBOutlet weak var profilePhotoImageView: UIImageView!
+    @IBOutlet weak var profilePhotoImageView: UIImageView! {
+        didSet {
+            let diameter = profilePhotoImageView.bounds.width
+            profilePhotoImageView.layer.cornerRadius = diameter / 2
+        }
+    }
     
     deinit {
         print("DEBUG: NewProfileTableVC deinitialised")
@@ -40,7 +46,9 @@ class NewProfileTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-         navigationController?.isNavigationBarHidden = false
+        saveButton.isEnabled = userInputValid()
+        
+        navigationController?.isNavigationBarHidden = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -52,6 +60,10 @@ class NewProfileTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        firstNameTextField.addTarget(self, action: #selector(userInputValid), for: .editingChanged)
+        lastNameTextField.addTarget(self, action: #selector(userInputValid), for: .editingChanged)
+        positionTextField.addTarget(self, action: #selector(userInputValid), for: .editingChanged)
         
         tableView.tableFooterView = UIView(frame: .zero)
         toggleInterface(enabled: true)
@@ -70,15 +82,15 @@ class NewProfileTableViewController: UITableViewController {
             actionViewController.addAction(UIAlertAction(title: "Take a photo",
                                                          style: .default,
                                                          handler: {
-                (action: UIAlertAction!) -> Void in
-                self.imagePickerFromCamera()
+                                                            (action: UIAlertAction!) -> Void in
+                                                            self.imagePickerFromCamera()
             }))
             
             actionViewController.addAction(UIAlertAction(title: "Choose from gallery",
                                                          style: .default,
                                                          handler: {
-                (action: UIAlertAction!) -> Void in
-                self.imagePickerFromPhotoLibrary()
+                                                            (action: UIAlertAction!) -> Void in
+                                                            self.imagePickerFromPhotoLibrary()
             }))
             
             actionViewController.addAction(UIAlertAction(title: "Cancel",
@@ -100,19 +112,12 @@ class NewProfileTableViewController: UITableViewController {
     
     @IBAction func tapSaveButton(_ sender: Any) {
         
-        if firstNameTextField.text != "" || lastNameTextField.text != "" || positionTextField.text != ""
-        {
-            toggleInterface(enabled: false)
-            
-            firstName = firstNameTextField.text!.trimmingCharacters(in: .whitespaces)
-            lastName  = lastNameTextField.text!.trimmingCharacters(in: .whitespaces)
-            position  = positionTextField.text!.trimmingCharacters(in: .whitespaces)
-            registrationRequest()
-        }
-        else {
-            showAlert(title: "Error occured",
-                      errorMessage: "Please, fill name, last name and position fields.")
-        }
+        toggleInterface(enabled: false)
+        
+        firstName = firstNameTextField.text!.trimmingCharacters(in: .whitespaces)
+        lastName  = lastNameTextField.text!.trimmingCharacters(in: .whitespaces)
+        position  = positionTextField.text!.trimmingCharacters(in: .whitespaces)
+        registrationRequest()
     }
     
     @objc private func toggleInterface(enabled: Bool = true) {
@@ -149,7 +154,7 @@ class NewProfileTableViewController: UITableViewController {
         let request = GetInviteList(model: ModelCoreKPI.modelShared)
         
         request.inviteRequest(email: email, success: { teams in
-          
+            
             if teams.count > 0
             {
                 let alert = UIAlertController(title: "Select your team",
@@ -174,20 +179,20 @@ class NewProfileTableViewController: UITableViewController {
                 let cancelAction = UIAlertAction(title: "Cancel",
                                                  style: .cancel,
                                                  handler: { _ in
-                    self.toggleInterface(enabled: true)
-                    print("Cancelled")
+                                                    self.toggleInterface(enabled: true)
+                                                    print("Cancelled")
                 })
                 
                 alert.addAction(cancelAction)
                 alert.addAction(myTeam)
                 self.present(alert, animated: true, completion: nil)
             }
-            else { self.register(inTeam: 0) }            
+            else { self.register(inTeam: 0) }
             
         }) { error in
             print(error)
             self.toggleInterface(enabled: true)
-        }        
+        }
     }
     
     private func register(inTeam id: Int) {
@@ -251,6 +256,7 @@ extension NewProfileTableViewController: UIImagePickerControllerDelegate, UINavi
         profilePhotoImageView.image = info[UIImagePickerControllerOriginalImage] as! UIImage?
         profilePhotoImageView.contentMode = UIViewContentMode.scaleAspectFill
         profilePhotoImageView.clipsToBounds = true
+        
         if let image = profilePhotoImageView.image {
             let imageData: NSData = UIImagePNGRepresentation(image)! as NSData
             profileImageBase64String = imageData.base64EncodedString(options: .lineLength64Characters)
@@ -261,6 +267,33 @@ extension NewProfileTableViewController: UIImagePickerControllerDelegate, UINavi
 
 //MARK: - UITextFieldDelegate method
 extension NewProfileTableViewController: UITextFieldDelegate {
+    
+    private func check(textfields: [UITextField]) -> Bool {
+        
+        let maxCharacters = 30
+        var result = false
+        
+        textfields.forEach {
+            if let charsTotal = $0.text?.characters.count, charsTotal > 0 && charsTotal <= maxCharacters {
+                result = true
+            }
+            else { result = false }
+        }
+        
+        return result
+    }
+    
+    @objc fileprivate func userInputValid() -> Bool {
+        
+        let isInputValid = check(textfields: [firstNameTextField,
+                                        lastNameTextField,
+                                        positionTextField])
+        
+        saveButton.isEnabled = isInputValid
+        
+        return isInputValid
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == firstNameTextField {
             lastNameTextField.becomeFirstResponder()

@@ -385,12 +385,14 @@ extension ExternalKPIViewController {
         
         let idsForServer = getIdsForSelectedKpis(selectedService)
         let source = googleAnalyticsObject?.siteURL
+        let ppSource = payPalObject?.profileName
         
         checkIsTtlValid(idsForServer, selectedService, source: source) {
             self.ui(block: false, useSpinner: true)
             self.addOnServerSelectedKpis(idsForServer,
                                          service: self.selectedService,
-                                         source: googleAnalyticsObject)
+                                         source: googleAnalyticsObject,
+                                         payPalSource: ppSource)
             
            self.navigationController?.popToRootViewController(animated: true)
         }
@@ -440,7 +442,8 @@ extension ExternalKPIViewController {
     
     private func addOnServerSelectedKpis(_ ids: [Int],
                                          service: IntegratedServices,
-                                         source: GACredentialsInfo? = nil) {
+                                         source: GACredentialsInfo? = nil,
+                                         payPalSource: String? = nil) {
         
         let externalKPI = ExternalKPI(context: context)
         let addKpi      = AddKPI()
@@ -475,7 +478,7 @@ extension ExternalKPIViewController {
             addKpi.type = IntegratedServicesServerID.salesforceCRM.rawValue
             
         case .PayPal:
-            let payEntity = PayPal.payPalEntity            
+            let payEntity = PayPal.payPalEntityFor(profile: payPalSource)
             externalKPI.payPalKPI = payEntity
             externalKPI.serviceName = IntegratedServices.PayPal.rawValue
             addKpi.type = IntegratedServicesServerID.paypal.rawValue

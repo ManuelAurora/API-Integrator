@@ -21,7 +21,12 @@ extension CellView
     }
     
     func universalSetup(cell: UIView) {
-        setup(cell: cell as! CellType)
+        
+        guard let cellType = cell as? CellType else {
+            fatalError("Cannot find CellType for cell")
+        }
+        
+        setup(cell: cellType)
     }
 }
 

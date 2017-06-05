@@ -20,6 +20,11 @@ struct GACredentialsInfo
     var siteURL: String?
 }
 
+struct PPCredentialsInfo
+{
+    let profileName: String?
+}
+
 class ExternalRequest {
     
     var errorMessage: String?

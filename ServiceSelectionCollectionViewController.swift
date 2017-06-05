@@ -56,6 +56,7 @@ class ServiceSelectionCollectionViewController: UICollectionViewController
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let sectionType = viewModel.sectionTypeFor(indexPath: indexPath)
+        
         var cellView: UniversalCellView
         
         switch sectionType

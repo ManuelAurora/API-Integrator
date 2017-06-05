@@ -20,17 +20,22 @@ class GetMemberList: Request
         
         self.getJson(category: "/team/getTeamList", data: data,
                      success: { json in
+                        if let result = json["success"] as? Int64, result == 0
+                        {
+                            let message = json["message"] as? String ?? "Unknown error"
+                            failure(message)
+                        }
+                        
                         if let team = self.parsingJson(json: json) {
                             success(team)
                         } else {
-                            failure(self.errorMessage ?? "Wrong data from server")
+                            failure(self.errorMessage ?? "Unknown error")
                         }
         },
                      failure: { (error) in
                         failure(error)
                         
-        }
-        )
+        })
     }
     
     private func fill(team: Team, with userData: jsonDict) {

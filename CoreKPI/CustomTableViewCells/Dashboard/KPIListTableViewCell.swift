@@ -83,6 +83,10 @@ class KPIListTableViewCell: UITableViewCell {
         {
             labelText = sfInstanceUrl
         }
+        else if let payPalProfileName = kpi.integratedKPI.payPalKPI?.profileName
+        {
+            labelText = payPalProfileName
+        }
         else
         {
             optionsLabel.removeFromSuperview()

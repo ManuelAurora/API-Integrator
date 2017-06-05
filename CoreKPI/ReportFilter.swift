@@ -80,7 +80,7 @@ enum ReportFilter
         let weeksToCalculate = 5
         let currentWeek      = startDateFrom(components: [.weekOfYear,.yearForWeekOfYear],
                                              reportDay: reportDay)
-        
+    
         return reportDataFrom(currentWeek,
                               periodCounter: weeksToCalculate,
                               periodComponent: .weekOfMonth)
