@@ -199,14 +199,12 @@ class UserStateMachine
         userStateInfo.haveLocalToken = true
         setTryingToLogin(false)
         getNumberOfInvitations()
-        notificationCenter.post(name: .userLoggedIn, object: nil)
-        
-        let tvc = appDelegate.launchViewController.mainTabBar.teamListController
-        tvc.loadTeamListFromServer()
+        notificationCenter.post(name: .userLoggedIn, object: nil)        
     }
     
     private func userLoggedOut() {
         
+        removeAllAlamofireNetworking()
         userStateInfo.loggedIn       = false
         userStateInfo.haveLocalToken = false
         userStateInfo.usesPinCode    = false

@@ -89,14 +89,7 @@ extension UIViewController
         UserStateMachine.shared.toggleAppFetchingData()
         UIViewController.spinner?.removeFromSuperlayer()
         UIViewController.spinner = nil
-    }
-    
-    func removeAllAlamofireNetworking() {
-        
-        Request.sessionManager.session.getAllTasks { tasks in
-            tasks.forEach { $0.cancel() }
-        }
-    }
+    }    
 }
 
 

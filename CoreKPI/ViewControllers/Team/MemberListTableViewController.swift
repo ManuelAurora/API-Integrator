@@ -178,16 +178,35 @@ class MemberListTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "MemberInfo" {
             if let indexPath = tableView.indexPathForSelectedRow {
-                let destinationController = segue.destination as! MemberInfoViewController
-                let profileCell = tableView.cellForRow(at: indexPath) as! MemberListTableViewCell
+                let destinationController = segue.destination as! MemberInfoViewController           
                 destinationController.index = indexPath.row
                 destinationController.model = model                
                 destinationController.memberListVC = self
             }
         }
         if segue.identifier == "MemberListInvite" {
-            let destinationViewController = segue.destination as! InviteTableViewController            
+            let destinationViewController = segue.destination as! InviteTableViewController
             destinationViewController.model = model
+        }
+    }
+    
+    private func sortUsers() {
+        
+        model.team.sort {
+            if let firstUserName = $0.firstName, let secondUserName = $1.firstName
+            {
+                if $0.userID == Int64(stateMachine.profileId)
+                {
+                    return true
+                }
+                else if $1.userID == Int64(stateMachine.profileId)
+                {
+                    return false
+                }
+                
+                return firstUserName < secondUserName
+            }
+            return false
         }
     }
     
@@ -200,20 +219,9 @@ class MemberListTableViewController: UITableViewController {
         stateMachine.getNumberOfInvitations()
         
         request.getMemberList(success: { team in
+            self.model.team = team
             UserStateMachine.shared.updateProfile()
-            
-            self.model.team = team.sorted {
-                if let firstUserName = $0.firstName, let secondUserName = $1.firstName
-                {
-                    if $0.userID == Int64(stateMachine.profileId)
-                    {
-                        return true
-                    }
-                    return firstUserName < secondUserName
-                }
-                return false
-            }
-            
+            self.sortUsers()
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
             
@@ -240,7 +248,7 @@ class MemberListTableViewController: UITableViewController {
     func catchNotification(notification:Notification) -> Void {
         
         if notification.name == .modelDidChanged {
-            loadTeamListFromServer()            
+            //loadTeamListFromServer()
         }
     }
 }

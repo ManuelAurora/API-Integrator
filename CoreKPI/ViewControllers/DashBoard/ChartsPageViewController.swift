@@ -48,7 +48,7 @@ class ChartsPageViewController:
         print("DEBUG: ChartPageVC deinitialized")
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
         removeAllAlamofireNetworking()

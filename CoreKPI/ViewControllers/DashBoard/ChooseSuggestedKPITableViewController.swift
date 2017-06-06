@@ -352,7 +352,7 @@ class ChooseSuggestedKPITableViewController: UITableViewController, StoryboardIn
         let yesAction = UIAlertAction(title: "Yes, I'am sure",
                                       style: .default) { _ in
                                         self.ui(block: false)
-                                        self.removeAllAlamofireNetworking()
+                                        removeAllAlamofireNetworking()
                                         self.navigationController?.popViewController(animated: true)
         }
         

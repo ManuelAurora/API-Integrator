@@ -9,6 +9,13 @@
 import Foundation
 import UIKit
 
+func removeAllAlamofireNetworking() {
+    
+    Request.sessionManager.session.getAllTasks { tasks in
+        tasks.forEach { $0.cancel() }
+    }
+}
+
 extension Notification.Name
 {    
     static let userTappedSecuritySwitch      = Notification.Name("UserTappedSecuritySwitch")
