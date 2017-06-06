@@ -120,7 +120,13 @@ class NewProfileTableViewController: UITableViewController {
         registrationRequest()
     }
     
-    @objc private func toggleInterface(enabled: Bool = true) {
+    @objc private func userTapped() {
+        
+        toggleInterface(enabled: true)
+        removeAllAlamofireNetworking()
+    }
+    
+    private func toggleInterface(enabled: Bool = true) {
         
         if enabled { tapGesture = nil }
         
@@ -149,7 +155,7 @@ class NewProfileTableViewController: UITableViewController {
     func registrationRequest() {
         
         tapGesture = UITapGestureRecognizer(target: self,
-                                            action: #selector(toggleInterface(enabled:)))
+                                            action: #selector(userTapped))
         
         let request = GetInviteList(model: ModelCoreKPI.modelShared)
         
@@ -190,7 +196,7 @@ class NewProfileTableViewController: UITableViewController {
             else { self.register(inTeam: 0) }
             
         }) { error in
-            print(error)
+            self.showAlert(title: "Error Occured", errorMessage: error)
             self.toggleInterface(enabled: true)
         }
     }
@@ -314,6 +320,7 @@ extension NewProfileTableViewController: UITextFieldDelegate {
 extension NewProfileTableViewController
 {
     func updateLoginAndPassword(email: String, password: String) {
+        
         self.email = email
         self.password = password
     }

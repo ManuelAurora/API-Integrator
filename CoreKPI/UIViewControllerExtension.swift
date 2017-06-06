@@ -55,10 +55,10 @@ extension UIViewController
     
     func removeAllAlamofireNetworking() {
         
-        Alamofire.SessionManager.default.session.getAllTasks { tasks in
+        Request.sessionManager.session.getAllTasks { tasks in
             tasks.forEach { $0.cancel() }
         }
-    }
+    }       
 }
 
 

@@ -19,7 +19,7 @@ class Request
     
     private let notificationCenter = NotificationCenter.default
     
-    private lazy var sessionManager: SessionManager = {
+    static var sessionManager: SessionManager = {
         let config = URLSessionConfiguration.default
         
         config.timeoutIntervalForRequest = 45
@@ -70,7 +70,7 @@ class Request
             params = ["user_id" : userID, "token" : tokenLocal, "data" : data]
         }
         
-        sessionManager.request(http, method: .post, parameters: params, encoding: JSONEncoding.default).responseJSON { response in
+        Request.sessionManager.request(http, method: .post, parameters: params, encoding: JSONEncoding.default).responseJSON { response in
             
             if let statusCode = response.response?.statusCode
             {
