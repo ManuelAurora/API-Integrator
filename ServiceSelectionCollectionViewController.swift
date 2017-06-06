@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ServiceSelectionCollectionViewController: UICollectionViewController
+class ServiceSelectionCollectionViewController: UICollectionViewController, StoryboardInstantiation
     
 {
     fileprivate let viewModel  = ServiceSelectionViewModel()
@@ -81,14 +81,12 @@ class ServiceSelectionCollectionViewController: UICollectionViewController
     override func collectionView(_ collectionView: UICollectionView,
                                  didSelectItemAt indexPath: IndexPath) {
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let sectionType = viewModel.sectionTypeFor(indexPath: indexPath)
         
         switch sectionType
         {
         case .custom:
-            let customKpiVc = storyboard.instantiateViewController(
-                withIdentifier: .createNewCustomKpi) as! ChooseSuggestedKPITableViewController
+            let customKpiVc = ChooseSuggestedKPITableViewController.storyboardInstance()
             customKpiVc.model = ModelCoreKPI.modelShared
             navigationController?.pushViewController(customKpiVc, animated: true)
             
@@ -102,8 +100,7 @@ class ServiceSelectionCollectionViewController: UICollectionViewController
             }
             
             let service = datasource.kpiSources[indexPath.row].service
-            let externalKPIVC = storyboard.instantiateViewController(
-                withIdentifier: .externalKPIVC) as! ExternalKPIViewController
+            let externalKPIVC = ExternalKPIViewController.storyboardInstance()
             externalKPIVC.selectedService = service
             externalKPIVC.serviceKPI = datasource.getKpisFor(service: service)
             navigationController?.pushViewController(externalKPIVC, animated: true)

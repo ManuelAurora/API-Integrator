@@ -544,6 +544,7 @@ extension MemberEditViewController: UITextFieldDelegate {
                 textField.text = ""
             }
         }
-    }
-    
+    }    
 }
+
+extension MemberEditViewController: StoryboardInstantiation {} 

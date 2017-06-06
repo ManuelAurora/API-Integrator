@@ -8,10 +8,14 @@
 
 import UIKit
 
-class TableViewChartController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TableViewChartController:
+    UIViewController,
+    UITableViewDelegate,
+    UITableViewDataSource
+{
     
     @IBOutlet weak var tableView: UITableView!
-        
+    
     var qBMethod: QBMethod!
     var kpiName: QiuckBooksKPIs!
     var refreshControl: UIRefreshControl!
@@ -118,3 +122,5 @@ class TableViewChartController: UIViewController, UITableViewDelegate, UITableVi
         header.textLabel?.textColor = .lightGray
     }    
 }
+
+extension TableViewChartController: StoryboardInstantiation {}

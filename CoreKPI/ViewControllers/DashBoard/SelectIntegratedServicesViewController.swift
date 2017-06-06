@@ -36,34 +36,41 @@ class SelectIntegratedServicesViewController: UIViewController {
     
     @IBAction func buttonDidTaped(_ sender: UIButton) {
         
-        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: .externalKPIVC) as! ExternalKPIViewController
-        
-        destinatioVC.ChoseSuggestedVC = chooseSuggestKPIVC
+        let destinatioVC = ExternalKPIViewController.storyboardInstance { vc in
+            vc.ChoseSuggestedVC = self.chooseSuggestKPIVC
+        }
         
         switch sender
         {
         case saleforceButton:
             destinatioVC.serviceKPI = saleForceKPIArray
             destinatioVC.selectedService = .SalesForce
+            
         case quickbooksButton:
             destinatioVC.serviceKPI = quickBooksKPIArray
             destinatioVC.selectedService = .Quickbooks
+            
         case googleAnalyticsButton:
             destinatioVC.serviceKPI = googleAnalyticsKPIArray
             destinatioVC.selectedService = .GoogleAnalytics
+            
         case hubSpotCRMButton:
             destinatioVC.serviceKPI = hubSpotCRMKPIArray
             destinatioVC.selectedService = .HubSpotCRM
+            
         case payPalButton:
             destinatioVC.serviceKPI = payPalKPIArray
             destinatioVC.selectedService = .PayPal
+            
         case hubSpotButton:
             destinatioVC.serviceKPI = hubSpotMarketingKPIArray
             destinatioVC.selectedService = .HubSpotMarketing
+            
         default:
             break
         }
         navigationController?.pushViewController(destinatioVC, animated: true)
     }
-
 }
+
+extension SelectIntegratedServicesViewController: StoryboardInstantiation {}

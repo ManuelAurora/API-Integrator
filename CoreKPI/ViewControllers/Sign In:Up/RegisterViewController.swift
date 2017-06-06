@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegisterViewController: UIViewController {
+class RegisterViewController: UIViewController, StoryboardInstantiation {
     
     @IBOutlet weak var passwordTextField: BottomBorderTextField!
     @IBOutlet weak var emailTextField: BottomBorderTextField!
@@ -56,7 +56,7 @@ class RegisterViewController: UIViewController {
         }
         else
         {
-            let controller = appDelegate.launchViewController.signInViewController
+            let controller = appDelegate.launchViewController.signInVC
             navigationController?.pushViewController(controller, animated: true)
         }        
     }
@@ -97,7 +97,8 @@ class RegisterViewController: UIViewController {
                                     " must be similar.")
         }
         
-        let vc = storyboard?.instantiateViewController(withIdentifier: .newProfViewController) as! NewProfileTableViewController
+        let vc = NewProfileTableViewController.storyboardInstance()
+        
         vc.updateLoginAndPassword(email: email, password: password)
         navigationController?.pushViewController(vc, animated: true)
     }

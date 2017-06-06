@@ -67,12 +67,13 @@ class OnboardingPageViewController: UIPageViewController, UIPageViewControllerDa
     func getViewControllerAtIndex(_ index: NSInteger) -> OnboardingViewController
     {
         // Create a new view controller and pass suitable data.
-        let onboardingViewController = self.storyboard?.instantiateViewController(withIdentifier: .onboardViewController) as! OnboardingViewController
-        onboardingViewController.onboardingTextString = self.onboardingText[index]
-        onboardingViewController.onboardingImage = self.onboardingLodo[index]
-        onboardingViewController.pageIndex = index
-        
+        let onboardingViewController = OnboardingViewController.storyboardInstance() { vc in
+            vc.onboardingTextString = self.onboardingText[index]
+            vc.onboardingImage = self.onboardingLodo[index]
+            vc.pageIndex = index
+        }
         return onboardingViewController
     }
-    
 }
+
+extension OnboardingPageViewController: StoryboardInstantiation {}

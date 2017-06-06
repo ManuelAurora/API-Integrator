@@ -511,10 +511,13 @@ extension ReportAndViewKPITableViewController {
         case .Report:
             switch indexPath.section {
             case 1:
-                let destinationVC = storyboard?.instantiateViewController(withIdentifier: "AddReport") as! AddReportTableViewController
-                destinationVC.report = self.report
-                destinationVC.ReportAndViewVC = self
+                let destinationVC = AddReportTableViewController.storyboardInstance() { vc in
+                    vc.report = self.report
+                    vc.ReportAndViewVC = self
+                }
+                
                 navigationController?.pushViewController(destinationVC, animated: true)
+                
             default:
                 break
             }

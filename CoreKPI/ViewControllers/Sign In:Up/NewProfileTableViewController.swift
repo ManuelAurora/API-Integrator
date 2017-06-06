@@ -224,10 +224,10 @@ class NewProfileTableViewController: UITableViewController {
         
         if model.profile?.typeOfAccount == TypeOfAccount.Admin
         {
-            let vc = storyboard?.instantiateViewController(withIdentifier: .inviteViewController) as! InviteTableViewController
-            vc.email = email
-            vc.password = password
-            
+            let vc = InviteTableViewController.storyboardInstance() { vc in
+                vc.email = self.email
+                vc.password = self.password
+            }
             navigationController?.pushViewController(vc, animated: true)
         }
         else { UserStateMachine.shared.logInWith(email: email, password: password) }
@@ -325,3 +325,5 @@ extension NewProfileTableViewController
         self.password = password
     }
 }
+
+extension NewProfileTableViewController: StoryboardInstantiation {}

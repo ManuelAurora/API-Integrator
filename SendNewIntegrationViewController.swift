@@ -86,5 +86,6 @@ class SendNewIntegrationViewController: UIViewController {
         textView.resignFirstResponder()
         cancelAllNetwokingAndAnimateonOnTap(block)
     }
-
 }
+
+extension SendNewIntegrationViewController: StoryboardInstantiation {}

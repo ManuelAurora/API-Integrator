@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class HubspotChoosePipelineViewController: UITableViewController
+class HubspotChoosePipelineViewController: UITableViewController, StoryboardInstantiation
 {
     weak var delegate: HubspotSalesFunnelMakerProtocol!
     

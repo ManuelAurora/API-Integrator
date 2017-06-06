@@ -14,7 +14,7 @@ enum PinMode: String
     case logIn
 }
 
-class PinCodeViewController: UIViewController
+class PinCodeViewController: UIViewController, StoryboardInstantiation
 {
     struct TextForLabels
     {

@@ -15,7 +15,7 @@ enum FAQSection : String {
     case Support
 }
 
-class faqTableViewController: UITableViewController {
+class FaqTableViewController: UITableViewController {
     
     var faqDictionary: [FAQSection : [(description: String, answer: String)]] = [:]
     let context = (UIApplication.shared .delegate as! AppDelegate).persistentContainer.viewContext
@@ -169,7 +169,7 @@ class faqTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "FAQDetail" {
             if let indexPath = tableView.indexPathForSelectedRow {
-                let destinationController = segue.destination as! faqDetailViewController
+                let destinationController = segue.destination as! FaqDetailViewController
                 //Настройка контроллера назначения
                 
                 var section: FAQSection!

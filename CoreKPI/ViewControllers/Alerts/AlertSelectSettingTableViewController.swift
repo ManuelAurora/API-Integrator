@@ -8,8 +8,8 @@
 
 import UIKit
 
-class AlertSelectSettingTableViewController: UITableViewController {
-    
+class AlertSelectSettingTableViewController: UITableViewController, StoryboardInstantiation
+{    
     weak var AlertSettingVC: AlertSettingsTableViewController!
     
     var selectSetting: [(SettingName: String, value: Bool)]!

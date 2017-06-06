@@ -11,7 +11,7 @@ import OAuthSwift
 import Alamofire
 
 class ChartsPageViewController:
-    UIPageViewController,
+    UIPageViewController, StoryboardInstantiation,
     UIPageViewControllerDataSource,
     UIPageViewControllerDelegate
 {
@@ -32,20 +32,9 @@ class ChartsPageViewController:
         return ReportDataManipulator()
     }()
     
-    lazy var webViewChartOneVC: WebViewChartViewController =  {
-        return self.storyboard?.instantiateViewController(
-            withIdentifier: .webViewController) as! WebViewChartViewController
-    }()
-    
-    lazy var webViewChartTwoVC: WebViewChartViewController = {
-        return self.storyboard?.instantiateViewController(
-            withIdentifier: .webViewController) as! WebViewChartViewController
-    }()
-    
-    lazy var tableViewChartVC: TableViewChartController = {
-        return self.storyboard?.instantiateViewController(
-            withIdentifier: .chartTableVC) as! TableViewChartController
-    }()
+    lazy var webViewChartOneVC = WebViewChartViewController.storyboardInstance()
+    lazy var webViewChartTwoVC = WebViewChartViewController.storyboardInstance()
+    lazy var tableViewChartVC  = TableViewChartController.storyboardInstance()
     
     private var dataToPresent: resultArray {
         return reportDataManipulator.dataToPresent

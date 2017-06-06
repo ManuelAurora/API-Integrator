@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddReportTableViewController: UITableViewController {
+class AddReportTableViewController: UITableViewController, StoryboardInstantiation {
     
     @IBOutlet weak var numberOfCharactersLabel: UILabel!
     @IBOutlet weak var reportTextField: UITextField!

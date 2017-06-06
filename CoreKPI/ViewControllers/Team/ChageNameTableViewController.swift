@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChageNameTableViewController: UITableViewController {
+class ChageNameTableViewController: UITableViewController, StoryboardInstantiation {
     
     var model: ModelCoreKPI!
     var index: Int!

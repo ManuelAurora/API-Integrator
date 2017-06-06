@@ -11,7 +11,7 @@ import OAuthSwift
 import Alamofire
 import CoreData
 
-class ExternalKPIViewController: OAuthViewController {
+class ExternalKPIViewController: OAuthViewController, StoryboardInstantiation {
     
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
@@ -201,14 +201,13 @@ class ExternalKPIViewController: OAuthViewController {
                 return
         }
         
-        let pipelineVC = storyboard?.instantiateViewController(withIdentifier: .choosePipelineVC) as! HubspotChoosePipelineViewController
-        
-        pipelineVC.pipelines = hubSpotManager.pipelinesArray
-        pipelineVC.delegate  = self
-        
+        let pipelineVC = HubspotChoosePipelineViewController.storyboardInstance { vc in
+            vc.pipelines = self.hubSpotManager.pipelinesArray
+            vc.delegate  = self
+        }
         navigationController?.pushViewController(pipelineVC, animated: true)
     }
-}
+ }
 
 //MARK: - UITableViewDataSource methods
 extension ExternalKPIViewController: UITableViewDataSource {
@@ -342,10 +341,11 @@ extension ExternalKPIViewController {
     
     // MARK: PayPal
     func doOAuthPayPal(){
-        let payPalAuthVC = storyboard?.instantiateViewController(withIdentifier: .payPalAuthVC) as! PayPalAuthViewController
-        payPalAuthVC.extVC = self 
-        payPalAuthVC.serviceKPI = serviceKPI
-        payPalAuthVC.selectedService = selectedService
+        let payPalAuthVC = PayPalAuthViewController.storyboardInstance() { vc in
+            vc.extVC = self
+            vc.serviceKPI = self.serviceKPI
+            vc.selectedService = self.selectedService
+        }
         show(payPalAuthVC, sender: nil)
     }
     

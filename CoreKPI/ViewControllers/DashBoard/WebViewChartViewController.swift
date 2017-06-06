@@ -28,7 +28,7 @@ enum TypeOfChart: String
     case AreaChart = "Area chart"
 }
 
-class WebViewChartViewController: UIViewController
+class WebViewChartViewController: UIViewController, StoryboardInstantiation
 {    
     @IBOutlet weak var webView: UIWebView!
 

@@ -43,6 +43,10 @@ class UserStateMachine
     let networkManager = NetworkingManager.shared
     var userStateInfo = UserStateInfo()
     
+    var profileId: Int {
+        return model.profile.userId
+    }
+    
     var isAdmin: Bool {
         return model.profile?.typeOfAccount == TypeOfAccount.Admin
     }
@@ -117,7 +121,7 @@ class UserStateMachine
         
         if let myProfile = (model.team.filter
         {
-            $0.userID == Int64(model.profile.userId)
+            $0.userID == Int64(profileId)
         })
         .first {
             let typeOfAccount: TypeOfAccount = myProfile.isAdmin ? .Admin : .Manager
@@ -207,7 +211,7 @@ class UserStateMachine
         userStateInfo.haveLocalToken = false
         userStateInfo.usesPinCode    = false
         
-        let regVc      = appDelegate.launchViewController.registerViewController
+        let regVc      = appDelegate.launchViewController.registerVC
         let mainTab    = appDelegate.launchViewController.mainTabBar
         let dashboard  = mainTab.dashboardViewController
         let teamVc     = mainTab.teamListController

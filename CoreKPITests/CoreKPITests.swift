@@ -28,18 +28,20 @@ class CoreKPITests: XCTestCase {
         
         managedContext = appDelegate.persistentContainer.viewContext
         fillModel()
-        storyboard = UIStoryboard(name: "Main", bundle: nil)
         launchVC   = appDelegate.launchViewController
-        regVc = appDelegate.launchViewController.registerViewController
-        launchVC.mainTabBar.model = model 
-        memberList = storyboard.instantiateViewController(
-            withIdentifier: .teamListViewController) as! MemberListTableViewController
-        memberList.model = model
+        regVc = appDelegate.launchViewController.registerVC
+        launchVC.mainTabBar.model = model
+        
+        memberList = MemberListTableViewController.storyboardInstance() { vc in
+            vc.model = model
+            vc.model = model
+        }
+        
         kpiList   = launchVC.mainTabBar.dashboardViewController
         kpiList.model = model
         supportVC = launchVC.mainTabBar.supportMainTableVC
         supportVC.model = model
-        memberList.model = model
+        
         supportVC.viewDidLoad()
         launchVC.showTabBarVC()
         kpiList.viewDidLoad()

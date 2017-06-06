@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 //MARK: - Enums for setting
 
-class KPIsListTableViewController: UITableViewController
+class KPIsListTableViewController: UITableViewController, StoryboardInstantiation
 {    
     var model: ModelCoreKPI!
     var arrayOfKPI: [KPI] = []
@@ -22,9 +22,7 @@ class KPIsListTableViewController: UITableViewController
     
     @IBAction func showSelectServicesScreen() {
         
-        let servStoryboard = UIStoryboard(name: "Services", bundle: nil)
-        let identifier = "ServiceSelectionCollectionViewController"
-        let controller = servStoryboard.instantiateViewController(withIdentifier: identifier) as! ServiceSelectionCollectionViewController
+        let controller = ServiceSelectionCollectionViewController.storyboardInstance()
         
         navigationController?.pushViewController(controller, animated: true)
     }
@@ -78,9 +76,10 @@ class KPIsListTableViewController: UITableViewController
         
         if let firstLoad = UserDefaults.standard.data(forKey: "firstLoad"),
             let _ = NSKeyedUnarchiver.unarchiveObject(with: firstLoad) as? Bool {
-        } else {
-            let onboardingVC = storyboard?.instantiateViewController(
-                withIdentifier: .onboardPageVC) as! OnboardingPageViewController
+        }
+        else
+        {            
+            let onboardingVC = OnboardingPageViewController.storyboardInstance()
             present(onboardingVC, animated: true, completion: nil)
             saveData()
         }
@@ -210,9 +209,9 @@ class KPIsListTableViewController: UITableViewController
             loadReportsFor(kpi: selectedKpi)
         }
         
-        let destinationVC = storyboard?.instantiateViewController(withIdentifier:
-            .chartsViewController) as! ChartsPageViewController
-        destinationVC.kpi = arrayOfKPI[indexPath.row]
+        let destinationVC = ChartsPageViewController.storyboardInstance() { vc in
+            vc.kpi = self.arrayOfKPI[indexPath.row]
+        }
         
         navigationController?.pushViewController(destinationVC, animated: true)
     }
@@ -459,12 +458,13 @@ extension KPIsListTableViewController: KPIListButtonCellDelegate {
     
     func userTapped(button: UIButton, edit: Bool) {
         
-        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: .reportViewController) as! ReportAndViewKPITableViewController
-        destinatioVC.model = model        
-        destinatioVC.kpiIndex = button.tag
-        destinatioVC.buttonDidTaped = edit ? ButtonDidTaped.Edit : ButtonDidTaped.Report
-        destinatioVC.KPIListVC = self
-        navigationController?.pushViewController(destinatioVC, animated: true)        
+        let destinatioVC = ReportAndViewKPITableViewController.storyboardInstance() { vc in
+            vc.model = self.model
+            vc.kpiIndex = button.tag
+            vc.buttonDidTaped = edit ? ButtonDidTaped.Edit : ButtonDidTaped.Report
+            vc.KPIListVC = self
+        }
+        navigationController?.pushViewController(destinatioVC, animated: true)
     }
     
     func memberNameDidTaped(sender: UIButton) {
@@ -478,9 +478,10 @@ extension KPIsListTableViewController: KPIListButtonCellDelegate {
             return
         }
         
-        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: .memberViewController) as! MemberInfoViewController
-        destinatioVC.model = model
-        destinatioVC.navigationItem.rightBarButtonItem = nil
+        let destinatioVC = MemberInfoViewController.storyboardInstance() { vc in
+            vc.model = self.model
+            vc.navigationItem.rightBarButtonItem = nil
+        }
         
         let createdKPI = arrayOfKPI[sender.tag].createdKPI
         let executantId = createdKPI?.executant
@@ -520,3 +521,4 @@ extension KPIsListTableViewController: KPIListButtonCellDelegate {
         tableView.deleteRows(at: [indexPath], with: .fade)
     }
 }
+

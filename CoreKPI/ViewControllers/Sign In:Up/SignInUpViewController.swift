@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SignInUpViewController: UIViewController {
+class SignInUpViewController: UIViewController, StoryboardInstantiation {
     
     var launchController: LaunchViewController!
     var model: ModelCoreKPI!
@@ -17,12 +17,12 @@ class SignInUpViewController: UIViewController {
     @IBOutlet weak var registerButton: UIButton!
     
     @IBAction func register(_ sender: UIButton) {        
-        navigationController?.pushViewController(launchController.registerViewController,
+        navigationController?.pushViewController(launchController.registerVC,
                                                  animated: true)
     }
     
     @IBAction func signIn(_ sender: UIButton) {
-        navigationController?.pushViewController(launchController.signInViewController,
+        navigationController?.pushViewController(launchController.signInVC,
                                                  animated: true)
     }
     

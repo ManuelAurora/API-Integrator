@@ -29,8 +29,6 @@ class  AlertsListTableViewCell: UITableViewCell {
         
         let model = ModelCoreKPI.modelShared
         let indexPath = AlertListVC.tableView.indexPath(for: self)!
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let destinationVC = storyboard.instantiateViewController(withIdentifier: .alertSettingsTableVC) as! AlertSettingsTableViewController
         
         var dataSource: Int64 = 0
         
@@ -43,10 +41,12 @@ class  AlertsListTableViewCell: UITableViewCell {
             dataSource = model.alerts[indexPath.row].alertID
         }
         
-        destinationVC.dataSource = NSNumber(value: dataSource).intValue
-        destinationVC.AlertListVC = AlertListVC
-        destinationVC.model = model
-        destinationVC.creationMode = .edit
+        let destinationVC = AlertSettingsTableViewController.storyboardInstance() { vc in
+            vc.dataSource = NSNumber(value: dataSource).intValue
+            vc.AlertListVC = self.AlertListVC
+            vc.model = model
+            vc.creationMode = .edit
+        }
         
         if indexPath.section == 0
         {

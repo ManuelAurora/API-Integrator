@@ -34,7 +34,6 @@ class GetMemberList: Request
         },
                      failure: { (error) in
                         failure(error)
-                        
         })
     }
     

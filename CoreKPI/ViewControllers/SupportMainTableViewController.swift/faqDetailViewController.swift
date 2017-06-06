@@ -8,7 +8,7 @@
 
 import UIKit
 
-class faqDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class FaqDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
 

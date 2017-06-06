@@ -10,6 +10,44 @@ import Foundation
 import UIKit
 import Alamofire
 
+
+
+protocol StoryboardInstantiation
+{
+    typealias optionalClosure = ((TypeOfSelf) -> ())?
+    
+    associatedtype TypeOfSelf: UIViewController
+    
+    static func storyboardInstance(_ completion: optionalClosure) -> TypeOfSelf
+}
+
+extension StoryboardInstantiation
+{
+    typealias optionalVcClosure = ((Self) -> ())?
+    
+    static func storyboardInstance(_ completion: optionalVcClosure = nil) -> Self {
+        
+        let identifier = String(describing: TypeOfSelf.self)
+                
+        var sbName = String(describing: TypeOfSelf.self)
+        
+        if Bundle.main.path(forResource: sbName, ofType: "storyboardc") == nil
+        {
+            sbName = "Main"
+        }
+        
+        let storyboard = UIStoryboard(name: sbName, bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: identifier) as! Self
+        
+        if let completion = completion
+        {
+            completion(vc)
+        }
+        
+        return vc
+    }
+}
+
 extension UIViewController
 {
     @nonobjc static var spinner: OvalShapeLayer?
@@ -19,7 +57,7 @@ extension UIViewController
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
     }
-        
+    
     func dismissKeyboard() {
         
         view.endEditing(true)
@@ -48,7 +86,7 @@ extension UIViewController
     
     func removeWaitingSpinner() {
         
-        UserStateMachine.shared.toggleAppFetchingData()        
+        UserStateMachine.shared.toggleAppFetchingData()
         UIViewController.spinner?.removeFromSuperlayer()
         UIViewController.spinner = nil
     }
@@ -58,7 +96,7 @@ extension UIViewController
         Request.sessionManager.session.getAllTasks { tasks in
             tasks.forEach { $0.cancel() }
         }
-    }       
+    }
 }
 
 

@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //stateMachine.pinCodeAttempts = UserDefaults.standard.value(forKey: UserDefaultsKeys.pinCodeAttempts) as! Int? ?? 0        
         // Override point for customization after application launch.
-        
+   
         //NavigationBar style
         UITabBar.appearance().tintColor = OurColors.violet
         UITabBar.appearance().unselectedItemTintColor = OurColors.cyan

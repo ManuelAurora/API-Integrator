@@ -34,42 +34,6 @@ extension Notification.Name
     static let integratedServicesListLoaded  = Notification.Name("integratedServicesListLoaded")
 }
 
-extension UIStoryboard
-{
-    enum StoryboardIDs: String
-    {
-        case mainTabBarController   = "TabBarVC"
-        case inviteViewController   = "InviteVC"
-        case signInUpViewController = "StartVC"
-        case signInViewController   = "SignInVC"
-        case pincodeViewController  = "PinCodeViewController"
-        case newProfViewController  = "RegistrationCreateProfileVC"
-        case registerViewController = "RegisterViewController"
-        case onboardViewController  = "OnboardingView"
-        case onboardPageVC          = "OnboardingVC"
-        case reportViewController   = "ReportAndViewKPI"
-        case chartsViewController   = "PageVC"
-        case memberViewController   = "MemberInfo"
-        case integratedServicesVC   = "SelectIntegratedServices"
-        case listOfSuggestedKPIVC   = "ListOfSuggestedKPI"
-        case externalKPIVC          = "ConfigureExternal"
-        case payPalAuthVC           = "PayPalAuth"
-        case webViewController      = "WebViewController"
-        case chartTableVC           = "TableViewController"
-        case choosePipelineVC       = "hubspotPipelineController"
-        case alertSettingsTableVC   = "AddAlert"
-        case questionDetailTableVC  = "QuestionDetailTableViewController"
-        case integrationRequestVC   = "SendNewIntegrationViewController"
-        case createNewCustomKpi     = "ChooseSuggestedKpi"
-        case launchViewController   = "LaunchViewController"
-        case teamListViewController = "MemberListTableViewController"
-    }
-    
-    func instantiateViewController(withIdentifier: StoryboardIDs) -> UIViewController {
-        return instantiateViewController(withIdentifier: withIdentifier.rawValue)
-    }
-}
-
 struct AnimationConstants
 {
     struct Keys

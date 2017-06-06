@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainTabBarViewController: UITabBarController {
+class MainTabBarViewController: UITabBarController, StoryboardInstantiation {
     
     //MARK: *Properties.
     var model: ModelCoreKPI!

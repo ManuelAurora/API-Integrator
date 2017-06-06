@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PayPalAuthViewController: UIViewController {
+class PayPalAuthViewController: UIViewController, StoryboardInstantiation {
 
     @IBOutlet weak var tableView: UITableView!
     var activateButton: UIBarButtonItem!

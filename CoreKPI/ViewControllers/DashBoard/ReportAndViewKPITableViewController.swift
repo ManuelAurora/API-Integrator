@@ -427,11 +427,12 @@ class ReportAndViewKPITableViewController: UITableViewController {
     }
     
     @objc private func selector() {
-    let destinationVC = self.storyboard?.instantiateViewController(withIdentifier: "AddReport") as! AddReportTableViewController
-    destinationVC.report = self.report
-    destinationVC.ReportAndViewVC = self
-    self.navigationController?.pushViewController(destinationVC, animated: true)
-    
+        
+        let destinationVC = AddReportTableViewController.storyboardInstance { vc in
+            vc.report = self.report
+            vc.ReportAndViewVC = self
+        }
+        self.navigationController?.pushViewController(destinationVC, animated: true)
     }
     
     override func viewDidLoad() {
@@ -702,20 +703,27 @@ class ReportAndViewKPITableViewController: UITableViewController {
     
     //MARK: - Show KPISelectSettingTableViewController method
     func showSelectSettingVC() {
-        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "SelectSettingForKPI") as! KPISelectSettingTableViewController
+        
+        let destinatioVC = KPISelectSettingTableViewController.storyboardInstance()
+        
         destinatioVC.ReportAndViewVC = self
         destinatioVC.selectSetting = settingArray
-        switch typeOfSetting {
+        
+        switch typeOfSetting
+        {
         case .Colour:
             destinatioVC.segueWithSelecting = true
             destinatioVC.cellsWithColourView = true
             destinatioVC.colourDictionary = self.colourDictionary
+            
         case .KPIname:
             destinatioVC.inputSettingCells = true
             destinatioVC.textFieldInputData = self.kpiName
+            
         case .KPInote:
             destinatioVC.inputSettingCells = true
             destinatioVC.textFieldInputData = self.kpiDescription
+            
         default:
             destinatioVC.segueWithSelecting = true
         }
@@ -993,3 +1001,5 @@ extension ReportAndViewKPITableViewController: UpdateTimeDelegate {
         checkInputValues()
     }
 }
+
+extension ReportAndViewKPITableViewController: StoryboardInstantiation {}

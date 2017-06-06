@@ -14,7 +14,7 @@ enum СreationMode
     case edit
 }
 
-class AlertSettingsTableViewController: UITableViewController {
+class AlertSettingsTableViewController: UITableViewController, StoryboardInstantiation {
     
     weak var AlertListVC: AlertsListTableViewController!
     weak var ReminderViewVC: ReminderViewTableViewController!
@@ -888,21 +888,26 @@ class AlertSettingsTableViewController: UITableViewController {
     
     //MARK: - Show AlertSelectSettingViewController method
     func showSelectSettingVC() {
-        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "SelectSetting") as! AlertSelectSettingTableViewController
-        destinatioVC.AlertSettingVC = self
-        destinatioVC.selectSetting = settingsArray
+        let destinatioVC = AlertSelectSettingTableViewController.storyboardInstance() { vc in
+            vc.AlertSettingVC = self
+            vc.selectSetting = self.settingsArray
+        }
         
-        switch typeOfSetting {
+        switch typeOfSetting
+        {
         case .TypeOfNotification:
             destinatioVC.selectSeveralEnable = true
+            
         case .Threshold:
             destinatioVC.inputSettingCells = true
             if threshold != nil {
                 destinatioVC.textFieldInputData = "\(threshold!)"
             }
-            switch self.condition {
+            switch self.condition
+            {
             case .PercentHasDecreasedByMoreThan, .PercentHasIncreasedOrDecreasedByMoreThan, .PercentHasIncreasedByMoreThan:
                 destinatioVC.headerForTableView = "Add data %"
+                
             default:
                 destinatioVC.headerForTableView = "Add data"
             }

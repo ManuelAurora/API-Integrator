@@ -23,33 +23,18 @@ class LaunchViewController: UIViewController {
         return UIApplication.shared.delegate as! AppDelegate
     }()
     
-    lazy var mainTabBar: MainTabBarViewController = {
-        let mtbvc = self.storyboard?.instantiateViewController(
-            withIdentifier: .mainTabBarController) as! MainTabBarViewController
+    lazy var mainTabBar = MainTabBarViewController.storyboardInstance{ mtbvc in
         mtbvc.appDelegate = self.appDelegate
         mtbvc.model       = self.userStateMachine.model
-        return mtbvc
-    }()
+    }
     
-    lazy var signInUpViewController: SignInUpViewController = {
-        let siuvc = self.storyboard?.instantiateViewController(
-            withIdentifier: .signInUpViewController) as! SignInUpViewController
+    lazy var signInUpVC = SignInUpViewController.storyboardInstance { siuvc in
         siuvc.launchController       = self
-        siuvc.model                  = self.userStateMachine.model        
-        return siuvc
-    }()
+        siuvc.model                  = self.userStateMachine.model
+    }
     
-    lazy var signInViewController: SignInViewController = {
-        let sivc = self.storyboard?.instantiateViewController(
-            withIdentifier: .signInViewController) as! SignInViewController
-        return sivc
-    }()
-    
-    lazy var registerViewController: RegisterViewController = {
-        let regVC = self.storyboard?.instantiateViewController(
-            withIdentifier: .registerViewController) as! RegisterViewController
-        return regVC
-    }()
+    lazy var signInVC   = SignInViewController.storyboardInstance()
+    lazy var registerVC = RegisterViewController.storyboardInstance()
     
     @objc private func showSignInVCIfInternetOffline() {
         
@@ -131,7 +116,7 @@ class LaunchViewController: UIViewController {
     func presentStartVC() {
         
         let navController = UINavigationController()
-        navController.viewControllers = [signInUpViewController]
+        navController.viewControllers = [signInUpVC]
         navController.isNavigationBarHidden = true
         
         show(navController)
@@ -141,8 +126,8 @@ class LaunchViewController: UIViewController {
         mainTabBar.supportNavController.popToRootViewController(animated: false)
         mainTabBar.dashboardNavController.popToRootViewController(animated: false)
                 
-        signInViewController.clearTextFields()
-        signInViewController.toggleEnterByKeyButton(isEnabled: userStateMachine.pinCodeAttempts > 0)
+        signInVC.clearTextFields()
+        signInVC.toggleEnterByKeyButton(isEnabled: userStateMachine.pinCodeAttempts > 0)
     }
     
     private func show(_ viewController: UIViewController) {

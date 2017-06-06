@@ -8,7 +8,7 @@
 
 import UIKit
 
-class KPISelectSettingTableViewController: UITableViewController {
+class KPISelectSettingTableViewController: UITableViewController, StoryboardInstantiation {
     
     weak var ReportAndViewVC: ReportAndViewKPITableViewController!
     var ChoseSuggestedVC: ChooseSuggestedKPITableViewController!
@@ -84,14 +84,16 @@ class KPISelectSettingTableViewController: UITableViewController {
         header.textLabel?.textColor = UIColor.lightGray
     }
     
-    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView,
+                            accessoryButtonTappedForRowWith indexPath: IndexPath) {
         
-        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: .listOfSuggestedKPIVC) as! SuggestedKPIDescriptionTableViewController
-        destinatioVC.numberOfKPI = indexPath.row
-        destinatioVC.ChoseSuggestedVC = ChoseSuggestedVC
-        destinatioVC.kpiSelectVC = self
-        destinatioVC.department = department
-        destinatioVC.selectSetting = selectSetting
+        let destinatioVC = SuggestedKPIDescriptionTableViewController.storyboardInstance() { vc in
+            vc.numberOfKPI = indexPath.row
+            vc.ChoseSuggestedVC = self.ChoseSuggestedVC
+            vc.kpiSelectVC = self
+            vc.department = self.department
+            vc.selectSetting = self.selectSetting
+        }
         navigationController?.pushViewController(destinatioVC, animated: true)
     }
     

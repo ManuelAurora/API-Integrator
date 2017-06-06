@@ -114,3 +114,5 @@ class SuggestedKPIDescriptionTableViewController: UITableViewController {
         navigationController?.popToViewController(ChoseSuggestedVC, animated: true)
     }
 }
+
+extension SuggestedKPIDescriptionTableViewController: StoryboardInstantiation {}

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class OnboardingViewController: UIViewController {
+class OnboardingViewController: UIViewController, StoryboardInstantiation {
 
     var pageIndex = 0
     var onboardingTextString: String = ""

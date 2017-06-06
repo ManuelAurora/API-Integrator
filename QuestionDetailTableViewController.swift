@@ -34,3 +34,5 @@ class QuestionDetailTableViewController: UITableViewController
         return height
     }
 }
+
+extension QuestionDetailTableViewController: StoryboardInstantiation {}

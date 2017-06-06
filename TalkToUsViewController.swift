@@ -35,10 +35,10 @@ class TalkToUsViewController: UITableViewController
         
         addQuestionButton.isEnabled = false
         
-        let vc = storyboard?.instantiateViewController(withIdentifier:
-            .integrationRequestVC) as! SendNewIntegrationViewController
-        vc.title = "New Question"
-        vc.messageType = .support
+        let vc = SendNewIntegrationViewController.storyboardInstance() { vc in
+            vc.title = "New Question"
+            vc.messageType = .support
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -148,9 +148,9 @@ class TalkToUsViewController: UITableViewController
     override func tableView(_ tableView: UITableView,
                             didSelectRowAt indexPath: IndexPath) {
         
-        let detailVC = storyboard?.instantiateViewController(withIdentifier:
-            .questionDetailTableVC) as! QuestionDetailTableViewController
-        detailVC.message = questions[indexPath.row]
+        let detailVC = QuestionDetailTableViewController.storyboardInstance() { vc in
+            vc.message = self.questions[indexPath.row]
+        }
         navigationController?.pushViewController(detailVC, animated: true)
         
         tableView.deselectRow(at: indexPath, animated: true)

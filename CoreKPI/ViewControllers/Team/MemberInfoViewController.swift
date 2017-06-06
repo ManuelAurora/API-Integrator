@@ -271,28 +271,29 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     @IBAction func tapEditBautton(_ sender: UIBarButtonItem) {
-        if model.profile?.typeOfAccount != TypeOfAccount.Admin {
-            if model.profile?.userId != Int(model.team[index].userID) {
-                let vc = storyboard?.instantiateViewController(withIdentifier: "ChangeName") as! ChageNameTableViewController
-                vc.model = model
-                vc.index = index
-                vc.memberInfoVC = self
+        
+        if model.profile?.typeOfAccount != TypeOfAccount.Admin
+        {
+            if model.profile?.userId != Int(model.team[index].userID)
+            {
+                let vc = ChageNameTableViewController.storyboardInstance() { vc in
+                    vc.model = self.model
+                    vc.index = self.index
+                    vc.memberInfoVC = self
+                }
                 self.navigationController?.show(vc, sender: nil)
-            } else {
-                updateEditMemberVC()
             }
-        } else {
-            updateEditMemberVC()
+            else { updateEditMemberVC() }
         }
+        else { updateEditMemberVC() }
     }
     
     func updateEditMemberVC() {
         
-        let vc = storyboard?.instantiateViewController(withIdentifier: "EditMember") as! MemberEditViewController
-        
-        vc.index = index
-        vc.memberInfoVC = self
-        
+        let vc = MemberEditViewController.storyboardInstance() { vc in
+            vc.index = self.index
+            vc.memberInfoVC = self
+        }
         self.navigationController?.show(vc, sender: nil)
     }
     
@@ -303,12 +304,14 @@ class MemberInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                                         target: nil,
                                         action: nil)
         
-        let vc = storyboard?.instantiateViewController(withIdentifier: "KPIListVC") as! KPIsListTableViewController
-        vc.model = model
-        vc.loadUsersKPI(userID: Int(model.team[index].userID))
-        vc.navigationItem.setRightBarButton(newButton, animated: true)
-        vc.isFilteredForUser = true
-        vc.refreshControl = nil
+        let vc = KPIsListTableViewController.storyboardInstance { vc in
+            vc.model = self.model
+            vc.loadUsersKPI(userID: Int(self.model.team[self.index].userID))
+            vc.navigationItem.setRightBarButton(newButton, animated: true)
+            vc.isFilteredForUser = true
+            vc.refreshControl = nil
+        }
+        
         self.navigationController?.show(vc, sender: nil)
     }
     
@@ -386,21 +389,4 @@ extension MemberInfoViewController: MFMailComposeViewControllerDelegate {
     }
 }
 
-////MARK: - updateModelDelegate method
-//extension MemberInfoViewController: updateModelDelegate {
-//    func updateModel(model: ModelCoreKPI) {
-//        self.model = ModelCoreKPI(model: model)
-//        if let nickname = model.team[index].nickname {
-//            memberProfileNameLabel.text = nickname
-//        } else {
-//            memberProfileNameLabel.text = model.team[index].firstName! + " " + model.team[index].lastName!
-//        }
-//        memberProfilePositionLabel.text = model.team[index].position
-//        if model.team[index].photo != nil {
-//            memberProfilePhotoImage.image = UIImage(data: model.team[index].photo as! Data)
-//        }
-//        tableView.reloadData()
-//        self.navigationController?.presentTransparentNavigationBar()
-//    }
-//}
-
+extension MemberInfoViewController: StoryboardInstantiation {}

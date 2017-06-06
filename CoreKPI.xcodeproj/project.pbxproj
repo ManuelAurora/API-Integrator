@@ -58,7 +58,7 @@
 		647CFCA11E8519C700F71632 /* ReportDataManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647CFCA01E8519C700F71632 /* ReportDataManipulator.swift */; };
 		647CFCA31E854BD600F71632 /* IntegratedServicesDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647CFCA21E854BD600F71632 /* IntegratedServicesDataManager.swift */; };
 		647E722F1EC9CC6300D8B4EB /* ServiceSelectionCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E722D1EC9CC6300D8B4EB /* ServiceSelectionCollectionViewController.swift */; };
-		647E72321EC9D9AF00D8B4EB /* Services.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 647E72311EC9D9AF00D8B4EB /* Services.storyboard */; };
+		647E72321EC9D9AF00D8B4EB /* ServiceSelectionCollectionViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 647E72311EC9D9AF00D8B4EB /* ServiceSelectionCollectionViewController.storyboard */; };
 		647E72341EC9F34500D8B4EB /* UIView + Anchors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E72331EC9F34500D8B4EB /* UIView + Anchors.swift */; };
 		647F46DD1E89377900641F42 /* OvalShapeLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647F46DC1E89377900641F42 /* OvalShapeLayer.swift */; };
 		648115F11EAA45930090B24B /* SendNewIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648115F01EAA45930090B24B /* SendNewIntegrationViewController.swift */; };
@@ -286,7 +286,7 @@
 		647CFCA01E8519C700F71632 /* ReportDataManipulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportDataManipulator.swift; path = ../ReportDataManipulator.swift; sourceTree = "<group>"; };
 		647CFCA21E854BD600F71632 /* IntegratedServicesDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegratedServicesDataManager.swift; sourceTree = "<group>"; };
 		647E722D1EC9CC6300D8B4EB /* ServiceSelectionCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceSelectionCollectionViewController.swift; sourceTree = "<group>"; };
-		647E72311EC9D9AF00D8B4EB /* Services.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Services.storyboard; sourceTree = "<group>"; };
+		647E72311EC9D9AF00D8B4EB /* ServiceSelectionCollectionViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ServiceSelectionCollectionViewController.storyboard; sourceTree = "<group>"; };
 		647E72331EC9F34500D8B4EB /* UIView + Anchors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView + Anchors.swift"; sourceTree = "<group>"; };
 		647F46DC1E89377900641F42 /* OvalShapeLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OvalShapeLayer.swift; sourceTree = "<group>"; };
 		648115F01EAA45930090B24B /* SendNewIntegrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendNewIntegrationViewController.swift; sourceTree = "<group>"; };
@@ -757,7 +757,7 @@
 				A27820711E001503009F83DB /* LaunchScreen.storyboard */,
 				645616451E67029B00643340 /* UserInfoTableViewCell.xib */,
 				A27820691E001503009F83DB /* Main.storyboard */,
-				647E72311EC9D9AF00D8B4EB /* Services.storyboard */,
+				647E72311EC9D9AF00D8B4EB /* ServiceSelectionCollectionViewController.storyboard */,
 			);
 			name = StoryBoards;
 			sourceTree = "<group>";
@@ -1139,7 +1139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2EFE2DB1E2E454A00BA2956 /* funnel.css in Resources */,
-				647E72321EC9D9AF00D8B4EB /* Services.storyboard in Resources */,
+				647E72321EC9D9AF00D8B4EB /* ServiceSelectionCollectionViewController.storyboard in Resources */,
 				A2EFE2D21E2E3FAA00BA2956 /* bar.html in Resources */,
 				A27820731E001503009F83DB /* LaunchScreen.storyboard in Resources */,
 				A26BEEAF1E3F886500C2D2AC /* stackArea.css in Resources */,

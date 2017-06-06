@@ -199,14 +199,19 @@ class MemberListTableViewController: UITableViewController {
         
         stateMachine.getNumberOfInvitations()
         
-        request.getMemberList(success: {
-            team in
+        request.getMemberList(success: { team in
             UserStateMachine.shared.updateProfile()
-            self.model.team = team.sorted { member in
-                let memberId  = Int(member.0.userID)
-                let profileId = self.model.profile?.userId
-                
-                return memberId == profileId
+            
+            self.model.team = team.sorted {
+                if let firstUserName = $0.firstName, let secondUserName = $1.firstName
+                {
+                    if $0.userID == Int64(stateMachine.profileId)
+                    {
+                        return true
+                    }
+                    return firstUserName < secondUserName
+                }
+                return false
             }
             
             self.tableView.reloadData()
@@ -239,3 +244,5 @@ class MemberListTableViewController: UITableViewController {
         }
     }
 }
+
+extension MemberListTableViewController: StoryboardInstantiation {}

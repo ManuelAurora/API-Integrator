@@ -165,3 +165,5 @@ extension InviteTableViewController: UITextFieldDelegate {
         return true
     }
 }
+
+extension InviteTableViewController: StoryboardInstantiation {}

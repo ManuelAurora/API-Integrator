@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SignInViewController: UIViewController, UITextFieldDelegate {
+class SignInViewController: UIViewController, StoryboardInstantiation, UITextFieldDelegate {
     
     var model: ModelCoreKPI!   
     let stateMachine = UserStateMachine.shared
@@ -69,7 +69,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         }
         else
         {
-            let controller = appDelegate.launchViewController.registerViewController
+            let controller = appDelegate.launchViewController.registerVC
             controller.clearTextFields()
             navigationController?.pushViewController(controller, animated: true)
         }
@@ -128,9 +128,9 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     private func showPinCodeViewController() {
         
-        guard let pinCodeViewController = storyboard?.instantiateViewController(withIdentifier: .pincodeViewController) as? PinCodeViewController else { print("DEBUG: An error occured while trying instantiate pincode VC"); return }
-        
-        pinCodeViewController.mode = .logIn
+        let pinCodeViewController = PinCodeViewController.storyboardInstance() { vc in
+            vc.mode = .logIn
+        }        
         present(pinCodeViewController, animated: true, completion: nil)
     }
     

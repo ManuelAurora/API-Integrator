@@ -21,7 +21,7 @@ enum WeeklyInterval: String
     case Sunday
 }
 
-class ChooseSuggestedKPITableViewController: UITableViewController
+class ChooseSuggestedKPITableViewController: UITableViewController, StoryboardInstantiation
 {
     var model: ModelCoreKPI!
     var kpi: KPI!
@@ -980,10 +980,11 @@ class ChooseSuggestedKPITableViewController: UITableViewController
     
     //MARK: - Show KPISelectSettingTableViewController method
     func showSelectSettingVC() {
-        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: "SelectSettingForKPI") as! KPISelectSettingTableViewController
-        destinatioVC.ChoseSuggestedVC = self
-        destinatioVC.selectSetting = settingArray
-        destinatioVC.segueWithSelecting = true
+        let destinatioVC = KPISelectSettingTableViewController.storyboardInstance() { vc in
+            vc.ChoseSuggestedVC = self
+            vc.selectSetting = self.settingArray
+            vc.segueWithSelecting = true
+        }
         
         switch typeOfSetting
         {
@@ -1024,15 +1025,16 @@ class ChooseSuggestedKPITableViewController: UITableViewController
     
     //MARK: - Show SelectIntegratedServicesViewController method
     func showIntegratedServicesVC() {
-        let destinatioVC = storyboard?.instantiateViewController(withIdentifier: .integratedServicesVC) as! SelectIntegratedServicesViewController
-        destinatioVC.chooseSuggestKPIVC = self
-        destinatioVC.saleForceKPIArray = self.saleForceKPIArray
-        destinatioVC.quickBooksKPIArray = self.quickBooksKPIArray
-        destinatioVC.googleAnalyticsKPIArray = self.googleAnalyticsKPIArray
-        destinatioVC.hubSpotCRMKPIArray = self.hubSpotCRMKPIArray
-        destinatioVC.payPalKPIArray = self.payPalKPIArray
-        destinatioVC.hubSpotMarketingKPIArray = self.hubSpotMarketingKPIArray
         
+        let destinatioVC = SelectIntegratedServicesViewController.storyboardInstance() { vc in
+            vc.chooseSuggestKPIVC = self
+            vc.saleForceKPIArray = self.saleForceKPIArray
+            vc.quickBooksKPIArray = self.quickBooksKPIArray
+            vc.googleAnalyticsKPIArray = self.googleAnalyticsKPIArray
+            vc.hubSpotCRMKPIArray = self.hubSpotCRMKPIArray
+            vc.payPalKPIArray = self.payPalKPIArray
+            vc.hubSpotMarketingKPIArray = self.hubSpotMarketingKPIArray
+        }
         navigationController?.pushViewController(destinatioVC, animated: true)
     }
     
