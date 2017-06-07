@@ -10,6 +10,10 @@
 		6413AFBF1E94CF6E00CC2ABB /* PipelineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6413AFBE1E94CF6E00CC2ABB /* PipelineTableViewCell.swift */; };
 		641F74641E5AE27B00672534 /* QuickBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F74631E5AE27B00672534 /* QuickBook.swift */; };
 		641F74661E5B0F4200672534 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F74651E5B0F4200672534 /* WebViewController.swift */; };
+		6425837E1EE7D26A00994AF8 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E8F9FA1E3B1AB800046870 /* LaunchViewController.swift */; };
+		6425837F1EE7D27000994AF8 /* SignInUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5C51E0823D400F85963 /* SignInUpViewController.swift */; };
+		642583801EE7D27400994AF8 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5C61E0823D400F85963 /* SignInViewController.swift */; };
+		642583811EE7D2AE00994AF8 /* faqTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5B71E08234500F85963 /* faqTableViewController.swift */; };
 		643645021E9BC23F0074B9A6 /* SalesforceRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643645011E9BC23F0074B9A6 /* SalesforceRequestManager.swift */; };
 		644691CF1E55870900D964D5 /* PinCodeLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644691CE1E55870900D964D5 /* PinCodeLock.swift */; };
 		644B4C701E926B6000F55F1F /* HubspotKPI + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644B4C6F1E926B6000F55F1F /* HubspotKPI + Extension.swift */; };
@@ -147,13 +151,10 @@
 		A297F5B41E08233A00F85963 /* MemberInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5B21E08233A00F85963 /* MemberInfoViewController.swift */; };
 		A297F5B91E08234500F85963 /* AboutTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5B51E08234500F85963 /* AboutTableViewController.swift */; };
 		A297F5BA1E08234500F85963 /* faqDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5B61E08234500F85963 /* faqDetailViewController.swift */; };
-		A297F5BB1E08234500F85963 /* faqTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5B71E08234500F85963 /* faqTableViewController.swift */; };
 		A297F5BC1E08234500F85963 /* SupportMainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5B81E08234500F85963 /* SupportMainTableViewController.swift */; };
 		A297F5C81E0823D400F85963 /* NewProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5C21E0823D400F85963 /* NewProfileTableViewController.swift */; };
 		A297F5C91E0823D400F85963 /* RecoveryPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5C31E0823D400F85963 /* RecoveryPasswordViewController.swift */; };
 		A297F5CA1E0823D400F85963 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5C41E0823D400F85963 /* RegisterViewController.swift */; };
-		A297F5CB1E0823D400F85963 /* SignInUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5C51E0823D400F85963 /* SignInUpViewController.swift */; };
-		A297F5CC1E0823D400F85963 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5C61E0823D400F85963 /* SignInViewController.swift */; };
 		A297F5CD1E0823D400F85963 /* TypeOfAccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5C71E0823D400F85963 /* TypeOfAccountTableViewController.swift */; };
 		A297F5D11E08241900F85963 /* MemberInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5CF1E08241900F85963 /* MemberInfoTableViewCell.swift */; };
 		A297F5D21E08241900F85963 /* MemberListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297F5D01E08241900F85963 /* MemberListTableViewCell.swift */; };
@@ -185,7 +186,6 @@
 		A2C9ABDE1E2F5C4100623659 /* positiveBar.js in Resources */ = {isa = PBXBuildFile; fileRef = A2C9ABDD1E2F5C4100623659 /* positiveBar.js */; };
 		A2DA8E631E56D6AE00D302C7 /* EditAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DA8E621E56D6AE00D302C7 /* EditAlert.swift */; };
 		A2DA8E651E56D6C100D302C7 /* EditReminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DA8E641E56D6C100D302C7 /* EditReminder.swift */; };
-		A2E8F9FB1E3B1AB800046870 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E8F9FA1E3B1AB800046870 /* LaunchViewController.swift */; };
 		A2E8F9FD1E3B223500046870 /* EditKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E8F9FC1E3B223500046870 /* EditKPI.swift */; };
 		A2E8F9FF1E3B32D700046870 /* DeleteKPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E8F9FE1E3B32D700046870 /* DeleteKPI.swift */; };
 		A2EFE2C61E2DF0A500BA2956 /* ChartsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EFE2C51E2DF0A500BA2956 /* ChartsPageViewController.swift */; };
@@ -240,6 +240,10 @@
 		6413AFBE1E94CF6E00CC2ABB /* PipelineTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipelineTableViewCell.swift; sourceTree = "<group>"; };
 		641F74631E5AE27B00672534 /* QuickBook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickBook.swift; sourceTree = "<group>"; };
 		641F74651E5B0F4200672534 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		642583821EE7D4D000994AF8 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
+		642583841EE7D52B00994AF8 /* libz.1.2.8.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.8.tbd; path = usr/lib/libz.1.2.8.tbd; sourceTree = SDKROOT; };
+		642583861EE7D53C00994AF8 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		642583881EE7D54B00994AF8 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		643645011E9BC23F0074B9A6 /* SalesforceRequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SalesforceRequestManager.swift; sourceTree = "<group>"; };
 		644691CE1E55870900D964D5 /* PinCodeLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeLock.swift; sourceTree = "<group>"; };
 		644B4C6F1E926B6000F55F1F /* HubspotKPI + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HubspotKPI + Extension.swift"; sourceTree = "<group>"; };
@@ -783,6 +787,10 @@
 		A278209E1E001A0B009F83DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				642583881EE7D54B00994AF8 /* libz.tbd */,
+				642583861EE7D53C00994AF8 /* libstdc++.tbd */,
+				642583841EE7D52B00994AF8 /* libz.1.2.8.tbd */,
+				642583821EE7D4D000994AF8 /* libstdc++.6.0.9.tbd */,
 				640E16DB1ECEDA74001C1BC5 /* OAuthSwiftAlamofire.framework */,
 				6496D62F1E8A498D002591EA /* pop.framework */,
 				A2C6A5F31E6D7CBF005475B6 /* AEXML.framework */,
@@ -1237,7 +1245,6 @@
 				A2ACBD3F1E0D12280079EF3D /* AlertsListTableViewCell.swift in Sources */,
 				A20B6BD21E31F62800FAF86A /* User's KPI.swift in Sources */,
 				647C4C881EC48F7500941348 /* CoreKPI.xcdatamodeld in Sources */,
-				A297F5BB1E08234500F85963 /* faqTableViewController.swift in Sources */,
 				A297F5BA1E08234500F85963 /* faqDetailViewController.swift in Sources */,
 				644B4C701E926B6000F55F1F /* HubspotKPI + Extension.swift in Sources */,
 				646B28231EC5D2F1002F0624 /* UpdateIntegratedToken.swift in Sources */,
@@ -1253,6 +1260,7 @@
 				64AF39721ED6D70A00AAEE3A /* NewKPIControllerViewModel.swift in Sources */,
 				647CFCA31E854BD600F71632 /* IntegratedServicesDataManager.swift in Sources */,
 				646F78B71EBCA9D900042738 /* GetExternalServices.swift in Sources */,
+				642583801EE7D27400994AF8 /* SignInViewController.swift in Sources */,
 				A2263B101E3B8174005C812D /* GetFAQ.swift in Sources */,
 				A2A940CB1E1E70740088C7F1 /* UINavigationBurExtension.swift in Sources */,
 				A20B6BD01E31F5EC00FAF86A /* IntegratedKPI.swift in Sources */,
@@ -1266,7 +1274,6 @@
 				A297F5D11E08241900F85963 /* MemberInfoTableViewCell.swift in Sources */,
 				A297F5DF1E08248000F85963 /* NewProfileTableViewCell.swift in Sources */,
 				A297F5B01E08233100F85963 /* MainTabBarViewController.swift in Sources */,
-				A2E8F9FB1E3B1AB800046870 /* LaunchViewController.swift in Sources */,
 				645616481E67039800643340 /* UserViewCellTableViewCell.swift in Sources */,
 				A22EF0661E0901A20004DDB7 /* ModelCoreKPI.swift in Sources */,
 				A2F77E091E3B199400BB8318 /* DeleteUser.swift in Sources */,
@@ -1288,6 +1295,7 @@
 				A2DA8E651E56D6C100D302C7 /* EditReminder.swift in Sources */,
 				648E9A711EB37C1700632887 /* GetInviteList.swift in Sources */,
 				64BA56A21EE14102006E71A1 /* UICollectionViewController + CellType.swift in Sources */,
+				642583811EE7D2AE00994AF8 /* faqTableViewController.swift in Sources */,
 				6492B9AB1E93DFB800BD8492 /* HubspotSalesFunnelMakerProtocol.swift in Sources */,
 				A25B4A571E0275B400F315F9 /* CustomTextField.swift in Sources */,
 				A297F5B91E08234500F85963 /* AboutTableViewController.swift in Sources */,
@@ -1313,16 +1321,15 @@
 				A2F77E0A1E3B199400BB8318 /* GetKPIs.swift in Sources */,
 				A2F0B1181E0C1B110095580B /* CoreKPIDelegates.swift in Sources */,
 				A297F5D71E08244800F85963 /* AnswerFaqTableViewCell.swift in Sources */,
+				6425837F1EE7D27000994AF8 /* SignInUpViewController.swift in Sources */,
 				646BF0911E6EE64800621FE2 /* HubspotRequestedObjects.swift in Sources */,
 				A297F5CA1E0823D400F85963 /* RegisterViewController.swift in Sources */,
 				A27820971E001530009F83DB /* RequestServise.swift in Sources */,
 				64A32B921E5B394B008438DA /* String + Extension.swift in Sources */,
 				A297F5D81E08244800F85963 /* faqListTableViewCell.swift in Sources */,
 				A26408F21E22394F0034EEC2 /* ReportAndViewKPITableViewController.swift in Sources */,
-				A297F5CC1E0823D400F85963 /* SignInViewController.swift in Sources */,
 				A20340911E110CF200208EAB /* ChageNameTableViewController.swift in Sources */,
 				64CB22A51E72E9EB00CBD6A3 /* PayPal.swift in Sources */,
-				A297F5CB1E0823D400F85963 /* SignInUpViewController.swift in Sources */,
 				A21AEEF21E28AFF200577F4B /* KPIColourTableViewCell.swift in Sources */,
 				A2C9ABD71E2F455D00623659 /* ChartTableViewCell.swift in Sources */,
 				644691CF1E55870900D964D5 /* PinCodeLock.swift in Sources */,
@@ -1333,6 +1340,7 @@
 				64936AF21E543DC00059D80A /* PinCodeButton.swift in Sources */,
 				645759261E67FB7D006FB5F9 /* ExternaKPI + Extension.swift in Sources */,
 				64797E9C1EB8CB7A00AE7D7F /* SegueManager.swift in Sources */,
+				6425837E1EE7D26A00994AF8 /* LaunchViewController.swift in Sources */,
 				648E9A6D1EB33F1C00632887 /* TalkToUsViewController.swift in Sources */,
 				645759241E67FA99006FB5F9 /* QuickBooksKPI + Extension.swift in Sources */,
 				A2F77E081E3B199400BB8318 /* ChangeUserRights.swift in Sources */,
@@ -1487,9 +1495,11 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VALID_ARCHS = "i386 armv7 armv7s armv64";
 			};
 			name = Debug;
 		};
@@ -1531,9 +1541,12 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "i386 armv7 armv7s armv64";
 			};
 			name = Release;
 		};
@@ -1541,6 +1554,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_ENTITLEMENTS = CoreKPI/CoreKPI.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 6Q3UMRK9A6;
@@ -1551,11 +1566,13 @@
 				INFOPLIST_FILE = CoreKPI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.CoreKPI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = CoreKPI/BridgingHeader.h;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -1563,6 +1580,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_ENTITLEMENTS = CoreKPI/CoreKPI.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1579,6 +1598,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = CoreKPI/BridgingHeader.h;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
 		};

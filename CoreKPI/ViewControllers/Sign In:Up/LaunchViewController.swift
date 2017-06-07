@@ -20,21 +20,19 @@ class LaunchViewController: UIViewController {
     }
     
     lazy var appDelegate: AppDelegate = {
-        return UIApplication.shared.delegate as! AppDelegate
+        return AppDelegate.sharedInstance
     }()
     
-    lazy var mainTabBar = MainTabBarViewController.storyboardInstance{ mtbvc in
-        mtbvc.appDelegate = self.appDelegate
-        mtbvc.model       = self.userStateMachine.model
+    var signInVC   = SignInViewController.storyboardInstance()
+    var registerVC = RegisterViewController.storyboardInstance()
+    var mainTabBar = MainTabBarViewController.storyboardInstance { vc in
+        vc.appDelegate = AppDelegate.sharedInstance
+        vc.model = ModelCoreKPI.modelShared
     }
     
-    lazy var signInUpVC = SignInUpViewController.storyboardInstance { siuvc in
-        siuvc.launchController       = self
-        siuvc.model                  = self.userStateMachine.model
+    var signInUpVC = SignInUpViewController.storyboardInstance { vc in
+        vc.model = ModelCoreKPI.modelShared
     }
-    
-    lazy var signInVC   = SignInViewController.storyboardInstance()
-    lazy var registerVC = RegisterViewController.storyboardInstance()
     
     @objc private func showSignInVCIfInternetOffline() {
         
@@ -45,12 +43,13 @@ class LaunchViewController: UIViewController {
             showAlert(title: "Error occured",
                       errorMessage: "Please, check your internet connection")
         }
-        
         presentStartVC()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        signInUpVC.launchController = self 
         
         tapGesture = UITapGestureRecognizer(target: self,
                                             action: #selector(showSignInVCIfInternetOffline))

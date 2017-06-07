@@ -18,6 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var launchViewController: LaunchViewController!
     let stateMachine = UserStateMachine.shared
     
+    static let sharedInstance = UIApplication.shared.delegate as! AppDelegate
+    
     lazy var pinCodeVCPresenter: PinCodeVCPresenter = {
         
         let presenter = PinCodeVCPresenter(in: self.window!)

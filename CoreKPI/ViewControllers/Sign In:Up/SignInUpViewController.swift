@@ -35,5 +35,4 @@ class SignInUpViewController: UIViewController, StoryboardInstantiation {
         registerButton.layer.borderWidth = 1.0
         registerButton.layer.borderColor = UIColor(red: 0/255.0, green: 151.0/255.0, blue: 167.0/255.0, alpha: 1.0).cgColor
     }
-    
   }
